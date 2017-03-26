@@ -1,0 +1,19 @@
+{
+  "name": "js--base-course",
+  "version": "0.0.0",
+  "description": "Base javascript course",
+  "main": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvscode/js--base-course.git"
+  },
+  "author": "vvscode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vvscode/js--base-course/issues"
+  },
+  "homepage": "https://github.com/vvscode/js--base-course#readme"
+}
