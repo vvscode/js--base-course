@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/vvscode/js--base-course/issues"
   },
-  "homepage": "https://github.com/vvscode/js--base-course#readme"
+  "homepage": "https://github.com/vvscode/js--base-course#readme",
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-livereload": "3.8.1",
+    "st": "1.2.0"
+  }
 }
