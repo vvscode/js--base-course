@@ -7,35 +7,31 @@
  * @param {Number} c - Second number for calculation
  * @return {Number} - Result of calculation
  */
+var operate = {
+    '+' : function(x, y) {
+        return x + y;
+    },
+    '-' : function(x, y) {
+        return x - y;
+    },
+    '*' : function(x, y) {
+        return x * y;
+    },
+    '/' : function(x, y) {
+        return x / y;
+	}
+};
+
 function calc(a) {
-  return function operate(b) {
-    if (b === '+') {
-      return function sum(c) {
-        return isNum(a) + isNum(c);
-      }
-    } else if (b === '-') {
-      return function subst(c) {
-        return isNum(a) - isNum(c);
-      }
-    } else if (b === '*') {
-      return function mult(c) {
-        return isNum(a) * isNum(c);
-      }
-    } else if (b === '/') {
-      return function div(c) {
-        return isNum(a) / isNum(c);
-      }
-    } else {
-      console.log('Wrong operator!');
-    }
-  }
+  return operate[b](toNum(a), toNum(c); 
 }
 
 /** Checks if given attribute is a number. */
-function isNum(num) {
+function toNum(num) {
   if (isNaN(num)) {	
     console.log(num + ' is not a number!'); 
   } else {
     return +num;
   }
 }
+
