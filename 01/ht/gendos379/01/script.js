@@ -9,14 +9,14 @@
  */
 function calc(firstOperand) {
 	return function(operator) {
-  		return function(secondOperand) {
-  			if (operations[operator]) {
-    			return operations[operator](toNum(firstOperand), toNum(secondOperand));
-    		} else {
-    			console.log('Wrong operator');
-    		}
-    	}
-  	}
+		return function(secondOperand) {
+			if (operations[operator]) {
+				return operations[operator](toNum(firstOperand), toNum(secondOperand));
+			} else {
+				console.log('Wrong operator');
+			}
+		}
+	}
 }
 
 /** Possible operations for calc function */
@@ -37,9 +37,9 @@ var operations = {
 
 /** Checks if given attribute is a number. */
 function toNum(num) {
-	if (isNaN(num)) {	
-    	console.log(num + ' is not a number!'); 
-  	} else {
-    	return +num;
-  	}
+	if (isNaN(num)) {
+		console.log(num + ' is not a number!');
+	} else {
+		return +num;
+	}
 }
