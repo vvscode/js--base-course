@@ -13,7 +13,8 @@ function calc(firstOperand) {
             if (operations[operator]) {
                 return operations[operator](toNum(firstOperand), toNum(secondOperand));
             } else {
-                console.log('Wrong operator');
+                console.log('Wrong operator: ' + operator);
+                return NaN;
             }
         }
     }
@@ -35,11 +36,10 @@ var operations = {
     }
 };
 
-/** Checks if given attribute is a number. */
+/** Converts given attribute to a number if possible or returns NaN */
 function toNum(num) {
     if (isNaN(num)) {
         console.log(num + ' is not a number!');
-    } else {
-        return +num;
     }
+    return +num;
 }
