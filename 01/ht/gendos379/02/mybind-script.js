@@ -4,9 +4,9 @@
  */
 Function.prototype.myBind = function() {
     var func = this;
-    var args = Array.prototype.slice.call(arguments);
+    var args = [].slice.call(arguments);
     var scope = args.shift();
     return function() {
-        return func.apply(scope, args.concat(Array.prototype.slice.call(arguments)));
+        return func.apply(scope, args.concat([].slice.call(arguments)));
     };
 };
