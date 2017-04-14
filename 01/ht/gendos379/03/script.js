@@ -18,6 +18,7 @@ createTableButton.addEventListener('click', function() {
         createTable();
     } else {
         document.getElementById('table').innerHTML = 'Wrong parameters!';
+        document.getElementById('table-code').innerHTML = "";
     }
 });
 
