@@ -46,3 +46,39 @@ textarea {
     width: 70%;
     height: 250px;
 }
+
+td.red, th.red {
+    background-color: red;
+}
+
+td.blue, th.blue {
+    background-color: blue;
+}
+
+td.green, th.green {
+    background-color: green;
+}
+
+td.yellow, th.yellow {
+    background-color: yellow;
+}
+
+td.violet, th.violet {
+    background-color: violet;
+}
+
+td.brown, th.brown {
+    background-color: brown;
+}
+
+td.black, th.black {
+    background-color: black;
+}
+
+td.grey, th.grey {
+    background-color: grey;
+}
+
+td.orange, th.orange {
+    background-color: orange;
+}

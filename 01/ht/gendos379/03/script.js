@@ -12,6 +12,7 @@ window.onload = function() {
 };
 
 var createTableButton = document.getElementById('create-table');
+
 createTableButton.addEventListener('click', function() {
     if (tableIsVaild()) {
         createTable();
@@ -19,6 +20,7 @@ createTableButton.addEventListener('click', function() {
         document.getElementById('table').innerHTML = 'Wrong parameters!';
     }
 });
+
 
 function enableCaption() {
     var captionCheck = document.getElementById('caption-check')
@@ -32,10 +34,15 @@ function enableCaption() {
 };
 
 function tableIsVaild() {
-    if (document.getElementById('rowsNumber').value > 0 && document.getElementById('colNumber').value > 0) {
-        return true
-    }
-    return false
+    return document.getElementById('rowsNumber').value > 0 && document.getElementById('colNumber').value > 0;
+}
+
+function postTableCode() {
+    var tableCodeDiv = document.getElementById('table-code');
+    var tableCode = document.createElement('textarea');
+    tableCodeDiv.innerHTML = "";
+    tableCode.value = document.getElementById('table').innerHTML;
+    tableCodeDiv.appendChild(tableCode);
 }
 
 function createTable() {
@@ -43,14 +50,11 @@ function createTable() {
     var rows = document.getElementById('rowsNumber').value
     var columns = document.getElementById('colNumber').value
     var tableDiv = document.getElementById('table');
-    var tableCodeDiv = document.getElementById('table-code');
-    var tableCode = document.createElement('textarea');
     var tableClassName = document.querySelector('input[name=class-name]').value;
     var tableCaption = document.getElementById('caption-check').checked;
     var tableHead = document.getElementById('table-head').checked;
     var captionName = document.getElementById('caption-name').value;
     tableDiv.innerHTML = "";
-    tableCodeDiv.innerHTML = "";
     if (tableHead) {
         var tr = tbl.insertRow();
         for (var i = 0; i < columns; i++) {
@@ -73,6 +77,17 @@ function createTable() {
         cap.innerHTML = captionName;
     }
     tableDiv.appendChild(tbl);
-    tableCode.value = document.getElementById('table').innerHTML;
-    tableCodeDiv.appendChild(tableCode);
+    postTableCode();
 }
+
+var tableCellClick = function(ev) {
+    var tableCellClass = prompt('Assign a class name for this table cell');
+    ev.target.setAttribute('class', tableCellClass)
+    postTableCode();
+}
+
+document.getElementById('table').addEventListener('click', function (ev) {
+    if (ev.target.tagName === 'TD' || ev.target.tagName === 'TH') {
+        tableCellClick(ev);
+    }
+});
