@@ -82,9 +82,11 @@ function createTable() {
 
 var tableCellClick = function(ev) {
     var tableCellClass = prompt('Assign a class name for this table cell');
-    ev.target.setAttribute('class', tableCellClass)
-    postTableCode();
-}
+    if (tableCellClass) {
+        ev.target.setAttribute('class', tableCellClass)
+        postTableCode();
+    }
+};
 
 document.getElementById('table').addEventListener('click', function (ev) {
     if (ev.target.tagName === 'TD' || ev.target.tagName === 'TH') {
