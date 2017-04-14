@@ -18,7 +18,8 @@ createTableButton.addEventListener('click', function() {
         createTable();
     } else {
         document.getElementById('table').innerHTML = 'Wrong parameters!';
-        document.getElementById('table-code').innerHTML = "";
+        document.getElementById('table-code').value = "";
+        document.getElementById('table-code').style.display = "none";
     }
 });
 
@@ -39,11 +40,9 @@ function tableIsVaild() {
 }
 
 function postTableCode() {
-    var tableCodeDiv = document.getElementById('table-code');
-    var tableCode = document.createElement('textarea');
-    tableCodeDiv.innerHTML = "";
+    var tableCode = document.getElementById('table-code');
     tableCode.value = document.getElementById('table').innerHTML;
-    tableCodeDiv.appendChild(tableCode);
+    tableCode.style.display = "block";
 }
 
 function createTable() {

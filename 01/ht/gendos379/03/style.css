@@ -26,8 +26,8 @@ button {
 }
 
 table {
-    width: 70%;
     margin: auto;
+    width: 70%;
     border: 1px solid black;
 }
 
@@ -41,10 +41,11 @@ th {
     border: 2px solid black;
 }
 
-textarea {
-    margin-top: 30px;
+#table-code {
+    margin: 30px auto 0;
     width: 70%;
     height: 250px;
+    display: none;
 }
 
 td.red, th.red {
