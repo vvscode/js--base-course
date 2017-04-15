@@ -10,4 +10,4 @@ var myBind = function(context) {
 };
 f.myBind = myBind;
 var of = f.myBind(o);
-of();
+of(); 
