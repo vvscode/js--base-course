@@ -1,5 +1,6 @@
 Function.prototype.myBind = function (obj, ...rest) {
-return function () {
-this.apply(obj, rest)
-}
+  var that = this
+  return function () {
+    that.apply(obj, rest)
+  }
 }
