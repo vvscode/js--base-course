@@ -1,6 +1,9 @@
-import greet from './utils/greet';
+// Вся логика вынесена в отдельный модуль
+// Из которого нам нужна только одна функция
+// Весь остальной код смотреть в отдельном модуле
+import { handler } from './utils/forecast';
 
-const TEST_CONST = 3;
-
-greet(TEST_CONST);
-
+// Назначаем эту функцию на изменение hash
+window.onhashchange = handler;
+// И вызываем эту функцию при загрузке страницы
+handler();
