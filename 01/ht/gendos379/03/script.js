@@ -1,7 +1,9 @@
+var getById = document.getElementById.bind(document);
+
 window.onload = function() {
     var selectIds = {'rowsNumber': 100, 'colNumber': 20}
     for (i = 0; i < Object.keys(selectIds).length; i++) {
-        var ddl = document.getElementById(Object.keys(selectIds)[i]);
+        var ddl = getById(Object.keys(selectIds)[i]);
         for (var j = 1; j <= selectIds[Object.keys(selectIds)[i]]; j++) {
             var option = new Option;
             option.text = j;
@@ -11,22 +13,23 @@ window.onload = function() {
     }
 };
 
-var createTableButton = document.getElementById('create-table');
+var createTableButton = getById('create-table');
 
 createTableButton.addEventListener('click', function() {
     if (tableIsVaild()) {
         createTable();
     } else {
-        document.getElementById('table').innerHTML = 'Wrong parameters!';
-        document.getElementById('table-code').value = "";
-        document.getElementById('table-code').style.display = "none";
+        getById('table').innerHTML = 'Wrong parameters!';
+        var tableCode = getById('table-code');
+        tableCode.value = "";
+        getById('table-code-div').setAttribute('class', 'hidden');
     }
 });
 
 
 function enableCaption() {
-    var captionCheck = document.getElementById('caption-check')
-    var input = document.getElementById('caption-name'); 
+    var captionCheck = getById('caption-check')
+    var input = getById('caption-name'); 
     if (captionCheck.checked) {
         input.disabled = false; 
         input.focus(); 
@@ -36,29 +39,29 @@ function enableCaption() {
 };
 
 function tableIsVaild() {
-    return document.getElementById('rowsNumber').value > 0 && document.getElementById('colNumber').value > 0;
+    return getById('rowsNumber').value > 0 && getById('colNumber').value > 0;
 }
 
 function postTableCode() {
-    var tableCode = document.getElementById('table-code');
-    tableCode.value = document.getElementById('table').innerHTML;
-    tableCode.style.display = "block";
+    var tableCode = getById('table-code');
+    tableCode.value = getById('table').innerHTML;
+    getById('table-code-div').setAttribute('class', '');
 }
 
 function createTable() {
     var tbl = document.createElement('table');
-    var rows = document.getElementById('rowsNumber').value
-    var columns = document.getElementById('colNumber').value
-    var tableDiv = document.getElementById('table');
+    var rows = getById('rowsNumber').value;
+    var columns = getById('colNumber').value;
+    var tableDiv = getById('table');
     var tableClassName = document.querySelector('input[name=class-name]').value;
-    var tableCaption = document.getElementById('caption-check').checked;
-    var tableHead = document.getElementById('table-head').checked;
-    var captionName = document.getElementById('caption-name').value;
-    tableDiv.innerHTML = "";
+    var tableCaption = getById('caption-check').checked;
+    var tableHead = getById('table-head').checked;
+    var captionName = getById('caption-name').value;
+    tableDiv.innerHTML = '';
     if (tableHead) {
         var tr = tbl.insertRow();
         for (var i = 0; i < columns; i++) {
-            var th = document.createElement("th");
+            var th = document.createElement('th');
             tr.appendChild(th)
         }
         rows -= 1;
@@ -83,12 +86,12 @@ function createTable() {
 var tableCellClick = function(ev) {
     var tableCellClass = prompt('Assign a class name for this table cell');
     if (tableCellClass) {
-        ev.target.setAttribute('class', tableCellClass)
+        ev.target.setAttribute('class', tableCellClass);
         postTableCode();
     }
 };
 
-document.getElementById('table').addEventListener('click', function (ev) {
+getById('table').addEventListener('click', function (ev) {
     if (ev.target.tagName === 'TD' || ev.target.tagName === 'TH') {
         tableCellClick(ev);
     }

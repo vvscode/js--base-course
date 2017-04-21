@@ -45,8 +45,13 @@ th {
     margin: 30px auto 0;
     width: 70%;
     height: 250px;
+    display: block;
+}
+
+div.hidden {
     display: none;
 }
+
 
 td.red, th.red {
     background-color: red;
