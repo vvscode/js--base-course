@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Генератор таблицы</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form>
+      Выбор класса:
+        <input id="class" size="15" oninput="setClass(this.value)">turq/bl/yel</input>
+      </br>Выбор строк:
+        <select id="rowNum"></select></br>
+      Выбор колонок:
+        <select id="colNum"></select></br>
+      <input type="checkbox" id="enableHeader" />
+      <label>Head</label></br>
+        <input type="checkbox" id="enableCaption" />
+        <label>Caption</label>
+  </form>
+  </br>
+  <button class="btn" id="makeTable" onclick="generateTable()">Генерировать таблицу</button>
+    <div id="fullTable">
+      </br>
+    <div id="header"></div>
+
+<!--Таблица-->
+<div id="tableDiv" onclick="changeHtml()"></div>
+<!--Caption-->
+</br>
+  <div id="caption"></div>
+</div>
+<!--Код таблицы-->
+</br>
+  <textarea rows="15" cols="40" id="tableCode"></textarea>
+</body>
+  <script type="text/javascript" src="script.js"></script>
+</html>
