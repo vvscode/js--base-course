@@ -1,0 +1,45 @@
+<html>
+ <head>
+     <meta charset="utf-8">
+     <title>Table creation</title>
+     <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+ <body>
+     <div class="block" align="left">
+         <div class="side"> 
+            <label><font face="Verdana, Arial, Helvetica, sans-serif">Input table class:</font></label>
+             <input type="text">
+         </div>
+         <div class="side">
+            <input type="checkbox">
+             <label><font face="Verdana, Arial, Helvetica, sans-serif">Enable/disable the head table</font></label>
+         </div>
+        <div class="side">
+             <input type="checkbox">
+             <label><font face="Verdana, Arial, Helvetica, sans-serif">Billet generation under caption table</font></label>
+         </div>
+		 
+         <div class="side">
+			<select id="colNumber">
+                 <option value="0">Select number of columns</option>
+             </select>
+         </div>
+		 
+         <div class="side">
+             <select id="rowsNumber">
+                 <option value="0">Select number of rows</option>
+             </select>
+         </div>
+
+         <div class="side">
+             <button id="create-table"><font face="Verdana, Arial, Helvetica, sans-serif">Generate table</font></button>
+         </div>
+     </div>
+	<div id="table">
+	</div>
+	 <div>
+         <textarea id="table_code"></textarea>
+     </div>
+     <script src="alert.js"></script>
+ </body>
+ </html>
