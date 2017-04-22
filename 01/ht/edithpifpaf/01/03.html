@@ -8,25 +8,22 @@
     <body>
         <div class="form">
             Table class:
-            <input type="text"><br><br>
+            <input id="table-class" type="text"><br><br>
             <select id="rowNumber">
-                <option value="0">Number of rows</option>
+                <option>Number of rows</option>
             </select>
             <select id="colNumber">
-                <option value="0">Number of columns</option>
+                <option>Number of columns</option>
             </select><br><br>
-            <input id="table-head" type="checkbox">Enable table head<br>
-            <input id="caption" type="checkbox">Enable caption
-            <input id="caption-name" type="text"><br><br>
-            <button id="create-table">Create table</button><br>
+            <p><label><input id="table-head" type="checkbox">Enable table head</label></p>
+            <p><label><input id="caption" type="checkbox">Enable caption</label></p>
+            <button id="create-table" onclick="addTable()">Create table</button><br>
         </div>
 
-        <div class="preview">
-        </div>
-     
-        <textarea id="code">
-        </textarea>
-
+        <div id="table"></div>
+      
+        <textarea id="my-table-code"></textarea>
+      
         <script src="03.js"></script>
     </body>
 </html>
