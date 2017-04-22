@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="utf-8">
+     <title>Table creation</title>
+     <link rel="stylesheet" type="text/css" href="03.css">
+    </head>
+    <body>
+        <div class="form">
+            Table class:
+            <input type="text"><br><br>
+            <select id="rowNumber">
+                <option value="0">Number of rows</option>
+            </select>
+            <select id="colNumber">
+                <option value="0">Number of columns</option>
+            </select><br><br>
+            <input id="table-head" type="checkbox">Enable table head<br>
+            <input id="caption" type="checkbox">Enable caption
+            <input id="caption-name" type="text"><br><br>
+            <button id="create-table">Create table</button><br>
+        </div>
+
+        <div class="preview">
+        </div>
+     
+        <textarea id="code">
+        </textarea>
+
+        <script src="03.js"></script>
+    </body>
+</html>
