@@ -14,32 +14,36 @@ var colSelect = document.getElementById("colNumber");
         colSelect.add(colOpt);
     }
 
+var createTableButton = document.getElementById('create-table');
+createTableButton.addEventListener('click', addTable, false);
+
 function addTable() {
     var myTable = document.createElement("table");
-    var numRows = document.getElementById("rowNumber");
-    var numColumns = document.getElementById("colNumber");
-    var rows = numRows.value;
-    var columns = numColumns.value;
+    var tableId = document.getElementById("table");
     var checkHead = document.getElementById("table-head");
         if (checkHead.checked === true) {
         table.setAttribute("th", "Header");  
-      }
+        }
+    var rows = document.getElementById('rowNumber').value;
+    var columns = document.getElementById('colNumber').value;
+    tableId.innerHTML="";
+  
+    for (var r = 0; r < rows; r++){
+       var tr = table.insertRow();
+    }
+    for (var c = 0; c < columns; c++){
+       var td = tr.insertCell();
+    }
+  
     var checkCaption = document.getElementById("caption");
         if (checkCaption.checked === true) {
         table.setAttribute("h3", "Caption");
-}
-    var tableId = document.getElementById("table");
-    tableId.innerHTML="";
+        }
 
-    for (var r = 0; r < rows; i++){
-      var tr = myTable.insertRow();
-    for (var c = 0; c < columns; j++){
-      var td = tr.insertCell();
-    }
-   }
-}
-
-function showTableCode() {
-    var tableCode = document.getElementById('my-table-code');
+    tableId.appendChild(myTable);
+  
+    var tableCode = document.createElement("textarea");
     tableCode.value = document.getElementById('table').innerHTML;
+    var tableCodeDiv = document.getElementById('textarea');
+    tableCodeDiv.appendChild(tableCode);
 }
