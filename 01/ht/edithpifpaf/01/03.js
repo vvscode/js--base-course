@@ -27,18 +27,22 @@ function addTable() {
     var rows = document.getElementById('rowNumber').value;
     var columns = document.getElementById('colNumber').value;
     
-  
     for (var r = 0; r < rows; r++){
        var tr = myTable.insertRow();
+          if (document.getElementById("table-head").checked){
+            var th = document.createElement("th");
+            tr.appendChild(th);
+          }  
     for (var c = 0; c < columns; c++){
        var td = tr.insertCell();
        }
     }
   
-    var checkCaption = document.getElementById("caption");
-        if (checkCaption.checked === true) {
-        table.setAttribute("h3", "Caption");
-        }
+    if (document.getElementById("caption").checked) {
+      var caption = document.createElement("caption");
+      caption.innerHTML = "Caption";
+      myTable.appendChild(caption);
+    }
 
     tableId.appendChild(myTable);
   
