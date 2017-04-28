@@ -26,13 +26,13 @@ function addTable() {
         }
     var rows = document.getElementById('rowNumber').value;
     var columns = document.getElementById('colNumber').value;
-    tableId.innerHTML="";
+    
   
     for (var r = 0; r < rows; r++){
-       var tr = table.insertRow();
-    }
+       var tr = myTable.insertRow();
     for (var c = 0; c < columns; c++){
        var td = tr.insertCell();
+       }
     }
   
     var checkCaption = document.getElementById("caption");

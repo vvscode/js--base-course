@@ -6,3 +6,12 @@ select {
 button {
     padding: 4px;
 }
+
+table {
+    width: 70%;
+    border: 1px solid black;
+}
+
+td {
+    border: 1px solid black;
+}
