@@ -51,3 +51,16 @@ function addTable() {
     var tableCodeDiv = document.getElementById('textarea');
     tableCodeDiv.appendChild(tableCode);
 }
+
+function cellClick () {
+    var cellClass = prompt('Choose a class', 'red / blue / green');
+    if (cellClass) {
+      event.target.setAttribute('class', cellClass);
+    }
+}
+
+table.onclick = function(event) {
+  if (event.target.tagName === 'TD' || event.target.tagName === 'TH') {
+   cellClick(event);
+  }
+}

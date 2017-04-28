@@ -27,3 +27,15 @@ textarea {
     width: 70%;
     height: 300px;
 }
+
+td.red, th.red {
+    background-color: red;
+}
+
+td.blue, th.blue {
+    background-color: blue;
+}
+
+td.green, th.green {
+    background-color: green;
+}
