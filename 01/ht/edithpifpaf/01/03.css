@@ -8,10 +8,22 @@ button {
 }
 
 table {
+    margin: 10px 0;
     width: 70%;
     border: 1px solid black;
 }
 
 td {
     border: 1px solid black;
+    height: 15px;
+}
+
+th {
+    border: 3px solid black;
+    height: 20px;
+}
+
+textarea {
+    width: 70%;
+    height: 300px;
 }
