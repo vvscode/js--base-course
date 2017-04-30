@@ -20,6 +20,12 @@ createTableButton.addEventListener('click', addTable, false);
 function addTable() {
     var myTable = document.createElement("table");
     var tableId = document.getElementById("table");
+    var tableClassName = document.querySelector('input[name=class-name]').value;
+  
+    if (tableClassName) {
+      myTable.setAttribute('class', tableClassName);
+    }
+  
     var checkHead = document.getElementById("table-head");
         if (checkHead.checked === true) {
         table.setAttribute("th", "Header");  
@@ -43,12 +49,17 @@ function addTable() {
       caption.innerHTML = "Caption";
       myTable.appendChild(caption);
     }
-
-    tableId.appendChild(myTable);
+    tableId.innerHTML='';
   
+    tableId.appendChild(myTable);
+    showCode(); 
+}
+
+function showCode () {
     var tableCode = document.createElement("textarea");
     tableCode.value = document.getElementById('table').innerHTML;
     var tableCodeDiv = document.getElementById('textarea');
+    tableCodeDiv.innerHTML='';
     tableCodeDiv.appendChild(tableCode);
 }
 
@@ -56,6 +67,7 @@ function cellClick () {
     var cellClass = prompt('Choose a class', 'red / blue / green');
     if (cellClass) {
       event.target.setAttribute('class', cellClass);
+      showCode();
     }
 }
 
