@@ -2,12 +2,14 @@ var o = { name: 'O-object' };
 var f = function() {
     console.log(this.name);
 };
-var myBind = function(context) {
+Function.prototype.myBind = function() {
   var originalFunction = this;
-  return function() {
-    originalFunction.apply(context);
-  };
+  var bindArg = [].slice.call(arguments);
+  var context = bindArg.shift();
+  var unshiftArg = bindArg.concat([].slice.call(arguments));
+    return function() {
+        return originalFunction.apply(context, unshiftArg);
+    };
 };
-f.myBind = myBind;
 var of = f.myBind(o);
-of(); //
+of();
