@@ -2,19 +2,19 @@ function calc(x) {
   return function calculate(z) {
     if (z==='+') {
       return function sum(y) {
-        return checkIfNumber(x) + checkIfNumber(y);
+        return checkDataType(x) + checkDataType(y);
       }
     } else if (z==='-') {
       return function subtract(y) {
-        return checkIfNumber(x) - checkIfNumber(y);
+        return checkDataType(x) - checkDataType(y);
       }
     } else if (z==='*') {
       return function multiply(y) {
-        return checkIfNumber(x) * checkIfNumber(y);
+        return checkDataType(x) * checkDataType(y);
       }
     } else if (z==='/') {
       return function divide(y) {
-        return checkIfNumber(x) / checkIfNumber(y);
+        return checkDataType(x) / checkDataType(y);
       }
    } else {
       alert (' Not an operator! ');
@@ -22,7 +22,7 @@ function calc(x) {
   }
 }
 
-function checkIfNumber(number) {
+function checkDataType(number) {
   if (isNaN(number)) {	
     alert (' It is not a number! '); 
   } else {
