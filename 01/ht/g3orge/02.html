@@ -1,0 +1,17 @@
+<html>
+    <script>
+       var o = { name: 'O-object' };
+        var f = function() {
+	        console.log(this.name);
+        };
+        var myBind = function(context){
+            var iHateThisAndBind = this;
+            return function(){
+                return iHateThisAndBind.apply(context);
+            };
+        };
+        f.myBind = myBind;
+        var of = f.myBind(o);
+        console.log(of());
+    </script>
+</html>
