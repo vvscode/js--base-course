@@ -1,0 +1,48 @@
+<html>
+    <script>
+function calcutaor()
+{
+    var num1 = prompt('Enter 1 number');
+    var num2 = prompt('Enter 2 number');
+    var operand = prompt('Enter operation');
+
+    function calc(num1)
+    {
+        return function(operand)
+        {
+            if(operand == "+")
+            {
+                return function(num2)
+                {
+                    return +num1 + +num2;
+                }
+            }
+            else if(operand == "-")
+            {
+                return function(num2)
+                {
+                    return +num1 - +num2;
+                }
+            }
+            else if(operand == "*")
+            {
+                return function(num2)
+                {
+                    return +num1 * +num2;
+                }
+            }
+            else if(operand == "/")
+            {
+                return function(num2)
+                {
+                    return +num1 / +num2;
+                }
+            }
+            else alert('Wrong operation');
+        }
+    }
+    alert(calc(num1)(operand)(num2));
+}
+calcutaor();
+</script>
+</html>
