@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Table creation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="head" id="table-class-name">
+            <label for="class-name">Table class name:</label>
+            <input type="text" name="class-name">
+        </div>
+        <div class="head">
+            <input id="table-head" type="checkbox" name="table-head">
+            <label for="table-head">Enable table head</label>
+        </div>
+        <div class="head" id="table-caption">
+            <input id="caption-check" type="checkbox" name="caption-check" onclick="enableCaption()">
+            <label for="caption-check">Enable caption</label>
+            <input id="caption-name" type="text" name="caption-name" disabled="disabled">
+        </div>
+        <div class="head" id="table-size">
+            <select id="rowsNumber">
+                <option value="0">Select number of rows</option>
+            </select>
+            <select id="colNumber">
+                <option value="0">Select number of columns</option>
+            </select>
+        </div>
+        <div class="head">
+            <button id="create-table">Create table</button>
+        </div>
+    </div>
+    <div id="table"></div>
+    <div id="table-code-div" class="hidden">
+        <textarea id="table-code"></textarea>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

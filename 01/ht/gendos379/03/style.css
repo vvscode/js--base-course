@@ -1,0 +1,90 @@
+body {
+    text-align: center;
+}
+
+div.head {
+    margin: 10px;
+    display: inline-block;
+}
+
+label {
+  width: 120px;
+}
+
+select {
+    width: 190px;
+    margin: 10px;
+    padding: 3px;
+}
+
+button {
+    padding: 3px;
+}
+
+.header {
+    background-color: #F0F0F0;
+}
+
+table {
+    margin: auto;
+    width: 70%;
+    border: 1px solid black;
+}
+
+td {
+    height: 20px;
+    border: 1px solid black;
+}
+
+th {
+    height: 20px;
+    border: 2px solid black;
+}
+
+#table-code {
+    margin: 30px auto 0;
+    width: 70%;
+    height: 250px;
+    display: block;
+}
+
+div.hidden {
+    display: none;
+}
+
+
+td.red, th.red {
+    background-color: red;
+}
+
+td.blue, th.blue {
+    background-color: blue;
+}
+
+td.green, th.green {
+    background-color: green;
+}
+
+td.yellow, th.yellow {
+    background-color: yellow;
+}
+
+td.violet, th.violet {
+    background-color: violet;
+}
+
+td.brown, th.brown {
+    background-color: brown;
+}
+
+td.black, th.black {
+    background-color: black;
+}
+
+td.grey, th.grey {
+    background-color: grey;
+}
+
+td.orange, th.orange {
+    background-color: orange;
+}
