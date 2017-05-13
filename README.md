@@ -3,8 +3,6 @@
 ## Содержание
 
  0. [Вводная (начинаем напрягаться)](https://github.com/vvscode/js--base-course/tree/master/00)
- 1.  [Базовое применение синтаксиса (с которым вы знакомы после вводной части)](https://github.com/vvscode/js--base-course/tree/master/01/lesson) + [домашнее задание (размяться)](https://github.com/vvscode/js--base-course/tree/master/01/ht)
- 2. [Базовое введение в ES6 / Асинхронный код](https://github.com/vvscode/js--base-course/tree/master/02/lesson) + [Домашнее задание (начало работы над первым проектом + задание по теории)](https://github.com/vvscode/js--base-course/tree/master/02/ht)
 
 ## Дополнительные заметки
 
