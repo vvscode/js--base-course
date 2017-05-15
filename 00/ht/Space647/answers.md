@@ -60,9 +60,9 @@ console.log(typeof(t,f));
 console.log(typeof(x));
 6. Symbol var sym = Symbol("Gleb");
    console.log(typeof(sym));
-7.function
-  function s() {}
-  console.log(typeof (s));
+7. function
+   function s() {}
+   console.log(typeof (s));
 ```
 # 6.	что такое область видимости?
 Область видимости существует 2 области видимости локальная область видимости,глобальная область видимости;
