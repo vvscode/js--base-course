@@ -51,10 +51,12 @@ console.log(typeof(s));
 4. Boolean (true false) var t=true; f=false;
 console.log(typeof(t,f)); 
 5. undefined    var x;
-console.log(typeof(x)); 
-6.object var name={name:”Gleb”};
+console.log(typeof(x));
+6. let sym = Symbol("name");
+alert( sym.toString() );
+7. object var name={name:”Gleb”};
 console.log(typeof(name)); 
-7.  function
+8.  function
 Console.log(typeof(function(){}));`
 
 # 6.	что такое область видимости?
