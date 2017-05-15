@@ -42,7 +42,7 @@ for(var i=0; i<100000; i++)
 5. undefined    var x;
 6.object var name={name:”Gleb”};
 # 5.	Как узнать тип переменной? Пример кода
-1. number var i=7.4151514 
+`1. number var i=7.4151514 
 console.log(typeof(i)); 
 2. string var s=”Dog”
 console.log(typeof(s)); 
@@ -55,21 +55,21 @@ console.log(typeof(x));
 6.object var name={name:”Gleb”};
 console.log(typeof(name)); 
 7.  function
-Console.log(typeof(function(){}));
+Console.log(typeof(function(){}));`
 
 # 6.	что такое область видимости?
 Область видимости-существует 2 вида переменных локальные и публичные, публичные доступны везде, локальные доступны только в текущей области видимости
 # 7.	как из javascript в брaузере вывести на экран строчку ? ( 4-ре способа ) Примеры кода
-1.	alert(“First”);
+`1.	alert(“First”);
 2.	prompt(“second”,2);
 3.	confirm(“third”)
 4.	console.log(“Fourth”);
 5.	document.write(“Fifth”);
-6.	div.innerHTML=”sixth”;
+6.	div.innerHTML=”sixth”;`
 # 8.	каким образом можно реализовать условное выполнение кода ?
 при помощи if/else и :?
 # 9.	условные операторы в javascript - какие? Примеры использования
-if/else и :?
+`if/else и :?
 
 If(i>0)
 {
@@ -80,20 +80,20 @@ Else
 Console.log(false);
 }
 
-bigAge=(age>14? True:false);
+bigAge=(age>14? True:false);`
 
 # 10.	что такое тернарный оператор?
 ?:   замена if/else которая может принимать три операнда.
 условие ? выражение1 : выражение2
 # 11.	Как обойтись без условных операторов если нужно сделать условное выполнение кода? С примером
 При помощи тернарный операнда
-var Name = prompt('Ваше имя?');
+`var Name = prompt('Ваше имя?');
         var Otchestvo = prompt('Ваше отчество?');
         var SecondName = prompt('Ваша фамилия?');
         var age = prompt('Вашь возраст (в годах)');
         var male = confirm("Вы - мужчина?");
         var days = age * 365;
-        (male==true)?(age>=60? alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол Мужской'+'\n'+'Пенсионер'):alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол Мужской'+'\n'+'не пенсионер')):(age>=55?alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол женский'+'\n'+'Пенсионер'):alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол женский'+'\n'+'Пенсионер'));
+        (male==true)?(age>=60? alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол Мужской'+'\n'+'Пенсионер'):alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол Мужской'+'\n'+'не пенсионер')):(age>=55?alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол женский'+'\n'+'Пенсионер'):alert('ФИО:'+Name+' '+Otchestvo+' '+SecondName+'\n' +'Возраст,лет '+age+'\n'+'Возраст дней '+days+'\n'+'Пол женский'+'\n'+'Пенсионер'));`
  
 
 # 12.	что такое функция? какими характеристиками можно описать функцию?
@@ -101,12 +101,12 @@ var Name = prompt('Ваше имя?');
 это упроститель жизни)) В функцию в которой есть входной параметр, можно передать значения для расчетов цены апельсинов. Многократное использование.
 # 13.	Как можно создать функцию? 3 способа. C примерами кода
 1.	new Function
-var gleb= new function(){};
+`var gleb= new function(){};`
 2.	Декларативное создание функции
-Function gleb([111]){};
+`Function gleb([111]){};`
 3.	Функциональное выражение
-Var f= function Gleb(x,y){}
-F(1,11);
+`Var f= function Gleb(x,y){}
+F(1,11);`
 
 # 14.	Что такое объект? Как создать объект? ( 3 способа ) С примерами кода
 Объект-это набор и каждое свойство состоит из имени и значения.
@@ -127,19 +127,19 @@ Var Nobject= Object.Create(null);
 # 18.	Что такое массив?
 Массив - тип или структура данных в виде элементов массива, расположенных в памяти непосредственно друг за другом
 # 19.	Как создать массив? ( 3 способа ) С примером кода
-var myArry=new Array(); 
+`var myArry=new Array(); 
 var myArry=new Array(“ахха”,”трололол”);
-var myCars=[“ахха”,”трололол”];
+var myCars=[“ахха”,”трололол”];`
 # 20.	Как запросить данные у пользователя? с примером кода
-var years = prompt('Сколько вам лет?', 100);
-var age = confirm("Вам есть 18?");
-' <form action="lol.js ">
+`var years = prompt('Сколько вам лет?', 100);
+var age = confirm("Вам есть 18?");`
+` <form action="lol.js ">
   <p><b>Как по вашему мнению расшифровывается аббревиатура &quot;ОС&quot;?</b></p>
   <p><input type="radio" name="answer" value="a1">Офицерский состав<Br>
   <input type="radio" name="answer" value="a2">Операционная система<Br>
   <input type="radio" name="answer" value="a3">Большой полосатый мух</p>
   <p><input type="submit"></p>
- </form> '
+ </form> `
 
 
 
