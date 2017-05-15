@@ -3,28 +3,34 @@
 2.	как создать переменную? Примеры кода
 ```javascript
 var a; // не инициализированная(тип данных undefined);
- var a=0; // инициализированная, с типипом данных number;
+var a=0; // инициализированная, с типипом данных number;
 ```
 
 3.	виды циклов ( 3 вида ) ? Примеры использования
-цыкл while
+цикл `while`
+```javascript
 var i=0;
 while(i<1000)
 {
-Document.write(i+”<br>”);
-I++;
+  Document.write(i+”<br>”);
+  I++;
 }
-Цыкл do while
+```
+Цикл `do...while`
+```javascript
   var i = 0;
         do {
             console.log(i);
             i++;
         } while (i < 0);
-Цыкл for
-  for(var i=0; i<100000; i++)
-        {
-            document.write("hahahahaha  this big joke <br>");
-        }
+```
+Цикл for
+```javascript
+for(var i=0; i<100000; i++)
+       {
+           document.write("hahahahaha  this big joke <br>");
+       }
+```
 4.	сколько и какие типы данных в javascript? Примеры создания переменных каждого типа
 существует в js существуют 6 типов переменных
 1. number var i=7.4151514
