@@ -14,8 +14,8 @@ var a=0; // инициализированная, с типипом данных
 var i=0;
 while(i<1000)
 {
-  Document.write(i+”<br>”);
-  I++;
+  document.write(i+”<br>”);
+  i++;
 }
 ```
 Цикл `do...while`
@@ -35,14 +35,18 @@ for(var i=0; i<100000; i++)
 ```
 # 4.	сколько и какие типы данных в javascript? Примеры создания переменных каждого типа
 существует в js существуют 6 типов переменных
+```javascript 
 1. number var i=7.4151514
 2. string var s=”Dog”
 3. null var s=null
 4. Boolean (true false) var t=true; f=false;
 5. undefined    var x;
-6.object var name={name:”Gleb”};
+6. let name = Symbol.for("name");
+alert( Symbol.for("name") == name );
+```
 # 5.	Как узнать тип переменной? Пример кода
-`1. number var i=7.4151514 
+```javascript 
+1. number var i=7.4151514 
 console.log(typeof(i)); 
 2. string var s=”Dog”
 console.log(typeof(s)); 
@@ -58,16 +62,18 @@ alert( sym.toString() );
 console.log(typeof(name)); 
 8.  function
 Console.log(typeof(function(){}));`
-
+```
 # 6.	что такое область видимости?
 Область видимости-существует 2 вида переменных локальные и публичные, публичные доступны везде, локальные доступны только в текущей области видимости
 # 7.	как из javascript в брaузере вывести на экран строчку ? ( 4-ре способа ) Примеры кода
-`1.	alert(“First”);
+```javascript 
+1.	alert(“First”);
 2.	prompt(“second”,2);
 3.	confirm(“third”)
 4.	console.log(“Fourth”);
 5.	document.write(“Fifth”);
-6.	div.innerHTML=”sixth”;`
+6.	div.innerHTML=”sixth”;
+```
 # 8.	каким образом можно реализовать условное выполнение кода ?
 при помощи if/else и :?
 # 9.	условные операторы в javascript - какие? Примеры использования
@@ -89,7 +95,7 @@ bigAge=(age>14? True:false);`
 условие ? выражение1 : выражение2
 # 11.	Как обойтись без условных операторов если нужно сделать условное выполнение кода? С примером
 При помощи тернарный операнда
-```
+```javascript 
         var Name = prompt('Ваше имя?');
         var Otchestvo = prompt('Ваше отчество?');
         var SecondName = prompt('Ваша фамилия?');
@@ -103,23 +109,25 @@ bigAge=(age>14? True:false);`
 функция –Это участок кода который можно использовать многократно. 
 это упроститель жизни)) В функцию в которой есть входной параметр, можно передать значения для расчетов цены апельсинов. Многократное использование.
 # 13.	Как можно создать функцию? 3 способа. C примерами кода
+```javascript 
 1.	new Function
-`var gleb= new function(){};`
+var gleb= new function(){};`
 2.	Декларативное создание функции
-`Function gleb([111]){};`
+Function gleb([111]){};`
 3.	Функциональное выражение
-`Var f= function Gleb(x,y){}
-F(1,11);`
-
+Var f= function Gleb(x,y){}
+F(1,11); 
+``` 
 # 14.	Что такое объект? Как создать объект? ( 3 способа ) С примерами кода
 Объект-это набор и каждое свойство состоит из имени и значения.
- 1. Var NObject= new Object();
+```javascript 
+    1. Var NObject= new Object();
     2. Var NObject={
     Type:”hahha”;
     Car:”BMW”
     }
     Var Nobject= Object.Create(null);
-    
+  ```  
 # 15.	Что такое передача по ссылке / передача по значению?
 Передача по значению – это передача точной копии переменной, при изменении переменной меняется только копия переменной
 Передача по ссылке – эта передача ссылки где лежит ссылочный объект(класс и тд). При изменении ссылочного объекта изменения происходят везде.
@@ -135,7 +143,7 @@ F(1,11);`
 var myArry=new Array(“ахха”,”трололол”);
 var myCars=[“ахха”,”трололол”];`
 # 20.	Как запросить данные у пользователя? с примером кода
-``` 
+``` javascript
   var years = prompt('Сколько вам лет?', 100);
   var age = confirm("Вам есть 18?");`
 
