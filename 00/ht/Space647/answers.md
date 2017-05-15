@@ -41,7 +41,7 @@ for(var i=0; i<100000; i++)
 3. null var s=null
 4. Boolean (true false) var t=true; f=false;
 5. undefined    var x;
-6. let name = Symbol.for("name");
+6. var name = Symbol.for("name");
    alert( Symbol.for("name") == name );
 7. var user = { name: "Вася" }; object
    console.log(typeof(user));
@@ -54,12 +54,12 @@ console.log(typeof(i));
 console.log(typeof(s)); 
 3. object var s=null
 console.log(typeof(s));  
-4. Boolean (true false) var t=true; f=false;
+4. Boolean (true false) var t=true,f=false;
 console.log(typeof(t,f)); 
 5. undefined    var x;
 console.log(typeof(x));
-6. Symbol sym = Symbol("name");
-  console.log(typeof(sym));
+6. Symbol var sym = Symbol("Gleb");
+   console.log(typeof(sym));
 7.function
   function s() {}
   console.log(typeof (s));
@@ -102,12 +102,13 @@ if/else и :?
 ```javascript 
       var b=10;
       var a=80;
-      alert(a>b);
+      alert(a>b); alert выведет true
+      
  ```
 
 # 12.	что такое функция? какими характеристиками можно описать функцию?
 функция –Это участок кода который можно использовать многократно. 
-это упроститель жизни)) В функцию в которой есть входной параметр, можно передать значения для расчетов цены апельсинов. Многократное использование.
+Многократное использование,доступность ее из тела программы.
 # 13.	Как можно создать функцию? 3 способа. C примерами кода
 ```javascript 
 1. function lalalalal() {};
@@ -136,9 +137,11 @@ if/else и :?
 # 18.	Что такое массив?
 Массив - тип или структура данных в виде элементов массива, расположенных в памяти непосредственно друг за другом
 # 19.	Как создать массив? ( 3 способа ) С примером кода
-`var myArry=new Array(); 
-var myArry=new Array(“ахха”,”трололол”);
-var myCars=[“ахха”,”трололол”];`
+```JavaScript
+ var myArry=new Array(); 
+ var myArry=new Array(“ахха”,”трололол”);
+ var myCars=[“ахха”,”трололол”]; 
+ ```
 # 20.	Как запросить данные у пользователя? с примером кода
 ``` javascript
   var years = prompt('Сколько вам лет?', 100); - получи количество лет пользователю
