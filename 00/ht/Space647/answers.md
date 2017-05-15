@@ -42,7 +42,9 @@ for(var i=0; i<100000; i++)
 4. Boolean (true false) var t=true; f=false;
 5. undefined    var x;
 6. let name = Symbol.for("name");
-alert( Symbol.for("name") == name );
+   alert( Symbol.for("name") == name );
+7. var user = { name: "Вася" }; object
+   console.log(typeof(user));
 ```
 # 5.	Как узнать тип переменной? Пример кода
 ```javascript 
@@ -50,18 +52,17 @@ alert( Symbol.for("name") == name );
 console.log(typeof(i)); 
 2. string var s=”Dog”
 console.log(typeof(s)); 
-3. null var s=null
-console.log(typeof(s)); 
+3. object var s=null
+console.log(typeof(s));  
 4. Boolean (true false) var t=true; f=false;
 console.log(typeof(t,f)); 
 5. undefined    var x;
 console.log(typeof(x));
-6. let sym = Symbol("name");
-alert( sym.toString() );
-7. object var name={name:”Gleb”};
-console.log(typeof(name)); 
-8.  function
-Console.log(typeof(function(){}));`
+6. Symbol sym = Symbol("name");
+  console.log(typeof(sym));
+7.function
+  function s() {}
+  console.log(typeof (s));
 ```
 # 6.	что такое область видимости?
 Область видимости-существует 2 вида переменных локальные и публичные, публичные доступны везде, локальные доступны только в текущей области видимости
@@ -136,6 +137,7 @@ F(1,11);
 # 17.	Как можно добавить javascript код в html страницу? 2 способа. C примерами кода
 1 способ при помощи тега <script>тут код скрипта</script>
 2 способ через внешний  файл <script src="script.js"> </script>
+3 способ через html тэг <a href="javascript:void(0)">...</a>
 # 18.	Что такое массив?
 Массив - тип или структура данных в виде элементов массива, расположенных в памяти непосредственно друг за другом
 # 19.	Как создать массив? ( 3 способа ) С примером кода
