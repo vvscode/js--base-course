@@ -8,13 +8,15 @@
 переменная - именованная область памяти для хранения какого нибудь значения
 
 как создать переменную? Примеры кода
-
+```javascript
 var bestLanguage = 'JS';
 
 let one, two, three;
+```
 
 виды циклов ( 3 вида ) ? Примеры использования
 
+```javascript
 1) while
 while(time) {
   console.log('Learning JS');
@@ -27,6 +29,7 @@ do {
 }
 
 3) for
+```
 
 сколько и какие типы данных в javascript? Примеры создания переменных каждого типа
 
@@ -42,9 +45,11 @@ do {
 
 используется typeof
 
+```javascript
 let text = 'Will check type now';
 
 typeof(text) // string
+```
 
 что такое область видимости?
 
@@ -62,6 +67,7 @@ typeof(text) // string
 что такое функция? какими характеристиками можно описать функцию?
 Как можно создать функцию? 3 способа. C примерами кода
 
+```javascript
 function first() {
   // создание функции
   // создается до выполнения кода
@@ -73,6 +79,7 @@ let func = function() {
 }
 
 let dynamicFunc = new Function('name', 'return name') // создание функции динамически
+```
 
 
 Что такое объект? Как создать объект? ( 3 способа ) С примерами кода
@@ -85,12 +92,16 @@ let dynamicFunc = new Function('name', 'return name') // создание фун
 Как можно добавить javascript код в html страницу? 2 способа. C примерами кода
 
 подключив внешний скрипт:
+```javascript
   <script src="src/index.js"></script>
+```
 
 или написать внутри:
+```javascript
   <script>
     alert('Я тут!');
   </script>
+```
 
 Что такое массив?
 
@@ -98,14 +109,19 @@ let dynamicFunc = new Function('name', 'return name') // создание фун
 
 Как создать массив? ( 3 способа ) С примером кода
 
+```javascript
 1) let firstArr = [1, 2, 3];
+
 2) let secondArr = new Array(1, 2, 3);
+
 3) let thirdArr = []; thirdArr[0] = 1;
+```
 
 Как запросить данные у пользователя? с примером кода
 
 использовать prompt и confirm;
-
+```javascript
 let name = prompt('Как тебя зовут?', 'Не скажу'); // сохраняет в переменную то что ввел пользователь, или значение по дефолту.
 
 let answer = confirm('Сделали домашку?;)') // сохраняет true или false
+```
