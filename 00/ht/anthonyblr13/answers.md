@@ -11,7 +11,7 @@ JS base course home work №1
 
 3.	Виды циклов(3 вида). Пимеры кода. 
 В JavaScript используются 3 вида циклов while, do while, for.
-```
+```javascript
 // Пример цикла while:
 var i = 0;
 while (i <10) {
