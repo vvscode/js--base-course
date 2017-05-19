@@ -6,19 +6,17 @@
 - var b = 'string';
 - var c = 1;
 - var d = null;
-- etc.
 
 виды циклов ( 3 вида ) ? Примеры использования
-- 1. for (var i=0;i<10;i++) { console.log(i); }
-- 2. var i = 0;
--    while (i < 10)
--    {
--     i++;
--    }
-- 3. var i = 0;
--     do {
--       i++;
--     } while (i < 10);
+- for (var i=0;i<10;i++) { console.log(i); }
+- var i = 0;
+  while (i < 10) {
+    i++;
+  }
+- var i = 0;
+  do {
+    i++;
+  } while (i < 10);
 
 сколько и какие типы данных в javascript? Примеры создания переменных каждого типа
 - 6 типов данных. Строка, число, булевое значение, нулл, андефайнд, объект
@@ -44,25 +42,25 @@
 
 каким образом можно реализовать условное выполнение кода ?
 - if (a>b)
--    console.log(a);
-- else
--    console.log(b);
+    console.log(a);
+  else
+    console.log(b);
 
 условные операторы в javascript - какие? Примеры использования
 - if (a>b)
--    console.log(a);
-- else if (a<b)
--    console.log(b);
-- else
--    console.log('a = b');
+    console.log(a);
+ else if (a<b)
+    console.log(b);
+ else
+    console.log('a = b');
 
 - switch (a) {
--    case 1: x = 1;
--    break;
--    case 2: x = 2;
--    break;
--    default: x = 3;
-- }
+    case 1: x = 1;
+    break;
+    case 2: x = 2;
+    break;
+    default: x = 3;
+ }
 
 что такое тернарный оператор?
 - Это оператор с тремя операндами.
@@ -85,9 +83,9 @@
 - 1. var obj = new Object();
 - 2. var obj = {};
 - 3. function Test(name) {
--   this.name = name;
-- }
-- var testObj = new Test("Объект");
+   this.name = name;
+ }
+ var testObj = new Test("Объект");
 
 Что такое передача по ссылке / передача по значению?
 Что такое минификация и зачем она нужна?
