@@ -254,6 +254,24 @@ for(propName in o) {
         </section>
       </section>
       <section>
+        <h5>Как удалить свойства объекта?</h5>
+        <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop1: 2
+  }
+};
+console.log(o.prop1); // ?
+delete(o.prop1);
+console.log(o.prop1); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+delete(o.prop1); 
+console.log(o.prop1); // ?
+          </code></pre>
+      </section>
+      <section>
         <h5>Задание прототипа</h5>
         <ul>
           <li class="fragment"><code>__proto__</code></li>
@@ -624,6 +642,14 @@ console.log(o instanceof Array); // o.__proto__.__proto__
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
   <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
     Reveal.initialize({
       // Display controls in the bottom right corner
       controls: true,
