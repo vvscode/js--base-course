@@ -322,13 +322,13 @@ greet2();
         <section>
           <code>Function by constructor</code>
           <pre><code data-trim class="javascript line-numbers">
-var greet3 = new Function("name" {
+var greet3 = function("name") {
   return console.log("Hi, " + name);
 }
-greet2();
+greet3();
           </code></pre>
           <pre class="fragment"><code data-trim class="javascript line-numbers">
-var greet3 = var g = new Function("name", "return 'Hola, ' + name;");
+var greet3 = new Function("name", "return 'Hola, ' + name;");
 greet3();
           </code></pre>
         </section>
@@ -521,7 +521,7 @@ var o = { prop1: 1, name: 'Sam' };
 var f = function(name) { console.log(this, name); };
 f('user 1');
 f.call(o, 'user 2'); // параметры один за одним
-f.call(o, ['user 3']); // параметры списком
+f.apply(o, ['user 3']); // параметры списком
 
 f.bind(o)('user 4'); // bind возвращает функцию для вызова
           </code></pre>
