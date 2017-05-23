@@ -34,4 +34,22 @@ sayHi.length
      console.log(user.hasOwnProperty('x'));
   ```
   # 6. Что происходит при использовании ключевого слова new?
+  `Оператор new создаёт новый объект указанного класса`
+  # 7. Как сделать ревес строки?
+  ```javascript
+  var str="i'm idiot";
+  alert(str.split('').reverse().join('')); // строка -> в массив -> реверс -> преобразование в строку
+  // 2й чисто массив
+  var str=['i,m','idiot'];
+  str=str.reverse();
+  alert(str);
+  ```
+  # 8. Как заменить в строке `"papa roach"` все буквы `a` на `A` ?
+  ```javascript
+  var str="papa roach"
+  str=str.replace(/a/g, "A" );
+  alert(str);
+  ```
+  # 9. Сколькими способами ( с примерами кода ) можно найти на странице `div` с id `someId` ?
+  
   
