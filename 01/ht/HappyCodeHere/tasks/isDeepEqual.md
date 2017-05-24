@@ -7,3 +7,18 @@ isDeepEqual(a, b) // false
 b.prop1 = 1;
 isDeepEqual(a, b) // true
 ```
+
+#### Решение:
+
+явно не лучшее решение)
+
+```javascript
+function isDeepEqual(obj1, obj2) {
+	for (i in obj1) {
+  	if (obj2[i] == undefined) {
+    	return false;
+    }
+  }
+  return true;
+}
+```

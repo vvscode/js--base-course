@@ -3,3 +3,12 @@
 ```javascript
 (function() { console.log(this.name); }).myBind({name: 'Bob'})() // 'Bob'
 ```
+
+#### Решение:
+
+```javascript
+Function.prototype.myBind = function(func, obj) {
+	
+  return func
+}
+```
