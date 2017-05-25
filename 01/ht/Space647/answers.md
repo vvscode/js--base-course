@@ -118,7 +118,9 @@ sayHi.length
   ```
   # 18. Какие методы массива являются функциями высшего порядка ?
   ```javascript
-  Array.isArray() , Array.filter(), дописать
+  Array.isArray() , Array.filter(),Array.from(),Array.prototype.concat(),Array.prototype.findIndex(),Array.prototype.indexOf(),
+  Array.prototype.lastIndexOf(),Array.prototype.map(),Array.prototype.push(),Array.prototype.reduce(),Array.prototype.reduceRight(),
+  Array.prototype.some(),Array.prototype.unshift(),
   ```
   # 19. Как добавить новый метод всем не falsy данным в программе?
   ```javascript
