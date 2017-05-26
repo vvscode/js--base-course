@@ -2,7 +2,7 @@
 `Замыкание-это сохранение доступа к не-локальным областям видимости, даже если функции-владельцы этих областей видимости уже не выполняются или даже не существуют. `
 # 2. Что такое `this` ? Чем определяется? Как его изменить?
 `this - ссылка на сам объект (При работе обычных функций this также доступен, но он равен window в обычном режиме и undefined в строгом режиме 'use strict'.).
-можно изменить при помощи call, apply,bind
+можно изменить при помощи call, apply,bind,new
 `
 # 3. Как узнать сколько параметров принимает функция?
 ```javascript
@@ -14,6 +14,16 @@ function sayHi(name){
   }
 sayHi(name);
 sayHi.length
+код для 'use strict'
+  "use strict";
+        name='Gleb';
+        function sayHi(name){
+            var name='Ted';
+            name='Hi '+ name;
+            alert(name);
+        }
+        sayHi(name);
+       console.log(sayHi.length);
 ```
 # 4. Что такое прототипное наследование
 `Прототипное наследование - объекты наследуют от объектов`
@@ -25,9 +35,51 @@ sayHi.length
             x:'hoho'
         };
      console.log(user.hasOwnProperty('x'));
+     // 2 cпособ
+      var user = {
+            name: "Вася",
+            surname: "Петров",
+            x:'hoho'
+        };
+        var answer=false;
+        for(var key in user)
+        {
+            if(key=='x')
+            {
+                answer=true;
+            }
+        }
+        console.log(answer);
+        //3 cпособ
+            var user = {
+            name: "Вася",
+            surname: "Петров",
+            x:'hoho'
+        };
+      console.log('x' in user);
+      // 4 способ
+                var user = {
+            name: "Вася",
+            surname: "Петров",
+            x:'hoho'
+        };
+         function find(array, value) {
+            if (array.indexOf) {
+                array.indexOf(value);
+            }
+
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] === value) return true;
+            }
+
+            return false;
+        }
+        var arr=Object.getOwnPropertyNames(user);
+        var index = find(arr,'x');
+        console.log(index);
   ```
   # 6. Что происходит при использовании ключевого слова new?
-  `Оператор new создаёт новый объект указанного класса`
+  `Оператор new создаёт новый объект указанного класса , любая функция вызванная через new становиться конструктором`
   # 7. Как сделать ревес строки?
   ```javascript
   var str="i'm idiot";
@@ -36,12 +88,32 @@ sayHi.length
   var str=['i,m','idiot'];
   str=str.reverse();
   alert(str);
+  //3й способ без массива 
+   var str="i'm idiot";
+        function reverseString(str) {
+            var temp = '';
+            var i = str.length;
+
+            while (i > 0) {
+                temp += str.substring(i - 1, i);
+                i--;
+            }
+
+
+            return temp;
+        }
+
+        alert(reverseString(str));
   ```
   #  8. Как удалить предпоследний элемент в массиве?
   ```javascript
   var arr=[0,1,20,44];
   delete arr[arr.length - 2];
   console.log(arr);
+  // 2 способ без undefined
+  var test = new Array(0,1,20,44);
+  test.splice(-2, 1);
+  console.log(test);
   ```
   # 9. Как заменить в строке `"papa roach"` все буквы `a` на `A` ?
   ```javascript
@@ -71,6 +143,10 @@ sayHi.length
   ```javascript
  gleb.prototype = Object.create(humans.prototype);
  gleb.prototype.constructor = gleb;
+ // вызов конструктора родителя
+ function gleb(name) {
+  humanst.apply(this, arguments);
+}
   ```
   # 15. Сколькими способами можно проитерироваться по всем полям объекта? С примерами кода
   `
@@ -93,13 +169,16 @@ sayHi.length
   ```
   # 16. Как запретить использовать функцию с ключевым словом new ?
   ```javascript
-   function notNew() {
-            if(this instanceof notNew){
-                console.log('be')
+  function NotNew() {
+            if(this instanceof NotNew){
+                throw 'dont use new';
             }
+
         }
-        var n = new notNew();
-        var n1= notNew();
+        var n= NotNew();
+        alert(n);
+        var n1= new NotNew();
+        alert(n1);
   ```
   # 17. Что такое callback ? Зачем ? Пример кода
   `callback-Ссылка на исполняемый код, или на фрагмент исполняемого кода, который передается в качестве аргумента другого кода.`
@@ -118,9 +197,8 @@ sayHi.length
   ```
   # 18. Какие методы массива являются функциями высшего порядка ?
   ```javascript
-  Array.isArray() , Array.filter(),Array.from(),Array.prototype.concat(),Array.prototype.findIndex(),Array.prototype.indexOf(),
-  Array.prototype.lastIndexOf(),Array.prototype.map(),Array.prototype.push(),Array.prototype.reduce(),Array.prototype.reduceRight(),
-  Array.prototype.some(),Array.prototype.unshift(),
+  Array.filter(),Array.from(),Array.prototype.findIndex(),Array.prototype.lastIndexOf(),Array.prototype.map(),
+  Array.prototype.push(),Array.prototype.reduce(),Array.prototype.reduceRight(),Array.prototype.some(),Array.prototype.unshift()
   ```
   # 19. Как добавить новый метод всем не falsy данным в программе?
   ```javascript
@@ -147,6 +225,13 @@ HTTP состоит протокол
  ` существует 2 способа HTTP запросов
    1.POST - упаковывает переменные формы и незометно для пользователя отправляет их 
    2.Get - упаовывет переменные формы но присоеденяет их в конце url адреса.
+   3.PUT-Применяется для загрузки содержимого запроса на указанный в запросе URI
+   4.OPTIONS-Используется для определения возможностей веб-сервера или параметров соединения для конкретного ресурса. В ответ серверу      следует включить заголовок Allow со списком поддерживаемых методов. Также в заголовке ответа может включаться информация о              поддерживаемых расширениях.
+   5.HEAD-Аналогичен методу GET, за исключением того, что в ответе сервера отсутствует тело. Запрос HEAD обычно применяется для извлечения метаданных, проверки наличия ресурса (валидация URL) и чтобы узнать, не изменился ли он с момента последнего обращения.
+   6.DELETE-Удаляет указанный ресурс.
+   7.TRACE-Возвращает полученный запрос так, что клиент может увидеть, какую информацию промежуточные серверы добавляют или изменяют в запросе.
+   8.CONNECT-Преобразует соединение запроса в прозрачный TCP/IP-туннель, обычно чтобы содействовать установлению защищённого SSL-соединения через нешифрованный прокси.
+   9.PATCH-Аналогично PUT, но применяется только к фрагменту ресурса.
  `
  # 24. Что такое REST ? RPC ?
  ```
