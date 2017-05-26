@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Js Base Course - Занятие 1</title>
+  <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/theme/white.css" id="theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Занятие 1</h1>
+      </section>
+
+      <section>
+        <h4>Передача по значению / по ссылке</h4>
+        <ul>
+          <li class="fragment">Как/где располагаются данные?</li>
+          <li class="fragment">Что такое переменная?</li>
+          <li class="fragment">Передача по ссылке</li>
+          <li class="fragment">Передача по значению</li>
+          <li class="fragment">Константы</li>
+          <li class="fragment">Изменение значений примитивных типов</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Объекты</h4>
+        <section>
+          <ul>
+            <li class="fragment">Структура данных - хэш</li>
+            <li class="fragment">Ссылочный тип данных</li>
+          </ul>
+        </section>
+        <section>
+          <h5>Как создать</h5>
+
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+// Литерал
+var o1 = {};
+var o2 = {
+  prop1: 'Some value',
+  prop2: null,
+  prop3: 3
+};
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+// Вызвать функцию возвращающую объект
+var o3 = Object.create(null);
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+// Использовать `new`
+var o4 = new Object();
+var o5 = new Object({
+  a: 1,
+  b: 2
+});
+          </code></pre>
+        </section>
+        <section>
+          <h5>Как работать со свойствами</h5>
+
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {};
+o.prop1 = 1;
+o['prop2'] = 2;
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {};
+o['some property with spaces'] = 3;
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {};
+var propName = true ? 'prop1' : 'prop2';
+o[propName] = 4;
+          </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h5>Принципы ООП</h5>
+          <ul>
+            <li class="fragment"><strong>Абстракция</strong> - позволяет оперировать аналогами объектов из реального мира</li>
+            <li class="fragment">Инкапсуляция - позволяет не думать о реализации</li>
+            <li class="fragment">Наследование - позволяет уменьшить дублирование кода</li>
+            <li class="fragment">Полиморфизм</li>
+          </ul>
+        </section>
+        <section>
+          <h5>Наследование</h5>
+          <p>
+            Позволяет один раз описать свойства / поведение класса объектов и дальше использовать это описание ( и реализацию ) многократно
+          </p>
+        </section>
+      </section>
+      <section>
+        <h5>Свойства объекта</h5>
+        <section>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 2,
+};
+console.log(o);
+console.log(o.prop1); //? 
+console.log(o.prop2); // ?
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  someMethod: function() {
+    console.log('Hey!');
+  }
+};
+console.log(o);
+console.log(o.someMethod); //?
+console.log(o.toString); // ?
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h6><code>__proto__</code></h6>
+
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop2: 2
+  }
+};
+console.log(o);
+console.log(o.prop1); //1
+console.log(o.prop2); //2
+console.log(o.prop3); //undefined
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop2: 2,
+    __proto__: {
+      prop3: 3
+    }
+  }
+};
+console.log(o);
+console.log(o.prop1); //1
+console.log(o.prop2); //2
+console.log(o.prop3); //3
+          </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h5>Запись свойств</h5>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+var proto = {
+  prop0: 1
+};
+var o1 = {
+  prop1: 1,
+  __proto__: proto
+};
+var o2 = {
+  prop2: 2,
+ __proto__: proto
+};
+console.log(o1.prop0, o2.prop0); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+proto.prop0 = 5;
+console.log(o1.prop0, o2.prop0); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+o2.prop0 = 7;
+console.log(o1.prop0, o2.prop0); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+console.log(proto.prop0); // ?
+          </code></pre>
+      </section>
+      <section>
+        <h5>Запись свойств</h5>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+var proto = {
+  settings: {
+    isAdmin: false,
+  }
+};
+var u1 = {
+  name: 'Bob',
+  __proto__: proto
+};
+var u2 = {
+  name: 'Sam',
+  __proto__: proto
+};
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+console.log(u1.settings.isAdmin); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+ u1.settings.isAdmin = true;
+console.log(u1.settings.isAdmin); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+console.log(u2.settings.isAdmin); // ?
+          </code></pre>
+      </section>
+      <section>
+        <h5>Как прочитать свойства объекта?</h5>
+        <section>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  prop2: 2
+};
+for(propName in o) {
+  console.log(propName);
+}
+          </code></pre>
+        </section>
+        <section>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop2: 2
+  }
+};
+for(propName in o) {
+  console.log(propName);
+}
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop2: 2
+  }
+};
+for(propName in o) {
+  console.log(propName, o.hasOwnProperty(propName) ? 'в объекте' : 'в цепочке прототипов');
+}
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h5>Как удалить свойства объекта?</h5>
+        <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  __proto__: {
+    prop1: 2
+  }
+};
+console.log(o.prop1); // ?
+delete(o.prop1);
+console.log(o.prop1); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+delete(o.prop1); 
+console.log(o.prop1); // ?
+          </code></pre>
+      </section>
+      <section>
+        <h5>Задание прототипа</h5>
+        <ul>
+          <li class="fragment"><code>__proto__</code></li>
+          <li class="fragment"><code>Object.setPrototypeOf(obj, prototype);</code></li>
+          <li class="fragment"><code>Object.create(proto[, propertiesObject])</code></li>
+          <li class="fragment"><code>...</code></li>
+        </ul>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h4>Функции</h4>
+        <h6>Характеристики функции?</h6>
+        <ul>
+          <li class="fragment">Имя функции</li>
+          <li class="fragment">Число и тип параметров (аргументов)</li>
+          <li class="fragment">Тип возвращаемого значения</li>
+          <li class="fragment">Контекст<sup>*</sup></li>
+        </ul>
+      </section>
+      <section>
+        <h6>Способы создания функции (3)</h6>
+        <section>
+          <code>Function Declaration</code>
+          <pre><code data-trim class="javascript line-numbers">
+function greet1(name) {
+  console.log("Hello, " + name);
+}
+greet1();
+          </code></pre>
+        </section>
+        <section>
+          <code>Functional Expression</code>
+          <pre><code data-trim class="javascript line-numbers">
+var greet2 = function(name) {
+  return console.log("Hi, " + name);
+}
+greet2();
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var greet2 = function greet(name) {
+  return console.log("Hi, " + name);
+}
+greet2();
+          </code></pre>
+        </section>
+        <section>
+          <code>Function by constructor</code>
+          <pre><code data-trim class="javascript line-numbers">
+var greet3 = function("name") {
+  return console.log("Hi, " + name);
+}
+greet3();
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var greet3 = new Function("name", "return 'Hola, ' + name;");
+greet3();
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h6>Функции высшего порядка</h6>
+        <p>Принимают параметром и/или возвращают функции как результат работы</p>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+var createGreet = function(age) {
+  var text = age > 18 ? 'Приветствую' : 'Хаюшки';
+  return function(name) {
+    console.log(text + ', ' + name);
+  }
+};
+var greet1 = createGreet(45);
+greet1("Роберт"); // ?
+var greet2 = createGreet(11);
+greet2("Саня"); // ?
+          </code></pre>
+        <pre class="fragment"><code data-trim class="javascript">
+// Приветствую, Роберт
+// Хаюшки, Саня
+          </code></pre>
+      </section>
+      <section>
+        <h6>Функции высшего порядка</h6>
+        <p>Принимают параметром и/или возвращают функции как результат работы</p>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+document.findElementById('btn').addEventListener('click', function() {
+  alert('*Opa')!
+});
+          </code></pre>
+      </section>
+      <section>
+        <h6>Функция - объект</h6>
+        <pre class="fragment"><code data-trim class="javascript">
+var greet = function(name) { return 'Hi, ' + name; };
+console.log(typeof(greet));
+          </code></pre>
+        <code class="fragment">greet.</code>
+        <pre class="fragment"><code data-trim class="javascript">
+console.log(greet.hasOwnProperty('hasOwnProperty'));
+console.log(greet.hasOwnProperty('toString'));
+console.log(greet.toString());
+          </code></pre>
+      </section>
+      <section>
+        <h6>Функция - как свойство</h6>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  method: function(param) {
+    console.log('Do somethind with', param);
+  }
+};
+o.method('icecream');
+          </code></pre>
+      </section>
+      <section>
+        <h6>Замыкания</h6>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+var createGreet = function(age) {
+  var text = age > 18 ? 'Приветствую' : 'Хаюшки';
+  return function(name) {
+    console.log(text + ', ' + name);
+  }
+};
+var greet1 = createGreet(45); 
+greet1("Роберт");
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function getCounter() {
+  var i = 0;
+  return {
+    next: function() { i = i + 1; },
+    reset: function() { i = 0; },
+    current: function() { return i; }
+  }
+};
+var counter = getCounter();
+console.log(counter.current()); // ?
+counter.next(); counter.next();
+console.log(counter.current()); // ?
+counter.reset();
+console.log(counter.current()); // ?
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript">
+var i = counter.current();
+i = 9;
+console.log(counter.current()); // ?
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h6>Контекст / <code>this</code></h6>
+
+        <section>
+          Определяет кто/где выполняет функцию
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function someStrangeFunction() {
+ console.log('this for someStrangeFunction', this);
+}
+someStrangeFunction();
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  someStrangeFunctionInObject: function() {
+    console.log('this for someStrangeFunctionInObject', this);
+  }
+}
+o.someStrangeFunctionInObject();
+          </code></pre>
+        </section>
+        <section>
+          <p><code>this</code> позволяет задавать/изменять окружение исполнения функции</p>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function ssF() { console.log('this for someStrangeFunction', this); }
+var o = { prop1: 1 };
+someStrangeFunction(); // ?
+o.ssf = ssF;
+o.ssf(); // ?
+          </code></pre> </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+var o = {
+  prop1: 1,
+  ssMethod: function() {
+    console.log('this for ssMethod', this);
+  }
+}
+o.ssMethod();
+var ssm = o.ssMethod;
+ssm();
+          </code></pre>
+        </section>
+        <section>
+          <h5>Три возможных значения <code>this</code></h5>
+          <ul>
+            <li class="fragment">window</li>
+            <li class="fragment">undefined</li>
+            <li class="fragment">object</li>
+          </ul>
+        </section>
+        <section>
+          <h5>Передача методов как параметров</h5>
+          <pre><code data-trim class="javascript line-numbers">
+var o = {
+  name: 'Bob',
+  greet: function() {
+    console.log('Hello, ' + this.name);
+  }
+}
+document.body.addEventListener('click', o.greet);
+          </code></pre>
+        </section>
+        <section>
+          <h5>Изменение контекста функции</h5>
+          <pre><code data-trim class="javascript line-numbers">
+var o = { prop1: 1, name: 'Sam' }; 
+var f = function() { console.log(this); };
+f(); // ?
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript">
+o.of = f; o.of(); // ?
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript">
+f.call(o);
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript">
+f.apply(o);
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript">
+var of = f.bind(o);
+of();
+          </code></pre>
+        </section>
+        <section>
+          <h5><code>call/apply/bind</code></h5>
+          <pre><code data-trim class="javascript line-numbers">
+var o = { prop1: 1, name: 'Sam' }; 
+var f = function(name) { console.log(this, name); };
+f('user 1');
+f.call(o, 'user 2'); // параметры один за одним
+f.apply(o, ['user 3']); // параметры списком
+
+f.bind(o)('user 4'); // bind возвращает функцию для вызова
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <h6>new</h6>
+        <section>
+          <h6>Еще один способ изменить <span class="fragment">this</span></h6>
+          <pre><code data-trim class="javascript line-numbers">
+var f = function(name) { console.log(this); };
+f('Sam'); // ?
+console.log(new f('Bob')); // ?
+          </code></pre>
+        </section>
+        <section>
+          <ul>
+            <li class="fragment"><code>new</code> с любой функцией создает новый объект</li>
+            <li class="fragment">Новый объект становится возвращаемым значением <strong>по-умолчанию</strong></li>
+            <li class="fragment">Новый объект получает значение в <code>__proto__</code></li>
+            <li class="fragment">туда записывается <code>f.prototype</code></li>
+            <li class="fragment">Функции предназначенные для вызова с <code>new</code> - конструкторы </li>
+            <li class="fragment">Конструкторы именуются с большой буквы</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function User(name, greet) {
+  // изменяем новый объект при создании
+  this.name = name;
+  this.greetPhrase = greet;
+  this.greet = function() {
+    console.log(this.greetPhrase + ', ' + this.name);
+  }
+};
+var u1 = new User('Bob', "Hello");
+var u2 = new User('Sam', "hi");
+console.log(u1, u2);
+u1.greet();
+u2.greet();
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function User(name, greet) {
+  this.name = name;
+  this.greetPhrase = greet;
+};
+User.prototype = {
+ greet: function() { console.log(this.greetPhrase + ', ' + this.name); }
+}
+var u1 = new User('Bob', "Hello");
+var u2 = new User('Sam', "hi");
+console.log(u1, u2);
+u1.greet();
+u2.greet();
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+function User(name, greet) {
+  this.name = name;
+  // читаем greet через замыкание
+  this.greet = function() {
+    console.log(greet + ', ' + this.name);
+  }
+};
+var u1 = new User('Bob', "Hello");
+console.log(u1);
+u1.greet();
+          </code></pre>
+        </section>
+        <section>
+          <h6>Использование конструкторов позволяет </h6>
+          <ul>
+            <li class="fragment">создавать свои "классы" / типы объектов</li>
+            <li class="fragment">убрать дублирование кода для однотипных объектов</li>
+          </ul>
+        </section>
+        <section>
+          <h6>Как проверить, что объект является экземпляром класса?</h6>
+          <pre><code data-trim class="javascript line-numbers">
+function User() { }
+var fu = {};
+var u = new User();
+
+console.log(fu, fu instanceof User);
+console.log(u, fu instanceof User);
+          </code></pre>
+        </section>
+        <section>
+          <h6><code>instanceof</code> ходит по цепочке прототипов</h6>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+x instanceof Y 
+-> x.__proto__ === Y.prototype 
+-> x.__proto__.__proto__ === Y.prototype 
+-> ...
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {};
+console.log(o instanceof Array); // ?
+          </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+o.__proto__ = []
+console.log(o instanceof Array); // o.__proto__.__proto__
+          </code></pre>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h1>Что со всем этим делать?</h1>
+        </section>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
+  <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
+    Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls: true,
+      // Display a presentation progress bar
+      progress: true,
+      // Set default timing of 2 minutes per slide
+      defaultTiming: 120,
+      // Display the page number of the current slide
+      slideNumber: true,
+      // Push each slide change to the browser history
+      history: true,
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+      // Enable the slide overview mode
+      overview: true,
+      // Vertical centering of slides
+      center: true,
+      // Enables touch navigation on devices with touch input
+      touch: true,
+      // Loop the presentation
+      loop: false,
+      // Change the presentation direction to be RTL
+      rtl: false,
+      // Randomizes the order of slides each time the presentation loads
+      shuffle: false,
+      // Turns fragments on and off globally
+      fragments: true,
+      // Flags if the presentation is running in an embedded mode,
+      // i.e. contained within a limited portion of the screen
+      embedded: false,
+      // Flags if we should show a help overlay when the questionmark
+      // key is pressed
+      help: true,
+      // Flags if speaker notes should be visible to all viewers
+      showNotes: true,
+      // Global override for autolaying embedded media (video/audio/iframe)
+      // - null: Media will only autoplay if data-autoplay is present
+      // - true: All media will autoplay, regardless of individual setting
+      // - false: No media will autoplay, regardless of individual setting
+      autoPlayMedia: null,
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+      // Stop auto-sliding after user input
+      autoSlideStoppable: true,
+      // Use this method for navigation when auto-sliding
+      autoSlideMethod: Reveal.navigateNext,
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+      // Hides the address bar on mobile devices
+      hideAddressBar: true,
+      // Opens links in an iframe preview overlay
+      previewLinks: true,
+      // Transition style
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+      // Transition style for full page slide backgrounds
+      backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+      // Number of slides away from the current that are visible
+      viewDistance: 3,
+      // Parallax background image
+      parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+      // Number of pixels to move the parallax background per slide
+      // - Calculated automatically unless specified
+      // - Set to 0 to disable movement along an axis
+      parallaxBackgroundHorizontal: null,
+      parallaxBackgroundVertical: null,
+      // The display mode that will be used to show slides
+      display: 'block',
+
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
+          condition: function () {
+            return !document.body.classList;
+          }
+        },
+
+        // Interpret Markdown in <section> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+
+        // Syntax highlight for <code> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+
+        // Zoom in and out with Alt+click
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/zoom-js/zoom.js',
+          async: true
+        },
+
+        // Speaker notes
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/notes/notes.js',
+          async: true
+        },
+
+        // MathJax
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/math/math.js',
+          async: true
+        },
+        {
+          src: 'https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.js'
+        },
+      ]
+    });
+    Reveal.configure({
+      slideNumber: 'c/t'
+    });
+  </script>
+</body>
+
+</html>
