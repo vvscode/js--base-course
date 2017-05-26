@@ -2,7 +2,14 @@
 
 ```javascript
 // modify example above
-var User = /* your code */
+var User = function(param) {
+
+  // как то через замыкание чтобы ссылалось на один объект
+
+  return {
+
+  }
+}
 var u1 = new User(1);
 var u2 = new User(2);
 u1 instanceof User; // true
