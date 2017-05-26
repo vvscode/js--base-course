@@ -3,7 +3,7 @@
 <head>
     <script >
 
-        window.onload = function(){
+       var debounce = function(){
         (function(){
             var date = new Date();
             var time = date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
@@ -13,7 +13,7 @@
         })();
     };
 
-
+       window.addEventListener('resize',debounce);
     </script>
 </head>
 <body>
