@@ -58,6 +58,7 @@ var p = new Promise((resolve, reject)
 p.then; //
 p.catch; //
           </code></pre>
+        <a href="https://learn.javascript.ru/promise" target="_blank">https://learn.javascript.ru/promise</a>
         <ul>
           <li>Может быть только в 3х состояниях (pending/fullfilled/rejected)</li>
           <li>Меняет состояние только один раз</li>
@@ -124,6 +125,71 @@ async function getPostsInfo() {
 fetch('test.html')
   .then((resp) => resp.text())
   .then((html) => console.log(html));
+  </code></pre >
+      </section>
+      <section>
+        <h2>Вопросы?</h2>
+      </section>
+      <section>
+                <pre><code data-trim class="javascript line-numbers">
+var btn = document.querySelector('button');
+// через свойство
+btn.onclick = function() {
+  alert('onclick');
+}
+// через event-emitter интерфейс
+btn.addEventListener('click', function() {
+  alert('eventListener for click');
+});
+  </code></pre >
+  <h5 class="fragment">А разница?</h5>
+      </section>
+      <section>
+<img src="https://learn.javascript.ru/article/event-bubbling/eventflow.png" alt="фазы работы с событиями">
+      </section>
+      <section>
+<img src="https://www.dropbox.com/s/8t3ahxhwu4msh7c/%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%202017-05-26%2022.36.20.jpg?dl=1" alt="Объект события">
+      </section>
+      <section>
+        <a href="https://developer.mozilla.org/ru/docs/Web/API/MouseEvent" target="_blank">https://developer.mozilla.org/ru/docs/Web/API/MouseEvent</a><br />
+        <p style="font-size:0.7em; text-align: left;">Интерфейс MouseEvent представляет собой событие, которое происходит в результате взаимодествия пользователя с манипулятором
+        ( например, мышью). Наиболее частые из таких событий: click, dblclick, mouseup, mousedown. </p>
+        <p style="font-size:0.7em; text-align: left;">MouseEvent выводится из
+        метода UIEvent, который в свою очередь происходит из метода Event. Метод MouseEvent.initMouseEvent() допустимо использовать
+        для лучшей совместимости с предыдущими версиями, однако, для создания MouseEvent рекомендуется использовть конструктор
+        метода MouseEvent().</p>
+      </section>
+      <section>
+<p style="font-size:0.7em; text-align: left; font-family: monospace;">AnimationEvent AudioProcessingEvent BeforeInputEvent BeforeUnloadEvent BlobEvent ClipboardEvent CloseEvent CompositionEvent
+CSSFontFaceLoadEvent CustomEvent DeviceLightEvent DeviceMotionEvent DeviceOrientationEvent DeviceProximityEvent DOMTransactionEvent
+DragEvent EditingBeforeInputEvent ErrorEvent FetchEvent FocusEvent GamepadEvent HashChangeEvent IDBVersionChangeEvent InputEvent
+KeyboardEvent MediaStreamEvent MessageEvent MouseEvent MutationEvent OfflineAudioCompletionEvent PageTransitionEvent PointerEvent
+PopStateEvent ProgressEvent RelatedEvent RTCDataChannelEvent RTCIdentityErrorEvent RTCIdentityEvent RTCPeerConnectionIceEvent
+SensorEvent StorageEvent SVGEvent SVGZoomEvent TimeEvent TouchEvent TrackEvent TransitionEvent UIEvent UserProximityEvent
+WebGLContextEvent WheelEvent</p>
+      </section>
+      <section>
+        <a href="https://developer.mozilla.org/ru/docs/Web/API/Event" target="_blank">MDN -> Веб-технологии для разработчиков -> Интерфейсы веб API -> Event</a>
+        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.currentTarget</strong> Ссылка на текущий зарегистрированный объект, на котором обрабатывается событие.</p>
+        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.target</strong> Ссылка на целевой объект, на котором произошло событие.</p>
+        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.preventDefault()</strong> Отменяет событие (если его возможно отменить).</p>
+        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.stopPropagation()</strong> Остановка распространения события далее по DOM.</p>
+      </section>
+      <section>
+        <a href="http://jsbin.com/tipitev/edit?html,js,output" target="_blank">JSBIN</a>
+                        <pre><code data-trim class="javascript line-numbers">
+document.querySelectorAll('button').forEach((el) => {
+  el.addEventListener('click', (ev) => alert(ev.target.innerHTML))
+})
+  </code></pre >
+      </section>
+            <section>
+              <a href="http://jsbin.com/cocemuv/edit?html,js,output" target="_blank">JSBIN - делегирование</a>
+              <pre><code data-trim class="javascript line-numbers">
+document.querySelector('body').addEventListener('click', (ev) => 
+    ev.target.tagName === 'BUTTON' && alert(ev.target.innerHTML));
+
+document.body.addEventListener('click', ({target}) => target.tagName === 'BUTTON' && alert(target.innerHTML));
   </code></pre >
       </section>
     </div>
