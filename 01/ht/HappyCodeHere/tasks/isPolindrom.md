@@ -2,6 +2,6 @@
 
 ```javascript
 function isPolindrom(word) {
-	return word.split('').reverse().join('') === word ? true : false;
+	return word.split('').reverse().join('') === word;
 }
 ```
