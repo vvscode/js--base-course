@@ -2,10 +2,7 @@
 ```javascript
     var isPolindrom = function (text) {
         var str = text.split('').reverse().join('');
-        if (text === str) {
-            return true;
-        }
-        else return false;
+        return text === str
     };
     alert(isPolindrom('abcdedcbaa'));
     alert(isPolindrom('abcdedcba'));
