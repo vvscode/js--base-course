@@ -31,3 +31,20 @@ var a = { prop1: 1, list: [1,2,3], o: { x: 2 } };
     console.log(resual);
 ```
 
+
+
+## Написать фукнцию-калькулятор, которая работает следующим образом
+
+```javascript
+function calculate(sign) {
+        return function (a) {
+            return function (b) {
+                var res = eval(a + sign + b);
+                return  console.log(res);
+            }
+        }
+    }
+    calculate('+')(1)(2); // 3
+    calculate('*')(2)(3); // 6
+```
+
