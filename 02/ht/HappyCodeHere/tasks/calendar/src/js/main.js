@@ -8,63 +8,104 @@ function Calendar(config) {
   this.className = className;
   this.title = title;
 
-  this.id = this.el.substring(1, 4);
-
+  this.id = this.el.substring(1);
 
   this.run = function() {
     var currentDate = new Date();
+
+    var eventsAll = {};
     var events = {};
 
-    var id = this.id;
-    var mainDiv = document.getElementById(this.id);
+    var self = this;
+
+    var calendarDiv = document.createElement('div');
+    calendarDiv.className = self.className + ' my-calendar';
+
+    var mainDiv = document.getElementById(self.id);
+
+    mainDiv.appendChild(calendarDiv);
+    var controlDiv = document.createElement('div');
+    controlDiv.appen
 
     loadEvents();
 
-    renderButtons();
+    renderHead();
     renderCalendar();
 
-    mainDiv.addEventListener('dblclick', addUserEvent);
-    mainDiv.addEventListener('click', deleteUserEvent);
-    mainDiv.addEventListener('click', handleButton);
+
+    if(self.allowAddEvents) {
+      calendarDiv.addEventListener('dblclick', addUserEvent);
+    }
+    if(self.allowRemoveEvents) {
+      calendarDiv.addEventListener('click', deleteUserEvent);
+    }
+
+    calendarDiv.addEventListener('click', handleButton);
+
+
+    console.error(JSON.parse( localStorage.getItem('calendarData')));
 
     function loadEvents() {
-      var calendarData = localStorage.getItem('calendarData')[id];
+      var calendarData = localStorage.getItem('calendarData');
+      calendarData = JSON.parse(calendarData);
       if(calendarData) {
-        events = JSON.parse(calendarData);
+        eventsAll = Object.assign({},  calendarData);
+
+        if(calendarData[self.id]) {
+          events = calendarData[self.id];
+        }
       }
     }
 
-    function renderButtons() {
-      var leftButton = document.createElement('button');
-      leftButton.className = 'btn-back';
-      leftButton.innerText = '<'
-      mainDiv.appendChild(leftButton);
+    function renderHead() {
+      var leftArrow = document.createElement('span');
+      leftArrow.className = 'btn-control btn-back';
+      leftArrow.innerText = '<'
 
-      var rightButton = document.createElement('button');
-      rightButton.className = 'btn-forward';
-      rightButton.innerText = '>';
-      mainDiv.appendChild(rightButton);
+      var rightArrow = document.createElement('span');
+      rightArrow.className = 'btn-control btn-forward';
+      rightArrow.innerText = '>';
+
+      var date = document.createElement('span');
+      date.className = 'date';
+      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth()+1);
+      // document.body.appendChild(date);
+
+
+      var title = document.createElement('h2');
+      title.innerText = self.title;
+
+      var headDiv = document.createElement('div');
+      headDiv.className = 'calendar-head';
+      headDiv.appendChild(title);
+      var row2 = document.createElement('div');
+
+      if(self.showControls) {
+        row2.append(leftArrow, date, rightArrow);
+      } else {
+        row2.append(date);
+      }
+
+      headDiv.append(row2);
+      // headDiv.innerHTML += `<div>${leftArrow}${date}${rightArrow}</div>`;
+      calendarDiv.appendChild(headDiv);
     }
 
     function handleButton(event) {
-      if(event.target.tagName.toLowerCase() !== 'button') return;
+      if(event.target.classList[0] !== 'btn-control') return;
       var num;
-      event.target.classList[0] === 'btn-forward' ? num = 1 : num = -1
+      event.target.classList[1] === 'btn-forward' ? num = 1 : num = -1
       currentDate = new Date(currentDate.setMonth(currentDate.getMonth() + num));
 
-      var delete1 = document.querySelector('table');
-      var delete2 = document.querySelector('.title');
-      delete2.remove();
+      var delete1 = calendarDiv.querySelector('table');
       delete1.parentNode.removeChild(delete1);
       renderCalendar();
     }
 
     function renderCalendar() {
 
-      var div = document.createElement('div');
-      div.className = 'title';
-      div.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth()+1);
-      document.body.appendChild(div);
+      var date = calendarDiv.querySelector('.date');
+      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth()+1);
 
       var table = document.createElement('table');
       table.className = 'table table-bordered';
@@ -112,7 +153,7 @@ function Calendar(config) {
         day++;
       }
 
-      main.appendChild(table);
+      calendarDiv.appendChild(table);
 
       renderEvents();
 
@@ -121,8 +162,11 @@ function Calendar(config) {
     function renderEvents() {
       for (var eventDate in events) {
         if(eventDate.substring(0, 8) === currentDate.toISOString().substring(0, 8)) {
-          var eventDay = document.getElementsByClassName(`${String(eventDate.substring(8, 10))}`);
-          renderEvent(eventDay[0], events[eventDate]);
+          var eventDay = calendarDiv.getElementsByClassName(`${String(eventDate.substring(8, 10))}`);
+          // renderEvent(eventDay[0], events[eventDate]);
+          events[eventDate].map(item => {
+            renderEvent(eventDay[0], item);
+          });
         }
       }
     }
@@ -130,7 +174,9 @@ function Calendar(config) {
     function addUserEvent() {
       if(event.target.tagName.toLowerCase() !== 'td') return;
 
-      var text = prompt('What will you do?');
+      var text = prompt('What will you do?', 'Go for a walk');
+
+      if(!text) return;
 
       renderEvent(event.target, text);
       saveEventToLocalStorage(event, text);
@@ -139,7 +185,7 @@ function Calendar(config) {
     function renderEvent(where, text) {
       var div = document.createElement('div');
       div.className = 'event ' + where.className;
-      div.innerHTML = '<span class="delete">x</span>' + '<br>' + text;
+      div.innerHTML = `${text}<span class="delete">x</span>`;
 
       where.appendChild(div);
     }
@@ -148,23 +194,33 @@ function Calendar(config) {
       var saveDate = currentDate.toISOString().substring(0, 8) + event.target.className;
 
       if (events[saveDate]) {
-        return;
         events[saveDate].push(text);
       } else {
-        events[saveDate] = text;
+        let arr = [];
+        arr.push(text);
+        events[saveDate] = arr;
       }
 
-      localStorage.setItem('calendarData', JSON.stringify(events));
+      eventsAll[self.id] = events;
+
+      localStorage.setItem('calendarData', JSON.stringify(eventsAll));
     }
 
     function deleteEventFromLocalStorage(event) {
       var deleteDate = currentDate.toISOString().substring(0, 8) + event.target.parentNode.classList[1];
-      delete events[deleteDate];
-      localStorage.setItem('calendarData', JSON.stringify(events));
+      var text = event.target.parentNode.innerText.slice(0, -1);
+      var index = events[deleteDate].indexOf(text);
+      events[deleteDate].splice(index, 1);
+
+      if (events[deleteDate].length === 0) delete events[deleteDate];
+
+      eventsAll[self.id] = events;
+
+      localStorage.setItem('calendarData', JSON.stringify(eventsAll));
     }
 
     function deleteUserEvent() {
-      if(event.target.tagName.toLowerCase() !== 'span') return;
+      if(event.target.className !== 'delete') return;
       event.target.parentNode.remove();
 
       deleteEventFromLocalStorage(event);
