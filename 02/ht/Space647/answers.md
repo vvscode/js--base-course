@@ -35,19 +35,19 @@
      коды HTTP:
         `
 1.  1xx: Informational (информационные):
-    100 Continue («продолжай»);
-    101 Switching Protocols («переключение протоколов»);
-    102 Processing («идёт обработка»).
+*    100 Continue («продолжай»);
+-    101 Switching Protocols («переключение протоколов»);
+-    102 Processing («идёт обработка»).
 2.  2xx: Success (успешно):
-    200 OK («хорошо»);
-    201 Created («создано»);
-    202 Accepted («принято»);
-    203 Non-Authoritative Information («информация не авторитетна»);
-    204 No Content («нет содержимого»);
-    205 Reset Content («сбросить содержимое»);
-    206 Partial Content («частичное содержимое»);
-    207 Multi-Status («многостатусный»);
-    226 IM Used («использовано IM»).
+*    200 OK («хорошо»);
+-    201 Created («создано»);
+-    202 Accepted («принято»);
+-    203 Non-Authoritative Information («информация не авторитетна»);
+-    204 No Content («нет содержимого»);
+-    205 Reset Content («сбросить содержимое»);
+-    206 Partial Content («частичное содержимое»);
+-    207 Multi-Status («многостатусный»);
+-    226 IM Used («использовано IM»).
 3. 3xx: Redirection (перенаправление):
     300 Multiple Choices («множество выборов»);
     301 Moved Permanently («перемещено навсегда»);
