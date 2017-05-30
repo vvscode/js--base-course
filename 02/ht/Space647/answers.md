@@ -139,11 +139,11 @@ import {lol,lololo} from ...
 # 12. Как реализовать подписку на клик по кнопке, которая отработает только один раз? ( с примером кода )
 ```javascript
  var el = document.getElementById("btn");
-    gleb=function () {
+    function test () {
         alert('hi');
-        el.removeEventListener('click',gleb,false);
+        el.removeEventListener('click',test);
     }
-    el.addEventListener("click", gleb, false);
+    el.addEventListener("click", test);
 ```
 # 13. Какие события не "всплывают" ?
 `focus,`
