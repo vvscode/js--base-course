@@ -12,25 +12,25 @@ function User() {
 
   this.name = '';
   this.age = '';
+}
 
-  this.askName = function() {
-    this.name = prompt('Привет, как тебя зовут?', 'Бэмби');
-    return this;
-  }
+User.prototype.askName = function() {
+  this.name = prompt('Привет, как тебя зовут?', 'Бэмби');
+  return this;
+}
 
-  this.askAge = function() {
-    this.age = +prompt('И сколько тебе лет?', 20);
-    return this;
-  }
+User.prototype.askAge = function() {
+  this.age = +prompt('И сколько тебе лет?', 20);
+  return this;
+}
 
-  this.showAgeInConsole = function() {
-    console.log('Твой возраст: ' + this.age);
-    return this;
-  }
+User.prototype.showAgeInConsole = function() {
+  console.log('Твой возраст: ' + this.age);
+  return this;
+}
 
-  this.showNameInAlert = function() {
-    alert('Тебя зовут: ' + this.name);
-    return this;
-  }
+User.prototype.showNameInAlert = function() {
+  alert('Тебя зовут: ' + this.name);
+  return this;
 }
 ```

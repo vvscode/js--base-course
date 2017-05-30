@@ -19,19 +19,19 @@ alert( "Произведение=" + calculator.mul() );
 
 ```javascript
 function Calculator() {
+}
 
-  this.read = function() {
-    this.number1 = +prompt('Число 1:');
-    this.number2 = +prompt('Число 2:');
-  }
+Calculator.prototype.read = function() {
+  this.number1 = +prompt('Число 1:');
+  this.number2 = +prompt('Число 2:');
+}
 
-  this.sum = function() {
-    return this.number1 + this.number2;
-  }
+Calculator.prototype.sum = function() {
+  return this.number1 + this.number2;
+}
 
-  this.mul = function() {
-    return this.number1 * this.number2;
-  }
+Calculator.prototype.mul = function() {
+  return this.number1 * this.number2;
 }
 ```
 
@@ -59,10 +59,10 @@ alert( accumulator.value ); // выведет текущее значение
 ```javascript
 function Accumulator(startingValue) {
   this.value = startingValue;
+}
 
-  this.read = function() {
-    this.value += +prompt('Добавить число:');
-  }
+Accumulator.prototype.read = function() {
+  this.value += +prompt('Добавить число:');
 }
 ```
 
@@ -125,20 +125,20 @@ function Calculator() {
       return a / b;
     },
   };
+}
 
-  this.calculate = function(str) {
-    str = str.split(' ');
+Calculator.prototype.calculate = function(str) {
+  str = str.split(' ');
 
-    this.a = +str[0];
-    this.b = +str[2];
+  this.a = +str[0];
+  this.b = +str[2];
 
-    this.action = str[1];
+  this.action = str[1];
 
-    return this.operations[this.action](this.a, this.b);
-  }
+  return this.operations[this.action](this.a, this.b);
+}
 
-  this.addMethod = function(name, func) {
-    this.operations[name] = func;
-  }
+Calculator.prototype.addMethod = function(name, func) {
+  this.operations[name] = func;
 }
 ```
