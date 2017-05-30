@@ -138,10 +138,12 @@ import {lol,lololo} from ...
   `
 # 12. Как реализовать подписку на клик по кнопке, которая отработает только один раз? ( с примером кода )
 ```javascript
-   gleb=function () {
+ var el = document.getElementById("btn");
+    gleb=function () {
         alert('hi');
+        el.removeEventListener('click',gleb,false);
     }
-    elem.addEventListener('dblclick',gleb.call());
+    el.addEventListener("click", gleb, false);
 ```
 # 13. Какие события не "всплывают" ?
 `focus,`
@@ -151,13 +153,13 @@ import {lol,lololo} from ...
  Promise.resolve(value)
  Promise.reject(error)
 ```
-# 15. в чем разница между следующими кусками кода?
+# 15.  чем разница между следующими кусками кода?
 ```javascript
 // promise - это экземпляр Promise
 // onSuccess - фукнция обработки успешного результата
 // onError - функция обработки ошибки
-// a:в данном случии сработает 1 обработчик, если в нем ошибка вызовиться onError
+// a:В случии успешного выполнения функции вызоивиться  onSuccess с результатом , в противном случии вызовиться функции обработки ошибок 
 promise.then(onSuccess, onError);
-// b: тоже самое что и первое?!
+// b: в случии если упадет ошибка в onSuccess и выполниться код onError
 promise.then(onSuccess).catch(onError); 
 ```
