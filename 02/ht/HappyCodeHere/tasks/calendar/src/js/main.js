@@ -18,20 +18,20 @@ function Calendar(config) {
 
     var self = this;
 
-    var calendarDiv = document.createElement('div');
-    calendarDiv.className = self.className + ' my-calendar';
-
     var mainDiv = document.getElementById(self.id);
 
+    var calendarDiv = document.createElement('div');
+    calendarDiv.className = 'my-calendar ' + self.className;
+
     mainDiv.appendChild(calendarDiv);
-    var controlDiv = document.createElement('div');
-    controlDiv.appen
+
 
     loadEvents();
 
     renderHead();
     renderCalendar();
 
+    console.error(JSON.parse( localStorage.getItem('calendarData') ));
 
     if(self.allowAddEvents) {
       calendarDiv.addEventListener('dblclick', addUserEvent);
@@ -41,9 +41,6 @@ function Calendar(config) {
     }
 
     calendarDiv.addEventListener('click', handleButton);
-
-
-    console.error(JSON.parse( localStorage.getItem('calendarData')));
 
     function loadEvents() {
       var calendarData = localStorage.getItem('calendarData');
@@ -58,6 +55,9 @@ function Calendar(config) {
     }
 
     function renderHead() {
+      var title = document.createElement('h2');
+      title.innerText = self.title;
+
       var leftArrow = document.createElement('span');
       leftArrow.className = 'btn-control btn-back';
       leftArrow.innerText = '<'
@@ -68,16 +68,12 @@ function Calendar(config) {
 
       var date = document.createElement('span');
       date.className = 'date';
-      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth()+1);
-      // document.body.appendChild(date);
-
-
-      var title = document.createElement('h2');
-      title.innerText = self.title;
+      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1);
 
       var headDiv = document.createElement('div');
       headDiv.className = 'calendar-head';
       headDiv.appendChild(title);
+
       var row2 = document.createElement('div');
 
       if(self.showControls) {
@@ -87,7 +83,6 @@ function Calendar(config) {
       }
 
       headDiv.append(row2);
-      // headDiv.innerHTML += `<div>${leftArrow}${date}${rightArrow}</div>`;
       calendarDiv.appendChild(headDiv);
     }
 
@@ -105,7 +100,7 @@ function Calendar(config) {
     function renderCalendar() {
 
       var date = calendarDiv.querySelector('.date');
-      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth()+1);
+      date.innerHTML = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1);
 
       var table = document.createElement('table');
       table.className = 'table table-bordered';
@@ -156,30 +151,17 @@ function Calendar(config) {
       calendarDiv.appendChild(table);
 
       renderEvents();
-
     }
 
     function renderEvents() {
       for (var eventDate in events) {
         if(eventDate.substring(0, 8) === currentDate.toISOString().substring(0, 8)) {
           var eventDay = calendarDiv.getElementsByClassName(`${String(eventDate.substring(8, 10))}`);
-          // renderEvent(eventDay[0], events[eventDate]);
           events[eventDate].map(item => {
             renderEvent(eventDay[0], item);
           });
         }
       }
-    }
-
-    function addUserEvent() {
-      if(event.target.tagName.toLowerCase() !== 'td') return;
-
-      var text = prompt('What will you do?', 'Go for a walk');
-
-      if(!text) return;
-
-      renderEvent(event.target, text);
-      saveEventToLocalStorage(event, text);
     }
 
     function renderEvent(where, text) {
@@ -188,6 +170,16 @@ function Calendar(config) {
       div.innerHTML = `${text}<span class="delete">x</span>`;
 
       where.appendChild(div);
+    }
+
+    function addUserEvent() {
+      if(event.target.tagName.toLowerCase() !== 'td') return;
+
+      var text = prompt('What will you do?', 'Go for a walk');
+      if(!text) return;
+
+      renderEvent(event.target, text);
+      saveEventToLocalStorage(event, text);
     }
 
     function saveEventToLocalStorage(event, text) {
@@ -206,6 +198,13 @@ function Calendar(config) {
       localStorage.setItem('calendarData', JSON.stringify(eventsAll));
     }
 
+    function deleteUserEvent() {
+      if(event.target.className !== 'delete') return;
+      event.target.parentNode.remove();
+
+      deleteEventFromLocalStorage(event);
+    }
+
     function deleteEventFromLocalStorage(event) {
       var deleteDate = currentDate.toISOString().substring(0, 8) + event.target.parentNode.classList[1];
       var text = event.target.parentNode.innerText.slice(0, -1);
@@ -219,11 +218,5 @@ function Calendar(config) {
       localStorage.setItem('calendarData', JSON.stringify(eventsAll));
     }
 
-    function deleteUserEvent() {
-      if(event.target.className !== 'delete') return;
-      event.target.parentNode.remove();
-
-      deleteEventFromLocalStorage(event);
-    }
   }
 }
