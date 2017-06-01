@@ -149,6 +149,7 @@ import {lol,lololo} from ...
 `focus,`
 # 14. Какие вспомогательные методы есть для работы с промисами?
 ```javascript
+ Promise.all(iterable)
  Promise.race(iterable)
  Promise.resolve(value)
  Promise.reject(error)
