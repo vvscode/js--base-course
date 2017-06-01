@@ -1,7 +1,14 @@
+html, body {
+  height: 100%;
+}
+
 body {
-  background: linear-gradient(to right bottom, rgb(190, 121, 245), rgb(10, 189, 164)) center center no-repeat;
-  color: #fff;
   font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right bottom, rgb(190, 121, 245), rgb(10, 189, 164)) center center no-repeat;
+}
+
+.row {
+  color: #fff;
 }
 
 form {
@@ -30,9 +37,9 @@ form {
 .copy-code {
   width: 80%;
   margin: 30px auto;
-  display: none;
-  animation-name: showCopy;
-  animation-duration: 1s;
+  // display: none;
+  // animation-name: showCopy;
+  // animation-duration: 1s;
 
   label {
     display: block;
@@ -41,7 +48,7 @@ form {
   }
 
   textarea {
-    min-height: 200px;
+    min-height: 300px;
     resize: none;
   }
 }
