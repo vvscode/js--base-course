@@ -1,12 +1,29 @@
 // var url = 'https://cdn.rawgit.com/HappyCodeHere/js--base-course/02/02/ht/HappyCodeHere/tasks/calendar/buildRawGit/index.html';
 // var newUrl = '';
 
-var button = document.querySelector('button');
-button.addEventListener('click', handleButtonClick);
+showCalendar();
 
 
-function handleButtonClick() {
-  event.preventDefault();
+var elems = document.querySelectorAll('form input[type=checkbox], form input[type=text], form select');
+
+for (var i = 0; i < elems.length; i++) {
+  if (elems[i].type === 'text') {
+    elems[i].addEventListener('input', showCalendar);
+
+  } else if (elems[i].type === 'checkbox' || elems[i].tagName.toLowerCase() === 'select') {
+    elems[i].addEventListener('change', showCalendar);
+
+  } else {
+    console.error(elems[i]);
+  }
+}
+
+var textarea = document.querySelector('.copy-code textarea');
+textarea.addEventListener('click', function() {
+  this.select();
+});
+
+function showCalendar() {
 
   let id, showControls, allowAddEvents, allowRemoveEvents, className, title;
 
@@ -41,7 +58,6 @@ function handleButtonClick() {
   }).run();
 
 
-
   var text = `
   <!-- Bootstrap -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -71,9 +87,24 @@ function handleButtonClick() {
   </script>
   `
 
-  var copy = document.getElementById('copy-code');
+  var copy = document.querySelector('#copy-code');
   // copy.parentNode.style.display = 'block';
-  copy.innerText = text;
-  copy.focus();
-  copy.select();
+  copy.value = text;
+}
+
+function debounce(func, wait) {
+		var lastTime = new Date().getTime() - wait * 1000 - 1; // active first time
+
+		return function() {
+     var now = new Date().getTime();
+     if(now - lastTime < wait*1000) {
+       console.log('You should wait');
+       return;
+     }
+
+     lastTime = now;
+
+     console.log(now);
+     func(now);
+    }
 }
