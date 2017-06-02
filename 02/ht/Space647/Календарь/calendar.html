@@ -3,27 +3,28 @@
 <head>
     <title>Календарь</title>
     <style>
+
+        .work{text-align: center}
         table {min-width: 350px;
                min-height: 80px;
                text-align: center}
         td{border: solid 1px yellow;}
+
     </style>
 </head>
 <body>
 
-    <table>
-        <tr>
-        <td><input type="button" id="BackButton" value="<"></td>
-        <td id="TegMonth" colspan="5"></td>
-        <td>
-            <input type="button" id="ForwardButton" value=">"></td>
-        </tr>
-        <tr>
-            <td id="TegTitle" colspan="7"></td>
-        </tr>
-    </table>
+    <div class="work">
+    <input type="button" id="BackButton" value="<">
+    <span id="TegMonth"></span>
+    <input type="button" id="ForwardButton" value=">"><br>
+    <span id="TegTitle"></span>
     <div id="calendar">
+
     </div>
+</div>
+
+
 <script defer src="script.js" type="text/javascript">
 
 </script>
