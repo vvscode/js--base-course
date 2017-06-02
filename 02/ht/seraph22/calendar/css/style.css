@@ -1,0 +1,69 @@
+body {
+	min-width: 1020px;
+	word-wrap: break-word;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 14px;
+	line-height: 1.5;
+	color: #24292e;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper {
+	width: 1200px;
+	height: 600px;
+	margin: 10px auto;
+	padding: 10px;
+}
+
+.border {
+	border: 1px solid black;
+}
+
+.one-third {
+	display: inline-block;
+	vertical-align: top;
+	width: 33.1%;
+	height: 100%;
+}
+
+.two-third {
+	display: inline-block;
+	vertical-align: top;
+	width: 66.1%;
+	height: 100%;
+}
+
+.calendar {
+	height: 400px;
+}
+
+.options {
+	width: 100%;
+	height: 195px;
+}
+
+.code {
+	width: 100%;
+	height: 100%;
+}
+
+#currentDate {
+	margin: 0;
+	padding: 0 5px 5px 5px;
+	text-align: center;
+}
+
+#calendarID {
+	width: 365px;
+	border: 1px solid red;
+    margin: 0 auto;
+}
+.ch-div {
+	width: 50px;
+	height: 50px;
+	float: left;
+	border: 1px solid #ccc;
+	text-align: center;
+}
