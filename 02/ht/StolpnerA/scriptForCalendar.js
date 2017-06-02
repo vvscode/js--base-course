@@ -2,7 +2,6 @@ var now = new Date();
 var year = now.getFullYear();
 var month = now.getMonth() + 1;
 var cal = document.querySelector('#calendar');
-var obj = {};
 
 function calend(year, month) {
     var d = new Date(year, month - 1);
@@ -12,7 +11,7 @@ function calend(year, month) {
         table += '<td></td>';
     }
     while (d.getMonth() === mon) {
-        table += '<td>' + d.getDate() + '</td>';
+        table += `<td class="d${d.getDate()}_${month}_${year}">${d.getDate()}</td>`;
         if (d.getDay() === 0) {
             table += '</tr><tr>'
         }
@@ -26,6 +25,7 @@ function calend(year, month) {
     var tableEv = cal.querySelector('table');
     tableEv.addEventListener('dblclick', addEvent);
     tableEv.addEventListener('click', delEvent);
+    loadFromLS();
 }
 calend(year, month);
 
@@ -59,39 +59,49 @@ function check() {
 
 function addEvent(e) {
     var target = e.target;
-    var date;
     if (target.tagName !== 'TD') return;
-    var from = target.innerHTML.search('<div');
-    if (from > 0) {
-        date = target.innerHTML.substring(0, from) + '_' + month + '_' + year;
-    }
-    else{
-        date = target.innerHTML + '_' + month + '_' + year;
-    }
+    var date = target.className;
     var q = prompt('What will you do?', 'eat');
     if (!q) return;
-    target.innerHTML += '<div id="events">' + q + '<button class="cross">[x]</button>' + '</div>';
+    target.innerHTML += `<div id="events">${q}<button class="cross">[x]</button></div>`;
     addEventLS(date, q);
 }
 
 function delEvent(e) {
     var target = e.target;
     if (target.tagName !== 'BUTTON') return;
+    var text = target.parentNode.innerHTML.slice(0, -34);
+    var date = target.parentNode.parentNode.className;
     target.parentNode.remove();
+    var LS = JSON.parse(localStorage.getItem('myCalendar'));
+    var index = LS[date].indexOf(text);
+    console.log(index);
+    LS[date].splice(index, 1);
+    if (LS[date].length === 0) delete LS[date];
+    localStorage.setItem('myCalendar', JSON.stringify(LS));
 }
 
 function addEventLS(date, text) {
-    if (obj[date]){
-        obj[date].push(text);
-    }
-    else {
-        var arr = [];
-        arr.push(text);
-        obj[date] = arr;
-    }
-    localStorage.setItem('myCalendar', JSON.stringify(obj));
+    var LS = JSON.parse(localStorage.getItem('myCalendar')) || {};
+    LS[date] = LS[date] || [];
+    LS[date].push(text);
+    localStorage.setItem('myCalendar', JSON.stringify(LS));
 }
+
 function loadFromLS() {
     var recObj = JSON.parse(localStorage.getItem('myCalendar'));
-
+    for (key in recObj) {
+        var res = cal.querySelector(`.${key}`);
+        if (res != null){
+            if (recObj[key].length - 1 == 0){
+                res.innerHTML += `<div id="events">${recObj[key]}<button class="cross">[x]</button></div>`;
+            }
+            else {
+                for (var i = 0; i < recObj[key].length; i++){
+                    var dbArr = recObj[key];
+                    res.innerHTML += `<div id="events">${dbArr[i]}<button class="cross">[x]</button></div>`;
+                }
+            }
+        }
+    }
 }
