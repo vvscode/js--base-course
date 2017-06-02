@@ -10,6 +10,7 @@ window.onload = function () {
 		var d = new Date();
 		var month = d.getMonth(); 
 		var year = d.getFullYear();
+		var date = d.getDate();
 		var monthNameArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var titleValue = settingsCreateTitle.value;
 
@@ -72,53 +73,54 @@ window.onload = function () {
 
 		var table = document.createElement('TABLE');
 		table.className = "calendar__table";
-		calendarWrapper.appendChild(table);
+		
 
 
 		function newCalendar (year, month) {
 			var firstDateThisMonth = new Date(year, month, 1); 
-			var firstDate = firstDateThisMonth.getDate(); //первый день нынешнего месяца
-			var firstWeekDay = firstDateThisMonth.getDay(); //день недели первого дня
+			var lastDateThisMonth = new Date(year, month + 1, 0); 
 			
 
-			var lastDateThisMonth = new Date(year, month + 1, 0); //последний день этого месяца
-			var lastDate = lastDateThisMonth.getDate();
-			var lastWeekDay = lastDateThisMonth.getDay();
+			function newCalendar (year, month) {
+				var firstDateThisMonth = new Date(year, month, 1); 
+	      		var tableRow = table.insertRow();
+	     		for (var i = 0; i < getDay(firstDateThisMonth); i++) {
+					var tableCell = tableRow.insertCell();
+					tableCell.className = "calendar__table-cell";
+				}
 
-
-			var firstDateNextMonth = new Date(year, month + 1, 1); //первый день следующего месяца
-			var firstWeekDayNextMonth = firstDateNextMonth.getDay();
-
-			
-			for (var i = 0; i <= 34; i++) {
-				var tableCell = document.createElement('td');
-				var tableRow = document.createElement('tr');
-				tableCell.className = 'calendar__table-cell';
-
-				if (i < firstDateThisMonth.getDay()) {
-					tableCell.innerHTML = '';
-				} else if (firstDateThisMonth.getDay() == 0) {
+	     		while (firstDateThisMonth.getMonth() == month) {
+					var tableCell = tableRow.insertCell();
 					tableCell.innerHTML = firstDateThisMonth.getDate();
 					tableCell.id = "c" + firstDateThisMonth.getTime();
-					table.appendChild(tableRow);
-					firstDateThisMonth.setDate(firstDateThisMonth.getDate() + 1);
-				} else if (lastDateThisMonth.getDate() < i) {
-					tableCell.innerHTML = '';
-				} else {
-					tableCell.innerHTML = firstDateThisMonth.getDate();
-					tableCell.id = "c" + firstDateThisMonth.getTime();
+					tableCell.className = "calendar__table-cell";
+
+	       			if (getDay(firstDateThisMonth) % 7 === 6) {
+						tableRow = table.insertRow();
+					}
 					firstDateThisMonth.setDate(firstDateThisMonth.getDate() + 1);
 				}
-				table.appendChild(tableCell);
 
-				var notesArray = LoadNotesForCell(tableCell.id);
-				for(var j= 0; j < notesArray.length; j++) {
-					var note = notesArray[j];
-					var noteBlock = CreateNoteElement(note.text, note.id);
-					tableCell.appendChild(noteBlock);
-				};
-			}
 
+				function getDay(date) { // weekdays Monday (0) to Sunday (6)
+					var weekDay = date.getDay();
+						if (weekDay === 0) weekDay = 7;
+						return weekDay - 1;
+					}
+
+					if (getDay(firstDateThisMonth) !== 0) {
+						for (i = getDay(lastDateThisMonth); i < 6; i++) {
+							var tableCell = tableRow.insertCell();
+							tableCell.className = "calendar__table-cell";
+						}
+					}
+
+					calendarWrapper.appendChild(table);
+				}	
+
+				newCalendar(year, month);
+
+			
 			if (settingsCreateNote.checked == false) {
 
 				table.onclick = function(event) {
