@@ -1,7 +1,7 @@
 var t= new Date();
 var mont= t.getMonth();
 var yer=t.getFullYear();
-var obj={};
+var cal = document.querySelector('#calendar');
 function createCalendar(id, year, month) {
     var elem = document.getElementById(id);
     var mon = month;
@@ -15,7 +15,7 @@ function createCalendar(id, year, month) {
     }
     while (d.getMonth() == mon) {
 
-        table += '<td class="'+d.getDate()+'">' + d.getDate() + '</td>';
+        table += `<td class="d${d.getDate()}_${month}_${year}">${d.getDate()}</td>`;
 
         if (getDay(d) % 7 == 6) {
             table += '</tr><tr>';
@@ -33,6 +33,7 @@ function createCalendar(id, year, month) {
     var table = calend.querySelector('table');
     table.addEventListener('dblclick',addEvent);
     table.addEventListener('click',del);
+    loadFromLS()
 }
 function getDay(date) {
     var day = date.getDay();
@@ -60,46 +61,49 @@ function functionTitle() {
 }
 function addEvent(e){
     var target = e.target;
-
-    if(target.tagName != 'TD') {
-        return;
-    }
-    else {
-        var line=prompt('Введите ваши планы на день','kill all');
-        if(line==null) {}
-        else {
-            target.innerHTML +='<div>'+line+'<button >x</button>'+'</div>';
-            var from = target.innerHTML.search('<div');
-            if (from > 0) {
-                date = target.innerHTML.substring(0, from) + '_' + mont + '_' + yer;
-            }
-            else{
-                date = target.innerHTML + '_' + mont + '_' +  yer;
-            }
-            addEventLS(date,line)
-        }
-
-    }
+    if (target.tagName !== 'TD') return;
+    var date = target.className;
+    var line = prompt('Какие планы у вас на этот день?', 'Убивать всех!');
+    if (!line) return;
+    target.innerHTML += `<div id="events">${line}<button class="cross">x</button></div>`;
+    addEventLS(date, line);
 }
 function del(e){
-    var targer=e.target;
-    if(targer.tagName !='BUTTON') {
-        return;}
-    else {
-        targer.parentNode.remove();
-    }
+    var target = e.target;
+    if (target.tagName !== 'BUTTON') return;
+    var text = target.parentNode.innerHTML.slice(0, -34);
+    var date = target.parentNode.parentNode.className;
+    target.parentNode.remove();
+    var LS = JSON.parse(localStorage.getItem('myCalendar'));
+    var index = LS[date].indexOf(text);
+    console.log(index);
+    LS[date].splice(index, 1);
+    if (LS[date].length === 0) delete LS[date];
+    localStorage.setItem('myCalendar', JSON.stringify(LS));
 
 }
 function addEventLS(date, text) {
-    if (obj[date]){
-        obj[date].push(text);
+    var LS = JSON.parse(localStorage.getItem('myCalendar')) || {};
+    LS[date] = LS[date] || [];
+    LS[date].push(text);
+    localStorage.setItem('myCalendar', JSON.stringify(LS));
+}
+function loadFromLS() {
+    var recObj = JSON.parse(localStorage.getItem('myCalendar'));
+    for (key in recObj) {
+        var res = cal.querySelector(`.${key}`);
+        if (res != null){
+            if (recObj[key].length - 1 == 0){
+                res.innerHTML += `<div id="events">${recObj[key]}<button class="cross">x</button></div>`;
+            }
+            else {
+                for (var i = 0; i < recObj[key].length; i++){
+                    var dbArr = recObj[key];
+                    res.innerHTML += `<div id="events">${dbArr[i]}<button class="cross">x</button></div>`;
+                }
+            }
+        }
     }
-    else {
-        var arr = [];
-        arr.push(text);
-        obj[date] = arr;
-    }
-    localStorage.setItem('myCalendar', JSON.stringify(obj));
 }
 createCalendar("calendar",yer,mont);
 ForwardButton.addEventListener('click',functionForward);
