@@ -238,6 +238,130 @@ var counter = document.querySelector('#counter');
       <section>
         <h3>Вопросы?</h3>
       </section>
+      <section>
+        <h6 style="font-size: smaller;">Принцип единственной отвественности ( Single Responsibility Principle, SRP )</h6>
+        <quote style="font-size: smaller; text-align: left;">
+          <p>Мартин определяет ответственность как причину изменения и заключает, что классы должны иметь одну и только одну
+            причину для изменений. Например, представьте себе класс, который составляет и печатает отчёт. </p>
+          <p>Такой класс может измениться по двум причинам: <br /> - может измениться само содержимое отчёта <br /> - может
+            измениться формат отчёта.</p>
+          <p>SRP говорит, что в таком случае нужно разделить класс на два новых класса, для которых будет характерна только
+            одна ответственность.</p>
+        </quote>
+      </section>
+      <section>
+        <h5>Программирование на интерфейсах</h5>
+        <section>
+          <h6>Любой код представляет из себя</h6>
+          <ol>
+            <li>Интерфейс (принимаемые/возвращаемые параметры и побочные эффекты)</li>
+            <li>Реализацию (как оно внутри устроено)</li>
+          </ol>
+          <quote>Ориентация на "интерфейс" позволяет писать код, с заменяемыми частями</quote>
+          <quote>Ориентация на "интерфейс" приучает не делать "сильную связность" в коде</quote>
+        </section>
+        <section>
+          <a href="https://github.com/AlesiaGit/js--base-course/blob/37d0b58f298f270098d36673e2238ffdeaa3cc3f/02/ht/AlesiaGit/script.js#L142"
+            target="_blank">Использование реализации и связность</a>
+        </section>
+        <section>
+          Что можно сделать?
+          <ol>
+            <li>Определить интерфейс</li>
+            <li>Реализовать интерфейс / сделать заглушку</li>
+            <li>Внедрение зависимости (англ. Dependency injection, DI)</li>
+          </ol>
+        </section>
+        <section>
+          Определить интерфейс
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+// тут псевдо-код
+var IStorage = {
+  setData('key', value),
+  getData('key')
+};
+</code></pre>
+        </section>
+        <section>
+          Реализовать интерфейс / сделать заглушку
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+var lsStorage = {
+   setData: (key, value) => window.localStorage.setItem(key, value),
+   getData: (key) => window.localStorage.getItem(key)
+}
+</code></pre>
+        </section>
+        <section>
+          Использовать интерфейс ( Внедрить зависимость )
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+(function(window, storage) {
+  // ....
+  var data = storage.getData('calendarData');
+  storage.setData('calendarData', {});
+})(window, lsStorage);
+</code></pre>
+        </section>
+        <section>
+          Использовать другую реализацию
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+var sStorage = {
+   setData: (key, value) => window.sessionStorage.setItem(key, value),
+   getData: (key) =>window.sessionStorage.getItem(key)
+}
+(function(window, storage) {
+  // ....
+  var data = storage.getData('calendarData');
+  storage.setData('calendarData', {});
+})(window, sStorage);
+</code></pre>
+        </section>
+      </section>
+      <section>
+        <h2>Модуль</h2>
+        <section>
+          <ol>
+            <li>Скрыть реализацию (инкапсуляция)</li>
+            <li>Обеспечить атомарность</li>
+            <li>Дает возможность DI</li>
+          </ol>
+        </section>
+        <section>
+          Скрыть реализацию
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+(function() {
+  // тут код модуля
+  // то, что нужно скрыть остается в замыкании 
+  // и недоступно снаружи
+})();
+</code></pre>
+        </section>
+        <section>
+          Обеспечить атомарность / DI
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+(function(global) {
+  // теперь код может работать в любом окружении
+})(window);
+</code></pre>
+        </section>
+        <section>
+          Обеспечить атомарность / DI
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+(function(global, dependencyInterface1, dependencyInterface2) {
+  // теперь код может работать в любом окружении
+  // c любыми реализациями интерфейса
+})(window, implementation1, implementation2);
+</code></pre>
+        </section>
+                <section>
+          А раньше...
+          <pre style="width: 100%;"><code data-trim class="javascript line-numbers">
+(function(global, dependencyInterface1, dependencyInterface2, undefined) {
+  // теперь код может работать в любом окружении
+  // c любыми реализациями интерфейса
+})(window, implementation1, implementation2);
+</code></pre>
+        </section>
+      </section>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
