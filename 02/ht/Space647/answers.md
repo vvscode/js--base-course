@@ -152,7 +152,7 @@ var basketModule = (function() {
     el.addEventListener("click", test);
 ```
 # 13. Какие события не "всплывают" ?
-`focus,blur,mouseout`
+`focus,blur,mouseout,load,unload,DOMNodeRemovedFromDocument,DOMNodeInsertedIntoDocument,loadstart,progress,error,abort,loadend`
 # 14. Какие вспомогательные методы есть для работы с промисами?
 ```javascript
  Promise.all(iterable)
