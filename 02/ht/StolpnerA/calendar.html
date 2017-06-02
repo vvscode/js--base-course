@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        table {
+            margin: 30px auto;
+            padding-bottom: 50px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid black;
+            width: 100px;
+            height: 30px;
+        }
+        td:hover {
+            background-color: orange;
+        }
+
+        .control {
+            padding: 15px 0;
+            text-align: center;
+        }
+        .cross {
+            display: none;
+            padding-left: 5px;
+        }
+        .cross:hover {
+            cursor: pointer;
+        }
+        #events:hover .cross {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="control">
+    <button class="back" onclick="back()"><</button>
+    <span id='info' class="infoCal"></span>
+    <button class="next" onclick="next()">></button>
+</div>
+
+<div id="calendar">
+
+</div>
+<script src="scriptForCalendar.js"></script>
+</body>
+</html>
