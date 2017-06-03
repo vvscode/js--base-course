@@ -1,0 +1,56 @@
+
+
+
+h1, h3 {
+  text-align: center;
+  margin: 30px 0;
+}
+
+
+
+
+header {
+  margin: 50px;
+}
+
+section.main {
+  margin: 30px 0;
+
+  h2 {
+    text-align: center;
+  }
+
+  .col-md-4 {
+    padding: 30px;
+    border: 1px solid rgb(103, 152, 161);
+  }
+
+  .forecast-info {
+    span {
+      display: block;
+      
+    }
+  }
+  img {
+    height: 150px;
+    width: 150px;
+  }
+}
+
+section.history {
+  margin: 30px 0;
+
+
+  // text-align: center;
+  ul {
+    margin: 0 auto;
+    width: 50%;
+  }
+}
+
+
+footer {
+  margin: 30px 0;
+
+  text-align: center;
+}
