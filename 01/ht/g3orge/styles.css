@@ -1,0 +1,71 @@
+body {
+    text-align: center;
+    background-color: #FFFAFA;
+}
+
+div.head {
+    margin: 40px;
+    display: inline-block;
+}
+
+label {
+  width: 120px;
+}
+
+select {
+    width: 190px;
+    margin: 10px;
+    padding: 3px;
+}
+
+button {
+    padding: 3px;
+}
+
+.header {
+    background-color: #F0FFF0;
+}
+
+table {
+    margin: auto;
+    width: 100%;
+    border: 1px solid black;
+}
+
+td {
+    height: 60px;
+    border: 1px solid black;
+}
+
+th {
+    height: 60px;
+    border: 1px solid black;
+}
+
+td.red, th.red {
+    background-color: red;
+}
+
+td.blue, th.blue {
+    background-color: blue;
+}
+
+td.green, th.green {
+    background-color: green;
+}
+
+td.yellow, th.yellow {
+    background-color: yellow;
+}
+
+td.black, th.black {
+    background-color: black;
+}
+
+td.grey, th.grey {
+    background-color: grey;
+}
+
+td.orange, th.orange {
+    background-color: orange;
+} 

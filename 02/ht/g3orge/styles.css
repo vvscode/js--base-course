@@ -1,0 +1,28 @@
+div {
+    display: block;
+}
+
+header {
+    background-color: #FFD700;
+    padding: 25px;
+    text-align: center;
+}
+
+#weather {
+    background-color: #FFFFE0;
+    margin: 40px auto 0;
+    border: 1px solid black;
+    padding: 30px;
+    width: 25%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 25px;
+}
+
+#history {
+    background-color: #FFFFE0;
+    margin: 40px auto 0;
+    height: 200px;
+    width: 1%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+}
