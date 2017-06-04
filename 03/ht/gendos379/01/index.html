@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <form id="search">
+            <input type="radio" name="async type" value="fetch" checked="checked"> fetch
+            <input type="radio" name="async type" value="XHR"> XHR
+            <input name="city" placeholder="Введите место" autofocus="autofocus" />
+            <button>Показать погоду</button>
+        </form>
+    </header>
+    <main>
+        <div id="weather"></div>
+        <div id="history"></div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

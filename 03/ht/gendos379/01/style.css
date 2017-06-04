@@ -1,0 +1,28 @@
+div {
+    display: block;
+}
+
+header {
+    margin-right: 50px;
+    padding: 10px;
+    text-align: right;
+    background-color: #F0F0F0;
+}
+
+#weather {
+    font-family: Arial;
+    font-size: 30px;
+    padding: 30px;
+    width: 60%;
+    height: 400px;
+    margin: 50px auto 0;
+    border: 1px solid black;
+}
+
+#history {
+    font-family: Arial;
+    font-size: 18px;
+    width: 10%;
+    height: 200px;
+    margin: 50px auto 0;
+}
