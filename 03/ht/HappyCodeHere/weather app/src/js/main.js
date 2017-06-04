@@ -2,31 +2,64 @@
 let isFetch = true;
 let searchHistory = [];
 
-// window.addEventListener('onload', handleDocumentLoad);
+changeCurrentSchene('welcome');
+
+function changeCurrentSchene(schene) {
+  const active = document.querySelector('.active');
+  active.classList.remove('active');
+
+  switch (schene) {
+    case 'welcome':
+      const welcome = document.querySelector('.welcome-block');
+      welcome.classList.add('active');
+      break;
+
+    case 'forecast':
+      const forecast = document.querySelector('.forecast-block');
+      forecast.classList.add('active');
+      break;
+
+    case 'error':
+      const error = document.querySelector('.error-block');
+      error.classList.add('active');
+      break;
+
+    default:
+
+  }
+}
+
+handleDocumentLoad();
+
+
+const tougle = document.querySelector('.switcher input');
+tougle.addEventListener('change', () => {
+  const { checked } = event.target;
+  const requestType = document.querySelector('.switcher span');
+
+  if (checked) {
+    requestType.innerHTML = 'Fetch';
+  } else {
+    requestType.innerHTML = 'XHR';
+  }
+})
 
 const buttonSearch = document.querySelector('header button');
 buttonSearch.addEventListener('click', () => {
-  const input = document.querySelector('header input');
+  const input = document.querySelector('header .search input');
   const value = input.value;
-  loadData(value, isFetch);
-  input.value = '';
+  loadData(value);
+  window.location.hash = value;
 });
 
-// keyup', function (e) {
-//     if (e.keyCode == 13) {
-//         // Do something
-//     }
-// });
-
-
-const inputSearch = document.querySelector('header input');
+const inputSearch = document.querySelector('header .search input');
 inputSearch.addEventListener('submit', loadData);
 inputSearch.addEventListener('keyup', (e) => {
   if (e.keyCode === 13) {
-    const input = document.querySelector('header input');
+    const input = document.querySelector('header .search input');
     const value = input.value;
-    loadData(value, isFetch);
-    input.value = '';
+    loadData(value);
+    window.location.hash = value;
   }
 });
 
@@ -35,144 +68,132 @@ const ul = document.querySelector('.history ul');
 
 ul.addEventListener('click', () => {
   if (!event.target.matches('li')) return;
-  // const input = document.querySelector('header input');
+
+  const inputSearch = document.querySelector('header .search input');
   const value = event.target.innerHTML;
-  loadData(value, isFetch);
+
+  inputSearch.value = value;
+  window.location.hash = value;
+
+  loadData(value);
 });
 
+function handleDocumentLoad() {
+  const { hash } = window.location;
+  if (hash) {
+    const inputSearch = document.querySelector('header .search input');
+    inputSearch.value = hash.substring(1);
+    loadData(hash.substring(1));
+  }
+  loadHistoryFromStorage(localStorage);
+}
 
-// ...addEventListener('change', handleTougleChange);
-//
-// function handleTougleChange(event) {
-//   isFetch = event.target.value;
-// }
-//
-// function handleDocumentLoad() {
-//   if (hash) {
-//     loadData(hash);
-//   }
-//   loadDataFromStorage(localStorage);
-//   // и как то отрендерить данные
-// }
-//
-// function loadDataFromStorage(storage) {
-//   const forecast = storage.getItem('forecast');
-//   // ???
-//   searchHistory = forecast;
-// }
-//
-function loadData(city, isFetch) {
+function loadData(city) {
   if (isFetch) {
     getForecastFetch(city);
   } else {
     // getForecastXHR(city);
   }
 }
-//
-// handleLoadData(promise) {
-//   promise
-//     .then(data => renderMainInfo(data));
-//     .catch(error => handleError);
-// }
 
 function getForecastFetch(city) {
   return new Promise((resolve, reject) => {
 
-
-//     // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY
-let GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
-// let getLatLng = (addr) => fetch(``)
-//   .then((req) => req.json())
-//   .then((data) => data.results[0].geometry.location);
-//   /*  { lat: 53.890838, lng: 27.5372046 }  */
+    const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`)
       .then(response => {
         return response.json();
       })
-
       .then(data => {
-        // cords;
-        // return data.cords;
+        if (data.results.length === 0) throw new Error(data.status);
         const { lat, lng } = data.results[0].geometry.location;
         city = data.results[0].formatted_address;
-        console.log(lat, lng);
-  //       let getForecastByLatLng = (lat, lng) => fetch(``)
-  // .then((req) => req.json());
-        return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`);
+        return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`);
       })
       .then(response => {
-        console.log('here 1');
         return response.json();
       })
       .then(data => {
-        console.log('here 2');
-        console.log(data);
+        renderMainInformation(data, city);
 
-        renderMainInfo(data, city);
-        saveCityToHistory(city);
 
-        // return data[0];
+        // maybe for better UI
+        setTimeout(() => {
+          changeCurrentSchene('forecast');
+          saveCityToHistory(city);
+          renderSearchHistory(searchHistory);
+        }, 100);
+
       })
       .catch(error => {
-        console.log(error);
-        reject(error);
+        handleApiError(error);
       })
-
   })
 }
 
+// function getForecastXHR(url) {
+//
+//   return new Promise(function(resolve, reject) {
+//
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('GET', url, true);
+//
+//     xhr.onload = function() {
+//       if (this.status == 200) {
+//         resolve(this.response);
+//       } else {
+//         var error = new Error(this.statusText);
+//         error.code = this.status;
+//         reject(error);
+//       }
+//     };
+//
+//     xhr.onerror = function() {
+//       reject(new Error("Network Error"));
+//     };
+//
+//     xhr.send();
+//   });
+//
+// }
 
-function renderMainInfo(obj, city) {
+// function getForecastFetch2(url) {
+//   return fetch(url)
+//     .then(response)
+// }
 
-  const skycons = new Skycons({"color": "pink"});
-  skycons.add(document.querySelector('section.main .forecast-icon'), obj.currently.icon);
+
+function handleApiError(error) {
+  const err = document.querySelector('.error-block');
+  err.innerHTML += error;
+  changeCurrentSchene('error');
+}
+
+function renderMainInformation(cityData, cityName) {
+
+  const title = document.querySelector('section.main h2');
+  title.innerHTML = cityName;
+
+  // icons
+  const skycons = new Skycons({"color": "#e6a831"});
+  skycons.add(document.querySelector('section.main .forecast-icon'), cityData.currently.icon);
   skycons.play();
 
   const temperature = document.querySelector('.forecast-info span.temperature');
-  temperature.innerHTML = `Temperature: ${obj.currently.temperature.toFixed(1)}°C`;
-
-  const summary = document.querySelector('.summary p');
-  summary.innerHTML = obj.currently.summary;
-
-  const currentCity = document.querySelector('section.main h2');
-  currentCity.innerHTML = city;
+  temperature.innerHTML = `Temperature: ${cityData.currently.temperature.toFixed(1)}°C`;
 
   const humidity = document.querySelector('section.main span.humidity');
-  humidity.innerHTML = `Humidity: ${obj.currently.humidity}%`;
+  humidity.innerHTML = `Humidity: ${cityData.currently.humidity}%`;
 
   const windSpeed = document.querySelector('section.main span.wind-speed');
-  windSpeed.innerHTML = `Wind speed: ${obj.currently.windSpeed}m/s`;
+  windSpeed.innerHTML = `Wind speed: ${cityData.currently.windSpeed}m/s`;
 
-
-
-  console.log('here', obj);
-  // document.querySelectorAll();
-  // change data
+  const summary = document.querySelector('.summary p');
+  summary.innerHTML = cityData.currently.summary;
 }
-//
-// function handleError(error) {
-//   document.querySelector('div with erro');
-//   // show error;
-// }
-//
-// function changeUrl(hash) {
-//   pushState(hash);
-// }
-//
-//
 
-function saveCityToHistory(city) {
-  if (searchHistory.length > 4) {
-    searchHistory.pop();
-  }
-  searchHistory.unshift(city);
 
-  console.log(searchHistory);
-
-  renderSearchHistory(searchHistory);
-}
-//
 function renderSearchHistory(history) {
   const ul = document.querySelector('section.history ul');
   ul.innerHTML = '';
@@ -180,12 +201,27 @@ function renderSearchHistory(history) {
   for (var i = 0; i < history.length; i++) {
     ul.innerHTML += `<li class="list-group-item">${history[i]}</li>`;
   }
-
-  if (history.length === 0) {
-    // Your history is empty;
-  }
 }
-//
-// saveCityToStorage(storage, history) {
-//   localStorage.setItem('forecast', forecastHistory);
-// }
+
+function saveCityToHistory(city) {
+  if (searchHistory[0] === city) return;
+  if (searchHistory.indexOf(city) > 0) {
+     searchHistory.splice(searchHistory.indexOf(city), 1);
+  }
+  if (searchHistory.length > 4) {
+    searchHistory.pop();
+  }
+  searchHistory.unshift(city);
+
+  saveHistoryToStorage(localStorage, searchHistory);
+}
+
+
+function loadHistoryFromStorage(storage) {
+  const forecast = storage.getItem('forecast');
+  searchHistory = JSON.parse(forecast) || [];
+}
+
+function saveHistoryToStorage(storage, history) {
+  storage.setItem('forecast', JSON.stringify(history));
+}
