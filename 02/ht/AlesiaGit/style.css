@@ -1,0 +1,153 @@
+body {
+	font-family: 'Lato', sans-serif;
+	font-size: 14px;
+}
+
+.calendar__create-btn {
+	font-family: 'Lato', sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 3px;
+	margin-top: 10px;
+}
+
+.calendar__wrapper {
+	max-width: 90%;
+	width: 800px;
+	display: flex;
+	flex-flow: column;
+	padding-bottom: 30px;
+}
+
+.calendar__header {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background-color: #dadfe8;
+	height: 50px;
+}
+
+.calendar__title {
+	text-align: center;
+	font-size: 22px;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding-bottom: 10px;
+    color: #717272;
+}
+
+.calendar__month-name {
+	font-size: 18px;
+	text-transform: uppercase;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+.calendar__ruler {
+	border: 0;
+	background-color: transparent;
+	font-size: 25px;
+	text-transform: uppercase;
+	line-height: 50px;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 0 30px;
+}
+
+.calendar__ruler:hover,
+.calendar__ruler:active,
+.calendar__ruler:focus {
+	outline: none;
+}
+
+
+.calendar__table {
+	display: table;
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+.calendar__table-cell {
+	height: 90px;
+	border: 1px solid #dadfe8;
+	width: 14.2%;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+	padding: 7px;
+}
+
+
+.note__block-wrapper {
+	display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #dadfe8;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.note__text-style {
+	text-align: left;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
+
+.note__close-button {
+	border: none;
+    background-color: transparent;
+    outline: none;
+    font-family: monospace;
+    font-size: 12px;
+    padding-right: 5px;
+    padding-left: 10px;
+}
+
+.settings {
+	max-width: 90%;
+	width: 800px;
+}
+
+.settings__title {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.form-item {
+	display: flex;
+	flex-flow: row nowrap;
+	margin: 10px auto;
+}
+
+.settings__guidelines {
+	margin: 0;
+}
+
+.settings__guidelines-bold {
+	font-weight: bold;
+}
+
+.settings__checkbox {
+	margin-right: 7px;
+}
+
+.settings__input-field {
+	margin: auto 10px;
+	border-radius: 4px;
+	border: 1px solid #d6d8db;
+	font-family: 'Lato', sans-serif;
+	font-style: italic;
+	padding-bottom: 2px;
+	text-indent: 3px;
+}
+
+.settings__input-field:focus,
+.settings__input-field:active {
+	outline: none;
+}
+

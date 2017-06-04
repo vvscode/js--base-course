@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calendar</title>
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+	<div class="settings">
+		<p class="settings__title">Define your calendar settings by choosing from options below:</p>
+		<div class="form-item"> 
+			<input class="settings__checkbox" type="checkbox" id="settings__ruler" name="ruler">
+			<p class="settings__guidelines">Calendar has <span class="settings__guidelines-bold">back/forth buttons</span> by default. To change tick the checkbox.</p>
+		</div>
+		<div class="form-item"> 
+			<input class="settings__checkbox" type="checkbox" id="settings__create-note" name="create-note">
+			<p class="settings__guidelines">User can <span class="settings__guidelines-bold">create notes</span> in calendar by default. To change tick the checkbox.</p>
+		</div>
+		<div class="form-item"> 
+			<input class="settings__checkbox" type="checkbox" id="settings__delete-note" name="delete-note">
+			<p class="settings__guidelines">User can <span class="settings__guidelines-bold">delete notes</span> from calendar by default. To change tick the checkbox.</p>
+		</div>
+		<div class="form-item"> 
+			<p class="settings__guidelines">You can <span class="settings__guidelines-bold">name your calendar</span>. Type the title in the input field below: </p>
+			<input class="settings__input-field" type="text" id="settings__calendar-title" name="title" placeholder="Type the title here..." onblur="this.placeholder = 'Type the title here...'" onfocus="this.placeholder = ''" value="">
+		</div>
+		<button id="create-calendar" class="calendar__create-btn">Create calendar</button>
+		<div id="calendar"></div>
+	</div>
+	<br/>
+</body>
+</html>
