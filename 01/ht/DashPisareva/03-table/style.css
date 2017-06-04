@@ -1,0 +1,18 @@
+table, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 300px;
+  height: 20px;
+}
+
+.yel {
+  background-color: yellow;
+}
+
+.bl {
+  background-color: blue;
+}
+
+.turq {
+  background-color: #40e0d0;
+}
