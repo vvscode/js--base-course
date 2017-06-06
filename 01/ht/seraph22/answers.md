@@ -434,7 +434,9 @@ debounce(function, wait) Вернёт версию функции, исполн�
 <html>
 <head>
 	<script >
-	function debounce(setTime){
+	var check = true;
+	function debounce(setTime) {
+		check = false;
 		var time = 10000;
 		if (setTime)
 		{
@@ -445,12 +447,19 @@ debounce(function, wait) Вернёт версию функции, исполн�
 
 		function consoleOutput() {
 			var date = new Date();
+			console.log(date.toLocaleString());
 			document.getElementById("demo").innerHTML = date.toLocaleString();
 			clearInterval(intervalID);
+			check = true;
 		}
 	}
 
-	window.addEventListener("resize", debounce(5000));
+	window.addEventListener("resize", function() {
+		if (check)
+		{
+			debounce(5000);
+		}
+	});
 	</script>
 </head>
 <body>
@@ -458,7 +467,6 @@ debounce(function, wait) Вернёт версию функции, исполн�
 </body>
 </html>
 ```
-Работает не верно, после первого ресайза стопится и больше не срабатывает ивент лисенер, не могу понять почему...
 ______________________________________________________________________________________
 
 Написать код, который для объекта созданного с помощью конструктора будет показывать, что объект является экземпляром двух классов
