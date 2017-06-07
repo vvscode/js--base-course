@@ -1,37 +1,39 @@
-const googleKey = `AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`;
-var arr = new Array(4);
+const GOOGLEKEY = `AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`;
+var arr = [];
+var arr2 = [];
 
+document.querySelector('form').addEventListener('submit', function (ev) {
+    var search = document.querySelector('.searchLine');
+    ev.preventDefault();
+    window.location.hash = search.value;
+    handleUrl(window.location.hash)
+});
 
 // Создать обработчик URL
 function handleUrl(url) {
-    var city = document.querySelector('.searchLine');
     var fetch = document.querySelector('.fetch');
-    var XHR = document.querySelector('.XHR');
-    document.querySelector('form').addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        city = city.value;
-    });
-
-    city = (url.split('#').pop()) || city;
-    var temperaturePromise = fetch.checked ? getTemperatureFetch(city) : getTemperatureXHR(city);
-    temperaturePromise
-        .then((data) => {
-            var tem = data.currently['temperature'];
-            var span = document.querySelector('.tem');
-            span.innerHTML = `${tem}&deg;C`;
-            addList(city);
-            window.location.hash = city;
-        });
+    var city = '';
+    city = (url.slice(1)) || city;
+    if (city) {
+        var temperaturePromise = fetch.checked ? getTemperatureFetch(city) : getTemperaturexhr(city);
+        temperaturePromise
+            .then((data) => {
+                var tem = data.currently['temperature'];
+                var span = document.querySelector('.tem');
+                span.innerHTML = `${tem}&deg;C`;
+                addList(city);
+            });
+    }
 }
 
-// // Подписаться на изменения URL
-// window.addEventListener('hashchange', (ev) => handleUrl(ev.newURL));
+// Подписаться на изменения URL
+window.addEventListener('hashchange', handleUrl(window.location.hash));
 
-// При загрузке страницы - считать состояние и запустить обработчик
-handleUrl(window.location.href);
+// // При загрузке страницы - считать состояние и запустить обработчик
+// handleUrl(window.location.hash);
 
 function getTemperatureFetch(city) {
-    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${googleKey}`)
+    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLEKEY}`)
         .then(response => response.json())
         .then((data) => {
             var lat = data.results[0].geometry.location['lat'];
@@ -42,10 +44,10 @@ function getTemperatureFetch(city) {
         .catch(reject => console.error(reject));
 }
 
-function getTemperatureXHR(city) {
+function getTemperaturexhr(city) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${googleKey}`, true);
+        xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLEKEY}`, true);
         xhr.send();
 
         xhr.onload = xhr.onerror = function () {
@@ -75,8 +77,22 @@ function getTemperatureXHR(city) {
 }
 
 function addList(city) {
-    var ul = document.querySelector('.list');
-    var li = document.createElement('li');
-    li.innerHTML = city;
-    ul.appendChild(li) && arr.unshift(city);
+    if (arr.indexOf(city) == -1) {
+        var aHref = window.location.href;
+        arr.unshift(city);
+        arr2.unshift(aHref);
+    }
+    for (var i = 0; i < arr.length; i++) {
+        if (arr.length == 6) {
+            arr.splice(-1,1);
+            var a = document.querySelector(`li.li${i} a.a${i}`);
+            a.href = arr2[i];
+            a.innerHTML = arr[i];
+        }
+        else {
+            var a = document.querySelector(`li.li${i} a.a${i}`);
+            a.href = arr2[i];
+            a.innerHTML = arr[i];
+        }
+    }
 }
