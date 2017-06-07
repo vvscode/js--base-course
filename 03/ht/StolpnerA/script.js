@@ -1,12 +1,18 @@
 const googleKey = `AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`;
 var arr = new Array(4);
-document.querySelector('form').addEventListener('submit', function (ev) {
-    ev.preventDefault();
+
+
+// Создать обработчик URL
+function handleUrl(url) {
     var city = document.querySelector('.searchLine');
     var fetch = document.querySelector('.fetch');
     var XHR = document.querySelector('.XHR');
-    city = city.value;
-    // window.location.hash = city;
+    document.querySelector('form').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        city = city.value;
+    });
+
+    city = (url.split('#').pop()) || city;
     var temperaturePromise = fetch.checked ? getTemperatureFetch(city) : getTemperatureXHR(city);
     temperaturePromise
         .then((data) => {
@@ -14,33 +20,15 @@ document.querySelector('form').addEventListener('submit', function (ev) {
             var span = document.querySelector('.tem');
             span.innerHTML = `${tem}&deg;C`;
             addList(city);
+            window.location.hash = city;
         });
-});
+}
 
+// // Подписаться на изменения URL
+// window.addEventListener('hashchange', (ev) => handleUrl(ev.newURL));
 
-// // Создать обработчик URL
-// function handleUrl(url) {
-//     var city = document.querySelector('.searchLine');
-//     var fetch = document.querySelector('.fetch');
-//     var XHR = document.querySelector('.XHR');
-//     city.value = url.slice(1);
-//     city = city.value;
-//     window.location.hash = city;
-//     if (fetch.checked) getTemperatureFetch(city)
-//         .then((data) => {
-//             var tem = data.currently['temperature'];
-//             var span = document.querySelector('.tem');
-//             span.innerHTML = `${tem}&deg;C`;
-//             addList(city);
-//         });
-//     else getTemperatureXHR(city);
-// }
-//
-// // // Подписаться на изменения URL
-// // window.addEventListener('hashchange', (ev) => handleUrl(ev.newURL));
-//
-// // При загрузке страницы - считать состояние и запустить обработчик
-// handleUrl(window.location.hash);
+// При загрузке страницы - считать состояние и запустить обработчик
+handleUrl(window.location.href);
 
 function getTemperatureFetch(city) {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${googleKey}`)
