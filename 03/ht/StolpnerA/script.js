@@ -26,11 +26,11 @@ function handleUrl(url) {
     }
 }
 
-// Подписаться на изменения URL
-window.addEventListener('hashchange', handleUrl(window.location.hash));
+// Подписаться на изменения URL(ev) => handleUrl(ev.newURL)
+window.addEventListener('hashchange', () => handleUrl(window.location.hash));
 
-// // При загрузке страницы - считать состояние и запустить обработчик
-// handleUrl(window.location.hash);
+// При загрузке страницы - считать состояние и запустить обработчик
+handleUrl(window.location.hash);
 
 function getTemperatureFetch(city) {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLEKEY}`)
@@ -69,9 +69,7 @@ function getTemperaturexhr(city) {
                     reject(error);
                 }
             };
-            xhr1.onerror = function () {
-                reject(new Error('Network Error'))
-            };
+            xhr1.onerror = () => reject(new Error('Network Error'))
         }
     });
 }
@@ -84,7 +82,7 @@ function addList(city) {
     }
     for (var i = 0; i < arr.length; i++) {
         if (arr.length == 6) {
-            arr.splice(-1,1);
+            arr.splice(-1, 1);
             var a = document.querySelector(`li.li${i} a.a${i}`);
             a.href = arr2[i];
             a.innerHTML = arr[i];
