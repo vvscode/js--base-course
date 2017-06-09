@@ -6,7 +6,6 @@ document.querySelector('form').addEventListener('submit', function (ev) {
     var search = document.querySelector('.searchLine');
     ev.preventDefault();
     window.location.hash = search.value;
-    handleUrl(window.location.hash)
 });
 
 // Создать обработчик URL
