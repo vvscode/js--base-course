@@ -1,6 +1,6 @@
 const GOOGLEKEY = `AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`;
-var arr = [];
-var arr2 = [];
+var arrCity = [];
+var arrLink = [];
 
 document.querySelector('form').addEventListener('submit', function (ev) {
     var search = document.querySelector('.searchLine');
@@ -52,16 +52,15 @@ function getTemperaturexhr(city) {
 
         xhr.onload = xhr.onerror = function () {
             if (this.status != 200) console.log('error:  ' + this.status);
-            var data = this.response;
-            var lat = JSON.parse(data).results[0].geometry.location['lat'];
-            var lng = JSON.parse(data).results[0].geometry.location['lng'];
+            var data = JSON.parse(this.response);
+            var lat = data.results[0].geometry.location['lat'];
+            var lng = data.results[0].geometry.location['lng'];
             var xhr1 = new XMLHttpRequest();
             xhr1.open('GET', `https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`, true);
             xhr1.send();
             xhr1.onload = function () {
                 if (this.status == 200) {
-                    var data = this.response;
-                    resolve(JSON.parse(data));
+                    resolve(JSON.parse(this.response));
                 }
                 else {
                     var error = new Error(this.statusText);
@@ -75,22 +74,22 @@ function getTemperaturexhr(city) {
 }
 
 function addList(city) {
-    if (arr.indexOf(city) == -1) {
+    if (arrCity.indexOf(city) == -1) {
         var aHref = window.location.href;
-        arr.unshift(city);
-        arr2.unshift(aHref);
+        arrCity.unshift(city);
+        arrLink.unshift(aHref);
     }
-    for (var i = 0; i < arr.length; i++) {
-        if (arr.length == 6) {
-            arr.splice(-1, 1);
+    for (var i = 0; i < arrCity.length; i++) {
+        if (arrCity.length == 6) {
+            arrCity.splice(-1, 1);
             var a = document.querySelector(`li.li${i} a.a${i}`);
-            a.href = arr2[i];
-            a.innerHTML = arr[i];
+            a.href = arrLink[i];
+            a.innerHTML = arrCity[i];
         }
         else {
             var a = document.querySelector(`li.li${i} a.a${i}`);
-            a.href = arr2[i];
-            a.innerHTML = arr[i];
+            a.href = arrLink[i];
+            a.innerHTML = arrCity[i];
         }
     }
 }
