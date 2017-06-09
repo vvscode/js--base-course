@@ -80,10 +80,20 @@ section.history {
     margin: 0 auto;
     width: 50%;
 
-    li:hover {
-      cursor: pointer;
-      background: #f6225f;
-      color: #fff;
+    li {
+      padding: 0;
+      a {
+        padding: 10px 15px;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background: #f6225f;
+        color: #fff;
+      }
     }
   }
 }

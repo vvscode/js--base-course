@@ -6,16 +6,14 @@ let currentCity = '';
 const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
 window.addEventListener('load', () => {
-  const { hash } = window.location;
-  if (hash) {
-    const inputSearch = document.querySelector('header .search input');
-    inputSearch.value = hash.substring(1);
-    handleRequest(loadData(hash.substring(1)));
-  }
+  handleUrlChange();
+
   changeCurrentSchene('welcome');
   loadHistoryFromStorage(localStorage);
   renderSearchHistory(searchHistory);
 });
+
+window.addEventListener('hashchange', handleUrlChange);
 
 document.querySelector('.switcher input').addEventListener('change', () => {
   const { checked } = event.target;
@@ -35,31 +33,20 @@ document.querySelector('header form').addEventListener('submit', () => {
   const input = document.querySelector('header .search input');
   const value = input.value;
   if (value) {
-    handleRequest(loadData(value));
     window.location.hash = value;
   }
 });
 
-document.querySelector('.history ul').addEventListener('click', () => {
-  if (!event.target.matches('li')) return;
 
-  const inputSearch = document.querySelector('header .search input');
-  const value = event.target.innerHTML;
-
-  inputSearch.value = value;
-  window.location.hash = value;
-
-  handleRequest(loadData(value));
-});
-
-
-// window.addEventListener('hashchange', () => {
-//   const city = window.location.hash.substring(1);
-//   const input = document.querySelector('header .search input');
-//   input.value = city;
-//   handleRequest(loadData(city));
-// })
-
+function handleUrlChange() {
+  const { hash } = window.location;
+  if (hash) {
+    const city = hash.substring(1);
+    const inputSearch = document.querySelector('header .search input');
+    inputSearch.value = city;
+    handleRequest(loadData(city));
+  }
+}
 
 function changeCurrentSchene(schene) {
   const active = document.querySelector('.active');
@@ -198,7 +185,7 @@ function renderSearchHistory(history) {
   historyUl.innerHTML = '';
 
   for (var i = 0; i < history.length; i++) {
-    historyUl.innerHTML += `<li class="list-group-item">${history[i]}</li>`;
+    historyUl.innerHTML += `<li class="list-group-item"><a href="#${history[i]}">${history[i]}</a></li>`;
   }
 }
 
