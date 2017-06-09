@@ -5,9 +5,19 @@ let currentCity = '';
 
 const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
+window.addEventListener('load', () => {
+  const { hash } = window.location;
+  if (hash) {
+    const inputSearch = document.querySelector('header .search input');
+    inputSearch.value = hash.substring(1);
+    handleRequest(loadData(hash.substring(1)));
+  }
+  changeCurrentSchene('welcome');
+  loadHistoryFromStorage(localStorage);
+  renderSearchHistory(searchHistory);
+});
 
-const switcher = document.querySelector('.switcher input');
-switcher.addEventListener('change', () => {
+document.querySelector('.switcher input').addEventListener('change', () => {
   const { checked } = event.target;
   const requestType = document.querySelector('.switcher span');
 
@@ -20,20 +30,8 @@ switcher.addEventListener('change', () => {
   }
 })
 
-const inputSearch = document.querySelector('header .search input');
-inputSearch.addEventListener('keyup', (e) => {
-  if (e.keyCode === 13) {
-    const input = document.querySelector('header .search input');
-    const value = input.value;
-    if (value) {
-      handleRequest(loadData(value));
-      window.location.hash = value;
-    }
-  }
-});
-
-const buttonSearch = document.querySelector('header button');
-buttonSearch.addEventListener('click', () => {
+document.querySelector('header form').addEventListener('submit', () => {
+  event.preventDefault();
   const input = document.querySelector('header .search input');
   const value = input.value;
   if (value) {
@@ -42,8 +40,7 @@ buttonSearch.addEventListener('click', () => {
   }
 });
 
-const historyUl = document.querySelector('.history ul');
-historyUl.addEventListener('click', () => {
+document.querySelector('.history ul').addEventListener('click', () => {
   if (!event.target.matches('li')) return;
 
   const inputSearch = document.querySelector('header .search input');
@@ -55,26 +52,14 @@ historyUl.addEventListener('click', () => {
   handleRequest(loadData(value));
 });
 
-window.addEventListener('load', handleDocumentLoad);
 
-window.addEventListener('hashchange', () => {
-  const city = window.location.hash.substring(1);
-  const input = document.querySelector('header .search input');
-  input.value = city;
-  handleRequest(loadData(city));
-})
+// window.addEventListener('hashchange', () => {
+//   const city = window.location.hash.substring(1);
+//   const input = document.querySelector('header .search input');
+//   input.value = city;
+//   handleRequest(loadData(city));
+// })
 
-function handleDocumentLoad() {
-  const { hash } = window.location;
-  if (hash) {
-    const inputSearch = document.querySelector('header .search input');
-    inputSearch.value = hash.substring(1);
-    handleRequest(loadData(hash.substring(1)));
-  }
-  changeCurrentSchene('welcome');
-  loadHistoryFromStorage(localStorage);
-  renderSearchHistory(searchHistory);
-}
 
 function changeCurrentSchene(schene) {
   const active = document.querySelector('.active');
@@ -95,9 +80,6 @@ function changeCurrentSchene(schene) {
       const error = document.querySelector('.error-block');
       error.classList.add('active');
       break;
-
-    default:
-
   }
 }
 
@@ -107,18 +89,14 @@ function loadData(city) {
 
 function getForecastFetch(city) {
   return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`)
-    .then(response => {
-      return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-      if (data.results.length === 0) throw new Error("Sorry, can't find your city:(");
+      if (data.results.length === 0) throw new Error("Sorry, we can't find your city:(");
       currentCity = data.results[0].formatted_address;
       const { lat, lng } = data.results[0].geometry.location;
       return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`);
     })
-    .then(response => {
-      return response.json();
-    })
+    .then(response => response.json())
 
 }
 
@@ -127,18 +105,18 @@ function getForecastXHR(city) {
   return new Promise((resolve, reject) => {
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`, false);
+    xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`, true);
 
     xhr.onload = function() {
       if (this.status == 200) {
 
         const data = JSON.parse(this.response);
-        if (data.results.length === 0) throw new Error("Sorry, can't find your city:(");
+        if (data.results.length === 0) throw new Error("Sorry, we can't find your city:(");
         currentCity = data.results[0].formatted_address;
         const { lat, lng } = data.results[0].geometry.location;
 
         var xhr2 = new XMLHttpRequest();
-        xhr2.open('GET', `https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`, false);
+        xhr2.open('GET', `https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`, true);
 
         xhr2.onload = function() {
           if (this.status == 200) {
