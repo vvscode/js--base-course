@@ -4,9 +4,7 @@
 	<title>Weather Forecast Widget</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito"> 
    	<link rel="stylesheet" href="style.css">
-	<script src="script.js"></script>
-	<script async defer type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAREneuir6x4ltXTz7GwKiaNFjXY5Csykc&callback"></script>
+
 </head>
 <body>
 	
@@ -24,8 +22,8 @@
 				<ol class="widget__cities-list" id="cities-list"></ol>
 			</div>
 			<form id="search" class="widget__search">
-				<input id="address" type="textbox" class="widget__search-field" placeholder="Type your city.." value="" autocomplete="off">
-				<input id="submit" type="button" class="widget__submit-button" value="GO">
+				<input id="address" type="textbox" class="widget__search-field" placeholder="Type your city.." value="" autocomplete="off" autofocus>
+				<input id="submit" type="submit" class="widget__submit-button" value="GO">
 			</form>
 		</div>
 		<div class="widget__extended">
@@ -34,6 +32,7 @@
 			<div id="thedayafter" class="extended__report"></div>
 		</div>
 	</div>
-
+<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAREneuir6x4ltXTz7GwKiaNFjXY5Csykc&callback"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -7,13 +7,6 @@ body {
 	border: 2px solid #376b9e;
 }
 
-@media (max-width: 650px) {
-	.widget__wrapper {
-		max-width: 100%;
-		margin: 0 auto;
-	}
-}
-
 .widget__main {
 	display: flex;
     flex-direction: column;

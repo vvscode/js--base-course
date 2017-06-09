@@ -10,16 +10,18 @@ window.onload = function() {
 	var alert = document.getElementById("alert");
 
 
-	var citiesArray = JSON.parse(localStorage.getItem("cities")) || [];
-	console.log(citiesArray);
+	try {
+		var citiesArray = JSON.parse(localStorage.getItem("cities")) || [];
+	} catch (e) {
+		alert.innerHTML = 'Something went wrong. Try again later.';;
+	}
 	
-
 	for (var i = 0; i < citiesArray.length; i++) {
 		var citiesList = document.getElementById('cities-list');
 		var cityItem = document.createElement('LI');
 		var cityLink = document.createElement('A');
-		cityLink.innerHTML = citiesArray[i]; // !!! берём уже просто из массива, а не localStorage
-		cityLink.href = "#" + citiesArray[i]; //добавили hashreference на потом
+		cityLink.innerHTML = citiesArray[i]; 
+		cityLink.href = "#" + citiesArray[i]; 
 		cityItem.className = 'widget__city-item';
 		cityLink.className = 'widget__city-link-style';
 		cityItem.appendChild(cityLink);
@@ -28,10 +30,20 @@ window.onload = function() {
 			citiesList.removeChild(citiesList.lastChild);
 		}
 	}
-	var citiesList = document.getElementById('cities-list');
-	var cityName = document.getElementById('city');
 	citiesArray.length = 5;
 
+
+	//--------------------------
+	//CHECKING IF WINDOW HAS A HASH TO SHOW CITY WEATHER ON LOAD
+	//--------------------------
+	if (window.location.hash !== '') {
+		console.log(window.location.hash);
+		var locationHash = window.location.hash.split('#').pop();
+		var address = locationHash;
+		geocodeAddress(geocoder, address);
+		alert.innerHTML = '';
+	}
+	
 
 	//--------------------------
 	//SENDING REQUEST ON HISTORY LINK/HASH CHANGE
@@ -40,18 +52,9 @@ window.onload = function() {
 		var cityHash = event.newURL.split('#').pop();
 		var address = cityHash;
 		geocodeAddress(geocoder, address);
-	}
-
-
-	//--------------------------
-	//ADDING ENTER EVENT TO SUBMIT
-	//--------------------------
-	searchField.addEventListener('keypress', function(event) {
-	    if (event.keyCode == 13) {
-	    	event.preventDefault();
-	        searchSubmitButton.click();
-	    }
-	});
+		search.reset();
+		alert.innerHTML = '';
+	};
 
 
 	function capitalize(string) {
@@ -75,17 +78,6 @@ window.onload = function() {
 	
 
 	//--------------------------
-	//HIDING PLACEHOLDER ON FORM FOCUS
-	//--------------------------
-	searchField.addEventListener('focus', function() {
-		searchField.placeholder = '';
-	});
-	searchField.addEventListener('blur', function() {
-		searchField.placeholder = 'Type your city...';
-	});
-
-
-	//--------------------------
 	//CALLING GOOGLE GEOCODING API THROUGH CALLBACK
 	//--------------------------
 	function geocodeAddress(geocoder, address) {
@@ -96,10 +88,8 @@ window.onload = function() {
 				var myUrl = 'https://shrouded-spire-35703.herokuapp.com/forecast/' + latitude + ',' + longitude;
 
 				if (document.getElementById("request-type").checked == true) {
-					fetch;
 					httpGetFetch (myUrl, address);
 				} else {
-					xhr;
 					httpGet(myUrl, address);
 				}
 				setHistoryItem(address);
@@ -114,23 +104,15 @@ window.onload = function() {
 	//CALCULATING WEEKDAY FOR EXTENDED FORECAST
 	//--------------------------
 	var d = new Date();
-	var weekday = d.getDay();
-	function theDayAfterTomorrowCalc (weekday) {
-		var weekdaysArray = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-		for (i = 0; i < weekdaysArray.length; i++) {
-			if (weekday === i) {
-				return weekdaysArray[i + 1];
-			}
-		}
-	}
-	var theDayAfterTomorrow = theDayAfterTomorrowCalc(weekday);
+	var weekdaysArray = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+	var theDayAfterTomorrow = weekdaysArray[d.getDay() + 1];
 	var days = ["Today", "Tomorrow", theDayAfterTomorrow];
 
 
 	//--------------------------
 	//CONSTRUCTOR FOR EXTENDED FORECAST (BOTTOM)
 	//--------------------------
-	function extendedForecast (res, num) {
+	function ExtendedForecast (res, num) {
 		this.temperatureMax = Math.round(res.daily.data[num].apparentTemperatureMax);
 		this.temperatureMin = Math.round(res.daily.data[num].apparentTemperatureMin);
 		this.icon = res.daily.data[num].icon;
@@ -141,7 +123,7 @@ window.onload = function() {
 	//--------------------------
 	//CONSTRUCTOR FOR TODAY'S FORECAST (MAIN SCREEN)
 	//--------------------------
-	function currentForecast (res) {
+	function CurrentForecast (res) {
 		this.temperature = Math.round(res.currently.temperature);
 		this.summary = res.currently.summary;
 		this.icon = res.currently.icon;
@@ -185,9 +167,9 @@ window.onload = function() {
 	//BUILDING DOM WITH DARK SKY RESULTS
 	//--------------------------
 	function showWeatherData(result, address) {
-		var todayData = new extendedForecast(result, 0);
-		var tomorrowData = new extendedForecast(result, 1);
-		var thedayafterData = new extendedForecast(result, 2);
+		var todayData = new ExtendedForecast(result, 0);
+		var tomorrowData = new ExtendedForecast(result, 1);
+		var thedayafterData = new ExtendedForecast(result, 2);
 		
 
 		var templateExtended = function (extendedData) {
@@ -206,7 +188,7 @@ window.onload = function() {
 		};
 
 
-		var currentData = new currentForecast(result);
+		var currentData = new CurrentForecast(result);
 		var current = document.getElementById('current');
 		current.innerHTML = templateCurrentDay(currentData);
 	}
@@ -217,29 +199,23 @@ window.onload = function() {
 
 		var historyItem = address;
 		cityLink.innerHTML = address;
-		cityLink.href = "#" + historyItem; //добавили hashreference на потом
+		cityLink.href = "#" + historyItem; 
 		cityItem.appendChild(cityLink);
-
-
 
 		if (citiesArray.indexOf(address) >= 0) return;
 
 		citiesArray.unshift(historyItem);
 		if (citiesArray.length > 5) {
-			citiesArray.pop(); //убрали последний (6-й) элемент из массива
+			citiesArray.pop(); 
 		}
 		localStorage.setItem("cities", JSON.stringify(citiesArray));
 		
-		citiesList.insertBefore(cityItem, citiesList.childNodes[0]); // прописали новый буллет с городом в список
+		citiesList.insertBefore(cityItem, citiesList.childNodes[0]); 
 		
 		if (citiesList.childNodes.length > citiesArray.length) {		
 			citiesList.removeChild(citiesList.lastChild);
 		}
 	}
-
-	
-
-
 
 };
 
