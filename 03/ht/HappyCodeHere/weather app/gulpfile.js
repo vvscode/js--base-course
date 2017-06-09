@@ -1,11 +1,16 @@
 
-var gulp = require('gulp'),
+const gulp = require('gulp'),
 
     cleanCSS = require('gulp-clean-css'),
     autoprefixer = require('gulp-autoprefixer'),
     sass = require('gulp-sass'),
 
+    babel = require('gulp-babel'),
+    plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
+
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('imagemin-pngquant'),
 
     rigger = require('gulp-rigger'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -16,24 +21,28 @@ var gulp = require('gulp'),
 
     rimraf = require('rimraf');
 
-const babel = require('gulp-babel');
-
 
 var path = {
     dist: {
         html: 'dist/',
         css: 'dist/css/',
         js: 'dist/js/',
+        img: 'dist/img/',
+        fonts: 'dist/fonts/'
     },
     src: {
         html: 'src/*.html',
         style: 'src/style/main.scss',
         js: 'src/js/main.js',
+        img: 'src/img/**/*.*',
+        fonts: 'src/fonts/**/*.*'
     },
     watch: {
         html: 'src/**/*.html',
         style: 'src/style/**/*.scss',
         js: 'src/js/**/*.js',
+        img: 'src/img/**/*.*',
+        fonts: 'src/fonts/**/*.*'
     },
     clean: './dist'
 };
@@ -67,8 +76,15 @@ gulp.task('style:build', function () {
         .pipe(reload({stream: true}));
 });
 
+// function onError(err) {
+//     console.log(err); //or other way you may prefer to log
+//     this.emit('end');
+// }
+
 gulp.task('js:build', function () {
     gulp.src(path.src.js) //Найдем наш main файл
+        // .on('error', (error) => { console.log(error.toString()); this.emit('end') })
+        // .pipe(plumber(onError)) not working
         .pipe(rigger()) //Прогоним через rigger
         .pipe(sourcemaps.init()) //Инициализируем sourcemap
         .pipe(babel({
@@ -80,10 +96,29 @@ gulp.task('js:build', function () {
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 
+gulp.task('image:build', function () {
+    gulp.src(path.src.img) //Выберем наши картинки
+        .pipe(imagemin({ //Сожмем их
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()],
+            interlaced: true
+        }))
+        .pipe(gulp.dest(path.dist.img)) //И бросим в dist
+        .pipe(reload({stream: true}));
+});
+
+gulp.task('fonts:build', function() {
+    gulp.src(path.src.fonts)
+        .pipe(gulp.dest(path.dist.fonts))
+});
+
 gulp.task('build', [
     'html:build',
     'style:build',
-    'js:build'
+    'js:build',
+    'image:build',
+    'fonts:build'
 ]);
 
 
@@ -96,6 +131,12 @@ gulp.task('watch', function() {
     });
     watch([path.watch.js], function(event, cb) {
         gulp.start('js:build');
+    });
+    watch([path.watch.img], function(event, cb) {
+        gulp.start('image:build');
+    });
+    watch([path.watch.fonts], function(event, cb) {
+        gulp.start('fonts:build');
     });
 });
 
