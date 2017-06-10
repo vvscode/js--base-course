@@ -49,37 +49,18 @@ body {
 	height: 100%;
 }
 
-#currentDate {
-	margin: 0;
-	padding: 0 5px 5px 5px;
-	text-align: center;
-}
-
-#calendarID {
-	width: 365px;
-	border: 1px solid red;
-	margin: 0 auto;
-}
-.ch-div {
-	width: 50px;
-	height: 50px;
-	float: left;
-	border: 1px solid #ccc;
-	text-align: center;
-}
-
 /*----------------------------------------------------------------------*/
 
 #calendar {
 	width: 100%;
 	font: monospace;
 	line-height: 1.2em;
-	font-size: 15px;
+	font-size: 20px;
 	text-align: center;
 }
 
 #calendar thead tr:last-child {
-	font-size: small;
+	font-size: 18px;
 	color: rgb(85, 85, 85);
 }
 
@@ -94,13 +75,95 @@ body {
 
 #calendar tbody td {
 	color: rgb(44, 86, 122);
+	border: 1px solid rgb(44, 86, 122);
+	height: 50px;
+	width: 112px;
+	margin: 0;
+	padding: 0;
 }
 
 #calendar tbody td:nth-child(n+6), #calendar .holiday {
 	color: rgb(231, 140, 92);
 }
 
-#calendar tbody td.today {
+#calendar tbody td div.today {
 	background: rgb(220, 0, 0);
 	color: #fff;
+	width: 100%;
+}
+
+.eventText {
+	text-align: left;
+	font-size: 9px;
+	line-height: 1em;
+	color: rgb(44, 86, 122);
+	font-weight: normal;
+	width: 103px;
+	padding: 0 2px;
+	overflow: hidden;
+	white-space: nowrap;
+	position: relative;
+}
+
+.eventText:hover {
+	font-size: 9px;
+	font-weight: bold;
+}
+
+.del {
+	color: red;
+	margin: 0 2px 0 0;
+	font-size: 12px;
+	cursor: pointer;
+	font-weight: normal;
+	position: absolute;
+	right: 0;
+}
+
+.del:hover {
+	color:red;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.div-wrapper {
+	color: rgb(44, 86, 122);
+	height: 50px;
+	width: 109px;
+	overflow: hidden;
+}
+
+.checkbox,
+.checkbox-fields {
+	height: 120px;
+	padding: 0 10px;
+	width: 46%;
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+}
+
+.clear-button ,
+.create-button {
+	margin: auto;
+	width: 46%;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.clear-button  {
+	text-align: right;
+}
+
+.arrow {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.hidden {
+	display: none;
+}
+
+#calendarName {
+	text-align: center;
 }
