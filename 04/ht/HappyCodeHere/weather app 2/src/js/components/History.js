@@ -6,6 +6,8 @@ class History {
 
     this.history = [];
 
+    this.onHistoryAdd = this.onHistoryAdd.bind(this);
+
     this.eventBus.on('history:add', this.onHistoryAdd);
   }
 

@@ -3,7 +3,6 @@ let isFetchRequest = true;
 let searchHistory = [];
 let currentCity = '';
 
-const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
 window.addEventListener('load', () => {
   handleUrlChange();
@@ -74,18 +73,7 @@ function loadData(city) {
   return isFetchRequest ? getForecastFetch(city) : getForecastXHR(city);
 }
 
-function getForecastFetch(city) {
-  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.results.length === 0) throw new Error("Sorry, we can't find your city:(");
-      currentCity = data.results[0].formatted_address;
-      const { lat, lng } = data.results[0].geometry.location;
-      return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`);
-    })
-    .then(response => response.json())
 
-}
 
 function getForecastXHR(city) {
 

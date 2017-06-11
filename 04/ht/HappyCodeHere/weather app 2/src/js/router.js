@@ -11,25 +11,36 @@
 // - поддерживать promise из onBeforeEnter
 // - поддерживать promise из onLeave
 
-
-
-
-
 class Router {
-  constructor() {
+  constructor(routes, eventBus) {
+    this.eventBus = eventBus;
+    this.routes = routes;
+
+    this.handleHashChange = this.handleHashChange.bind(this);
+
+    window.addEventListener('hashchange', this.handleHashChange);
+    this.handleHashChange();
 
   }
 
-  add(route) {
+  handleHashChange() {
+    const lastRoute = window.location.oldUrl;
+    const newRoute = window.location.hash;
 
-  }
 
-  remove(route) {
-
-  }
-
-  removeByName(name) {
-
+    // last route onLeave
+    this.routes[lastRoute].onLeave(this.eventBus)
+      .then(() => {
+        // new route beforeEnter
+        return this.routes[newRoute].onBeforeEnter(this.eventBus);
+      })
+      .then(() => {
+        // new route onEnter
+        return this.routes[newRoute].onEnter(this.eventBus);
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 }
 

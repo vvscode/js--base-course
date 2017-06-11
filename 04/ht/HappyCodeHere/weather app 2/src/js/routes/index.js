@@ -1,10 +1,15 @@
 
-
-// Route: {
-//    name /* string */,
-//    match /* string|RegExp|function */
-//    onBeforeEnter /* function, может возвращать promise, если так - onEnter срабатывает только по его резолву */
-//    onEnter
-//    onLeave /* может возвращать promise, если так - onBeforeEnter срабатывает только по его резолву */
-// }
-// Причем все хуки-функции опциональны (не являются обязательными)
+export const index = {
+  {
+    name: 'index',
+    match: '',
+    onEnter: () => {
+      fetch(`https://api.userinfo.io/userinfos`)
+        .then(responce => responce.json())
+        .then(data => {
+          const { latitude, longitude } = data.position;
+          window.location.hash = `/coordinates?lat=${latitude}&lng=${longitude}`;
+        });
+    },
+  },
+};
