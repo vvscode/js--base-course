@@ -6,85 +6,45 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
-<!--<input type="button" onclick="createCalendar();" value=" Создать календарь ">-->
+<body onload="Calendar({el: '#' + 'id12345', title: '', cssStyles: '', showControls: true, allowAddEvents: true, allowRemoveEvents: true });">
 	<div class="wrapper border">
 		<div class="two-third border">
-			<div class="calendar">
-				<table id="calendar">
-					<thead>
-						<tr>
-							<td class="arrow">‹</td>
-							<td id="headerDate" colspan="5"></td>
-							<td class="arrow">›</td>
-						</tr>
-						<tr>
-							<td>Пн</td>
-							<td>Вт</td>
-							<td>Ср</td>
-							<td>Чт</td>
-							<td>Пт</td>
-							<td>Сб</td>
-							<td>Вс</td>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-			</div>
+			<div id="id12345" class="calendar"></div>
 			<div class="options">
 				<form>
-					<div class="checkbox">
-						<div>
-							<input type="checkbox" onchange="calendarHeadCheckFunc();" id="calendarHeadCheck" name="calendarHeadCheck" value="true" checked>
-							<label for="calendarHeadCheck">Ввести заголовок календаря?</label>
-						</div>
+					<span class="settings-span">ID календаря:</span><input type="text" id="calendar-id" placeholder="Введите ID" size="55">
+					<span class="settings-span">Заголовок календаря:</span><input type="text" id="header-id" placeholder="Введите заголовок" size="55">
+					<span class="settings-span">Настроить CSS:</span><input type="text" id="style-id" placeholder="Пример: table tbody td {font-size:15px}; затем Enter" size="55">
 
-						<div>
-							<input type="checkbox" onchange="calendarClassCheckFunc();" id="calendarClassCheck" name="calendarClassCheck" value="true" checked>
-							<label for="calendarClassCheck">Показать класс главного элемента календаря?</label>
-						</div>
-
-						<div>
-							<input type="checkbox" onchange="arrowButtonsFunc();" id="arrowButtons" name="arrowButtons" value="true" checked>
-							<label for="arrowButtons">Отрисовывать ли кнопки для смены месяца?</label>
-						</div>
-
-						<div>
-							<input type="checkbox" onchange="addEventsCheckFunc();" id="addEventsCheck" name="addEventsCheck" value="true" checked>
-							<label for="addEventsCheck">Давать ли возможность создавать события?</label>
-						</div>
-
-						<div>
-							<input type="checkbox" onchange="deleteEventsCheckFunc();" id="deleteEventsCheck" name="deleteEventsCheck" value="true" checked>
-							<label for="deleteEventsCheck">Давать ли возможность удалять события?</label>
-						</div>
+					<div class="settings-div" style="margin: 15px 0 0 0">
+						<label for="arrow-controls-id">Добавить кнопки для смены месяца</label>
+						<input type="checkbox" id="arrow-controls-id" checked>
 					</div>
 
-					<div class="checkbox-fields">
-						<div style="position:absolute;top:0;">
-							<input type="text" id="calendarHeadField" placeholder="Введите заголовок календаря" size="45">
-						</div>
-						<div style="position:absolute;top:22px;">
-							<input type="text" id="calendarClassField" placeholder="Пример: font-size:25px;font-weight:bold; затем Enter" size="45">
-						</div>
+					<div class="settings-div">
+						<label for="allow-add-events-id">Добавить возможность создавать события</label>
+						<input type="checkbox" id="allow-add-events-id" checked>
+					</div>
+
+					<div class="settings-div">
+						<label for="allow-remove-events-id">Добавить возможность удалять события</label>
+						<input type="checkbox" id="allow-remove-events-id" checked>
 					</div>
 
 					<div class="clear-button">
-						<input type="button" onclick="clearStorage();" value=" Очистить storage ">
-					</div>
-
-					<div class="create-button">
-						<input type="button" onclick="createWidget();" value=" Создать виджет ">
+						<input type="button" onclick="clearStorage();" value=" Очистить базу данных ">
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="one-third border">
 			<div class="code">
-				<h2 id="calendarName"></h2>
+				<h2 class="widget-header">Код для виджета</h2>
+				<textarea id="widget-code-id" class="widget-code"></textarea>
 			</div>
 		</div>
 	</div>
 	<script src="js/calendar.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>
