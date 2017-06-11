@@ -17,10 +17,10 @@ function widgetCode()
 	let wCode = document.querySelector('#widget-code-id');
 
 	var text = `  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://rawgit.com/seraph22/js--base-course/master/02/ht/seraph22/calendar/css/style.css">
 
   <!-- Base script -->
-  <script src="js/calendar.js"></script>
+  <script src="https://rawgit.com/seraph22/js--base-course/master/02/ht/seraph22/calendar/js/calendar.js"></script>
 
   <!-- Widget code -->
   <script>
