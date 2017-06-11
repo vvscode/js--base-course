@@ -157,8 +157,11 @@ var obj = {
 obj.val2 = 2;
 
 for (key in obj) {
-  //console.log(obj[key]);
+  console.log(obj[key]);
 }
+
+alert( Object.keys(obj) );
+alert( Object.getOwnPropertyNames(obj) );
 
 var arr = ['string', true, 2];
 
@@ -405,25 +408,14 @@ ________________________________________________________________________________
 
 создать собственнй метод .myBind у всех функций, который будет работать так же как встроенный .bind ( его использовать нельзя )
 ```
-Function.prototype.myBind = function(func, context) {
-  return function() {
-    return func.apply(context, arguments);
-  };
-}
+Function.prototype.myBind = function(context)
+{
+	var func = this;
 
-var user = {
-  firstName: "Вася",
-  sayHi: function(who) { // здесь у sayHi есть один аргумент
-    alert( this.firstName + ": Привет, " + who );
-  }
+	return function() {
+		return func.apply(context, arguments);
+	};
 };
-
-
-var sayHi = user.sayHi.myBind(user.sayHi, user);
-sayHi("Петя");
-
-
-//(function() { console.log(this.name); }).myBind({name: 'Bob'})() // 'Bob'
 ```
 ______________________________________________________________________________________
 
@@ -434,23 +426,30 @@ debounce(function, wait) Вернёт версию функции, исполн�
 <html>
 <head>
 	<script >
-	function debounce(setTime){
-		var time = 10000;
-		if (setTime)
+		function debounce(func, wait)
 		{
-			time = setTime;
-		}
+			var timer;
 
-		var intervalID = setInterval(consoleOutput, time);
+			return function()
+			{
+				clearTimeout(timer);
+				var args = arguments;
 
-		function consoleOutput() {
+				timer = setTimeout(function()
+				{
+					func.apply(null, args);
+				}, wait);
+			};
+		};
+
+		var greet = function ()
+		{
 			var date = new Date();
+			console.log(date.toLocaleString());
 			document.getElementById("demo").innerHTML = date.toLocaleString();
-			clearInterval(intervalID);
-		}
-	}
+		};
 
-	window.addEventListener("resize", debounce(5000));
+		window.addEventListener( "resize", debounce(greet, 3000) );
 	</script>
 </head>
 <body>
@@ -458,7 +457,6 @@ debounce(function, wait) Вернёт версию функции, исполн�
 </body>
 </html>
 ```
-Работает не верно, после первого ресайза стопится и больше не срабатывает ивент лисенер, не могу понять почему...
 ______________________________________________________________________________________
 
 Написать код, который для объекта созданного с помощью конструктора будет показывать, что объект является экземпляром двух классов
@@ -681,4 +679,3 @@ ________________________________________________________________________________
 
 </body>
 </html>
-```
