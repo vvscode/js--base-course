@@ -335,10 +335,11 @@ function Calendar(settings)
 		{
 			css = '.' + newClass + ' ' + settings.cssStyles;
 		}
-		else
+		else if (document.querySelector("#style-id"))
 		{
 			css = '.' + newClass + ' ' + document.querySelector("#style-id").value;
 		}
+		else return;
 
 		let head = document.head || document.getElementsByTagName('head')[0];
 		let style = document.createElement('style');
