@@ -6,7 +6,7 @@ const gulp = require('gulp'),
     sass = require('gulp-sass'),
 
     babel = require('gulp-babel'),
-    plumber = require('gulp-plumber'),
+    // plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
 
     imagemin = require('gulp-imagemin'),
@@ -33,7 +33,7 @@ var path = {
     src: {
         html: 'src/*.html',
         style: 'src/style/main.scss',
-        js: 'src/js/main.js',
+        js: 'src/js/app.js',
         img: 'src/img/**/*.*',
         fonts: 'src/fonts/**/*.*'
     },

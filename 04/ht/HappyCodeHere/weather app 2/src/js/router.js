@@ -11,6 +11,7 @@
 // - поддерживать promise из onBeforeEnter
 // - поддерживать promise из onLeave
 
+
 class Router {
   constructor(routes, eventBus) {
     this.eventBus = eventBus;
@@ -20,7 +21,6 @@ class Router {
 
     window.addEventListener('hashchange', this.handleHashChange);
     this.handleHashChange();
-
   }
 
   handleHashChange() {

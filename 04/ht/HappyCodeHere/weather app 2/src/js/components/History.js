@@ -9,30 +9,47 @@ class History {
     this.onHistoryAdd = this.onHistoryAdd.bind(this);
 
     this.eventBus.on('history:add', this.onHistoryAdd);
+
+    this.loadHistoryFromStorage(localStorage);
+  }
+
+  loadHistoryFromStorage(storage) {
+    const savedHistory = storage.getItem('forecast-history');
+    this.history = JSON.parse(savedHistory) || [];
+  }
+
+  saveHistoryToStorage(storage) {
+    storage.setItem('forecast-history', JSON.stringify(this.history));
   }
 
   onHistoryAdd(city) {
     if (this.history[0] === city) return;
     if (this.history.indexOf(city) > 0) {
-       this.history.splice(this.history.indexOf(city), 1);
+      this.history.splice(this.history.indexOf(city), 1);
     }
     if (this.history.length > 4) {
       this.history.pop();
     }
     this.history.unshift(city);
 
-    localStorage.setItem('forecast-history', JSON.stringify(this.history));
-
+    this.saveHistoryToStorage(localStorage);
     this.renderHistory();
   }
 
   renderHistory() {
-    const historyUl = document.querySelector(this.element);
-    historyUl.innerHTML = '';
+    const historyBlock = document.querySelector(this.element);
 
-    for (var i = 0; i < this.history.length; i++) {
-      historyUl.innerHTML += `<li class="list-group-item"><a href="#${this.history[i]}">${this.history[i]}</a></li>`;
-    }
+    const historyTitle = document.createElement('h3');
+    historyTitle.innerHTML = 'Resently watched:';
+
+    const historyUl = document.createElement('ul');
+    historyUl.classList.add('list-group');
+
+    this.history.map(item => {
+      historyUl.innerHTML += `<li class="list-group-item"><a href="#/city${item}">${item}</a></li>`
+    });
+
+    historyBlock.append(historyTitle, historyUl);
   }
 }
 

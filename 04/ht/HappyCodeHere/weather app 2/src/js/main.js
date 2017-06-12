@@ -27,14 +27,7 @@ document.querySelector('.switcher input').addEventListener('change', () => {
   }
 })
 
-document.querySelector('header form').addEventListener('submit', () => {
-  event.preventDefault();
-  const input = document.querySelector('header .search input');
-  const value = input.value;
-  if (value) {
-    window.location.hash = value;
-  }
-});
+
 
 
 function handleUrlChange() {
@@ -166,13 +159,4 @@ function renderMainInformation(cityData, cityName) {
 
   const summary = document.querySelector('.summary p');
   summary.innerHTML = cityData.currently.summary;
-}
-
-
-
-
-
-function loadHistoryFromStorage(storage) {
-  const forecast = storage.getItem('forecast');
-  searchHistory = JSON.parse(forecast) || [];
 }
