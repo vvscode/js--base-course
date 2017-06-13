@@ -17,8 +17,8 @@ EventBus.prototype.on = function (ev, handler) {
     this.listeners[ev] = this.listeners[ev] || [];
     this.listeners[ev].push(handler);
 };
-EventBus.prototype.trigger = function (ev, data, a, b, c) {
-    (this.listeners[ev] || []).forEach((handler) => handler(data, a, b, c));
+EventBus.prototype.trigger = function (ev) {
+    (this.listeners[ev] || []).forEach((handler) => handler());
 };
 EventBus.prototype.off = function (ev, handler) {
     (this.listeners[ev] || []).forEach(function (item, i) {
