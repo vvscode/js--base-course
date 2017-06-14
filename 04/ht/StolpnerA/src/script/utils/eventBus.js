@@ -35,9 +35,9 @@ EventBus.prototype.once = function (ev, handler) {
     });
 };
 
-// var eventBus = new EventBus();
-// var handler = (a, b, c) => console.log('Handler', a, b, c);
-// eventBus.once('one', handler);
-// eventBus.trigger('one', 1,2,3);
-// // Handler 1 2 3
-// eventBus.trigger('one');
+var eventBus = new EventBus();
+var handler = (a, b, c) => console.log('Handler', a, b, c);
+eventBus.once('one', handler);
+eventBus.trigger('one', 1,2,3);
+// Handler 1 2 3
+eventBus.trigger('one');
