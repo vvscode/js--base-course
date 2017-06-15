@@ -31,3 +31,28 @@ export const coordinates = {
     // - подписаться на изменения на карте (и изменять hash)
   },
 }
+
+
+//
+// function renderMainInformation(cityData, cityName) {
+//
+//   const title = document.querySelector('section.main h2');
+//   title.innerHTML = cityName;
+//
+//   // icons
+//   const skycons = new Skycons({"color": "#e6a831"});
+//   skycons.add(document.querySelector('section.main .forecast-icon'), cityData.currently.icon);
+//   skycons.play();
+//
+//   const temperature = document.querySelector('.forecast-info span.temperature');
+//   temperature.innerHTML = `Temperature: ${cityData.currently.temperature.toFixed(1)}°C`;
+//
+//   const humidity = document.querySelector('section.main span.humidity');
+//   humidity.innerHTML = `Humidity: ${cityData.currently.humidity}%`;
+//
+//   const windSpeed = document.querySelector('section.main span.wind-speed');
+//   windSpeed.innerHTML = `Wind speed: ${cityData.currently.windSpeed}m/s`;
+//
+//   const summary = document.querySelector('.summary p');
+//   summary.innerHTML = cityData.currently.summary;
+// }

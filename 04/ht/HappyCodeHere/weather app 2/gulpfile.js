@@ -6,6 +6,7 @@ const gulp = require('gulp'),
     sass = require('gulp-sass'),
 
     babel = require('gulp-babel'),
+    browserify = require('gulp-browserify'),
     // plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
 
@@ -55,7 +56,11 @@ var config = {
     tunnel: false,
     host: 'localhost',
     port: 9000,
-    logPrefix: "Frontend"
+    logPrefix: "Frontend",
+
+    insertGlobals : true,
+    require : ['src/js/app.js'],
+    debug : !gulp.env.production
 };
 
 gulp.task('html:build', function () {
@@ -85,11 +90,18 @@ gulp.task('js:build', function () {
     gulp.src(path.src.js) //Найдем наш main файл
         // .on('error', (error) => { console.log(error.toString()); this.emit('end') })
         // .pipe(plumber(onError)) not working
+        .pipe(browserify({
+          insertGlobals : true,
+          debug : !gulp.env.production
+        }))
+
         .pipe(rigger()) //Прогоним через rigger
         .pipe(sourcemaps.init()) //Инициализируем sourcemap
+
         .pipe(babel({
             presets: ['es2015']
         }))
+
         .pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
         .pipe(gulp.dest(path.dist.js)) //Сохраним готовый файл в dist

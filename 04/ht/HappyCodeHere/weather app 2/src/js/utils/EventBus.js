@@ -40,14 +40,14 @@ class EventBus {
     // }
   }
 
-  once(event, handler) {
+  // once(event, handler) {
 
 }
 
 
 export default EventBus;
 
-// 
+//
 // function EventBus() {
 //   this.listeners = {};
 // };

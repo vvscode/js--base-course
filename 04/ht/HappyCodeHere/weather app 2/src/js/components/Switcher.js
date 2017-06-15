@@ -19,3 +19,17 @@ class Switcher {
 }
 
 export default Switcher;
+
+
+// document.querySelector('.switcher input').addEventListener('change', (event) => {
+//   const { checked } = event.target;
+//   const requestType = document.querySelector('.switcher span');
+//
+//   if (checked) {
+//     isFetchRequest = true;
+//     requestType.innerHTML = 'Fetch';
+//   } else {
+//     isFetchRequest = false;
+//     requestType.innerHTML = 'XHR';
+//   }
+// })
