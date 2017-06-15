@@ -13,18 +13,14 @@
  поддерживать promise из onBeforeEnter
  поддерживать promise из onLeave
  */
-var console = {
-    log: (text) => document.querySelector('#logs').innerHTML += `${text}<br />`
-};
-var Router = function (options) {
+var Router = function (options, eventBus) {
     this.routes = options.routes;
-    //this.eventBus = eventBus;
+    this.eventBus = eventBus;
     this.init();
 };
 
 Router.prototype = {
     init: function () {
-        console.log(`---> router init`);
         window.addEventListener('hashchange', (ev) => this.handleUrl(ev.oldURL.split('#')[1] || '', ev.newURL.split('#')[1]));
         this.handleUrl(undefined, window.location.hash.slice(1));
     },
@@ -53,9 +49,7 @@ Router.prototype = {
                 }
             });
         }
-
         var currentParam = this.getParam(newRoute, currentRoute);
-
         console.log(`---> router oldURL: ${oldRoute}`);
         console.log(`---> router findNewActiveRoute: ${newRoute} -- ${(currentRoute || {}).name}`);
         Promise.resolve()
@@ -65,7 +59,6 @@ Router.prototype = {
     }
 };
 
-//
 // var router = new Router({
 //     routes: [{
 //         name: 'index',
