@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Some page</title>
+</head>
+
+<body>
+	<div><p>Some text</p></div>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="https://rawgit.com/seraph22/js--base-course/master/02/ht/seraph22/calendar/css/style.css">
+
+  <!-- Base script -->
+  <script src="https://rawgit.com/seraph22/js--base-course/master/02/ht/seraph22/calendar/js/calendar.js"></script>
+
+  <!-- Widget code -->
+  <script>
+	(function() {
+	  var div = document.createElement('div');
+	  div.id = 'id1';
+	  div.className = 'calendar';
+	  document.body.appendChild(div);
+
+	  new Calendar ({
+		el: '#id' + '1',
+		title: 'Заголовок1',
+		cssStyles: 'table tbody td {font-size:15px}',
+		showControls: true,
+		allowAddEvents: true,
+		allowRemoveEvents: true
+	  });
+	})();
+  </script>
+  
+  <!-- Widget code -->
+  <script>
+	(function() {
+	  var div = document.createElement('div');
+	  div.id = 'id2';
+	  div.className = 'calendar';
+	  document.body.appendChild(div);
+
+	  new Calendar ({
+		el: '#id' + '2',
+		title: 'Заголовок2',
+		cssStyles: 'table tbody td {font-size:20px}',
+		showControls: false,
+		allowAddEvents: true,
+		allowRemoveEvents: true
+	  });
+	})();
+  </script>
+  
+  <!-- Widget code -->
+  <script>
+	(function() {
+	  var div = document.createElement('div');
+	  div.id = 'id3';
+	  div.className = 'calendar';
+	  document.body.appendChild(div);
+
+	  new Calendar ({
+		el: '#id' + '3',
+		title: 'Заголовок3',
+		cssStyles: 'table tbody td {font-size:20px; font-weight:bold}',
+		showControls: false,
+		allowAddEvents: true,
+		allowRemoveEvents: false
+	  });
+	})();
+  </script>
+  
+  <!-- Widget code -->
+  <script>
+	(function() {
+	  var div = document.createElement('div');
+	  div.id = 'id12345';
+	  div.className = 'calendar';
+	  document.body.appendChild(div);
+
+	  new Calendar ({
+		el: '#id' + '12345',
+		title: '',
+		cssStyles: 'table tbody td {font-size:20px; font-weight:bold} .custom-id12345 table tbody td {text-align: left;}',
+		showControls: false,
+		allowAddEvents: false,
+		allowRemoveEvents: false
+	  });
+	})();
+  </script>
+
+</body>
+</html>
