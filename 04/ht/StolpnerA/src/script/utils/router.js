@@ -65,6 +65,7 @@ Router.prototype = {
                 return newRoute.match(item.match);
             }
         });
+        debugger;
         if (oldRoute !== undefined) {
             var previousRoute = this.routes.find((item) => {
                 if (typeof item.match === 'string') {
