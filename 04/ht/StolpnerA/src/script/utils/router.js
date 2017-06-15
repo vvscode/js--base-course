@@ -48,31 +48,43 @@ var Router = function (options) {
 Router.prototype = {
     init: function () {
         console.log(`---> router init`);
-        window.addEventListener('hashchange', (ev) => this.handleUrl(ev.oldURL.split('#')[1], ev.newURL.split('#')[1]));
-        this.handleUrl(null, window.location.hash.slice(1));
+        window.addEventListener('hashchange', (ev) => this.handleUrl(ev.oldURL.split('#')[1] || '', ev.newURL.split('#')[1]));
+        this.handleUrl(undefined, window.location.hash.slice(1));
     },
-    getParam: function (newRoute, route) {
-        var param = newRoute.match(route.match) || [];
+    getParam: function (newRoute, currentRoute) {
+        var param = newRoute.match(currentRoute.match) || [];
         return param[1];
     },
     handleUrl: function (oldRoute, newRoute) {
-        debugger;
-        var route = this.routes.find((item) => {
-            if (typeof item.match === 'string'){
+        var currentRoute = this.routes.find((item) => {
+            if (typeof item.match === 'string') {
                 return newRoute === item.match;
-            } else if (typeof item.match === 'function'){
+            } else if (typeof item.match === 'function') {
                 return item.match(newRoute);
-            }else if (item.match instanceof RegExp){
+            } else if (item.match instanceof RegExp) {
                 return newRoute.match(item.match);
             }
         });
-        var currentParam = this.getParam(newRoute, route);
+        if (oldRoute !== undefined) {
+            var previousRoute = this.routes.find((item) => {
+                if (typeof item.match === 'string') {
+                    return oldRoute === item.match;
+                } else if (typeof item.match === 'function') {
+                    return item.match(oldRoute);
+                } else if (item.match instanceof RegExp) {
+                    return oldRoute.match(item.match);
+                }
+            });
+        }
 
-        console.log(`---> router findNewActiveRoute: ${newRoute} -- ${(route || {}).name}`);
+        var currentParam = this.getParam(newRoute, currentRoute);
+
+        console.log(`---> router oldURL: ${oldRoute}`);
+        console.log(`---> router findNewActiveRoute: ${newRoute} -- ${(currentRoute || {}).name}`);
         Promise.resolve()
-        //.then(() => oldRoute && oldRoute.onLeave && oldRoute.onLeave())
-            .then(() => route && route.onBeforeEnter && route.onBeforeEnter(currentParam))
-            .then(() => route && route.onEnter && route.onEnter(currentParam))
+            .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave())
+            .then(() => currentRoute && currentRoute.onBeforeEnter && currentRoute.onBeforeEnter(currentParam))
+            .then(() => currentRoute && currentRoute.onEnter && currentRoute.onEnter(currentParam))
     }
 };
 
