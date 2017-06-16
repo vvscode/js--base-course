@@ -41,3 +41,5 @@ eventBus.once('one', handler);
 eventBus.trigger('one', 1,2,3);
 // Handler 1 2 3
 eventBus.trigger('one');
+
+export default EventBus;

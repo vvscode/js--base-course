@@ -1,6 +1,5 @@
-/* global require */
-
 var gulp = require('gulp'),
+    babel = require('gulp-babel'),
     watch = require('gulp-watch'),
     prefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
@@ -23,7 +22,7 @@ var path = {
     },
     src: {
         html: 'src/*.html',
-        js: 'src/script/main.js',
+        js: 'src/script/app.js',
         css: 'src/style/main.css',
         img: 'src/img/**/*.*',
         fonts: 'src/fonts/**/*.*'
@@ -40,33 +39,41 @@ var path = {
 
 var config = {
     server: {
-        baseDir: "./build"
+        baseDir: "./dist"
     },
-    tunnel: true,
+    open: false,
+    tunnel: false,
     host: 'localhost',
     port: 9000,
-    logPrefix: "Frontend_Devil"
+    logPrefix: "Frontend",
+
+    insertGlobals: true,
+    require: ['src/js/app.js'],
+    debug: !gulp.env.production
 };
 
 gulp.task('html:build', function () {
-    gulp.src(path.src.html)
+    return gulp.src(path.src.html)
         .pipe(rigger())
         .pipe(gulp.dest(path.build.html))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('js:build', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
+    return gulp.src(path.src.js) //Найдем наш main файл
         .pipe(rigger()) //Прогоним через rigger
         .pipe(sourcemaps.init()) //Инициализируем sourcemap
-        .pipe(uglify()) //Сожмем наш js
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        //.pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 
 gulp.task('css:build', function () {
-    gulp.src(path.src.css) //Выберем наш main.css
+    return gulp.src(path.src.css) //Выберем наш main.css
         .pipe(sourcemaps.init()) //То же самое что и с js
         .pipe(prefixer()) //Добавим вендорные префиксы
         .pipe(cssmin()) //Сожмем
@@ -76,7 +83,7 @@ gulp.task('css:build', function () {
 });
 
 gulp.task('image:build', function () {
-    gulp.src(path.src.img) //Выберем наши картинки
+    return gulp.src(path.src.img) //Выберем наши картинки
         .pipe(imagemin({ //Сожмем их
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
@@ -88,7 +95,7 @@ gulp.task('image:build', function () {
 });
 
 gulp.task('fonts:build', function () {
-    gulp.src(path.src.fonts)
+    return gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.build.fonts))
 });
 
@@ -97,8 +104,8 @@ gulp.task('build', [
     'html:build',
     'js:build',
     'css:build',
-    'img:build',
-    'fonts:build'
+    // 'img:build',
+    // 'fonts:build'
 ]);
 
 
@@ -125,7 +132,7 @@ gulp.task('webserver', function () {
 });
 
 gulp.task('clean', function () {
-    rimraf(path.clean.cb);
+    rimraf(path.clean, cb);
 });
 
 gulp.task('default', [

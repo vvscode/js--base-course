@@ -13,9 +13,9 @@
  поддерживать promise из onBeforeEnter
  поддерживать promise из onLeave
  */
-var Router = function (options, eventBus) {
+var Router = function (options) {
     this.routes = options.routes;
-    this.eventBus = eventBus;
+    //this.eventBus = eventBus;
     this.init();
 };
 
@@ -58,6 +58,8 @@ Router.prototype = {
             .then(() => currentRoute && currentRoute.onEnter && currentRoute.onEnter(currentParam))
     }
 };
+
+export default Router;
 
 // var router = new Router({
 //     routes: [{

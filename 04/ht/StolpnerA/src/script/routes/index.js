@@ -4,3 +4,5 @@ var index = {
     onBeforeEnter: () => console.log(`onBeforeEnter index`),
     onEnter: () => console.log(`onEnter index`)
 };
+
+export { index };

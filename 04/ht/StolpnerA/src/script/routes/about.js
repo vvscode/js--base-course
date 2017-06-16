@@ -5,3 +5,5 @@ var about = {
     onEnter: () => console.log(`onEnter about`),
     onLeave: () => console.log(`onLeave about`)
 };
+
+export { about };
