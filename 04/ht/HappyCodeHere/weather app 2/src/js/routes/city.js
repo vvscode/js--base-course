@@ -1,10 +1,13 @@
+// import { getUrlHashParams } from '../utils/helpers';
+
 const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
 
 export const city = {
   name: 'city',
   match: /city=(.+)/,
-  onEnter: (city, eventBus) => {
+  onEnter: (url, eventBus) => {
+    const city = url.split('=')[1];
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`)
       .then(response => response.json())
       .then(data => {
@@ -13,7 +16,7 @@ export const city = {
         const { lat, lng } = data.results[0].geometry.location;
 
         eventBus.on('history:add', formattedAddress);
-        window.location.hash = `/coordinates?lat=${lat}&lng=${lng}`;
+        window.location.hash = `coordinates?lat=${lat}&lng=${lng}`;
       })
       .catch(error => {
         console.log(error);

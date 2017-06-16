@@ -21,7 +21,9 @@ Router.prototype = {
     return this.currentRoute;
   },
   findNewActiveRoute: function(url) {
+    // debugger;
     // Найти роут на который переходим
+    // console.log(this.routes);
     let route = this.routes.find((routeItem) => {
       if (typeof routeItem.match === 'string') {
         return url === routeItem.match;
@@ -35,30 +37,33 @@ Router.prototype = {
     console.log(`---> router findNewActiveRoute: ${url} -- ${(route || {}).name}`);
     return route;
   },
-  getRouteParams(route, url) {
-  	 var params = url.match(route.match) || [];
-     params.shift();
-     return params;
-  },
+  // getRouteParams(route, url) {
+  // 	 var params = url.match(route.match) || [];
+  //    params.shift();
+  //    return params;
+  // },
   handleUrl: function(url) {
     url = url.slice(1);
     // Найти текущий роут
     let previousRoute = this.findPreviousActiveRoute();
     // Найти новый роут
     let newRoute = this.findNewActiveRoute(url);
+    // console.log(newRoute);
+    // console.log(url);
 
-    let routeParams = this.getRouteParams(newRoute, url);
+    // let routeParams = this.getRouteParams(newRoute, url);
 
     // Если есть роут с которого уходим - выполнить его .onLeave
     Promise.resolve()
-      .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(...this.currentRouteParams))
+      .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(window.location.hash, this.eventBus))
       // После этого выполнить .onBeforeEnter для нового активного роута
-      .then(() => newRoute && newRoute.onBeforeEnter && newRoute.onBeforeEnter(...routeParams))
+      .then(() => newRoute && newRoute.onBeforeEnter && newRoute.onBeforeEnter(window.location.hash, this.eventBus))
       // После этого выполнить .onEnter для ногового активного роута ( только если с .onBeforeEnter все ок)
-      .then(() => newRoute && newRoute.onEnter && newRoute.onEnter(...routeParams))
+
+      .then(() => newRoute && newRoute.onEnter && newRoute.onEnter(window.location.hash, this.eventBus))
       .then(() => {
       		this.currentRoute = newRoute;
-      		this.currentRouteParams = routeParams;
+      		// this.currentRouteParams = routeParams;
     	});
   },
 };

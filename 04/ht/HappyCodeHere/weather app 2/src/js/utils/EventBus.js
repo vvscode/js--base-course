@@ -27,7 +27,12 @@ class EventBus {
   }
 
   trigger(event, data) {
-    (this.listeners[event] || []).forEach((handler) => handler(data));
+    console.log(this.listeners);
+    (this.listeners[event] || []).map((item) => {
+      console.log(event);
+      console.dir(item)
+      item(data)
+    });
     // if (!(event.type in this.listeners)) {
     //   return true;
     // }

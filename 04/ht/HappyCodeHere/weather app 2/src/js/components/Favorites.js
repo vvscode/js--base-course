@@ -28,6 +28,7 @@ class Favorites {
   }
 
   onFavoritesAdd(coords) {
+    console.error(coords);
     this.favorites.push(coords);
     this.saveFavoritesToStorage(localStorage);
     this.renderFavorites();
@@ -35,13 +36,30 @@ class Favorites {
 
   onFavoritesRemove(coords) {
     // как то удалить
+    this.favorites.map((item, i) => {
+      if (item.lat === coords.lat) {
+        this.favorites.splice(i, 1);
+      }
+    })
+    if (this.favorites.length === 5) {
+      this.favorites = [];
+    }
     this.saveFavoritesToStorage(localStorage);
     this.renderFavorites();
   }
 
   onCoordinatesChange(coords) {
+    console.error(coords);
     // - onCoordinatesChange - проверить координаты в списке избранного и сгенерировать событие `favorites:is-active`, (true|false)
-    this.eventBus.trigger('favorites:is-active', true);
+
+    this.favorites.map((item, i) => {
+      if (item.lat === coords.lat) {
+        this.eventBus.trigger('favorites:is-active', true);
+      }
+      else {
+        this.eventBus.trigger('favorites:is-active', false);
+      }
+    })
   }
 
   renderFavorites() {
@@ -55,10 +73,24 @@ class Favorites {
 
     this.favorites.map((item, i) => {
       const { lat, lng } = item;
-      favoritesUl.innerHTML += `<li class="list-group-item"><a href="/coordinates?lat=${lat}&lng=${lng}">${item.lat} / ${item.lng}</a></li>`;
+      favoritesUl.innerHTML += `<li class="list-group-item"><a href="#coordinates?lat=${lat}&lng=${lng}">${item.lat} / ${item.lng}</a></li>`;
     });
 
-    favoritesBlock.append(favoritesTitle, favoritesUl);
+    favoritesBlock.innerHTML = `${favoritesTitle.outerHTML} ${favoritesUl.outerHTML}`;
+
+    // window.addEventListener('hashchange', () => {
+    //   let data = {};
+    //
+    //   window.location.hash.split('?')[1].split('&').map(item => {
+    //     let items = item.split('=');
+    //     data[items[0]] = items[1];
+    //   })
+    //
+    //   console.log(data);
+    //
+    //
+    //   this.onCoordinatesChange(data)
+    // })
   }
 }
 

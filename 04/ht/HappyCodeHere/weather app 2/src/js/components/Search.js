@@ -9,14 +9,14 @@ class Search {
 
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    document.querySelector('header form').addEventListener('submit', this.handleSubmit);
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     const input = document.querySelector('header .search input');
     const value = input.value;
-    window.location.hash = `city=${this.city}`;
-    this.city = '';
+    window.location.hash = `city=${value}`;
+    // value.innerHTML = '';
   }
 
   renderSearch() {
@@ -33,6 +33,8 @@ class Search {
         </div>
       </form>
     `
+    search.addEventListener('submit', this.handleSubmit);
+
   }
 }
 

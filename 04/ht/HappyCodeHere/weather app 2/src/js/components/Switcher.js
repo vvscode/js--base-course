@@ -1,11 +1,18 @@
 
 
 class Switcher {
-  constructor() {
+  constructor(eventBus, element) {
+    this.eventBus = eventBus;
+    this.element = element;
+
+    this.renderSwitcher = this.renderSwitcher.bind(this);
 
   }
 
   renderSwitcher() {
+    let isFetchRequest = true;
+
+    const switcher = document.querySelector(this.element);
     const text = `
       <div class="col-md-4 switcher">
         Request type: <span>Fetch</span>
@@ -15,21 +22,22 @@ class Switcher {
         </label>
       </div>
     `
+
+    switcher.innerHTML = text;
+
+    switcher.addEventListener('change', (event) => {
+      const { checked } = event.target;
+      const requestType = document.querySelector('.switcher span');
+
+      if (checked) {
+        isFetchRequest = true;
+        requestType.innerHTML = 'Fetch';
+      } else {
+        isFetchRequest = false;
+        requestType.innerHTML = 'XHR';
+      }
+    })
   }
 }
 
 export default Switcher;
-
-
-// document.querySelector('.switcher input').addEventListener('change', (event) => {
-//   const { checked } = event.target;
-//   const requestType = document.querySelector('.switcher span');
-//
-//   if (checked) {
-//     isFetchRequest = true;
-//     requestType.innerHTML = 'Fetch';
-//   } else {
-//     isFetchRequest = false;
-//     requestType.innerHTML = 'XHR';
-//   }
-// })

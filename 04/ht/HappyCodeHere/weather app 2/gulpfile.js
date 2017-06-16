@@ -90,19 +90,21 @@ gulp.task('js:build', function () {
     gulp.src(path.src.js) //Найдем наш main файл
         // .on('error', (error) => { console.log(error.toString()); this.emit('end') })
         // .pipe(plumber(onError)) not working
+
+
+        .pipe(rigger()) //Прогоним через rigger
+        .pipe(sourcemaps.init()) //Инициализируем sourcemap
+
         .pipe(browserify({
           insertGlobals : true,
           debug : !gulp.env.production
         }))
 
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(sourcemaps.init()) //Инициализируем sourcemap
-
         .pipe(babel({
             presets: ['es2015']
         }))
 
-        .pipe(uglify()) //Сожмем наш js
+        // .pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
         .pipe(gulp.dest(path.dist.js)) //Сохраним готовый файл в dist
         .pipe(reload({stream: true})); //И перезагрузим сервер

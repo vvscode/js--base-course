@@ -1,6 +1,6 @@
+// import
 
 export const index = {
-  {
     name: 'index',
     match: '',
     onEnter: () => {
@@ -8,8 +8,7 @@ export const index = {
         .then(responce => responce.json())
         .then(data => {
           const { latitude, longitude } = data.position;
-          window.location.hash = `/coordinates?lat=${latitude}&lng=${longitude}`;
+          window.location.hash = `coordinates?lat=${latitude}&lng=${longitude}`;
         });
     },
-  },
-};
+}

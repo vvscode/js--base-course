@@ -14,12 +14,12 @@ class History {
   }
 
   loadHistoryFromStorage(storage) {
-    const savedHistory = storage.getItem('forecast-history');
+    const savedHistory = storage.getItem('forecast');
     this.history = JSON.parse(savedHistory) || [];
   }
 
   saveHistoryToStorage(storage) {
-    storage.setItem('forecast-history', JSON.stringify(this.history));
+    storage.setItem('forecast', JSON.stringify(this.history));
   }
 
   onHistoryAdd(city) {
@@ -46,10 +46,10 @@ class History {
     historyUl.classList.add('list-group');
 
     this.history.map(item => {
-      historyUl.innerHTML += `<li class="list-group-item"><a href="#/city${item}">${item}</a></li>`
+      historyUl.innerHTML += `<li class="list-group-item"><a href="#city=${item}">${item}</a></li>`
     });
 
-    historyBlock.append(historyTitle, historyUl);
+    historyBlock.innerHTML = `${historyTitle.outerHTML} ${historyUl.outerHTML}`;
   }
 }
 

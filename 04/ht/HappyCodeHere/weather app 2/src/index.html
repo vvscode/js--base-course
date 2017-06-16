@@ -10,6 +10,8 @@
 
   <link rel="shortcut icon" href="img/logo.png">
   <title>My weather app</title>
+
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
 
@@ -27,38 +29,23 @@
         <div class="row">
           <!-- switcher -->
           <!-- search form  -->
+          <div class="switcher"></div>
+          <div class="search"></div>
         </div>
       </header>
 
       <section class="main">
         <div class="row">
 
-          <div class="col-md-offset-2 col-md-8 forecast-block">
-            <h2></h2>
-            <div class="row">
-              <div class="col-md-6">
-                <canvas class="forecast-icon" width="128" height="128"></canvas>
-              </div>
-              <div class="col-md-6 forecast-info">
-                <span class="temperature"></span>
-                <span class="humidity"></span>
-                <span class="wind-speed"></span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-offset-3 col-lg-6 summary">
-                <p></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-offset-2 col-md-8 welcome-block active">
+
+          <!-- <div class="col-md-offset-2 col-md-8 welcome-block active">
             <h2>Welcome to cool weather app.</h2>
             <p>Enter your city to get a latest forecast!</p>
           </div>
           <div class="col-md-offset-2 col-md-8 error-block">
             <h2>Something went wrong...</h2>
             <p></p>
-          </div>
+          </div> -->
         </div>
 
       </section>
@@ -70,6 +57,10 @@
       <footer>
         &copy; 2017 My weather app. All rights reserved.
       </footer>
+
+      <div class="map"></div>
+      <div class="star"></div>
+      <div class="favorites"></div>
 
     </div>
   </div>

@@ -1,21 +1,49 @@
 
 class Map {
-  constructor(eventBus, element, ymaps) {
+  constructor(eventBus, element) {
     this.eventBus = eventBus;
     this.element = element;
-    this.ymaps = ymaps;
   }
 
-  renderMap() {
-    this.ymaps.ready(init);
+  renderMap(coords) {
+    const map = document.querySelector(this.element);
+    map.innerHTML = '<div id="map" style="width: 600px; height: 400px"></div>';
+
+    window.ymaps.ready(init);
     var myMap;
 
+    let self = this;
+
     function init() {
-      myMap = new this.ymaps.Map("map", {
-          center: [55.76, 37.64],
+      myMap = new window.ymaps.Map("map", {
+          center: coords,
           zoom: 7
       });
+
+
+      myMap.events.add('boundschange', (event) => {
+        console.log('dfjdkfdjk');
+        console.log(event.originalEvent.newBounds[0]);
+        let lat = event.originalEvent.newBounds[0][0];
+        let lng = event.originalEvent.newBounds[0][1];
+
+        self.eventBus.trigger('coordinates:changed', {lat,lng});
+
+        window.location.hash = `coordinates?lat=${lat}&lng=${lng}`
+    if (event.get('newZoom') != event.get('oldZoom')) {
+        // alert('Уровень масштабирования изменился');
     }
+});
+
+      // myMap.MoveEnd(() => {
+      //   console.log('fdlfkdlffkdl')
+      // })
+
+      console.log(myMap);
+    }
+
+
+    console.log(window.ymaps);
   }
 }
 

@@ -5,6 +5,10 @@
 @import './clouds.scss';
 
 
+.star-active {
+  background: orange;
+}
+
 .container {
   margin-top: -350px;
 }
@@ -36,7 +40,7 @@ section.main {
   }
 
   .welcome-block, .forecast-block, .error-block {
-    display: none;
+    // display: none;
     text-align: center;
     padding: 30px;
     background: #fff;
