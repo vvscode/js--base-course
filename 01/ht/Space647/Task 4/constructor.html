@@ -1,0 +1,21 @@
+<!Document html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+    <script>
+        function Constructor(text) {
+            if (!(this instanceof Constructor)) {
+                return new Constructor(text);
+            }
+            this.text = text;
+        }
+        var func1 = new Constructor("New");
+        var func2 = Constructor("Without new");
+        alert(func1.text);
+        alert(func2.text);
+    </script>
+</head>
+
+</html>

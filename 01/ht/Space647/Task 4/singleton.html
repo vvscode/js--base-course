@@ -1,0 +1,29 @@
+<!Document html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+    <script>
+        console.log("Синглтон — объект, который может присутствовать в системе только в единственном числе.");
+        var User = (function () {
+            var instance;
+            return function Singleton() {
+                if (instance) {
+                    return instance;
+                }
+                if (this && this.constructor === Singleton) {
+                    instance = this;
+                } else {
+                    return new Singleton();
+                }
+            }
+        }());
+        var u1 = new User(1);
+        var u2 = new User(2);
+        console.log(u1 instanceof User);
+        console.log(u1 === u2);
+    </script>
+</head>
+
+</html>

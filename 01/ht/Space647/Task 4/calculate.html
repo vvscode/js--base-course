@@ -1,0 +1,25 @@
+<!Document html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+    <script>
+        function calculate(a) {
+            return function (b) {
+                return function (c) {
+                    var ans;
+                    if (a == "+") {
+                        ans = b + c;
+                    }
+                    else if (a == "*") {
+                        ans = b * c;
+                    }
+                    console.log(ans);
+                }
+            }
+        }
+    </script>
+</head>
+
+</html>

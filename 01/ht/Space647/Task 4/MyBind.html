@@ -1,0 +1,15 @@
+<html>
+
+<head>
+	<title></title>
+	<script>
+		Function.prototype.myBind = function (context) {
+			var func = this;
+			return function () {
+				return func.apply(context, arguments);
+			};
+		};
+	</script>
+</head>
+
+</html>
