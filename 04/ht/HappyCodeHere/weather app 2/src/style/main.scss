@@ -5,6 +5,26 @@
 @import './clouds.scss';
 
 
+.star {
+  span {
+    display: block;
+    height: 80px;
+    width: 80px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    cursor: pointer;
+
+    background-image: url('/img/blue-star.png');
+
+    &.active {
+      background-image: url('/img/yellow-star.png');
+    }
+  }
+}
+
 .star-active {
   background: orange;
 }
@@ -30,6 +50,42 @@ header {
       display: block;
     }
   }
+
+  .menu {
+    ul {
+      margin-top: 10px;
+
+      li {
+        display: inline-block;
+        padding: 0;
+        margin-left: -4px;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
+        min-height: 30px;
+        min-width: 100px;
+
+
+        a {
+          color: #fff;
+          padding: 8px 15px;
+          display: block;
+          text-align: center;
+
+        }
+
+        &:first-child {
+          background-color: #670bdd;
+        }
+        &:last-child {
+          background-color: #32a4ed;
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
 }
 
 section.main {
@@ -39,8 +95,7 @@ section.main {
     margin-top: 0;
   }
 
-  .welcome-block, .forecast-block, .error-block {
-    // display: none;
+  .content {
     text-align: center;
     padding: 30px;
     background: #fff;

@@ -1,44 +1,15 @@
 
-export const getUrlParams = () => {
-  var urlParams;
+export const getUrlHashParams = () => {
+  let url = window.location.hash;
 
-  var match,
-      pl     = /\+/g,  // Regex for replacing addition symbol with a space
-      search = /([^&=]+)=?([^&]*)/g,
-      decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-      query  = window.location.search.substring(1);
-      urlParams = {};
-      while (match = search.exec(query))
-      urlParams[decode(match[1])] = decode(match[2]);
+  let queryParams = {};
 
-     return urlParams;
+  let param = url.split('?')[1].split('&');
+
+  param.map(item => {
+    let items = item.split('=');
+    queryParams[items[0]] = items[1];
+  })
+
+  return queryParams;
 }
-
-//
-// export const getUrlHashParams = () => {
-//   var hash = window.location.hash.substr(1);
-//
-//   console.log(hash.split('?')[1].split('&'));
-//
-//   var result;
-//   debugger;
-//
-//   if (hash.split('?')[1].split('&')) {
-//     result = hash.split('?')[1].split('&').reduce(function (result, item) {
-//
-//
-//         var parts = item.split('=');
-//         result[parts[0]] = parts[1];
-//         return result;
-//     }, {});
-//
-//   }
-//
-//   result = hash.split('?').reduce(function (result, item) {
-//
-//
-//       var parts = item.split('=');
-//       result[parts[0]] = parts[1];
-//       return result;
-//   }, {});
-// }

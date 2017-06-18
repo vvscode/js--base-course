@@ -1,4 +1,3 @@
-
 class Favorites {
   constructor(eventBus, element) {
     this.eventBus = eventBus;
@@ -24,24 +23,23 @@ class Favorites {
   }
 
   saveFavoritesToStorage(storage) {
+    console.error('save', this.favorites);
     storage.setItem('forecast-favorites', JSON.stringify(this.favorites));
   }
 
   onFavoritesAdd(coords) {
-    console.error(coords);
     this.favorites.push(coords);
     this.saveFavoritesToStorage(localStorage);
     this.renderFavorites();
   }
 
   onFavoritesRemove(coords) {
-    // как то удалить
     this.favorites.map((item, i) => {
       if (item.lat === coords.lat) {
         this.favorites.splice(i, 1);
       }
     })
-    if (this.favorites.length === 5) {
+    if (this.favorites.length > 5) {
       this.favorites = [];
     }
     this.saveFavoritesToStorage(localStorage);
@@ -49,15 +47,12 @@ class Favorites {
   }
 
   onCoordinatesChange(coords) {
-    console.error(coords);
-    // - onCoordinatesChange - проверить координаты в списке избранного и сгенерировать событие `favorites:is-active`, (true|false)
-
     this.favorites.map((item, i) => {
       if (item.lat === coords.lat) {
-        this.eventBus.trigger('favorites:is-active', true);
+        this.eventBus.trigger('star:is-active', true);
       }
       else {
-        this.eventBus.trigger('favorites:is-active', false);
+        this.eventBus.trigger('star:is-active', false);
       }
     })
   }
@@ -66,31 +61,17 @@ class Favorites {
     const favoritesBlock = document.querySelector(this.element);
 
     const favoritesTitle = document.createElement('h3');
-    favoritesTitle.innerHTML = 'Your favorites';
+    favoritesTitle.innerHTML = 'Your favorites:';
 
     const favoritesUl = document.createElement('ul');
     favoritesUl.classList.add('list-group');
 
-    this.favorites.map((item, i) => {
+    this.favorites.map(item => {
       const { lat, lng } = item;
       favoritesUl.innerHTML += `<li class="list-group-item"><a href="#coordinates?lat=${lat}&lng=${lng}">${item.lat} / ${item.lng}</a></li>`;
     });
 
     favoritesBlock.innerHTML = `${favoritesTitle.outerHTML} ${favoritesUl.outerHTML}`;
-
-    // window.addEventListener('hashchange', () => {
-    //   let data = {};
-    //
-    //   window.location.hash.split('?')[1].split('&').map(item => {
-    //     let items = item.split('=');
-    //     data[items[0]] = items[1];
-    //   })
-    //
-    //   console.log(data);
-    //
-    //
-    //   this.onCoordinatesChange(data)
-    // })
   }
 }
 

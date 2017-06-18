@@ -1,4 +1,3 @@
-
 class History {
   constructor(eventBus, element) {
     this.eventBus = eventBus;
@@ -46,7 +45,7 @@ class History {
     historyUl.classList.add('list-group');
 
     this.history.map(item => {
-      historyUl.innerHTML += `<li class="list-group-item"><a href="#city=${item}">${item}</a></li>`
+      historyUl.innerHTML += `<li class="list-group-item"><a href="#city=${item}">${item}</a></li>`;
     });
 
     historyBlock.innerHTML = `${historyTitle.outerHTML} ${historyUl.outerHTML}`;

@@ -11,7 +11,6 @@
   <link rel="shortcut icon" href="img/logo.png">
   <title>My weather app</title>
 
-  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
 
@@ -27,47 +26,50 @@
       <header>
         <h1>My weather app</h1>
         <div class="row">
-          <!-- switcher -->
-          <!-- search form  -->
-          <div class="switcher"></div>
-          <div class="search"></div>
+
+          <div class="col-md-3">
+            <div class="switcher"></div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="menu"></div>
+          </div>
+
+          <div class="col-md-offset-2 col-md-4">
+            <div class="search"></div>
+          </div>
+
         </div>
       </header>
 
       <section class="main">
         <div class="row">
-
-
-          <!-- <div class="col-md-offset-2 col-md-8 welcome-block active">
+          <div class="col-md-offset-2 col-md-8 content">
             <h2>Welcome to cool weather app.</h2>
             <p>Enter your city to get a latest forecast!</p>
           </div>
-          <div class="col-md-offset-2 col-md-8 error-block">
-            <h2>Something went wrong...</h2>
-            <p></p>
-          </div> -->
         </div>
-
       </section>
 
-      <section class="history"></section>
+      <section class="addition">
+        <div class="row">
+          <div class="col-md-offset-1 col-md-5">
+            <div class="history"></div>
+          </div>
+          <div class="col-md-5">
+            <div class="favorites"></div>
+          </div>
+        </div>
+      </section>
 
-      <section class="favorites"></section>
 
       <footer>
         &copy; 2017 My weather app. All rights reserved.
       </footer>
-
-      <div class="map"></div>
-      <div class="star"></div>
-      <div class="favorites"></div>
-
     </div>
   </div>
 
-
-
-  <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
