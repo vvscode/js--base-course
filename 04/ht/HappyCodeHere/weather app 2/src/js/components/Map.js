@@ -6,7 +6,7 @@ class Map {
 
   renderMap(coords) {
     const map = document.querySelector(this.element);
-    map.innerHTML = '<div id="map" style="width: 100%; height: 400px"></div>';
+    map.outerHTML = '<div id="map" style="width: 100%; height: 400px"></div>';
 
     window.ymaps.ready(init);
     var myMap;

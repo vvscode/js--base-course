@@ -6,8 +6,17 @@
 
 
 .star {
+  width: 400px;
+  margin: 20px auto;
+  text-align: center;
+
+  h5 {
+    font-weight: bold;
+  }
+
   span {
     display: block;
+    margin: 0 auto;
     height: 80px;
     width: 80px;
 
@@ -22,12 +31,13 @@
     &.active {
       background-image: url('/img/yellow-star.png');
     }
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }
 
-.star-active {
-  background: orange;
-}
 
 .container {
   margin-top: -350px;
@@ -158,6 +168,11 @@ section.history {
 }
 
 footer {
-  margin: 30px 0;
+  margin-top: 50px;
+  margin-bottom: 30px;
   text-align: center;
+
+  span {
+    color: #ff084a;
+  }
 }

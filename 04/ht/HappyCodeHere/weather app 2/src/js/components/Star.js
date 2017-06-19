@@ -9,18 +9,18 @@ class Star {
     this.handleStarClick = this.handleStarClick.bind(this);
     // this.handleFavoritesActive = this.handleFavoritesActive.bind(this);
 
-    // this.eventBus.on('favorites:is-active', this.handleFavoritesActive);
+    this.eventBus.on('favorites:is-active', this.handleFavoritesActive);
   }
 
-  // handleFavoritesActive(active) {
-  //   const star = document.querySelector(this.element);
-  //
-  //   if (active) {
-  //     star.classList.add('star-active');
-  //   } else {
-  //     star.classList.remove('star-active');
-  //   }
-  // }
+  handleFavoritesActive(isActive) {
+    const star = document.querySelector(this.element + ' span');
+
+    if (isActive) {
+      star.classList.add('star-active');
+    } else {
+      star.classList.remove('star-active');
+    }
+  }
 
   handleStarClick() {
    const star = document.querySelector(this.element + ' span');
@@ -38,8 +38,9 @@ class Star {
 
   renderStar() {
     const star = document.querySelector(this.element);
-    star.innerHTML = '<span></span>';
-    star.addEventListener('click', this.handleStarClick);
+    star.innerHTML = '<h5>Add this to your favorites!</h5>'
+    star.innerHTML += '<span></span>';
+    star.querySelector('span').addEventListener('click', this.handleStarClick);
   }
 }
 

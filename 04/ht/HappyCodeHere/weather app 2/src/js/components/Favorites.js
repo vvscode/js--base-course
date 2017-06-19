@@ -23,7 +23,6 @@ class Favorites {
   }
 
   saveFavoritesToStorage(storage) {
-    console.error('save', this.favorites);
     storage.setItem('forecast-favorites', JSON.stringify(this.favorites));
   }
 
@@ -47,7 +46,7 @@ class Favorites {
   }
 
   onCoordinatesChange(coords) {
-    this.favorites.map((item, i) => {
+    this.favorites.map(item => {
       if (item.lat === coords.lat) {
         this.eventBus.trigger('star:is-active', true);
       }
@@ -68,7 +67,7 @@ class Favorites {
 
     this.favorites.map(item => {
       const { lat, lng } = item;
-      favoritesUl.innerHTML += `<li class="list-group-item"><a href="#coordinates?lat=${lat}&lng=${lng}">${item.lat} / ${item.lng}</a></li>`;
+      favoritesUl.innerHTML += `<li class="list-group-item"><a href="#coordinates?lat=${lat}&lng=${lng}">${(+lat).toFixed(2)} / ${(+lng).toFixed(2)}</a></li>`;
     });
 
     favoritesBlock.innerHTML = `${favoritesTitle.outerHTML} ${favoritesUl.outerHTML}`;
