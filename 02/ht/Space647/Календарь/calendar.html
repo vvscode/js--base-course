@@ -1,41 +1,61 @@
-<!Doctype html>
+<!Document html>
 <html>
+
 <head>
+    <meta charset="UTF-8">
     <title>Календарь</title>
     <style>
+        .work,
+        #but {
+            text-align: center
+        }
 
-        .work{text-align: center}
-        table {min-width: 350px;
-               min-height: 80px;
-               text-align: center}
-        td{border: solid 1px yellow;}
+        table {
+            min-width: 350px;
+            min-height: 80px;
+            text-align: center
+        }
+
+        td {
+            border: solid 1px yellow;
+        }
+
         .cross {
             display: none;
             padding-left: 5px;
         }
+
         .cross:hover {
             cursor: pointer;
         }
+
         #events:hover .cross {
             display: inline-block;
         }
     </style>
 </head>
+
 <body>
+    <div>
+        <div class="div1">
+            <span>ID</span>
+            <input type="text" id="text" value="fdgdfg"> <br>
+            <span>Изменять месяц</span>
+            <input type="checkbox" id="check1" value="Месяца"><br>
+            <span>Создавать события</span>
+            <input type="checkbox" id="check2"><br>
+            <span>Удалять события</span>
+            <input type="checkbox" id="check3"> <br>
+            <input type="button" id="start" value="старт">
+        </div>
+        <div class="div2">
+            <textarea id="code">
 
-    <div class="work">
-    <input type="button" id="BackButton" value="<">
-    <span id="TegMonth"></span>
-    <input type="button" id="ForwardButton" value=">"><br>
-    <span id="TegTitle"></span>
-    <div id="calendar">
-
+        </textarea>
+        </div>
     </div>
-</div>
-
-
-<script defer src="script.js" type="text/javascript">
-
-</script>
+    <script src="fJs.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
