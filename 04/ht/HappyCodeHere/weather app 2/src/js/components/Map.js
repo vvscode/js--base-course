@@ -2,6 +2,14 @@ class Map {
   constructor(eventBus, element) {
     this.eventBus = eventBus;
     this.element = element;
+
+    this.map = {};
+
+    this.handleCoordinatesChange = this.handleCoordinatesChange.bind(this);
+  }
+
+  handleCoordinatesChange({lat, lng}) {
+    this.map.setCenter([lat, lng]);
   }
 
   renderMap(coords) {
@@ -22,9 +30,12 @@ class Map {
       myMap.events.add('boundschange', (event) => {
         let lat = event.originalEvent.newBounds[0][0];
         let lng = event.originalEvent.newBounds[0][1];
-        self.eventBus.trigger('coordinates:changed', {lat,lng});
+        self.eventBus.trigger('coordinates:changed', {lat, lng});
         window.location.hash = `coordinates?lat=${lat}&lng=${lng}`
       });
+
+      // self.map = myMap;
+      // self.eventBus.on('coordinates:changed', self.handleCoordinatesChange);
     }
   }
 }

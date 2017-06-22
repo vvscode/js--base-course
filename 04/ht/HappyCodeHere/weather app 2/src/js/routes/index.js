@@ -3,13 +3,23 @@ const index = {
     name: 'index',
     match: '',
     onEnter: () => {
+      const contentBlock = document.querySelector('section.main .content');
+      contentBlock.classList.remove('col-md-12');
+      contentBlock.classList.add('col-md-offset-2', 'col-md-8');
+      contentBlock.innerHTML = `
+        <h2>Welcome to cool weather app.</h2>
+        <p>Enter your city to get a latest forecast!</p>
+      `;
       fetch(`https://api.userinfo.io/userinfos`)
         .then(responce => responce.json())
         .then(data => {
           const { name } = data.city;
-          window.location.hash = `city=${name}`;
-          // const { latitude, longitude } = data.position;
-          // window.location.hash = `coordinates?lat=${latitude}&lng=${longitude}`;
+
+          contentBlock.innerHTML += `
+            <br />
+            Or check weather for
+            <a href="#city=${name}">${name}</a> ;)
+          `;
         });
     },
 }

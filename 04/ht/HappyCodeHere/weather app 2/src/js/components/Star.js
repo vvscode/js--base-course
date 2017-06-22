@@ -7,18 +7,18 @@ class Star {
     this.element = element;
 
     this.handleStarClick = this.handleStarClick.bind(this);
-    // this.handleFavoritesActive = this.handleFavoritesActive.bind(this);
+    this.handleFavoritesActive = this.handleFavoritesActive.bind(this);
 
-    this.eventBus.on('favorites:is-active', this.handleFavoritesActive);
+    this.eventBus.on('star:is-active', this.handleFavoritesActive);
   }
 
   handleFavoritesActive(isActive) {
     const star = document.querySelector(this.element + ' span');
 
     if (isActive) {
-      star.classList.add('star-active');
+      star.classList.add('active');
     } else {
-      star.classList.remove('star-active');
+      star.classList.remove('active');
     }
   }
 
@@ -29,10 +29,8 @@ class Star {
 
    if (star.classList.contains('active')) {
      this.eventBus.trigger('favorites:remove', {lat, lng});
-     star.classList.remove('active');
    } else {
      this.eventBus.trigger('favorites:add', {lat, lng});
-     star.classList.add('active');
    }
   }
 

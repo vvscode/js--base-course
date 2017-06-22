@@ -5,40 +5,6 @@
 @import './clouds.scss';
 
 
-.star {
-  width: 400px;
-  margin: 20px auto;
-  text-align: center;
-
-  h5 {
-    font-weight: bold;
-  }
-
-  span {
-    display: block;
-    margin: 0 auto;
-    height: 80px;
-    width: 80px;
-
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    cursor: pointer;
-
-    background-image: url('/img/blue-star.png');
-
-    &.active {
-      background-image: url('/img/yellow-star.png');
-    }
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-}
-
-
 .container {
   margin-top: -350px;
 }
@@ -46,6 +12,10 @@
 h1, h2, h3 {
   text-align: center;
   margin: 30px 0;
+}
+
+.error {
+  color: red;
 }
 
 header {
@@ -134,10 +104,36 @@ section.main {
     }
   }
 
-  .error-block {
+  .star {
+    width: 400px;
+    margin: 20px 0;
+    margin-left: auto;
+    text-align: right;
 
-    p {
-      color: red;
+    h5 {
+      font-weight: bold;
+    }
+
+    span {
+      display: block;
+      margin: 0px;
+      margin-left: auto;
+      height: 80px;
+      width: 80px;
+      cursor: pointer;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-image: url('../img/blue-star.png');
+
+      &.active {
+        background-image: url('../img/yellow-star.png');
+      }
+
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 }

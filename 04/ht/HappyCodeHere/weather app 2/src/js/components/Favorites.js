@@ -28,6 +28,7 @@ class Favorites {
 
   onFavoritesAdd(coords) {
     this.favorites.push(coords);
+    this.onCoordinatesChange(coords);
     this.saveFavoritesToStorage(localStorage);
     this.renderFavorites();
   }
@@ -41,6 +42,8 @@ class Favorites {
     if (this.favorites.length > 5) {
       this.favorites = [];
     }
+
+    this.eventBus.trigger('star:is-active', false);
     this.saveFavoritesToStorage(localStorage);
     this.renderFavorites();
   }
@@ -49,9 +52,6 @@ class Favorites {
     this.favorites.map(item => {
       if (item.lat === coords.lat) {
         this.eventBus.trigger('star:is-active', true);
-      }
-      else {
-        this.eventBus.trigger('star:is-active', false);
       }
     })
   }

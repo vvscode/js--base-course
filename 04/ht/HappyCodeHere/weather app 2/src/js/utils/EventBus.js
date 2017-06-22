@@ -1,67 +1,39 @@
-
 class EventBus {
   constructor() {
-    this.listeners = [];
+    this.listeners = {};
   }
 
-  on(event, handler) {
-    if (!(event in this.listeners)) {
-      this.listeners[event] = [];
+  on(name, func) {
+    if (!this.listeners[name]) {
+      this.listeners[name] = [];
     }
 
-    this.listeners[event].push(handler);
+    this.listeners[name].push(func);
   }
 
-  off(event, handler) {
-    if (!(event in this.listeners)) {
-      return;
-    }
-    var stack = this.listeners[event];
+  off(name, func) {
+    if (!this.listeners[name]) return;
 
-    for (var i = 0, l = stack.length; i < l; i++) {
-      if (stack[i] === handler) {
-        stack.splice(i, 1);
-        return;
-      }
+    const index = this.listeners[name].indexOf(func);
+    this.listeners[name].splice(index, 1);
+
+    if (this.listeners[name].length === 0) {
+      delete this.listeners[name];
     }
   }
 
-  trigger(event, data) {
-    console.log(this.listeners);
-    (this.listeners[event] || []).map((item) => {
-      console.log(event);
-      console.dir(item)
-      item(data)
+  trigger(name, data) {
+    if (!this.listeners[name]) return;
+
+    this.listeners[name].map(item => {
+      item(data);
     });
-    // if (!(event.type in this.listeners)) {
-    //   return true;
-    // }
-    // var stack = this.listeners[event.type];
-    // event.target = this;
-    // for (var i = 0, l = stack.length; i < l; i++) {
-    //   stack[i].call(this, event);
-    // }
-    //   return !event.defaultPrevented;
-    // }
   }
 
-  // once(event, handler) {
-
+  once(name, func) {
+    // пробовал через new Function вызывать функцию с таким же названием
+    // и потом удалять в ней, не получилось
+  }
 }
 
-
 export default EventBus;
-
-//
-// function EventBus() {
-//   this.listeners = {};
-// };
-//
-// EventBus.prototype.on = function (ev, handler) {
-//   this.listeners[ev] = this.listeners[ev] || [];
-//   this.listeners[ev].push(handler);
-// }
-//
-// EventBus.prototype.trigger = function (ev, data) {
-//   (this.listeners[ev] || []).forEach((handler) => handler(data));
-// }

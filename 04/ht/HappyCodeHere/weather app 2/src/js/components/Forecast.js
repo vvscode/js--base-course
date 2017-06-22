@@ -7,9 +7,9 @@ class Forecast {
   }
 
   renderForecast() {
-    const mainDiv = document.querySelector(this.element);
+    const forecastDiv = document.querySelector(this.element);
 
-    mainDiv.innerHTML = `
+    forecastDiv.outerHTML = `
       <div class="forecast-block">
         <h2>${this.cityData.timezone}</h2>
         <div class="row">

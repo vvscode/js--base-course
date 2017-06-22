@@ -104,7 +104,7 @@ gulp.task('js:build', function () {
             presets: ['es2015']
         }))
 
-        // .pipe(uglify()) //Сожмем наш js
+        .pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
         .pipe(gulp.dest(path.dist.js)) //Сохраним готовый файл в dist
         .pipe(reload({stream: true})); //И перезагрузим сервер

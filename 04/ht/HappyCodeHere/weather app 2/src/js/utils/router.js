@@ -1,27 +1,29 @@
 
 // смысл понял, потом напишу свой
 
-var Router = function(options) {
-  this.routes = options.routes || [];
-  this.eventBus = options.eventBus;
-  this.init();
-}
+class Router {
+  constructor(config) {
+    this.eventBus = config.eventBus;
+    this.routes = config.routes || [];
 
-Router.prototype = {
-  init: function() {
+    this.init();
+  }
+
+  init() {
     console.log('---> router init');
     // 1. Подписать this.handleUrl на изменения url
     window.addEventListener('hashchange', () => this.handleUrl(window.location.hash));
     // 2. Выполнить this.handleUrl
     this.handleUrl(window.location.hash);
-  },
-  findPreviousActiveRoute: function() {
+  }
+
+  findPreviousActiveRoute() {
     console.log(`---> router findPreviousActiveRoute: ${(this.currentRoute || {}).name}`);
     // Найти роут с которого уходим
     return this.currentRoute;
-  },
-  findNewActiveRoute: function(url) {
-    // debugger;
+  }
+
+  findNewActiveRoute(url) {
     // Найти роут на который переходим
     // console.log(this.routes);
     let route = this.routes.find((routeItem) => {
@@ -36,13 +38,13 @@ Router.prototype = {
 
     console.log(`---> router findNewActiveRoute: ${url} -- ${(route || {}).name}`);
     return route;
-  },
+  }
   // getRouteParams(route, url) {
   // 	 var params = url.match(route.match) || [];
   //    params.shift();
   //    return params;
   // },
-  handleUrl: function(url) {
+  handleUrl(url) {
     url = url.slice(1);
     // Найти текущий роут
     let previousRoute = this.findPreviousActiveRoute();
@@ -64,11 +66,9 @@ Router.prototype = {
       .then(() => {
       		this.currentRoute = newRoute;
       		// this.currentRouteParams = routeParams;
-    	});
-  },
+    });
+  }
 };
-
-
 
 export default Router;
 

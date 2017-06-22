@@ -1,5 +1,3 @@
-// import { getUrlHashParams } from '../utils/helpers';
-
 const GOOGLE_API_KEY = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
 
@@ -8,19 +6,36 @@ export const city = {
   match: /city=(.+)/,
   onEnter: (url, eventBus) => {
     const city = url.split('=')[1];
+
+    const contentBlock = document.querySelector('section.main .content');
+    contentBlock.classList.remove('col-md-12');
+    contentBlock.classList.add('col-md-offset-2', 'col-md-8');
+    contentBlock.innerHTML = `
+      <h2>Loading information about your city...</h2>
+    `;
+
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_API_KEY}`)
       .then(response => response.json())
       .then(data => {
-        if (data.results.length === 0) throw new Error("Sorry, we can't find your city:(");
+        contentBlock.innerHTML += `
+          <p>Almost ready...</p>
+        `;
+        if (data.results.length === 0) throw new Error("We can't find your city");
         const formattedAddress = data.results[0].formatted_address;
         const { lat, lng } = data.results[0].geometry.location;
 
-        eventBus.on('history:add', formattedAddress);
+        eventBus.trigger('history:add', formattedAddress);
         window.location.hash = `coordinates?lat=${lat}&lng=${lng}`;
       })
       .catch(error => {
-        console.log(error);
+        contentBlock.innerHTML = `
+          <h2>Sorry, we have some error :(</h2>
+          <p class="error">${error}</p>
+        `;
       })
+  },
+  onLeave: () => {
+    // document.querySelector('section.main .content').innerHTML = '';
   }
 };
 

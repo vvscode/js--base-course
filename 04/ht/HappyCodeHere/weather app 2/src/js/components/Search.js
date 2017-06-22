@@ -11,7 +11,7 @@ class Search {
     const inputSearch = document.querySelector('header .search input');
     const value = inputSearch.value;
     window.location.hash = `city=${value}`;
-    value.innerHTML = '';
+    inputSearch.innerHTML = '';
   }
 
   renderSearch() {
@@ -31,7 +31,7 @@ class Search {
         </form>
       </div>
     `
-    
+
     const formSearch = document.querySelector(`${this.element} form`);
     formSearch.addEventListener('submit', this.handleSubmit);
   }

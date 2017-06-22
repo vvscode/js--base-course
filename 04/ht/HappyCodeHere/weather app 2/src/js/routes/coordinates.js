@@ -10,44 +10,58 @@ export const coordinates = {
   onEnter: (url, eventBus) => {
 
     const { lat, lng } = getUrlHashParams();
+    const contentBlock = document.querySelector('section.main .content');
 
     fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=en&units=si`)
       .then(response => response.json())
       .then(data => {
+        if (contentBlock.classList.contains('col-md-8')) {
+          contentBlock.innerHTML = '';
+        }
+        contentBlock.classList.remove('col-md-offset-2', 'col-md-8');
+        contentBlock.classList.add('col-md-12');
 
         const mapDiv = document.createElement('div');
+        mapDiv.classList.add('map');
 
         const starDiv = document.createElement('div');
         starDiv.classList.add('star');
 
-        mapDiv.classList.add('map');
         // mapDiv.innerHTML = '<div class="col-md-9 map"></div><div class="col-md-3 star"></div>'
 
+        // if (!document.querySelector('.forecast-block')) {
+        //   new Map(eventBus, '.map').renderMap([lat, lng]);
+        // }
 
-        document.querySelector('section.main').append(starDiv, mapDiv);
+        if (!document.querySelector('section.main .content .forecast-block')) {
+          const forecastDiv = document.createElement('div');
+          forecastDiv.classList.add('forecast-block');
+          contentBlock.append(forecastDiv);
+        }
+        new Forecast('section.main .content .forecast-block', data).renderForecast();
 
-        new Forecast('section.main .content', data).renderForecast();
+        contentBlock.append(starDiv, mapDiv);
+
+
+        // eventBus.trigger('coordinates:changed', {lat, lng});
 
         if (!document.querySelector('#map')) {
           new Map(eventBus, '.map').renderMap([lat, lng]);
         }
 
-        new Star(eventBus, '.star').renderStar();
-        console.dir(mapDiv);
+        // if (!document.querySelector('.star')) {
+          new Star(eventBus, '.star').renderStar();
+        // }
+
+        eventBus.trigger('coordinates:changed', {lat, lng});
 
       })
       .catch(error => {
-        console.log(error);
+        contentBlock.innerHTML = `
+          <h2>Sorry, we have some error :(</h2>
+          <p class="error">${error}</p>
+        `;
       })
-
-    // eventBus.on('favorites:is-active');
-    // eventBus.trigger('coordinates:changed');
-
-    // - подписаться на `favorites:is-active` // определять должна ли гореть звездочка
-    // - сгенерировать`coordinates:changed`,
-    // - подписаться на клики по звездочке // добавлять или удалять избранное `favorites:add`/ `favorites:remove`
-
-    // - подписаться на изменения на карте (и изменять hash)
   },
 
   onLeave() {
