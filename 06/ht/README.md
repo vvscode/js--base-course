@@ -16,11 +16,11 @@
  - Реализовать режим записи / сохранения / воспроизведения игры (использовать отдельный роут)
 
 ## Прочитать:
-https://learn.javascript.ru/drag-and-drop
-https://learn.javascript.ru/drag-and-drop-objects
-https://habrahabr.ru/company/mailru/blog/207048/
-https://habrahabr.ru/post/187582/
+- https://learn.javascript.ru/drag-and-drop
+- https://learn.javascript.ru/drag-and-drop-objects
+- https://habrahabr.ru/company/mailru/blog/207048/
+- https://habrahabr.ru/post/187582/
 
-https://codelabs.developers.google.com/codelabs/firebase-web-ru/index.html?index=..%2F..%2Flang-ru#0
-http://progcoder.blogspot.com.by/2016/03/firebase-firebase.html
-Пройти курс http://www.w3ii.com/ru/firebase/default.html
+- https://codelabs.developers.google.com/codelabs/firebase-web-ru/index.html?index=..%2F..%2Flang-ru#0
+- http://progcoder.blogspot.com.by/2016/03/firebase-firebase.html
+- Пройти курс http://www.w3ii.com/ru/firebase/default.html
