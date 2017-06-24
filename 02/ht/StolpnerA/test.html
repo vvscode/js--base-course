@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="text">
+<ul class="list" id="ul">
+<button>Click</button>
+</ul>
+
+<script>
+//    var el = document.getElementById('text');
+//    var ul = document.getElementById('ul');
+//    el.onkeydown = function (e) {
+//        if (e.keyCode != 13)
+//            return;
+//        var str = el.value;
+//        el.value = '';
+//        if (str.length > 0) {
+//            localStorage.setItem('test', str);
+//            ul.innerHTML += '<li>' + str + '</li>';
+//        }
+//    }
+    var button = document.querySelector('button');
+    function click() {
+        alert('click');
+        button.removeEventListener('click', click);
+    }
+    button.addEventListener('click', click);
+</script>
+</body>
+</html>
