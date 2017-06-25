@@ -1,24 +1,28 @@
 var FIELD_WIDTH = window.innerWidth * 0.8;
 var FIELD_HEIGHT = 600;
 
-class Enemy {
-  constructor(ctx, width, height, color, x, y) {
+class Bonus {
+  constructor(ctx, width, height, color, x, y, eventBus) {
     this.ctx = ctx;
     this.width = width;
     this.height = height;
     this.color = color;
 
+    this.eventBus = eventBus;
+
     this.speed = 0;
     this.angle = 0;
     this.moveAngle = 0;
 
-    this.image = document.querySelector('.animal-crab');
+    this.image = document.querySelector('.apple');
 
     this.x = x;
     this.y = y;
 
     this.x1 = Math.floor(Math.random() * 5);
     this.y1 = Math.floor(Math.random() * 5);
+
+    this.eventBus.trigger('game:logger', 'Bonus has appeared');
   }
 
   update(ctx) {
@@ -28,7 +32,6 @@ class Enemy {
     // ctx.fillStyle = this.color;
     // ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
     // ctx.restore();
-
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     return this;
   }
@@ -45,8 +48,14 @@ class Enemy {
     // this.x += this.speed * Math.sin(this.angle);
     // this.y -= this.speed * Math.cos(this.angle);
 
-    this.x += this.x1;
-    this.y += this.y1;
+    // if (options.newX) {
+    //   this.x = options.newX;
+    //   this.y = options.newY;
+    // } else {
+    //   this.x += this.x1;
+    //   this.y += this.y1;
+    // }
+
 
     if (this.x > FIELD_WIDTH) {
       this.x = 0;
@@ -62,4 +71,4 @@ class Enemy {
   }
 }
 
-export default Enemy;
+export default Bonus;

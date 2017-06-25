@@ -1,7 +1,7 @@
 var FIELD_WIDTH = window.innerWidth * 0.8;
 var FIELD_HEIGHT = 600;
 
-class Enemy {
+class Enemy2 {
   constructor(ctx, width, height, color, x, y) {
     this.ctx = ctx;
     this.width = width;
@@ -12,7 +12,9 @@ class Enemy {
     this.angle = 0;
     this.moveAngle = 0;
 
-    this.image = document.querySelector('.animal-crab');
+    this.angry = false;
+
+    this.image = document.querySelector('.animal-wasp');
 
     this.x = x;
     this.y = y;
@@ -29,7 +31,15 @@ class Enemy {
     // ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
     // ctx.restore();
 
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if (this.angry) {
+      ctx.drawImage(document.querySelector('.animal-wasp-2'), this.x, this.y, this.width, this.height);
+
+    } else {
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+    }
+
+
     return this;
   }
 
@@ -45,8 +55,14 @@ class Enemy {
     // this.x += this.speed * Math.sin(this.angle);
     // this.y -= this.speed * Math.cos(this.angle);
 
-    this.x += this.x1;
-    this.y += this.y1;
+    if (options.newX) {
+      this.x = options.newX;
+      this.y = options.newY;
+    } else {
+      this.x += this.x1;
+      this.y += this.y1;
+    }
+
 
     if (this.x > FIELD_WIDTH) {
       this.x = 0;
@@ -62,4 +78,4 @@ class Enemy {
   }
 }
 
-export default Enemy;
+export default Enemy2;

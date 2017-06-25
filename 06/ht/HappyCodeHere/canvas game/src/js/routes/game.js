@@ -1,8 +1,14 @@
 import GameField from '../components/GameField';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
+import Enemy2 from '../components/Enemy2';
+
+import Bonus from '../components/Bonus';
 
 import Timer from '../components/Timer';
+import Logger from '../components/Logger';
+
+import PowerLine from '../components/PowerLine';
 
 
 import { loadFromStorage, saveToStorage } from '../utils/helpers';
@@ -30,13 +36,31 @@ const game = {
       eventBus.trigger('game:new');
       event.target.classList.add('disabled');
 
-      gameObj = new GameField(canvas, 300, 600, Player, Enemy, eventBus);
-    })
+      console.log(window.innerWidth);
+
+      gameObj = new GameField(canvas, window.innerWidth * 0.8, 600, Player, Enemy, eventBus, Enemy2, Bonus);
+    });
+
+    const logger = document.createElement('div');
+    logger.classList.add('col-md-2');
 
     const timer = document.createElement('div');
     timer.classList.add('timer');
     const canvas = document.createElement('canvas');
-    mainBlock.append(timer, button, canvas);
+    canvas.classList.add('col-md-10');
+
+    const powerLine = document.createElement('div');
+
+    new PowerLine(powerLine, eventBus).renderPowerLine();
+
+
+    const row = document.createElement('div');
+    row.classList.add('row');
+
+    row.append(canvas, logger);
+
+    mainBlock.append(powerLine, row, timer, button);
+    new Logger(logger, eventBus).renderLogger();
 
 
     new Timer('.timer', eventBus);
@@ -50,7 +74,7 @@ const game = {
     })
   },
   onLeave() {
-    gameObj.stop();
+    // gameObj.stop();
   }
 };
 

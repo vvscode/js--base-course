@@ -1,3 +1,11 @@
-img {
-  display: none;
+.animal-wasp {
+  transform: scaleX(-1);
+}
+
+
+canvas {
+  border: 1px solid #000;
+  display: block;
+  margin: 0 auto;
+  width: 50%;
 }
