@@ -23,6 +23,7 @@
     "babel-preset-es2015-rollup": "3.0.0",
     "gulp": "3.9.1",
     "gulp-babel": "6.1.2",
+    "gulp-browserify": "^0.5.1",
     "gulp-concat": "2.6.1",
     "gulp-livereload": "3.8.1",
     "gulp-rollup": "2.11.0",

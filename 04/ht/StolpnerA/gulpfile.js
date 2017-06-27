@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     babel = require('gulp-babel'),
+    browserify = require('gulp-browserify'),
     watch = require('gulp-watch'),
     prefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
@@ -45,11 +46,7 @@ var config = {
     tunnel: false,
     host: 'localhost',
     port: 9000,
-    logPrefix: "Frontend",
-
-    insertGlobals: true,
-    require: ['src/js/app.js'],
-    debug: !gulp.env.production
+    logPrefix: "Frontend"
 };
 
 gulp.task('html:build', function () {
@@ -63,6 +60,10 @@ gulp.task('js:build', function () {
     return gulp.src(path.src.js) //Найдем наш main файл
         .pipe(rigger()) //Прогоним через rigger
         .pipe(sourcemaps.init()) //Инициализируем sourcemap
+        .pipe(browserify({
+            insertGlobals: true,
+            debug: !gulp.env.production
+        }))
         .pipe(babel({
             presets: ['es2015']
         }))
