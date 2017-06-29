@@ -3,6 +3,7 @@ import Player from  '../components/player';
 import Enemy from '../components/enemy';
 
 import Timer from '../components/timer';
+import { addScoreLS } from '../components/localStorage';
 
 const ARENA_WIDTH = 700;
 const ARENA_HEIGHT = 400;
@@ -12,7 +13,7 @@ var div = document.querySelector('div.main');
 var game = {
     name: 'game',
     match: (text) => text === 'game',
-    onEnter: () => {
+    onEnter: (eventBus) => {
         div.innerHTML = `
 <h2>Game</h2> <hr>
 <button class="start">Start</button>
@@ -25,7 +26,13 @@ var game = {
             var score = document.querySelector('span.score');
             var lvl = document.querySelector('span.lvl');
             let timer = new Timer(score);
-            let gameArena = new GameArena(canvas, lvl, timer, ARENA_WIDTH, ARENA_HEIGHT, Player, Enemy);
+            let gameArena = new GameArena(canvas, lvl, timer, ARENA_WIDTH, ARENA_HEIGHT, Player, Enemy, eventBus);
+
+            eventBus.on('game:finish', () => {
+                var name = prompt('Введите ваше имя', 'Andrey');
+                addScoreLS(score.innerText, name);
+
+            });
         });
     },
     onLeave: () => div.innerHTML = ''

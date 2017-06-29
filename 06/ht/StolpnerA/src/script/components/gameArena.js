@@ -1,4 +1,4 @@
-function GameArena(element, lvl, timer, width, height, Player, Enemy) {
+function GameArena(element, lvl, timer, width, height, Player, Enemy, eventBus) {
     this.canvas = element;
     this.lvl = lvl;
     this.timer = timer;
@@ -13,6 +13,7 @@ function GameArena(element, lvl, timer, width, height, Player, Enemy) {
         level++;
         this.lvl.innerHTML = ` Level: ${level}`;
     }, 5000);
+    this.eventBus = eventBus;
 
     this.start();
 }
@@ -36,6 +37,7 @@ GameArena.prototype = {
         clearInterval(this.enemyInterval);
         clearInterval(this.timer.timer);
         this.lvl.innerHTML += `<span style="color: red; font-weight: bold; font-size: 5em;"> THE END!!! Количество очков = ${this.timer.time}</span>`;
+        this.eventBus.trigger('game:finish');
     },
     updateState() {
         this.clear();

@@ -55,7 +55,7 @@ Router.prototype = {
         Promise.resolve()
             .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(oldRoute.split('=')[1]))
             .then(() => currentRoute && currentRoute.onBeforeEnter && currentRoute.onBeforeEnter(currentParam))
-            .then(() => currentRoute && currentRoute.onEnter && currentRoute.onEnter(currentParam))
+            .then(() => currentRoute && currentRoute.onEnter && currentRoute.onEnter(this.eventBus, currentParam))
     }
 };
 
