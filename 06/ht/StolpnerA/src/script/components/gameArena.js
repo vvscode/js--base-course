@@ -1,11 +1,19 @@
-function GameArena(element, width, height, Player) {
+function GameArena(element, lvl, timer, width, height, Player, Enemy) {
     this.canvas = element;
+    this.lvl = lvl;
+    this.timer = timer;
     this.ctx = this.canvas.getContext('2d');
     this.width = width;
     this.height = height;
     this.player = new Player(this.ctx);
+    this.enemy = [];
+    var level = 0;
+    this.enemyInterval = setInterval(() => {
+        this.enemy.push(new Enemy(this.ctx));
+        level++;
+        this.lvl.innerHTML = ` Level: ${level}`;
+    }, 5000);
 
-    //this.eventBus = eventBus;
     this.start();
 }
 
@@ -25,6 +33,9 @@ GameArena.prototype = {
     },
     stop() {
         clearInterval(this.interval);
+        clearInterval(this.enemyInterval);
+        clearInterval(this.timer.timer);
+        this.lvl.innerHTML += `<span style="color: red; font-weight: bold; font-size: 5em;"> THE END!!! Количество очков = ${this.timer.time}</span>`;
     },
     updateState() {
         this.clear();
@@ -36,6 +47,14 @@ GameArena.prototype = {
                 down: this.keys && this.keys[83]
             }, this.width, this.height)
             .update(this.ctx);
+        this.enemy.map(item => {
+            let newX = Math.abs(item.x - this.player.x);
+            let newY = Math.abs(item.y - this.player.y);
+            if (newX < 25  && newY < 25){
+                this.stop()
+            }
+            item.newPos(this.width, this.height).update(this.ctx);
+        });
     },
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)

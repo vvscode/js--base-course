@@ -1,5 +1,6 @@
 import GameArena from '../components/gameArena';
 import Player from  '../components/player';
+import Enemy from '../components/enemy';
 
 import Timer from '../components/timer';
 
@@ -19,15 +20,15 @@ var game = {
 `;
         let btn = document.querySelector('button.start');
         btn.addEventListener('click', () => {
-            div.innerHTML += `<span class="score"></span><div><canvas style="border: solid 1px red"></canvas></div>`;
+            div.innerHTML += `<span class="score"></span><span class="lvl"> Level: 0</span><div><canvas style="border: solid 1px red"></canvas></div>`;
             var canvas = document.querySelector('canvas');
             var score = document.querySelector('span.score');
-            let gameArena = new GameArena(canvas, ARENA_WIDTH, ARENA_HEIGHT, Player);
-
+            var lvl = document.querySelector('span.lvl');
             let timer = new Timer(score);
+            let gameArena = new GameArena(canvas, lvl, timer, ARENA_WIDTH, ARENA_HEIGHT, Player, Enemy);
         });
     },
     onLeave: () => div.innerHTML = ''
 };
 
-export { game };
+export {game};
