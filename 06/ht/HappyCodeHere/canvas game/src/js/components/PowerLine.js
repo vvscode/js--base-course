@@ -27,7 +27,7 @@ class PowerLine {
     this.element.innerHTML = `
       <h3>Power line</h3>
       <div class="progress">
-        <div class="progress-bar progress-bar-danger" role="progressbar"
+        <div class="progress-bar progress-bar-warning" role="progressbar"
             aria-valuenow="60"
             aria-valuemin="0" aria-valuemax="100"></div>
 

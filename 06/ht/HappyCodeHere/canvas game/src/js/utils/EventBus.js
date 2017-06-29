@@ -26,7 +26,12 @@ class EventBus {
     if (!this.listeners[name]) return;
 
     this.listeners[name].map(item => {
-      item(data);
+      if (Array.isArray(data) && data.length > 0) {
+        // паходу так не катит
+        item(...data);
+      } else {
+        item(data);
+      }
     });
   }
 

@@ -13,9 +13,6 @@ class GameField {
     this.enemy2 = [];
     this.bonus = [];
 
-
-
-
     this.enemyInterval = setInterval(() => {
       this.enemy.push(new Enemy(this.ctx, 40, 40, 'red', 10, 10, eventBus));
     }, 1500)
@@ -35,7 +32,8 @@ class GameField {
     this.canvas.height = this.height;
     this.canvas.width = this.width;
 
-    this.eventBus.trigger('game:logger', 'Game started! Good luck');
+    this.eventBus.trigger('game:logger-clear');
+    this.eventBus.trigger('game:logger', ['Game started! Good luck ;)', 'game-status']);
 
     let num = Math.floor(Math.random() * 5 + 1);
     this.image = document.querySelector('.ground-' + num);
@@ -63,7 +61,7 @@ class GameField {
     clearInterval(this.interval);
     clearInterval(this.enemyInterval);
     clearInterval(this.bonusInterval);
-    this.eventBus.trigger('game:logger', 'Game has finished');
+    this.eventBus.trigger('game:logger', ['Game has finished', 'game-status']);
     this.eventBus.trigger('game:finished');
   }
 

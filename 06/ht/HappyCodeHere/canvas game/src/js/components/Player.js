@@ -27,12 +27,13 @@ class Player {
     if (this.hasPower) return;
     this.height += 10;
     this.width += 10;
+    this.speed += 10;
 
-    this.eventBus.trigger('game:logger', 'You have power for 10 sec!');
+    this.eventBus.trigger('game:logger', ['You have power for 10 sec!', 'bonus']);
 
     setTimeout(() => {
-      this.eventBus.trigger('game:logger', '3 seconds and power will gone');
-    }, 1000*10);
+      this.eventBus.trigger('game:logger', ['3 seconds and power will gone', 'bonus']);
+    }, 1000*7);
 
     this.hasPower = true;
     setTimeout(() => {
@@ -40,6 +41,8 @@ class Player {
       this.color = 'orange';
       this.height -= 10;
       this.width -= 10;
+      this.speed -= 10;
+
 
     }, 10000);
   }
@@ -76,11 +79,15 @@ class Player {
 
   newPos(options) {
     this.moveAngle = 0;
-    this.speed = 0;
+    if (this.hasPower) {
+      this.speed = 5;
+    } else {
+      this.speed = 0;
+    }
     options.left && (this.moveAngle = -5);
     options.right && (this.moveAngle = 5);
-    options.up && (this.speed = 5);
-    options.down && (this.speed = -5);
+    options.up && (this.speed += 5);
+    options.down && (this.speed += -5);
 
 
 

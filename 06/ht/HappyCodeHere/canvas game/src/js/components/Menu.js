@@ -4,13 +4,11 @@ class Menu {
   }
 
   renderMenu() {
-    const menuBlock = document.querySelector(this.element);
-
-    menuBlock.innerHTML = `
+    this.element.innerHTML = `
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#game">Game</a></li>
-        <li><a href="#stats">Statictic</a></li>
+        <li><a href="#stats">Statistics</a></li>
       </ul>
     `
   }

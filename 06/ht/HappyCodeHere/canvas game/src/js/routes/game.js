@@ -1,17 +1,17 @@
 import GameField from '../components/GameField';
+
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 import Enemy2 from '../components/Enemy2';
-
 import Bonus from '../components/Bonus';
+
+import PowerLine from '../components/PowerLine';
 
 import Timer from '../components/Timer';
 import Logger from '../components/Logger';
 
-import PowerLine from '../components/PowerLine';
 
-
-import { loadFromStorage, saveToStorage } from '../utils/helpers';
+import { saveToStorage } from '../utils/helpers';
 
 let gameObj = {};
 
@@ -20,23 +20,21 @@ const game = {
   match: 'game',
   onEnter(url, eventBus) {
     const mainBlock = document.querySelector('.main');
+    mainBlock.classList.remove('welcome', 'statistics');
+    mainBlock.classList.add('game');
 
     mainBlock.innerHTML = `
       <h2>Game</h2>
     `
 
-    let dataFromStorage = loadFromStorage(localStorage);
-    console.log(dataFromStorage);
-
     const button = document.createElement('button');
     button.innerText = 'Start game!';
-    button.classList.add('btn', 'btn-danger');
+    button.classList.add('btn', 'btn-success');
 
     button.addEventListener('click', (event) => {
       eventBus.trigger('game:new');
       event.target.classList.add('disabled');
 
-      console.log(window.innerWidth);
 
       gameObj = new GameField(canvas, window.innerWidth * 0.8, 600, Player, Enemy, eventBus, Enemy2, Bonus);
     });
@@ -57,15 +55,15 @@ const game = {
     const row = document.createElement('div');
     row.classList.add('row');
 
+    logger.append(timer)
+
     row.append(canvas, logger);
 
-    mainBlock.append(powerLine, row, timer, button);
+    mainBlock.append(button, powerLine, row);
     new Logger(logger, eventBus).renderLogger();
 
 
     new Timer('.timer', eventBus);
-
-
 
 
     eventBus.on('game:finished', () => {
@@ -73,9 +71,7 @@ const game = {
       saveToStorage('some data', localStorage);
     })
   },
-  onLeave() {
-    // gameObj.stop();
-  }
+  onLeave() {}
 };
 
 export { game };
