@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Опросник</title>
+    <style>
+        body {
+            padding: 10px
+        }
+    </style>
+    <script>
+        function data() {
+            var name = document.getElementById("FullName").value;
+            var city = document.getElementById("City").value;
+            var message = document.getElementById("message").value;
+            if (document.getElementById("male").checked == true) {
+                document.getElementById("result").innerHTML = "Ваше ФИО" + name + '<br> Ваш город ' + city + '<br> Ваш пол ' + male.value + '<br> Ваше сообщение ' + message;
+            }
+            else {
+                document.getElementById("result").innerHTML = "Ваше ФИО" + name + '<br> Ваш город ' + city + '<br> Ваш пол ' + female.value + '<br> Ваше сообщение ' + message;
+            }
+            document.getElementById("FullName").value = null;
+            document.getElementById("City").value = null;
+            document.getElementById("message").value = null;
+            document.getElementById("male").value = null;
+            document.getElementById("female").value = null;
+        };
+    </script>
+</head>
+
+<body>
+    <form>
+        <div>
+            <input type="text" id="FullName" placeholder="Введите ваше ФИО"><br>
+            <input id="male" name="group1" type="radio" value="Мужской"> Мужской
+            <input id="female" name="group1" type="radio" value=" Женский"> Женский <br>
+            <select id="City">
+			    <option value="Минск">Минск</option>
+			    <option value="Осиповичи">Осиповичи</option>
+			    <option value="Маунтин-Вью">Маунтин-Вью</option>
+		    </select>
+        </div>
+
+        <textarea type="text" id="message" placeholder="Комментарий" rows="10" cols="20"></textarea>
+
+        <div>
+            <button type="button" id="submit" onclick="data()">Отправить</button>
+        </div>
+    </form>
+    <br><br><br>
+    <div id="result"></div>
+
+</body>
+
+</html>
