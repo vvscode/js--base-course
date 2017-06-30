@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Js Base Course - Занятие 4</title>
+  <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/theme/white.css" id="theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Занятие 4</h1>
+      </section>
+      <section>
+        <h2>Observer / Event Emitter</h2>
+        <section>
+          <p class="fragment" style="font-size:smaller; text-align: left;"><strong>Наблюдатель</strong> — поведенческий шаблон проектирования. Создает механизм у класса, который позволяет
+            получать экземпляру объекта этого класса оповещения от других объектов об изменении их состояния, тем самым наблюдая
+            за ними.
+          </p>
+        </section>
+        <section>
+          <img style="width: 60%; height: 60%; border: none;" src="./images/Observer_UML.png" alt="Observer - Диаграмма">
+        </section>
+        <section>
+          <p style="font-size: smaller; text-align: left">Данный шаблон часто применяют в ситуациях, в которых отправителя сообщений не интересует, что делают получатели
+            с предоставленной им информацией.</p>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+IObservable {
+  addObserver(event, handler)
+  removeObserver(event, handler)
+  notifyObserver(event, data)
+}
+            </code></pre>
+        </section>
+        <section>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget" target="_blank">EventTarget</a>
+          <pre><code data-trim class="javascript line-numbers">
+EventTarget {
+  addEventListener(event, handler)
+  removeEventListener(event, handler)
+  dispatchEvent(event)
+}
+            </code></pre>
+        </section>
+        <section>
+          <img style="width:50%; height:50%; border: none;" src="./images/SimpleEventEmitter.png" />
+        </section>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h4>Посредник / Медиатор</h4>
+        <section>
+          <p style="text-align: left; font-size: smaller;" class="fragment"><strong>Посредник (англ. Mediator)</strong> — поведенческий шаблон проектирования, обеспечивающий взаимодействие
+            множества объектов, формируя при этом слабую связанность и избавляя объекты от необходимости явно ссылаться друг
+            на друга.</p>
+        </section>
+        <section>
+          <p style="text-align: left; font-size: smaller;" class="fragment"><strong>Проблема</strong><br /> Обеспечить взаимодействие множества объектов, сформировав при этом слабую связанность
+            и избавив объекты от необходимости явно ссылаться друг на друга.</p>
+          <p style="text-align: left; font-size: smaller;" class="fragment"><strong>Решение</strong><br /> Создать объект, инкапсулирующий способ взаимодействия множества объектов.
+          </p>
+          <p style="text-align: left; font-size: smaller;" class="fragment"><strong>Преимущества</strong><br /> Устраняется связанность между "Коллегами", централизуется управление.
+          </p>
+        </section>
+        <section>
+          <p style="text-align: left; font-size: smaller;">"Посредник" определяет интерфейс для обмена информацией с объектами "Коллеги", "Конкретный посредник" координирует
+            действия объектов "Коллеги". Каждый класс "Коллеги" знает о своем объекте "Посредник", все "Коллеги" обмениваются
+            информацией только с посредником, при его отсутствии им пришлось бы обмениваться информацией напрямую. "Коллеги"
+            посылают запросы посреднику и получают запросы от него. "Посредник" реализует кооперативное поведение, пересылая
+            каждый запрос одному или нескольким "Коллегам".
+          </p>
+        </section>
+        <section>
+          <img style="width:70%; height:70%; border: none;" src="./images/eventbus.jpg" />
+        </section>
+      </section>
+      <section>
+        <h4>Event Bus + Observable</h4>
+        <section>
+          <img style="width:60%; height:60%; border: none; margin-top: 40px;" src="./images/eventbus2.jpg" />
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+IEventBus {
+  on(event, handler)
+  off(event, handler)
+  trigger(event, data)
+
+  once(event, data)
+}
+            </code></pre>
+        </section>
+        <section>
+          <pre style="font-size: small;"><code data-trim class="javascript line-numbers">
+var eventBus = new EventBus();
+
+// module 1
+eventBus
+  .on('city:changed', (cityName) => console.log(`New city: ${cityName}`));
+
+// module 2 
+eventBus
+  .trigger('city:changed', 'Minsk');
+            </code></pre>
+        </section>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h1>Router</h1>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+IRoute {
+  [name]
+  [match]
+  onEnter([data])
+  onLeave([data])
+
+  onBeforeEnter([data])
+}
+            </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript">
+/* match */ String | RegExp | function
+            </code></pre>
+        </section>
+        <section>
+          <pre style="font-size: small;"><code data-trim class="javascript">
+          Router = {
+            routes: [
+              {
+                name: 'index',
+                match: '',
+                onBeforeEnter: () => console.log('onBeforeEnter index'),
+                onEnter: () => console.log('onEnter index'),
+                onLeave: () => console.log('onLeave index')
+              },
+              {
+                name: 'city',
+                match: /city=(.+)/,
+                onBeforeEnter: (city) => console.log(`onBeforeEnter city:${city}`),
+                onEnter: (city) => console.log(`onEnter city:${city}`),
+                onLeave: (city) => console.log(`onLeave city:${city}`)
+              },
+              {
+                name: 'about',
+                match: (text) => text === 'about',
+                onBeforeEnter: () => console.log(`onBeforeEnter about`),
+                onEnter: () => console.log(`onEnter about`),
+                onLeave: () => console.log(`onLeave about`)
+              }
+            ]
+          }
+</code></pre>
+        </section>
+        <section>
+          <pre style="font-size: small;"><code data-trim class="javascript">
+// Зашел на главную
+// onBeforeEnter index
+// onEnter index
+</code></pre>
+          <pre style="font-size: small;" class="fragment"><code data-trim class="javascript">
+// Ввел адрес в форму
+// onLeave index
+// onBeforeEnter city:Minsk
+// onEnter city:Minsk
+</code></pre>
+          <pre style="font-size: small;" class="fragment"><code data-trim class="javascript">
+// About
+// onLeave city:Minsk
+// onBeforeEnter about
+// onEnter about
+</code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+IRouter {
+  add(route[, force])
+  remove(route)
+  removeByName(name)
+
+  go(name, params)
+}
+            </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+IRouter2 {
+  on(match, handler)
+}
+            </code></pre>
+        </section>
+      </section>
+<section>
+  <h1>Вопросы?</h1>
+</section>
+<section>
+  <h1>Домашнее задание ))</h1>
+</section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
+  <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
+    Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls: true,
+      // Display a presentation progress bar
+      progress: true,
+      // Set default timing of 2 minutes per slide
+      defaultTiming: 120,
+      // Display the page number of the current slide
+      slideNumber: true,
+      // Push each slide change to the browser history
+      history: true,
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+      // Enable the slide overview mode
+      overview: true,
+      // Vertical centering of slides
+      center: true,
+      // Enables touch navigation on devices with touch input
+      touch: true,
+      // Loop the presentation
+      loop: false,
+      // Change the presentation direction to be RTL
+      rtl: false,
+      // Randomizes the order of slides each time the presentation loads
+      shuffle: false,
+      // Turns fragments on and off globally
+      fragments: true,
+      // Flags if the presentation is running in an embedded mode,
+      // i.e. contained within a limited portion of the screen
+      embedded: false,
+      // Flags if we should show a help overlay when the questionmark
+      // key is pressed
+      help: true,
+      // Flags if speaker notes should be visible to all viewers
+      showNotes: true,
+      // Global override for autolaying embedded media (video/audio/iframe)
+      // - null: Media will only autoplay if data-autoplay is present
+      // - true: All media will autoplay, regardless of individual setting
+      // - false: No media will autoplay, regardless of individual setting
+      autoPlayMedia: null,
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+      // Stop auto-sliding after user input
+      autoSlideStoppable: true,
+      // Use this method for navigation when auto-sliding
+      autoSlideMethod: Reveal.navigateNext,
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+      // Hides the address bar on mobile devices
+      hideAddressBar: true,
+      // Opens links in an iframe preview overlay
+      previewLinks: true,
+      // Transition style
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+      // Transition style for full page slide backgrounds
+      backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+      // Number of slides away from the current that are visible
+      viewDistance: 3,
+      // Parallax background image
+      parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+      // Number of pixels to move the parallax background per slide
+      // - Calculated automatically unless specified
+      // - Set to 0 to disable movement along an axis
+      parallaxBackgroundHorizontal: null,
+      parallaxBackgroundVertical: null,
+      // The display mode that will be used to show slides
+      display: 'block',
+
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
+          condition: function () {
+            return !document.body.classList;
+          }
+        },
+
+        // Interpret Markdown in <section> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+
+        // Syntax highlight for <code> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+
+        // Zoom in and out with Alt+click
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/zoom-js/zoom.js',
+          async: true
+        },
+
+        // Speaker notes
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/notes/notes.js',
+          async: true
+        },
+
+        // MathJax
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/math/math.js',
+          async: true
+        },
+        {
+          src: 'https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.js'
+        },
+      ]
+    });
+    Reveal.configure({
+      slideNumber: 'c/t'
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Webpage</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <form>
+    <h2>Введите ваши данные:</h2>
+
+    <div class="form-group">
+      <label for="name">Имя</label>
+      <input class="form-control" type="text" name="" value="" id="name">
+    </div>
+
+    <div class="form-group">
+      <label for="city">Родной город</label>
+      <select class="form-control" name="" id="city">
+        <option value="">Выберите город:</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="comment">Комментарий</label>
+      <textarea class="form-control" name="" id="comment"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Пол</label>
+      <input type="radio" name="gender" value="Мужской"> Мужской
+      <input type="radio" name="gender" value="Женский"> Женский
+    </div>
+
+    <input class="btn btn-warning" type="submit" name="" value="Отправить">
+  </form>
+
+
+  <div class="output">
+    <h3>Отправленные данные:</h3>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
