@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Forecast</title>
 </head>
 <body>
 <div class="main">
     <div class="footer">
+        <ul>
+            <li><a href="#">Index</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#city=Minsk">Minsk</a></li>
+        </ul>
         <form action="">
             <label><input class="fetch" type="radio" name="query" value="fetch" checked>fetch</label>
             <label><input class="XHR" type="radio" name="query" value="xhr">XHR</label>
@@ -17,6 +21,7 @@
     </div>
     <div class="artical">
         <span class="tem">Это самый лучший сайт! Только тут вы можете посомтреть реальный прогноз погоды! Без регистраици и СМС!</span>
+        <div class="map"></div>
     </div>
     <div class="footer">
         <ul class="list">
@@ -29,7 +34,6 @@
         </ul>
     </div>
 </div>
-
-<script src="script.js"></script>
+<script src="script/app.js"></script>
 </body>
 </html>

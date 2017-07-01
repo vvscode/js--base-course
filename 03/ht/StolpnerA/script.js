@@ -18,8 +18,9 @@ function handleUrl(url) {
         temperaturePromise
             .then((data) => {
                 var tem = data.currently['temperature'];
+                var summary = data.daily['summary'];
                 var span = document.querySelector('.tem');
-                span.innerHTML = `${tem}&deg;C`;
+                span.innerHTML = `${tem}&deg;C ${summary}`;
                 addList(city);
             });
     }
@@ -37,7 +38,7 @@ function getTemperatureFetch(city) {
         .then((data) => {
             var lat = data.results[0].geometry.location['lat'];
             var lng = data.results[0].geometry.location['lng'];
-            return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`)
+            return fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0af54334380529c3e76f2c4a7d343181/${lat},${lng}?lang=ru&units=si`)
         })
         .then(response => response.json())
         .catch(reject => console.error(reject));
@@ -55,7 +56,7 @@ function getTemperaturexhr(city) {
             var lat = data.results[0].geometry.location['lat'];
             var lng = data.results[0].geometry.location['lng'];
             var xhr1 = new XMLHttpRequest();
-            xhr1.open('GET', `https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`, true);
+            xhr1.open('GET', `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0af54334380529c3e76f2c4a7d343181/${lat},${lng}?lang=ru&units=si`, true);
             xhr1.send();
             xhr1.onload = function () {
                 if (this.status == 200) {
