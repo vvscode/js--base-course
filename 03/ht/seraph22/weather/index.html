@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Weather v1.0</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript" defer></script>
+	<script src="js/yandex.js" type="text/javascript" defer></script>
+	<script src="js/weather.js" defer></script>
+</head>
+
+<body>
+	<div class="wrapper border">
+		<div class="container border">
+			<header>
+				<form>
+					<div class="request inline-block">
+						<label for="fetch-id">Fetch</label>
+						<input type="radio" id="fetch-id" name="radio" value="fetch" checked>
+						<label for="xhr-id">XHR</label>
+						<input type="radio" id="xhr-id" name="radio" value="xhr">
+					</div>
+					<div class="search inline-block">
+						<input id="search-field-id" type="text" autofocus>
+						<!--<input class="search" type="button" value=" Получить прогноз ">-->
+					</div>
+				</form>
+			</header>
+			<div class="main">
+				<div class="output">
+					<div class="output-data inline-block">
+						<div class="city-weather inline-block"></div>
+						<div class="city-name inline-block"></div>
+					</div>
+					<div class="favorites inline-block"></div>
+				</div>
+				<div id="map" class="map"></div>
+			</div>
+			<footer>
+				<div class="city-list inline-block"></div>
+				<div class="favorites-list inline-block"></div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>
