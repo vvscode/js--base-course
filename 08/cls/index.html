@@ -68,8 +68,10 @@
       <section>
         <h4>Тестирование без выполнения - статический анализ</h4>
         <ul>
-          <li class="fragment">Типизация: <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> / <a href="https://flow.org/" target="_blank">Flow</a> / <a href="http://usejsdoc.org/" target="_blank">JSDoc</a></li>
-          <li class="fragment">Анализ AST: <a href="http://jshint.com/" target="_blank">JSHint</a>, <a href="http://www.jslint.com/" target="_blank">JSLint</a>, <a href="http://eslint.org/" target="_blank">ESLint</a></li>
+          <li class="fragment">Типизация: <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> / <a href="https://flow.org/"
+              target="_blank">Flow</a> / <a href="http://usejsdoc.org/" target="_blank">JSDoc</a></li>
+          <li class="fragment">Анализ AST: <a href="http://jshint.com/" target="_blank">JSHint</a>, <a href="http://www.jslint.com/" target="_blank">JSLint</a>,
+            <a href="http://eslint.org/" target="_blank">ESLint</a></li>
           <li class="fragment">Комплексные инструменты: <a href="https://www.sonarqube.org/" target="_blank">SonarQube</a></li>
         </ul>
       </section>
@@ -93,6 +95,119 @@
         <section>
           <p><strong>Общий подход:</strong> Выполнить код и проверить результат его работы</p>
         </section>
+      </section>
+      <section>
+        <h4>Модульное тестирование</h4>
+                <section>
+          Особенности:
+          <ul>
+            <li class="fragment">Тестирует реализацию</li>
+            <li class="fragment">Скорость работы и точность выявления ошибок</li>
+            <li class="fragment">"Белый" ящик</li>
+            <li class="fragment">Влияют на устройство кода "внутри"</li>
+          </ul>
+        </section>
+        <section>
+          <ul>
+            <li class="fragment"><a href="https://mochajs.org/" target="_blank">Mocha</a></li>
+            <li class="fragment"><a href="https://facebook.github.io/jest/" target="_blank">Jest</a></li>
+            <li class="fragment"><a href="https://jasmine.github.io/" target="_blank">Jasmine</a></li>
+            <li class="fragment"><a href="https://qunitjs.com/" target="_blank">QUnit</a></li>
+          </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+describe('Array', function() {
+  describe('#indexOf()', function() {
+    it('should return -1 when the value is not present', function() {
+      [1,2,3].indexOf(5).should.equal(-1);
+      [1,2,3].indexOf(0).should.equal(-1);
+    });
+  });
+});
+            </code></pre>
+        </section>
+        <section>
+          <img src="https://mochajs.org/images/reporter-spec-duration.png" alt="Success tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://mochajs.org/images/reporter-string-diffs.png" alt="Failed tests" style="border:none;">
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;max-height: 550px;">
+describe('Connection', function() {
+  var db = new Connection,
+    tobi = new User('tobi');
+
+  beforeEach(function(done) {
+    db.clear((err) => {
+      return (err) ? done(err): db.save([tobi, loki, jane], done);
+    });
+  });
+
+  describe('#find()', () => {
+    it('respond with matching records', (done) => {
+      db.find({type: 'User'}, (err, res) => {
+        if (err) return done(err);
+        res.should.have.length(3);
+        done();
+      });
+    });
+  });
+});
+            </code></pre>
+        </section>
+        <section>
+        <p><a target="_blank" src="https://habrahabr.ru/post/116372/">Вспомогательные объекты/методы</a></p>
+        <p style="font-size:smaller;"><strong>test stub (заглушка)</strong>, используется для получения данных из внешней зависимости, подменяя её.</p>
+        <p style="font-size:smaller;"><strong>test spy (тестовый шпион)</strong>, используется для тестов взаимодействия, основной функцией является запись данных и вызовов, поступающих из тестируемого объекта для последующей проверки </p>
+        <p style="font-size:smaller;"><strong>mock object (мок-объект)</strong>, очень похож на тестовый шпион, однако не записывает последовательность вызовов с переданными параметрами для последующей проверки</p>
+        </section>
+      </section>
+      <section>
+        <h4>UI тестирование</h4>
+        <section>
+          Особенности:
+          <ul>
+            <li class="fragment">Тестирует функционал, а не код</li>
+            <li class="fragment">Сценарии со стороны пользователя</li>
+            <li class="fragment">Кроссбраузерность</li>
+            <li class="fragment">Нет привязки к средствам реализации</li>
+            <li class="fragment">"Черный" ящик</li>
+            <li class="fragment">"Простое" создание тестов</li>
+            <li class="fragment">Медленные <sup>*</sup></li>
+          </ul>
+        </section>
+        <section>
+          <ul>
+            <li class="fragment"><a href="http://casperjs.org/" target="_blank">CasperJS</a></li>
+            <li class="fragment"><a href="http://nightwatchjs.org/" target="_blank">NightWatch.js</a></li>
+            <li class="fragment"><a href="http://nightwatchjs.org/" target="_blank">Zombie.js</a></li>
+            <li class="fragment"><a href="http://webdriver.io/" target="_blank">WebdriverIO </a></li>
+            <li class="fragment">...</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;max-height: 550px;">
+var webdriverio = require('webdriverio');
+var options = { desiredCapabilities: { browserName: 'chrome' } };
+var client = webdriverio.remote(options);
+client
+    .init()
+    .url('https://duckduckgo.com/')
+    .setValue('#search_form_input_homepage', 'WebdriverIO')
+    .click('#search_button_homepage')
+    .getTitle().then(function(title) {
+        console.log('Title is: ' + title);
+        // outputs:
+        // "Title is: WebdriverIO (Software) at DuckDuckGo"
+    })
+    .end();
+            </code></pre>
+        </section>
+      </section>
+      <section>
+        <a href="https://codepen.io/vvscode/pen/weEdPK?editors=1010" target="_blank">Разбор примера тестов</a>
       </section>
     </div>
   </div>
