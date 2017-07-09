@@ -44,7 +44,7 @@ describe('Counter', () => {
         });
         it('Should be create btn', () => {
             let btn = document.querySelector('button');
-            assert.isDefined(btn);
+            assert.isNotNull(btn);
         });
         function test(x) {
             it('Should be ' + x, () => {
@@ -53,7 +53,7 @@ describe('Counter', () => {
             })
         }
 
-        for (var x = 6; x <= 10; x++) {
+        for (let x = 6; x <= 10; x++) {
             test(x);
         }
     });
