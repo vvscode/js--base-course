@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        function debounce(func, wait) {
+            var timer;
+
+            return function () {
+                clearTimeout(timer);
+                var args = arguments;
+
+                timer = setTimeout(function () {
+                    func.apply(null, args);
+                }, wait);
+            };
+        };
+
+        var greet = function () {
+            var date = new Date();
+            console.log(date.toLocaleString());
+            document.getElementsByTagName('h1')[0].innerHTML = date.toLocaleString();
+        };
+        window.addEventListener("resize", debounce(greet, 3000));
+    </script>
+</head>
+
+<body>
+    <h1 id="h1Clas"></h1>
+    <div></div>
+</body>
+
+</html>
