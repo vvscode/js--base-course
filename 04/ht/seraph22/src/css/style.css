@@ -237,11 +237,20 @@ header {
     background: url(https://rawgit.com/seraph22/js--base-course/master/04/ht/seraph22/forecast/img/star.png) no-repeat -50px 0
 }
 
-.map {
+.map,
+.about {
     height: 300px;
     border-top: 1px solid #f4ff88;
     border-bottom: 1px solid #f4ff88;
     box-shadow: 0 0 5px rgb(225, 231, 162);
+}
+
+.about {
+    text-align: center;
+    font-size: 18px;
+    color: #e1e7a2;
+    background: url(../img/about.jpg) 50% 50% no-repeat;
+    background-size: cover;
 }
 
 .address-output {
