@@ -142,8 +142,6 @@ header {
     background: #333;
     border-bottom: 1px solid #333333;
     margin: -1px 0;
-    /*border-top-width: 1px;*/
-    /*box-shadow: 0 1px hsl(66, 98%, 76%) inset;*/
 }
 
 .output {
@@ -224,8 +222,7 @@ header {
     right: -5px;
     width: 50px;
     height: 50px;
-    /*background: url(../img/star.png) no-repeat 0 0;*/
-    background: url(https://rawgit.com/seraph22/js--base-course/master/04/ht/seraph22/forecast/img/star.png) no-repeat 0 0;
+    background: url(../img/star.png) no-repeat 0 0;
     transform: scale(.7, .7);
     z-index: 1;
     cursor: pointer;
@@ -233,8 +230,7 @@ header {
 
 .active,
 .favorites:hover {
-    /*background: url(../img/star.png) no-repeat -50px 0;*/
-    background: url(https://rawgit.com/seraph22/js--base-course/master/04/ht/seraph22/forecast/img/star.png) no-repeat -50px 0
+    background: url(../img/star.png) no-repeat -50px 0;
 }
 
 .map,
