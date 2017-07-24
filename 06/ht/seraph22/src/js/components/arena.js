@@ -36,7 +36,7 @@ export default class Arena
 			this.backgroundCount = 1;
 		}
 
-		this.canvas.style.backgroundImage = 'url(../../img/background/ground0' + this.backgroundCount + '.jpg)';
+		this.canvas.style.backgroundImage = 'url(../img/background/ground0' + this.backgroundCount + '.jpg)';
 		this.backgroundCount++;
 	}
 }
