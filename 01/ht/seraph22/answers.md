@@ -12,26 +12,28 @@ ________________________________________________________________________________
 Что такое this? Чем определяется? Как его изменить?
 
 this называется контекстом вызова и будет определено в момент вызова функции. В отличие от многих других языков программирования ключевое слово this в javascript не привязывается к объекту, а зависит от контекста вызова.
-Определяется объектом на коорый ссылается this, если такой объект не создан, то this будет ссылаться на window
+Определяется объектом на который ссылается this, если такой объект не создан, то this будет ссылаться на window.
 Изменить можно при помощи методов apply и call которые позволяют задать контекст для выполняемой функции.
 ______________________________________________________________________________________
 
-Как узнать сколько параметров принимает функция?
+Как узнать сколько параметров принимает функция? Как вывести все переданные параметры?
 
 Функции можно запускать с любым числом параметров.
 Если функции передано меньше параметров, чем есть в определении, то отсутствующие считаются undefined.
 Непосредственно перед входом в тело функции, автоматически создается объект arguments, который содержит
-1.Аргументы вызова, начиная от нуля
-2.Длину в свойстве length
-3.Ссылку на саму функцию в свойстве callee
+1.Аргументы вызова, начиная от нуля.
+2.Длину в свойстве length.
+3.Ссылку на саму функцию в свойстве callee.
 ```
-function func() {
-	alert(arguments.length); // выведет 3
-  
+function func()
+{
+    alert(arguments.length); // выведет 3
+
     // Вывести все аргументы, переданные функции
     var arr = [];
-    for (var i in arguments) {
-      arr.push(arguments[i]);
+    for (var i in arguments)
+    {
+        arr.push(arguments[i]);
     }
     alert(arr);
 };
@@ -45,21 +47,23 @@ ________________________________________________________________________________
 Это когда один объект использует другой объект в качестве прототипа.
 Реализуется наследование через неявную(внутреннюю) ссылку одного объекта на другой, который называется его прототипом.
 Также существует свойство с похожим названием prototype (без квадратных скобок) - оно вспомогательное и указывает, откуда брать прототип при создании объекта.
-Когда вы ставите функции Animal свойство Animal.prototype = XXX - вы этим декларируете: "все новые объекты класса Animal будут иметь прототип XXX".
+Когда вы ставите функции Rabbit свойство Rabbit.prototype = Animal - вы этим декларируете: "все новые объекты класса Rabbit будут иметь прототип Animal".
 ______________________________________________________________________________________
 
 Как узнать есть ли у объекта свойство x?
 ```
-var Obj = {
-  x: 'qwe'
-}
+var Obj = { x: true };
 
 alert(Obj.hasOwnProperty('x'));
+
 alert(Obj.x);
+
 if (Obj['x'])
 {
-	alert (true);
+    alert (true);
 }
+
+alert(Object.keys(Obj)[0] == 'x');
 ```
 ______________________________________________________________________________________
 
@@ -88,7 +92,7 @@ arr.splice(arr.length-2,1);
 ```
 ______________________________________________________________________________________
 
-Как заменить в строке "papa roach" все буквы a на A?
+Как заменить в строке "papa roach" все буквы 'a' на 'A'?
 ```
 var str = "papa roach";
 str = str.replace(/a/g,'A');
@@ -98,16 +102,17 @@ ________________________________________________________________________________
 Сколькими способами ( с примерами кода ) можно найти на странице div с id someId?
 ```
 var a = document.getElementById('someId');
-var b = document.querySelector("#someId");
+var b = document.querySelector('#someId');
 ```
 ______________________________________________________________________________________
 
-Как устроен событийный цикл в js?
+Как устроен событийный цикл в JS?
 
 Модель событийного цикла (event loop) называется так, потому что отслеживает новые события в цикле:
 ```
-while(queue.waitForMessage()){
-  queue.processNextMessage();
+while(queue.waitForMessage())
+{
+    queue.processNextMessage();
 }
 ```
 queue.waitForMessage ожидает события если очередь пуста.
@@ -121,80 +126,85 @@ ________________________________________________________________________________
 API (Application Programming Interface) — это интерфейс программирования, интерфейс создания приложений. Если говорить более понятным языком, то API — это готовый код для упрощения жизни программисту. API создавался для того, чтобы программист реально мог облегчить задачу написания того или иного приложения благодаря использованию готового кода (например, функций). Всем известный jQuery, написанный на JavaScript является тоже своего рода API. Если рассматривать конкретно данный пример, то jQuery позволяет намного облегчить написание кода. То что обычными средствами JavaScript можно было сделать за 30 строк, через jQuery пишется через 5-6. Если рассматривать API в общем, то можно найти очень много сервисов, представляющих решения для разработки. Самый известный на сегодняшний день — это сервис code.google.com, предоставляющий около полусотни разнообразных API! Это и интерфейс для создания Android-приложений, и различные API для работы с AJAX, и различные API приложений, которые можно легко подстроить под свой лад.
 ______________________________________________________________________________________
 
-Как в js реализовать многопоточность?
+Как в JS реализовать многопоточность?
 
 Никак, т.к. JS - однопоточный язык программирования. Однако, можно использовать вебворкеры, а также в JS есть поддержка отложенного выполнения, когда мы устанавливаем обработчик события timeout и выходим из программы.
 При этом можно повесить несколько обработчиков, образующих конкурентную очередь выполнения.
 ______________________________________________________________________________________
 
-Как в js реализовать наследование одного "класса" от другого? Пример кода
+Как в JS реализовать наследование одного "класса" от другого? Пример кода.
 ```
-function First() {
-	this.value1 = 'test1';
-	this.value2 = 'test2';
+function First()
+{
+    this.value1 = 'test1';
+    this.value2 = 'test2';
 }
 
-function Second(value3) {
-	First.call(this);
+function Second(value)
+{
+    First.call(this);
   
-    this.value3 = value3;
+    this.value3 = value;
 }
 
 var test = new Second('test3');
 
-alert(test.value1);
-alert(test.value2);
-alert(test.value3);
+alert(test.value1); // test1
+alert(test.value2); // test2
+alert(test.value3); // test3
 ```
 ______________________________________________________________________________________
 
-Сколькими способами можно проитерироваться по всем полям объекта? С примерами кода
+Сколькими способами можно проитерироваться по всем полям объекта / массива? С примерами кода.
 ```
 var obj = {
-  val1: 'string',
-  val3: true
+    val1: 'string',
+    val3: true
 }
 obj.val2 = 2;
 
-for (key in obj) {
-  console.log(obj[key]);
+var arrTest =[];
+for (let key in obj)
+{
+    arrTest.push(obj[key]);
 }
+alert(arrTest);
 
-alert( Object.keys(obj) );
-alert( Object.getOwnPropertyNames(obj) );
+alert( Object.keys(obj) ); // val1, val2, val3
+alert( Object.getOwnPropertyNames(obj) ); // val1, val2, val3
+
+// Массив
 
 var arr = ['string', true, 2];
 
 for (var i=0;i<arr.length;i++)
 {
-  //console.log(arr[i]);
+    /*...*/
 }
 
-arr.forEach(function(item, i, arr) {
-  console.log(item);
-});
+arr.forEach(function(item, i, arr) { alert(item); });
 
-arr.map(function(item){
-  console.log(item);
-});
+arr.map(function(item) { alert(item); });
 ```
 ______________________________________________________________________________________
 
 Как запретить использовать функцию с ключевым словом new?
 ```
-function User(name) {
-  if (!(this instanceof User))
-  {
-    return new Func(name);
-  }
-  else
-  {
-    return alert('Использовать new запрещено')
-  }
+function User(name)
+{
+    if (!(this instanceof User))
+    {
+        return new Func(name);
+    }
+    else
+    {
+        return alert('Использовать new запрещено')
+    }
 }
 
-function Func(name) {
-  this.name = name;
+function Func(name)
+{
+    this.name = name;
 }
 
 var user1 = new User("Петя");
@@ -205,56 +215,60 @@ console.log(user2.name);
 ```
 ______________________________________________________________________________________
 
-Что такое callback? Зачем? Пример кода
+Что такое callback? Зачем? Пример кода.
 
 Это функция, которую мы передаём куда-либо и ожидаем, что она будет вызвана при наступлении события.
 ```
 var menu = new Menu({
-  title: "Сладости",
-  template: _.template(document.getElementById('menu-template').innerHTML),
-  listTemplate: _.template(document.getElementById('menu-list-template').innerHTML,
-  items: {
-    "donut": "Пончик",
-    "cake": "Пирожное",
-    "chocolate": "Шоколадка"
-  },
-  onselect: showSelected
+    title: "Сладости",
+    template: _.template(document.getElementById('menu-template').innerHTML),
+    listTemplate: _.template(document.getElementById('menu-list-template').innerHTML,
+    items: {
+        "donut": "Пончик",
+        "cake": "Пирожное",
+        "chocolate": "Шоколадка"
+    },
+    onselect: showSelected
 });
 
-function showSelected(href) {
-  alert(href);
+function showSelected(href)
+{
+    alert(href);
 }
 ```
 ______________________________________________________________________________________
 
 Какие методы массива являются функциями высшего порядка?
 
-Например map или filter
+Например, map или filter.
 ```
-var arr = [1,2,'3',null,true]
+var arr = [1,2,'3',null,true];
 
-var a = arr.map(function(elem){
+var a = arr.map(function(elem)
+{
     if (typeof elem == 'number')
     {
-      console.log(elem);
+        console.log(elem); // 2, 1
     }
 });
 
-function isBigEnough(value) {
-  return value >= 10;
+function isBigEnough(value)
+{
+    return value >= 10;
 }
 var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
-// массив filtered равен [12, 130, 44]
-alert(filtered);
+
+alert(filtered); // массив filtered равен [12, 130, 44]
 ```
 ______________________________________________________________________________________
 
 Как добавить новый метод всем не falsy данным в программе?
 ```
-Function.prototype.newMethod = function() {
+Function.prototype.newMethod = function()
+{
     if (!!this)
     {
-      alert('Test');
+        alert('Test');
     }
 }
 
@@ -264,15 +278,15 @@ a.newMethod();
 ```
 ______________________________________________________________________________________
 
-Почему 1 + '2'? и 1 - '2'?
+Что произойдет если выполнить 1 + '2'? 1 - '2'?
 
-При сложении 1 + '2' мы получим 12, т.к. идет преобразование к строке, во всех остальных случаях, где не используется оператор + идет преобрахование к числу, поэтому 1 - '2' = -1;
-Чтобы получить именно сложение 1 + '2' надо добавить, например, унарный + к строке, т.е. 1 + +'2' == 3
+При сложении 1 + '2' мы получим '12', т.к. идет преобразование к строке, во всех остальных случаях, где не используется оператор + идет преобразование к числу, поэтому 1 - '2' = -1;
+Чтобы получить именно сложение 1 + '2' надо добавить, например, унарный + к строке, т.е. 1 + +'2' === 3
 ______________________________________________________________________________________
 
 Как и когда работает преобразование типов?
 
-Преобразование типов в JS происходит динамически, т.е. если была создана, например, переменная var a = 2 с типом Number, то мы легко можем сменить тип переменной на тот, который нам требуется
+Преобразование типов в JS происходит динамически, т.е. если была создана, например, переменная var a = 2 с типом Number, то мы легко можем сменить тип переменной на тот, который нам требуется.
 ```
 var a = 2;
 alert(typeof a) // number
@@ -287,7 +301,22 @@ ________________________________________________________________________________
 
 Что такое HTTP? Из чего состоит HTTP протокол?
 
-Гипертекстовый протокол передачи данных. Протокол HTTP предполагает использование клиент-серверной структуры передачи данных. Клиентское приложение формирует запрос и отправляет его на сервер, после чего серверное программное обеспечение обрабатывает данный запрос, формирует ответ и передаёт его обратно клиенту. После этого клиентское приложение может продолжить отправлять другие запросы, которые будут обработаны аналогичным образом.
+HTTP — широко распространённый протокол передачи данных, изначально предназначенный для передачи гипертекстовых документов (то есть документов, которые могут содержать ссылки, позволяющие организовать переход к другим документам).
+
+Аббревиатура HTTP расшифровывается как HyperText Transfer Protocol, «протокол передачи гипертекста». В соответствии со спецификацией OSI, HTTP является протоколом прикладного (верхнего, 7-го) уровня.
+
+Протокол HTTP предполагает использование клиент-серверной структуры передачи данных. Клиентское приложение формирует запрос и отправляет его на сервер, после чего серверное программное обеспечение обрабатывает данный запрос, формирует ответ и передаёт его обратно клиенту. После этого клиентское приложение может продолжить отправлять другие запросы, которые будут обработаны аналогичным образом.
+
+Задача, которая традиционно решается с помощью протокола HTTP — обмен данными между пользовательским приложением, осуществляющим доступ к веб-ресурсам (обычно это веб-браузер) и веб-сервером. На данный момент именно благодаря протоколу HTTP обеспечивается работа Всемирной паутины.
+
+Также HTTP часто используется как протокол передачи информации для других протоколов прикладного уровня, таких как SOAP, XML-RPC и WebDAV. В таком случае говорят, что протокол HTTP используется как «транспорт».
+
+Как правило, передача данных по протоколу HTTP осуществляется через TCP/IP-соединения. Серверное программное обеспечение при этом обычно использует TCP-порт 80 (и, если порт не указан явно, то обычно клиентское программное обеспечение по умолчанию использует именно 80-й порт для открываемых HTTP-соединений), хотя может использовать и любой другой.
+
+Состоит из:
+1. Стартовая строка (англ. Starting line) — определяет тип сообщения;
+2. Заголовки (англ. Headers) — характеризуют тело сообщения, параметры передачи и прочие сведения;
+3. Тело сообщения (англ. Message Body) — непосредственно данные сообщения.
 ______________________________________________________________________________________
 
 Какие есть методы HTTP запросов? Для чего каждый?
@@ -307,30 +336,32 @@ ________________________________________________________________________________
 
 REST (Representational state transfer) – это стиль архитектуры программного обеспечения для распределенных систем, таких как World Wide Web, который, как правило, используется для построения веб-служб.
 В общем случае REST является очень простым интерфейсом управления информацией без использования каких-то дополнительных внутренних прослоек. Каждая единица информации однозначно определяется глобальным идентификатором, таким как URL. Каждая URL в свою очередь имеет строго заданный формат.
+
 RPC - Удалённый вызов процедур, позволяет вызывать функции на удаленном компьютере. Обычно реализация RPC технологии включает в себя два компонента: сетевой протокол для обмена в режиме клиент-сервер и язык сериализации объектов
 ______________________________________________________________________________________
 
-Что такое пакетный менеджер? Какие пакетные менеджеры есть для js?
+Что такое пакетный менеджер? Какие пакетные менеджеры есть для JS?
 
 Пакетный менеджер - набор программного обеспечения, позволяющего управлять процессом установки, удаления, настройки и обновления различных компонентов программного обеспечения.
 Существует несколько пакетных менеджеров JavaScript: npm, bower, volo, ringojs, component. На данный момент npm и bower имеют наибольшее число зарегистрированных пакетов.
 ______________________________________________________________________________________
 
-Что делают системы сборки? Какие системы сборки есть для js?
+Что делают системы сборки? Какие системы сборки есть для JS?
 
 Системы сборки это инструмент сборки веб-приложения, позволяющий автоматизировать повторяющиеся задачи, такие как сборка и минификация CSS- и JS-файлов, запуск тестов, перезагрузка браузера и т.д. Тем самым системы сборки ускоряют и оптимизируют процесс веб-разработки. 
 
-Grunt, Gulp, Gear, Brunch
+Grunt, Gulp, Gear, Brunch.
 ______________________________________________________________________________________
 
-Как с помощью gulp минифицировать js файл?
+Как с помощью gulp минифицировать JS файл?
 
 1. Необходимо создать файл gulpfile.js
 ```
 var gulp = require('gulp'),
     uglify = require('gulp-uglify');
 
-gulp.task('minify', function () {
+gulp.task('minify', function ()
+{
     gulp.src('js/app.js')
         .pipe(uglify())
         .pipe(gulp.dest('build'));
@@ -348,9 +379,9 @@ ________________________________________________________________________________
 При наступлении события обработчики сначала срабатывают на самом вложенном элементе, затем на его родителе, затем выше и так далее, вверх по цепочке вложенности.
 ```
 <form onclick="alert('form')">FORM
-  <div onclick="alert('div')">DIV
-    <p onclick="alert('p')">P</p>
-  </div>
+    <div onclick="alert('div')">DIV
+        <p onclick="alert('p')">P</p>
+    </div>
 </form>
 ```
 ______________________________________________________________________________________
@@ -365,37 +396,44 @@ ________________________________________________________________________________
 ЗАДАЧИ
 ______________________________________________________________________________________
 
-Написать фукнцию isPolindrom , которая принимает на вход строку и возвращает результат проверки, является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
+Написать фукнцию isPolindrom , которая принимает на вход строку и возвращает результат проверки, является строка полиндромом (одинаково читается слева направо и справа налево ) или нет.
 ```
-function isPolindrom(str) {
-	return str === str.split('').reverse().join('');
+function isPolindrom(str)
+{
+    return str === str.split('').reverse().join('');
 }
 alert(isPolindrom('qwerewq fggf qwerewq'));
 ```
 ______________________________________________________________________________________
 
-Написать функцию isDeepEqual которая принимает на вход два объекта и проверяет идентичны ли они по содержимому. Например
+Написать функцию isDeepEqual, которая принимает на вход два объекта и проверяет идентичны ли они по содержимому.
 ```
-function isDeepEqual (a, b) {
-	if (typeof(a) !== typeof(b)) {
-		return false;
-	}
+function isDeepEqual (a, b)
+{
+    if (typeof(a) !== typeof(b))
+    {
+        return false;
+    }
  
-	if (Array.isArray(a) != Array.isArray(b)) {
-		return false;
-	}
+    if (Array.isArray(a) != Array.isArray(b))
+    {
+        return false;
+    }
  
-	if (Object.keys(a).length !== Object.keys(b).length) {
-		return false;
-	}
+    if (Object.keys(a).length !== Object.keys(b).length)
+    {
+        return false;
+    }
 
-	for (var key in a) {
-		if (!isDeepEqual(a[key], b[key])) {
-			return false;
-		}
-	}
+    for (var key in a)
+    {
+        if (!isDeepEqual(a[key], b[key]))
+        {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 var a = { prop1: 1, list: [1,2,3], o: { x: 2 } };
@@ -406,69 +444,69 @@ console.log(isDeepEqual(a, b)); // true
 ```
 ______________________________________________________________________________________
 
-создать собственнй метод .myBind у всех функций, который будет работать так же как встроенный .bind ( его использовать нельзя )
+Создать собственнй метод .myBind у всех функций, который будет работать так же как встроенный .bind ( его использовать нельзя )
 ```
 Function.prototype.myBind = function(context)
 {
-	var func = this;
+    var func = this;
 
-	return function() {
-		return func.apply(context, arguments);
-	};
+    return function()
+    {
+        return func.apply(context, arguments);
+    };
 };
 ```
 ______________________________________________________________________________________
 
-Cоздать функцию debounce С помощью этой функции добавить обработчик на resize окна, чтобы заголовок окна показывал текущее время и выводил его в консоль, не чаще 1 раза в 10 секунд.
+Cоздать функцию debounce. С помощью этой функции добавить обработчик на resize окна, чтобы заголовок окна показывал текущее время и выводил его в консоль, не чаще 1 раза в 10 секунд.
 debounce(function, wait) Вернёт версию функции, исполнение которой начнётся не ранее, чем истечёт промежуток wait, после её последнего вызова. Полезно для реализации логики, которая зависит от завершения действий пользователя. Например, проверить орфографию комментария пользователя лучше будет после того, как он его окончательно введёт, а динамечески перерассчитать разметку - после того, как пользователь закончит изменять размер окна. По истечению интервала wait, функция будет вызвана с агрументами которые были переданы в самый последний раз.
 ```
 <!DOCTYPE html>
 <html>
 <head>
-	<script >
-		function debounce(func, wait)
-		{
-			var timer;
+    <script >
+        function debounce(func, wait)
+        {
+            var timer;
 
-			return function()
-			{
-				clearTimeout(timer);
-				var args = arguments;
+            return function()
+            {
+                clearTimeout(timer);
+                var args = arguments;
 
-				timer = setTimeout(function()
-				{
-					func.apply(null, args);
-				}, wait);
-			};
-		};
+                timer = setTimeout(function()
+                {
+                    func.apply(null, args);
+                }, wait);
+            };
+        };
 
-		var greet = function ()
-		{
-			var date = new Date();
-			console.log(date.toLocaleString());
-			document.getElementById("demo").innerHTML = date.toLocaleString();
-		};
+        var greet = function ()
+        {
+            var date = new Date();
+            console.log(date.toLocaleString());
+            document.getElementById("demo").innerHTML = date.toLocaleString();
+        };
 
-		window.addEventListener( "resize", debounce(greet, 3000) );
-	</script>
+        window.addEventListener( "resize", debounce(greet, 3000) );
+    </script>
 </head>
 <body>
-	<div id="demo">Тест</div>
+    <div id="demo">Тест</div>
 </body>
 </html>
 ```
 ______________________________________________________________________________________
 
-Написать код, который для объекта созданного с помощью конструктора будет показывать, что объект является экземпляром двух классов
+Написать код, который для объекта созданного с помощью конструктора будет показывать, что объект является экземпляром двух классов.
 ```
 function PreUser() {};
-PreUser.prototype = [true,2,'3'];
+PreUser.prototype = [true, 2, '3'];
 var preUser = new PreUser();
 
 function User(){};
 User.prototype = preUser;
 var u = new User();
-
 
 console.log(User === PreUser); // false
 console.log(u instanceof User); // true
@@ -477,12 +515,13 @@ console.log(u instanceof PreUser); // true
 ```
 ______________________________________________________________________________________
 
-Создать объект o так, чтобы каждый раз когда в коде написано o.magicProperty = 3 // (любое значение) в консоль выводилось значение, которое присваивается и текущее время
+Создать объект 'o' так, чтобы каждый раз когда в коде написано o.magicProperty = 3 // (любое значение) в консоль выводилось значение, которое присваивается и текущее время
 ```
 var o = {
-	set magicProperty (a) {
-		console.log(a + " " + new Date().toLocaleTimeString());
-	}
+    set magicProperty (a)
+    {
+        console.log(a + " " + new Date().toLocaleTimeString());
+    }
 };
 
 o.magicProperty = 3;
@@ -491,26 +530,31 @@ ________________________________________________________________________________
 
 Создать конструктор с методами, так, чтобы следующий код работал и делал соответствующие вещи
 ```
-function User() {
-	this.askName = function() {
-		this.name = prompt('Name', '');
-		return this;
-	}
+function User()
+{
+    this.askName = function()
+    {
+        this.name = prompt('Name', '');
+        return this;
+    }
 
-	this.askAge = function() {
-		this.age = prompt('Age', '');
-		return this;
-	}
+    this.askAge = function()
+    {
+        this.age = prompt('Age', '');
+        return this;
+    }
 
-	this.showAgeInConsole = function() {
-		console.log(this.age);
-		return this;
-	}
+    this.showAgeInConsole = function()
+    {
+        console.log(this.age);
+        return this;
+    }
 
-	this.showNameInAlert = function() {
-		alert(this.name);
-		return this;
-	}
+    this.showNameInAlert = function()
+    {
+        alert(this.name);
+        return this;
+    }
 }
 
 var u = new User();
@@ -520,31 +564,36 @@ ________________________________________________________________________________
 
 Написать фукнцию-калькулятор, которая работает следующим образом
 ```
-function calculate1(a) {
-	return function(b) {
-		return function(c) {
-			var str = 'return ' + b+a+c;
-			return new Function(str)();
-		}
-	}
+function calculate1(a)
+{
+    return function(b)
+    {
+        return function(c)
+        {
+            var str = 'return ' + b+a+c;
+            return new Function(str)();
+        }
+    }
 }
 
 alert(calculate1('+')(1)(2)); // 3
 alert(calculate1('*')(2)(3)); // 6
 
 // Второй способ
-function calculate2(a) {
-	return function(b) {
-		var obj = {
-			'+': function(c) {
-			return b+c;
-			},
-			'*': function(c) {
-			return b*c;
-			}
-		}
-		return obj[a];
-	}
+function calculate2(a)
+{
+    return function(b)
+    {
+        var obj = {
+            '+': function(c) {
+                return b+c;
+            },
+            '*': function(c) {
+                return b*c;
+            }
+        }
+        return obj[a];
+    }
 }
 
 alert(calculate2('+')(1)(2)); // 3
@@ -552,27 +601,30 @@ alert(calculate2('*')(2)(3)); // 6
 ```
 ______________________________________________________________________________________
 
-Написать фукнцию сумматор для следующией логики (число вложенностей неограничего)
+Написать фукнцию сумматор для следующией логики (число вложенностей неограниченно)
 ```
-function sum() {
-  return function(a) {
-    var currentCount = 0;
-    if (a)
+function sum()
+{
+    return function(a)
     {
-      currentCount = a;
+        var currentCount = 0;
+        if (a)
+        {
+            currentCount = a;
+        }
+
+        function f(b) {
+            currentCount += b;
+            return f;
+        }
+
+        f.toString = function()
+        {
+            return currentCount;
+        }
+
+        return f;
     }
-    
-    function f(b) {
-      currentCount += b;
-      return f;
-    }
-    
-    f.toString = function() {
-      return currentCount;
-    }
-    
-    return f;
-  }
 }
 
 var s = sum();
@@ -585,13 +637,14 @@ ________________________________________________________________________________
 
 Создать функцию-конструтор, особенностью которой будет следующее - если фукнцию вызвали без ключевого слова new она ведет себя так же, как если бы ее вызвали с этим ключевым словом
 ```
-function Constructor(text) {
-	if (!(this instanceof Constructor))
-	{
-		return new Constructor(text);
-	}
+function Constructor(text)
+{
+    if (!(this instanceof Constructor))
+    {
+        return new Constructor(text);
+    }
 
-	this.text = text;
+    this.text = text;
 }
 var obj1 = new Constructor("Test");
 var obj2 = Constructor("Test");
@@ -604,20 +657,25 @@ ________________________________________________________________________________
 
 Синглтон по определению — объект, который может присутствовать в системе только в единственном числе.
 ```
-// modify example above
-var User = (function () {
-	var instance;
+var User = (function ()
+{
+    var instance;
 
-	return function Construct_singletone () {
-		if (instance) {
-			return instance;
-		}
-		if (this && this.constructor === Construct_singletone) {
-			instance = this;
-		} else {
-			return new Construct_singletone();
-		}
-	}
+    return function Construct_singletone () {
+        if (instance)
+        {
+            return instance;
+        }
+
+        if (this && this.constructor === Construct_singletone)
+        {
+            instance = this;
+        }
+        else
+        {
+            return new Construct_singletone();
+        }
+    }
 }());
 
 var u1 = new User(1);
@@ -635,47 +693,47 @@ ________________________________________________________________________________
 <!DOCTYPE html>
 <html>
 <head>
-	<title>HomeWork01</title>
-	<script>
-		function data() {
-			var name = document.getElementById("name").value;
-			var city = document.getElementById("city").value;
-			var message = document.getElementById("message").value;
-			var gender = document.getElementById("male").checked == true ? "male": "female";
+    <title>HomeWork01</title>
+    <script>
+        function data() {
+            var name = document.getElementById("name").value;
+            var city = document.getElementById("city").value;
+            var message = document.getElementById("message").value;
+            var gender = document.getElementById("male").checked == true ? "male": "female";
 
-			document.getElementById("result").innerHTML = name + ' ' + city + ' ' + gender + ' ' + message;
-			document.getElementById("name").value = null;
-			document.getElementById("city").value = null;
-			document.getElementById("message").value = null;
-			document.getElementById("male").value = null;
-		};
-	</script>
+            document.getElementById("result").innerHTML = name + ' ' + city + ' ' + gender + ' ' + message;
+            document.getElementById("name").value = null;
+            document.getElementById("city").value = null;
+            document.getElementById("message").value = null;
+            document.getElementById("male").value = null;
+        };
+    </script>
 </head>
 <body>
-	<form>
-		<input id="name" placeholder="Имя">
+    <form>
+        <input id="name" placeholder="Имя">
 
-		<select id="city">
-			<option value="Minsk">Минск</option>
-			<option value="London">Лондон</option>
-			<option value="NewYork">Нью-Йорк</option>
-		</select>
+        <select id="city">
+            <option value="Minsk">Минск</option>
+            <option value="London">Лондон</option>
+            <option value="NewYork">Нью-Йорк</option>
+        </select>
 
-		<div>
-			<input id="male" name="group1" type="radio" value="male">
-			<label for="male">Муж</label>
-			<input id="female" name="group1" type="radio" value="female">
-			<label for="female">Жен</label>
-		</div>
+        <div>
+            <input id="male" name="group1" type="radio" value="male">
+            <label for="male">Муж</label>
+            <input id="female" name="group1" type="radio" value="female">
+            <label for="female">Жен</label>
+        </div>
 
-		<textarea type="text" id="message" placeholder="Комментарий" rows="10" cols="20"></textarea>
+        <textarea type="text" id="message" placeholder="Комментарий" rows="10" cols="20"></textarea>
 
-		<div>
-			<button type="button" id="submit" onclick="javascript:data();">Отправить</button>
-		</div>
-	</form>
-	<br><br><br>
-	<div id="result">Данные</div>
+        <div>
+            <button type="button" id="submit" onclick="javascript:data();">Отправить</button>
+        </div>
+    </form>
+    <br><br><br>
+    <div id="result">Данные</div>
 
 </body>
 </html>

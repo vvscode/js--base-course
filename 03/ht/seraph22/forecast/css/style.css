@@ -1,0 +1,315 @@
+body {
+    min-width: 1020px;
+    word-wrap: break-word;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    line-height: 1.5;
+    color: #24292e;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    margin: 12px 0;
+}
+
+.wrapper {
+    width: 480px;
+    height: 640px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #c6c6c6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.container {
+    height: 638px;
+    width: 478px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #c6c6c6;
+}
+
+.border {
+    border: 1px solid #f4ff88;
+}
+
+.border-black {
+    border: 1px solid #000;
+}
+
+.hidden {
+    display: none;
+}
+
+.inline-block {
+    display: inline-block
+}
+
+/*------------------------------HEADER------------------------------*/
+
+header {
+    margin: 0;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #f4ff88;
+}
+
+.request {
+    width: 200px;
+    margin: 0;
+    color: #93ff93;
+    padding: 10px 0 10px 20px;
+}
+
+.search {
+    width: 210px;
+    margin: 0;
+    padding: 8px 20px;
+}
+
+#search-field-id {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #e1e7a2;
+    box-shadow: none;
+    margin: 0;
+    padding: 2px;
+    border: 1px solid #81e56c;
+}
+
+/*------------------------------CONTENT------------------------------*/
+
+.main {
+    width: 100%;
+    height: 420px;
+    position: relative;
+}
+
+.main-menu {
+    width: 100%;
+    height: 25px;
+}
+
+.main-menu ul {
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    font-size: 16px;
+    margin: 0;
+    padding: 4px 0 0 14px;
+}
+
+.main-menu ul li {
+    display: inline-block;
+}
+
+.main-menu ul a {
+    position: relative;
+    display: inline-block;
+    padding: 1px 10px;
+    text-decoration: none;
+    margin: 0 -1px;
+    color: #aaaaaa;
+}
+
+.main-menu ul a::before {
+    border: .1em solid #f3fe88;
+}
+
+.main-menu ul a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    background: #333333;
+    transform: perspective(2px) rotateX(178deg);
+}
+
+.main-menu ul a.selected {
+    z-index: 2;
+    color: #ffffff;
+}
+
+.main-menu ul a.selected::before {
+    background: #333;
+    border-bottom: 1px solid #333333;
+    margin: -1px 0;
+    /*border-top-width: 1px;*/
+    /*box-shadow: 0 1px hsl(66, 98%, 76%) inset;*/
+}
+
+.output {
+    height: 95px;
+    position: relative;
+}
+
+.output-data {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    padding: 13px 0 0 0;
+}
+
+.forecast {
+    width: 100%;
+    margin: 0;
+    font-size: 18px;
+    color: #83d1f7;
+}
+
+.forecast p {
+    font-size: 17px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.forecast .degree {
+    font-weight: bold;
+    color: #6fd37e;
+    font-size: 18px;
+}
+
+.forecast .coordinates {
+    font-size: 12px;
+    display: block;
+}
+
+.forecast .coordinates span {
+    color: #c6c6c6;
+}
+
+.description {
+    width: 100%;
+    font-size: 20px;
+    color: #c6c6c6;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.3em;
+}
+
+.description p {
+    margin: 0;
+    padding: 0;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+}
+
+.description .error {
+    text-transform: none;
+    font-size: 25px;
+    padding: 15px 0 0 0;
+    position: absolute;
+    left: 25px;
+    color: #8eed79;
+}
+
+.favorites {
+    margin: 0;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 50px;
+    height: 50px;
+    /*background: url(../img/star.png) no-repeat 0 0;*/
+    background: url(https://rawgit.com/seraph22/js--base-course/master/04/ht/seraph22/forecast/img/star.png) no-repeat 0 0;
+    transform: scale(.7, .7);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.active,
+.favorites:hover {
+    /*background: url(../img/star.png) no-repeat -50px 0;*/
+    background: url(https://rawgit.com/seraph22/js--base-course/master/04/ht/seraph22/forecast/img/star.png) no-repeat -50px 0
+}
+
+.map {
+    height: 300px;
+    border-top: 1px solid #f4ff88;
+    border-bottom: 1px solid #f4ff88;
+    box-shadow: 0 0 5px rgb(225, 231, 162);
+}
+
+.address-output {
+    background-color: #e1e7a2;
+    padding: 10px;
+    border-radius: 3px;
+    max-width: 150px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+}
+
+/*------------------------------FOOTER------------------------------*/
+
+footer {
+    margin: 0;
+    width: 100%;
+    height: 187px;
+}
+
+.forecasts-list,
+.favorites-list {
+    height: 172px;
+    width: 217px;
+    vertical-align: top;
+    margin: 0;
+}
+
+.forecasts-list {
+    padding: 15px 10px 0 10px;
+}
+
+.favorites-list {
+    padding: 15px 10px 0 10px;
+}
+
+.forecasts-list-header,
+.favorites-list-header {
+    font-size: 16px;
+    text-transform: none;
+    border-bottom: 1px solid #e1e7a2;
+    margin: 0;
+    padding: 0;
+}
+
+.forecasts-list-item,
+.favorites-list-item {
+    margin: 0;
+    padding: 0 40px 0 0;
+    text-transform: capitalize;
+    font-size: 17px;
+    line-height: 1.5em;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.forecasts-list-item:hover,
+.favorites-list-item:hover {
+    color: #e1e7a2;
+}
+
+.forecasts-list-item span,
+.favorites-list-item span {
+    position: absolute;
+    right: 0;
+    font-size: 15px;
+    color: #6ed37e;
+    font-weight: normal;
+}
