@@ -1,0 +1,157 @@
+// .animal-wasp {
+//   transform: scaleX(-1);
+// }
+
+* {
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: url('../img/jungle.jpg') center center no-repeat;
+
+  background-size: cover;
+}
+
+h2 {
+  color: yellow;
+  // font-weight: bold;
+}
+
+.timer {
+  color: #ff1e41;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+
+.game {
+  padding: 0 40px;
+  button {
+    margin: 30px auto;
+  }
+}
+
+.logger {
+
+  ul {
+    list-style-type: none;
+
+    li {
+      margin: 3px 0;
+      font-weight: bold;
+    }
+  }
+
+  .game-finished {
+    color: #6454f2;
+  }
+
+  .bonus {
+    color: #47ac58;
+  }
+
+  .game-status {
+    color: #ffa71e;
+  }
+}
+
+.menu {
+  ul {
+    margin-left: 50px;
+
+    li {
+      display: inline-block;
+      background-color: #24d75b;
+      margin-left: -3px;
+
+      a {
+        display: block;
+        height: 100%;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+        // font-weight: bold;
+
+
+      }
+
+
+      &:hover {
+        background-color: #f01966;
+      }
+    }
+  }
+}
+
+button,
+.btn {
+  display: block;
+  width: 150px;
+}
+
+h2 {
+  // font-weight: bold;
+}
+
+
+.main {
+  min-height: 800px;
+
+  h2 {
+    text-align: center;
+  }
+}
+
+.welcome {
+
+  a {
+    margin: 100px auto;
+  }
+
+}
+
+.statistics {
+
+
+  button {
+    margin-left: auto;
+    margin-right: 100px;
+  }
+
+  ul {
+    width: 50%;
+    margin: 20px auto;
+
+    li {
+      color: #000;
+
+      &:hover {
+        // text-decoration: underline;
+      }
+    }
+  }
+}
+
+canvas {
+  border: 1px solid #000;
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+}
+
+footer {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+
+  span {
+    color: #ff084a;
+  }
+}
