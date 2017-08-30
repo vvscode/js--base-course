@@ -1,106 +1,132 @@
-const GOOGLEKEY = `AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`;
-var arr = [];
-var arr2 = [];
+let GOOGLE_KEY ="AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY";
+let DARK_SKY_KEY="2de010dcb0ebbb2d6031a1d3d61bf0b0";
+let arrCity=[];
+handleUrl(window.location.hash);
+window.addEventListener('hashchange', () => handleUrl(window.location.hash)); 
 
-document.querySelector('form').addEventListener('submit', function (ev) {
-    var search = document.querySelector('.searchLine');
-    ev.preventDefault();
-    window.location.hash = search.value;
-    handleUrl(window.location.hash)
-});
-
-// Создать обработчик URL
 function handleUrl(url) {
-    var fetch = document.querySelector('.fetch');
-    var city = '';
+    let city = '';
     city = (url.slice(1)) || city;
     if (city) {
-        var temperaturePromise = fetch.checked ? getTemperatureFetch(city) : getTemperaturexhr(city);
-        temperaturePromise
-            .then((data) => {
-                var tem = data.currently['temperature'];
-                var summary = data.currently['summary'];
-                var precipProbability=data.currently['precipProbability'];
-                var icon=data.currently['icon'];
-                console.log(icon);
-                webIcons(icon)
-                var span = document.querySelector('.tem');
-                span.innerHTML =  `${tem}&deg;C<br>${summary}<br>Вероятность осадков ${precipProbability}%`;
-                addList(city);
-            });
+        checkMethodRequest(city);
+    };
+    }
+function starSearchButton(){
+    document.querySelector(".searchLine").addEventListener("keypress", e => {
+        let key = e.which || e.keyCode;
+        if (key === 13) {
+          e.preventDefault();
+          checkMethodRequest();
+        }
+      });
+}
+function checkMethodRequest(city){
+
+     city = city || document.querySelector(".searchLine").value;
+    if(document.querySelector(".fetch").checked){
+        takeCoordinatsCityFetch(city);
+    }
+    else{
+        takeCoordinatsCityXHR(city);
     }
 }
-
-// Подписаться на изменения URL(ev) => handleUrl(ev.newURL)
-window.addEventListener('hashchange', () => handleUrl(window.location.hash));
-
-// При загрузке страницы - считать состояние и запустить обработчик
-handleUrl(window.location.hash);
-
-function getTemperatureFetch(city) {
-    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLEKEY}`)
-        .then(response => response.json())
-        .then((data) => {
-            var lat = data.results[0].geometry.location['lat'];
-            var lng = data.results[0].geometry.location['lng'];
-            return fetch(`https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`)
-        })
-        .then(response => response.json())
-        .catch(reject => console.error(reject));
+function takeCoordinatsCityFetch(city){
+    let location,lat,lng;
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`)
+    .then(response => response.json())
+    .then(data=>{
+        location=data.results[0].geometry.location;
+        lat= location.lat;
+        lng= location.lng;
+        location=[lat,lng];
+        cityList(city);
+        takeWeatherCityFetch(location);
+    })
 }
 
-function getTemperaturexhr(city) {
+function takeWeatherCityFetch(location){
+    let currentlyWether;
+    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`)
+    .then(response => response.json())
+    .then(data=>{
+        currentlyWether={
+            temperature: data.currently.temperature,
+            humidity: data.currently.humidity,
+            summary: data.currently.summary,
+            windSpeed: data.currently.windSpeed,
+            icon: data.currently.icon                  
+        };
+        drowWetWeatherCity(currentlyWether);
+    }) 
+
+ }
+
+ function takeCoordinatsCityXHR(city){
+    let location,lat,lng;
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLEKEY}`, true);
+        xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`, true);
         xhr.send();
-
         xhr.onload = xhr.onerror = function () {
             if (this.status != 200) console.log('error:  ' + this.status);
             var data = this.response;
-            var lat = JSON.parse(data).results[0].geometry.location['lat'];
-            var lng = JSON.parse(data).results[0].geometry.location['lng'];
-            var xhr1 = new XMLHttpRequest();
-            xhr1.open('GET', `https://shrouded-spire-35703.herokuapp.com/forecast/${lat},${lng}?lang=ru&units=si`, true);
-            xhr1.send();
-            xhr1.onload = function () {
-                if (this.status == 200) {
-                    var data = this.response;
-                    resolve(JSON.parse(data));
-                }
-                else {
-                    var error = new Error(this.statusText);
-                    error.code = this.status;
-                    reject(error);
-                }
-            };
-            xhr1.onerror = () => reject(new Error('Network Error'))
+            resolve(data);
         }
+    })
+    .then(data=>{
+        data = JSON.parse(data);
+        location=data.results[0].geometry.location;
+        lat= location.lat;
+        lng= location.lng;
+        location=[lat,lng];
+        cityList(city);
+        takeWeatherCityXHR(location);
     });
 }
 
-function addList(city) {
-    if (arr.indexOf(city) == -1) {
-        var aHref = window.location.href;
-        arr.unshift(city);
-        arr2.unshift(aHref);
-    }
-    for (var i = 0; i < arr.length; i++) {
-        if (arr.length == 6) {
-            arr.splice(-1, 1);
-            arr2.splice(-1, 1);
-            var a = document.querySelector(`li.li${i} a.a${i}`);
-            a.href = arr2[i];
-            a.innerHTML = arr[i];
-        }
-        else {
-            var a = document.querySelector(`li.li${i} a.a${i}`);
-            a.href = arr2[i];
-            a.innerHTML = arr[i];
-        }
-    }
-}
-function webIcons (icon) {
+function takeWeatherCityXHR(location){
+    let currentlyWether;
+    return new Promise((resolve, reject) =>{
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open('GET', `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`, true);
+        xhr1.send();
+        xhr1.onload = function () {
+            if (this.status == 200) {
+                var data = this.response;
+                resolve(JSON.parse(data));
+            }
+            else {
+                var error = new Error(this.statusText);
+                error.code = this.status;
+                reject(error);
+            }
+        };
+        xhr1.onerror = () => reject(new Error('Network Error'))
+    })
+    .then(data=>{
+        currentlyWether={
+            temperature: data.currently.temperature,
+            humidity: data.currently.humidity,
+            summary: data.currently.summary,
+            windSpeed: data.currently.windSpeed,
+            icon: data.currently.icon               
+        };
+        drowWetWeatherCity(currentlyWether)
+    });
+ }
+
+ function drowWetWeatherCity(currentlyWether){
+    let placeRender= document.querySelector(".workPlace");
+    placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="64" height="64"></canvas> </div>
+                           <div>
+                           <span>Температура${currentlyWether.temperature}&deg;</span> <br>
+                           <span>Описание${currentlyWether.summary}</span> <br>
+                           <span>Влажность${currentlyWether.humidity}</span> <br>
+                           <span>скорость ветра${currentlyWether.windSpeed}</span>
+                           </div>`;
+    webIcons(currentlyWether.icon);
+ }
+ function webIcons (icon) {
     icon = String(icon);
     var icons = new Skycons({"color": "orange"});
     if(icon == "clear-day") {
@@ -136,3 +162,28 @@ function webIcons (icon) {
     icons.play();
 
 }
+
+function cityList(city){
+    window.location.hash=city;
+    if(arrCity.indexOf(city)==-1){
+        if(arrCity.length==5){
+            arrCity.splice(-1, 1);;
+            arrCity. unshift(city);
+        }else
+        {
+            arrCity.unshift(city);
+        }
+    }
+    drowCityList();
+}
+
+    function drowCityList(){
+     let placeRender,listCity="";
+     placeRender= document.querySelector(".list");
+     for(let i=0;i <arrCity.length;i++){
+        listCity+=`<li><a href="#${arrCity[i]}">${arrCity[i]}</a></li>`;
+     }
+     placeRender.innerHTML=listCity;
+    }
+
+starSearchButton();
