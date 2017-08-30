@@ -16,7 +16,7 @@ function handleUrl(url) {
     };
 }
 function eventForSearchWeather(){
-    let CodeEnterButton= 13;
+    let CodeEnterButton = 13;
     document.querySelector(".searchLine").addEventListener("keypress", e => {
         let key = e.which || e.keyCode;
         if (key === CodeEnterButton) {
@@ -39,15 +39,7 @@ function takeCoordinatsCityFetch(city){
     .then(data=>{coordinatsCity(data,city)})
 }
 
-    function coordinatsCity(data,city){
-        let location,lat,lng;
-        location=data.results[0].geometry.location;
-        lat= location.lat;
-        lng= location.lng;
-        location=[lat,lng];
-        cityList(city);
-        takeWeatherCityFetch(location);
-    }
+
 
 function takeWeatherCityFetch(location){
 
@@ -183,6 +175,15 @@ function cityList(city){
             icon: data.currently.icon               
         };
         return currentlyWether
+    }
+    function coordinatsCity(data,city){
+        let location,lat,lng;
+        location=data.results[0].geometry.location;
+        lat= location.lat;
+        lng= location.lng;
+        location=[lat,lng];
+        cityList(city);
+        takeWeatherCityFetch(location);
     }
     urlChange()
     eventForSearchWeather();
