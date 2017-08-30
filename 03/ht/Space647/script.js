@@ -1,28 +1,31 @@
 let GOOGLE_KEY ="AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY";
 let DARK_SKY_KEY="2de010dcb0ebbb2d6031a1d3d61bf0b0";
 let arrCity=[];
-handleUrl(window.location.hash);
-window.addEventListener('hashchange', () => handleUrl(window.location.hash)); 
+
+function urlChange(){
+    handleUrl(window.location.hash);
+    window.addEventListener('hashchange', () => handleUrl(window.location.hash)); 
+}
+
 
 function handleUrl(url) {
     let city = '';
     city = (url.slice(1)) || city;
     if (city) {
-        checkMethodRequest(city);
+        choiceMethodRequest(city);
     };
-    }
-function starSearchButton(){
+}
+function eventForSearchWeather(){
+    let CodeEnterButton= 13;
     document.querySelector(".searchLine").addEventListener("keypress", e => {
         let key = e.which || e.keyCode;
-        if (key === 13) {
+        if (key === CodeEnterButton) {
           e.preventDefault();
-          checkMethodRequest();
+          choiceMethodRequest();
         }
       });
 }
-function checkMethodRequest(city){
-
-     city = city || document.querySelector(".searchLine").value;
+function choiceMethodRequest(city=document.querySelector(".searchLine").value){
     if(document.querySelector(".fetch").checked){
         takeCoordinatsCityFetch(city);
     }
@@ -31,32 +34,27 @@ function checkMethodRequest(city){
     }
 }
 function takeCoordinatsCityFetch(city){
-    let location,lat,lng;
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`)
     .then(response => response.json())
-    .then(data=>{
+    .then(data=>{coordinatsCity(data,city)})
+}
+
+    function coordinatsCity(data,city){
+        let location,lat,lng;
         location=data.results[0].geometry.location;
         lat= location.lat;
         lng= location.lng;
         location=[lat,lng];
         cityList(city);
         takeWeatherCityFetch(location);
-    })
-}
+    }
 
 function takeWeatherCityFetch(location){
-    let currentlyWether;
+
     fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`)
     .then(response => response.json())
     .then(data=>{
-        currentlyWether={
-            temperature: data.currently.temperature,
-            humidity: data.currently.humidity,
-            summary: data.currently.summary,
-            windSpeed: data.currently.windSpeed,
-            icon: data.currently.icon                  
-        };
-        drowWetWeatherCity(currentlyWether);
+        RenderingWeatherCity(createObjCurrentlyWether(data));
     }) 
 
  }
@@ -68,54 +66,44 @@ function takeWeatherCityFetch(location){
         xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`, true);
         xhr.send();
         xhr.onload = xhr.onerror = function () {
-            if (this.status != 200) console.log('error:  ' + this.status);
-            var data = this.response;
+            if (xhr.status != 200) console.log('error:  ' + xhr.status);
+            var data = xhr.response;
+            data = JSON.parse(data);
             resolve(data);
         }
     })
     .then(data=>{
-        data = JSON.parse(data);
-        location=data.results[0].geometry.location;
-        lat= location.lat;
-        lng= location.lng;
-        location=[lat,lng];
-        cityList(city);
-        takeWeatherCityXHR(location);
+        coordinatsCity(data,city)
     });
 }
 
 function takeWeatherCityXHR(location){
-    let currentlyWether;
+    
     return new Promise((resolve, reject) =>{
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open('GET', `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`, true);
-        xhr1.send();
-        xhr1.onload = function () {
-            if (this.status == 200) {
-                var data = this.response;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`, true);
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                var data = xhr.response;
                 resolve(JSON.parse(data));
             }
             else {
-                var error = new Error(this.statusText);
-                error.code = this.status;
+                var error = new Error(xhr.statusText);
+                error.code = xhr.status;
                 reject(error);
             }
         };
-        xhr1.onerror = () => reject(new Error('Network Error'))
+        xhr.onerror = () => reject(new Error('Network Error'))
     })
     .then(data=>{
-        currentlyWether={
-            temperature: data.currently.temperature,
-            humidity: data.currently.humidity,
-            summary: data.currently.summary,
-            windSpeed: data.currently.windSpeed,
-            icon: data.currently.icon               
-        };
-        drowWetWeatherCity(currentlyWether)
+       
+        RenderingWeatherCity(createObjCurrentlyWether(data));
     });
  }
 
- function drowWetWeatherCity(currentlyWether){
+
+ function RenderingWeatherCity(currentlyWether){
     let placeRender= document.querySelector(".workPlace");
     placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="64" height="64"></canvas> </div>
                            <div>
@@ -174,10 +162,10 @@ function cityList(city){
             arrCity.unshift(city);
         }
     }
-    drowCityList();
+    RenderingCityList();
 }
 
-    function drowCityList(){
+    function RenderingCityList(){
      let placeRender,listCity="";
      placeRender= document.querySelector(".list");
      for(let i=0;i <arrCity.length;i++){
@@ -186,4 +174,15 @@ function cityList(city){
      placeRender.innerHTML=listCity;
     }
 
-starSearchButton();
+    function createObjCurrentlyWether(data){
+        let  currentlyWether={
+            temperature: data.currently.temperature,
+            humidity: data.currently.humidity,
+            summary: data.currently.summary,
+            windSpeed: data.currently.windSpeed,
+            icon: data.currently.icon               
+        };
+        return currentlyWether
+    }
+    urlChange()
+    eventForSearchWeather();
