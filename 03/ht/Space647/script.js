@@ -37,7 +37,7 @@ function handleUrl(url) {
   let city = "";
   city = url.slice(1) || city;
   if (city) {
-    choiceMethodRequest(city);
+    choiceMethodRequestWeather(city);
   }
 }
 function eventForSearchWeather() {
@@ -46,11 +46,11 @@ function eventForSearchWeather() {
     let key = e.which || e.keyCode;
     if (key === CodeEnterButton) {
       e.preventDefault();
-      choiceMethodRequest();
+      choiceMethodRequestWeather();
     }
   });
 }
-function choiceMethodRequest(
+function choiceMethodRequestWeather(
   city = document.querySelector(".searchLine").value
 ) {
   if (document.querySelector(".fetch").checked) {
