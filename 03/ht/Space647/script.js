@@ -2,6 +2,21 @@ let GOOGLE_KEY ="AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY";
 let DARK_SKY_KEY="2de010dcb0ebbb2d6031a1d3d61bf0b0";
 let arrCity=[];
 
+
+function weaterFetch(city){
+    Promise.resolve()
+    .then(()=>{return takeCoordinatsCityFetch(city)})
+    .then((location)=>{return takeWeatherCityFetch(location)})
+    .then((currentlyWether)=>{renderingWeatherCity(currentlyWether)})
+    .then(()=>renderingCityList());
+}
+function weaterXHR(city){   
+    Promise.resolve()
+    .then(()=>{return takeCoordinatsCityXHR(city)})
+    .then((location)=>{return takeWeatherCityXHR(location)})
+    .then((currentlyWether)=>{renderingWeatherCity(currentlyWether)})
+    .then(()=>renderingCityList());
+}
 function urlChange(){
     handleUrl(window.location.hash);
     window.addEventListener('hashchange', () => handleUrl(window.location.hash)); 
@@ -26,27 +41,31 @@ function eventForSearchWeather(){
 }
 function choiceMethodRequest(city=document.querySelector(".searchLine").value){
     if(document.querySelector(".fetch").checked){
-        takeCoordinatsCityFetch(city);
+        weaterFetch(city);
     }
     else{
-        takeCoordinatsCityXHR(city);
+        weaterXHR(city);
     }
 }
 function takeCoordinatsCityFetch(city){
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`)
-    .then(response => response.json())
-    .then(data=>{coordinatsCity(data,city)})
+    return new Promise((resolve, reject)=>{
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`)
+        .then(response => response.json())
+        .then(data=>{
+            resolve(coordinatsCity(data,city))})
+    })
 }
 
 
 
 function takeWeatherCityFetch(location){
-
-    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`)
-    .then(response => response.json())
-    .then(data=>{
-        RenderingWeatherCity(createObjCurrentlyWether(data));
-    }) 
+    return new Promise((resolve, reject)=>{
+        fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`)
+        .then(response => response.json())
+        .then(data=>{
+          resolve(createObjCurrentlyWether(data));
+        }) 
+    })
 
  }
 
@@ -57,15 +76,12 @@ function takeWeatherCityFetch(location){
         xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GOOGLE_KEY}`, true);
         xhr.send();
         xhr.onload = xhr.onerror = function () {
-            if (xhr.status != 200) console.log('error:  ' + xhr.status);
+            if (xhr.status !== 200) console.log('error:  ' + xhr.status);
             var data = xhr.response;
             data = JSON.parse(data);
-            resolve(data);
+            resolve(coordinatsCity(data,city));
         }
     })
-    .then(data=>{
-        coordinatsCity(data,city)
-    });
 }
 
 function takeWeatherCityXHR(location){
@@ -75,9 +91,10 @@ function takeWeatherCityXHR(location){
         xhr.open('GET', `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${DARK_SKY_KEY}/${location}?lang=ru&units=si`, true);
         xhr.send();
         xhr.onload = function () {
-            if (xhr.status == 200) {
+            if (xhr.status === 200) {
                 var data = xhr.response;
-                resolve(JSON.parse(data));
+                data= JSON.parse(data);
+                resolve(createObjCurrentlyWether(data));
             }
             else {
                 var error = new Error(xhr.statusText);
@@ -87,23 +104,23 @@ function takeWeatherCityXHR(location){
         };
         xhr.onerror = () => reject(new Error('Network Error'))
     })
-    .then(data=>{
-       
-        RenderingWeatherCity(createObjCurrentlyWether(data));
-    });
  }
 
 
- function RenderingWeatherCity(currentlyWether){
-    let placeRender= document.querySelector(".workPlace");
-    placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="150" height="150"></canvas> </div>
-                           <div>
-                           <span>Температура ${currentlyWether.temperature}&deg;</span> <br>
-                           <span>Описание ${currentlyWether.summary}</span> <br>
-                           <span>Влажность ${currentlyWether.humidity}</span> <br>
-                           <span>скорость ветра ${currentlyWether.windSpeed}</span>
-                           </div>`;
-    webIcons(currentlyWether.icon);
+ function renderingWeatherCity(currentlyWether){
+    return new Promise((resolve, reject) =>{
+        let placeRender= document.querySelector(".workPlace");
+        placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="150" height="150"></canvas> </div>
+                               <div>
+                               <span>Температура ${currentlyWether.temperature}&deg;</span> <br>
+                               <span>Описание ${currentlyWether.summary}</span> <br>
+                               <span>Влажность ${currentlyWether.humidity}</span> <br>
+                               <span>скорость ветра ${currentlyWether.windSpeed}</span>
+                               </div>`;
+        webIcons(currentlyWether.icon);
+        resolve();
+    })
+
  }
  function webIcons (icon) {
     icon = String(icon);
@@ -144,8 +161,8 @@ function takeWeatherCityXHR(location){
 
 function cityList(city){
     window.location.hash=city;
-    if(arrCity.indexOf(city)==-1){
-        if(arrCity.length==5){
+    if(arrCity.indexOf(city)===-1){
+        if(arrCity.length===5){
             arrCity.splice(-1, 1);;
             arrCity. unshift(city);
         }else
@@ -153,27 +170,29 @@ function cityList(city){
             arrCity.unshift(city);
         }
     }
-    RenderingCityList();
 }
 
-    function RenderingCityList(){
-     let placeRender,listCity="";
-     placeRender= document.querySelector(".list");
-     for(let i=0;i <arrCity.length;i++){
-        listCity+=`<li><a href="#${arrCity[i]}">${arrCity[i]}</a></li>`;
-     }
-     placeRender.innerHTML=listCity;
+    function renderingCityList(){
+        return new Promise((resolve, reject) =>{
+            let placeRender,listCity="";
+            placeRender= document.querySelector(".list");
+            for(let i=0;i <arrCity.length;i++){
+               listCity+=`<li><a href="#${arrCity[i]}">${arrCity[i]}</a></li>`;
+            }
+            placeRender.innerHTML=listCity;
+            resolve();
+        })
+    
     }
 
     function createObjCurrentlyWether(data){
-        let  currentlyWether={
+        return{
             temperature: data.currently.temperature,
             humidity: data.currently.humidity,
             summary: data.currently.summary,
             windSpeed: data.currently.windSpeed,
             icon: data.currently.icon               
         };
-        return currentlyWether
     }
     function coordinatsCity(data,city){
         let location,lat,lng;
@@ -182,7 +201,7 @@ function cityList(city){
         lng= location.lng;
         location=[lat,lng];
         cityList(city);
-        takeWeatherCityFetch(location);
+        return location;
     }
     urlChange()
     eventForSearchWeather();
