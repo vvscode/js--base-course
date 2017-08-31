@@ -7,13 +7,12 @@ function urlChange(){
     window.addEventListener('hashchange', () => handleUrl(window.location.hash)); 
 }
 
-
 function handleUrl(url) {
     let city = '';
     city = (url.slice(1)) || city;
     if (city) {
         choiceMethodRequest(city);
-    };
+    }
 }
 function eventForSearchWeather(){
     let CodeEnterButton = 13;
