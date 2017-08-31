@@ -96,18 +96,18 @@ function takeWeatherCityXHR(location){
 
  function RenderingWeatherCity(currentlyWether){
     let placeRender= document.querySelector(".workPlace");
-    placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="64" height="64"></canvas> </div>
+    placeRender.innerHTML=`<div class="icon"> <canvas id="WebIcon" width="150" height="150"></canvas> </div>
                            <div>
-                           <span>Температура${currentlyWether.temperature}&deg;</span> <br>
-                           <span>Описание${currentlyWether.summary}</span> <br>
-                           <span>Влажность${currentlyWether.humidity}</span> <br>
-                           <span>скорость ветра${currentlyWether.windSpeed}</span>
+                           <span>Температура ${currentlyWether.temperature}&deg;</span> <br>
+                           <span>Описание ${currentlyWether.summary}</span> <br>
+                           <span>Влажность ${currentlyWether.humidity}</span> <br>
+                           <span>скорость ветра ${currentlyWether.windSpeed}</span>
                            </div>`;
     webIcons(currentlyWether.icon);
  }
  function webIcons (icon) {
     icon = String(icon);
-    var icons = new Skycons({"color": "orange"});
+    var icons = new Skycons({"color": "black"});
     if(icon == "clear-day") {
         icons.set("WebIcon", Skycons.CLEAR_DAY);
     }
