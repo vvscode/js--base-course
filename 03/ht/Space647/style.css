@@ -1,3 +1,26 @@
 body{
     text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3em;
+    background-image: url("img/7b631b0c857fd1bd9500fdf263588577.jpg");
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 45%;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style-type: none;
+    margin: 10 auto;
+}
+.workPlace{
+margin: 5% 20%; 
+font-size: 2em;
+}
+footer{
+    font-size: 2em; 
+}
+.searchLine{
+    margin: 0px  0px 0px 15px
 }
