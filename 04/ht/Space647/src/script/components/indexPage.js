@@ -1,4 +1,7 @@
 class indexPage {
-  renderPage() {}
+  constructor() {}
+  renderPage() {
+    document.querySelector();
+  }
 }
 export default indexPage;

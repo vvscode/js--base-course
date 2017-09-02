@@ -1,1 +1,36 @@
+body {
+  background-color: #96b4cd;
+}
+.toggle.ios,
+.toggle-on.ios,
+.toggle-off.ios {
+  border-radius: 20px;
+}
+.toggle.ios .toggle-handle {
+  border-radius: 20px;
+}
 
+.youHere {
+  text-align: center;
+  max-width: 80%;
+  padding: 0 0 0 40%;
+}
+.CityList {
+  text-align: center;
+  max-width: 80%;
+  margin: 0 -27%;
+}
+.workPlace {
+  display: block;
+  background-color: #ffffff;
+  margin: 20px auto;
+  padding: 10px 10px;
+  min-width: 200px;
+  max-width: 600px;
+  min-height: 300px;
+  max-height: 700px;
+  border: 1px solid black;
+}
+.controlPanel {
+  margin: 20px 0;
+}
