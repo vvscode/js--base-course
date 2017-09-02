@@ -7,9 +7,9 @@ class indexPage {
   indexPage() {
     Promise.resolve()
       .then(() => this.requestFetch.determinationOfCoordinatesByIp())
-      .then(objIp => this.renderPage(objIp));
+      .then(objIp => this.renderingPage(objIp));
   }
-  renderPage(objIp) {
+  renderingPage(objIp) {
     console.log(objIp);
     return new Promise((resolve, reject) => {
       let renderPlace = document.querySelector(".workPlace");

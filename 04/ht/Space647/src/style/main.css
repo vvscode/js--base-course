@@ -1,6 +1,9 @@
 body {
   background-color: #96b4cd;
 }
+header {
+  padding: 0 0 0 11%;
+}
 .toggle.ios,
 .toggle-on.ios,
 .toggle-off.ios {
@@ -23,16 +26,28 @@ body {
 .workPlace {
   display: block;
   background-color: #ffffff;
-  margin: 20px auto;
+  margin: 40px 0 40px 31%;
   padding: 10px 10px;
   min-width: 200px;
-  max-width: 600px;
-  min-height: 300px;
-  max-height: 700px;
+  max-width: 900px;
+  min-height: 400px;
+  max-height: 750px;
 }
 .controlPanel {
   margin: 20px 0;
 }
 .center {
   text-align: center;
+}
+img {
+  max-height: 40px;
+  max-width: 40px;
+}
+.smile {
+  max-height: 30px;
+  max-width: 30px;
+}
+
+ul {
+  list-style-type: none;
 }

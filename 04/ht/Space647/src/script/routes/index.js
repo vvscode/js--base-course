@@ -1,5 +1,5 @@
 import indexPage from "../components/indexPage";
-var index = {
+let index = {
   name: "index",
   match: "",
   onBeforeEnter: () => {},
