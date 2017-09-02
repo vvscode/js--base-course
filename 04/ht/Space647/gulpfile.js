@@ -63,25 +63,25 @@ gulp.task("html:build", function() {
 });
 
 gulp.task("js:build", function() {
-  return gulp
-    .src(path.src.js) //Найдем наш main файл
-    .pipe(rigger()) //Прогоним через rigger
-    .pipe(sourcemaps.init()) //Инициализируем sourcemap
-    .pipe(
-      browserify({
-        insertGlobals: true,
-        debug: !gulp.env.production
-      })
-    )
-    .pipe(
-      babel({
-        presets: ["es2015"]
-      })
-    )
-    .pipe(uglify()) //Сожмем наш js
-    .pipe(sourcemaps.write()) //Пропишем карты
-    .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
-    .pipe(reload({ stream: true })); //И перезагрузим сервер
+  return (gulp
+      .src(path.src.js) //Найдем наш main файл
+      .pipe(rigger()) //Прогоним через rigger
+      .pipe(sourcemaps.init()) //Инициализируем sourcemap
+      .pipe(
+        browserify({
+          insertGlobals: true,
+          debug: !gulp.env.production
+        })
+      )
+      .pipe(
+        babel({
+          presets: ["es2015"]
+        })
+      )
+      // .pipe(uglify()) //Сожмем наш js
+      .pipe(sourcemaps.write()) //Пропишем карты
+      .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
+      .pipe(reload({ stream: true })) ); //И перезагрузим сервер
 });
 
 gulp.task("css:build", function() {

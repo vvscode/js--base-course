@@ -29,8 +29,10 @@ body {
   max-width: 600px;
   min-height: 300px;
   max-height: 700px;
-  border: 1px solid black;
 }
 .controlPanel {
   margin: 20px 0;
+}
+.center {
+  text-align: center;
 }

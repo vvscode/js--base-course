@@ -3,7 +3,10 @@ var index = {
   name: "index",
   match: "",
   onBeforeEnter: () => {},
-  onEnter: () => {},
+  onEnter: () => {
+    let index = new indexPage();
+    index.indexPage();
+  },
   onLeave: () => {}
 };
 
