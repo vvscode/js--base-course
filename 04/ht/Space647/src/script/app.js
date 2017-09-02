@@ -1,6 +1,6 @@
 import Router from "./utils/Router";
 import { index } from "./routes/index";
 import { about } from "./routes/about";
-import { main } from "./routes/main";
-const routes = [index, about, main];
+import { weather } from "./routes/weather";
+const routes = [index, about, weather];
 new Router({ routes });
