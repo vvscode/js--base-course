@@ -1,18 +1,74 @@
 import fetchRequests from "./fetchRequests";
+import database from "./db";
 class weatherPages {
   constructor() {
     this.requestFetch = new fetchRequests();
+    this.db = new database();
   }
   doneWeatherPageToWork() {
+    debugger;
     Promise.resolve()
-      .then((city = "минск") =>
-        this.requestFetch.takeCoordinatesCityFetch(city)
-      )
-      .then(citiLocation =>
-        this.requestFetch.takeWeatherCityFetch(citiLocation)
-      )
+      .then(() => this.takeCityName())
+      .then(city => this.chekUrlForCity(city))
+      .then(data => this.changeUrl(data))
+      .then(city => this.requestFetch.takeCoordinatesCityFetch(city))
+      .then(location => this.requestFetch.takeWeatherCityFetch(location))
       .then(cityCurrentWeather => this.renderingWeather(cityCurrentWeather));
   }
+  takeCityName() {
+    return new Promise((resolve, reject) => {
+      let urlCity, city;
+      city = document.querySelector(".searchText").value;
+      if (city) {
+        resolve(city);
+        return;
+      } else {
+        urlCity = window.location.hash;
+        city = urlCity.slice(1);
+        resolve(city);
+      }
+    });
+  }
+
+  chekUrlForCity(city) {
+    return new Promise((resolve, reject) => {
+      let curentUrl,
+        urlCity,
+        arr = [];
+      curentUrl = window.location.hash;
+      urlCity = curentUrl.slice(1);
+      if (urlCity == city) {
+        arr.push(true, city);
+        resolve(arr);
+      }
+      arr.push(false, city);
+      resolve(arr);
+    });
+  }
+  changeUrl(data) {
+    if (data[0]) return data[1];
+    location.hash = data[1];
+  }
+  enterButtonHandlerForSentCity() {
+    return new Promise((resolve, reject) => {
+      let CodeEnterButton = 13;
+      document.querySelector(".searchText").addEventListener("keypress", e => {
+        let key = e.which || e.keyCode;
+        if (key === CodeEnterButton) {
+          e.preventDefault();
+          resolve(this.doneWeatherPageToWork());
+        }
+      });
+    });
+  }
+  clickHandlerForSentCity() {
+    return new Promise((resolve, reject) => {
+      document.querySelector(".search").addEventListener("click", () => {
+        resolve(this.doneWeatherPageToWork());
+      });
+    });
+  }
+
   renderingWeather(cityCurrentWeather) {
     return new Promise((resolve, reject) => {
       let placeRender = document.querySelector(".workPlace");

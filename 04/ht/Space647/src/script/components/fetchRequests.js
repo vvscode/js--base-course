@@ -8,7 +8,7 @@ class fetchRequests {
       response.json()
     );
   }
-  takeCoordinatesCityFetch(city) {
+  takeCoordinatesCityFetch(city = "минск") {
     return fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${this
         .GOOGLE_KEY}`
@@ -24,7 +24,6 @@ class fetchRequests {
     lat = location.lat;
     lng = location.lng;
     location = [lat, lng];
-    // addCityOnList(city);
     return location;
   }
   takeWeatherCityFetch(location) {
