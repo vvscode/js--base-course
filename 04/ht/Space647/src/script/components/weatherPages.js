@@ -1,21 +1,23 @@
 import fetchRequests from "./fetchRequests";
 import XHRRequests from "./XHRRequests";
 import database from "./db";
+import mapYandex from "./map";
 class weatherPages {
   constructor() {
     this.requestFetch = new fetchRequests();
     this.requestXHR = new XHRRequests();
     this.db = new database();
+    this.yandex = new mapYandex();
   }
   doneWeatherPageToWork() {
-    //debugger;
     Promise.resolve()
       .then(() => this.takeCityName())
       .then(city => this.chekUrlForCity(city))
       .then(data => this.changeUrl(data))
       .then(city => this.methodRequestsWeather(city))
       .then(cityCurrentWeather => this.renderingWeather(cityCurrentWeather))
-      .then(() => this.drawingTheSearchList());
+      .then(() => this.drawingTheSearchList())
+      .then(() => this.yandex.showMap());
   }
   methodRequestsWeather(city) {
     return new Promise((resolve, reject) => {
@@ -100,7 +102,8 @@ class weatherPages {
                                  <span>Описание ${cityCurrentWeather.summary}</span> <br>
                                  <span>Влажность ${cityCurrentWeather.humidity}</span> <br>
                                  <span>скорость ветра ${cityCurrentWeather.windSpeed}</span>
-                                </div>`;
+                                </div>
+                                <div id="map" style="width: 600px; height: 400px"></div>`;
       this.webIcons(cityCurrentWeather.icon);
       resolve();
     });
