@@ -1,8 +1,10 @@
 import fetchRequests from "./fetchRequests";
+import XHRRequests from "./XHRRequests";
 import database from "./db";
 class weatherPages {
   constructor() {
     this.requestFetch = new fetchRequests();
+    this.requestXHR = new XHRRequests();
     this.db = new database();
   }
   doneWeatherPageToWork() {
@@ -11,11 +13,29 @@ class weatherPages {
       .then(() => this.takeCityName())
       .then(city => this.chekUrlForCity(city))
       .then(data => this.changeUrl(data))
-      .then(city => this.db.setCityListToDB(city, "cityListSearch"))
-      .then(city => this.requestFetch.takeCoordinatesCityFetch(city))
-      .then(location => this.requestFetch.takeWeatherCityFetch(location))
+      .then(city => this.methodRequestsWeather(city))
       .then(cityCurrentWeather => this.renderingWeather(cityCurrentWeather))
       .then(() => this.drawingTheSearchList());
+  }
+  methodRequestsWeather(city) {
+    return new Promise((resolve, reject) => {
+      let check = document.querySelector(".check");
+      if (check.checked) {
+        Promise.resolve()
+          .then(city => this.db.setCityListToDB(city, "cityListSearch"))
+          .then(city => this.requestFetch.takeCoordinatesCityFetch(city))
+          .then(location =>
+            resolve(this.requestFetch.takeWeatherCityFetch(location))
+          );
+      } else {
+        Promise.resolve()
+          .then(city => this.db.setCityListToDB(city, "cityListSearch"))
+          .then(city => this.requestXHR.takeCoordinatesCityXHR(city))
+          .then(location =>
+            resolve(this.requestXHR.takeWeatherCityXHR(location))
+          );
+      }
+    });
   }
   takeCityName() {
     return new Promise((resolve, reject) => {
