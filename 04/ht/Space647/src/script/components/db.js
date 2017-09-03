@@ -1,6 +1,7 @@
 class dataBase {
-  setCityListToDB(city, writeField) {
-    let cityList = localStorage.getItem(`${writeField}`) || "[]";
+  setCityListToDB(city, writeFieldLS) {
+    if (!city) return;
+    let cityList = localStorage.getItem(`${writeFieldLS}`) || "[]";
     cityList = JSON.parse(cityList);
     if (cityList.indexOf(city) === -1) {
       if (cityList.length === 5) {
@@ -11,10 +12,11 @@ class dataBase {
       }
     }
     cityList = JSON.stringify(cityList);
-    localStorage.setItem(`${writeField}`, cityList);
+    localStorage.setItem(`${writeFieldLS}`, cityList);
+    return city;
   }
-  getCityListFromDB(writeField) {
-    let cityList = localStorage.getItem(`${writeField}`);
+  getCityListFromDB(writeFieldLS) {
+    let cityList = localStorage.getItem(`${writeFieldLS}`);
     return JSON.parse(cityList);
   }
 }

@@ -6,14 +6,16 @@ class weatherPages {
     this.db = new database();
   }
   doneWeatherPageToWork() {
-    debugger;
+    //debugger;
     Promise.resolve()
       .then(() => this.takeCityName())
       .then(city => this.chekUrlForCity(city))
       .then(data => this.changeUrl(data))
+      .then(city => this.db.setCityListToDB(city, "cityListSearch"))
       .then(city => this.requestFetch.takeCoordinatesCityFetch(city))
       .then(location => this.requestFetch.takeWeatherCityFetch(location))
-      .then(cityCurrentWeather => this.renderingWeather(cityCurrentWeather));
+      .then(cityCurrentWeather => this.renderingWeather(cityCurrentWeather))
+      .then(() => this.drawingTheSearchList());
   }
   takeCityName() {
     return new Promise((resolve, reject) => {
@@ -83,6 +85,7 @@ class weatherPages {
       resolve();
     });
   }
+
   webIcons(icon) {
     icon = String(icon);
     var icons = new Skycons({ color: "black" });
@@ -119,6 +122,21 @@ class weatherPages {
         break;
     }
     icons.play();
+  }
+  drawingTheSearchList() {
+    return new Promise((resolve, reject) => {
+      let placeRender,
+        listCity,
+        arrCity = this.db.getCityListFromDB("cityListSearch");
+      placeRender = document.querySelector(".searchList");
+      listCity = arrCity
+        .map(function(cityName) {
+          return (listCity = `<li><a href="#${cityName}">${cityName}</a></li>`);
+        })
+        .join(" ");
+      placeRender.innerHTML = listCity;
+      resolve();
+    });
   }
 }
 export default weatherPages;
