@@ -5,7 +5,7 @@
   "main": "README.md",
   "scripts": {
     "test": "echo \"Warning: no test specified\" && exit 0",
-    "link": "eslint **/*.js"
+    "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",

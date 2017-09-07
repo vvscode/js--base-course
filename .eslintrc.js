@@ -1,3 +1,9 @@
 module.exports = {
-    "extends": "google"
+    "extends": "google",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+        "no-tabs": "off"
+    }
 };

@@ -7,12 +7,12 @@ const st = require('st');
 
 const FILES_TO_WATCH_FOR = ['./**/*.*', '!node_modules/**/*.*'];
 
-gulp.task('watch', ['server'], function () {
+gulp.task('watch', ['server'], function() {
 	gulp.watch(FILES_TO_WATCH_FOR, (e) => {
 		console.log(e);
-	gulp.src(e.path || FILES_TO_WATCH_FOR)
-	    .pipe(livereload());
-});
+		gulp.src(e.path || FILES_TO_WATCH_FOR)
+			.pipe(livereload());
+	});
 });
 
 gulp.task('server', function(done) {
@@ -20,7 +20,7 @@ gulp.task('server', function(done) {
 		st({
 			path: __dirname + '/',
 			index: true,
-			cache: false
+			cache: false,
 		})
 	).listen(8080, done);
 	livereload.listen();
