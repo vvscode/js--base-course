@@ -1,4 +1,8 @@
-00/ht/AlesiaGit/homework00.md
-03
-04/ht/HappyCodeHere
+.DS_Store
+.idea/
+.vscode/
+build/
+dist/
+node_modules/
 npm-debug.log
+Thumbs.db
