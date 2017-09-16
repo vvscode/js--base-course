@@ -21,7 +21,7 @@ describe('fizzBuzz', function() {
     };
     fizzBuzz();
 
-    it('выводит правильные данные', function() { 
+    it('выводит правильные данные', function() {
         return assert.isOk(str.trim() === result.trim());
     });
     it('не использует `if`', function() {
