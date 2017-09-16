@@ -44,7 +44,7 @@ function isPolindrom(textString) {
  * которая принимает три аргумента - год, месяц, htmlElement 
  * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
  * @param {number} year 
- * @param {number} month - номер месяца, начиная с 1(январь)
+ * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {

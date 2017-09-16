@@ -21,7 +21,9 @@ describe('fizzBuzz', function() {
     };
     fizzBuzz();
 
-    it('выводит правильные данные', assert.isOk(str.trim() === result.trim()));
+    it('выводит правильные данные', function() { 
+        return assert.isOk(str.trim() === result.trim());
+    });
     it('не использует `if`', function() {
         return assert.isOk(('' + fizzBuzz).indexOf('if') < 0);
     });
@@ -108,7 +110,7 @@ describe('isDeepEqual', function() {
     });
 
     it('распознаем разные массивы', function() {
-        return assert.isOk(typeof isDeepEqual([1, 2, 4], [1, 3, 4]) === false);
+        return assert.isOk(typeof isDeepEqual([1, 2, 4], [1, 2, 4]) === false);
     });
     it('распознает одинаковые массивы', function() {
         return assert.isOk(typeof isDeepEqual([1, 2, 4, 3], [1, 2, 4, 3]) === true);
