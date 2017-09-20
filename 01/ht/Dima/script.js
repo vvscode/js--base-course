@@ -10,7 +10,19 @@ function log(a) {
     console.log(a);
 }
 
-/* --Раместите ваш код ниже */
+for (var i = 1 ; i <= 100; i++) {
+		
+	if ( i % 3 === 0 && i % 5 === 0) {
+		log('FizzBuzz');
+	} else if ( i % 3 === 0 ) {
+		log('Fizz');
+	} else if ( i % 5 === 0) {
+		log('Buzz');
+	} else {
+		log(i);
+	}
+
+};
 
 /**
  * реализовать фукнцию `fizzBuzz` 
@@ -22,8 +34,15 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
-}
+	for (var i = 1; i <= 100 ; i++) {
+		( i % 3 === 0 && i % 5 === 0 ) && log('FizzBuzz');
+		( i % 3 === 0 && i % 5 !== 0 ) && log('Fizz');
+		( i % 5 === 0 && i % 3 !== 0 ) && log('Buzz');
+		( i % 3 !== 0 && i % 5 !== 0 ) && log(i);
+	};
+};
+
+
 
 
 /**
@@ -34,7 +53,14 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
+
+	var textRevers = textString.split('').reverse().join('');
+
+	if (textString === textRevers) {
+		return true;
+	} else {
+		return false;
+	}
  return undefined;
 }
 
@@ -48,8 +74,50 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
-}
+
+	var el = document.createElement(htmlEl);
+	document.body.appendChild(el);
+
+	var date = new Date(year, month - 1);
+
+	function getDay(date) { 
+		var day = date.getDay();
+		if (day == 0) day = 7;
+		return day - 1;
+	};
+
+	var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+
+	for (var i = 0; i < getDay(date); i++) {
+		table += '<td></td>';
+	}
+
+	while (date.getMonth() == month - 1) {
+
+		table += '<td>' + date.getDate() + '</td>';
+
+		if (getDay(date) % 7 == 6) {
+			table += '</tr><tr>';
+		}
+
+		date.setDate(date.getDate() + 1);
+	}
+
+	if (getDay(date) != 0) {
+
+		for (var i = getDay(date); i < 7; i++) {
+			table += '<td></td>';
+		}
+	}
+
+	table += '</tr></table>';
+
+	return el.innerHTML = table;
+
+};
+
+
+
 
 
 /**
@@ -61,6 +129,12 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+
+	if (JSON.stringify( objA )===JSON.stringify( objB )) {
+		return true;
+	} else {
+		return false;
+	}
+
+return undefined;
 }
