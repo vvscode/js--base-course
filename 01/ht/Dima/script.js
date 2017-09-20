@@ -10,9 +10,8 @@ function log(a) {
     console.log(a);
 }
 
-for (var i = 1 ; i <= 100; i++) {
-		
-	if ( i % 3 === 0 && i % 5 === 0) {
+for (var i = 1; i <= 100; i++) {		
+	if (i % 3 === 0 && i % 5 === 0) {
 		log('FizzBuzz');
 	} else if ( i % 3 === 0 ) {
 		log('Fizz');
@@ -21,10 +20,9 @@ for (var i = 1 ; i <= 100; i++) {
 	} else {
 		log(i);
 	}
-
 };
 
-/**
+/*
  * реализовать фукнцию `fizzBuzz` 
  * которая выводит числа от 1 до 100. 
  * Если число кратно 3 - вместо числа вывести `Fizz`. 
@@ -42,10 +40,7 @@ function fizzBuzz() {
 	};
 };
 
-
-
-
-/**
+/*
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
  * является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
@@ -64,7 +59,6 @@ function isPolindrom(textString) {
  return undefined;
 }
 
-
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
@@ -75,8 +69,8 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
 
-	var el = document.createElement(htmlEl);
-	document.body.appendChild(el);
+	//var el= document.createElement(htmlEl);
+	//document.body.appendChild(el);
 
 	var date = new Date(year, month - 1);
 
@@ -130,11 +124,34 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
 
+	if (objA === objB) {
+        return true;
+    }
+
+    if (objA == null || typeof(objA) != "object" ||
+        objB == null || typeof(objB) != "object")
+    {
+        return false;
+    }
+ 
+    var propertiesInA = 0, propertiesInB = 0;
+    for (var property in objA) {
+        propertiesInA += 1;
+    }
+    for (var property in objB) {
+        propertiesInB += 1;
+        if (!(property in objA) || !isDeepEqual(objA[property], objB[property])) {
+            return false;        
+        }
+          
+    }        
+    return propertiesInA == propertiesInB;
+
+/*
 	if (JSON.stringify( objA )===JSON.stringify( objB )) {
 		return true;
 	} else {
 		return false;
 	}
-
-return undefined;
+*/
 }
