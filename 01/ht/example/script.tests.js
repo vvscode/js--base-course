@@ -124,8 +124,8 @@ describe('isDeepEqual', function() {
     it('распознает разные объекты', function() {
         return assert.isOk(isDeepEqual(a, b) === false);
     });
-    b.prop1 = 1;
     it('распознает одинаковые объекты', function() {
+        b.prop1 = 1;
         return assert.isOk(isDeepEqual(a, b) === true);
     });
 });
