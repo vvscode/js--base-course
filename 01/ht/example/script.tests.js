@@ -124,29 +124,30 @@ describe('isDeepEqual', function() {
     it('распознает разные объекты', function() {
         return assert.isOk(isDeepEqual(a, b) === false);
     });
+
     it('распознает одинаковые объекты', function() {
         b.prop1 = 1;
         return assert.isOk(isDeepEqual(a, b) === true);
     });
-    
+
     it('распознает разные объекты', function() {
-        let a = { a: 1, b: 3, c: 2 };
-        let b = { a: 1, b: 4, c: 2 };
+        var a = { a: 1, b: 3, c: 2 };
+        var b = { a: 1, b: 4, c: 2 };
         return assert.isOk(isDeepEqual(a, b) === false);
     });
-    
+
     it('распознает вложенные объекты', function() {
-        let a = { a: 1, b: { x: 5 }, c: 2 };
-        let b = { a: 1, b: { x: 5 }, c: 2 };
+        var a = { a: 1, b: { x: 5 }, c: 2 };
+        var b = { a: 1, b: { x: 5 }, c: 2 };
         return assert.isOk(isDeepEqual(a, b) === true);
     });
-    
+
     it('распознает числа', function() {
-        let a = 1;
-        let b = 1.0;
+        var a = 1;
+        var b = 1.0;
         return assert.isOk(isDeepEqual(a, b) === true);
     });
-    
+
     it('распознает разные числа', function() {
         let a = 1;
         let b = 2;
