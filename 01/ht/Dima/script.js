@@ -106,7 +106,7 @@ function drawCalendar(year, month, htmlEl) {
 
 	table += '</tr></table>';
 
-	return el.innerHTML = table;
+	htmlEl.innerHTML = table;
 
 };
 
