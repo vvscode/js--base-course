@@ -28,7 +28,6 @@ function fizzBuzz() {
       (i % 5 == 0 && log("Buzz")) ||
       log(i);
   }
-  //(b>a || (b<a)&&alert("b<a")) && alert('b>a');
 }
 
 /**
