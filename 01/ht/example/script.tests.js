@@ -140,6 +140,18 @@ describe('isDeepEqual', function() {
         let b = { a: 1, b: { x: 5 }, c: 2 };
         return assert.isOk(isDeepEqual(a, b) === true);
     });
+    
+    it('распознает числа', function() {
+        let a = 1;
+        let b = 1.0;
+        return assert.isOk(isDeepEqual(a, b) === true);
+    });
+    
+    it('распознает разные числа', function() {
+        let a = 1;
+        let b = 2;
+        return assert.isOk(isDeepEqual(a, b) === false);
+    });
 });
 
 mocha.run();
