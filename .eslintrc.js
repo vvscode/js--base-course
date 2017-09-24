@@ -4,6 +4,7 @@ module.exports = {
         "ecmaVersion": 6
     },
     "rules": {
-        "no-tabs": "off"
+        "no-tabs": "off",
+        "max-len": ["error", 120, 4],
     }
 };
