@@ -110,7 +110,7 @@ describe('isDeepEqual', function() {
     });
 
     it('распознаем разные массивы', function() {
-        return assert.isOk(isDeepEqual([1, 2, 4], [1, 2, 4]) === false);
+        return assert.isOk(isDeepEqual([1, 4, 2], [1, 2, 4]) === false);
     });
     it('распознает одинаковые массивы', function() {
         return assert.isOk(isDeepEqual([1, 2, 4, 3], [1, 2, 4, 3]) === true);
