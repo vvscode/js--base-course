@@ -128,6 +128,18 @@ describe('isDeepEqual', function() {
         b.prop1 = 1;
         return assert.isOk(isDeepEqual(a, b) === true);
     });
+    
+    it('распознает разные объекты', function() {
+        let a = { a: 1, b: 3, c: 2 };
+        let b = { a: 1, b: 4, c: 2 };
+        return assert.isOk(isDeepEqual(a, b) === false);
+    });
+    
+    it('распознает вложенные объекты', function() {
+        let a = { a: 1, b: { x: 5 }, c: 2 };
+        let b = { a: 1, b: { x: 5 }, c: 2 };
+        return assert.isOk(isDeepEqual(a, b) === true);
+    });
 });
 
 mocha.run();
