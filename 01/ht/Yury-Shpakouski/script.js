@@ -22,7 +22,19 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
+ for(i=1;i<=100;i++){
+	var str=i;
+	for(j=1;j>i%3;j--){
+	str="Fizz";
+	}
+	for(j=1;j>i%5;j--){
+	str="Buzz";
+	}
+	for(j=1;j>i%3 && j>i%5;j--){
+	str="FizzBuzz";
+	}
+	log(str);
+ }
 }
 
 
@@ -34,8 +46,9 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- agergaergaer
- return undefined;
+ var rev = textString.split("").reverse().join("");
+ if (rev == textString) return true;
+ else return false;
 }
 
 
@@ -48,7 +61,47 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+   var elem = document.external:HTMLElement(htmlEl);
+
+      var mon = month - 1; 
+      var d = new Date(year, mon);
+
+      var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+
+      for (var i = 0; i < getDay(d); i++) {
+        table += '<td></td>';
+      }
+
+      while (d.getMonth() == mon) {
+        table += '<td>' + d.getDate() + '</td>';
+
+        if (getDay(d) % 7 == 6) { 
+          table += '</tr><tr>';
+        }
+
+        d.setDate(d.getDate() + 1);
+      }
+
+      if (getDay(d) != 0) {
+        for (var i = getDay(d); i < 7; i++) {
+          table += '<td></td>';
+        }
+      }
+
+      table += '</tr></table>';
+
+      elem.innerHTML = table;
+    }
+
+    function getDay(date) { 
+      var day = date.getDay();
+      if (day == 0) day = 7;
+      return day - 1;
+    }
+
+
+
+    drawCalendar("calendar", 2012, 9)
 }
 
 
