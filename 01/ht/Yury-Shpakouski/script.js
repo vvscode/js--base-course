@@ -61,8 +61,7 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-   var elem = document.external:HTMLElement(htmlEl);
-
+   
       var mon = month - 1; 
       var d = new Date(year, mon);
 
@@ -90,7 +89,7 @@ function drawCalendar(year, month, htmlEl) {
 
       table += '</tr></table>';
 
-      elem.innerHTML = table;
+      htmlEl.innerHTML = table;
     }
 
     function getDay(date) { 
@@ -99,10 +98,6 @@ function drawCalendar(year, month, htmlEl) {
       return day - 1;
     }
 
-
-
-    drawCalendar("calendar", 2012, 9)
-}
 
 
 /**
@@ -114,6 +109,17 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+
+	
+	if (typeof(objA)=='object' && typeof(objB)=='object') {
+		if(objA.length!=objB.length)
+			return false;
+		for(key in objA)
+			if(!isDeepEqual(objA[key], objB[key]))
+				return false;
+		return true;
+	}
+		
+	return objA == objB;
+ 
 }
