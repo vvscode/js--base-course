@@ -131,8 +131,8 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
     // 1.check for null
-    if (objA == null || objB == null) {
-        return (objA == null && objB == null);
+    if (objA === null || objB === null) {
+        return (objA === null && objB === null);
     }
 
     if (typeof objA == 'string' || typeof objB == 'string') {
