@@ -23,41 +23,34 @@ function log(a) {
  */
 function fizzBuzz() {
 	// initialization
+    var delimeter = ',';
     var n = 100;
     var arr = [];
+    var tempResult = '';
     for (i = 1; i < n + 1; i++) {
-        arr[i] = i;
+        arr[i-1] = i;
     }
 
-    // filtering
-    var fizzBuzzArr = arr.filter(function (position) {
-        return position % 3 === 0 && position % 5 === 0;
-    }).map(function (position) {
-        return {position: position, output: 'FizzBuzz'};
-    });
+    // get all FizzBuzz
+    for(i = 1 ; i < n + 1 ; i++){
+        arr[i - 1] = (i % 5 === 0 && i % 3 ===0) || arr[i - 1] ;
+    }
+    tempResult = arr.join(delimeter);
+    arr = tempResult.replace(new RegExp('true', 'g'), "FizzBuzz").split(delimeter);
 
-    var fizzArr = arr.filter(function (position) {
-        return position % 3 === 0 && position % 5 !== 0;
-    }).map(function (position) {
-        return {position: position, output: 'Fizz'};
-    });
+    // get all Fizz
+    for(i = 1 ; i < n + 1 ; i++){
+        arr[i - 1] = (i % 5 !== 0 && i % 3 ===0) ||  arr[i - 1] ;
+    }
+    tempResult = arr.join(delimeter);
+    arr = tempResult.replace(new RegExp('true', 'g'), "Fizz").split(delimeter);
 
-    var buzzArr = arr.filter(function (position) {
-        return position % 5 === 0 && position % 3 !== 0;
-    }).map(function (position) {
-        return {position: position, output: 'Buzz'};
-    });
-
-    var usualArr = arr.filter(function (position) {
-        return position % 5 !== 0 && position % 3 !== 0;
-    }).map(function (position) {
-        return {position: position, output: "" + position};
-    });
-
-    // output setting to correct positions
-    usualArr.concat(fizzBuzzArr, fizzArr, buzzArr).forEach(function (item) {
-        arr[item.position - 1] = item.output;
-    });
+    // get all Buzz
+    for(i = 1 ; i < n + 1 ; i++){
+        arr[i - 1] = (i % 5 === 0 && i % 3 !==0) ||  arr[i - 1] ;
+    }
+    tempResult = arr.join(delimeter);
+    arr = tempResult.replace(new RegExp('true', 'g'), "Buzz").split(delimeter);
 
     // log
     for (i = 0; i < n; i++) {
