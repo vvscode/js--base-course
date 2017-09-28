@@ -46,11 +46,11 @@ function fizzBuzz() {
  */
 function isPolindrom(textString) {
     var reversedText = textString.split('').reverse().join('');
-    
+
     return textString === reversedText;
 }
 
-
+var LAST_DAY_WEEK = 7;
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
@@ -62,7 +62,6 @@ function isPolindrom(textString) {
 function drawCalendar(year, month, htmlEl) {
     htmlEl.innerHTML = '';
     var calendar = getCalendar(year, month - 1);
-    var LAST_DAY_WEEK = 7;
     calendar[0] = [undefined, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
     var tbl = document.createElement('table');
@@ -71,9 +70,9 @@ function drawCalendar(year, month, htmlEl) {
         var tr = document.createElement('tr');
         for (var day = 1; day <= LAST_DAY_WEEK; day++) {
             var td = document.createElement('td');
-            var tdValue = !!calendar[week][day] ? calendar[week][day] : ''; 
-            td.appendChild(document.createTextNode(tdValue))
-            tr.appendChild(td)
+            var tdValue = !!calendar[week][day] ? calendar[week][day] : '';
+            td.appendChild(document.createTextNode(tdValue));
+            tr.appendChild(td);
         }
         tbdy.appendChild(tr);
     }
@@ -92,7 +91,6 @@ function drawCalendar(year, month, htmlEl) {
  */
 function getCalendar(year, month) {
     var date = new Date(year, month);
-    var LAST_DAY_WEEK = 7;
     var calendar = [];
     var week = 1;
 
@@ -101,8 +99,7 @@ function getCalendar(year, month) {
         if (!(date.getDay() % LAST_DAY_WEEK)) {
             calendar[week++][LAST_DAY_WEEK] = date.getDate();
             calendar[week] = [];
-        }
-        else {
+        } else {
             calendar[week][date.getDay()] = date.getDate();
         }
         date.setDate(date.getDate() + 1);
@@ -121,6 +118,9 @@ function getCalendar(year, month) {
  */
 function isDeepEqual(objA, objB) {
     if (typeof objA === 'object' && typeof objB === 'object') {
+        if (objA === null || objB === null) {
+            return objA === objB;
+        }
 
         if (Object.keys(objA).length !== Object.keys(objB).length) {
             return false;
@@ -132,6 +132,14 @@ function isDeepEqual(objA, objB) {
             }
         }
 
+        return true;
+    }
+
+    if (typeof objA === 'function' && typeof objB === 'function') {
+        return objA.toString() === objB.toString();
+    }
+
+    if (typeof objA === 'number'&& typeof objB === 'number' && isNaN(objA) && isNaN(objB)) {
         return true;
     }
 
