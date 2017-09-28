@@ -23,19 +23,11 @@ function log(a) {
  */
 function fizzBuzz() {
  for(i=1;i<=100;i++){
-	var str=i;
-	for(j=1;j>i%3;j--){
-	str="Fizz";
+	(i%3 === 0 && i%5 !== 0) && log("Fizz") || (i%5 === 0 && i%3 !== 0) && log("Buzz");
+	(i%3 === 0 && i%5 === 0) && log("FizzBuzz");
+	(i%3 !== 0 && i%5 !== 0) && log(i);
 	}
-	for(j=1;j>i%5;j--){
-	str="Buzz";
-	}
-	for(j=1;j>i%3 && j>i%5;j--){
-	str="FizzBuzz";
-	}
-	log(str);
- }
-}
+		}
 
 
 /**
@@ -46,10 +38,8 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- var rev = textString.split("").reverse().join("");
- if (rev == textString) return true;
- else return false;
-}
+ return textString == textString.split("").reverse().join("");
+ }
 
 
 /**
@@ -94,7 +84,7 @@ function drawCalendar(year, month, htmlEl) {
 
     function getDay(date) { 
       var day = date.getDay();
-      if (day == 0) day = 7;
+      if (day = 0) day = 7;
       return day - 1;
     }
 
@@ -110,6 +100,9 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
 
+	if (isNaN(objA) =='undefined' && isNaN(objB) =='undefined') 
+	return true;
+	
 	
 	if (typeof(objA)=='object' && typeof(objB)=='object') {
 		if(objA.length!=objB.length)
