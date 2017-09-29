@@ -40,10 +40,7 @@ function fizzBuzz() {
 function isPolindrom(textString) {
 	var string = textString.toLowerCase();
   	var gnirts = string.split('').reverse().join('');
-  	if (string === gnirts) {
-  		return true;
-  	}
- 	return false;
+  	return (string === gnirts);
 }
 
 
@@ -104,7 +101,7 @@ function isPolindrom(textString) {
  */
  function isDeepEqual(objA, objB) {
  	if (typeof(objA) !== typeof(objB)) return false; 
- 	if (typeof(objA) !== typeof({})) return objA === objB; 
+ 	if (typeof(objA) !== 'object') return objA === objB; 
  	if (Array.isArray(objA) != Array.isArray(objB)) return false; 
  	if (Object.keys(objA).length !== Object.keys(objB).length) return false; 
  	for(var key in objA) {
