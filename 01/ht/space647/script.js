@@ -94,13 +94,12 @@ function getDay(date) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  let answer = false;
-  for (let key in (objA, objB)) {
-    if (objA[key] == objB[key]) {
-      answer = true;
-    } else {
-      answer = false;
-    }
+  if (typeof (objA) !== typeof (objB)) return false;
+  if (typeof (objA) !== 'object') return objA === objB;
+  if (Array.isArray(objA) != Array.isArray(objB)) return false;
+  if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+  for (var key in objA) {
+    if (!isDeepEqual(objA[key], objB[key])) return false;
   }
-  return answer;
+  return true;
 }
