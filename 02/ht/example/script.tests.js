@@ -121,23 +121,23 @@ describe("bind", function() {
   it("Вызывает с правильным контекстом", function() {
     var context = { dummy: "context" };
     const binded = bind(function() {
-      assert(this === context);
+      assert.isOk(this === context);
     }, context);
     binded();
   });
   it("Пробрасывает параметры контекстом", function() {
     bind(function() {
-      assert(arguments.length === 0);
+      assert.isOk(arguments.length === 0);
     }, {})();
     bind(function() {
-      assert(arguments.length === 1);
-      assert(arguments[0] === 1);
+      assert.isOk(arguments.length === 1);
+      assert.isOk(arguments[0] === 1);
     }, {})(1);
     bind(function() {
-      assert(arguments.length === 2);
-      assert(arguments[0] === 1);
-      assert(arguments[1] === 2);
-      assert(arguments[2] === "три");
+      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments[0] === 1);
+      assert.isOk(arguments[1] === 2);
+      assert.isOk(arguments[2] === "три");
     }, {})(1, 2, "три");
   });
 });
@@ -169,7 +169,7 @@ describe(".myBind", function() {
     assert.isOk(typeof function() {}.myBind(null) === "function");
   });
   it("не использует встроенный .bind", function() {
-    assert(func.miBind.toString().indexOf(".bind") < 0);
+    assert.isOk(func.miBind.toString().indexOf(".bind") < 0);
   });
   it("Результат вызывает оригинальную фукнцию", function() {
     assert.isOk(counter === 0);
@@ -182,24 +182,73 @@ describe(".myBind", function() {
   it("Вызывает с правильным контекстом", function() {
     var context = { dummy: "context" };
     const binded = function() {
-      assert(this === context);
+      assert.isOk(this === context);
     }.myBind(context);
     binded();
   });
   it("Пробрасывает параметры контекстом", function() {
     (function() {
-      assert(arguments.length === 0);
+      assert.isOk(arguments.length === 0);
     }.myBind({})());
     (function() {
-      assert(arguments.length === 1);
-      assert(arguments[0] === 1);
+      assert.isOk(arguments.length === 1);
+      assert.isOk(arguments[0] === 1);
     }.myBind({})(1));
     (function() {
-      assert(arguments.length === 2);
-      assert(arguments[0] === 1);
-      assert(arguments[1] === 2);
-      assert(arguments[2] === "три");
+      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments[0] === 1);
+      assert.isOk(arguments[1] === 2);
+      assert.isOk(arguments[2] === "три");
     }.myBind({})(1, 2, "три"));
+  });
+});
+
+describe("calculate", function() {
+  it("считает примеры", function() {
+    assert.isOk(calculate("+")(1)(2) === 3);
+    assert.isOk(calculate("*")(4)(2) === 8);
+    assert.isOk(calculate("/")(9)(3) === 3);
+    assert.isOk(calculate("-")(8)(7) === 1);
+  });
+});
+
+describe("Singleton", function() {
+  it("конструктор", function() {
+    assert.isOk(typeof new Singleton() === "object");
+    assert.isOk(new Singleton() instanceof Singleton === true);
+  });
+  it("синглтон", function() {
+    assert.isOk(new Singleton() === new Singleton());
+  });
+});
+
+describe("ForceContructor", function() {
+  it("работает как конструктор и сохраняет параметры в объекте", function() {
+    var a = Math.random();
+    var c = Math.random();
+    var o = new ForceContructor(a, undefined, c);
+    assert.isOk(typeof o === "object");
+    assert.isOk(o instanceof ForceContructor === true);
+    assert.isOk(o.a === a);
+    assert.isOk("b" in a);
+    assert.isOk(a.b === undefined);
+    assert.isOk(a.c === c);
+  });
+  it("работает как конструктор без new", function() {
+    var a = Math.random();
+    var c = Math.random();
+    var o = ForceContructor(a, undefined, c);
+    var o2 = new ForceContructor(a, undefined, c);
+    var o3 = ForceContructor(a, undefined, c);
+    assert.isOk(typeof o === "object");
+    assert.isOk(o instanceof ForceContructor === true);
+    assert.isOk(o.a === a);
+    assert.isOk("b" in a);
+    assert.isOk(a.b === undefined);
+    assert.isOk(a.c === c);
+    assert.isOk(o !== o2);
+    assert.isOk(o1 !== o2);
+    assert.isOk(o2 !== o3);
   });
 });
 
