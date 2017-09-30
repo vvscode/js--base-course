@@ -69,3 +69,20 @@ function Singleton() {
 function ForceContructor(a, b, c) {
   throw "undefined";
 }
+
+/**
+ * Написать фукнцию сумматор, которая будет работать 
+ * var s = sum();
+ * log(s); // 0
+ * log(s(1)); // 1
+ * log(s(1)(2)); //3
+ * log(s(3)(4)(5)); // 12
+ * Число вызовов может быть неограниченым
+ */
+function sum() {
+  throw "undefined";
+}
+
+function log(x) {
+  console.log(+x);
+}
