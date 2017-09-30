@@ -88,6 +88,7 @@ describe("bind", function() {
   var func;
   var obj;
   var counter;
+  var bind;
   beforeEach(function() {
     counter = 0;
     func = function(val) {
@@ -97,6 +98,10 @@ describe("bind", function() {
     obj = {
       name: "Some dummy context"
     };
+    var bind = Function.prototype.bind;
+  });
+  afterEach(function() {
+    Function.prototype.bind = bind;
   });
   it("функция", function() {
     assert.isOk(typeof bind === "function");
@@ -134,6 +139,67 @@ describe("bind", function() {
       assert(arguments[1] === 2);
       assert(arguments[2] === "три");
     }, {})(1, 2, "три");
+  });
+});
+
+describe(".myBind", function() {
+  var func;
+  var obj;
+  var counter;
+  var bind = Function.prototype.bind;
+  beforeEach(function() {
+    counter = 0;
+    Function.prototype.bind = null;
+    func = function(val) {
+      counter++;
+      return [val, this.name];
+    };
+    obj = {
+      name: "Some dummy context"
+    };
+  });
+  afterEach(function() {
+    Function.prototype.bind = bind;
+  });
+  it("функция", function() {
+    assert.isOk(func.myBind === "function");
+  });
+  it("Возвращает фукнцию", function() {
+    assert.isOk(typeof function() {}.myBind({}) === "function");
+    assert.isOk(typeof function() {}.myBind(null) === "function");
+  });
+  it("не использует встроенный .bind", function() {
+    assert(func.miBind.toString().indexOf(".bind") < 0);
+  });
+  it("Результат вызывает оригинальную фукнцию", function() {
+    assert.isOk(counter === 0);
+    let binded = func.myBind({});
+    binded();
+    assert.isOk(counter === 1);
+    binded();
+    assert.isOk(counter === 2);
+  });
+  it("Вызывает с правильным контекстом", function() {
+    var context = { dummy: "context" };
+    const binded = function() {
+      assert(this === context);
+    }.myBind(context);
+    binded();
+  });
+  it("Пробрасывает параметры контекстом", function() {
+    (function() {
+      assert(arguments.length === 0);
+    }.myBind({})());
+    (function() {
+      assert(arguments.length === 1);
+      assert(arguments[0] === 1);
+    }.myBind({})(1));
+    (function() {
+      assert(arguments.length === 2);
+      assert(arguments[0] === 1);
+      assert(arguments[1] === 2);
+      assert(arguments[2] === "три");
+    }.myBind({})(1, 2, "три"));
   });
 });
 

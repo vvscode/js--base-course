@@ -24,3 +24,9 @@ function isDeepEqual(objA, objB) {
 function bind(func, context) {
   return undefined;
 }
+
+/**
+ * Реализовать метод .myBind для всех функций, 
+ * который работает так же как оригинальный .bind но не использует его внутри
+ * (можно использовать фукнцию выше)
+ */
