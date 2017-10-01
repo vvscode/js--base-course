@@ -9,7 +9,7 @@
 function log(a) {
     console.log(a);
 }
-
+/*
 for (var i = 1; i <= 100; i++) {		
 	if (i % 3 === 0 && i % 5 === 0) {
 		log('FizzBuzz');
@@ -21,7 +21,7 @@ for (var i = 1; i <= 100; i++) {
 		log(i);
 	}
 };
-
+*/
 /*
  * реализовать фукнцию `fizzBuzz` 
  * которая выводит числа от 1 до 100. 
@@ -34,10 +34,13 @@ for (var i = 1; i <= 100; i++) {
 function fizzBuzz() {
 	for (var i = 1; i <= 100 ; i++) {
 		( i % 3 === 0 && i % 5 === 0 ) && log('FizzBuzz');
+//		break;
 		( i % 3 === 0 && i % 5 !== 0 ) && log('Fizz');
+//		break;
 		( i % 5 === 0 && i % 3 !== 0 ) && log('Buzz');
+//		break;
 		( i % 3 !== 0 && i % 5 !== 0 ) && log(i);
-	};
+	}
 };
 
 /*
