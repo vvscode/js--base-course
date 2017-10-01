@@ -164,14 +164,14 @@ describe(".myBind", function() {
     Function.prototype.bind = originalBind;
   });
   it("функция", function() {
-    assert.isOk(func.myBind === "function");
+    assert.isOk(typeof func.myBind === "function");
   });
   it("Возвращает фукнцию", function() {
     assert.isOk(typeof function() {}.myBind({}) === "function");
     assert.isOk(typeof function() {}.myBind(null) === "function");
   });
   it("не использует встроенный .bind", function() {
-    assert.isOk(func.miBind.toString().indexOf(".bind") < 0);
+    assert.isOk(func.myBind.toString().indexOf(".bind") < 0);
   });
   it("Результат вызывает оригинальную фукнцию", function() {
     assert.isOk(counter === 0);
