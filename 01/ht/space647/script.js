@@ -7,7 +7,7 @@
  * @param {*} a
  */
 function log(a) {
-    console.log(a);
+  console.log(a);
 }
 
 /* Раместите ваш код ниже */
@@ -22,9 +22,13 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    /* Ваше решение */
+  for (let i = 1; i <= 100; i++) {
+    (i % 3 == 0 && i % 5 == 0 && log("FizzBuzz")) ||
+      (i % 3 == 0 && log("Fizz")) ||
+      (i % 5 == 0 && log("Buzz")) ||
+      log(i);
+  }
 }
-
 
 /**
  * реализовать фукнцию  `isPolindrom`,
@@ -34,10 +38,17 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    /* Ваше решение */
-    return undefined;
+  if (
+    textString ==
+    textString
+      .split("")
+      .reverse()
+      .join("")
+  ) {
+    return true;
+  }
+  return false;
 }
-
 
 /**
  * Реализовать фукнцию `drawCalendar` ,
@@ -48,10 +59,32 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+  let mon = month - 1;
+  let d = new Date(year, mon);
+  let table = `<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>`;
+  for (let i = 0; i < getDay(d); i++) {
+    table += "<td></td>";
+  }
+  while (d.getMonth() == mon) {
+    table += "<td>" + d.getDate() + "</td>";
+    if (getDay(d) % 7 == 6) {
+      table += "</tr><tr>";
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  if (getDay(d) != 0) {
+    for (let i = getDay(d); i < 7; i++) {
+      table += "<td></td>";
+    }
+  }
+  table += "</tr></table>";
+  htmlEl.innerHTML = table;
 }
-
-
+function getDay(date) {
+  let day = date.getDay();
+  if (day == 0) day = 7;
+  return day - 1;
+}
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -61,6 +94,12 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    /* Ваше решение */
-    return undefined;
+  if (typeof (objA) !== typeof (objB)) return false;
+  if (typeof (objA) !== 'object') return objA === objB;
+  if (Array.isArray(objA) != Array.isArray(objB)) return false;
+  if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+  for (var key in objA) {
+    if (!isDeepEqual(objA[key], objB[key])) return false;
+  }
+  return true;
 }
