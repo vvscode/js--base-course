@@ -3,6 +3,8 @@
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
+mocha.setup("bdd");
+var assert = chai.assert;
 
 describe("isDeepEqual", function() {
   it("фунция", function() {
@@ -302,6 +304,28 @@ it("sum", function() {
       s = s(1);
     }
     assert.isOk(+s() === 999);
+  });
+});
+
+describe("User / PreUser", function() {
+  it("конструкторы", function() {
+    var u = new User();
+    var u2 = new User();
+    assert.isOk(typeof User === "function");
+    assert.isOk(typeof PreUser === "function");
+    assert.isOk(new User() instanceof User);
+    assert.isOk(new PreUser() instanceof PreUser);
+    assert.isOk(u !== u2);
+  });
+  it("разные конструкторы", function() {
+    assert.isOk(User !== PreUser);
+  });
+  assert.isOk("создают правильное дерево наследования", function() {
+    var u = new User();
+    var u2 = new User();
+    assert.isOk(u instanceof User);
+    assert.isOk(u instanceof Array);
+    assert.isOk(u instanceof PreUser);
   });
 });
 
