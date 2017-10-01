@@ -112,10 +112,10 @@ function curry(func) {}
 что объект является экземпляром двух классов
 */
 /* Тут ваш код */
-User === PreUser; // false
-u instanceof User; // true
-u instanceof Array; // true
-u instanceof PreUser; // true
+// User === PreUser; // false
+// u instanceof User; // true
+// u instanceof Array; // true
+// u instanceof PreUser; // true
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
