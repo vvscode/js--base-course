@@ -148,7 +148,7 @@ describe(".myBind", function() {
   var func;
   var obj;
   var counter;
-  var bind = Function.prototype.bind;
+  var originalBind = Function.prototype.bind;
   beforeEach(function() {
     counter = 0;
     Function.prototype.bind = null;
@@ -161,7 +161,7 @@ describe(".myBind", function() {
     };
   });
   afterEach(function() {
-    Function.prototype.bind = bind;
+    Function.prototype.bind = originalBind;
   });
   it("функция", function() {
     assert.isOk(func.myBind === "function");
