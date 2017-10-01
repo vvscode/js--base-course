@@ -21,13 +21,28 @@ function log(a) {
  * Для вывода использовать фукнцию `log` (аналогично заданию в классе). 
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
+
+
+/** function fizzBuzz(a) {
+	* for (var i= 1; i <= 100; i++) {
+
+	*	((i % 3 === 0) && (i % 5 === 0)) && (log("FizzBuzz")) ||
+	*	(i % 3 === 0) && (log("Fizz")) ||
+	*	(i % 5 === 0) && (log("Buzz")) ||
+	*	log(i);
+	}
+}*/
+
+/*  Второй вариант))))  */
 function fizzBuzz(a) {
 	for (var i= 1; i <= 100; i++) {
+		a = i;
 
-		((i % 3 === 0) && (i % 5 === 0)) && (log("FizzBuzz")) ||
-		(i % 3 === 0) && (log("Fizz")) ||
-		(i % 5 === 0) && (log("Buzz")) ||
-		log(i);
+		(i % 3 === 0) && (a = 'Fizz');
+		(i % 5 === 0) && (a = 'Buzz');
+		((i % 3 === 0) && (i % 5 === 0)) && (a = 'FizzBuzz');
+
+		log(a);
 	}
 }
 
@@ -39,12 +54,32 @@ function fizzBuzz(a) {
  * @param {string} textString 
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
+
+
+/**function isPolindrom(textString) {
+	*textString = textString.toLowerCase();
+
+	*var textStringReverse = textString.split("").reverse().join("");
+
+	*	return (textString === textStringReverse);
+}*/
+
+
+
+/*Второй вариант*/
+
 function isPolindrom(textString) {
 	textString = textString.toLowerCase();
 
-	var textStringReverse = textString.split("").reverse().join("");
+	var a= (textString.length - 1) / 2;
 
-		return (textString === textStringReverse);
+	for (var i = 0; i <= a; i++) {
+
+		var result = (textString[i] === textString[textString.length - i - 1]);
+
+		if(!result) return false;
+	}
+	return  true;
 }
 
 
@@ -105,24 +140,17 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
 
-	function isDeepEqual(objA, objB) {
+	if ((typeof objA !== typeof objB) ||
+		(Object.keys(objA).length !== Object.keys(objB).length)) return false;
 
-		var resultA = Object.keys(objA);
-		var resultB = Object.keys(objB);
-		var result;
+	if (typeof(objA) === 'object' && typeof(objB) === 'object') {
+		if(objA.length !== objB.length)	return false;
 
-		if ((typeof objA === typeof objB) &&
-			(typeof objA === 'object' && typeof objB === 'object') &&
-			(objA !== null && objB !== null) &&
-			(resultA.length === resultB.length)) {
-
-			for (var key in objA) {
-				for (key in objB) {
-					if (objA[key].toString() === objB[key].toString()){
-						result = true;
-					} else return false;
-				}
-			}
+		for(var key in objA) {
+			if (!isDeepEqual(objA[key], objB[key])) return false;
 		}
-		return result;
+		return true;
+	}
+
+	if ((objA !== 'object' || objB !== 'object') || (Array.isArray(objA) !== Array.isArray(objB))) return (objA === objB);
 }

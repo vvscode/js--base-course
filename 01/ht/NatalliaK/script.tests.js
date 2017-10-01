@@ -103,30 +103,55 @@ describe('isDeepEqual', function() {
         return assert.isOk(typeof isDeepEqual('', '') === 'boolean');
     });
     it('распознает одинаковые строки', function() {
-        return assert.isOk(typeof isDeepEqual('мама', 'мама') === true);
+        return assert.isOk(isDeepEqual('мама', 'мама') === true);
     });
     it('распознает разные строки', function() {
-        return assert.isOk(typeof isDeepEqual('мама', 'папа') === false);
+        return assert.isOk(isDeepEqual('мама', 'папа') === false);
     });
 
     it('распознаем разные массивы', function() {
-        return assert.isOk(typeof isDeepEqual([1, 2, 4], [1, 2, 4]) === false);
+        return assert.isOk(isDeepEqual([1, 4, 2], [1, 2, 4]) === false);
     });
     it('распознает одинаковые массивы', function() {
-        return assert.isOk(typeof isDeepEqual([1, 2, 4, 3], [1, 2, 4, 3]) === true);
+        return assert.isOk(isDeepEqual([1, 2, 4, 3], [1, 2, 4, 3]) === true);
     });
     it('распознает массивы разной длинны', function() {
-        return assert.isOk(typeof isDeepEqual([1, 2, 5], [1, 2, 5, 7]) === false);
+        return assert.isOk(isDeepEqual([1, 2, 5], [1, 2, 5, 7]) === false);
     });
 
     var a = {prop1: 1, list: [1, 2, 3], o: {x: 2}};
     var b = {list: [1, 2, 3], o: {x: 2}};
     it('распознает разные объекты', function() {
-        return assert.isOk(typeof isDeepEqual(a, b) === false);
+        return assert.isOk(isDeepEqual(a, b) === false);
     });
-    b.prop1 = 1;
+
     it('распознает одинаковые объекты', function() {
-        return assert.isOk(typeof isDeepEqual(a, b) === true);
+        b.prop1 = 1;
+        return assert.isOk(isDeepEqual(a, b) === true);
+    });
+
+    it('распознает разные объекты', function() {
+        var a = {a: 1, b: 3, c: 2};
+        var b = {a: 1, b: 4, c: 2};
+        return assert.isOk(isDeepEqual(a, b) === false);
+    });
+
+    it('распознает вложенные объекты', function() {
+        var a = {a: 1, b: {x: 5}, c: 2};
+        var b = {a: 1, b: {x: 5}, c: 2};
+        return assert.isOk(isDeepEqual(a, b) === true);
+    });
+
+    it('распознает числа', function() {
+        var a = 1;
+        var b = 1.0;
+        return assert.isOk(isDeepEqual(a, b) === true);
+    });
+
+    it('распознает разные числа', function() {
+        let a = 1;
+        let b = 2;
+        return assert.isOk(isDeepEqual(a, b) === false);
     });
 });
 
