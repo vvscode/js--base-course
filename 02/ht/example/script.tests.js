@@ -136,7 +136,7 @@ describe("bind", function() {
       assert.isOk(arguments[0] === 1);
     }, {})(1);
     bind(function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === "три");
@@ -197,7 +197,7 @@ describe(".myBind", function() {
       assert.isOk(arguments[0] === 1);
     }.myBind({})(1));
     (function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === "три");
