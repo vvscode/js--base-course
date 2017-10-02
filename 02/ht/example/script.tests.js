@@ -81,7 +81,7 @@ describe("isDeepEqual", function() {
     var b = {
       prop: 1
     };
-    b.b = b;
+    b.a = b;
     assert.isOk(isDeepEqual(a, b) === true);
   });
 });
