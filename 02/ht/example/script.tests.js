@@ -254,7 +254,7 @@ describe("ForceContructor", function() {
   });
 });
 
-it("sum", function() {
+describe("sum", function() {
   it("функция", function() {
     assert.isOk(typeof sum === "function");
   });
