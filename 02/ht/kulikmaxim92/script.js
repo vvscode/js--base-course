@@ -65,7 +65,9 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
-
+Function.prototype.myBind = function(context) {
+  return bind(this, context);
+}
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
@@ -97,7 +99,7 @@ function Singleton() {
   if (!Singleton.instance) {
     Singleton.instance = this;
   }
-
+  
   return Singleton.instance;
 }
 /**
