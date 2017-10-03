@@ -94,9 +94,12 @@ function calculate() {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
-}
+  if (!Singleton.instance) {
+    Singleton.instance = this;
+  }
 
+  return Singleton.instance;
+}
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -104,7 +107,7 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  throw 'undefined';
 }
 
 /**
@@ -117,7 +120,7 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw "undefined";
+  throw 'undefined';
 }
 
 function log(x) {
