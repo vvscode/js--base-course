@@ -91,6 +91,25 @@ Function.prototype.myBind = /*Function.prototype.bind*/ function(context) {
  * o.magicProperty = 3 // (любое значение)
  * в консоль выводилось значение, которое присваивается и текущее время
  */
+function objectCretionDemo() {
+    var o = {    };
+
+    Object.defineProperty(o, "magicProperty", {
+        set: function(value) {
+           console.log(value + " " + new Date());
+        }
+    });
+
+    o.magicProperty = null;
+    o.magicProperty = NaN;
+    o.magicProperty = 2;
+    o.magicProperty = '132123123123123';
+    o.magicProperty = {};
+    o.magicProperty = new Boolean(false);
+    o.magicProperty = new Boolean(true);
+
+}
+
 
 /**
  * Создать конструктор с методами, так,
@@ -98,6 +117,33 @@ Function.prototype.myBind = /*Function.prototype.bind*/ function(context) {
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
+function constructorDemo(){
+    function User(){
+        this.name = '';
+        this.age = 0;
+
+        this.askName = function(){
+            this.name = prompt('Whhat is your name?','');
+            return this;
+        };
+        this.askAge  = function(){
+            this.age = prompt('Whhat is your age?',0);
+            return this;
+        };
+        this.showAgeInConsole = function(){
+            console.log('Age ' + this.age);
+            return this;
+        }
+        this.showNameInAlert = function(){
+            alert('Name ' + this.name);
+            return this;
+        }
+    };
+
+    var u = new User();
+    u.askName().askAge().showAgeInConsole().showNameInAlert();
+}
+
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -106,7 +152,18 @@ Function.prototype.myBind = /*Function.prototype.bind*/ function(context) {
  * Допустимые операции : + - * /
  */
 function calculate() {
-    /* put your code here */
+    var operation = arguments[0];
+
+    return function(){
+        return function(){
+            var firstOperand = arguments[0];
+            return function(){
+                var secondOperand = arguments[0];
+                var resultFunc = new Function("return " + firstOperand + operation + secondOperand + ";");
+                return resultFunc();
+            }
+        }
+    }()
 }
 
 /**
@@ -114,7 +171,10 @@ function calculate() {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-    throw "undefined";
+    if (Singleton.instance){
+        return Singleton.instance;
+    }
+    Singleton.instance = this;
 }
 
 /**
@@ -124,7 +184,13 @@ function Singleton() {
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceContructor(a, b, c) {
-    throw "undefined";
+
+    // в this пишем свойства, методы
+    this.a = a;
+    this.b = b;
+    this.c = c;
+
+    return this;
 }
 
 /**
