@@ -67,13 +67,18 @@ function bind(func, context) {
  */
 Function.prototype.myBind = function(context) {
   return bind(this, context);
-}
+};
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
-
+var o = {
+  set magicProperty(value) {
+    var date = new Date();
+    console.log(value + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+  },
+};
 /**
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
@@ -99,7 +104,7 @@ function Singleton() {
   if (!Singleton.instance) {
     Singleton.instance = this;
   }
-  
+
   return Singleton.instance;
 }
 /**
