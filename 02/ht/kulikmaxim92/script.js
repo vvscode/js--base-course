@@ -21,14 +21,11 @@ function isDeepEqual(objA, objB) {
     }
 
     for (var key in objA) {
-      if (objB.hasOwnProperty(key)) {
-        if ((objA[key] === objA && objB[key] === objA)
-          || (objB[key] === objB && objB[key] === objA)
-          || (objA[key] === objB && objB[key] === objA)
-          || (objA[key] === objA && objB[key] === objB)
-          || isDeepEqual(objA[key], objB[key])) {
-          continue;
-        }
+      if (objB.hasOwnProperty(key) && ((objA[key] === objB[key])
+        || (objA[key] === objB && objB[key] === objA)
+        || (objA[key] === objA && objB[key] === objB)
+        || isDeepEqual(objA[key], objB[key]))) {
+        continue;
       }
 
       return false;
@@ -158,8 +155,20 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  var total = 0;
+function sum(arg) {
+  var total = arg || 0;
+  function func(number) {
+    if (number !== undefined) {
+      total += number;
+    }
+    return func;
+  }
+
+  func.valueOf = function () {
+    return total;
+  };
+
+  return func;
 }
 
 function log(x) {
@@ -181,14 +190,31 @@ function log(x) {
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
+ * @return {*} ddd
  */
-function curry(func) {}
+function curry(func) {
+  var counter = func.length;
+  var args = [];
+  return function f(arg) {
+    args.push(arg);
+    counter--;
+    if (!counter) {
+      return func(...args);
+    }
+
+    return f.bind(null);
+  };
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function PreUser() {}
+PreUser.prototype = Object.create(Array.prototype);
+
+function User() {}
+User.prototype = Object.create(PreUser.prototype);
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
