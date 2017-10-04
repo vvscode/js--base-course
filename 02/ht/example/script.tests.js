@@ -266,7 +266,7 @@ describe("sum", function() {
   });
   it("складывает числа", function() {
     var s = sum(1);
-    assert.isOk(+s(2) === 2);
+    assert.isOk(+s(2) === 3);
     assert.isOk(+s(3) === 4);
     assert.isOk(+s(95) === 96);
   });
