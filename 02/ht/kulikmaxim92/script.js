@@ -107,7 +107,17 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw 'undefined';
+  var obj;
+  if (!(this instanceof ForceContructor)) {
+    obj = new ForceContructor();
+  } else {
+    obj = this;
+  }
+  obj.a = a;
+  obj.b = b;
+  obj.c = c;
+
+  return obj;
 }
 
 /**
@@ -120,7 +130,7 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw 'undefined';
+  var total = 0;
 }
 
 function log(x) {
