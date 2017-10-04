@@ -101,7 +101,7 @@ function objectCretionDemo() {
 
     Object.defineProperty(o, "magicProperty", {
         set: function(value) {
-           console.log(value + " " + new Date());
+            console.log(value + " " + new Date());
         }
     });
 
@@ -188,6 +188,24 @@ function Singleton() {
  */
 function ForceConstructor(a, b, c) {
 
+    if (this instanceof ForceConstructor) {
+        var objDescriptor = {
+            'a': {
+                value: a
+            },
+
+            'b': {
+                value: b
+            },
+
+            'c': {
+                value: c
+            }
+        };
+        Object.defineProperties(this, objDescriptor);
+    } else {
+        return new ForceConstructor(a, b, c);
+    }
 }
 
 /**
