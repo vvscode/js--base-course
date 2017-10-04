@@ -81,7 +81,7 @@ describe("isDeepEqual", function() {
     var b = {
       prop: 1
     };
-    b.b = b;
+    b.a = b;
     assert.isOk(isDeepEqual(a, b) === true);
   });
 });
@@ -90,7 +90,7 @@ describe("bind", function() {
   var func;
   var obj;
   var counter;
-  var bind;
+  var originalBind;
   beforeEach(function() {
     counter = 0;
     func = function(val) {
@@ -100,10 +100,10 @@ describe("bind", function() {
     obj = {
       name: "Some dummy context"
     };
-    var bind = Function.prototype.bind;
+    var originalBind = Function.prototype.bind;
   });
   afterEach(function() {
-    Function.prototype.bind = bind;
+    Function.prototype.bind = originalBind;
   });
   it("функция", function() {
     assert.isOk(typeof bind === "function");
@@ -136,7 +136,7 @@ describe("bind", function() {
       assert.isOk(arguments[0] === 1);
     }, {})(1);
     bind(function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === "три");
@@ -148,7 +148,7 @@ describe(".myBind", function() {
   var func;
   var obj;
   var counter;
-  var bind = Function.prototype.bind;
+  var originalBind = Function.prototype.bind;
   beforeEach(function() {
     counter = 0;
     Function.prototype.bind = null;
@@ -161,17 +161,17 @@ describe(".myBind", function() {
     };
   });
   afterEach(function() {
-    Function.prototype.bind = bind;
+    Function.prototype.bind = originalBind;
   });
   it("функция", function() {
-    assert.isOk(func.myBind === "function");
+    assert.isOk(typeof func.myBind === "function");
   });
   it("Возвращает фукнцию", function() {
     assert.isOk(typeof function() {}.myBind({}) === "function");
     assert.isOk(typeof function() {}.myBind(null) === "function");
   });
   it("не использует встроенный .bind", function() {
-    assert.isOk(func.miBind.toString().indexOf(".bind") < 0);
+    assert.isOk(func.myBind.toString().indexOf(".bind") < 0);
   });
   it("Результат вызывает оригинальную фукнцию", function() {
     assert.isOk(counter === 0);
@@ -197,7 +197,7 @@ describe(".myBind", function() {
       assert.isOk(arguments[0] === 1);
     }.myBind({})(1));
     (function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === "три");
@@ -232,9 +232,9 @@ describe("ForceContructor", function() {
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceContructor === true);
     assert.isOk(o.a === a);
-    assert.isOk("b" in a);
-    assert.isOk(a.b === undefined);
-    assert.isOk(a.c === c);
+    assert.isOk("b" in o);
+    assert.isOk(o.b === undefined);
+    assert.isOk(o.c === c);
   });
   it("работает как конструктор без new", function() {
     var a = Math.random();
@@ -245,11 +245,11 @@ describe("ForceContructor", function() {
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceContructor === true);
     assert.isOk(o.a === a);
-    assert.isOk("b" in a);
-    assert.isOk(a.b === undefined);
-    assert.isOk(a.c === c);
+    assert.isOk("b" in o);
+    assert.isOk(o.b === undefined);
+    assert.isOk(o.c === c);
     assert.isOk(o !== o2);
-    assert.isOk(o1 !== o2);
+    assert.isOk(o !== o3);
     assert.isOk(o2 !== o3);
   });
 });

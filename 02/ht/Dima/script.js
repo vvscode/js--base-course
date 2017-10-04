@@ -11,8 +11,34 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+
+  if (typeof objA !== 'object' && typeof objB !== 'object') {
+    if (objA === objB) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (typeof objA === 'object' && typeof objB === 'object') {
+    if (objA === null || typeof(objA) !== "object" ||
+      objB === null || typeof(objB) !== "object")
+    {
+      return false;
+    }
+
+    var propertiesInA = 0, propertiesInB = 0;
+    for (var property in objA) {
+        propertiesInA += 1;
+    }
+    for (property in objB) {
+      propertiesInB += 1;
+      if (!(property in objA) || !isDeepEqual(objA[property], objB[property])) {
+          return false;        
+      }
+    }        
+    return propertiesInA === propertiesInB;
+  } else if (isNaN(objA === true) && isNaN(objB) === true) {
+    return true;
+  }
 }
 
 /**
@@ -22,7 +48,9 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return undefined;
+  return function() { 
+    return func.apply(context, arguments);
+  };
 }
 
 /**
@@ -31,11 +59,25 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
+Function.prototype.myBind = function (func, context) {
+  return function() { 
+    return func.apply(this || context, arguments);
+  };
+};
+
+
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
+var obj = {
+  x: null,
+  set magickProperty (val) {
+    this.x = val;
+    console.log(this.x + ' ' + (new Date()).toLocaleTimeString());
+  }
+};
 
 /**
 * Создать конструктор с методами, так, 
@@ -43,23 +85,76 @@ function bind(func, context) {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+function User (name, age) {
+  this.name = name;
+  this.age = age;
+  this.askName = function () {
+    var name = prompt('mane', '');
+    this.name = name;
+    return this;
+  };
+  this.askAge = function () {
+    var age = prompt('age', '');
+    this.age = age;
+    return this;
+  };
+  this.showAgeInConsole = function () {
+    console.log(this.age);
+    return this;
+  };
+  this.showNameInAlert= function () {
+    alert(this.name);
+    return this;
+  };
+}
 
+var u = new User();
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(operand) {
+  if (operand === '+') {
+    return function (a) {
+      return function (b) {
+        return a + b;
+      };
+    };
+  }
+  if (operand === '-') {
+    return function (a) {
+      return function (b) {
+        return a - b;
+      };
+    };
+  }
+  if (operand === '/') {
+    return function (a) {
+      return function (b) {
+        return a / b;
+      };
+    };
+  }
+  if (operand === '*') {
+    return function (a) {
+      return function (b) {
+        return a * b;
+      };
+    };
+  }
 }
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  throw "undefined";
+function Singleton () {
+  if (Singleton.instance) {
+    return Singleton.instance;
+  }
+  Singleton.instance = this;
 }
 
 /**
@@ -69,7 +164,13 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  if ( this instanceof ForceContructor ) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  } else {
+    return new ForceContructor(a, b, c);
+  }
 }
 
 /**
@@ -82,7 +183,20 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw "undefined";
+
+  var summ = 0;
+
+  function func (b) {
+    summ = summ + b;
+    return func;
+  }
+
+  func.toString = function () {
+    return summ;
+  };
+
+  return func;
+
 }
 
 function log(x) {
@@ -105,13 +219,30 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User (prop1) {
+  this.prop1 = prop1;
+}
+
+function PreUser (prop2) {
+  this.prop2 = prop2;
+  this.base1 = User;
+  this.base1();
+}
+
+PreUser.prototype = new User();
+
+var u = new PreUser();
+
+console.log(User === PreUser); // false
+console.log(u instanceof User); // true
+console.log(u instanceof PreUser); // true
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
