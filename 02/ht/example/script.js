@@ -252,12 +252,74 @@ function log(x) {
  *
  * Примеры тестов смотреть в файле тестов
  *
+ *
+ *1) var func = function(a){
+	console.log(a);
+}
+
+ curry(func)('1')(3);
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-function curry(func) {
 
+function curry(func) {
+    // use as test fnext construciton
+    /*
+        var func = function(a,b,c){
+            console.log(a + ' ' + b + ' ' + c);
+        }
+
+        curry(func)('1')('2')(3333333333);
+    */
+    // String '1 2 3333333333' must be logged
+    var funcAsStr = func.toString();
+    var paramsAsString = funcAsStr.substring(
+        funcAsStr.indexOf('(') + 1,
+        funcAsStr.indexOf(')')
+    );
+    var paramsNumber = paramsAsString.split(',').length;
+
+    var paramsArr = [];
+    if (paramsNumber === 1){
+        return function(param){
+            paramsArr.push(param);
+            return func.apply(func, paramsArr);
+        }
+    } else if(paramsNumber === 2){
+        return function(param){
+            paramsArr.push(param);
+            return function(param2){
+                paramsArr.push(param2);
+                func.apply(func, paramsArr);
+            }
+        }
+    } else if(paramsNumber === 3){
+        return function(param){
+            paramsArr.push(param);
+            return function(param2){
+                paramsArr.push(param2);
+                return function(param3){
+                    paramsArr.push(param3);
+                    func.apply(func, paramsArr);
+                }
+            }
+        }
+    } else if(paramsNumber === 4){
+        return function(param1){
+            paramsArr.push(param);
+            return function(param2){
+                paramsArr.push(param2);
+                return function(param3){
+                    paramsArr.push(param3);
+                    return function(param4){
+                        paramsArr.push(param4);
+                        func.apply(func, paramsArr);
+                    }
+                }
+            }
+        }
+    }
 }
 
 /*
