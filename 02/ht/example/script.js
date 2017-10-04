@@ -12,6 +12,8 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
+
+    var arrWithObjectsAsProerties = [];
     // check for null
     if (objA == null || objB == null) {
         return (objA == null && objB == null);
@@ -40,8 +42,11 @@ function isDeepEqual(objA, objB) {
                 return false;
             }
             if (typeof objA[key] === 'object') {
-                if (!isDeepEqual(objA[key], objB[key])) { // if properties are objects function calls itself check one more time
-                    return false;
+                if(arrWithObjectsAsProerties.indexOf(objA[key]) > -1){
+                    arrWithObjectsAsProerties.push(objA[key]);
+                    if (!isDeepEqual(objA[key], objB[key])) { // if properties are objects function calls itself check one more time
+                        return false;
+                    }
                 }
             } else if (Number.isNaN(objA[key])) { // check for NaN
                 if (!Number.isNaN(objB[key])) {
@@ -110,7 +115,6 @@ function objectCretionDemo() {
 
 }
 
-
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
@@ -143,7 +147,6 @@ function constructorDemo(){
     var u = new User();
     u.askName().askAge().showAgeInConsole().showNameInAlert();
 }
-
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -183,14 +186,8 @@ function Singleton() {
  * вызвана она с new или без
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
-function ForceContructor(a, b, c) {
+function ForceConstructor(a, b, c) {
 
-    // в this пишем свойства, методы
-    this.a = a;
-    this.b = b;
-    this.c = c;
-
-    return this;
 }
 
 /**
@@ -203,7 +200,22 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-    throw "undefined";
+    var initialVal = arguments[0] ? arguments[0] : 0;
+    var currentSum = initialVal;
+
+    function f(b) {
+        b = b === undefined ? 0 : b;
+        currentSum += b;
+        return f;
+    }
+
+    f.toString = function() {
+        var resultSum = currentSum;
+        currentSum = initialVal;
+        return resultSum;
+    };
+
+    return f;
 }
 
 function log(x) {
@@ -227,6 +239,7 @@ function log(x) {
  * @param {*} func
  */
 function curry(func) {
+
 }
 
 /*
