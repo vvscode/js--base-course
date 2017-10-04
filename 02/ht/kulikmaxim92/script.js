@@ -85,7 +85,29 @@ var o = {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+function Questionnaire() {
+  this.askName = function() {
+    this.name = prompt('Введите свое имя');
+    return this;
+  };
 
+  this.askAge = function() {
+    this.age = prompt('Введите свой возраст');
+    return this;
+  };
+
+  this.showAgeInConsole = function() {
+    console.log(this.age);
+
+    return this;
+  };
+
+  this.showNameInAlert = function() {
+    alert(this.name);
+
+    return this;
+  };
+}
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
