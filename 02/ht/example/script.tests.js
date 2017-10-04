@@ -296,7 +296,7 @@ describe("sum", function() {
     assert.isOk(+s15 === 6);
     assert.isOk(+s152 === 8);
     assert.isOk(+s159 === 15);
-    assert.isOk(+s10 === 0);
+    assert.isOk(+s10 === 1);
   });
   it("может отработать много раз", function() {
     var s = sum();
