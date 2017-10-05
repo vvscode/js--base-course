@@ -330,8 +330,11 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+  it("Поддерживает каррирование функций с 2,3,4,5 параметрами", function() {
+    function target1(a,b,c,d) { return a + b + c + d };
+    function target2(a,b) { return a + b };
+    assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
+    assert.isOk(curry(target2)(5)(8) === 13);
   });
 });
 

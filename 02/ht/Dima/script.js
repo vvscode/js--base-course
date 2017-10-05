@@ -219,7 +219,34 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-
+var curry = function (target) {
+  var argumentNumber = target.length;
+  if (argumentNumber === 2) {
+    return function (a) {
+      return function (b) {
+        return target(a, b);
+      };
+    };
+  } else if (argumentNumber === 3) {
+    return function (a) {
+      return function (b) {
+        return function (c) {
+          return target(a, b, c);
+        };
+      };
+    };
+  } else if (argumentNumber === 4) {
+    return function (a) {
+      return function (b) {
+        return function (c) {
+          return function (d) {
+            return target(a, b, c, d);
+          };          
+        };
+      };
+    };
+  }
+};
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
