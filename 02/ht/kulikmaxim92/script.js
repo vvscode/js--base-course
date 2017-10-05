@@ -243,6 +243,24 @@ User.prototype = Object.create(PreUser.prototype);
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
+function displayUserInformation(el) {
+  var userForm = document.forms.userForm;
+  var name = userForm.name.value;
+  var city = userForm.city.value;
+  var comment = userForm.comment.value;
+  var sex = userForm.sex.value;
+
+  el.innerHTML = 'Имя: ' + name + '<br> Город: ' + city
+    + '<br> Пол: ' + sex + '<br> Коментарий: ' + comment;
+
+  userForm.reset();
+}
+
+function initializeForm(){
+  var el = document.getElementById('userInformation');
+  var button = document.getElementById('btn');
+  button.addEventListener('click', displayUserInformation.bind(null, el));
+}
 
 /* 
 Используя функцию drawCalendar из прошлого урока
@@ -252,4 +270,93 @@ User.prototype = Object.create(PreUser.prototype);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+var LAST_DAY_WEEK = 7;
+
+function drawCalendar(year, month, htmlEl) {
+  htmlEl.innerHTML = '';
+  var date = new Date(year, month - 1);
+  var calendar = getCalendar(date);
+  var months = ['Янв', 'Фев', 'Мрт', 'Апр', 'Май', 'Инь', 'Иль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  calendar[0] = [undefined, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+  var tbl = document.createElement('table');
+  var tbdy = document.createElement('tbody');
+
+  var head = document.createElement('tr');
+
+  var left = document.createElement('td');
+  var leftButton = document.createElement('input');
+  leftButton.id = 'previous';
+  leftButton.type = 'button';
+  leftButton.value = '<';
+  leftButton.addEventListener('click',
+    drawCalendar.bind(this, date.getFullYear(), date.getMonth(), htmlEl));
+
+  left.appendChild(leftButton);
+  head.appendChild(left);
+
+  var center = document.createElement('td');
+  center.colSpan = 5;
+  center.style.textAlign = 'center';
+  center.appendChild(document.createTextNode(months[date.getMonth()] + '/' + date.getFullYear()));
+  head.appendChild(center);
+
+  var right = document.createElement('td');
+
+  var rightButton = document.createElement('input');
+  rightButton.id = 'next';
+  rightButton.type = 'button';
+  rightButton.value = '>';
+  rightButton.addEventListener('click',
+    drawCalendar.bind(this, date.getFullYear(), date.getMonth() + 2, htmlEl));
+
+  right.appendChild(rightButton);
+  head.appendChild(right);
+
+  tbdy.appendChild(head);
+  tbl.appendChild(tbdy);
+  for (var week = 0; week < calendar.length; week++) {
+    var tr = document.createElement('tr');
+    for (var day = 1; day <= LAST_DAY_WEEK; day++) {
+      var td = document.createElement('td');
+      var tdValue = !!calendar[week][day] ? calendar[week][day] : '';
+      td.appendChild(document.createTextNode(tdValue));
+      tr.appendChild(td);
+    }
+    tbdy.appendChild(tr);
+  }
+  tbl.appendChild(tbdy);
+  htmlEl.appendChild(tbl);
+}
+
+function getCalendar(date) {
+  var month = date.getMonth();
+  var someDate = new Date(date.getFullYear(), date.getMonth())
+  var calendar = [];
+  var week = 1;
+
+  calendar[week] = [];
+  while (someDate.getMonth() === month) {
+    if (!(someDate.getDay() % LAST_DAY_WEEK)) {
+      calendar[week++][LAST_DAY_WEEK] = someDate.getDate();
+      calendar[week] = [];
+    } else {
+      calendar[week][someDate.getDay()] = someDate.getDate();
+    }
+    someDate.setDate(someDate.getDate() + 1);
+  }
+
+  return calendar;
+}
+
+function drawInteractiveCalendar(el) {
+  var year = 2017;
+  var month = 10;
+
+  drawCalendar(year, month, el);
+}
+
+function initializeCalendar(){
+  var calendar = document.getElementById("calendar");
+  drawInteractiveCalendar(calendar);
+}
