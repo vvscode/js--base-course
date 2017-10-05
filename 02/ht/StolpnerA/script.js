@@ -11,8 +11,33 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+  if (typeof(objA) === "string" && typeof(objB) === "string") {
+    return objA === objB;
+  }
+  if (objA instanceof Array && objB instanceof Array) {
+    if (objA.length !== objB.length) return false;
+        debugger;
+    let tmp = 0;
+    for (let i = 0; i < objA.length; i++) {
+      for(let j = 0; j < objB.length; j++) {
+        if (objA[i] === objB[i]) {
+          tmp++;
+        }
+        break;
+      }
+    }
+    return tmp === objA.length;
+  }
+
+  if (objA instanceof Object && objB instanceof Object) {
+    debugger;
+    return JSON.stringify(objA) == JSON.stringify(objB);
+  }
+  if (isNaN(objA) && isNaN(objB)) {
+    return true
+  }
+
+  return objA === objB
 }
 
 /**
@@ -50,9 +75,14 @@ function bind(func, context) {
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(mark) {
+    return function(arg1) {
+      return function(arg2) {
+        return eval(arg1 + mark + arg2);
+      }
+    }
 }
+  console.log(calculate('+')(1)(2));
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
