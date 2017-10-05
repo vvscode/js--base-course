@@ -16,7 +16,6 @@ function isDeepEqual(objA, objB) {
   }
   if (objA instanceof Array && objB instanceof Array) {
     if (objA.length !== objB.length) return false;
-    debugger;
     let tmp = 0;
     for (let i = 0; i < objA.length; i++) {
       for (let j = 0; j < objB.length; j++) {
@@ -30,7 +29,6 @@ function isDeepEqual(objA, objB) {
   }
 
   if (objA instanceof Object && objB instanceof Object) {
-    debugger;
     return JSON.stringify(objA) == JSON.stringify(objB);
   }
   if (isNaN(objA) && isNaN(objB)) {
@@ -70,6 +68,15 @@ Function.prototype.myBind = function(context) {
 * o.magicProperty = 3 // (любое значение)
 * в консоль выводилось значение, которое присваивается и текущее время
 */
+function objCreate() {
+  let o = new Object();
+  Object.defineProperty(o, "magicProperty", {
+    set: function(value) {
+      console.log(value + " " + new Date());
+    }
+  });
+  o.magicProperty = 3;
+}
 
 /**
 * Создать конструктор с методами, так,
@@ -91,7 +98,6 @@ function calculate(mark) {
     };
   };
 }
-console.log(calculate("+")(1)(2));
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
