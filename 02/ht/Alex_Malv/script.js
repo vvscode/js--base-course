@@ -12,18 +12,29 @@
  */
 function isDeepEqual(objA, objB) {
     /* Ваше решение */
-    if (!objA && !objB) { return false };
-    if (objA != objB) { return false };
-    if (objA == objB) { return true };
-    if (objA.length == objB.length) { return true };
-    // else 
-    // { if (JSON.stringify(objA) == JSON.stringify(objB))  };
-
-
-
-
-
-    return true;
+    if (typeof(objA) === "string" && typeof(objB) === "string") { return objA === objB; }
+    if (objA instanceof Array && objB instanceof Array) {
+        if (objA.length !== objB.length) return false;
+        debugger;
+        var tmp = 0;
+        for (var i = 0; i < objA.length; i++) {
+            for (var j = 0; j < objB.length; j++) {
+                if (objA[i] === objB[i]) {
+                    tmp++;
+                }
+                break;
+            }
+        }
+        return tmp === objA.length;
+    }
+    if (objA instanceof Object && objB instanceof Object) {
+        debugger;
+        return JSON.stringify(objA) == JSON.stringify(objB);
+    }
+    if (isNaN(objA) && isNaN(objB)) {
+        return true
+    }
+    return objA === objB
 }
 
 
@@ -79,7 +90,8 @@ function calculate(operand) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-    throw "undefined";
+    if (Singleton.instance) { return Singleton.instance; }
+    Singleton.instance = this;
 }
 
 /**
@@ -102,6 +114,7 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
+
     throw "undefined";
 }
 
