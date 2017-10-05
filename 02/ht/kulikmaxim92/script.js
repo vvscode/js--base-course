@@ -111,8 +111,23 @@ function Questionnaire() {
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(sign) {
+  return function(firstNumber) {
+    return function(secondNumber) {
+      switch (sign) {
+        case '+':
+          return firstNumber + secondNumber;
+        case '-':
+          return firstNumber - secondNumber;
+        case '*':
+          return firstNumber * secondNumber;
+        case '/':
+          return firstNumber / secondNumber;
+        default:
+          break;
+      }
+    };
+  };
 }
 
 /**
