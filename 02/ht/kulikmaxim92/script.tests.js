@@ -330,8 +330,29 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+  var funcTwoArgs = function(a, b) {
+    return a + b;
+  };
+  var funcThreeArgs = function(a, b, с) {
+    return a + b + с;
+  };
+  var funcFourArgs = function(a, b, с, d) {
+    return a + b + с + d;
+  };
+  var funcFiveArgs = function(a, b, с, d, e) {
+    return a + b + с + d + e;
+  };
+  it("Работает с функцией с 2 аргуметами", function() {
+    assert.isOk(curry(funcTwoArgs)(1)(1) === 2);
+  });
+  it("Работает с функцией с 3 аргуметами", function() {
+    assert.isOk(curry(funcThreeArgs)(1)(1)(1) === 3);
+  });
+  it("Работает с функцией с 4 аргуметами", function() {
+    assert.isOk(curry(funcFourArgs)(1)(1)(1)(1) === 4);
+  });
+  it("Работает с функцией с 5 аргуметами", function() {
+    assert.isOk(curry(funcFiveArgs)(1)(1)(1)(1)(1) === 5);
   });
 });
 
