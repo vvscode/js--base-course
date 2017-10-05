@@ -90,7 +90,7 @@ describe("bind", function() {
   var func;
   var obj;
   var counter;
-  var bind;
+  var originalBind;
   beforeEach(function() {
     counter = 0;
     func = function(val) {
@@ -100,10 +100,10 @@ describe("bind", function() {
     obj = {
       name: "Some dummy context"
     };
-    var bind = Function.prototype.bind;
+    var originalBind = Function.prototype.bind;
   });
   afterEach(function() {
-    Function.prototype.bind = bind;
+    Function.prototype.bind = originalBind;
   });
   it("функция", function() {
     assert.isOk(typeof bind === "function");
@@ -336,3 +336,4 @@ describe("curry", function() {
 });
 
 mocha.run();
+
