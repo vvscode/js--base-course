@@ -149,7 +149,18 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw "undefined";
+  let res = arguments[0] || 0;
+  let currentSum = res;
+  function summator(a) {
+    currentSum += a || 0;
+    return summator;
+  }
+  summator.toString = () => {
+    let tmp = currentSum;
+    currentSum = res;
+    return tmp;
+  };
+  return summator;
 }
 
 function log(x) {
@@ -178,7 +189,9 @@ function curry(func) {}
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User() {}
+function PreUser() {}
+User.prototype = Object.create(Array.prototype);
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
