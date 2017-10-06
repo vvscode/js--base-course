@@ -11,11 +11,9 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    /* Ваше решение */
     if (typeof(objA) === "string" && typeof(objB) === "string") { return objA === objB; }
     if (objA instanceof Array && objB instanceof Array) {
         if (objA.length !== objB.length) return false;
-        debugger;
         var tmp = 0;
         for (var i = 0; i < objA.length; i++) {
             for (var j = 0; j < objB.length; j++) {
@@ -28,7 +26,6 @@ function isDeepEqual(objA, objB) {
         return tmp === objA.length;
     }
     if (objA instanceof Object && objB instanceof Object) {
-        debugger;
         return JSON.stringify(objA) == JSON.stringify(objB);
     }
     if (isNaN(objA) && isNaN(objB)) {
@@ -55,6 +52,9 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
+Function.prototype.myBind = function(context) {
+    return bind(this, context)
+}
 
 /**
  * Создать объект o так, чтобы каждый раз когда в коде написано 
@@ -91,17 +91,27 @@ function calculate(operand) {
  */
 function Singleton() {
     if (Singleton.instance) { return Singleton.instance; }
+    //При первом вызове new Singletone в свойство Singletone.instance запишется конструируемый объект, а при последующих будет возвращаться ссылка на него.
     Singleton.instance = this;
 }
 
 /**
- * Создайте функцию ForceConstructor
+ * Создайте функцию ForceConstructor 
  * которая работает как конструктор независимо от того,
  * вызвана она с new или без
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceContructor(a, b, c) {
-    throw "undefined";
+    if (this instanceof ForceContructor) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+
+    } else {
+        forse = new ForceContructor(a, b, c);
+        return forse;
+
+    }
 }
 
 /**
@@ -145,6 +155,11 @@ function curry(func) {}
 что объект является экземпляром двух классов
 */
 /* Тут ваш код */
+function PreUser() {}
+PreUser.prototype = Object.create(Array.prototype);
+
+function User() {}
+User.prototype = Object.create(PreUser.prototype);
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
