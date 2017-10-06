@@ -172,10 +172,10 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum(s, arg) {
-  var total = (s || 0) + (arg || 0);
+function sum(s) {
+  var total = s || 0;
   function func(number) {
-    return sum(total, number);
+    return sum(total + (number || 0));
   }
 
   func.valueOf = function() {
