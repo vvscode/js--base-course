@@ -68,7 +68,28 @@ Function.prototype.myBind = function(context) {
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
+function questions() {
+    this.name = "";
+    this.age = 0;
 
+    this.askName = () => {
+        this.name = prompt("Введите имя", "Alexey");
+        return this;
+    };
+    this.askAge = () => {
+        this.age = prompt("Введите возраст", "21");
+        return this;
+    };
+    this.showAgeInConsole = () => {
+        console.log(this.age);
+        return this;
+    };
+    this.showNameInAlert = () => {
+        alert(this.name);
+        return this;
+    };
+}
+var u = new questions();
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -148,7 +169,9 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+function curry(func) {
+
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
