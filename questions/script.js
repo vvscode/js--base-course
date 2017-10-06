@@ -94,7 +94,15 @@ const drawNextQuestion = () => {
   }
   i++;
   let question = roundQuestions.pop();
-  $$(".question").innerHTML = `${i}/${questions.length} > ${question}`;
+  $$(
+    ".question"
+  ).innerHTML = `<sup>${i}</sup>/<sub>${questions.length}</sub> > ${question}`;
 };
 
 $$(".question").addEventListener("click", drawNextQuestion);
+document.body.addEventListener("keyup", ev => {
+  var SPACE_KEY_CODE = 32;
+  if (ev.key === " " || ev.keyCode === SPACE_KEY_CODE) {
+    drawNextQuestion();
+  }
+});
