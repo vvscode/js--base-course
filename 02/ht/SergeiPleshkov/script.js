@@ -354,7 +354,9 @@ function drawCalendar(htmlEl, year, month) {
         }
     
         table += '</tr></table>';
-        current.innerText =  (d.getMonth() ) + ' / ' + +d.getFullYear();
+        if (mon === 11) {
+          current.innerText =  12 + ' / ' + (d.getFullYear() - 1);          
+        } else current.innerText =  (d.getMonth() ) + ' / ' + +d.getFullYear();
         htmlEl.innerHTML += table;
         calendarCurrentDate = d;
       }
