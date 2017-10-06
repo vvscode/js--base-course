@@ -85,11 +85,13 @@ var o = {
 function Questionnaire() {
   this.askName = function() {
     this.name = prompt('Введите свое имя');
+
     return this;
   };
 
   this.askAge = function() {
     this.age = prompt('Введите свой возраст');
+
     return this;
   };
 
@@ -124,7 +126,7 @@ function calculate(sign) {
         case '/':
           return firstNumber / secondNumber;
         default:
-          break;
+          return 'error';
       }
     };
   };
@@ -172,6 +174,7 @@ function ForceContructor(a, b, c) {
  */
 function sum(arg) {
   var total = arg || 0;
+  var previousTotal = total;
   function func(number) {
     if (number !== undefined) {
       total += number;
@@ -179,8 +182,10 @@ function sum(arg) {
     return func;
   }
 
-  func.valueOf = function () {
-    return total;
+  func.valueOf = function() {
+    var temp = total;
+    total = previousTotal;
+    return temp;
   };
 
   return func;
@@ -330,20 +335,19 @@ function drawCalendar(year, month, htmlEl) {
 }
 
 function getCalendar(date) {
-  var month = date.getMonth();
-  var someDate = new Date(date.getFullYear(), date.getMonth())
+  var tempDate = new Date(date.getFullYear(), date.getMonth())
   var calendar = [];
   var week = 1;
 
   calendar[week] = [];
-  while (someDate.getMonth() === month) {
-    if (!(someDate.getDay() % LAST_DAY_WEEK)) {
-      calendar[week++][LAST_DAY_WEEK] = someDate.getDate();
+  while (tempDate.getMonth() === date.getMonth()) {
+    if (!(tempDate.getDay() % LAST_DAY_WEEK)) {
+      calendar[week++][LAST_DAY_WEEK] = tempDate.getDate();
       calendar[week] = [];
     } else {
-      calendar[week][someDate.getDay()] = someDate.getDate();
+      calendar[week][tempDate.getDay()] = tempDate.getDate();
     }
-    someDate.setDate(someDate.getDate() + 1);
+    tempDate.setDate(tempDate.getDate() + 1);
   }
 
   return calendar;
