@@ -135,7 +135,11 @@ function Singleton() {
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  if (this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  } else return new ForceContructor(a, b, c);
 }
 
 /**
@@ -209,6 +213,8 @@ User.prototype = Object.create(PreUser.prototype);
 после чего поля очистить.
 */
 
+// В отдельных файлах (form.html, jsForForm.js)
+
 /*
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
@@ -217,4 +223,5 @@ User.prototype = Object.create(PreUser.prototype);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+
+// В отдельных файлах (calendar.html, jsForCalendar.js)
