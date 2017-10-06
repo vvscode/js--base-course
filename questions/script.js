@@ -69,11 +69,11 @@ const questions = `
 что такое 'полифилл'?
 `
   .trim()
-  .split("\n")
-  .map(i => i.trim())
+  .split('\n')
+  .map((i) => i.trim())
   .filter(Boolean);
 
-const shuffleList = list => {
+const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
     let tmp = list[rand];
@@ -94,15 +94,13 @@ const drawNextQuestion = () => {
   }
   i++;
   let question = roundQuestions.pop();
-  $$(
-    ".question"
-  ).innerHTML = `<sup>${i}</sup>/<sub>${questions.length}</sub> > ${question}`;
+  $$('.question').innerHTML = `<sup>${i}</sup>/<sub>${questions.length}</sub> > ${question}`;
 };
 
-$$(".question").addEventListener("click", drawNextQuestion);
-document.body.addEventListener("keyup", ev => {
-  var SPACE_KEY_CODE = 32;
-  if (ev.key === " " || ev.keyCode === SPACE_KEY_CODE) {
+$$('.question').addEventListener('click', drawNextQuestion);
+document.body.addEventListener('keyup', (ev) => {
+  let SPACE_KEY_CODE = 32;
+  if (ev.key === ' ' || ev.keyCode === SPACE_KEY_CODE) {
     drawNextQuestion();
   }
 });
