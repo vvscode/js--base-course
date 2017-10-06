@@ -291,7 +291,7 @@ function curry(func) {
             paramsArr.push(param);
             return function(param2){
                 paramsArr.push(param2);
-                func.apply(func, paramsArr);
+                return func.apply(func, paramsArr);
             }
         }
     } else if(paramsNumber === 3){
@@ -301,20 +301,20 @@ function curry(func) {
                 paramsArr.push(param2);
                 return function(param3){
                     paramsArr.push(param3);
-                    func.apply(func, paramsArr);
+                    return func.apply(func, paramsArr);
                 }
             }
         }
     } else if(paramsNumber === 4){
         return function(param1){
-            paramsArr.push(param);
+            paramsArr.push(param1);
             return function(param2){
                 paramsArr.push(param2);
                 return function(param3){
                     paramsArr.push(param3);
                     return function(param4){
                         paramsArr.push(param4);
-                        func.apply(func, paramsArr);
+                        return func.apply(func, paramsArr);
                     }
                 }
             }
@@ -331,6 +331,21 @@ function curry(func) {
 // u instanceof User; // true
 // u instanceof Array; // true
 // u instanceof PreUser; // true
+function PreUser(surname) {
+    this.surname = surname;
+}
+
+function User(name) {
+    this.name = name;
+    this.superConstructor = PreUser;
+    this.superConstructor();
+}
+
+User.prototype = new PreUser();
+var u = new User();
+console.log(User === PreUser); // false
+console.log(u instanceof PreUser); // true
+console.log(u instanceof User); // true
 
 /*
 Создать веб страницу. Добавить на нее форму с полями
@@ -340,6 +355,26 @@ function curry(func) {
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
 после чего поля очистить.
 */
+function addEvenListenerForSubmitFormButton(){
+
+    var submitFormButton = document.getElementById("submitFormButton");
+    submitFormButton.addEventListener("click" ,clearFormAndDrawEnteredDataUnderForm);
+
+}
+
+function clearFormAndDrawEnteredDataUnderForm(){
+    var userName = document.getElementsByName('userName')[0].value;
+    var city = document.getElementsByName('city')[0].value;
+    var sex = document.getElementById('maleRb').checked ? document.getElementById('maleRb').value : document.getElementById('femaleRb').value;
+    var comment = document.getElementsByName('comment')[0].value;
+
+
+    var formData = document.createElement('div');
+    formData.innerHTML = 'Name: ' + userName + '\n' + "City: " + city + '\n' + 'Sex: ' + sex + '\n' + 'Comment: ' + comment;
+    document.body.appendChild(formData);
+}
+
+
 
 /*
 Используя функцию drawCalendar из прошлого урока

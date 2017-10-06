@@ -330,8 +330,22 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-    it("добавить тесты", function() {
-        assert.isOk(false === true);
+    it("Простые отличающиеся функции работают", function() {
+
+        function target1(a, b, c, d) {
+            return a + b + c + d;
+        };
+
+        function target2(a, b) {
+            return a + b;
+        };
+
+        var testCase1 = curry(target1)(1)(2)(3)(4); // 10
+        var testCase2 = curry(target2)(5)(8); // 13
+
+
+        assert.isOk(testCase1 === 10);
+        assert.isOk(testCase2 === 13);
     });
 });
 
