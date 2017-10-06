@@ -56,18 +56,14 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 Function.prototype.myBind = function(context) {
-  let func = this;
-  let f = function() {
-    return bind(func, context);
-  };
-  return f();
+  return bind(this, context);
 };
 
 /**
-* Создать объект o так, чтобы каждый раз когда в коде написано
-* o.magicProperty = 3 // (любое значение)
-* в консоль выводилось значение, которое присваивается и текущее время
-*/
+ * Создать объект o так, чтобы каждый раз когда в коде написано
+ * o.magicProperty = 3 // (любое значение)
+ * в консоль выводилось значение, которое присваивается и текущее время
+ */
 function objCreate() {
   let o = new Object();
   Object.defineProperty(o, "magicProperty", {
@@ -79,11 +75,11 @@ function objCreate() {
 }
 
 /**
-* Создать конструктор с методами, так,
-* чтобы следующий код работал и делал соответствующие вещи
-* те запуск кода ниже должен делать то, что говорят методы
-* u.askName().askAge().showAgeInConsole().showNameInAlert();
-*/
+ * Создать конструктор с методами, так,
+ * чтобы следующий код работал и делал соответствующие вещи
+ * те запуск кода ниже должен делать то, что говорят методы
+ * u.askName().askAge().showAgeInConsole().showNameInAlert();
+ */
 function U() {
   this.name = "";
   this.age = 0;
@@ -126,15 +122,18 @@ function calculate(mark) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
+  if (Singleton.instance) {
+    return Singleton.instance;
+  }
+  Singleton.instance = this;
 }
 
 /**
-  * Создайте функцию ForceConstructor
-  * которая работает как конструктор независимо от того,
-  * вызвана она с new или без
-  * и сохраняет параметры в создаваемый объект с именами параметров
-  */
+ * Создайте функцию ForceConstructor
+ * которая работает как конструктор независимо от того,
+ * вызвана она с new или без
+ * и сохраняет параметры в создаваемый объект с именами параметров
+ */
 function ForceContructor(a, b, c) {
   throw "undefined";
 }
@@ -151,6 +150,7 @@ function ForceContructor(a, b, c) {
 function sum() {
   let res = arguments[0] || 0;
   let currentSum = res;
+
   function summator(a) {
     currentSum += a || 0;
     return summator;
@@ -189,9 +189,12 @@ function curry(func) {}
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
+
 function User() {}
 function PreUser() {}
-User.prototype = Object.create(Array.prototype);
+PreUser.prototype = Object.create(Array.prototype);
+User.prototype = Object.create(PreUser.prototype);
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
