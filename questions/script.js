@@ -44,11 +44,36 @@ const questions = `
 Какие пакетные менеджеры есть для js?
 Что делают системы сборки? 
 Какие системы сборки есть для js?
+
+Как изменить "this" внутри функции? (5 способов)
+чем различаются ".call" / ".apply" / ".bind"
+Что такое контекст вызова функции? Чем определяется?
+Что такое сигнатура функции?
+Чем характеризуется функция?
+Что такое прототип?
+Как работает конструктор? Что происходит при вызове со словом "new" ?
+Как происходит чтение свойств из объекта?
+Как происходит запись свойств в объект?
+Как проверить на принадлежность классу?
+Как работает "instanceof" ?
+4е принципа ООП
+виды полиморфизма. И их объяснение
+событийный цикл в javascript
+что такое фаза захвата / capturing ?
+что такое фаза всплытия / bubbling ?
+как подписаться на событие документа / html элемента?
+что такое "Функция высшего порядка"?
+что такое синхронный / асинхронный код?
+что такое "каррирование" ?
+в чем разница объявления методов в конструкторе и на .prototype" ?
+что такое 'полифилл'?
 `
   .trim()
-  .split('\n');
+  .split("\n")
+  .map(i => i.trim())
+  .filter(Boolean);
 
-const shuffleList = (list) => {
+const shuffleList = list => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
     let tmp = list[rand];
@@ -69,7 +94,7 @@ const drawNextQuestion = () => {
   }
   i++;
   let question = roundQuestions.pop();
-  $$('.question').innerHTML = `${i}/${questions.length} > ${question}`;
+  $$(".question").innerHTML = `${i}/${questions.length} > ${question}`;
 };
 
-$$('.question').addEventListener('click', drawNextQuestion);
+$$(".question").addEventListener("click", drawNextQuestion);
