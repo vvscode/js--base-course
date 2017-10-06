@@ -320,7 +320,7 @@ describe("User / PreUser", function() {
   it("разные конструкторы", function() {
     assert.isOk(User !== PreUser);
   });
-  assert.isOk("создают правильное дерево наследования", function() {
+  it("создают правильное дерево наследования", function() {
     var u = new User();
     var u2 = new User();
     assert.isOk(u instanceof User);
