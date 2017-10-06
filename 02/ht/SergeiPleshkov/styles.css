@@ -1,0 +1,33 @@
+body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+table {
+      border-collapse: collapse;
+    }
+
+    td,
+    th,
+    tr {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+    }
+
+    th {
+      font-weight: bold;
+      background-color: #E6E6E6;
+    }
+    
+tbody tr td:last-child {
+  color: red;
+}
+
+#calendar-head {
+    margin: 10px;
+    width: 150px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+}

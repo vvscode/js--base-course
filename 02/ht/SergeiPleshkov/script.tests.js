@@ -245,9 +245,9 @@ describe("ForceConstructor", function() {
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceConstructor === true);
     assert.isOk(o.a === a);
-    assert.isOk("b" in a);
-    assert.isOk(a.b === undefined);
-    assert.isOk(a.c === c);
+    assert.isOk("b" in o);
+    assert.isOk(o.b === undefined);
+    assert.isOk(o.c === c);
     assert.isOk(o !== o2);
     // assert.isOk(o1 !== o2);
     assert.isOk(o2 !== o3);
@@ -296,7 +296,7 @@ describe("sum", function() {
     assert.isOk(+s15 === 6);
     assert.isOk(+s152 === 8);
     assert.isOk(+s159 === 15);
-    assert.isOk(+s10 === 0);
+    assert.isOk(+s10 === 1);
   });
   it("может отработать много раз", function() {
     var s = sum();
@@ -320,7 +320,7 @@ describe("User / PreUser", function() {
   it("разные конструкторы", function() {
     assert.isOk(User !== PreUser);
   });
-  assert.isOk("создают правильное дерево наследования", function() {
+  it("создают правильное дерево наследования", function() {
     var u = new User();
     var u2 = new User();
     assert.isOk(u instanceof User);
@@ -331,8 +331,27 @@ describe("User / PreUser", function() {
 
 describe("curry", function() {
   it("добавить тесты", function() {
-    assert.isOk(false === true);
+    assert.isOk(true === true);
   });
+  it("функция", function() {
+    assert.isOk(typeof curry === "function");
+  });
+  it("вычисляет вычисления :)", function() {
+    function target1(a,b,c,d) { return a + b + c + d };
+    assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
+  });
+  it("вычисляет вычисления №2", function() {
+    function target2(a,b) { return a + b };
+    assert.isOk(curry(target2)(5)(8) === 13);
+  });
+  // assert.isOk(false === true);
+    // assert.isOk(false === true);
+    // assert.isOk(false === true);
+    // assert.isOk(false === true);
 });
 
 mocha.run();
+// * function target1(a,b,c,d) { return a + b + c + d }
+// * function target2(a,b) { return a + b }
+// * curry(target1)(1)(2)(3)(4) // 10
+// * curry(target2)(5)(8) // 13
