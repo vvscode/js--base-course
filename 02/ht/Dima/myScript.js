@@ -72,20 +72,19 @@ tbody.onclick = function (event) {
   var target = event.target;
  
   var td = target.closest('td');
-  if (!td) return; // клик вне <td>, не интересует
- 
-  // если клик на td, но вне этой таблицы (возможно при вложенных таблицах)
-  // то не интересует
+  //фильтруются неподходящие td
+  if (!td) return; 
+
   if (!tbody.contains(td)) return;
 
   if (td.innerText === '') return;
-  // нашли элемент, который нас интересует!
+  //
 
-  var month = document.getElementById('month');
+  var month__year = document.getElementById('month');
 
-  var year = month.getAttribute('data-year');
+  var year = month__year.getAttribute('data-year');
 
-  var attrMonth = month.getAttribute('data-month');
+  var attrMonth = month__year.getAttribute('data-month');
 
   var arrMonths = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
 
