@@ -21,11 +21,11 @@
 function Calendar2(id, year, month) {
 
 	var Dlast = new Date(year,month+1,0).getDate(),
-		D = new Date(year,month,Dlast),
-		DNlast = new Date(D.getFullYear(),D.getMonth(),Dlast).getDay(),
-		DNfirst = new Date(D.getFullYear(),D.getMonth(),1).getDay(),
-		calendar = '<tr>',
-		month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+			D = new Date(year,month,Dlast),
+			DNlast = new Date(D.getFullYear(),D.getMonth(),Dlast).getDay(),
+			DNfirst = new Date(D.getFullYear(),D.getMonth(),1).getDay(),
+			calendar = '<tr>',
+			month = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
 	if (DNfirst != 0) {
 			for(var  i = 1; i < DNfirst; i++) calendar += '<td>';
@@ -47,6 +47,7 @@ function Calendar2(id, year, month) {
 
 	document.querySelector('#'+id+' tbody').innerHTML = calendar;
 	document.querySelector('#'+id+' thead td:nth-child(2)').innerHTML = month[D.getMonth()] +' '+ D.getFullYear();
+	document.querySelector('#'+id+' thead td:nth-child(2)').id = 'month';
 	document.querySelector('#'+id+' thead td:nth-child(2)').dataset.month = D.getMonth();
 	document.querySelector('#'+id+' thead td:nth-child(2)').dataset.year = D.getFullYear();
 
@@ -63,5 +64,42 @@ document.querySelector('#calendar2 thead tr:nth-child(1) td:nth-child(1)').oncli
 // переключатель плюс месяц
 document.querySelector('#calendar2 thead tr:nth-child(1) td:nth-child(3)').onclick = function() {
   Calendar2("calendar2", document.querySelector('#calendar2 thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month)+1);
+};
+
+var tbody = document.getElementsByTagName('tbody')[0];
+
+tbody.onclick = function (event) {
+  var target = event.target;
+ 
+  var td = target.closest('td');
+  if (!td) return; // клик вне <td>, не интересует
+ 
+  // если клик на td, но вне этой таблицы (возможно при вложенных таблицах)
+  // то не интересует
+  if (!tbody.contains(td)) return;
+
+  if (td.innerText === '') return;
+  // нашли элемент, который нас интересует!
+
+  var month = document.getElementById('month');
+
+  var year = month.getAttribute('data-year');
+
+  var attrMonth = month.getAttribute('data-month');
+
+  var arrMonths = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+
+  var curentMonth = arrMonths[attrMonth];
+
+  var date = td.innerText + ' ' + curentMonth + ' ' + year;
+
+  var newLi = document.createElement('li');
+
+  newLi.innerHTML = date;
+
+  var history = document.getElementById('history');
+  
+  history.appendChild(newLi);
+
 };
 

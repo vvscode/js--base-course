@@ -11,34 +11,36 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-
-  if (typeof objA !== 'object' && typeof objB !== 'object') {
-    if (objA === objB) {
-      return true;
-    } else {
-      return false;
+  if (typeof objA === 'object' && typeof objB === 'object') {
+    if (objA === null || objB === null) {
+      return objA === objB;
     }
-  } else if (typeof objA === 'object' && typeof objB === 'object') {
-    if (objA === null || typeof(objA) !== "object" ||
-      objB === null || typeof(objB) !== "object")
-    {
+
+    if (Object.keys(objA).length !== Object.keys(objB).length) {
       return false;
     }
 
-    var propertiesInA = 0, propertiesInB = 0;
-    for (var property in objA) {
-        propertiesInA += 1;
-    }
-    for (property in objB) {
-      propertiesInB += 1;
-      if (!(property in objA) || !isDeepEqual(objA[property], objB[property])) {
-          return false;        
+    for (var key in objA) {
+
+      if (objB.hasOwnProperty(key) && ((objA[key] === objB[key]) || (objA[key] === objB && objB[key] === objA) || (objA[key] === objA && objB[key] === objB) || isDeepEqual(objA[key], objB[key]))) {
+        continue;
       }
-    }        
-    return propertiesInA === propertiesInB;
-  } else if (isNaN(objA === true) && isNaN(objB) === true) {
+
+      return false;
+    }
+
     return true;
   }
+
+  if (typeof objA === 'function' && typeof objB === 'function') {
+    return objA.toString() === objB.toString();
+  }
+
+  if (typeof objA === 'number' && typeof objB === 'number' && isNaN(objA) && isNaN(objB)) {
+    return true;
+  }
+
+  return objA === objB;
 }
 
 /**
@@ -179,9 +181,9 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum(s) {
+function sum(number) {
 
-  var total = s || 0;
+  var total = number || 0;
   
   function func(number) {
     return sum(total + (number || 0));
@@ -247,28 +249,12 @@ var curry = function (target) {
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-function User (prop1) {
-  this.prop1 = prop1;
-}
 
-function PreUser (prop2) {
-  this.prop2 = prop2;
-  this.base1 = User;
-  this.base1();
-}
+function PreUser () {};
+function User () {};
 
-PreUser.prototype = new User();
-
-var u = new PreUser();
-
-console.log(User === PreUser); // false
-console.log(u instanceof User); // true
-console.log(u instanceof PreUser); // true
-
-// User === PreUser; // false
-// u instanceof User; // true
-// u instanceof Array; // true
-// u instanceof PreUser; // true
+PreUser.__proto__ = Array;
+User.__proto__ = PreUser;
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
