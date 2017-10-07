@@ -214,12 +214,12 @@ function sum() {
  * @param {*} func 
  */
 function curry(func) {
-  if (func.length === 4) {
+  // if (func.length === 4) {
     return function(a) {
       return function(b) {
         return function(c) {
           return function(d) {
-              return a + b + c + d;
+              return func.call(null, a, b, c, d);
           }
         }
       }
@@ -228,14 +228,14 @@ function curry(func) {
     return function(a) {
       return function(b) {
         return function(c) {
-              return a + b + c;
+          return func.call(null, a, b, c);
         }
       }
     }
   } else if (func.length === 2) {
     return function(a) {
       return function(b) {
-              return a + b;
+        return func.call(null, a, b);
       }
     }
   } else if (func.length === 1) {
