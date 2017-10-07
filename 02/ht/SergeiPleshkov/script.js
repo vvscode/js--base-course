@@ -214,7 +214,7 @@ function sum() {
  * @param {*} func 
  */
 function curry(func) {
-  // if (func.length === 4) {
+  if (func.length === 4) {
     return function(a) {
       return function(b) {
         return function(c) {
