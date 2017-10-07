@@ -250,8 +250,8 @@ var curry = function (target) {
 что объект является экземпляром двух классов
 */
 
-function PreUser () {};
-function User () {};
+function PreUser () {}
+function User () {}
 
 PreUser.__proto__ = Array;
 User.__proto__ = PreUser;
@@ -273,4 +273,9 @@ User.__proto__ = PreUser;
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(el) {
+
+  //файлы myForm.html и myScript.js
+  
+}
+
