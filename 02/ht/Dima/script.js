@@ -59,12 +59,9 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
-Function.prototype.myBind = function (func, context) {
-  return function() { 
-    return func.apply(this || context, arguments);
-  };
+Function.prototype.myBind = function(context) {
+  return bind(this, context);
 };
-
 
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
@@ -182,21 +179,19 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
+function sum(s) {
 
-  var summ = 0;
-
-  function func (b) {
-    summ = summ + b;
-    return func;
+  var total = s || 0;
+  
+  function func(number) {
+    return sum(total + (number || 0));
   }
 
-  func.toString = function () {
-    return summ;
+  func.valueOf = function() {
+    return total;
   };
 
   return func;
-
 }
 
 function log(x) {
