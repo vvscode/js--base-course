@@ -336,3 +336,4 @@ describe("curry", function() {
 });
 
 mocha.run();
+
