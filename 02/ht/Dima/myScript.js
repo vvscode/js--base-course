@@ -92,9 +92,11 @@ tbody.onclick = function (event) {
 
   var date = td.innerText + ' ' + curentMonth + ' ' + year;
 
+  var description = prompt('Введите пояснение к дате', '');
+
   var newLi = document.createElement('li');
 
-  newLi.innerHTML = date;
+  newLi.innerHTML = date + ' ' + description;
 
   var history = document.getElementById('history');
   

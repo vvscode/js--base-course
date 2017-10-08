@@ -279,3 +279,35 @@ function drawInteractiveCalendar(el) {
   
 }
 
+/*
+- Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) 
+и [throttle](http://underscorejs.ru/#throttle)  и покрыть реализации тестами 
+( Если ваше имя начинается с гласной  - `debounce`, иначе - `throttle`. А лучше - обе ). 
+Функции должны с сигнатурой `debounce(fun, delay)` / `throttle(fun, delay)`
+- К генератору листаемого календаря добавить функционал: под календарем добавить блок. 
+При клике на ячейку даты ( но не на пустую ячейку календаря ) в блоке должна добавляться 
+запись о том, по какой ячейке кликнули. Можно добавить запрос описания даты от пользователя 
+( с помощью функции `prompt` и выводить это описание там же). История дат и список, 
+по которым пользоатель клика, должны сохраняться между перезагрузками страницы. 
+Для сохранения использовать 
+[LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). 
+Интерфейс работы с данными (чтение/запись) лучше сделать асинхронным
+- Создать синхронную функцию `sleep(seconds)` так, чтобы работал код
+```javascript
+console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+sleep(9);
+console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+*/
+
+function debounce(fun, delay) {
+
+}
+
+function throttle(fun, delay) {
+
+}
+
+function sleep(seconds) {
+  var start = performance.now();
+  while (performance.now() <= start + seconds);
+}
