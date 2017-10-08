@@ -309,5 +309,5 @@ function throttle(fun, delay) {
 
 function sleep(seconds) {
   var start = performance.now();
-  while (performance.now() <= start + seconds);
+  while (performance.now() <= start + seconds*1000);
 }
