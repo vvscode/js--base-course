@@ -2,13 +2,13 @@
 ### Теория
 
 Прочитать (желательно с выполнением задач) разделы из учебника:
-	- [Современные возможности ES-2015](http://learn.javascript.ru/es-modern)
-	- [Основы работы с событиями](http://learn.javascript.ru/events-and-interfaces)
-	- [Создание графических компонентов](http://learn.javascript.ru/widgets)
-	- [Формы, элементы управления](http://learn.javascript.ru/js-misc)
-	- [Современные возможности ES-2015](http://learn.javascript.ru/forms-controls)
-	- [AJAX и COMET](http://learn.javascript.ru/ajax)
-	- [Управление историей браузера](https://developer.mozilla.org/ru/docs/Web/API/History_API)
+- [Современные возможности ES-2015](http://learn.javascript.ru/es-modern)
+- [Основы работы с событиями](http://learn.javascript.ru/events-and-interfaces)
+- [Создание графических компонентов](http://learn.javascript.ru/widgets)
+- [Формы, элементы управления](http://learn.javascript.ru/js-misc)
+- [Современные возможности ES-2015](http://learn.javascript.ru/forms-controls)
+- [AJAX и COMET](http://learn.javascript.ru/ajax)
+- [Управление историей браузера](https://developer.mozilla.org/ru/docs/Web/API/History_API)
 
 ---
 - [Путеводитель по JavaScript Promise для новичков](https://habrahabr.ru/company/zerotech/blog/317256/)
