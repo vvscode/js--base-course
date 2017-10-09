@@ -1,7 +1,7 @@
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
-
+var arrayObjectProperties = [];
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -20,12 +20,17 @@ function isDeepEqual(objA, objB) {
       return false;
     }
 
+    arrayObjectProperties.push([objA, objB]);
+
     for (var key in objA) {
-      if (objB.hasOwnProperty(key) && ((objA[key] === objB[key])
-        || (objA[key] === objB && objB[key] === objA)
-        || (objA[key] === objA && objB[key] === objB)
-        || isDeepEqual(objA[key], objB[key]))) {
-        continue;
+      if (objB.hasOwnProperty(key)) {
+        var recursiveEqualLinks = arrayObjectProperties.some(function(el) {
+          return (el[0] === objA[key] && el[1] === objB[key]) || (el[0] === objB[key] && el[1] === objA[key]);
+        });
+
+        if ((objA[key] === objB[key]) || recursiveEqualLinks || isDeepEqual(objA[key], objB[key])) {
+          continue;
+        }
       }
 
       return false;
