@@ -299,12 +299,52 @@ sleep(9);
 console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
 */
 
-function debounce(fun, delay) {
+function debounce(f, ms) {
+
+  var state = null;
+
+  var COOLDOWN = 1;
+
+  return function() {
+    if (state) return;
+
+    f.apply(this, arguments);
+
+    state = COOLDOWN;
+
+    setTimeout(function() { state = null; }, ms);
+  };
 
 }
 
-function throttle(fun, delay) {
+function throttle(func, ms) {
 
+  var isThrottled = false,
+    savedArgs,
+    savedThis;
+
+  function wrapper() {
+
+    if (isThrottled) { // (2)
+      savedArgs = arguments;
+      savedThis = this;
+      return;
+    }
+
+    func.apply(this, arguments); // (1)
+
+    isThrottled = true;
+
+    setTimeout(function() {
+      isThrottled = false; // (3)
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, ms);
+  }
+
+  return wrapper;
 }
 
 function sleep(seconds) {

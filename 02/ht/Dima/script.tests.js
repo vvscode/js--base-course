@@ -338,4 +338,17 @@ describe("curry", function() {
   });
 });
 
+describe("sleep", function() {
+  it("функция", function() {
+    assert.isOk(typeof sleep === "function");
+  });
+  it("Задержка вызова сдедующей операции", function() {
+    var timeStart = new Date(); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+    sleep(0.5);
+    var timeEnd = new Date(); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+    var delay = timeEnd - timeStart;
+    assert.isOk(delay >= 0.5*1000);
+  });
+});
+
 mocha.run();

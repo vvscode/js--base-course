@@ -68,6 +68,15 @@ document.querySelector('#calendar2 thead tr:nth-child(1) td:nth-child(3)').oncli
 
 var tbody = document.getElementsByTagName('tbody')[0];
 
+function showHistoryDate () {
+
+	var history = document.getElementById('history');
+  
+  history.innerHTML = localStorage.getItem('dateHistory');
+}
+
+showHistoryDate();
+
 tbody.onclick = function (event) {
   var target = event.target;
  
@@ -94,6 +103,10 @@ tbody.onclick = function (event) {
 
   var description = prompt('Введите пояснение к дате', '');
 
+  if (description === null) {
+  	description = '';
+  }
+
   var newLi = document.createElement('li');
 
   newLi.innerHTML = date + ' ' + description;
@@ -102,5 +115,16 @@ tbody.onclick = function (event) {
   
   history.appendChild(newLi);
 
+  localStorage.setItem('dateHistory', history.innerHTML);
+
 };
+
+function clearStorege () {
+	localStorage.clear();
+	location.reload();  
+}
+
+var buttonClear = document.getElementById('clearStorege');
+
+buttonClear.addEventListener('click', clearStorege);
 
