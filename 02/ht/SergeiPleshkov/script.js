@@ -328,7 +328,7 @@ calendar.onclick = function(event) {
 var noteListContainer = document.getElementById('calendar-list');
 noteListContainer.onclick = function(event) {
 	var target = event.target;	
-	if (target.className === 'note') target.remove();
+	if (target.className === 'note' && confirm('Удалить запись "' + target.innerHTML + '"?')) target.remove();
 	localStorage.noteList = document.getElementById('calendar-list').innerHTML;
 }
 
