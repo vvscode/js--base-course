@@ -166,32 +166,15 @@ function ForceConstructor(a, b, c) {
  */
 
 function sum() {
-  // var a = +[].slice.call(arguments, 0);
-  // var result += function(a, b) {
-  //   return a + b;
-  // }
-  // var sumCurried = sum.bind(a);
-  // sumCurried.toString = function() {
-  //   return result;
-  // }
-  // return sumCurried;
 
-  var a = +[].slice.call(arguments, 0);
-  var currentSum = a;
+  var currentSum = arguments[0] || 0;
 
   function func(b) {
-    if (b) {
-      currentSum += b;
-      return func;
-    } else return func;
+	  return sum(currentSum + (b || 0))
   }
 
   func.toString = function () {
-    var result = currentSum;
-    if (currentSum !== a) {
-      currentSum = a;
-    }
-    return result;
+	  return currentSum;
   };
 
   return func;
@@ -215,31 +198,31 @@ function sum() {
  */
 function curry(func) {
   if (func.length === 4) {
-    return function(a) {
-      return function(b) {
-        return function(c) {
-          return function(d) {
-              return func.call(null, a, b, c, d);
+    return function (a) {
+      return function (b) {
+        return function (c) {
+          return function (d) {
+            return func.call(null, a, b, c, d);
           }
         }
       }
     }
   } else if (func.length === 3) {
-    return function(a) {
-      return function(b) {
-        return function(c) {
+    return function (a) {
+      return function (b) {
+        return function (c) {
           return func.call(null, a, b, c);
         }
       }
     }
   } else if (func.length === 2) {
-    return function(a) {
-      return function(b) {
+    return function (a) {
+      return function (b) {
         return func.call(null, a, b);
       }
     }
   } else if (func.length === 1) {
-    return function(a) {
+    return function (a) {
       return a;
     }
   }
@@ -250,6 +233,7 @@ function curry(func) {
 что объект является экземпляром двух классов
 */
 function PreUser() {}
+
 function User() {}
 User.prototype = PreUser.prototype = [];
 
@@ -294,16 +278,17 @@ function postInfoAndResetForm() {
 
 
 function drawInteractiveCalendar(el, year, month) {
-  el.innerHTML = null;
+	el.innerHTML = null;	
+	document.getElementById('calendar-list').innerHTML = localStorage.getItem('noteList') || null;
   var calendar = document.createElement('div');
   calendar.id = 'calendar';
   var calendarHead = document.createElement('div');
   calendarHead.id = 'calendar-head';
   var prevMnthBtn = document.createElement('button');
-  prevMnthBtn.innerText = '[<]';
+  prevMnthBtn.innerText = '[ < ]';
   prevMnthBtn.id = 'prev';
   var nextMnthBtn = document.createElement('button');
-  nextMnthBtn.innerText = '[>]';
+  nextMnthBtn.innerText = '[ > ]';
   nextMnthBtn.id = 'next';
   var current = document.createElement('div');
   current.id = 'current';
@@ -315,8 +300,36 @@ function drawInteractiveCalendar(el, year, month) {
   drawCalendar(calendar, year, month);
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
-  prev.addEventListener('click', function(){drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() - 1)}); 
-  next.addEventListener('click', function(){drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() + 1)});
+  prev.addEventListener('click', function () {
+    drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() - 1)
+  });
+  next.addEventListener('click', function () {
+    drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() + 1)
+  });
+
+  function addDateToList(calendarCell, noteComment) {
+	var newNote = document.createElement('div');
+	newNote.innerHTML = calendarCell.innerHTML + '.' + month + '.' + year + ' : ' + noteComment;
+	newNote.className += 'note';
+	document.getElementById('calendar-list').appendChild(newNote);
+}
+
+calendar.onclick = function(event) {
+	var target = event.target;
+	if (target.tagName === 'TD' && target.innerHTML) {
+		var noteComment = prompt('Напишите комментарий', 'Опять пьянка');
+		if (noteComment !== null) addDateToList(target, noteComment);
+	};
+	localStorage.noteList = document.getElementById('calendar-list').innerHTML;
+	
+}
+}
+
+var noteListContainer = document.getElementById('calendar-list');
+noteListContainer.onclick = function(event) {
+	var target = event.target;	
+	if (target.className === 'note') target.remove();
+	localStorage.noteList = document.getElementById('calendar-list').innerHTML;
 }
 
 function drawCalendar(htmlEl, year, month) {
@@ -324,49 +337,82 @@ function drawCalendar(htmlEl, year, month) {
     var mon = 11 + month;
     var d = new Date((year - 1), mon);
   } else if (!year || !month) {
-        var d  = new Date();
-        var mon = d.getMonth(); 
-    } else {
-        var mon = month - 1;
-        var d = new Date(year, mon);
-    };
-    
-        var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
-    
-        for (var i = 0; i < getDay(d); i++) {
-          table += '<td></td>';
-        }
-    
-        while (d.getMonth() == mon) {
-          table += '<td>' + d.getDate() + '</td>';
-    
-          if (getDay(d) % 7 == 6) {
-            table += '</tr><tr>';
-          }
-    
-          d.setDate(d.getDate() + 1);
-        }
-    
-        if (getDay(d) != 0) {
-          for (var i = getDay(d); i < 7; i++) {
-            table += '<td></td>';
-          }
-        }
-    
-        table += '</tr></table>';
-        if (mon === 11) {
-          current.innerText =  12 + ' / ' + (d.getFullYear() - 1);          
-        } else current.innerText =  (d.getMonth() ) + ' / ' + +d.getFullYear();
-        htmlEl.innerHTML += table;
-        calendarCurrentDate = d;
-      }
-    
-      function getDay(date) { 
-        var day = date.getDay();
-        if (day == 0) day = 7;
-        return day - 1;
-      }
+    var d = new Date();
+    var mon = d.getMonth();
+  } else {
+    var mon = month - 1;
+    var d = new Date(year, mon);
+  };
+
+  var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+
+  for (var i = 0; i < getDay(d); i++) {
+    table += '<td></td>';
+  }
+
+  while (d.getMonth() == mon) {
+    table += '<td>' + d.getDate() + '</td>';
+
+    if (getDay(d) % 7 == 6) {
+      table += '</tr><tr>';
+    }
+
+    d.setDate(d.getDate() + 1);
+  }
+
+  if (getDay(d) != 0) {
+    for (var i = getDay(d); i < 7; i++) {
+      table += '<td></td>';
+    }
+  }
+
+  table += '</tr></table>';
+  if (mon === 11) {
+    current.innerText = 12 + ' / ' + (d.getFullYear() - 1);
+  } else current.innerText = d.getMonth() + ' / ' + +d.getFullYear();
+  htmlEl.innerHTML += table;
+  calendarCurrentDate = d;
+}
+
+function getDay(date) {
+  var day = date.getDay();
+  if (day == 0) day = 7;
+  return day - 1;
+}
 
 var calendarWrap = document.getElementById('calendar-wrap');
 var calendarCurrentDate;
 drawInteractiveCalendar(calendarWrap, 2017, 10);
+
+
+
+// ---
+//  - Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) и 
+//[throttle](http://underscorejs.ru/#throttle)  и покрыть реализации тестами ( Если ваше имя начинается с гласной  -
+// `debounce`, иначе - `throttle`. А лучше - обе ). 
+//Функции должны с сигнатурой `debounce(fun, delay)` / `throttle(fun, delay)`
+
+
+
+
+//  - К генератору листаемого календаря добавить функционал: под календарем добавить блок. При клике на ячейку даты 
+//( но не на пустую ячейку кnfr b алендаря ) в блоке должна добавляться запись о том, по какой ячейке кликнули. Можно добавить 
+//запрос описания даты от пользователя ( с помощью функции `prompt` и выводить это описание там же). История дат и список, 
+// по которым пользоатель клика, должны сохраняться между перезагрузками страницы. Для сохранения использовать 
+//[LocalStorage] (https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). Интерфейс работы с данными (чтение/запись) 
+//лучше сделать асинхронным
+
+
+
+//  - Создать синхронную функцию `sleep(seconds)` так, чтобы работал код
+// 
+//  console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+//  sleep(9);
+//  console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+
+function sleep(seconds) {
+  var start = Date.now(),
+	  end = Date.now() + seconds*1000;
+	  while (Date.now() < end) {
+	  };
+  }

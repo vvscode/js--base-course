@@ -66,42 +66,80 @@ function isPalindrome(str) {
  * @param {external:HTMLElement} htmlEl 
  */
 
-function drawCalendar(year, month, htmlEl) {
+// function drawCalendar(year, month, htmlEl) {
     
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
+//         var jsMonth = month - 1;
+//         var date = new Date(year, jsMonth, 1);
+//         var tdCountBeforeFirst = date.getDay() - 1;
+//         var lastDay = new Date(year, month, 0);
+//         var daysCount = lastDay.getDate();
+//         var lastWeekDay = lastDay.getDay();
+//         if (lastDay.getDay() === 0) {
+//           lastWeekDay = 7;
+//         };
+//         var tdCountAfterLast = 7 - lastWeekDay;
+//         var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
+//         var calendar = document.createElement('div');
         
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
+//         calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
+//         var cell, n = 1 - tdCountBeforeFirst;
     
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
+//         for (var i = 0; i < totalCellCount / 7; i++ ) {
           
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
+//             calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
     
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
+//             for (var j = 0; j < 7; j++) {
+//                 if (n > 0 && n <= daysCount) {
+//                     cell = '<td>' + n + '</td>';
+//                 } else {
+//                     cell = '<td></td>';
+//                 }; 
+//                 calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
+//                 n++; 
+//             }
+//         };
+//         htmlEl.innerHTML = '';
+//         htmlEl.appendChild(calendar);
+//     };
     
+function drawCalendar(year, month, htmlEl) {
+
+    var mon = month - 1; 
+    var d = new Date(year, mon);
+
+    var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+
+    for (var i = 0; i < getDay(d); i++) {
+      table += '<td></td>';
+    }
+
+    while (d.getMonth() == mon) {
+      table += '<td>' + d.getDate() + '</td>';
+
+      if (getDay(d) % 7 == 6) {
+        table += '</tr><tr>';
+      }
+
+      d.setDate(d.getDate() + 1);
+    }
+
+    if (getDay(d) != 0) {
+      for (var i = getDay(d); i < 7; i++) {
+        table += '<td></td>';
+      }
+    }
+
+    table += '</tr></table>';
+
+    document.getElementById('current').innerText =  d.getMonth() + ' \/ ' d.getFullYear();
+    htmlEl.innerHTML += table;
+  };
+
+  function getDay(date) { 
+    var day = date.getDay();
+    if (day == 0) day = 7;
+    return day - 1;
+  };
 
 
 /**

@@ -11,22 +11,34 @@
 
 <body>
     <form action="" id="mainForm">
-        <p><input type="text" name="name" id="name" value="Аноним"></p>
-        <p><select name="city" id="city">
-            <option value="Брест">Брест</option>
-            <option value="Витебск">Витебск</option>
-            <option value="Гомель">Гомель</option>
-            <option value="Гродно">Гродно</option>
-            <option value="Минск" checked>Минск</option>
-            <option value="Могилев">Могилев</option>
-        </select></p>
-        <p><textarea name="comment" id="comment" cols="30" rows="10">Ваш комментарий...</textarea></p>
-        <p><input type="radio" name="gender" id="male" checked>Мужской</p>
-        <p><input type="radio" name="gender" id="female">Женский</p>
+        <p>
+            <input type="text" name="name" id="name" value="Аноним">
+        </p>
+        <p>
+            <select name="city" id="city">
+                <option value="Брест">Брест</option>
+                <option value="Витебск">Витебск</option>
+                <option value="Гомель">Гомель</option>
+                <option value="Гродно">Гродно</option>
+                <option value="Минск" checked>Минск</option>
+                <option value="Могилев">Могилев</option>
+            </select>
+        </p>
+        <p>
+            <textarea name="comment" id="comment" cols="30" rows="10">Ваш комментарий...</textarea>
+        </p>
+        <p>
+            <input type="radio" name="gender" id="male" checked>Мужской</p>
+        <p>
+            <input type="radio" name="gender" id="female">Женский</p>
         <input type="button" value="Собрать" id="submit">
         <div id="output" name="output"></div>
     </form>
-    <div id="calendar-wrap">
+    <div id="calendar-container">
+        <div id="calendar-wrap">
+        </div>
+        <div id="calendar-list">
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
