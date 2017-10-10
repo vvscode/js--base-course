@@ -18,8 +18,12 @@
     <script src="script.js"></script>
     <script src="script.tests.js"></script>
     <script>
-        var calendarDiv = document.getElementById('calendar');
-        drawInteractiveCalendar(calendarDiv);
+
+
+        (function(){
+            var el = document.getElementById('calendar');
+            drawInteractiveCalendar(el);
+        }) ();
     </script>
 </body>
 

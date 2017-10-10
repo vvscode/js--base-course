@@ -264,15 +264,7 @@ function log(x) {
  */
 
 function curry(func) {
-    // use as test fnext construciton
-    /*
-        var func = function(a,b,c){
-            console.log(a + ' ' + b + ' ' + c);
-        }
 
-        curry(func)('1')('2')(3333333333);
-    */
-    // String '1 2 3333333333' must be logged
     var funcAsStr = func.toString();
     var paramsAsString = funcAsStr.substring(
         funcAsStr.indexOf('(') + 1,
@@ -374,8 +366,6 @@ function clearFormAndDrawEnteredDataUnderForm(){
     document.body.appendChild(formData);
 }
 
-
-
 /*
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
@@ -385,11 +375,11 @@ function clearFormAndDrawEnteredDataUnderForm(){
 Добавть на страницу index.html вызов календаря
 */
 
-
 var currMonth = (new Date()).getMonth() + 1;
 var currYear = (new Date()).getFullYear();
 var buttonIncrease = createIncreaseButton();
 var buttonDecrease = createDecreaseButton();
+var logAreaId= 'logAreaId';
 
 function increaseMonth(){
     currMonth++;
@@ -431,6 +421,50 @@ function createDecreaseButton(){
     return buttonDecrease;
 }
 
+function createLogArea(innerHTML){
+    logArea = document.createElement('div');
+    logArea.id = logAreaId;
+    logArea.style.width = '223px';
+    logArea.style.background = '#d3d3d3';
+    logArea.innerHTML = innerHTML;
+
+    return logArea;
+}
+
+function addDateToLogArea(event){
+    var target = event.target;
+    var logArea = document.getElementById(logAreaId);
+    if(!logArea){
+        logArea = createLogArea('User clicks history');
+        document.getElementById('tableId').parentNode.appendChild(logArea);
+    }
+
+    while (target != 'TABLE') {
+        if(target){
+            if (target.tagName == 'TD') {
+                // нашли элемент, который нас интересует!
+                var day = target.innerText;
+                if(day.length > 0){
+                    var logRecord = day + '/' + currMonth + '/' + currYear;
+                    logArea = document.getElementById(logAreaId);
+                    logArea.innerHTML += '</br>' + logRecord;
+                    localStorage.setItem('logArea' , logArea.innerHTML);
+                }
+                return;
+            }
+            target = target.parentNode;
+        } else{
+            return;
+        }
+
+    }
+}
+
+/*
+* We suppore that el is a method which draw just calendar
+* Header and log area will be drawn outside this method
+*
+*/
 function drawInteractiveCalendar(el) {
 
     // year / month area
@@ -443,42 +477,55 @@ function drawInteractiveCalendar(el) {
     monthYearAreaStyle.paddingRight = "10px";
 
     // Calendar header
-    var elem = document.getElementById('calenderHeaderId');
-    if(!elem){
-        var calendarHeader = document.createElement('div');
+    var calendarHeader = document.getElementById('calenderHeaderId');
+    if(!calendarHeader){
+        calendarHeader = document.createElement('div');
         calendarHeader.id = 'calenderHeaderId';
         calendarHeader.appendChild(buttonDecrease);
         calendarHeader.appendChild(monthYearArea);
         calendarHeader.appendChild(buttonIncrease);
-        elem = calendarHeader;
     } else{
-        //var mothYearAreaFromDocument = document.getElementById('monthYearAreaId');
-        //mothYearAreaFromDocument = monthYearArea;
-        elem.replaceChild(monthYearArea, elem.childNodes[1]);
+        calendarHeader.replaceChild(monthYearArea, calendarHeader.childNodes[1]);
     }
 
     // drawing a calendar/ EL - calendar content
     drawCalendar(currYear, currMonth, el);
 
-    // result div
-    var calendarDiv = document.createElement('div');
-    calendarDiv.appendChild(elem);
-    calendarDiv.appendChild(el);
+    // Add drawCalendar before calendar body
+    var calendarTableParent = el.parentElement;
+    calendarTableParent.insertBefore(calendarHeader, el);
 
-    document.body.appendChild(calendarDiv);
+    // insert calendar before log area if logArea exists .
+    var logArea = document.getElementById(logAreaId);
+    if (logArea) {
+        var logAreaParentElement = logArea.parentElement;
+        logAreaParentElement.insertBefore(calendarDiv, logArea);
+    } else if(localStorage.getItem('logArea')) {
+        logArea = createLogArea(localStorage.getItem('logArea'));
+        document.getElementById('tableId').parentNode.appendChild(logArea);
+    }
 
+    // add listner
+    var calendarTable = document.getElementById('tableId') ? document.getElementById('tableId') : calendarDiv.getElementsByTagName('table')[0];
+    if(calendarTable){
+        calendarTable.addEventListener("click" , addDateToLogArea);
+    }
 }
 
 function drawCalendar(year, month, htmlEl) {
+
+    // Constants and initialization
     month -= 1;
+    var table = '<table border=' + '1px' + ' id="tableId"><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Th</th><th>Fr</th><th>Sat</th><th>Sun</th></tr><tr>';
     var arr31days = [0, 2, 4, 6, 7, 9, 11];
     var arr30days = [3, 5, 8, 10];
     var februaryNumber = 1;
     var leapYearFebDays = 29;
     var usualYearFebDay = 28;
     var daysInWeek = 7;
-
     var daysInMonth;
+
+    // Count the number of days in month
     if (arr31days.indexOf(month) >= 0) {
         daysInMonth = 31;
     } else if (arr30days.indexOf(month) >= 0) {
@@ -489,18 +536,38 @@ function drawCalendar(year, month, htmlEl) {
         daysInMonth = testDate.getMonth() === month ? leapYearFebDays : usualYearFebDay;
     }
 
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var resultArr = [];
-
     // Count first day of week from the first day of month
-    var dayOfWeek = new Date(year, month, 1).getDay();
+    var date = new Date(year, month, 1);
 
+    //Pay atention here that day in month starts from 0, not from 1
+    var dayOfWeek = date.getDay();
+
+    // 1. Fill the beggining of table with empty cells (the beggining of month)
+    var dayOfWeekNumber  = date.getDay() === 0 ?  daysInWeek - 1 : date.getDay() - 1;
+    for (var i = 0; i < dayOfWeekNumber; i++) {
+        table += '<td></td>';
+    }
+
+    // 2. Fill calendar cells with days
     for (i = 0; i < daysInMonth; i++) {
         dayOfWeek = dayOfWeek % daysInWeek >= 0 ? dayOfWeek % daysInWeek : dayOfWeek;
-        var item = (i + 1) + "(" + days[dayOfWeek] + ")" + '\n';
-        resultArr[i] = (i + 1) % 7 === 0 ? item + '</br>' : item;
+        table += '<td>' + (i+1) +'</td>';
+
+        if( dayOfWeek % daysInWeek === 0 ){
+            table += '</tr>' + '<tr>'
+        }
+
         dayOfWeek++;
     }
 
-    htmlEl.innerHTML = resultArr.join(' ');
+    // 3. Fill the rest of table with empty cells (the end of month)
+    if(dayOfWeek !== 1){
+        for (dayOfWeek; dayOfWeek < 7 + 1; dayOfWeek++) {
+            table += '<td></td>';
+        }
+    }
+
+    // Close table
+    table += '</tr>' + '</table>'
+    htmlEl.innerHTML = table;
 }
