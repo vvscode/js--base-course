@@ -227,7 +227,7 @@ function curry(func) {
     args.push(arg);
     counter--;
     if (!counter) {
-      return func(...args);
+      return func.apply(null, args);
     }
 
     return f.bind(null);
