@@ -218,19 +218,15 @@ function ForceConstructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-    var initialVal = arguments[0] ? arguments[0] : 0;
-    var currentSum = initialVal;
+    var currentSum = arguments[0] ? arguments[0] : 0;
 
     function f(b) {
         b = b === undefined ? 0 : b;
-        currentSum += b;
-        return f;
+        return sum(currentSum + b);
     }
 
     f.toString = function() {
-        var resultSum = currentSum;
-        currentSum = initialVal;
-        return resultSum;
+        return currentSum;
     };
 
     return f;
