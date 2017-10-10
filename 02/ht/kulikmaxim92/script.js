@@ -248,6 +248,41 @@ User.prototype = Object.create(PreUser.prototype);
 // u instanceof Array; // true
 // u instanceof PreUser; // true
 
+/**
+ * Написать фукнцию debounce(fun, delay)
+ */
+function debounce(fun, delay) {
+	var timer;
+	return function() {
+		var args = Array.prototype.slice.call(arguments, 0);
+		if (timer) {
+			clearTimeout(timer);
+		}
+		timer = setTimeout(function() {
+			timer = null;
+			fun.apply(null, args);
+		}, delay);
+	};
+}
+
+/**
+ * Написать фукнцию throttle(fun, delay)
+ */
+function throttle(fun, delay) {
+	var state;
+	return function() {
+    if (state) {
+      return;
+    }
+    var args = Array.prototype.slice.call(arguments, 0);
+    fun.apply(this, args);
+    state = true;
+    setTimeout(function() {
+       state = false;
+    }, delay);
+	};
+}
+
 /*
 Создать веб страницу. Добавить на нее форму с полями 
 - имя (строкое поле), 
