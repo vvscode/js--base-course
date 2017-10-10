@@ -1,7 +1,7 @@
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
-var arrayObjectProperties = [];
+
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -10,7 +10,7 @@ var arrayObjectProperties = [];
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
-function isDeepEqual(objA, objB) {
+function isDeepEqual(objA, objB, arrayObjectProperties) {
   if (typeof objA === 'object' && typeof objB === 'object') {
     if (objA === null || objB === null) {
       return objA === objB;
@@ -20,6 +20,8 @@ function isDeepEqual(objA, objB) {
       return false;
     }
 
+    arrayObjectProperties = arrayObjectProperties || [];
+
     arrayObjectProperties.push([objA, objB]);
 
     for (var key in objA) {
@@ -28,7 +30,7 @@ function isDeepEqual(objA, objB) {
           return (el[0] === objA[key] && el[1] === objB[key]) || (el[0] === objB[key] && el[1] === objA[key]);
         });
 
-        if ((objA[key] === objB[key]) || recursiveEqualLinks || isDeepEqual(objA[key], objB[key])) {
+        if ((objA[key] === objB[key]) || recursiveEqualLinks || isDeepEqual(objA[key], objB[key], arrayObjectProperties)) {
           continue;
         }
       }
@@ -57,7 +59,8 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return function(...args) {
+  return function() {
+    var args = Array.prototype.slice.call(arguments, 0);
     return func.apply(context, args);
   };
 }
@@ -87,31 +90,35 @@ var o = {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
-function Questionnaire() {
-  this.askName = function() {
-    this.name = prompt('Введите свое имя');
-
-    return this;
-  };
-
-  this.askAge = function() {
-    this.age = prompt('Введите свой возраст');
-
-    return this;
-  };
-
-  this.showAgeInConsole = function() {
-    console.log(this.age);
-
-    return this;
-  };
-
-  this.showNameInAlert = function() {
-    alert(this.name);
-
-    return this;
-  };
+function Questionnaire(name, age) {
+  this.name = name;
+  this.age = age;
 }
+
+Questionnaire.prototype.askName = function() {
+  this.name = prompt('Введите свое имя');
+
+  return this;
+};
+
+Questionnaire.prototype.askAge = function() {
+  this.age = prompt('Введите свой возраст');
+
+  return this;
+};
+
+Questionnaire.prototype.showAgeInConsole =function() {
+  console.log(this.age);
+
+  return this;
+};
+
+Questionnaire.prototype.showNameInAlert = function() {
+  alert(this.name);
+
+  return this;
+};
+
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -121,33 +128,39 @@ function Questionnaire() {
 function calculate(sign) {
   return function(firstNumber) {
     return function(secondNumber) {
-      switch (sign) {
-        case '+':
-          return firstNumber + secondNumber;
-        case '-':
-          return firstNumber - secondNumber;
-        case '*':
-          return firstNumber * secondNumber;
-        case '/':
-          return firstNumber / secondNumber;
-        default:
-          return 'error';
-      }
+      return operations[sign](firstNumber, secondNumber);
     };
   };
 }
-
+var operations = {
+  '+': function(a, b) {
+    return a + b;
+  },
+  '-': function(a, b) {
+    return a - b;
+  },
+  '/': function(a, b) {
+    return a / b;
+  },
+  '*': function(a, b) {
+    return a * b;
+  },
+};
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  if (!Singleton.instance) {
-    Singleton.instance = this;
-  }
+function wrapper() {
+  var instance;
+  return function() {
+    if (!instance) {
+      instance = this;
+    }
 
-  return Singleton.instance;
+    return instance;
+  };
 }
+ var Singleton = wrapper();
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -155,17 +168,13 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  var obj;
-  if (!(this instanceof ForceContructor)) {
-    obj = new ForceContructor();
+  if (this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
   } else {
-    obj = this;
+    return new ForceContructor(a, b, c);
   }
-  obj.a = a;
-  obj.b = b;
-  obj.c = c;
-
-  return obj;
 }
 
 /**
@@ -177,8 +186,8 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum(s) {
-  var total = s || 0;
+function sum(total) {
+  total = total || 0;
   function func(number) {
     return sum(total + (number || 0));
   }
