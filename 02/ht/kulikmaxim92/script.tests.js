@@ -356,4 +356,56 @@ describe("curry", function() {
   });
 });
 
+describe('debounce', () => {
+  it('Срабатывает через заданный промежуток времени', (done) => {
+    var testValue = 0;
+    var func = debounce((arg) => testValue = arg, 100);
+
+    func(1);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    setTimeout(() => assert.equal(testValue, 0, 'значение осталось неизменным до истечения таймера'), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'значение изменилось после истечения таймера'), 120);
+    setTimeout(done, 150);
+  });
+  it('Правильно работает при повторых вызовах', (done) => {
+    var testValue = 0;
+    var func = debounce((arg) => testValue = arg, 100);
+
+    func(1);
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    setTimeout(() => func(2), 50);
+    setTimeout(() => assert.equal(testValue, 0, 'значение не изменилось после повторного вызова'), 120);
+    setTimeout(() => assert.equal(testValue, 2, 'значение изменилось после истечения таймера'), 170);
+    setTimeout(done, 200);
+  });
+});
+
+describe('throttle', () => {
+  it('Функция отрабатывает через заданный интервал', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 150);
+    setTimeout(() => assert.equal(testValue, 2, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
+  });
+  it('Правильно работает при повторых вызовах', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'преждевременный вызов не изменил значение'), 60);
+    setTimeout(() => func(3), 150);
+    setTimeout(() => assert.equal(testValue, 3, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
+  });
+});
+
 mocha.run();
