@@ -11,15 +11,34 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  if (typeof (objA) !== typeof (objB)) return false;
-  if (typeof (objA) !== 'object') return objA === objB;
-  if (Array.isArray(objA) != Array.isArray(objB)) return false;
-  if (Object.keys(objA).length !== Object.keys(objB).length) return false;
-  for (var key in objA) {
-    if (isNaN(objA[key]) && isNaN(objB[key])) return true;
-    if (!isDeepEqual(objA[key], objB[key])) return false;
+  if (typeof objA === 'object' && typeof objB === 'object') {
+    if (objA === null || objB === null) {
+      return objA === objB;
+    }
+    if (Object.keys(objA).length !== Object.keys(objB).length) {
+      return false;
+    }
+    for (var key in objA) {
+      if (objB.hasOwnProperty(key)) {
+        if ((objA[key] === objA && objB[key] === objA)
+          || (objB[key] === objB && objB[key] === objA)
+          || (objA[key] === objB && objB[key] === objA)
+          || (objA[key] === objA && objB[key] === objB)
+          || isDeepEqual(objA[key], objB[key])) {
+          continue;
+        }
+      }
+      return false;
+    }
+    return true;
   }
-  return true;
+  if (typeof objA === 'function' && typeof objB === 'function') {
+    return objA.toString() === objB.toString();
+  }
+  if (typeof objA === 'number' && typeof objB === 'number' && isNaN(objA) && isNaN(objB)) {
+    return true;
+  }
+  return objA === objB;
 }
 
 /**
@@ -29,7 +48,9 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return func.bind(context);
+  return function() {
+    return func.apply(context, arguments);
+  };
 }
 
 /**
@@ -50,7 +71,12 @@ Function.prototype.myBind = function(context) {
 * o.magicProperty = 3 // (любое значение)
 * в консоль выводилось значение, которое присваивается и текущее время
 */
-
+let o = {
+  set magicProperty(value) {
+    let date = new Date();
+    console.log(value + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+  },
+};
 /**
 * Создать конструктор с методами, так,
 * чтобы следующий код работал и делал соответствующие вещи
@@ -85,7 +111,10 @@ function calculate(znk) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw 'undefined';
+  if (Singleton.instance) {
+    return Singleton.instance;
+  }
+  Singleton.instance = this;
 }
 
 /**
@@ -95,7 +124,16 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw 'undefined';
+  let obj;
+  if (!(this instanceof ForceContructor)) {
+    obj = new ForceContructor();
+  } else {
+    obj = this;
+  }
+  obj.a = a;
+  obj.b = b;
+  obj.c = c;
+  return obj;
 }
 
 /**
@@ -107,12 +145,15 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw 'undefined';
-}
-
-function log(x) {
-  console.log(+x);
+function sum(s) {
+  let total = s || 0;
+  function func(number) {
+    return sum(total + (number || 0));
+  }
+  func.valueOf = function() {
+    return total;
+  };
+  return func;
 }
 
 /**
@@ -131,12 +172,28 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-function curry(func) { }
+function curry(func) {
+  let counter = func.length;
+  let args = [];
+  return function f(arg) {
+    args.push(arg);
+    counter--;
+    if (!counter) {
+      return func(...args);
+    }
+
+    return f.bind(null);
+  };
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
+function PreUser() { }
+PreUser.prototype = Object.create(Array.prototype);
+function User() { }
+User.prototype = Object.create(PreUser.prototype);
 /* Тут ваш код */
 // User === PreUser; // false
 // u instanceof User; // true

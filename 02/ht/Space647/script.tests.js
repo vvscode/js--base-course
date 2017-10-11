@@ -81,7 +81,7 @@ describe('isDeepEqual', function() {
     var b = {
       prop: 1,
     };
-    b.b = b;
+    b.a = b;
     assert.isOk(isDeepEqual(a, b) === true);
   });
 });
@@ -136,7 +136,7 @@ describe('bind', function() {
       assert.isOk(arguments[0] === 1);
     }, {})(1);
     bind(function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === 'три');
@@ -164,14 +164,14 @@ describe('.myBind', function() {
     Function.prototype.bind = originalBind;
   });
   it('функция', function() {
-    assert.isOk(func.myBind === 'function');
+    assert.isOk(typeof func.myBind === 'function');
   });
   it('Возвращает фукнцию', function() {
     assert.isOk(typeof function() { }.myBind({}) === 'function');
     assert.isOk(typeof function() { }.myBind(null) === 'function');
   });
   it('не использует встроенный .bind', function() {
-    assert.isOk(func.miBind.toString().indexOf('.bind') < 0);
+    assert.isOk(func.myBind.toString().indexOf('.bind') < 0);
   });
   it('Результат вызывает оригинальную фукнцию', function() {
     assert.isOk(counter === 0);
@@ -197,7 +197,7 @@ describe('.myBind', function() {
       assert.isOk(arguments[0] === 1);
     }.myBind({})(1));
     (function() {
-      assert.isOk(arguments.length === 2);
+      assert.isOk(arguments.length === 3);
       assert.isOk(arguments[0] === 1);
       assert.isOk(arguments[1] === 2);
       assert.isOk(arguments[2] === 'три');
@@ -230,11 +230,11 @@ describe('ForceContructor', function() {
     var c = Math.random();
     var o = new ForceContructor(a, undefined, c);
     assert.isOk(typeof o === 'object');
-    assert.isOk(o instanceof ForceContructor === true);
+    assert.isOk(o instanceof ForceContructor);
     assert.isOk(o.a === a);
-    assert.isOk('b' in a);
-    assert.isOk(a.b === undefined);
-    assert.isOk(a.c === c);
+    assert.isOk('b' in o);
+    assert.isOk(o.b === undefined);
+    assert.isOk(o.c === c);
   });
   it('работает как конструктор без new', function() {
     var a = Math.random();
@@ -245,16 +245,16 @@ describe('ForceContructor', function() {
     assert.isOk(typeof o === 'object');
     assert.isOk(o instanceof ForceContructor === true);
     assert.isOk(o.a === a);
-    assert.isOk('b' in a);
-    assert.isOk(a.b === undefined);
-    assert.isOk(a.c === c);
+    assert.isOk('b' in o);
+    assert.isOk(o.b === undefined);
+    assert.isOk(o.c === c);
     assert.isOk(o !== o2);
-    assert.isOk(o1 !== o2);
+    assert.isOk(o !== o3);
     assert.isOk(o2 !== o3);
   });
 });
 
-it('sum', function() {
+describe('sum', function() {
   it('функция', function() {
     assert.isOk(typeof sum === 'function');
   });
@@ -266,7 +266,7 @@ it('sum', function() {
   });
   it('складывает числа', function() {
     var s = sum(1);
-    assert.isOk(+s(2) === 2);
+    assert.isOk(+s(2) === 3);
     assert.isOk(+s(3) === 4);
     assert.isOk(+s(95) === 96);
   });
@@ -296,7 +296,7 @@ it('sum', function() {
     assert.isOk(+s15 === 6);
     assert.isOk(+s152 === 8);
     assert.isOk(+s159 === 15);
-    assert.isOk(+s10 === 0);
+    assert.isOk(+s10 === 1);
   });
   it('может отработать много раз', function() {
     var s = sum();
@@ -320,7 +320,7 @@ describe('User / PreUser', function() {
   it('разные конструкторы', function() {
     assert.isOk(User !== PreUser);
   });
-  assert.isOk('создают правильное дерево наследования', function() {
+  it('создают правильное дерево наследования', function() {
     var u = new User();
     var u2 = new User();
     assert.isOk(u instanceof User);
@@ -330,8 +330,29 @@ describe('User / PreUser', function() {
 });
 
 describe('curry', function() {
-  it('добавить тесты', function() {
-    assert.isOk(false === true);
+  let two = function(a, b) {
+    return a + b;
+  };
+  let three = function(a, b, с) {
+    return a + b + с;
+  };
+  let four = function(a, b, с, d) {
+    return a + b + с + d;
+  };
+  let five = function(a, b, с, d, e) {
+    return a + b + с + d + e;
+  };
+  it('Работает с функцией с 2 аргуметами', function() {
+    assert.isOk(curry(two)(1)(2) === 3);
+  });
+  it('Работает с функцией с 3 аргуметами', function() {
+    assert.isOk(curry(three)(1)(5)(6) === 12);
+  });
+  it('Работает с функцией с 4 аргуметами', function() {
+    assert.isOk(curry(four)(10)(4)(6)(20) === 40);
+  });
+  it('Работает с функцией с 5 аргуметами', function() {
+    assert.isOk(curry(five)(10)(10)(20)(10)(10) === 60);
   });
 });
 
