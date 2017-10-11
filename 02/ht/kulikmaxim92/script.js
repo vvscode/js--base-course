@@ -331,12 +331,21 @@ var LAST_DAY_WEEK = 7;
 function drawCalendar(year, month, htmlEl) {
   htmlEl.innerHTML = '';
   var date = new Date(year, month - 1);
-  var calendar = getCalendar(date);
-  var months = ['Янв', 'Фев', 'Мрт', 'Апр', 'Май', 'Инь', 'Иль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
-  calendar[0] = [undefined, 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
   var tbl = document.createElement('table');
   var tbdy = document.createElement('tbody');
+
+  drawHeadOfCalendar(tbdy, date, htmlEl);
+  drawBodyOfCalendar(tbdy, date);
+
+  tbl.appendChild(tbdy);
+  tbl.addEventListener('click', (ev) => ev.target.tagName === 'A' && alert(ev.target.innerHTML));
+  htmlEl.appendChild(tbl);
+}
+
+function drawHeadOfCalendar(tableBody, date, htmlEl) {
+  var months = ['Янв', 'Фев', 'Мрт', 'Апр', 'Май', 'Инь', 'Иль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  var daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
   var head = document.createElement('tr');
 
@@ -358,7 +367,6 @@ function drawCalendar(year, month, htmlEl) {
   head.appendChild(center);
 
   var right = document.createElement('td');
-
   var rightButton = document.createElement('input');
   rightButton.id = 'next';
   rightButton.type = 'button';
@@ -368,21 +376,36 @@ function drawCalendar(year, month, htmlEl) {
 
   right.appendChild(rightButton);
   head.appendChild(right);
+  tableBody.appendChild(head);
 
-  tbdy.appendChild(head);
-  tbl.appendChild(tbdy);
-  for (var week = 0; week < calendar.length; week++) {
+  var days = document.createElement('tr');
+  for (var i = 0; i < daysOfWeek.length; i++) {
+    var td = document.createElement('td');
+    td.appendChild(document.createTextNode(daysOfWeek[i]));
+    days.appendChild(td);
+  }
+  tableBody.appendChild(days);
+}
+
+function drawBodyOfCalendar(tableBody, date) {
+  var calendar = getCalendar(date);
+  for (var week = 1; week < calendar.length; week++) {
     var tr = document.createElement('tr');
     for (var day = 1; day <= LAST_DAY_WEEK; day++) {
       var td = document.createElement('td');
-      var tdValue = !!calendar[week][day] ? calendar[week][day] : '';
-      td.appendChild(document.createTextNode(tdValue));
+
+      if (!!calendar[week][day]) {
+        var link = document.createElement('a');
+        link.href = '#';
+        link.appendChild(document.createTextNode(calendar[week][day]));
+        td.appendChild(link);
+      } else {
+        td.appendChild(document.createTextNode(''));
+      }
       tr.appendChild(td);
     }
-    tbdy.appendChild(tr);
+    tableBody.appendChild(tr);
   }
-  tbl.appendChild(tbdy);
-  htmlEl.appendChild(tbl);
 }
 
 function getCalendar(date) {
@@ -405,10 +428,9 @@ function getCalendar(date) {
 }
 
 function drawInteractiveCalendar(el) {
-  var year = 2017;
-  var month = 10;
+  var currentDate = new Date();
 
-  drawCalendar(year, month, el);
+  drawCalendar(currentDate.getFullYear(), currentDate.getMonth() + 1, el);
 }
 
 function initializeCalendar(){
