@@ -283,6 +283,14 @@ function throttle(fun, delay) {
 	};
 }
 
+/**
+ * Написать фукнцию sleep(seconds)
+ */
+function sleep(seconds) {
+  var stopTime = new Date().getTime() + seconds;
+  while (new Date().getTime() < stopTime + seconds*1000) {};
+}
+
 /*
 Создать веб страницу. Добавить на нее форму с полями 
 - имя (строкое поле), 
