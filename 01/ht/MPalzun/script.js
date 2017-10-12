@@ -22,7 +22,14 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
+  for (var i=1; i<=100; i++){
+
+  	(i % 3 == 0 && i % 5 ==0 && log("FizzBuzz");
+  	(i % 3 == 0 && log("Fizz");
+  	(i % 5 == 0 && log("Buzz");
+
+  	log(i);
+  }
 }
 
 
@@ -34,10 +41,15 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
-}
 
+	if (textString == textString.split("").reverse().join("")) {
+			return true;
+		}
+	else {
+ 			return false;
+ }
+
+  
 
 /**
  * Реализовать фукнцию `drawCalendar` , 
@@ -48,7 +60,7 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+  
 }
 
 
