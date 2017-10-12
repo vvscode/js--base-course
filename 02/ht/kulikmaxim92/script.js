@@ -470,3 +470,24 @@ function initializeCalendar(){
   var notes = document.getElementById('notes');
   document.addEventListener('DOMContentLoaded', () => setTimeout(() => fillBlockNotes(notes), 0));
 }
+
+/**
+ * Страничка с поиском и подсказками
+ */
+function getSuggestions(text, cb) {
+  var len = 20 - ('' + text).length;
+  var ret = [];
+  for (var i = 0; i < len; i++) {
+    ret.push(text + ' ' + i);
+  }
+  setTimeout(cb, len*100, ret);
+}
+
+function showSuggestions(list) {
+  document.querySelector('pre').innerHTML = list.join('\n');
+}
+
+function initializeSearch() {
+  var inp = document.getElementsByTagName('input')[0];
+  inp.addEventListener('keyup', debounce(() => getSuggestions(inp.value, showSuggestions), 500));
+}
