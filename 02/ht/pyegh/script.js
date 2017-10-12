@@ -82,13 +82,7 @@ function bind(func, context) {
 Function.prototype.myBind = /*Function.prototype.bind*/ function(context) {
 
     var func = this; // get  function, from which current method was called
-    var f =  function() {
-        // usage a method from previous task:
-        // 1. function which should be binded we took from Function.prototype.myBind contxet
-        // 2. context s transfered though params
-        return bind(func, context);
-    }
-    return f();
+    return bind(func, context);
 }
 
 /**

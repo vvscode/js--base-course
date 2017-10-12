@@ -354,7 +354,7 @@ describe("curry", function () {
 describe("Check or trottale function", function() {
     it('check that function works after delay passed', (done) => {
         var counter = 0;
-        var throtteledFunction = _.throttle(function () {
+        var throtteledFunction = throttle(function () {
             counter++;
         }, 100);
 
@@ -374,7 +374,7 @@ describe("Check or trottale function", function() {
             counter++;
             console.log(new Date());
         };
-        var throtteledFunction = _.throttle(f , 200);
+        var throtteledFunction = throttle(f , 200);
 
         assert.equal(counter, 0, 'check counter before throttled function work');
         console.log(new Date() + ' synch call');
