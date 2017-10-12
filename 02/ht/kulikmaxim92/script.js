@@ -326,6 +326,12 @@ function initializeForm(){
 Добавть на страницу index.html вызов календаря
 */
 var LAST_DAY_WEEK = 7;
+var storageName = 'Notes';
+
+function Note(dateString, comment){
+  this.dateString = dateString;
+  this.comment = comment;
+}
 
 function drawCalendar(year, month, htmlEl) {
   htmlEl.innerHTML = '';
@@ -338,7 +344,7 @@ function drawCalendar(year, month, htmlEl) {
   drawBodyOfCalendar(tbdy, date);
 
   tbl.appendChild(tbdy);
-  tbl.addEventListener('click', (ev) => ev.target.tagName === 'A' && alert(ev.target.innerHTML));
+  tbl.addEventListener('click', (ev) => ev.target.tagName === 'A' && addNote(ev.target.innerHTML));
   htmlEl.appendChild(tbl);
 }
 
@@ -349,7 +355,7 @@ function drawHeadOfCalendar(tableBody, date, htmlEl) {
   var head = document.createElement('tr');
 
   var left = document.createElement('td');
-  var leftButton = document.createElement('input');
+  var leftButton = document.createElement("input");
   leftButton.id = 'previous';
   leftButton.type = 'button';
   leftButton.value = '<';
@@ -360,6 +366,7 @@ function drawHeadOfCalendar(tableBody, date, htmlEl) {
   head.appendChild(left);
 
   var center = document.createElement('td');
+  center.id = 'monthAndYear';
   center.colSpan = 5;
   center.style.textAlign = 'center';
   center.appendChild(document.createTextNode(months[date.getMonth()] + '/' + date.getFullYear()));
@@ -379,7 +386,7 @@ function drawHeadOfCalendar(tableBody, date, htmlEl) {
 
   var days = document.createElement('tr');
   for (var i = 0; i < daysOfWeek.length; i++) {
-    var td = document.createElement('td');
+    var td = document.createElement('th');
     td.appendChild(document.createTextNode(daysOfWeek[i]));
     days.appendChild(td);
   }
@@ -426,13 +433,40 @@ function getCalendar(date) {
   return calendar;
 }
 
+function addNote(day){
+  var comment = prompt('Введите заметку к дате');
+  var dateString = day + ' ' + document.getElementById('monthAndYear').innerHTML;
+  setTimeout(() => addIformationToStorage(new Note(dateString, comment)), 0);
+  var notes = document.getElementById('notes');
+  setTimeout(() => fillBlockNotes(notes), 0);
+}
+
+function fillBlockNotes(element){
+  element.innerHTML = '';
+  var arr = JSON.parse(localStorage.getItem(storageName)) || [];
+  var ul = document.createElement('ul');
+  for (var i = 0; i < arr.length; i++) {
+    var li = document.createElement('li');
+    li.appendChild(document.createTextNode(arr[i].dateString + ' ' + arr[i].comment));
+    ul.appendChild(li);
+  }
+  element.appendChild(ul);
+}
+
+function addIformationToStorage(note){
+  var arr = JSON.parse(localStorage.getItem(storageName)) || [];
+  arr.push(note);
+  localStorage.setItem(storageName, JSON.stringify(arr));
+}
+
 function drawInteractiveCalendar(el) {
   var currentDate = new Date();
-
   drawCalendar(currentDate.getFullYear(), currentDate.getMonth() + 1, el);
 }
 
 function initializeCalendar(){
-  var calendar = document.getElementById("calendar");
+  var calendar = document.getElementById('calendar');
   drawInteractiveCalendar(calendar);
+  var notes = document.getElementById('notes');
+  document.addEventListener('DOMContentLoaded', () => setTimeout(() => fillBlockNotes(notes), 0));
 }
