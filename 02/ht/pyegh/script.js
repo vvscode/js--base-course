@@ -567,3 +567,38 @@ function drawCalendar(year, month, htmlEl) {
     table += '</tr>' + '</table>'
     htmlEl.innerHTML = table;
 }
+
+/**
+ * Function is analogue of lodash throttle
+ * @param func
+ * @param delayInMs
+ */
+function throttle(func, delayInMs) {
+
+    var delayInProgress = false;
+
+    function executeFunction() {
+
+        if (delayInProgress) { // if delay is not finished do not execute function
+            return;
+        }
+
+        func.apply(this, arguments); // Otherwise execute function
+        delayInProgress = true; // then change flage state (forbid execution of function during other calls)
+        setTimeout(function () { // and after delay passed change flag (allow execution of function during other calls)
+                delayInProgress = false;
+            },
+            delayInMs);
+    }
+
+    return executeFunction;
+}
+
+
+function sleep(delayInSec){
+    var start = new Date();
+    var end = start.getTime() + delayInSec * 1000;
+    while(new Date().getTime() < end){
+
+    }
+}

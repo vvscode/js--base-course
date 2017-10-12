@@ -329,8 +329,8 @@ describe("User / PreUser", function() {
     });
 });
 
-describe("curry", function() {
-    it("Простые отличающиеся функции работают", function() {
+describe("curry", function () {
+    it("Простые отличающиеся функции работают", function () {
 
         function target1(a, b, c, d) {
             return a + b + c + d;
@@ -346,6 +346,76 @@ describe("curry", function() {
 
         assert.isOk(testCase1 === 10);
         assert.isOk(testCase2 === 13);
+    });
+});
+
+
+
+describe("Check or trottale function", function() {
+    it('check that function works after delay passed', (done) => {
+        var counter = 0;
+        var throtteledFunction = _.throttle(function () {
+            counter++;
+        }, 100);
+
+        assert.equal(counter, 0, 'check counter before throttled function work');
+
+        throtteledFunction();
+        assert.equal(counter, 1, 'check that counter become 1');
+
+        setTimeout(() => throtteledFunction(), 200);
+        setTimeout(() => assert.equal(counter, 2, 'check that function works after delay passed'), 250);
+        setTimeout(done, 300);
+    });
+    it('check that function works after delay passed and does not works during delay', (done) => {
+
+        var counter = 0;
+        var f = function(){
+            counter++;
+            console.log(new Date());
+        };
+        var throtteledFunction = _.throttle(f , 200);
+
+        assert.equal(counter, 0, 'check counter before throttled function work');
+        console.log(new Date() + ' synch call');
+        throtteledFunction();
+        assert.equal(counter, 1, 'check that counter become 1');
+
+        // throttle must ignore this block
+        setTimeout(() => throtteledFunction(), 100);
+        setTimeout(() => throtteledFunction(), 110);
+        setTimeout(() => throtteledFunction(), 120);
+        // end of block where counter should not increased
+
+        setTimeout(() => throtteledFunction(), 250);
+        setTimeout(() => console.log(new Date() + ' the second call was'), 260);
+        setTimeout(() => assert.equal(counter, 2, 'check that function works after delay passed'), 270);
+        setTimeout(done, 300);
+    });
+    it('check that function with params works after delay passed and does not works during delay', (done) => {
+
+        var resultString = '';
+        var f = function(param1, param2){
+            resultString = param1 + ' ' + param2;
+        };
+        var throtteledFunction = throttle(f, 100);
+
+        throtteledFunction('first', 'execution');
+        assert.equal(resultString, 'first execution', 'check that function worked');
+
+        // throttle must ignore this block
+        setTimeout(() => throtteledFunction('random','text'), 50);
+        setTimeout(() => throtteledFunction('which','will'), 60);
+        setTimeout(() => throtteledFunction('be not','ignored'), 70);
+        // end of block where counter should not increased
+        // and nothig should change
+        setTimeout(() => assert.equal(resultString, 'first execution', 'check that block was ignored'), 80);
+
+        //here function will be really called for the second time
+        setTimeout(() => throtteledFunction('fifth','execution'), 200);
+        setTimeout(() => assert.equal(resultString, 'fifth execution', 'check that function works after delay passed'), 250);
+
+        setTimeout(done, 300);
     });
 });
 
