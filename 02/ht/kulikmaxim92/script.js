@@ -252,17 +252,16 @@ User.prototype = Object.create(PreUser.prototype);
  * Написать фукнцию debounce(fun, delay)
  */
 function debounce(fun, delay) {
-	var timer;
-	return function() {
-		var args = Array.prototype.slice.call(arguments, 0);
-		if (timer) {
-			clearTimeout(timer);
-		}
-		timer = setTimeout(function() {
-			timer = null;
-			fun.apply(null, args);
-		}, delay);
-	};
+  var timer;
+  return function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      timer = null;
+      fun.apply(null, args);
+    }, delay);
+  };
 }
 
 /**
