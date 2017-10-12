@@ -68,7 +68,7 @@ const questions2 = `Как изменить "this" внутри функции? 
 в чем разница объявления методов в конструкторе и на .prototype" ?
 что такое 'полифилл'?`;
 
-const shuffleList = list => {
+const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
     let tmp = list[rand];
@@ -85,16 +85,15 @@ let i = 0;
 
 let getQuestions = (() => {
   let questions = [];
-  let str = "";
   let generateQuestions = () => {
-    let level = +$$("#levelSelector").value;
+    let level = +$$('#levelSelector').value;
 
     questions = questionsStrings
       .filter((_, index) => index < level)
-      .join("\n")
+      .join('\n')
       .trim()
-      .split("\n")
-      .map(i => i.trim())
+      .split('\n')
+      .map((i) => i.trim())
       .filter(Boolean);
     shuffleList([...questions]);
     roundQuestionsNumber = questions.length;
@@ -114,14 +113,14 @@ const drawNextQuestion = () => {
   i++;
   let question = questions.pop();
   $$(
-    ".question"
+    '.question'
   ).innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
 };
 
-$$(".question").addEventListener("click", drawNextQuestion);
-document.body.addEventListener("keyup", ev => {
+$$('.question').addEventListener('click', drawNextQuestion);
+document.body.addEventListener('keyup', (ev) => {
   let SPACE_KEY_CODE = 32;
-  if (ev.key === " " || ev.keyCode === SPACE_KEY_CODE) {
+  if (ev.key === ' ' || ev.keyCode === SPACE_KEY_CODE) {
     drawNextQuestion();
   }
 });
