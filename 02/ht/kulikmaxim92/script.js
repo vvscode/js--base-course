@@ -286,8 +286,8 @@ function throttle(fun, delay) {
  * Написать фукнцию sleep(seconds)
  */
 function sleep(seconds) {
-  var stopTime = new Date().getTime() + seconds;
-  while (new Date().getTime() < stopTime + seconds*1000) {};
+  var stopTime = new Date().getTime() + seconds*1000;
+  while (new Date().getTime() < stopTime) {};
 }
 
 /*
