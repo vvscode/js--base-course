@@ -347,6 +347,7 @@ function throttle(func, ms) {
   return wrapper;
 }
 
+
 function sleep(seconds) {
   var start = performance.now();
   while (performance.now() <= start + seconds*1000);

@@ -344,10 +344,71 @@ describe("sleep", function() {
   });
   it("Задержка вызова сдедующей операции", function() {
     var timeStart = new Date(); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
-    sleep(0.5);
+    sleep(0.1);
     var timeEnd = new Date(); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
     var delay = timeEnd - timeStart;
-    assert.isOk(delay >= 0.5*1000);
+    assert.isOk(delay >= 0.1*1000);
+  });
+});
+
+describe("debounce", function() {
+
+  var arr = [];
+
+  function f(x) { arr.push(x) }
+  var f = debounce(f, 100);
+
+  f(13); //выполнится сразу же
+  f(2); // игнор
+
+  setTimeout( function() { f(3); }, 50); // игнор (прошло только 50 мс)
+  setTimeout( function() { f(4); }, 110); // выполнится
+  setTimeout( function() { f(5); }, 170); // игнор
+
+  it("функция", function() {
+    assert.isOk(typeof debounce === "function");
+  });
+
+  it('проверка работы debounce', function (done) {
+
+   // ----- пошел тест
+    assert.equal(arr[0], 13, 'первое выполнение');
+    assert.equal(arr[1], 4, 'вызов не ранее 100');   
+    assert.equal(arr[2], undefined, 'игнор последнего вызова');   
+
+    setTimeout(done, 250); // закончить
+ });
+});
+
+describe("throttle", function() {
+
+  var arr = [];
+
+  function f(x) { arr.push(x); }
+  var f = throttle(f, 100);
+
+  f(13); //выполнится сразу же
+  setTimeout(function() { f(2); }, 50); // игнор
+
+  setTimeout( function() { f(3); }, 70); // выполнится (первые 100 мс)
+  setTimeout( function() { f(4); }, 150); // игнор
+  setTimeout( function() { f(5); }, 160); // выполнися (вторые 100 мс)
+
+  it("функция", function() {
+    assert.isOk(typeof throttle === "function");
+  });
+
+  it('проверка работы throttle', function (done) {
+
+   // ----- пошел тест
+    assert.equal(arr[0], 13, 'первое выполнение');
+
+    assert.equal(arr[1], 3, 'первые 100 мс');
+ 
+    assert.equal(arr[2], 5, 'вторые 100 мс');  
+
+    setTimeout(done, 300); // закончить
+
   });
 });
 
