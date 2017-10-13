@@ -42,6 +42,6 @@ tbody tr td:last-child {
 
 .note {
   border: 1px solid silver;
-  text-align: justify;
+  text-align: center;
   width: 160px;
 }

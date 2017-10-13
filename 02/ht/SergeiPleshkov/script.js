@@ -14,23 +14,23 @@
 var cache = [];
 
 function isDeepEqual(objA, objB) {
-  if (objA === objB) {
-    return true;
-  } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-    return false;
-  }
+	if (objA === objB) {
+		return true;
+	} else if (Object.keys(objA).length !== Object.keys(objB).length) {
+		return false;
+	}
 
-  for (var key in objA) {
-    if (cache.hasOwnProperty(objA[key])) return true;
-    if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-      cache.push(objA[key]);
-      return isDeepEqual(objA[key], objB[key]);
-    }
-  }
-  if (JSON.stringify(objA) === JSON.stringify(objB)) {
-    return true;
-  }
-  return false;
+	for (var key in objA) {
+		if (cache.hasOwnProperty(objA[key])) return true;
+		if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
+			cache.push(objA[key]);
+			return isDeepEqual(objA[key], objB[key]);
+		}
+	}
+	if (JSON.stringify(objA) === JSON.stringify(objB)) {
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -40,11 +40,11 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  var bindArguments = [].slice.call(arguments, 2);
-  return function () {
-    var funcArguments = [].slice.call(arguments);
-    return func.apply(context, bindArguments.concat(funcArguments));
-  };
+	var bindArguments = [].slice.call(arguments, 2);
+	return function () {
+		var funcArguments = [].slice.call(arguments);
+		return func.apply(context, bindArguments.concat(funcArguments));
+	};
 }
 
 /**
@@ -52,22 +52,8 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
-Function.prototype.myBind = function (oThis) {
-
-  var aArgs = Array.prototype.slice.call(arguments, 1),
-    fToBind = this,
-    fNOP = function () {},
-    fBound = function () {
-      return fToBind.apply(this instanceof fNOP && oThis ?
-        this :
-        oThis,
-        aArgs.concat(Array.prototype.slice.call(arguments)));
-    };
-
-  fNOP.prototype = this.prototype;
-  fBound.prototype = new fNOP();
-
-  return fBound;
+Function.prototype.myBind = function (context) {
+	return bind(this, context);
 };
 /**
  * Создать объект o так, чтобы каждый раз когда в коде написано 
@@ -75,16 +61,16 @@ Function.prototype.myBind = function (oThis) {
  * в консоль выводилось значение, которое присваивается и текущее время
  */
 var o = {},
-  magicPropValue,
-  date = new Date;
+	magicPropValue,
+	date = new Date;
 Object.defineProperty(o, 'magicProperty', {
-  set: function (val) {
-    console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ', magicProperty = ' + val);
-    magicPropValue = val;
-  },
-  get: function () {
-    return magicPropValue;
-  }
+	set: function (val) {
+		console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ', magicProperty = ' + val);
+		magicPropValue = val;
+	},
+	get: function () {
+		return magicPropValue;
+	}
 })
 
 /**
@@ -94,22 +80,22 @@ Object.defineProperty(o, 'magicProperty', {
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 function NameAgeConstructor() {
-  this.askName = function () {
-    this.name = prompt('Name?');
-    return this;
-  };
-  this.askAge = function () {
-    this.age = prompt('Age?');
-    return this;
-  };
-  this.showAgeInConsole = function () {
-    console.log(this.age);
-    return this;
-  };
-  this.showNameInAlert = function () {
-    alert(this.name);
-    return this;
-  }
+	this.askName = function () {
+		this.name = prompt('Name?');
+		return this;
+	};
+	this.askAge = function () {
+		this.age = prompt('Age?');
+		return this;
+	};
+	this.showAgeInConsole = function () {
+		console.log(this.age);
+		return this;
+	};
+	this.showNameInAlert = function () {
+		alert(this.name);
+		return this;
+	}
 }
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -118,14 +104,14 @@ function NameAgeConstructor() {
  * Допустимые операции : + - * /
  */
 function calculate() {
-  var operand = [].slice.call(arguments, 0);
-  return function (a) {
+	var operand = [].slice.call(arguments, 0);
+	return function (a) {
 
-    return function (b) {
-      return eval(a + operand + b);
-    };
+		return function (b) {
+			return eval(a + operand + b);
+		};
 
-  }
+	}
 }
 
 /**
@@ -133,10 +119,10 @@ function calculate() {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  if (Singleton.instance) {
-    return Singleton.instance
-  }
-  Singleton.instance = this;
+	if (Singleton.instance) {
+		return Singleton.instance
+	}
+	Singleton.instance = this;
 }
 
 /**
@@ -146,13 +132,13 @@ function Singleton() {
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceConstructor(a, b, c) {
-  if (this instanceof ForceConstructor) {
-    this.a = a;
-    this.b = b;
-    this.c = c;
-  } else {
-    return new ForceConstructor(a, b, c);
-  }
+	if (this instanceof ForceConstructor) {
+		this.a = a;
+		this.b = b;
+		this.c = c;
+	} else {
+		return new ForceConstructor(a, b, c);
+	}
 }
 
 /**
@@ -167,17 +153,17 @@ function ForceConstructor(a, b, c) {
 
 function sum() {
 
-  var currentSum = arguments[0] || 0;
+	var currentSum = arguments[0] || 0;
 
-  function func(b) {
-	  return sum(currentSum + (b || 0))
-  }
+	function func(b) {
+		return sum(currentSum + (b || 0))
+	}
 
-  func.toString = function () {
-	  return currentSum;
-  };
+	func.toString = function () {
+		return currentSum;
+	};
 
-  return func;
+	return func;
 }
 
 /**
@@ -197,44 +183,30 @@ function sum() {
  * @param {*} func 
  */
 function curry(func) {
-  if (func.length === 4) {
-    return function (a) {
-      return function (b) {
-        return function (c) {
-          return function (d) {
-            return func.call(null, a, b, c, d);
-          }
-        }
-      }
-    }
-  } else if (func.length === 3) {
-    return function (a) {
-      return function (b) {
-        return function (c) {
-          return func.call(null, a, b, c);
-        }
-      }
-    }
-  } else if (func.length === 2) {
-    return function (a) {
-      return function (b) {
-        return func.call(null, a, b);
-      }
-    }
-  } else if (func.length === 1) {
-    return function (a) {
-      return a;
-    }
+	var i = func.length;
+	var args = [];
+
+	return function fn(arg) {
+
+	  args.push(arg);
+	  i--;
+
+	  if (!i) {
+		return func.apply(null, args);
+	  }
+  
+	  return fn.bind();
+	};
   }
-}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-function PreUser() {}
+function PreUser() {};
 
-function User() {}
+function User() {};
+
 User.prototype = PreUser.prototype = [];
 
 /* Тут ваш код */
@@ -255,17 +227,17 @@ var submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', postInfoAndResetForm);
 
 function postInfoAndResetForm() {
-  var outputDiv = document.getElementById('output');
-  outputDiv.innerHTML = null;
-  var name = document.getElementById('name').value;
-  var city = document.getElementById('city').value;
-  var comment = document.getElementById('comment').value;
-  if (document.getElementById('male').checked) {
-    var gender = 'Мужской';
-  } else gender = 'Женский';
-  var outputHTML = 'Имя:' + name + ';' + '<br>Родина: ' + city + ';' + '<br>Ваш комментарий: ' + comment + '<br>Пол: ' + gender;
-  outputDiv.insertAdjacentHTML('afterBegin', outputHTML);
-  document.getElementById('mainForm').reset();
+	var outputDiv = document.getElementById('output');
+	outputDiv.innerHTML = null;
+	var name = document.getElementById('name').value;
+	var city = document.getElementById('city').value;
+	var comment = document.getElementById('comment').value;
+	if (document.getElementById('male').checked) {
+		var gender = 'Мужской';
+	} else gender = 'Женский';
+	var outputHTML = 'Имя:' + name + ';' + '<br>Родина: ' + city + ';' + '<br>Ваш комментарий: ' + comment + '<br>Пол: ' + gender;
+	outputDiv.insertAdjacentHTML('afterBegin', outputHTML);
+	document.getElementById('mainForm').reset();
 };
 /* 
 Используя функцию drawCalendar из прошлого урока
@@ -278,106 +250,109 @@ function postInfoAndResetForm() {
 
 
 function drawInteractiveCalendar(el, year, month) {
-	el.innerHTML = null;	
+	el.innerHTML = null;
 	document.getElementById('calendar-list').innerHTML = localStorage.getItem('noteList') || null;
-  var calendar = document.createElement('div');
-  calendar.id = 'calendar';
-  var calendarHead = document.createElement('div');
-  calendarHead.id = 'calendar-head';
-  var prevMnthBtn = document.createElement('button');
-  prevMnthBtn.innerText = '[ < ]';
-  prevMnthBtn.id = 'prev';
-  var nextMnthBtn = document.createElement('button');
-  nextMnthBtn.innerText = '[ > ]';
-  nextMnthBtn.id = 'next';
-  var current = document.createElement('div');
-  current.id = 'current';
-  calendarHead.appendChild(prevMnthBtn);
-  calendarHead.appendChild(current);
-  calendarHead.appendChild(nextMnthBtn);
-  calendar.appendChild(calendarHead);
-  el.appendChild(calendar);
-  drawCalendar(calendar, year, month);
-  var prev = document.getElementById('prev');
-  var next = document.getElementById('next');
-  prev.addEventListener('click', function () {
-    drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() - 1)
-  });
-  next.addEventListener('click', function () {
-    drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() + 1)
-  });
+	var calendar = document.createElement('div');
+	calendar.id = 'calendar';
+	var calendarHead = document.createElement('div');
+	calendarHead.id = 'calendar-head';
+	var prevMnthBtn = document.createElement('button');
+	prevMnthBtn.innerText = '[ < ]';
+	prevMnthBtn.id = 'prev';
+	var nextMnthBtn = document.createElement('button');
+	nextMnthBtn.innerText = '[ > ]';
+	nextMnthBtn.id = 'next';
+	var current = document.createElement('div');
+	current.id = 'current';
+	calendarHead.appendChild(prevMnthBtn);
+	calendarHead.appendChild(current);
+	calendarHead.appendChild(nextMnthBtn);
+	calendar.appendChild(calendarHead);
+	el.appendChild(calendar);
+	drawCalendar(calendar, year, month);
+	var prev = document.getElementById('prev');
+	var next = document.getElementById('next');
+	prev.addEventListener('click', function () {
+		drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() - 1)
+	});
+	next.addEventListener('click', function () {
+		drawInteractiveCalendar(calendarWrap, calendarCurrentDate.getFullYear(), calendarCurrentDate.getMonth() + 1)
+	});
 
-  function addDateToList(calendarCell, noteComment) {
-	var newNote = document.createElement('div');
-	newNote.innerHTML = calendarCell.innerHTML + '.' + month + '.' + year + ' : ' + noteComment;
-	newNote.className += 'note';
-	document.getElementById('calendar-list').appendChild(newNote);
-}
+	function addDateToList(calendarCell, noteComment) {
+		var newNote = document.createElement('div');
+		newNote.innerHTML = '<b>' + calendarCell.innerHTML + '.' + month + '.' + year + '</b> : <br>' + noteComment;
+		newNote.className += 'note';
+		document.getElementById('calendar-list').appendChild(newNote);
+	}
 
-calendar.onclick = function(event) {
-	var target = event.target;
-	if (target.tagName === 'TD' && target.innerHTML) {
-		var noteComment = prompt('Напишите комментарий', 'Опять пьянка');
-		if (noteComment !== null) addDateToList(target, noteComment);
-	};
-	localStorage.noteList = document.getElementById('calendar-list').innerHTML;
-	
-}
+	calendar.onclick = function (event) {
+		var target = event.target;
+		if (target.tagName === 'TD' && target.innerHTML) {
+			var noteComment = prompt('Напишите комментарий', 'Важное событие');
+			if (noteComment === '') {
+				addDateToList(target, "Без описания");
+			}
+			if (noteComment) addDateToList(target, noteComment);
+		};
+		localStorage.noteList = document.getElementById('calendar-list').innerHTML;
+
+	}
 }
 
 var noteListContainer = document.getElementById('calendar-list');
-noteListContainer.onclick = function(event) {
-	var target = event.target;	
-	if (target.className === 'note' && confirm('Удалить запись "' + target.innerHTML + '"?')) target.remove();
+noteListContainer.onclick = function (event) {
+	var target = event.target;
+	if (target.className === 'note' && confirm('Удалить запись "' + target.innerText + '"?')) target.remove();
 	localStorage.noteList = document.getElementById('calendar-list').innerHTML;
 }
 
 function drawCalendar(htmlEl, year, month) {
-  if (month < 1) {
-    var mon = 11 + month;
-    var d = new Date((year - 1), mon);
-  } else if (!year || !month) {
-    var d = new Date();
-    var mon = d.getMonth();
-  } else {
-    var mon = month - 1;
-    var d = new Date(year, mon);
-  };
+	if (month < 1) {
+		var mon = 11 + month;
+		var d = new Date((year - 1), mon);
+	} else if (!year || !month) {
+		var d = new Date();
+		var mon = d.getMonth();
+	} else {
+		var mon = month - 1;
+		var d = new Date(year, mon);
+	};
 
-  var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+	var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
 
-  for (var i = 0; i < getDay(d); i++) {
-    table += '<td></td>';
-  }
+	for (var i = 0; i < getDay(d); i++) {
+		table += '<td></td>';
+	}
 
-  while (d.getMonth() == mon) {
-    table += '<td>' + d.getDate() + '</td>';
+	while (d.getMonth() == mon) {
+		table += '<td>' + d.getDate() + '</td>';
 
-    if (getDay(d) % 7 == 6) {
-      table += '</tr><tr>';
-    }
+		if (getDay(d) % 7 == 6) {
+			table += '</tr><tr>';
+		}
 
-    d.setDate(d.getDate() + 1);
-  }
+		d.setDate(d.getDate() + 1);
+	}
 
-  if (getDay(d) != 0) {
-    for (var i = getDay(d); i < 7; i++) {
-      table += '<td></td>';
-    }
-  }
+	if (getDay(d) != 0) {
+		for (var i = getDay(d); i < 7; i++) {
+			table += '<td></td>';
+		}
+	}
 
-  table += '</tr></table>';
-  if (mon === 11) {
-    current.innerText = 12 + ' / ' + (d.getFullYear() - 1);
-  } else current.innerText = d.getMonth() + ' / ' + +d.getFullYear();
-  htmlEl.innerHTML += table;
-  calendarCurrentDate = d;
+	table += '</tr></table>';
+	if (mon === 11) {
+		current.innerText = 12 + ' / ' + (d.getFullYear() - 1);
+	} else current.innerText = d.getMonth() + ' / ' + +d.getFullYear();
+	htmlEl.innerHTML += table;
+	calendarCurrentDate = d;
 }
 
 function getDay(date) {
-  var day = date.getDay();
-  if (day == 0) day = 7;
-  return day - 1;
+	var day = date.getDay();
+	if (day == 0) day = 7;
+	return day - 1;
 }
 
 var calendarWrap = document.getElementById('calendar-wrap');
@@ -392,7 +367,48 @@ drawInteractiveCalendar(calendarWrap, 2017, 10);
 // `debounce`, иначе - `throttle`. А лучше - обе ). 
 //Функции должны с сигнатурой `debounce(fun, delay)` / `throttle(fun, delay)`
 
+function throttle(fun, delay) {
 
+	var isPaused = false,
+		savedArgs,
+		savedThis;
+
+	function wrapper() {
+
+		if (isPaused) {
+			savedArgs = arguments;
+			savedThis = this;
+			return;
+		}
+
+		fun.apply(this, arguments);
+
+		isPaused = true;
+
+		setTimeout(function () {
+			isPaused = false;
+			if (savedArgs) {
+				wrapper.apply(savedThis, savedArgs);
+				savedArgs = savedThis = null;
+			}
+		}, delay);
+	}
+
+	return wrapper;
+}
+
+function debounce(fun, delay) {
+	var cd;
+	return function() {
+	  var savedArgs = [].slice.call(arguments, 0);
+  
+	  clearTimeout(cd);
+	  cd = setTimeout(function() {
+		cd = null;
+		fun.apply(null, savedArgs);
+	  }, delay);
+	};
+  }
 
 
 //  - К генератору листаемого календаря добавить функционал: под календарем добавить блок. При клике на ячейку даты 
@@ -411,8 +427,7 @@ drawInteractiveCalendar(calendarWrap, 2017, 10);
 //  console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
 
 function sleep(seconds) {
-  var start = Date.now(),
-	  end = Date.now() + seconds*1000;
-	  while (Date.now() < end) {
-	  };
-  }
+	var start = Date.now(),
+		end = Date.now() + seconds * 1000;
+	while (Date.now() < end) {};
+}

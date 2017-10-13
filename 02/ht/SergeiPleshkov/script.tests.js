@@ -391,4 +391,50 @@ describe("curry", function () {
   });
 });
 
+describe('throttle', () => {
+  it('Таймаут правильно работает', (done) => {
+    var testValue = 0;
+    var testFunc = throttle((inputValue) => testValue = inputValue, 100);
+
+    testFunc(1);
+    assert.equal(testValue, 1, 'первый пошёл');
+
+    setTimeout(() => testFunc(2), 150);
+    setTimeout(() => assert.equal(testValue, 2, 'второй пошёл после таймера'), 200);
+    setTimeout(done, 300);
+  });
+  it('Работает при повторных вызовах', (done) => {
+    var testValue = 0;
+    var testFunc = throttle((inputValue) => testValue = inputValue, 100);
+
+    testFunc(1);
+    assert.equal(testValue, 1, 'первый пошёл');
+
+    setTimeout(() => testFunc(2), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'второй сначала не пошёл'), 60);
+    setTimeout(() => assert.equal(testValue, 2, 'дошёл после таймаута'), 110);
+    setTimeout(() => testFunc(3), 150);
+    setTimeout(() => assert.equal(testValue, 3, 'а потом пошёл'), 200);
+    setTimeout(done, 150);
+  });
+});
+
+describe('debounce', () => {
+  it('Работает таймаут и повторные вызовы', (done) => {
+    var testValue = 0;
+    var testFunc = debounce((inputValue) => testValue = inputValue, 100);
+    testFunc(1);
+
+    assert.equal(testValue, 0, 'первый не пошёл сразу');
+
+    setTimeout(() => assert.equal(testValue, 1, 'первый пошёл после таймаута'), 110);
+    
+    setTimeout(() => testFunc(2), 110);
+    setTimeout(() => assert.equal(testValue, 1, 'второй не пошёл сразу за первым'), 120);
+    setTimeout(() => testFunc(3), 220);
+    setTimeout(() => assert.equal(testValue, 3, 'третий пошёл после таймаута'), 330);
+    setTimeout(done, 350);
+  });
+});
+
 mocha.run();
