@@ -50,8 +50,6 @@ function isPolindrom(textString) {
  }
 }
 
-  
-
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
@@ -60,41 +58,47 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
- function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
+function drawCalendar(year, month, htmlEl) {
+
+    var date = new Date(year, month - 1);
+
+    function getDay(date) { 
+        var day = date.getDay();
+        if (day == 0) day = 7;
+        return day - 1;
+    }
+
+    var table = '<table><tr><td>пн</td><td>вт</td><td>ср</td><td>чт</td><td>пт</td><td>сб</td><td>вс</td></tr><tr>';
+
+    for (var i = 0; i < getDay(date); i++) {
+        table += '<td></td>';
+    }
+
+    while (date.getMonth() == month - 1) {
+
+        table += '<td>' + date.getDate() + '</td>';
+
+        if (getDay(date) % 7 == 6) {
+            table += '</tr><tr>';
+        }
+
+        date.setDate(date.getDate() + 1);
+    }
+
+    if (getDay(date) != 0) {
+
+        for (var i = getDay(date); i < 7; i++) {
+            table += '<td></td>';
+        }
+    }
+
+    table += '</tr></table>';
+
+    htmlEl.innerHTML = table;    //с божей (javascript.ru/task) помощью!
+
+}
+
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -105,31 +109,12 @@ function isPolindrom(textString) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (typeof objA === 'object' && typeof objB === 'object') {
-        if (objA === null || objB === null) {
-            return objA === objB;
-        }
-
-        if (Object.keys(objA).length !== Object.keys(objB).length) {
-            return false;
-        }
-
-        for (var key in objA) {
-            if (!objB.hasOwnProperty(key) || !isDeepEqual(objA[key], objB[key])) {
-                return false;
-            }
-        }
-
-        return true;
+    if (typeof(objA) !== typeof(objB)) return false; 
+    if (typeof(objA) !== 'object') return objA === objB; 
+    if (Array.isArray(objA) != Array.isArray(objB)) return false; 
+    if (Object.keys(objA).length !== Object.keys(objB).length) return false; 
+    for(var key in objA) {
+        if (!isDeepEqual(objA[key], objB[key])) return false;
     }
-
-    if (typeof objA === 'function' && typeof objB === 'function') {
-        return objA.toString() === objB.toString();
-    }
-
-    if (typeof objA === 'number'&& typeof objB === 'number' && isNaN(objA) && isNaN(objB)) {
-        return true;
-    }
-
-    return objA === objB;
+    return true;
 }
