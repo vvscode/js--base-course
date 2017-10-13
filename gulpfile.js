@@ -15,6 +15,7 @@ gulp.task('watch', ['server'], function() {
 	});
 });
 
+
 gulp.task('server', function(done) {
 	http.createServer(
 		st({
