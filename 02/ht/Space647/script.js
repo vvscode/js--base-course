@@ -48,7 +48,7 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return function() {
+  return function () {
     return func.apply(context, arguments);
   };
 }
@@ -59,9 +59,9 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
-Function.prototype.myBind = function(context) {
+Function.prototype.myBind = function (context) {
   let func = this;
-  return function() {
+  return function () {
     return func.apply(context, arguments);
   };
 };
@@ -91,8 +91,8 @@ let o = {
  * Допустимые операции : + - * /
  */
 function calculate(znk) {
-  return function(num1) {
-    return function(num2) {
+  return function (num1) {
+    return function (num2) {
       if (znk == '+') {
         return num1 + num2;
       } else if (znk == '-') {
@@ -150,7 +150,7 @@ function sum(s) {
   function func(number) {
     return sum(total + (number || 0));
   }
-  func.valueOf = function() {
+  func.valueOf = function () {
     return total;
   };
   return func;
@@ -235,7 +235,7 @@ function throttle(func, ms) {
 
     isThrottled = true;
 
-    setTimeout(function() {
+    setTimeout(function () {
       isThrottled = false;
       if (savedArgs) {
         wrapper.apply(savedThis, savedArgs);
@@ -244,4 +244,11 @@ function throttle(func, ms) {
     }, ms);
   }
   return wrapper;
+}
+
+function sleep(seconds) {
+  let start = Date.now(),
+    end = Date.now() + seconds * 1000;
+  while (Date.now() < end) { };
+
 }
