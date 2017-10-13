@@ -9,10 +9,20 @@
 function log(a) {
     console.log(a);
 }
-
-/* Раместите ваш код ниже */
-
-/**
+/*
+for (var i = 1; i <= 100; i++) {		
+	if (i % 3 === 0 && i % 5 === 0) {
+		log('FizzBuzz');
+	} else if ( i % 3 === 0 ) {
+		log('Fizz');
+	} else if ( i % 5 === 0) {
+		log('Buzz');
+	} else {
+		log(i);
+	}
+};
+*/
+/*
  * реализовать фукнцию `fizzBuzz` 
  * которая выводит числа от 1 до 100. 
  * Если число кратно 3 - вместо числа вывести `Fizz`. 
@@ -22,19 +32,18 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    
-        for (var i = 1; i <= 100; i++) {
-    
-            var item = !(i % 15) && 'FizzBuzz' || !(i % 3) && 'Fizz' || !(i % 5) && 'Buzz' || i;
-            log(item);
-    
-        }
-    
-    
-}
+	for (var i = 1; i <= 100 ; i++) {
+		( i % 3 === 0 && i % 5 === 0 ) && log('FizzBuzz');
+//		break;
+		( i % 3 === 0 && i % 5 !== 0 ) && log('Fizz');
+//		break;
+		( i % 5 === 0 && i % 3 !== 0 ) && log('Buzz');
+//		break;
+		( i % 3 !== 0 && i % 5 !== 0 ) && log(i);
+	}
+};
 
-
-/**
+/*
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
  * является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
@@ -42,20 +51,16 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    return textString === textString.split('').reverse().join('')
+
+	var textRevers = textString.split('').reverse().join('');
+
+	if (textString === textRevers) {
+		return true;
+	} else {
+		return false;
+	}
+ return undefined;
 }
-
-// Ещё вариант решения
-
-function isPalindrome(str) {
-    for (var i = 0; i < str.length; i++) {
-        if (str.substr(i, 1) !== str.substr(str.length - i - 1, 1)) {
-            return false;
-        }
-    }
-    return true;
-};
-
 
 /**
  * Реализовать фукнцию `drawCalendar` , 
@@ -65,43 +70,52 @@ function isPalindrome(str) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-
 function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
-    
+
+	//var el= document.createElement(htmlEl);
+	//document.body.appendChild(el);
+
+	var date = new Date(year, month - 1);
+
+	function getDay(date) { 
+		var day = date.getDay();
+		if (day == 0) day = 7;
+		return day - 1;
+	};
+
+	var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+
+	for (var i = 0; i < getDay(date); i++) {
+		table += '<td></td>';
+	}
+
+	while (date.getMonth() == month - 1) {
+
+		table += '<td>' + date.getDate() + '</td>';
+
+		if (getDay(date) % 7 == 6) {
+			table += '</tr><tr>';
+		}
+
+		date.setDate(date.getDate() + 1);
+	}
+
+	if (getDay(date) != 0) {
+
+		for (var i = getDay(date); i < 7; i++) {
+			table += '<td></td>';
+		}
+	}
+
+	table += '</tr></table>';
+
+	htmlEl.innerHTML = table;
+
+};
+
+
+
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -112,15 +126,35 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (JSON.stringify(objA) == JSON.stringify(objB)) {
+
+	if (objA === objB) {
         return true;
-    } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
     }
 
-    for (var key in objA) {
-        if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-            return isDeepEqual(objA[key], objB[key]);
+    if (objA == null || typeof(objA) != "object" ||
+        objB == null || typeof(objB) != "object")
+    {
+        return false;
+    }
+ 
+    var propertiesInA = 0, propertiesInB = 0;
+    for (var property in objA) {
+        propertiesInA += 1;
+    }
+    for (var property in objB) {
+        propertiesInB += 1;
+        if (!(property in objA) || !isDeepEqual(objA[property], objB[property])) {
+            return false;        
         }
-    } return false;
+          
+    }        
+    return propertiesInA == propertiesInB;
+
+/*
+	if (JSON.stringify( objA )===JSON.stringify( objB )) {
+		return true;
+	} else {
+		return false;
+	}
+*/
 }

@@ -22,10 +22,21 @@
     .question {
       text-align: center;
     }
+
+    #levelSelector {
+      position: absolute;
+      top: 0;
+      left: 50%;
+    }
   </style>
 </head>
 
 <body>
+  <select name="level" id="levelSelector">
+    <option value="1" selected>L1</option>
+    <option value="2">L2</option>
+    <option value="3">L3</option>
+  </select>
   <h1 class="question">Go</h1>
   <script src="./script.js"></script>
 </body>
