@@ -26,7 +26,7 @@ function isDeepEqual(objA, objB) {
         return tmp === objA.length;
     }
     if (objA instanceof Object && objB instanceof Object) {
-        return JSON.stringify(objA) == JSON.stringify(objB);
+        return Object.keys === Object.keys;
     }
     if (isNaN(objA) && isNaN(objB)) {
         return true
@@ -61,6 +61,12 @@ Function.prototype.myBind = function(context) {
  * o.magicProperty = 3 // (любое значение) 
  * в консоль выводилось значение, которое присваивается и текущее время
  */
+var o = {
+    set magicProperty(value) {
+        var date = new Date();
+        console.log(value + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+    },
+};
 
 /**
  * Создать конструктор с методами, так, 
@@ -71,7 +77,6 @@ Function.prototype.myBind = function(context) {
 function questions() {
     this.name = "";
     this.age = 0;
-
     this.askName = () => {
         this.name = prompt("Введите имя", "Alexey");
         return this;
@@ -145,9 +150,21 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
+    let res = arguments[0] || 0;
+    let currentSum = res;
 
-    throw "undefined";
+    function summator(a) {
+        currentSum += a || 0;
+        return summator;
+    }
+    summator.toString = () => {
+        let tmp = currentSum;
+        currentSum = res;
+        return tmp;
+    };
+    return summator;
 }
+
 
 function log(x) {
     console.log(+x);
@@ -169,9 +186,22 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {
+function curry(target) {
+    var length = target.length;
 
+    return function f1() {
+        var args = Array.prototype.slice.call(arguments, 0);
+        if (args.length >= length) {
+            return target.apply(null, args);
+        } else {
+            return function f2() {
+                var args2 = Array.prototype.slice.call(arguments, 0);
+                return f1.apply(null, args.concat(args2));
+            }
+        }
+    }
 }
+
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -205,4 +235,15 @@ User.prototype = Object.create(PreUser.prototype);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+//Calendar.html
+
+function debounce(fun, delay) {
+    let time;
+    return function() {
+        var args = Array.prototype.slice.call(arguments, 0);
+        timer = setTimeout(function() {
+            timer = null;
+            fun.apply(null, args);
+        }, delay);
+    }
+}
