@@ -11,36 +11,33 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-	var arr = [];
+	var aa;
+	var bb;
 
-	if (typeof objA !== typeof objB) return false;
+	if (typeof objA === 'number') return objA === objB;
+	if (typeof objA === 'string') return objA === objB;
 
-	if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+	if ((typeof objA !== typeof objB) ||
+		(Object.keys(objA).length !== Object.keys(objB).length)) return false;
 
-	if (typeof(objA) === 'object' && typeof(objB) === 'object') {
+	if (typeof objA === 'object' && typeof objB === 'object') {
 		if(objA.length !== objB.length)	return false;
 
 		for (var key in objA) {
-			if (arr.indexOf(objA[key]) !== 1) return true;
-			if (arr.indexOf(objA[key]) === -1) {
-				arr.push(objA[key]);
+			if (objA.hasOwnProperty(key) && objB.hasOwnProperty(key)) {
+				if (typeof objA[key] !== typeof objB[key]) return false;
+				if (objA[key] !== objA[key] && objB[key] !== objB[key]) return true;
+
+				if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
+					return (isDeepEqual(objA[key], objB[key]));
+				}
+				aa = objA[key];
+				bb = objB[key];
+				if (aa !== bb) return false;
 			}
-		}
-		for (key in objB) {
-			if (arr.indexOf(objB[key]) !== 1) return false; /* здесь все равно ерунда получается. Не проходят тесты строки 24 и 47 (проверка на разные массивы и объекты). Что-то я не уловила алгоритм проверки*/
 		}
 		return true;
 	}
-
-	if (!(objA !== objA) && !(objB !== objB)) {
-
-		if ((typeof objA !== 'object' || typeof objB !== 'object') ||
-			(Array.isArray(objA) !== Array.isArray(objB)))
-
-			return objA === objB;
-	}
-
-	if (objA !== objA && objB !== objB) return true;
 }
 
 /**
@@ -173,8 +170,7 @@ function ForceContructor(a, b, c) {
 		this.c = c;
 		this.a = a;
 		this.b = b;
-	}
-	else return new ForceContructor(a, b, c);
+	} else return new ForceContructor(a, b, c);
 }
 
 
@@ -188,36 +184,27 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 
-	function sum() {
+function sum(b) {
 	if (arguments.length === 0) {
-		var value = 0;
-	} else value = arguments[0];
+		var result = 0;
+	} else result = arguments[0];
 
-	var result = value;
-	var len = arguments.length;
-
-	function calcSum(b) {
-
-		if (b || null) {
-			result += b || 0;
-			return calcSum;
-		} else return result;
+	function calcSum(a) {
+		if (typeof a === 'undefined') {
+			a = 0;
+			result += a;
+		}
+		return sum(result + a);
 	}
-
-	calcSum.toString = function() {
-		var num = result;
-		result = value;
-		return num;
+	calcSum.valueOf = function() {
+		return result;
 	};
 	return calcSum;
-	}
-
+}
 
 function log(x) {
   console.log(+x);
 }
-
-/* Здесь не проходит проверка на добавление 0 по умолчанию - стр 285 и на независимые сумматоры - стр 294*/
 
 /**
  * Написать каррирующую функцию и покрыть ее тестами
@@ -258,14 +245,13 @@ function curry(target) {
 что объект является экземпляром двух классов
 */
 
+var PreUser = function() {};
+PreUser.prototype = Object.create(Array.prototype);
 
-var PreUser = function () {};
-//PreUser.__proto__ = Array;
+var User = function() {};
+User.prototype = new PreUser();
 
-var User = function(){};
-//User.__proto__ = PreUser();*/
-
-/*Здесь не проходит тест на правильное дерево наследования - стр 327*/
+var u = new User;
 
 /* Тут ваш код */
 // User === PreUser; // false
