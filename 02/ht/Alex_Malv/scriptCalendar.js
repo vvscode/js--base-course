@@ -5,8 +5,8 @@ let $$ = text => document.querySelector(text);
 let infoBox = document.querySelector(".infoBox");
 
 (function init() {
-    $$(".back").addEventListener("click", back);
-    $$(".next").addEventListener("click", next);
+    document.querySelector(".back").addEventListener("click", back);
+    document.querySelector(".next").addEventListener("click", next);
     drawInteractiveCalendar(year, month);
     let data = getSmth();
     if (!data) return;
@@ -22,7 +22,7 @@ function drawInteractiveCalendar(year, month) {
     let table =
         "<table><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr>";
     for (let i = 0; i < getDay(d); i++) {
-        table += "<td></td>";
+        table += "<td class='none'</td>";
     }
     while (d.getMonth() === mon) {
         table += `<td>${d.getDate()}</td>`;
