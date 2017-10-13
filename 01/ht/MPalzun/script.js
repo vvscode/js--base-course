@@ -22,14 +22,14 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-  for (var i=1; i<=100; i++){
-
-  	(i % 3 == 0 && i % 5 ==0 && log("FizzBuzz");
-  	(i % 3 == 0 && log("Fizz");
-  	(i % 5 == 0 && log("Buzz");
-
-  	log(i);
-  }
+	for (var i= 1; i <= 100; i++) {
+		
+		i % 3 == 0 && i % 5 == 0 && log('FizzBuzz') ||
+		i % 3 == 0 && log('Fizz') ||
+		i % 5 ===0 && log('Buzz') ||
+		
+		log(i);
+	}
 }
 
 
@@ -48,6 +48,7 @@ function isPolindrom(textString) {
 	else {
  			return false;
  }
+}
 
   
 
@@ -59,10 +60,41 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-function drawCalendar(year, month, htmlEl) {
-  
-}
-
+ function drawCalendar(year, month, htmlEl) {
+    
+        var jsMonth = month - 1;
+        var date = new Date(year, jsMonth, 1);
+        var tdCountBeforeFirst = date.getDay() - 1;
+        var lastDay = new Date(year, month, 0);
+        var daysCount = lastDay.getDate();
+        var lastWeekDay = lastDay.getDay();
+        if (lastDay.getDay() === 0) {
+          lastWeekDay = 7;
+        };
+        var tdCountAfterLast = 7 - lastWeekDay;
+        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
+        var calendar = document.createElement('div');
+        
+        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
+        var cell, n = 1 - tdCountBeforeFirst;
+    
+        for (var i = 0; i < totalCellCount / 7; i++ ) {
+          
+            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
+    
+            for (var j = 0; j < 7; j++) {
+                if (n > 0 && n <= daysCount) {
+                    cell = '<td>' + n + '</td>';
+                } else {
+                    cell = '<td></td>';
+                }; 
+                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
+                n++; 
+            }
+        };
+        htmlEl.innerHTML = '';
+        htmlEl.appendChild(calendar);
+    };
 
 /**
  * Написать функцию `isDeepEqual`
@@ -73,6 +105,31 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+    if (typeof objA === 'object' && typeof objB === 'object') {
+        if (objA === null || objB === null) {
+            return objA === objB;
+        }
+
+        if (Object.keys(objA).length !== Object.keys(objB).length) {
+            return false;
+        }
+
+        for (var key in objA) {
+            if (!objB.hasOwnProperty(key) || !isDeepEqual(objA[key], objB[key])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    if (typeof objA === 'function' && typeof objB === 'function') {
+        return objA.toString() === objB.toString();
+    }
+
+    if (typeof objA === 'number'&& typeof objB === 'number' && isNaN(objA) && isNaN(objB)) {
+        return true;
+    }
+
+    return objA === objB;
 }
