@@ -15,19 +15,19 @@ function isDeepEqual(objA, objB) {
 
     var arrWithObjectsAsProerties = [];
     // check for null
-    if (objA == null || objB == null) {
-        return (objA == null && objB == null);
+    if (objA === null || objB === null) {
+        return (objA === null && objB === null);
     }
 
     if (Number.isNaN(objA) || Number.isNaN(objB)) {
         return Number.isNaN(objA) && Number.isNaN(objB);
     }
 
-    if (typeof objA == 'string' || typeof objB == 'string') {
+    if (typeof objA === 'string' || typeof objB === 'string') {
         return objA === objB;
     }
 
-    if (typeof objA == 'number' || typeof objB == 'number') {
+    if (typeof objA === 'number' || typeof objB === 'number') {
         return objA === objB;
     }
 
@@ -152,10 +152,8 @@ function calculate() {
     var operation = arguments[0];
 
     return function(){
-        return function(){
-            var firstOperand = arguments[0];
-            return function(){
-                var secondOperand = arguments[0];
+        return function(firstOperand){
+            return function(secondOperand){
                 var resultFunc = new Function("return " + firstOperand + operation + secondOperand + ";");
                 return resultFunc();
             }
@@ -183,20 +181,9 @@ function Singleton() {
 function ForceConstructor(a, b, c) {
 
     if (this instanceof ForceConstructor) {
-        var objDescriptor = {
-            'a': {
-                value: a
-            },
-
-            'b': {
-                value: b
-            },
-
-            'c': {
-                value: c
-            }
-        };
-        Object.defineProperties(this, objDescriptor);
+        this.a = a;
+        this.b = b;
+        this.c = c;
     } else {
         return new ForceConstructor(a, b, c);
     }
@@ -211,11 +198,11 @@ function ForceConstructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-    var currentSum = arguments[0] ? arguments[0] : 0;
+function sum(sumFromPreviousIterations) {
+    var currentSum = sumFromPreviousIterations || 0;
 
     function f(b) {
-        b = b === undefined ? 0 : b;
+        b = b || 0;
         return sum(currentSum + b);
     }
 
@@ -254,54 +241,21 @@ function log(x) {
  */
 
 function curry(func) {
+    var paramNumber = func.length;
+    var args = [];
 
-    var funcAsStr = func.toString();
-    var paramsAsString = funcAsStr.substring(
-        funcAsStr.indexOf('(') + 1,
-        funcAsStr.indexOf(')')
-    );
-    var paramsNumber = paramsAsString.split(',').length;
+    return function handleParam(arg) {
+        // add param to array
+        args.push(arg);
+        paramNumber--;
 
-    var paramsArr = [];
-    if (paramsNumber === 1){
-        return function(param){
-            paramsArr.push(param);
-            return func.apply(func, paramsArr);
+        if (!paramNumber) { // in case all params were handled call initial function with set of collected params
+            return func.apply(null, args);
         }
-    } else if(paramsNumber === 2){
-        return function(param){
-            paramsArr.push(param);
-            return function(param2){
-                paramsArr.push(param2);
-                return func.apply(func, paramsArr);
-            }
-        }
-    } else if(paramsNumber === 3){
-        return function(param){
-            paramsArr.push(param);
-            return function(param2){
-                paramsArr.push(param2);
-                return function(param3){
-                    paramsArr.push(param3);
-                    return func.apply(func, paramsArr);
-                }
-            }
-        }
-    } else if(paramsNumber === 4){
-        return function(param1){
-            paramsArr.push(param1);
-            return function(param2){
-                paramsArr.push(param2);
-                return function(param3){
-                    paramsArr.push(param3);
-                    return function(param4){
-                        paramsArr.push(param4);
-                        return func.apply(func, paramsArr);
-                    }
-                }
-            }
-        }
-    }
+
+        // otherwise continue handeling of params
+        return handleParam.bind();
+    };
 }
 
 /*
