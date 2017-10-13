@@ -2,12 +2,20 @@ let now = new Date();
 let year = now.getFullYear();
 let month = now.getMonth() + 1;
 let $$ = text => document.querySelector(text);
+let listEvent = $$(".listEvent");
 
 (function init() {
   $$(".back").addEventListener("click", back);
   $$(".next").addEventListener("click", next);
   drawInteractiveCalendar(year, month);
+  fetch("calendar").then(data => drawHistoryEvents(data));
 })();
+
+function drawHistoryEvents(arr) {
+  arr.forEach(item => {
+    listEvent.innerHTML += item;
+  });
+}
 
 function drawInteractiveCalendar(year, month) {
   let d = new Date(year, month - 1);
@@ -28,6 +36,8 @@ function drawInteractiveCalendar(year, month) {
   table += "</tr></table>";
   $$("#calendar").innerHTML = table;
   $$("#info").innerHTML = month + " / " + year;
+
+  handlerEvent();
 }
 function getDay(d) {
   let day = d.getDay();
@@ -54,4 +64,36 @@ function check() {
     month = 12;
   }
   return drawInteractiveCalendar(year, month);
+}
+
+function handlerEvent() {
+  let table = $$("table");
+  table.addEventListener("click", ev => {
+    let target = ev.target;
+    if (target.nodeName !== "TD") return;
+    if (!target.innerHTML) return;
+
+    let event = prompt("enter some event", "eat");
+    let infoTarget = `<li>${target.innerHTML} - ${event}</li>`;
+    let infoArr = [];
+    infoArr.push(infoTarget);
+    listEvent.innerHTML += infoTarget;
+    fetch("calendar")
+      .then(data => {
+        data.push(infoTarget);
+        return data;
+      })
+      .then(data => setItem("calendar", data))
+      .catch(() => setItem("calendar", infoArr));
+  });
+}
+
+function setItem(key, data) {
+  return Promise.resolve(localStorage.setItem(key, JSON.stringify(data)));
+}
+
+function fetch(key) {
+  let data = JSON.parse(localStorage.getItem(key));
+  if (data) return Promise.resolve(data);
+  return Promise.reject();
 }

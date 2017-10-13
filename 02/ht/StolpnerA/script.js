@@ -29,8 +29,23 @@ function isDeepEqual(objA, objB) {
   }
 
   if (objA instanceof Object && objB instanceof Object) {
-    return JSON.stringify(objA) == JSON.stringify(objB);
+    for (var key in objA) {
+      if (objB.hasOwnProperty(key)) {
+        if (
+          (objA[key] === objA && objB[key] === objA) ||
+          (objB[key] === objB && objB[key] === objA) ||
+          (objA[key] === objB && objB[key] === objA) ||
+          (objA[key] === objA && objB[key] === objB) ||
+          isDeepEqual(objA[key], objB[key])
+        ) {
+          continue;
+        }
+      }
+      return false;
+    }
+    return true;
   }
+
   if (isNaN(objA) && isNaN(objB)) {
     return true;
   }
@@ -153,16 +168,12 @@ function ForceContructor(a, b, c) {
  */
 function sum() {
   let res = arguments[0] || 0;
-  let currentSum = res;
 
   function summator(a) {
-    currentSum += a || 0;
-    return summator;
+    return sum(res + (a || 0));
   }
   summator.toString = () => {
-    let tmp = currentSum;
-    currentSum = res;
-    return tmp;
+    return res;
   };
   return summator;
 }
@@ -187,7 +198,17 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-function curry(func) {}
+function curry(func) {
+  let countArgs = func.length;
+  let massArg = [];
+
+  return function func1(arg) {
+    massArg.push(arg);
+    countArgs--;
+    if (countArgs) return func1.bind(null);
+    return func.apply(null, massArg);
+  };
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
@@ -225,3 +246,28 @@ User.prototype = Object.create(PreUser.prototype);
 */
 
 // В отдельных файлах (calendar.html, jsForCalendar.js)
+
+function debounce(func, ms) {
+  let state = null;
+  return () => {
+    if (state) return;
+    func.apply(this, arguments);
+    state = true;
+    setTimeout(() => (state = null), ms);
+  };
+}
+
+function func() {
+  console.log("called");
+}
+let f = debounce(func, 1000);
+f();
+f();
+setTimeout(f, 1100);
+
+function sleep(seconds) {
+  let time = new Date().getTime() + seconds * 1000;
+  while (new Date().getTime() < time) {
+    //some doing
+  }
+}
