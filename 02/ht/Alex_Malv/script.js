@@ -26,7 +26,7 @@ function isDeepEqual(objA, objB) {
         return tmp === objA.length;
     }
     if (objA instanceof Object && objB instanceof Object) {
-        return Object.keys === Object.keys;
+        return Object.keys(objA).length === Object.keys(objB).length;
     }
     if (isNaN(objA) && isNaN(objB)) {
         return true
@@ -151,16 +151,12 @@ function ForceContructor(a, b, c) {
  */
 function sum() {
     let res = arguments[0] || 0;
-    let currentSum = res;
 
     function summator(a) {
-        currentSum += a || 0;
-        return summator;
+        return sum(res + (a || 0));
     }
     summator.toString = () => {
-        let tmp = currentSum;
-        currentSum = res;
-        return tmp;
+        return res;
     };
     return summator;
 }

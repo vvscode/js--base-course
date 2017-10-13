@@ -1,7 +1,6 @@
 let now = new Date();
 let year = now.getFullYear();
 let month = now.getMonth() + 1;
-let $$ = text => document.querySelector(text);
 let infoBox = document.querySelector(".infoBox");
 
 (function init() {
@@ -33,8 +32,8 @@ function drawInteractiveCalendar(year, month) {
     }
 
     table += "</tr></table>";
-    $$("#calendar").innerHTML = table;
-    $$("#info").innerHTML = month + " / " + year;
+    document.querySelector("#calendar").innerHTML = table;
+    document.querySelector("#info").innerHTML = month + " / " + year;
     handlerEvent(year, month);
 }
 
@@ -68,7 +67,7 @@ function check() {
 }
 
 function handlerEvent(year, month) {
-    $$("table").addEventListener("click", (ev) => { event(ev) })
+    document.querySelector("table").addEventListener("click", (ev) => { event(ev) })
 }
 
 
@@ -77,7 +76,8 @@ function event(ev) {
     if (ev.target.nodeName !== "TD") return;
     if (!ev.target.innerHTML) return;
     let days = ev.target.innerHTML;
-    let event = prompt(`What do you do ${days}`, "eat");
+    let event = prompt(`What do you do ${days} ?`, "eat");
+    if (event === null) return;
     let tmp = `<li>${ev.target.innerHTML} / ${month} / ${year} - ${event}</li>`;
     info.push(tmp);
     infoBox.innerHTML += tmp;
