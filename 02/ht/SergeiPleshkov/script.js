@@ -11,26 +11,29 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 
-var cache = [];
 
 function isDeepEqual(objA, objB) {
+	var cache = [];
+	var result = function f(objA, objB) {
 	if (objA === objB) {
 		return true;
 	} else if (Object.keys(objA).length !== Object.keys(objB).length) {
 		return false;
 	}
-
+	
 	for (var key in objA) {
 		if (cache.hasOwnProperty(objA[key])) return true;
 		if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
 			cache.push(objA[key]);
-			return isDeepEqual(objA[key], objB[key]);
+			return f(objA[key], objB[key]);
 		}
-	}
+	};
 	if (JSON.stringify(objA) === JSON.stringify(objB)) {
 		return true;
 	}
 	return false;
+};
+return result(objA, objB);
 }
 
 /**
