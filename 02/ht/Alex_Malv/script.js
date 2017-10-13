@@ -243,3 +243,10 @@ function debounce(fun, delay) {
         }, delay);
     }
 }
+//sleep
+function sleep(seconds) {
+    var start = Date.now(),
+        end = Date.now() + seconds * 1000;
+    while (Date.now() < end) {};
+
+}
