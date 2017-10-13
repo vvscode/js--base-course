@@ -5,7 +5,14 @@ years = years.getFullYear();
 let htmlEl = document.querySelector('.table');
 function drawPage() {
     drawCalendar(years, months, htmlEl);
-    // drawCell;
+    drawItemsFromDB();
+}
+function drawItemsFromDB() {
+    let items = loadDB();
+    if (items.length === 0) return;
+    for (let i = 0; i < items.length; i++) {
+        document.querySelector('.tableClick').innerHTML += `${fixDate(items[i])} <br>`;
+    }
 }
 function addEventListner() {
     document.querySelector('.forvard').addEventListener('click', () => forwardMonth(months, years, htmlEl));
@@ -63,11 +70,18 @@ function renderClickCell(months, years, event) {
     if (target.tagName !== 'TD' || target.className == '') return;
     fixDate(target.className);
     document.querySelector('.tableClick').innerHTML += `${fixDate(target.className)}<br>`;
+    writeDB(target.className);
 }
 function fixDate(date) {
     let t = date.split('_').join(' ').split('');
     t.splice(0, 1);
     return t.join('');
+}
+function writeDB(item) {
+    let db = JSON.parse(localStorage.getItem('db')) || [];
+    db.push(item);
+    localStorage.setItem('db', JSON.stringify(db));
+
 }
 function loadDB() {
     let db = JSON.parse(localStorage.getItem('db')) || [];
