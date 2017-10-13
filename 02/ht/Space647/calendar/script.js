@@ -1,11 +1,20 @@
-let months, years;
+let months = new Date();
+months = months.getMonth() + 1;
+let years = new Date();
+years = years.getFullYear();
+let htmlEl = document.querySelector('.table');
+function drawPage() {
+    drawCalendar(years, months, htmlEl);
+    // drawCell;
+}
 function addEventListner() {
     document.querySelector('.forvard').addEventListener('click', () => forwardMonth(months, years, htmlEl));
     document.querySelector('.back').addEventListener('click', () => backMonth(months, years, htmlEl));
+    document.querySelector('.table').addEventListener('click', () => renderClickCell(months, years, event));
 }
 function forwardMonth(months, years, htmlEl) {
     months = months + 1;
-    if (months === 12) {
+    if (months === 13) {
         years = years + 1;
         months = 1;
     }
@@ -23,12 +32,12 @@ function drawCalendar(year, month, htmlEl) {
     document.querySelector('.mont').innerHTML = `${year}/${month}`;
     let mon = month - 1;
     let d = new Date(year, mon);
-    let table = `<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>`;
+    let table = `<table><tr><td>пн</td><td>вт</td><th>ср</td><th>чт</td><th>пт</td><td>сб</td><th>вс</td></tr><tr>`;
     for (let i = 0; i < getDay(d); i++) {
-        table += '<td></td>';
+        table += '<td> </td>';
     }
     while (d.getMonth() == mon) {
-        table += '<td>' + d.getDate() + '</td>';
+        table += `<td class="d${d.getDate()}_${month}_${year}">${d.getDate()}</td>`;
         if (getDay(d) % 7 == 6) {
             table += '</tr><tr>';
         }
@@ -49,6 +58,21 @@ function getDay(date) {
     if (day == 0) day = 7;
     return day - 1;
 }
-let htmlEl = document.querySelector('.table');
-drawCalendar(2017, 10, htmlEl);
+function renderClickCell(months, years, event) {
+    let target = event.target;
+    if (target.tagName !== 'TD' || target.className == '') return;
+    fixDate(target.className);
+    document.querySelector('.tableClick').innerHTML += `${fixDate(target.className)}<br>`;
+}
+function fixDate(date) {
+    let t = date.split('_').join(' ').split('');
+    t.splice(0, 1);
+    return t.join('');
+}
+function loadDB() {
+    let db = JSON.parse(localStorage.getItem('db')) || [];
+    return db;
+}
+drawPage();
+console.log(loadDB());
 addEventListner(htmlEl);
