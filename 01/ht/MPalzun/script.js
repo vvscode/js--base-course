@@ -42,13 +42,8 @@ function fizzBuzz() {
  */
 function isPolindrom(textString) {
 
-	if (textString == textString.split("").reverse().join("")) {
-			return true;
-		}
-	else {
- 			return false;
+    return textString == textString.split("").reverse().join("") 
  }
-}
 
 /**
  * Реализовать фукнцию `drawCalendar` , 
