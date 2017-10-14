@@ -119,23 +119,23 @@ function constructorDemo(){
     function User(){
         this.name = '';
         this.age = 0;
+    };
 
-        this.askName = function(){
-            this.name = prompt('Whhat is your name?','');
-            return this;
-        };
-        this.askAge  = function(){
-            this.age = prompt('Whhat is your age?',0);
-            return this;
-        };
-        this.showAgeInConsole = function(){
-            console.log('Age ' + this.age);
-            return this;
-        }
-        this.showNameInAlert = function(){
-            alert('Name ' + this.name);
-            return this;
-        }
+    User.prototype.askName = function(){
+        this.name = prompt('Whhat is your name?','');
+        return this;
+    };
+    User.prototype.askAge  = function(){
+        this.age = prompt('Whhat is your age?',0);
+        return this;
+    };
+    User.prototype.showAgeInConsole = function(){
+        console.log('Age ' + this.age);
+        return this;
+    };
+    User.prototype.showNameInAlert = function(){
+        alert('Name ' + this.name);
+        return this;
     };
 
     var u = new User();
