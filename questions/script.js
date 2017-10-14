@@ -1,3 +1,5 @@
+/* eslint max-len: ["warn", { "ignoreStrings": true }]*/
+
 const questions1 = `
 Что такое переменная?
 как объявить переменную? как инициализировать переменную?
@@ -68,6 +70,24 @@ const questions2 = `Как изменить "this" внутри функции? 
 в чем разница объявления методов в конструкторе и на .prototype" ?
 что такое 'полифилл'?`;
 
+const questions3 = `Что такое "стрелочная" ("arrow function") функция? Чем она отличается от обычной?
+Что такое Promise? Какой стандарт отписывает поведение Promise? Основные пункты стандарта?
+Чем куки (cookie) отличаются от localStorage ?
+Что такое CORS?
+Что такое и какие есть коды ответов HTTP?
+Что такое jsonp-запрос?
+Как код, написанный на ES6 (ES2015-2017) превратить в код, который поддерживается IE10?
+Как реализовать простейший модуль на js?
+Что такое и зачем нужен паттерн модуль? Какие модули существуют в JS?
+Как реализовать подписку на клик по кнопке, которая отработает только один раз? ( с примером кода )
+Какие события не "всплывают" ?
+Что такое делегирование?
+Преимущества и особенности работы с делегированием?
+Какие вспомогательные методы есть для работы с промисами?
+в чем разница между следующими кусками кода?<br /><pre>promise.then(onSuccess, onError);</pre><br />promise.then(onSuccess).catch(onError);
+в чем разница между следующими кусками кода?<br><pre>doSomething().then(function () { return doSomethingElse(); });</pre><br /><pre>doSomething().then(function () { doSomethingElse(); });</pre><br /><pre>doSomething().then(doSomethingElse());</pre><br /><pre>doSomething().then(doSomethingElse);</pre>
+`;
+
 const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
@@ -79,7 +99,7 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [questions1, questions2];
+let questionsStrings = [questions1, questions2, questions3];
 let roundQuestionsNumber = 0;
 let i = 0;
 
@@ -112,9 +132,7 @@ const drawNextQuestion = () => {
   let questions = getQuestions();
   i++;
   let question = questions.pop();
-  $$(
-    '.question'
-  ).innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
+  $$('.question').innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
 };
 
 $$('.question').addEventListener('click', drawNextQuestion);
