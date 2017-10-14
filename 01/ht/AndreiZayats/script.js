@@ -100,7 +100,7 @@ function drawCalendar(year, month, htmlEl) {
         }
     }
     calendarTable += ("</tr></table>"); // Закрываем таблицу
-    htmlEl.innerHTML += calendarTable;
+    htmlEl.innerHTML = calendarTable;
 }
 
 
@@ -114,13 +114,15 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
  /* Ваше решение */
-    if (typeof objA === typeof objB)
+    if (typeof objA !== typeof objB) return false; // Сначала проверяем объекты
+    if (typeof(objA) === 'object' && typeof(objB) === 'object') // Проверка вложенных объектов
     {
+        if(objA.length !== objB.length)	return false;
         for(var key in objA)
         {
             if (!isDeepEqual(objA[key], objB[key])) return false;
         }
-        return true;
-    }
-    if (objA !== "object" || objB !== "object") return ( objA === objB );
+		return true;
+	}
+    if (objA !== "object" || objB !== "object") return ( objA == objB ); // Проверка основных типов данных
 }
