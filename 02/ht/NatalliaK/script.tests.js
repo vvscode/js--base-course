@@ -341,3 +341,9 @@ describe("curry", function() {
 });
 
 mocha.run();
+
+
+describe("throttle", function() {
+  var timer = 0;
+  it("");
+});

@@ -16,6 +16,7 @@ function isDeepEqual(objA, objB) {
 
 	if (typeof objA === 'number') return objA === objB;
 	if (typeof objA === 'string') return objA === objB;
+	if (objA !== objA && objB !== objB) return true;
 
 	if ((typeof objA !== typeof objB) ||
 		(Object.keys(objA).length !== Object.keys(objB).length)) return false;
@@ -278,4 +279,30 @@ var u = new User;
 */
 function drawInteractiveCalendar(id) {
 
+}
+
+function sleep(sec) {
+	var date = new Date();
+	var date2;
+	do {
+		date2 = new Date();
+	} while ((date2 - date) < sec * 1000);
+}
+console.log(new Date());
+sleep(9);
+console.log(new Date());
+
+function throttle(fun, delay) {
+	var throg = false;
+	function wrap() {
+		return (throg);
+	}
+	func.apply(this, arguments);
+
+	throp = true;
+
+	setTimeout(function () {
+		throg = false;
+	}, delay);
+	return wrap;
 }

@@ -1,7 +1,11 @@
 var data = new Date();
+var month = new Date().getMonth();
+var year = new Date().getFullYear();
+var before;
+var after;
 
 function drawCalendar(year, month, id) {
-	month = month - 1;
+
 
 	var date = new Date(year, month);
 
@@ -47,32 +51,50 @@ function writeMonthAndYear() {
 	var p = document.createElement('p');
 	p.innerHTML = month + " " + year;
 	document.body.insertBefore(p, document.body.firstChild);
-
-	function getPrev() {
-		var span = document.createElement('span');
-		span.className = "before";
-		span.innerHTML = " <   ";
-		p.insertBefore(span, p.firstChild);
-		span.style.cursor="pointer";
-	}
-
-	function getNext() {
-		var span = document.createElement('span');
-		span.className = "after";
-		span.innerHTML = " > ";
-		p.appendChild(span);
-		span.style.cursor="pointer";
-	}
-
-	getPrev();
-	getNext();
+	return month + " " + year;
 }
 
-/*document.getElementsByClassName('before').addEventListener("click", function(){ // Вот здесь всегда ошибка
+	function getPrev() {
+		var inputPrev = document.createElement('input');
+		inputPrev.className = "before";
+		inputPrev.type = "button";
+		inputPrev.value = " < ";
+		p.insertBefore(inputPrev, p.firstChild);
+		inputPrev.style.cursor = "pointer";
+		document.querySelector('input.before').addEventListener('click', function () {
+			--month;
+			if (month < 0) {
+				month = 11;
+				year -= 1;
+			}
+			drawInteractiveCalendar('calendar');
+		});
+		return inputPrev;
+	}
 
-});*/
+
+	function getNext() {
+		var inputNext = document.createElement('input');
+		inputNext.className = "after";
+		inputNext.type = "button";
+		inputNext.value = " > ";
+		p.appendChild(inputNext);
+		inputNext.style.cursor = "pointer";
+		document.querySelector('input.before').addEventListener('click', function () {
+			++month;
+			if (month > 11) {
+				month = 0;
+				year += 1;
+			}
+			drawInteractiveCalendar('calendar');
+		});
+		return inputNext;
+	}
 
 
-writeMonthAndYear('calendar');
 
-drawCalendar(2017, 1, 'calendar');
+	function drawInteractiveCalendar(id) {
+	drawCalendar(data.getFullYear(), data.getMonth(), 'calendar');
+
+	}
+drawInteractiveCalendar('calendar');
