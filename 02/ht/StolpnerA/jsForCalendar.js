@@ -70,7 +70,7 @@ function handlerEvent() {
   let table = $$("table");
   table.addEventListener("click", ev => {
     let target = ev.target;
-    if (target.nodeName !== "TD") return;
+    if (target.tagName !== "TD") return;
     if (!target.innerHTML) return;
 
     let event = prompt("enter some event", "eat");

@@ -352,11 +352,9 @@ describe("debounce", () => {
   }
   let f = debounce(func, 1000);
 
+  beforeEach(() => f());
+
   it("Начальное значение", () => {
-    assert.equal(test, 0);
-  });
-  it("Первый раз отработает", () => {
-    f();
     assert.equal(test, 1);
   });
   it("Задержка перед следующим вызовом", () => {

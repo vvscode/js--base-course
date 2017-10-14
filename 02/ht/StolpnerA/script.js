@@ -18,11 +18,8 @@ function isDeepEqual(objA, objB) {
     if (objA.length !== objB.length) return false;
     let tmp = 0;
     for (let i = 0; i < objA.length; i++) {
-      for (let j = 0; j < objB.length; j++) {
-        if (objA[i] === objB[i]) {
-          tmp++;
-        }
-        break;
+      if (objA[i] === objB[i]) {
+        tmp++;
       }
     }
     return tmp === objA.length;
@@ -99,19 +96,19 @@ function U() {
   this.name = "";
   this.age = 0;
 
-  this.askName = () => {
+  U.prototype.askName = () => {
     this.name = prompt("Введите имя", "Andrey");
     return this;
   };
-  this.askAge = () => {
+  U.prototype.askAge = () => {
     this.age = prompt("Введите возраст", "21");
     return this;
   };
-  this.showAgeInConsole = () => {
+  U.prototype.showAgeInConsole = () => {
     console.log(this.age);
     return this;
   };
-  this.showNameInAlert = () => {
+  U.prototype.showNameInAlert = () => {
     alert(this.name);
     return this;
   };
