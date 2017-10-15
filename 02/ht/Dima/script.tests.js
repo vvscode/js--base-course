@@ -351,64 +351,60 @@ describe("sleep", function() {
   });
 });
 
-describe("debounce", function() {
+describe('debounce', () => {
+  it('Срабатывает через заданный промежуток времени', (done) => {
+    let testVal = 0;
+    let fn = debounce((arg) => testVal = arg, 100);
 
-  var arr = [];
+    fn(10);
 
-  function f(x) { arr.push(x) }
-  var f = debounce(f, 100);
-
-  f(13); //выполнится сразу же
-  f(2); // игнор
-
-  setTimeout( function() { f(3); }, 50); // игнор (прошло только 50 мс)
-  setTimeout( function() { f(4); }, 110); // выполнится
-  setTimeout( function() { f(5); }, 170); // игнор
-
-  it("функция", function() {
-    assert.isOk(typeof debounce === "function");
+    assert.equal(testVal, 0, 'проверка начального состояния');
+    setTimeout(() => assert.equal(testVal, 0, 'значение неизменилось до конца задержки'), 90);
+    setTimeout(() => assert.equal(testVal, 10, 'значение изменилось после задержки'), 110);
+    setTimeout(done, 120);
   });
+  it('Правильно работает при повторых вызовах', (done) => {
+    let testVal = 0;
+    let fn = debounce((arg) => testVal = arg, 100);
 
-  it('проверка работы debounce', function (done) {
-
-   // ----- пошел тест
-    assert.equal(arr[0], 13, 'первое выполнение');
-    assert.equal(arr[1], 4, 'вызов не ранее 100');   
-    assert.equal(arr[2], undefined, 'игнор последнего вызова');   
-
-    setTimeout(done, 250); // закончить
- });
+    fn(1);
+    assert.equal(testVal, 0, 'проверка начального состояния');
+    setTimeout(() => fn(2), 50);
+    setTimeout(() => fn(3), 70);    
+    setTimeout(() => assert.equal(testVal, 0, 'значение не изменилось после повторного вызова'), 120);
+    setTimeout(() => assert.equal(testVal, 3, 'значение изменилось после истечения таймера'), 190);
+    setTimeout(done, 250);
+  });
 });
 
-describe("throttle", function() {
+describe('throttle', () => {
+  it('Функция отрабатывает через заданный интервал', (done) => {
+    let testVal = 0;
+    let fn = throttle((x) => testVal = x, 100);
 
-  var arr = [];
-
-  function f(x) { arr.push(x); }
-  var f = throttle(f, 100);
-
-  f(13); //выполнится сразу же
-  setTimeout(function() { f(2); }, 50); // игнор
-
-  setTimeout( function() { f(3); }, 70); // выполнится (первые 100 мс)
-  setTimeout( function() { f(4); }, 150); // игнор
-  setTimeout( function() { f(5); }, 160); // выполнися (вторые 100 мс)
-
-  it("функция", function() {
-    assert.isOk(typeof throttle === "function");
+    assert.equal(testVal, 0, 'проверка начального состояния');
+    fn(1);
+    assert.equal(testVal, 1, 'изменение при первом вызове');
+    setTimeout(() => fn(2), 110);
+    setTimeout(() => assert.equal(testVal, 2, 'второй вызов отработал после истечения таймера'), 130);
+    setTimeout(done, 150);
   });
+  it('Работает при повторных вызовах', (done) => {
+    let testVal = 0;
+    let fn = throttle((x) => testVal = x, 100);
 
-  it('проверка работы throttle', function (done) {
+    fn(1);
+    assert.equal(testVal, 1, 'изменение при первом вызове');
 
-   // ----- пошел тест
-    assert.equal(arr[0], 13, 'первое выполнение');
-
-    assert.equal(arr[1], 3, 'первые 100 мс');
- 
-    assert.equal(arr[2], 5, 'вторые 100 мс');  
-
-    setTimeout(done, 300); // закончить
-
+    setTimeout(() => fn(2), 50);
+    setTimeout(() => assert.equal(testVal, 1, 'игнор преждевременного вызова'), 70);
+    setTimeout(() => fn(3), 110);    
+    setTimeout(() => assert.equal(testVal, 3, 'изменение значения переменной'), 130);
+    setTimeout(() => fn(4), 200);
+    setTimeout(() => assert.equal(testVal, 3, 'игнор'), 220);
+    setTimeout(() => fn(5), 230);
+    setTimeout(() => assert.equal(testVal, 5, 'изменение значения переменной'), 250);    
+    setTimeout(done, 300);
   });
 });
 

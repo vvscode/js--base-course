@@ -87,26 +87,28 @@ var obj = {
 function User (name, age) {
   this.name = name;
   this.age = age;
-  this.askName = function () {
-    var name = prompt('mane', '');
-    this.name = name;
-    return this;
-  };
-  this.askAge = function () {
-    var age = prompt('age', '');
-    this.age = age;
-    return this;
-  };
-  this.showAgeInConsole = function () {
-    console.log(this.age);
-    return this;
-  };
-  this.showNameInAlert= function () {
-    alert(this.name);
-    return this;
-  };
 }
 
+User.prototype.askName = function() {
+  this.name = prompt('name', '');
+  return this;
+}
+
+User.prototype.askAge = function () {
+  this.age = prompt('age', '');
+  return this;
+};
+
+User.prototype.showAgeInConsole = function () {
+  console.log(this.age);
+  return this;
+};
+
+User.prototype.showNameInAlert= function () {
+  alert(this.name);
+  return this;
+};
+ 
 var u = new User();
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -149,13 +151,28 @@ function calculate(operand) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
+
+var Singleton = (function() {
+  var instance;
+
+  function Singleton() {
+    if ( !instance )
+    instance = this;
+    else return instance;
+  }
+
+  Singleton.prototype.test = function() {};
+  
+  return Singleton;
+  })()
+/*
 function Singleton () {
   if (Singleton.instance) {
     return Singleton.instance;
   }
   Singleton.instance = this;
 }
-
+*/
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -216,6 +233,7 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
+/*
 var curry = function (target) {
   var argumentNumber = target.length;
   if (argumentNumber === 2) {
@@ -244,6 +262,24 @@ var curry = function (target) {
     };
   }
 };
+*/
+
+function curry(func) {
+
+  var argsNumber = func.length;
+  var args = [];
+
+  return function f(x) {
+    args.push(x);
+    argsNumber--;
+    if (!argsNumber) {
+      return func.apply(null, args);
+    }
+
+    return f.bind(null);
+
+  };
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -253,8 +289,7 @@ var curry = function (target) {
 function PreUser () {}
 function User () {}
 
-PreUser.__proto__ = Array;
-User.__proto__ = PreUser;
+User.__proto__ = PreUser.__proto__ = Array;
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
@@ -299,56 +334,48 @@ sleep(9);
 console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
 */
 
-function debounce(f, ms) {
+function debounce(fun, delay) {
 
-  var state = null;
-
-  var COOLDOWN = 1;
+  var timer;
 
   return function() {
-    if (state) return;
 
-    f.apply(this, arguments);
+    var args = Array.prototype.slice.call(arguments, 0);
 
-    state = COOLDOWN;
-
-    setTimeout(function() { state = null; }, ms);
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      timer = null;
+      fun.apply(null, args);
+    }, delay);
   };
-
 }
 
-function throttle(func, ms) {
+function throttle(fun, delay) {
 
-  var isThrottled = false,
-    savedArgs,
-    savedThis;
-
-  function wrapper() {
-
-    if (isThrottled) { // (2)
-      savedArgs = arguments;
-      savedThis = this;
+  var isTrottle;
+  
+	return function() {
+    if (isTrottle) {
       return;
     }
 
-    func.apply(this, arguments); // (1)
+    var args = Array.prototype.slice.call(arguments, 0);
 
-    isThrottled = true;
+    fun.apply(this, args);
+
+    isTrottle = true;
 
     setTimeout(function() {
-      isThrottled = false; // (3)
-      if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs);
-        savedArgs = savedThis = null;
-      }
-    }, ms);
-  }
-
-  return wrapper;
+      isTrottle = false;
+    }, delay);
+	};
 }
 
 
 function sleep(seconds) {
+
   var start = performance.now();
+
   while (performance.now() <= start + seconds*1000);
+  
 }
