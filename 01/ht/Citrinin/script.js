@@ -47,11 +47,8 @@ function isPolindrom(textString) {
     //     };
 
     // }
-    if (textString.split("").reverse().join("") == textString) {
-        return true;
-    } else {
-        return false;
-    }
+    return (textString.split("").reverse().join("") == textString);
+
 }
 
 
