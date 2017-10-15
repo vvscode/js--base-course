@@ -69,13 +69,13 @@ function drawCalendar(year, month, htmlEl) {
     var monthDayFirstName = new Date(currentMonth.getFullYear(),currentMonth.getMonth(),1).getDay(); // День недели первого дня месяца
     var calendarTable = ("<table><tr>");
     calendarTable += ("<p><b>"+monthName[monthNumber]+" "+year+"</b></p>"); // Собираем таблицу
-    calendarTable += ("<td width=30>"+"Пн"+"</td>");
-    calendarTable += ("<td width=30>"+"Вт"+"</td>");
-    calendarTable += ("<td width=30>"+"Ср"+"</td>");
-    calendarTable += ("<td width=30>"+"Чт"+"</td>");
-    calendarTable += ("<td width=30>"+"Пт"+"</td>");
-    calendarTable += ("<td width=30>"+"Сб"+"</td>");
-    calendarTable += ("<td width=30>"+"Вс"+"</td></tr>");
+    calendarTable += ("<td width=35>"+"Пн"+"</td>");
+    calendarTable += ("<td width=35>"+"Вт"+"</td>");
+    calendarTable += ("<td width=35>"+"Ср"+"</td>");
+    calendarTable += ("<td width=35>"+"Чт"+"</td>");
+    calendarTable += ("<td width=35>"+"Пт"+"</td>");
+    calendarTable += ("<td width=35>"+"Сб"+"</td>");
+    calendarTable += ("<td width=35>"+"Вс"+"</td></tr>");
     calendarTable += ("<tr>");
     if (monthDayFirstName!=0) // Добавляем пустые ячейки в начале месяца
     {
@@ -93,7 +93,7 @@ function drawCalendar(year, month, htmlEl) {
     }
     for (var i = 1; i <= monthDayTotal; i++) // заполняем таблицу днями
     {
-        calendarTable += ("<td width=30>"+i+"</td>");
+        calendarTable += ("<td width=35>"+i+"</td>");
         if (new Date(currentMonth.getFullYear(),currentMonth.getMonth(),i).getDay() == 0)
         {
             calendarTable += ("</tr><tr>"); // Если день недели Воскресенье - перевод строки
