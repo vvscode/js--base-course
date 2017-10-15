@@ -27,8 +27,6 @@ function fizzBuzz() {
     }
 }
 
-
-
 /**
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
@@ -37,8 +35,8 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
+    var textRevers = textString.split('').reverse().join('');
+    return textString === textRevers;
 }
 
 
@@ -54,7 +52,39 @@ function drawCalendar(year, month, htmlEl) {
     /* Ваше решение */
 }
 
+function drawCalendar(year, month, htmlEl) {
+    var firstDayOfMonth = new Date(year, month - 1);
+    var lastDayOfMonth = new Date(year, month, 0);
+    var numberOfSunday = 7;
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+    var table = '<table><caption>'+monthNames[month-1]+'</caption><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
+    function changeDayNumberIfSunday(dayNumber)
+    {
+         // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as a parameter
+        if (dayNumber === 0) { dayNumber = numberOfSunday };
+        return dayNumber;
+    }
 
+    //fill the table with empty cells, which are accepted for the previous month days
+    for (var i = 1; i < changeDayNumberIfSunday(firstDayOfMonth.getDay()); i++)
+    {
+        table += '<td></td>';
+    }
+    //fill the table with current month days
+    for (var i = 1; i <= lastDayOfMonth.getDate(); i++) {
+        table += '<td>' + i + '</td>';
+        if (changeDayNumberIfSunday(firstDayOfMonth.getDay()) == numberOfSunday) {
+            table += '</tr><tr>';
+        }
+        firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
+    }
+
+    table += '</tr></table>';
+
+    htmlEl.innerHTML = table;
+}
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -64,6 +94,21 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+    if ((typeof objA == "object" && objA != null) && (typeof objB == "object" && objB != null)) {
+        if (Object.keys(objA).length != Object.keys(objB).length)
+            return false;
+        for (var prop in objA) {
+            if (objB.hasOwnProperty(prop)) {
+                if (!isDeepEqual(objA[prop], objB[prop]))
+                    return false;
+            }
+            else
+                return false;
+        }
+        return true;
+    }
+    else if (objA !== objB)
+        return false;
+    else
+        return true;
 }
