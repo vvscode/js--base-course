@@ -165,12 +165,19 @@ function calculate() {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-    if (Singleton.instance){
-        return Singleton.instance;
-    }
-    Singleton.instance = this;
+function createSingletone() {
+    var instance;
+    var getInnstance = function() {
+        if (!instance) {
+            instance = this;
+        }
+
+        return instance;
+    };
+
+    return getInnstance;
 }
+var Singleton = createSingletone();
 
 /**
  * Создайте функцию ForceConstructor
