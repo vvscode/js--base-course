@@ -133,12 +133,16 @@ function calculate(mark) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  if (Singleton.instance) {
-    return Singleton.instance;
-  }
-  Singleton.instance = this;
-}
+
+var Singleton = (function() {
+  var instance;
+  return function() {
+    if (instance) {
+      return instance;
+    }
+    instance = this;
+  };
+})();
 
 /**
  * Создайте функцию ForceConstructor
