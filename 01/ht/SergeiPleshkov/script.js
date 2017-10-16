@@ -103,7 +103,6 @@ function drawCalendar(year, month, htmlEl) {
     };
     
 
-
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
