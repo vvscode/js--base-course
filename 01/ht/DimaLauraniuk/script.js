@@ -48,9 +48,6 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
-}
 
 function drawCalendar(year, month, htmlEl) {
     var firstDayOfMonth = new Date(year, month - 1);
