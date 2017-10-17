@@ -43,7 +43,11 @@ function fizzBuzz() {
 function isPolindrom(textString) {
  /* Ваше решение */
  var textStringRevers = textString.split('').reverse().join('');
- return (textStringRevers==textString);
+ if (textStringRevers==textString)
+ {
+     return true;
+ }
+ return false;
 }
 
 
