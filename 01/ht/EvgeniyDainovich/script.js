@@ -28,7 +28,6 @@ function fizzBuzz() {
         i % 5 == 0 && i % 3 != 0 && log("Buzz");
         i % 3 == 0 && i % 5 != 0 && log("Fizz");
         i % 3 != 0 && i % 5 != 0 && log(i);
-        //i%15 == 0  && log("FizzBuzz")==null || i%5 == 0  && log("Buzz")==null || i%3 == 0  && log("Fizz")==null || log(i);
     }
 }
 
@@ -42,12 +41,7 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    for (var i = 0; i < ~~(textString.length / 2); i++) {
-        if (!(textString[i] == textString[textString.length - i - 1])) {
-            return false;
-        }
-    }
-    return true;
+    return ret = (textString.split('').reverse().join("") === textString) ? true : false;
 }
 
 
