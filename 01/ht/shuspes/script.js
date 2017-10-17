@@ -51,7 +51,28 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+	var belWeek = [1, 2, 3, 4, 5, 6, 0];
+	var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};
+
+	var day = new Date(year, month - 1);
+	var caption = day.toLocaleString("ru", {month: 'long'});
+	var calendarHeader = belWeek.map(function(day) { return `<th>${weekDays[day]}</th>`}).join("");
+
+	var calendarBody = "<tr>";
+	for(var i = 0; belWeek[i] != day.getDay(); i++) {
+		calendarBody += "<td></td>";
+	}
+
+	while(month - 1 == day.getMonth()) {
+		if(day.getDay() == 1) calendarBody += "<tr>";
+  		calendarBody += `<td>${day.getDate()}</td>`;
+		if(day.getDay() == 0) calendarBody += "</tr>";
+		day.setDate(day.getDate() + 1);
+  	}
+
+  	if(day.getDay() !== 0) calendarBody += "</tr>";
+
+	htmlEl.innerHTML = `<table><caption>${caption}</caption><tr>${calendarHeader}</tr>${calendarBody}</table>`;
 }
 
 
