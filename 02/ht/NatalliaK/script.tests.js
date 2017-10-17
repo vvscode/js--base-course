@@ -340,10 +340,34 @@ describe("curry", function() {
 	});
 });
 
-mocha.run();
+describe("throttle(f, ms)", function() {
+	var log = '';
 
+	function f(a) {	log += a;	}
 
-describe("throttle", function() {
-  var timer = 0;
-  it("");
+	return function () {
+    var saveValue = this;
+    var saveArg = arguments;
+
+		setTimeout(function() {
+			f.apply(saveValue, saveArg);
+		}, ms);
+	};
+
+	var f1000 = throttle(f, 1000);
+
+  it("первый вызов, который должен сработать сразу", function() {
+		f1000(1);
+		assert.equal(log, "1");
+	});
+
+  it("второй вызов до 1000 ms", function() {
+
+  });
+
+  it("третий вызов после 1000 ms", function() {
+
+	});
 });
+
+mocha.run();

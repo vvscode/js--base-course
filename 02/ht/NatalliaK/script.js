@@ -10,14 +10,14 @@
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
 function isDeepEqual(objA, objB) {
 	var aa;
 	var bb;
 
+	if (objA !== objA && objB !== objB) return true;
 	if (typeof objA === 'number') return objA === objB;
 	if (typeof objA === 'string') return objA === objB;
-	if (objA !== objA && objB !== objB) return true;
-
 	if ((typeof objA !== typeof objB) ||
 		(Object.keys(objA).length !== Object.keys(objB).length)) return false;
 
@@ -26,10 +26,11 @@ function isDeepEqual(objA, objB) {
 
 		for (var key in objA) {
 			if (objA.hasOwnProperty(key) && objB.hasOwnProperty(key)) {
-				if (typeof objA[key] !== typeof objB[key]) return false;
 				if (objA[key] !== objA[key] && objB[key] !== objB[key]) return true;
+				if (typeof objA[key] !== typeof objB[key]) return false;
 
 				if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
+					if (objA[key] === objA || objB[key] === objB) return true;
 					return (isDeepEqual(objA[key], objB[key]));
 				}
 				aa = objA[key];
@@ -90,7 +91,30 @@ getMagicProp(3);
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
-function showPersonInfo() {
+// На прототипах ))))
+
+function ShowPersonInfo(name, age) {
+	this.name = name;
+	this.age = age;
+}
+
+ShowPersonInfo.prototype.askName = function() {
+	return this.name = prompt("Как твое имя?", "");
+};
+
+ShowPersonInfo.prototype.askAge = function() {
+	return this.age = prompt("Напиши свой возраст", "");
+};
+
+ShowPersonInfo.prototype.showAgeInConsole = function(age) {
+	console.log(this.age);
+};
+
+ShowPersonInfo.prototype.showNameInAlert = function() {
+	alert(this.name);
+};
+
+/*function showPersonInfo() {
 
 	this.askName = function() {
 		return this.name = prompt("Как твое имя?", "");
@@ -108,7 +132,7 @@ function showPersonInfo() {
 		alert(this.name);
 	}
 }
-
+*/
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -291,6 +315,8 @@ function sleep(sec) {
 console.log(new Date());
 sleep(9);
 console.log(new Date());
+
+
 
 function throttle(fun, delay) {
 	var throg = false;

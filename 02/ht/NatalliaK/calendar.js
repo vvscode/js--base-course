@@ -43,58 +43,88 @@ function getDay(date) { // получить номер дня недели, от
 	return day - 1;
 }
 
-function writeMonthAndYear() {
-	var date = new Date();
-	var month = date.toLocaleString('ru', {month: 'long'});
+function writeMonthAndYear(year, month) {
+	var date = new Date(year || data.getFullYear(), month || data.getMonth());
+	var writeMonth = date.toLocaleString('ru', {month: 'long'});
 	var year = date.toLocaleString('ru', {year: 'numeric'});
 
-	var p = document.createElement('p');
-	p.innerHTML = month + " " + year;
-	document.body.insertBefore(p, document.body.firstChild);
-	return month + " " + year;
+	var p = document.querySelector("p");
+	if (!p) {
+		p = document.createElement("p");
+		document.body.insertBefore(p, document.body.firstChild);
+	}
+	p.innerHTML = writeMonth + " " + year;
+	return writeMonth + " " + year;
 }
 
-	function getPrev() {
-		var inputPrev = document.createElement('input');
-		inputPrev.className = "before";
-		inputPrev.type = "button";
-		inputPrev.value = " < ";
-		p.insertBefore(inputPrev, p.firstChild);
-		inputPrev.style.cursor = "pointer";
-		document.querySelector('input.before').addEventListener('click', function () {
-			--month;
-			if (month < 0) {
-				month = 11;
-				year -= 1;
-			}
-			drawInteractiveCalendar('calendar');
-		});
-		return inputPrev;
-	}
+function getPrev() {
+	var inputPrev = document.createElement("input");
+	inputPrev.className = "before";
+	inputPrev.type = "button";
+	inputPrev.value = " < ";
+	var p = document.querySelector("p");
 
+	p.insertBefore(inputPrev, p.firstChild);
+	inputPrev.style.cursor = "pointer";
+	inputPrev.addEventListener("click", function() {
+		--month;
+		if (month < 0) {
+			month = 11;
+			year -= 1;
+		}
+		drawInteractiveCalendar("calendar", year, month);
+	});
+	return inputPrev;
+}
 
-	function getNext() {
-		var inputNext = document.createElement('input');
-		inputNext.className = "after";
-		inputNext.type = "button";
-		inputNext.value = " > ";
-		p.appendChild(inputNext);
-		inputNext.style.cursor = "pointer";
-		document.querySelector('input.before').addEventListener('click', function () {
-			++month;
-			if (month > 11) {
-				month = 0;
-				year += 1;
-			}
-			drawInteractiveCalendar('calendar');
-		});
-		return inputNext;
-	}
+function getNext() {
+	var inputNext = document.createElement("input");
+	inputNext.className = "after";
+	inputNext.type = "button";
+	inputNext.value = " > ";
+	var p = document.querySelector("p");
 
+	p.appendChild(inputNext);
+	inputNext.style.cursor = "pointer";
+	inputNext.addEventListener("click", function() {
+		++month;
+		if (month > 11) {
+			month = 0;
+			year += 1;
+		}
+		drawInteractiveCalendar("calendar", year, month);
+	});
+	return inputNext;
+}
 
-
-	function drawInteractiveCalendar(id) {
-	drawCalendar(data.getFullYear(), data.getMonth(), 'calendar');
-
+	function drawInteractiveCalendar(id, year, month) {
+		year = year || data.getFullYear();
+		month = month || data.getMonth();
+		drawCalendar(year, month, "calendar");
+		writeMonthAndYear(year, month);
+		getPrev();
+		getNext();
 	}
 drawInteractiveCalendar('calendar');
+
+
+var list = document.createElement('ul');
+document.body.appendChild(list);
+list.innerHTML = localStorage.getItem('savValue');
+var td = document.querySelector('td');
+var container = document.getElementById('calendar');
+
+container.onclick = function (event) {
+	var target = event.target;
+	if (target.tagName === "TD" && target.innerHTML !== '') {
+		var li = document.createElement('li');
+		list.appendChild(li);
+		var selectDate = new Date(year, month, target.innerHTML);
+		var mon = selectDate.toLocaleString('ru', {month: 'long'});
+		li.innerHTML = "Вы выбрали дату: " + mon + ", " + target.innerHTML  + " " + year;
+	}
+	if (localStorage.savValue === undefined) {
+		localStorage.savValue = li.innerHTML + '<br>';
+	}
+	localStorage.savValue += li.innerHTML + "<br>";
+};
