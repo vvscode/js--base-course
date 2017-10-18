@@ -19,9 +19,9 @@ function drawCalendar2(id, year, month) {
 		}
 		for(var  i = 1; i <= Dlast; i++) {
 			if (i == new Date().getDate() && D.getFullYear() == new Date().getFullYear() && D.getMonth() == new Date().getMonth()) {
-			calendar += '<td class="today">' + i;
+				calendar += '<td class="monthDate">' + i + '<ul class="myList"></ul>';
 			}else{
-		calendar += '<td class="monthDate">' + i + '<ul class="myList"></ul>';
+				calendar += '<td class="monthDate">' + i + '<ul class="myList"></ul>';
 			}
 			if (new Date(D.getFullYear(),D.getMonth(),i).getDay() == 0) {
 				calendar += '<tr>';
@@ -44,28 +44,20 @@ function drawCalendar2(id, year, month) {
 
 	// переключатель минус месяц
 	document.querySelector('#prev_month').onclick = function() {
-		var month__year = document.getElementById('month');	
-		var year = month__year.getAttribute('data-year');	
-		var attrMonth = month__year.getAttribute('data-month');
-		var idLocalStorage = attrMonth + '_' + year;
 
 		drawCalendar2("calendar2", document.querySelector('#month').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month)-1);
 
-		if (localStorage.getItem(idLocalStorage)) {
-			tbody.innerHTML = localStorage.getItem(idLocalStorage);
+		if (localStorage.length !== 0) {
+			showHistoryDate();
 		}
 	};
 	// переключатель плюс месяц
 	document.querySelector('#next_month').onclick = function() {
-		var month__year = document.getElementById('month');	
-		var year = month__year.getAttribute('data-year');	
-		var attrMonth = month__year.getAttribute('data-month');
-		var idLocalStorage = attrMonth + '_' + year;
 
 		drawCalendar2("calendar2", document.querySelector('#month').dataset.year, parseFloat(document.querySelector('#calendar2 thead td:nth-child(2)').dataset.month)+1);
 
-		if (localStorage.getItem(idLocalStorage)) {
-			tbody.innerHTML = localStorage.getItem(idLocalStorage);
+		if (localStorage.length !== 0) {
+			showHistoryDate();
 		}
 	};
 	// работа с добавлением задач
@@ -146,7 +138,13 @@ function drawCalendar2(id, year, month) {
 		var attrMonth = month__year.getAttribute('data-month');
 	
 		var idLocalStorage = attrMonth + '_' + year;
-		
+
+		if (localStorage.length === 0) {
+			return;
+		} else if (localStorage.getItem(idLocalStorage) === null) {
+			return;
+		}
+
 		tbody.innerHTML = localStorage.getItem(idLocalStorage);
 	}
 	
