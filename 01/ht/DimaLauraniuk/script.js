@@ -37,6 +37,17 @@ function fizzBuzz() {
 function isPolindrom(textString) {
     var textRevers = textString.split('').reverse().join('');
     return textString === textRevers;
+    /*
+    для очень длинных строк нашел такой алгоритм
+    textString = textString.toLowerCase().replace(/[^a-zA-Zа-яА-Я]/g, ''); 
+    var textStringLen = textString.length; 
+    for (var i = 0, l = Math.ceil(textStringLen / 2); i <l; i += 1) { 
+        if (textString.charAt(i) !== textString.charAt(textStringLen-(1+i))) { 
+            return false;
+        }
+    }
+    return true;
+    */
 }
 
 
@@ -48,10 +59,6 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
-}
-
 function drawCalendar(year, month, htmlEl) {
     var firstDayOfMonth = new Date(year, month - 1);
     var lastDayOfMonth = new Date(year, month, 0);
