@@ -121,12 +121,8 @@ describe('isDeepEqual', function() {
 
     var a = {prop1: 1, list: [1, 2, 3], o: {x: 2}};
     var b = {list: [1, 2, 3], o: {x: 2}};
-    it('распознает разные объекты: параметров первом объекте больше, чем во втором', function() {
+    it('распознает разные объекты', function() {
         return assert.isOk(isDeepEqual(a, b) === false);
-    });
-
-    it('распознает разные объекты: во втором объекте свойств больше, чем в первом', function() {
-        return assert.isOk(isDeepEqual(b, a) === false);
     });
 
     it('распознает одинаковые объекты', function() {
@@ -152,11 +148,6 @@ describe('isDeepEqual', function() {
         return assert.isOk(isDeepEqual(a, b) === true);
     });
 
-    it('сравнение чисел с учетом приведения типов', function() {
-        var a = 1;
-        var b = "1.0";
-        return assert.isOk(isDeepEqual(a, b) === true);
-    });
     it('распознает разные числа', function() {
         let a = 1;
         let b = 2;
