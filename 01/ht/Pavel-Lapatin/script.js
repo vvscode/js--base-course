@@ -45,7 +45,6 @@ function isPolindrom(textString) {
     var textStringUpperCase = textString.toUpperCase();
     var reversString = textStringUpperCase.split("").reverse().join("");   
     return textStringUpperCase === reversString;
-    //!textString.localeCompare(reversString);
 }
     
 /**
