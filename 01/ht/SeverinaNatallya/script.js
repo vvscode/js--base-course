@@ -39,7 +39,7 @@ function fizzBuzz() {
  */
 function isPolindrom(textString) {
     var reverseString = textString.toUpperCase().split('').reverse().join('');
-    return (textString.toUpperCase() === reverseString);
+    return (textString === reverseString);
  
 }
 
