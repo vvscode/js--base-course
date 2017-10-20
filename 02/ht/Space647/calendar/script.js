@@ -9,9 +9,11 @@ function drawPage() {
 }
 function drawItemsFromDB(items) {
         if (items.length === 0) return;
+        let table;
         for (let i = 0; i < items.length; i++) {
-            document.querySelector('.tableClick').innerHTML += `${fixDate(items[i])} <br>`;
+           table  += `${fixDate(items[i])} <br>`;
         }
+        document.querySelector('.tableClick').innerHTML=table;
 }
 function addEventListner() {
     document.querySelector('.forvard').addEventListener('click', () => forwardMonth(months, years, htmlEl));
@@ -67,7 +69,6 @@ function getDay(date) {
 function ClickCell(months, years, event) {
     let target = event.target;
     if (target.tagName !== 'TD' || target.className == '') return;
-    fixDate(target.className);
     document.querySelector('.tableClick').innerHTML += `${fixDate(target.className)}<br>`;
     writeDB(target.className);
 }

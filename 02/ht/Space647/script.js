@@ -61,9 +61,7 @@ function bind(func, context) {
 
 Function.prototype.myBind = function (context) {
   let func = this;
-  return function () {
-    return func.apply(context, arguments);
-  };
+  return bind(func,context);
 };
 
 /**
@@ -110,12 +108,15 @@ function calculate(znk) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  if (Singleton.instance) {
-    return Singleton.instance;
-  }
-  Singleton.instance = this;
-}
+var Singleton = (function() {
+  var instance;
+  return function() {
+    if (instance) {
+      return instance;
+    }
+    instance = this;
+  };
+})();
 
 /**
   * Создайте функцию ForceConstructor
@@ -123,18 +124,13 @@ function Singleton() {
   * вызвана она с new или без
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
-function ForceContructor(a, b, c) {
-  let obj;
-  if (!(this instanceof ForceContructor)) {
-    obj = new ForceContructor();
-  } else {
-    obj = this;
+  function ForceContructor(a, b, c) {
+    if (this instanceof ForceContructor) {
+      this.a = a;
+      this.b = b;
+      this.c = c;
+    } else return new ForceContructor(a, b, c);
   }
-  obj.a = a;
-  obj.b = b;
-  obj.c = c;
-  return obj;
-}
 
 /**
  * Написать фукнцию сумматор, которая будет работать
@@ -173,16 +169,13 @@ function sum(s) {
  * @param {*} func
  */
 function curry(func) {
-  let counter = func.length;
-  let args = [];
-  return function f(arg) {
-    args.push(arg);
-    counter--;
-    if (!counter) {
-      return func(...args);
-    }
-
-    return f.bind(null);
+  let countArgs = func.length;
+  let massArg = [];
+  return function func1(arg) {
+    massArg.push(arg);
+    countArgs--;
+    if (countArgs) return func1.bind(null);
+    return func.apply(null, massArg);
   };
 }
 
@@ -217,33 +210,21 @@ User.prototype = Object.create(PreUser.prototype);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) { }
 
 // throttle
-function throttle(func, ms) {
-  let isThrottled = false,
-    savedArgs,
-    savedThis;
-
-  function wrapper() {
-    if (isThrottled) {
-      savedArgs = arguments;
-      savedThis = this;
+function throttle(fun, delay) {
+	var state;
+	return function() {
+    if (state) {
       return;
     }
-    func.apply(this, arguments);
-
-    isThrottled = true;
-
-    setTimeout(function () {
-      isThrottled = false;
-      if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs);
-        savedArgs = savedThis = null;
-      }
-    }, ms);
-  }
-  return wrapper;
+    var args = Array.prototype.slice.call(arguments, 0);
+    fun.apply(this, args);
+    state = true;
+    setTimeout(function() {
+       state = false;
+    }, delay);
+	};
 }
 
 function sleep(seconds) {

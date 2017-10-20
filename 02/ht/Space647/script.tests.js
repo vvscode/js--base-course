@@ -355,12 +355,33 @@ describe('curry', function () {
     assert.isOk(curry(five)(10)(10)(20)(10)(10) === 60);
   });
 });
-describe('throttle', function () {
-  it('Throttle функция', function () {
+describe('throttle', () => {
+  it('throttle это функция',function(){
     assert.isOk(typeof throttle === 'function');
-  });
-  it('Принимает 2 параметра', function () {
-    assert.isOk(throttle.length === 2)
   })
+  it('Функция отрабатывает через заданный интервал', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 150);
+    setTimeout(() => assert.equal(testValue, 2, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
+  });
+  it('Правильно работает при повторых вызовах', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'преждевременный вызов не изменил значение'), 60);
+    setTimeout(() => func(3), 150);
+    setTimeout(() => assert.equal(testValue, 3, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
+  });
 });
 mocha.run();
