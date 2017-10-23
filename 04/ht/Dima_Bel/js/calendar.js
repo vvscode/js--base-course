@@ -1,6 +1,5 @@
 	
 function drawCalendar2(id, year, month) {
-
 	var content = document.querySelector('#content');
 
 	content.innerHTML = '<table id="calendar2"><thead><tr><td>‹<td colspan="5"><td>›		<tr><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс<tbody></table>'
@@ -121,13 +120,11 @@ function drawCalendar2(id, year, month) {
 	
 		var idLocalStorage = attrMonth + '_' + year;
 	
-		console.log(idLocalStorage);
-	
 		localStorage.setItem(idLocalStorage, tbody.innerHTML);
 	});
 
 }
-	drawCalendar2("calendar2", new Date().getFullYear(), new Date().getMonth());
+	// drawCalendar2("calendar2", new Date().getFullYear(), new Date().getMonth());
 
 	function showHistoryDate () {
 

@@ -8,6 +8,10 @@ function handleUrl(url) {
   document.querySelectorAll('a[href="' + url.split('#').pop() + '"]').forEach(el => el.classList.add('active'));
   
   var curentURL = url.split('#').pop();
+  console.log('handleUrl', url, curentURL);
+
+  drawCalendar2("calendar2", new Date().getFullYear(), new Date().getMonth());
+  showHistoryDate();
 
   if(curentURL === 'calendar') {
   drawCalendar2("calendar2", new Date().getFullYear(), new Date().getMonth());
