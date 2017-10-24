@@ -74,7 +74,7 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+
 }
 
 
@@ -87,6 +87,19 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
