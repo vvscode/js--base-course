@@ -11,20 +11,12 @@ EventBus.prototype.on = function(event, cb) {
 };
 
 EventBus.prototype.off = function(event, cb) {
-  if (!this.listeners[event] || !this.listeners[event].length) {
-    return;
-  }
-
   if (!cb) {
     this.listeners[event].splice(0, this.listeners[event].length);
     return;
   }
 
-  var index = this.listeners[event].indexOf(cb);
-  while (index >= 0) {
-    this.listeners[event].splice(index, 1);
-    index = this.listeners[event].indexOf(cb);
-  }
+  this.listeners[event] = (this.listeners[event] || []).filter((listener) => listener !== cb);
 };
 
 EventBus.prototype.trigger = function(event) {
@@ -37,9 +29,8 @@ EventBus.prototype.trigger = function(event) {
 EventBus.prototype.once = function(event, cb) {
   var self = this;
   this.on(event, function wrapper() {
-    var args = Array.prototype.slice.call(arguments, 0);
-    cb.apply(null, args);
     self.off(event, wrapper);
+    cb.apply(null, arguments);
   });
 };
 
@@ -94,17 +85,17 @@ Router.prototype.handleUrl = function(oldUrl, newUrl) {
 
   return Promise.resolve()
     .then(() => {
-      previousRoute &&
+      return previousRoute &&
       previousRoute.onLeave &&
       (oldUrlParams ? previousRoute.onLeave(oldUrlParams) : previousRoute.onLeave());
     })
     .then(() => {
-      nextRoute &&
+      return nextRoute &&
       nextRoute.onBeforeEnter &&
       (newUrlParams ? nextRoute.onBeforeEnter(newUrlParams) : nextRoute.onBeforeEnter());
     })
     .then(() => {
-      nextRoute &&
+      return nextRoute &&
       nextRoute.onEnter &&
       (newUrlParams ? nextRoute.onEnter(newUrlParams) : nextRoute.onEnter());
     });

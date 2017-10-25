@@ -131,6 +131,24 @@ describe('EventBus', () => {
 describe('Router', () => {
   var a = 0;
 
+  var asyncResolveFunc = function(x) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        a += x;
+        resolve();
+      }, 50);
+    });
+  };
+
+  var asyncRejectFunc = function(x) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        a += x;
+        reject();
+      }, 50);
+    });
+  };
+
   var routes = [
     {
       name: '1',
@@ -152,6 +170,41 @@ describe('Router', () => {
       onBeforeEnter: () => a++,
       onEnter: () => a++,
       onLeave: () => a++,
+    },
+    {
+      name: 'oneByOneCallHandlers-oldUrl',
+      match: 'oneByOneCallHandlers-oldUrl',
+      onBeforeEnter: () => asyncResolveFunc(1),
+      onEnter: () => asyncResolveFunc(2),
+      onLeave: () => asyncResolveFunc(3),
+    },
+    {
+      name: 'oneByOneCallHandlers-newUrl',
+      match: 'oneByOneCallHandlers-newUrl',
+      onBeforeEnter: () => asyncResolveFunc(1),
+      onEnter: () => asyncResolveFunc(2),
+      onLeave: () => asyncResolveFunc(3),
+    },
+    {
+      name: 'rejectOnLeave',
+      match: 'rejectOnLeave',
+      onBeforeEnter: () => asyncResolveFunc(1),
+      onEnter: () => asyncResolveFunc(2),
+      onLeave: () => asyncRejectFunc(3),
+    },
+    {
+      name: 'rejectOnBeforeEnter',
+      match: 'rejectOnBeforeEnter',
+      onBeforeEnter: () => asyncRejectFunc(1),
+      onEnter: () => asyncResolveFunc(2),
+      onLeave: asyncResolveFunc(3),
+    },
+    {
+      name: 'rejectOnEnter',
+      match: 'rejectOnEnter',
+      onBeforeEnter: () => asyncResolveFunc(1),
+      onEnter: () => asyncRejectFunc(2),
+      onLeave: asyncResolveFunc(3),
     },
   ];
   var eventBus = new EventBus();
@@ -188,6 +241,33 @@ describe('Router', () => {
     setTimeout(() => eventBus.trigger('changeUrl', 'x=2', '1'), 0);
     setTimeout(() => assert.isOk(a === 9, 'a has been incremented'), 0);
     setTimeout(done, 0);
+  });
+  it('handlers fulfill one by one', (done) => {
+    a = 0;
+    setTimeout(() => eventBus.trigger('changeUrl', 'oneByOneCallHandlers-oldUrl', 'oneByOneCallHandlers-newUrl'), 0);
+    setTimeout(() => assert.isOk(a === 0, 'a has not been incremented'), 0);
+    setTimeout(() => assert.isOk(a === 3, 'onLeave handler has fulfilled'), 75);
+    setTimeout(() => assert.isOk(a === 4, 'onBeforeEnter handler has fulfilled'), 125);
+    setTimeout(() => assert.isOk(a === 6, 'onEnter handler has fulfilled'), 175);
+    setTimeout(done, 200);
+  });
+  it('handlers do not fulfill after reject in onLeave', (done) => {
+    a = 0;
+    setTimeout(() => eventBus.trigger('changeUrl', 'rejectOnLeave', 'oneByOneCallHandlers-newUrl'), 0);
+    setTimeout(() => assert.isOk(a === 0, 'a has not been incremented'), 0);
+    setTimeout(() => assert.isOk(a === 3, 'onLeave handler has fulfilled with rejected state'), 75);
+    setTimeout(() => assert.isOk(a === 3, 'onBeforeEnter handler has not fulfilled'), 125);
+    setTimeout(() => assert.isOk(a === 3, 'onEnter handler has not fulfilled'), 175);
+    setTimeout(done, 200);
+  });
+  it('handlers do not fulfill after reject in onBeforeEnter', (done) => {
+    a = 0;
+    setTimeout(() => eventBus.trigger('changeUrl', 'oneByOneCallHandlers-newUrl', 'rejectOnBeforeEnter'), 0);
+    setTimeout(() => assert.isOk(a === 0, 'a has not been incremented'), 0);
+    setTimeout(() => assert.isOk(a === 3, 'onLeave handler has fulfilled'), 75);
+    setTimeout(() => assert.isOk(a === 4, 'onBeforeEnter handler has fulfilled with rejected state'), 125);
+    setTimeout(() => assert.isOk(a === 4, 'onEnter handler has not fulfilled'), 175);
+    setTimeout(done, 200);
   });
 });
 
