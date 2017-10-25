@@ -38,8 +38,7 @@ function isDeepEqual(objA, objB) {
  */
 function bind(func, context) {
     return function () {
-        var arg = [].slice.call(arguments, 0);
-        return func.apply(context, arg);
+          return func.apply(context, arguments);
     }
 }
 
@@ -105,12 +104,21 @@ function calculate() {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-    if (Singleton.instance) {
-       	return Singleton.instance
-           	}
-    Singleton.instance = this;
-}
+var Singleton = (function () {
+    var instance;
+
+    return function CreateInstance() {
+        if (instance) {
+            return instance;
+        }
+        if (this && this.constructor === CreateInstance) {
+            instance = this;
+        } else {
+            return new CreateInstance();
+        }
+    }
+}());
+
 
 /**
   * Создайте функцию ForceConstructor
@@ -119,7 +127,13 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+    if (this instanceof ForceContructor) {
+         this.a = a;
+         this.b = b;
+         this.c = c;
+    }
+    else   return new ForceContructor(a, b, c);
+        
 }
 
 /**
@@ -162,13 +176,25 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+function curry(func) {
+    var funcArguments = [];
+    return function f(a) {
+        funcArguments.push(a);
+        if (funcArguments.length == func.length)
+            return func.apply(this, funcArguments);
+        return f.bind(null);
+    }
+
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function PreUser() { };
+PreUser.prototype = [];
+function User() { };
+User.prototype = Object.create(PreUser.prototype);
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
@@ -182,7 +208,14 @@ function curry(func) {}
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
-
+function setPersonInfo() {
+    el = document.querySelector('div');
+    var personForm = document.forms.formID;
+    el.innerHTML = 'Имя: ' + personForm.txtName.value + ' Город: ' + personForm.sCity.value + ' Пол: ' + personForm.rMail.value + ' Комментарий: ' + personForm.txtComment.value;
+    personForm.reset();
+}
+var btnSubmit = document.getElementById('send');
+if (btnSubmit) btnSubmit.addEventListener('click', setPersonInfo);
 /* 
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
@@ -191,4 +224,129 @@ function curry(func) {}
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawCalendar(year, month, htmlEl) {
+    var firstDayMonth = new Date(year, month - 1);
+    var nextMonth = new Date(year, month, 0)
+    var table = '<button id="btnPrev">[<]</button><label id="lblMonth">' + month+'/'+year+'</label><button id="btnNext">[>]</button> <br /> <table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+    function changeNumOfDay(numDay)//для воскресенья меняем с 0 на 7
+    {
+        if (numDay === 0) { numDay = 7 };
+        return numDay;
+    }
+
+    for (var i = 1; i < changeNumOfDay(firstDayMonth.getDay()); i++)//заполнение первой строчки
+    {
+        table += '<td></td>';
+    }
+    for (var i = 1; i <= nextMonth.getDate(); i++) {
+        table += '<td id="tdId">' + i + '</td>';
+        if (changeNumOfDay(firstDayMonth.getDay()) == 7) {
+            table += '</tr><tr>';
+        }
+        firstDayMonth.setDate(firstDayMonth.getDate() + 1);
+    }
+
+    if (changeNumOfDay(firstDayMonth.getDay()) < 7)//если первое число следующего месяца не понедельник
+    {
+        for (var i = changeNumOfDay(firstDayMonth.getDay()); i < 7; i++) {
+            table += '<td></td>';
+        }
+    }
+    table += '</tr></table>';
+
+    htmlEl.innerHTML = table;
+     var prevYear = nextMonth.getFullYear();
+    var prevMonth = nextMonth.getMonth();
+    if (prevMonth == 0) { prevYear--; prevMonth = 12; }
+    document.getElementById('btnPrev').addEventListener('click', drawCalendar.bind(null, prevYear, prevMonth, htmlEl));
+    if ((+month + 1) == 13) {
+        year++; month=0;
+    }
+    document.getElementById('btnNext').addEventListener('click', drawCalendar.bind(null, year, (+month + 1), htmlEl));
+    htmlEl.onclick = clickDate.bind(this, month, year);
+    document.getElementById("notes").innerHTML = localStorage.getItem("notes");
+}
+
+var btnDrawCalendar = document.getElementById('btnDrawCalendar');
+var element = document.getElementById('Calendar');
+
+function drawInteractiveCalendar(el) {
+    var today = new Date();
+    drawCalendar(today.getFullYear(), +today.getMonth()+1, el);
+}
+btnDrawCalendar.addEventListener('click', drawInteractiveCalendar.bind(null, element));
+function clickDate(month,year) {
+    if (event.target.id == "tdId") {
+        var day = event.target.innerHTML + '.' + month + '.' + year + '; ';
+
+        setTimeout(createNoteAboutDate, 100, day);
+    }
+};
+
+function createNoteAboutDate(day) {
+    var inputText = document.getElementById("notes").innerHTML;
+    inputText += day;
+    document.getElementById("notes").innerHTML = inputText;
+    localStorage.setItem('notes', inputText);
+}
+
+
+
+
+//////////////////////////////////////////////////
+ var throttle= function (func, ms) {
+
+    var isThrottled = false,
+        savedArgs,
+        savedThis;
+
+    function wrapper() {
+
+        if (isThrottled) { // (2)
+            savedArgs = arguments;
+            savedThis = this;
+            return;
+        }
+
+        func.apply(this, arguments); // (1)
+
+        isThrottled = true;
+
+        setTimeout(function () {
+            isThrottled = false; // (3)
+            if (savedArgs) {
+                wrapper.apply(savedThis, savedArgs);
+                savedArgs = savedThis = null;
+            }
+        }, ms);
+    }
+
+    return wrapper;
+}
+
+function sleep(seconds) {
+    var  end = Date.now() + seconds * 1000;
+    while (Date.now() < end) { };
+ }
+///////////////////////////////////////
+function counter(htmlEl, initValue) {
+
+    var htmlCode = '<span>';
+    htmlCode += initValue || 0;
+    htmlCode += '</span><button id="b1">-</button><button id="b2">+</button>';
+    htmlEl.innerHTML = htmlCode;
+   
+    var btnPlus = htmlEl.querySelector("#b2");
+    btnPlus.onclick = function () {
+        +initValue++;
+        var span = htmlEl.querySelector('span').innerHTML = initValue;
+    }
+    var btnMin = htmlEl.querySelector("#b1");
+    btnMin.onclick = function () {
+        +initValue--;
+        var span = htmlEl.querySelector('span').innerHTML = initValue;
+    }
+
+}
+counter(document.getElementById("counter1"), 0);
+counter(document.getElementById("counter2"), 4);
