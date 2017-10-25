@@ -8,6 +8,7 @@ var assert = chai.assert;
 
 describe('Template engine', () => {
   it('is a function', () => assert.isOk(typeof (compileTemplate) === 'function'));
+  it('returns function', () => assert.isOk(typeof (compileTemplate()) === 'function'));
   it('works with simple objects', () => {
     var tpl = '{{name}} {{age}}';
     var data = {name: 'Bob', age: 10};
