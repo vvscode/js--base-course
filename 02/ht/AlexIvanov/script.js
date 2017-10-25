@@ -53,8 +53,13 @@ function bind(func, context) {
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+
+function calculate(mathSymbol) {
+  return function (firstNumber) {
+      return function (secondNumber) {
+          return eval(firstNumber + mathSymbol + secondNumber)
+      }
+  }
 }
 
 /**
