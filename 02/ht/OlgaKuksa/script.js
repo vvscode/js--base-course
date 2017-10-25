@@ -291,8 +291,8 @@ el.addEventListener("click", function (event)
 
 
 function drawCalendar(year, month, htmlEl) {
-    var numberOfDays=([4,6,9,11].includes(month))?30:31;
-    if (month==2) numberOfDays=(year%4==0&&year%100!=0)?29:28;
+    var numberOfDays=([3,5,8,10].includes(month))?30:31;
+    if (month==1) numberOfDays=(year%4==0&&year%100!=0)?29:28;
     var date=new Date(year, month,1);
     var dayOfWeek1=date.getDay();
     var calendarTable="<table><tr align='center'><button class='prevMonth'><</button>"+(month+1)+"/"+year+"<button class='nextMonth'>></button></tr>";
