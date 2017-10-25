@@ -11,17 +11,19 @@ EventBus.prototype.on = function(event, cb) {
 };
 
 EventBus.prototype.off = function(event, cb) {
-  if (!this.listeners[event]) {
+  if (!this.listeners[event] || !this.listeners[event].length) {
     return;
   }
 
   if (!cb) {
     this.listeners[event].splice(0, this.listeners[event].length);
+    return;
   }
 
   var index = this.listeners[event].indexOf(cb);
-  if (index >= 0) {
+  while (index >= 0) {
     this.listeners[event].splice(index, 1);
+    index = this.listeners[event].indexOf(cb);
   }
 };
 
