@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
 
-/**
+/*1*
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
  * и проверяет идентичны ли они по содержимому. Например
@@ -15,7 +15,7 @@ function isDeepEqual(objA, objB) {
   return undefined;
 }
 
-/**
+/*2 - сделано*
  * Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
  * @param {*} context значение для this
@@ -28,7 +28,7 @@ function bind(func, context) {
   }
 }
 
-/**
+/*3 - сделано*
  * Реализовать метод .myBind для всех функций, 
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
@@ -38,20 +38,62 @@ Function.prototype.myBind = function (context) {
     return bind(this, context)
 }
 
-/**
+/* 4 - сделано *
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
 
-/**
+var o = {},
+    magicPropValue,
+    date = new Date;
+Object.defineProperty(o, 'magicProperty', {
+    set: function (val) {
+        console.log(date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ', magicProperty = ' + val);
+        magicPropValue = val;
+    },
+    get: function () {
+        return magicPropValue;
+    }
+});
+
+
+/* 5 - сделано*
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
+*
+* u.askName()
+* u.askAge()
+* u.showAgeInConsole()
+* u.showNameInAlert();
 */
 
-/**
+function GetNameAndAge() {
+    this.askName = function(){
+        this.name = prompt('Введите имя', 'name');
+        return this;
+    };
+
+    this.askAge = function () {
+        this.age = prompt('Введите возраст', 'age');
+        return this;
+    };
+
+    this.showAgeInConsole = function () {
+        console.log(this.age);
+        return this;
+    };
+
+    this.showNameInAlert = function () {
+        alert(this.name);
+        return this;
+    }
+}
+
+
+/* 6 - сделано*
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
  * calculate('*')(2)(3); // 6
@@ -66,15 +108,18 @@ function calculate(mathSymbol) {
   }
 }
 
-/**
+/* 7 - cделано*
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
+    if (Singleton.instance) {
+        return Singleton.instance
+    }
+    Singleton.instance = this;
 }
 
-/**
+/* 8 - *
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
   * вызвана она с new или без
@@ -84,7 +129,7 @@ function ForceContructor(a, b, c) {
   throw "undefined";
 }
 
-/**
+/* 9 - сделано*
  * Написать фукнцию сумматор, которая будет работать 
  * var s = sum();
  * log(s); // 0
@@ -93,15 +138,23 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
+
 function sum() {
-  throw "undefined";
+    var arg1 = arguments[0] || 0;
+    function func(b) {
+        return sum(arg1 + (b || 0));
+    }
+    func.toString = function () {
+        return arg1
+    };
+    return func
 }
 
 function log(x) {
   console.log(+x);
 }
 
-/**
+/* 10 *
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
@@ -119,17 +172,28 @@ function log(x) {
  */
 function curry(func) {}
 
-/*
+/* 11 - сделано *
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+
+function PreUser() {
+
+}
+
+function User() {
+
+}
+
+PreUser.prototype = User.prototype = [];
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
 // u instanceof PreUser; // true
 
-/*
+
+/* 12  *
 Создать веб страницу. Добавить на нее форму с полями 
 - имя (строкое поле), 
 - родной город (Выпадающий список), 
@@ -138,7 +202,7 @@ function curry(func) {}
 после чего поля очистить.
 */
 
-/* 
+/* 13  *
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
 Которая выводит календарь, в шапке которого отображается
