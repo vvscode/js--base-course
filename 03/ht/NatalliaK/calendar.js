@@ -16,7 +16,10 @@ function drawCalendar(year, month, id) {
 	}
 
 	while (date.getMonth() === month) {
-		table += '<td>' + date.getDate() + '</td>';
+
+		var eventDate = date.getDate();
+		//var tasks = localStorage[`event_for_` + eventDate + '/' + month] || '';
+		table += '<td data-date="' + eventDate + '" data-month="' + month + '">' + date.getDate() + /*tasks + */'</td>';
 
 		if (getDay(date) % 7 === 6) {
 			table += '</tr><tr>';
@@ -106,4 +109,3 @@ function getNext() {
 		getPrev();
 		getNext();
 	}
-drawInteractiveCalendar('calendar');
