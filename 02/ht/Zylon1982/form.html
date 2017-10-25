@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+<div class="container">
+    <form action="" id="mainForm">
+        <p>
+            <input type="text" name="name" id="name" placeholder="Ваше имя">
+        </p>
+        <p>
+            <select name="city" id="city">
+                <option value="Брест">Брест</option>
+                <option value="Витебск">Витебск</option>
+                <option value="Гомель">Гомель</option>
+                <option value="Гродно">Гродно</option>
+                <option value="Минск" selected>Минск</option>
+                <option value="Могилев">Могилев</option>
+            </select>
+        </p>
+        <p>
+            <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Напишите комментарий..."></textarea>
+        </p>
+        <p>
+            <input type="radio" name="gender" value="Мужской" checked>Мужской</p>
+        <p>
+            <input type="radio" name="gender" value="Женский">Женский</p>
+        <input type="button" value="Отправить" id="submit">
+        <div id="output" name="output"></div>
+    </form>
+
+    <div id="userInformation"></div>
+
+    <div id="calendar-container">
+        <div id="calendar-wrap">
+        </div>
+        <div id="calendar-list">
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+
+</html>
