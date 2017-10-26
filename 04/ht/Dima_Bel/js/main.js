@@ -4,8 +4,6 @@ var content = document.querySelector('#content');
 
 // Создать обработчик URL
 function handleUrl(url) {
-  document.querySelectorAll('a.active').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('a[href="' + url.split('#').pop() + '"]').forEach(el => el.classList.add('active'));
   
   var curentURL = url.split('#').pop();
   console.log('handleUrl', url, curentURL);
