@@ -39,18 +39,8 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    textToTest=textString.toLowerCase();
-    var textLength=textToTest.length;
-    for (var i=0;(textLength-i)>=i;i++)
-    {
-        if (textToTest[i]!=textToTest[textLength-i-1]) return false;
-    }
-    return true;
-
-    /*
     textString=textString.toLowerCase();
     return (textString==textString.split("").reverse().join(""));
-    */
 }
 
 /**
