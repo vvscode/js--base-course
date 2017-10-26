@@ -241,4 +241,71 @@ User.prototype = new PreUser();
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(el) {
+  var currentDate = new Date(); 
+  var calendarRender = drawCalendar.call(null, el);
+  calendarRender(currentDate.getFullYear(), currentDate.getMonth());
+  initCalendarbuttons(currentDate.getFullYear(), currentDate.getMonth(), calendarRender);
+}
+
+function drawCalendar(htmlEl) {
+  htmlEl.innerHTML = '<button id="previousMonth">[<]</button><span id="caption"></span><button id="nextMonth">[>]</button><div id="calendarTable"></div>';
+  
+  return function(year, month) {
+    var belWeek = [1, 2, 3, 4, 5, 6, 0];
+    var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};
+
+    var day = new Date(year, month);
+    var currentMonth = day.toLocaleString("ru", {month: 'long'});
+    var currentYear = day.getFullYear();
+    var calendarHeader = belWeek.map(function(day) { return `<th>${weekDays[day]}</th>`}).join("");
+
+    var calendarBody = "<tr>";
+    for(var i = 0; belWeek[i] != day.getDay(); i++) {
+      calendarBody += "<td></td>";
+    }
+
+    while(month == day.getMonth()) {
+      if(day.getDay() == 1) calendarBody += "<tr>";
+        calendarBody += `<td>${day.getDate()}</td>`;
+      if(day.getDay() == 0) calendarBody += "</tr>";
+      day.setDate(day.getDate() + 1);
+    }
+
+    if(day.getDay() !== 0) calendarBody += "</tr>";
+    
+    document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
+    document.getElementById("calendarTable").innerHTML = `<table><tr>${calendarHeader}</tr>${calendarBody}</table>`;
+  }
+}
+
+function initCalendarbuttons(year, month, calendarRender) {
+  var day = new Date(year, month);  
+  var navigation = calendarNavigation.call(null, 1, day, calendarRender);
+
+  document.getElementById("previousMonth").addEventListener("click", function() {
+    navigation("-");
+  });
+
+  document.getElementById("nextMonth").addEventListener("click", function() {
+    navigation("+");
+  })
+}
+
+function calendarNavigation(monthCount, initDate, calendarRender) {
+  var month = initDate.getMonth();
+  var date = initDate;
+
+  return function(direction) {
+    if(direction === "+") {
+      date.setMonth(month + monthCount);
+      
+    } else if(direction === "-") {
+      date.setMonth(month - monthCount);
+    }
+
+    month = date.getMonth();
+    
+    calendarRender(date.getFullYear(), month);
+  }
+}
