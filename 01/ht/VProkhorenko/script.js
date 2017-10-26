@@ -44,12 +44,7 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-   var textStringNew = textString.split("").reverse().join("");
-    if (textStringNew===textString)
-
-        return true;
-    else
-        return false;
+    return (textString === textString.split("").reverse().join(""));
 }
 
 
