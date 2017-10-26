@@ -26,7 +26,7 @@ describe('EventBus', () => {
     let ev = new EventBus();
     assert.isOk(typeof ev.once === 'function');
   });
-  it('on добавляет новые события', () => {
+  it('on добавляет новые события ', () => {
     let ev = new EventBus();
     assert.isOk(ev.handlers.length === 0);
     ev.on('newEvent1', () => {
