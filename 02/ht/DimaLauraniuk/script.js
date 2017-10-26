@@ -10,9 +10,48 @@
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+  if (typeof objA === "string" && typeof objB === "string") {
+    return objA === objB;
+  }
+  if (objA instanceof Array && objB instanceof Array) {
+    if (objA.length !== objB.length) {
+      return false;
+    }
+    else {
+      var counter = 0;
+      for (var i = 0; i < objA.length; i++) {
+        if (objA[i] === objB[i]) {
+          counter++;
+        }
+      }
+      return counter === objA.length;
+    }
+  }
+  if (objA instanceof Object && objB instanceof Object) {
+    for (var key in objA) {
+      if (objB.hasOwnProperty(key)) {
+        if (
+          (objA[key] === objA && objB[key] === objA) ||
+          (objB[key] === objB && objB[key] === objA) ||
+          (objA[key] === objB && objB[key] === objA) ||
+          (objA[key] === objA && objB[key] === objB) ||
+          isDeepEqual(objA[key], objB[key])
+        ) {
+          continue;
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+
+  if (isNaN(objA) && isNaN(objB)) {
+    return true;
+  }
+
+  return objA === objB;
 }
 
 /**
@@ -60,19 +99,22 @@ Object.defineProperty(o, "magicProperty", {
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 function askNameAge() {
-  this.askName = function () {
+  this.name = "";
+  this.age = 0;
+
+  askNameAge.prototype.askName = function () {
     this.name = prompt("What is your name?");
     return this;
   };
-  this.askAge = function () {
+  askNameAge.prototype.askAge = function () {
     this.age = prompt("What is your age?");
     return this;
   };
-  this.showAgeInConsole = function () {
+  askNameAge.prototype.showAgeInConsole = function () {
     console.log(this.age);
     return this;
   };
-  this.showNameInAlert = function () {
+  askNameAge.prototype.showNameInAlert = function () {
     alert(this.name);
     return this;
   };
@@ -96,12 +138,16 @@ function calculate(operator) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singletone() {
-  if (Singletone.instance) {
-    return Singletone.instance
-  }
-  Singletone.instance = this;
-}
+
+var Singleton = (function() {
+  var instance;
+  return function () {
+    if (!instance) {
+      instance = this;
+    }
+    return instance;
+  };
+}());
 
 /**
   * Создайте функцию ForceConstructor
@@ -110,8 +156,9 @@ function Singletone() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  if (!(this instanceof ForceContructor))
+  if (!(this instanceof ForceContructor)) {
     return new ForceContructor(a, b, c);
+  }
   this.a = a;
   this.b = b;
   this.c = c;
@@ -126,13 +173,12 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum(a) {
+function sum() {
 
-  var currentSum = a;
+  var currentSum = arguments[0] || 0;
 
   function f(b) {
-    currentSum += b;
-    return f;
+    return sum(currentSum + (b || 0));
   }
 
   f.toString = function () {
@@ -159,16 +205,16 @@ function sum(a) {
  * @param {*} func 
  */
 function curry(func) {
-    var length = func.length;
-    var args = [];
-    return function f() {
-        args.push.apply(args, arguments);
-        if (args.length < length) {
-            return f;
-        } else {
-            return func.apply(this, args);
-        }
+  var length = func.length;
+  var args = [];
+  return function f() {
+    args.push.apply(args, arguments);
+    if (args.length < length) {
+      return f;
+    } else {
+      return func.apply(this, args);
     }
+  }
 }
 
 /*
@@ -176,11 +222,11 @@ function curry(func) {
 что объект является экземпляром двух классов
 */
 /* Тут ваш код */
-function PreUser() {}
-PreUser.prototype = Object.create(Array.prototype);
+function PreUser() { }
+PreUser.prototype = new Array();
 
-function User() {}
-User.prototype = Object.create(PreUser.prototype);
+function User() { }
+User.prototype = new PreUser();
 
 // User === PreUser; // false
 // u instanceof User; // true
@@ -204,4 +250,15 @@ User.prototype = Object.create(PreUser.prototype);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) { }
+//function drawInteractiveCalendar(el) { }
+
+/* Создать синхронную функцию sleep(seconds) так, чтобы работал код
+console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+sleep(9);
+console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+*/
+
+function sleep(seconds) {
+  var delayedDateTime = Date.now() + seconds * 1000;
+  while (Date.now() < delayedDateTime) { }
+}
