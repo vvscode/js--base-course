@@ -128,15 +128,28 @@ describe("Router", () => {
       onEnter: () => console.log(`onEnter about`),
       onLeave: () => console.log(`onLeave about`)
     }
-  ]
+  ];
+  
+  let router = new Router(routs);
+
   it("функция", () => {
     assert.isOk(typeof Router === 'function');
   });
   it("находит нужный роут", () => {
-    let url = 'router/index.html#about';
-    let router = Router(routs);
-    let rout = findeRote(url);
-    assert.isOk(rout.name === 'about');
+    let url1 = 'router/index.html#about';
+    let rout1 = router.findRout(url1);
+    assert.isOk(rout1.name === 'about');
+    let url2 = 'router/index.html#city=Minsk';
+    let rout2 = router.findRout(url2);
+    assert.isOk(rout2.name === 'city');
+  });
+  it("правильно обрабатывает данные из rout", () => {
+    let url1 = 'router/index.html#about';    
+    let url2 = 'router/index.html#';
+    console.log('------------------');
+    router.handleUrl(url1);
+    router.handleUrl(url2);
+    
   });
 });
 

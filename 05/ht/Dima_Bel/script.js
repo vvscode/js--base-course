@@ -52,12 +52,12 @@ function compileTemplate (tpl) {
 }
 
 function Router(routs) {
-
+  
   let prevURL = window.location.href;
 
   //обработчик URL
-  function handleUrl(url) {
-   
+  this.handleUrl = (url) => {
+    
     let curentURL = url;
     
     if(!prevURL.includes('#') && !curentURL.includes('#')) {
@@ -65,8 +65,8 @@ function Router(routs) {
       curentURL += '#';
     }
     
-    curentRout = findRout(curentURL);
-    prevRout = findRout(prevURL);
+    curentRout = this.findRout(curentURL);
+    prevRout = this.findRout(prevURL);
 
     if (prevURL === curentURL) {
       curentRout.onBeforeEnter();
@@ -81,7 +81,7 @@ function Router(routs) {
     
   }
 
-  function findRout(url) {
+  this.findRout = (url) => {
     url = url.split('#').pop();
     return routs.find((rout) => {
       if (typeof rout.match === 'string') {
@@ -100,7 +100,7 @@ function Router(routs) {
   window.addEventListener('hashchange', (ev) => handleUrl(ev.newURL));
   
   // При загрузке страницы - считать состояние и запустить обработчик
-  handleUrl(window.location.href);
+  this.handleUrl(window.location.href);
   
   // Переопределить поведение внутренних ссылок
   document.body.addEventListener('click', (ev) => {
