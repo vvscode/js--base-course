@@ -88,6 +88,18 @@ const questions3 = `Что такое "стрелочная" ("arrow function") 
 в чем разница между следующими кусками кода?<br><pre>doSomething().then(function () { return doSomethingElse(); });</pre><br /><pre>doSomething().then(function () { doSomethingElse(); });</pre><br /><pre>doSomething().then(doSomethingElse());</pre><br /><pre>doSomething().then(doSomethingElse);</pre>
 `;
 
+const questions4 = `
+SOLID
+KISS
+DRY
+YAGNI
+MVC
+Паттерны проектирования ( Что это? Какие есть группы? )
+Антипаттерны проектирования
+Модульные системы (CommonJS/ ES6 modules/ AMD)
+requirejs
+`;
+
 const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
@@ -99,7 +111,7 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [questions1, questions2, questions3];
+let questionsStrings = [questions1, questions2, questions3, questions4];
 let roundQuestionsNumber = 0;
 let i = 0;
 
@@ -115,7 +127,8 @@ let getQuestions = (() => {
       .split('\n')
       .map((i) => i.trim())
       .filter(Boolean);
-    shuffleList([...questions]);
+    shuffleList(questions);
+    shuffleList(questions);
     roundQuestionsNumber = questions.length;
     i = 0;
   };

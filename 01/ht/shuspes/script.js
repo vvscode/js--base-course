@@ -22,15 +22,10 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    
-        for (var i = 1; i <= 100; i++) {
-    
-            var item = !(i % 15) && 'FizzBuzz' || !(i % 3) && 'Fizz' || !(i % 5) && 'Buzz' || i;
-            log(item);
-    
-        }
-    
-    
+	for(var i = 1; i <= 100; i++) {
+		var message = i % 5 == 0 && i % 3 == 0 && "FizzBuzz" || i % 3 == 0 && "Fizz" || i % 5 == 0 && "Buzz" || i;
+		log(message);
+	}
 }
 
 
@@ -42,19 +37,9 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    return textString === textString.split('').reverse().join('')
+	var revertedString = textString.split('').reverse().join('');
+	return textString.toLowerCase() === revertedString.toLowerCase();
 }
-
-// Ещё вариант решения
-
-function isPalindrome(str) {
-    for (var i = 0; i < str.length; i++) {
-        if (str.substr(i, 1) !== str.substr(str.length - i - 1, 1)) {
-            return false;
-        }
-    }
-    return true;
-};
 
 
 /**
@@ -65,43 +50,31 @@ function isPalindrome(str) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-
 function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
-    
+	var belWeek = [1, 2, 3, 4, 5, 6, 0];
+	var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};
+
+	var day = new Date(year, month - 1);
+	var caption = day.toLocaleString("ru", {month: 'long'});
+	var calendarHeader = belWeek.map(function(day) { return `<th>${weekDays[day]}</th>`}).join("");
+
+	var calendarBody = "<tr>";
+	for(var i = 0; belWeek[i] != day.getDay(); i++) {
+		calendarBody += "<td></td>";
+	}
+
+	while(month - 1 == day.getMonth()) {
+		if(day.getDay() == 1) calendarBody += "<tr>";
+  		calendarBody += `<td>${day.getDate()}</td>`;
+		if(day.getDay() == 0) calendarBody += "</tr>";
+		day.setDate(day.getDate() + 1);
+  	}
+
+  	if(day.getDay() !== 0) calendarBody += "</tr>";
+
+	htmlEl.innerHTML = `<table><caption>${caption}</caption><tr>${calendarHeader}</tr>${calendarBody}</table>`;
+}
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -112,15 +85,18 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (JSON.stringify(objA) == JSON.stringify(objB)) {
-        return true;
-    } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-    }
+	if(objA === objB) return true;
+	if (objA == null && objB == null) return true;
+	if (objA == null || objB == null) return false;
+	if(typeof objA !== "object" && typeof objB !== "object") return objA === objB;
 
-    for (var key in objA) {
-        if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-            return isDeepEqual(objA[key], objB[key]);
-        }
-    } return false;
+	var objAKeys = Object.keys(objA);
+	var objBKeys = Object.keys(objB);
+
+	if(objAKeys.length !== objBKeys.length) return false;
+
+	return !objAKeys.some(function(key) {
+		if(!objBKeys.includes(key)) return true;
+		return !isDeepEqual(objA[key], objB[key]);
+	});
 }

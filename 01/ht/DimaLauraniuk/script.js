@@ -22,17 +22,10 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    
-        for (var i = 1; i <= 100; i++) {
-    
-            var item = !(i % 15) && 'FizzBuzz' || !(i % 3) && 'Fizz' || !(i % 5) && 'Buzz' || i;
-            log(item);
-    
-        }
-    
-    
+    for (var i = 1; i <= 100; i++) {
+        log(((i % 5 === 0 && i % 3 === 0) && "FizzBuzz") || (i % 5 === 0 && "Buzz") || (i % 3 === 0 && "Fizz") || i);
+    }
 }
-
 
 /**
  * реализовать фукнцию  `isPolindrom`, 
@@ -42,19 +35,20 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    return textString === textString.split('').reverse().join('')
-}
-
-// Ещё вариант решения
-
-function isPalindrome(str) {
-    for (var i = 0; i < str.length; i++) {
-        if (str.substr(i, 1) !== str.substr(str.length - i - 1, 1)) {
+    var textRevers = textString.split('').reverse().join('');
+    return textString === textRevers;
+    /*
+    для очень длинных строк нашел такой алгоритм
+    textString = textString.toLowerCase().replace(/[^a-zA-Zа-яА-Я]/g, ''); 
+    var textStringLen = textString.length; 
+    for (var i = 0, l = Math.ceil(textStringLen / 2); i <l; i += 1) { 
+        if (textString.charAt(i) !== textString.charAt(textStringLen-(1+i))) { 
             return false;
         }
     }
     return true;
-};
+    */
+}
 
 
 /**
@@ -65,44 +59,39 @@ function isPalindrome(str) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-
 function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
-    
+    var firstDayOfMonth = new Date(year, month - 1);
+    var lastDayOfMonth = new Date(year, month, 0);
+    var numberOfSunday = 7;
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+    var table = '<table><caption>'+monthNames[month-1]+'</caption><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
+    function changeDayNumberIfSunday(dayNumber)
+    {
+         // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as a parameter
+        if (dayNumber === 0) { dayNumber = numberOfSunday };
+        return dayNumber;
+    }
 
+    //fill the table with empty cells, which are accepted for the previous month days
+    for (var i = 1; i < changeDayNumberIfSunday(firstDayOfMonth.getDay()); i++)
+    {
+        table += '<td></td>';
+    }
+    //fill the table with current month days
+    for (var i = 1; i <= lastDayOfMonth.getDate(); i++) {
+        table += '<td>' + i + '</td>';
+        if (changeDayNumberIfSunday(firstDayOfMonth.getDay()) == numberOfSunday) {
+            table += '</tr><tr>';
+        }
+        firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
+    }
+
+    table += '</tr></table>';
+
+    htmlEl.innerHTML = table;
+}
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -112,15 +101,21 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (JSON.stringify(objA) == JSON.stringify(objB)) {
-        return true;
-    } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-    }
-
-    for (var key in objA) {
-        if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-            return isDeepEqual(objA[key], objB[key]);
+    if ((typeof objA == "object" && objA != null) && (typeof objB == "object" && objB != null)) {
+        if (Object.keys(objA).length != Object.keys(objB).length)
+            return false;
+        for (var prop in objA) {
+            if (objB.hasOwnProperty(prop)) {
+                if (!isDeepEqual(objA[prop], objB[prop]))
+                    return false;
+            }
+            else
+                return false;
         }
-    } return false;
+        return true;
+    }
+    else if (objA !== objB)
+        return false;
+    else
+        return true;
 }
