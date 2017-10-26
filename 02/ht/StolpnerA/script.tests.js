@@ -330,8 +330,44 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+  function target1(a, b, c, d) {
+    return a + b + c + d;
+  }
+  function target2(a, b) {
+    return a + b;
+  }
+  it("Должно быть равно 10", function() {
+    assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
+  });
+
+  it("Должно быть равно 13", function() {
+    assert.isOk(curry(target2)(5)(8) === 13);
+  });
+});
+
+describe("debounce", () => {
+  let test = 0;
+  function func() {
+    test += 1;
+  }
+  let f = debounce(func, 1000);
+
+  beforeEach(() => f());
+
+  it("Начальное значение", () => {
+    assert.equal(test, 1);
+  });
+  it("Игнорирование вызовов в период задержки", () => {
+    f();
+    f();
+    assert.equal(test, 1);
+  });
+  it("Игнорирование вызовов в период задержки, и вызов функции после задержки", done => {
+    f();
+    f();
+    setTimeout(f, 1100);
+    setTimeout(() => assert.equal(test, 2), 1100);
+    setTimeout(done, 1100);
   });
 });
 

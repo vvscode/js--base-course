@@ -22,15 +22,11 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    
-        for (var i = 1; i <= 100; i++) {
-    
-            var item = !(i % 15) && 'FizzBuzz' || !(i % 3) && 'Fizz' || !(i % 5) && 'Buzz' || i;
-            log(item);
-    
-        }
-    
-    
+	var msg = ["", "Fizz", "Buzz", "FizzBuzz"];
+	for (var i = 1; i<=100; i++) {
+		var chck = !(i % 3) * 1 + !(i % 5) *2
+		log(msg[chck] || i);
+	}
 }
 
 
@@ -42,19 +38,12 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    return textString === textString.split('').reverse().join('')
+ /* Ваше решение */
+	var string = textString.toLowerCase();
+	var plndrm = string.split('').reverse().join('');
+	return (string === plndrm);
+// return undefined;
 }
-
-// Ещё вариант решения
-
-function isPalindrome(str) {
-    for (var i = 0; i < str.length; i++) {
-        if (str.substr(i, 1) !== str.substr(str.length - i - 1, 1)) {
-            return false;
-        }
-    }
-    return true;
-};
 
 
 /**
@@ -65,43 +54,43 @@ function isPalindrome(str) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-
 function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
-    
+    /* Ваше решение */
+	var day = new Date(year, month -1, 1);
+	var newday = new Date(year, month, 0);
+	
+	function fixDays(weekday) {
+		if (weekday == 0) {
+			weekday =7;
+		}
+		return weekday - 1;
+	}
+	
+	var table = '<table><tr>';
+	
+	if (fixDays(day.getDay()) > 1) {
+		for (var i = 1; i < fixDays(day.getDay()); i++) {
+			table += '<td>' + "*" + '</td>';
+		}
+	}
+	
+	for (var i = 1; i<=newday.getDate(); i++) {
+		table += '<td>' + i + '</td>';
+		if (fixDays(day.getDay()) == 7) {
+			table += '</tr><tr>';
+		}
+		day.setDate(day.getDay() + 1);
+	}
+
+	if (fixDays(newday.getDay()) < 7) {
+		for (var i = fixDays(newday.getDay()); i < 7; i++) {
+			table += '<td>' + "*" + '</td>';
+		}
+	}
+	
+	htmlEl.innerHTML = table + '</tr></table>';
+}
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -112,15 +101,14 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (JSON.stringify(objA) == JSON.stringify(objB)) {
-        return true;
-    } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-    }
-
-    for (var key in objA) {
-        if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-            return isDeepEqual(objA[key], objB[key]);
-        }
-    } return false;
+ /* Ваше решение */
+	if (typeof(objA) !== typeof(objB)) return false;
+	if (typeof(objA) !== 'object') return objA === objB;
+	if (Array.isArray(objA) != Array.isArray(objB)) return false;
+	if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+	for (var key in objA) {
+		if (!isDeepEqual(objA[key], objB[key])) return false
+	}
+	return true;
+ //return undefined;
 }

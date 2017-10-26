@@ -320,7 +320,7 @@ describe("User / PreUser", function() {
   it("разные конструкторы", function() {
     assert.isOk(User !== PreUser);
   });
-  it("создают правильное дерево наследования", function() {
+  assert.isOk("создают правильное дерево наследования", function() {
     var u = new User();
     var u2 = new User();
     assert.isOk(u instanceof User);
@@ -330,8 +330,81 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+  var funcTwoArgs = function(a, b) {
+    return a + b;
+  };
+  var funcThreeArgs = function(a, b, с) {
+    return a + b + с;
+  };
+  var funcFourArgs = function(a, b, с, d) {
+    return a + b + с + d;
+  };
+  var funcFiveArgs = function(a, b, с, d, e) {
+    return a + b + с + d + e;
+  };
+  it("Работает с функцией с 2 аргуметами", function() {
+    assert.isOk(curry(funcTwoArgs)(1)(1) === 2);
+  });
+  it("Работает с функцией с 3 аргуметами", function() {
+    assert.isOk(curry(funcThreeArgs)(1)(1)(1) === 3);
+  });
+  it("Работает с функцией с 4 аргуметами", function() {
+    assert.isOk(curry(funcFourArgs)(1)(1)(1)(1) === 4);
+  });
+  it("Работает с функцией с 5 аргуметами", function() {
+    assert.isOk(curry(funcFiveArgs)(1)(1)(1)(1)(1) === 5);
+  });
+});
+
+describe('debounce', () => {
+  it('Срабатывает через заданный промежуток времени', (done) => {
+    var testValue = 0;
+    var func = debounce((arg) => testValue = arg, 100);
+
+    func(1);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    setTimeout(() => assert.equal(testValue, 0, 'значение осталось неизменным до истечения таймера'), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'значение изменилось после истечения таймера'), 120);
+    setTimeout(done, 150);
+  });
+  it('Правильно работает при повторых вызовах', (done) => {
+    var testValue = 0;
+    var func = debounce((arg) => testValue = arg, 100);
+
+    func(1);
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    setTimeout(() => func(2), 50);
+    setTimeout(() => assert.equal(testValue, 0, 'значение не изменилось после повторного вызова'), 120);
+    setTimeout(() => assert.equal(testValue, 2, 'значение изменилось после истечения таймера'), 170);
+    setTimeout(done, 200);
+  });
+});
+
+describe('throttle', () => {
+  it('Функция отрабатывает через заданный интервал', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 150);
+    setTimeout(() => assert.equal(testValue, 2, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
+  });
+  it('Правильно работает при повторых вызовах', (done) => {
+    var testValue = 0;
+    var func = throttle((arg) => testValue = arg, 100);
+
+    assert.equal(testValue, 0, 'проверка начального состояния');
+    func(1);
+    assert.equal(testValue, 1, 'первый вызов сработал');
+    setTimeout(() => func(2), 50);
+    setTimeout(() => assert.equal(testValue, 1, 'преждевременный вызов не изменил значение'), 60);
+    setTimeout(() => func(3), 150);
+    setTimeout(() => assert.equal(testValue, 3, 'второй вызов отработал после истечения таймера'), 160);
+    setTimeout(done, 200);
   });
 });
 
