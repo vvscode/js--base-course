@@ -82,7 +82,7 @@ function drawSetings() {
 
     var previewCode = '<table id="previewCalendar"><thead><tr><td id="preview_prev_month">' + prevArrow + '</td><td colspan="5" id="month" data-month="9" data-year="2017">' + checkMonth + ' ' + customYear + '</td><td id="preview_next_month">' + nexArrow + '</td></tr><tr><td>Пн</td><td>Вт</td><td>Ср</td><td>Чт</td><td>Пт</td><td>Сб</td><td>Вс</td></tr></thead><tbody>';
 
-    for (let i = 0; i<= 5; i++) {
+    for (let i = 0; i<= 4; i++) {
       previewCode += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
     }
 
