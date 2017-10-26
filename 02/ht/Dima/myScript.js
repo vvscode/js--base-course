@@ -54,7 +54,7 @@ function Calendar2(id, year, month) {
 	document.querySelector('#'+id+' thead td:nth-child(2)').dataset.year = D.getFullYear();
 
 	if (document.querySelectorAll('#'+id+' tbody tr').length < 6) { 
-		document.querySelector('#'+id+' tbody').innerHTML += '<tr><td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;';
+		document.querySelector('#' + id + ' tbody').innerHTML += '<tr><td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;';
 	}
 }
 	
