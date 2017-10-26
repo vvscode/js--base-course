@@ -1,10 +1,10 @@
-function EventBus () {
+function EventBus() {
   this.handlers = [];
   this.on = (eventName, cb) => {
     this.handlers.push(
       {
         'eventName': eventName,
-        'handlerFn': cb
+        'handlerFn': cb,
       }
     );
   },
@@ -33,17 +33,16 @@ function EventBus () {
     this.handlers.push(
       {
         'eventName': 'once_' + eventName,
-        'handlerFn': cb
+        'handlerFn': cb,
       }
     );
-  }
+  };
 }
 
-function compileTemplate (tpl) {
-
+function compileTemplate(tpl) {
   let compileTpl = tpl;
 
-  return function (el, data) {
+  return function(el, data) {
     let fragment = '';
     fragment += compileTpl.replace(/\{\{name\}\}/, data.name).replace(/\{\{age\}\}/, data.age);
     el.innerHTML = fragment;
@@ -52,19 +51,17 @@ function compileTemplate (tpl) {
 }
 
 function Router(routs) {
-  
   let prevURL = window.location.href;
 
-  //обработчик URL
+  // обработчик URL
   this.handleUrl = (url) => {
-    
     let curentURL = url;
-    
-    if(!prevURL.includes('#') && !curentURL.includes('#')) {
+
+    if (!prevURL.includes('#') && !curentURL.includes('#')) {
       prevURL += '#';
       curentURL += '#';
     }
-    
+
     curentRout = this.findRout(curentURL);
     prevRout = this.findRout(prevURL);
 
@@ -78,8 +75,7 @@ function Router(routs) {
     }
 
     prevURL = curentURL;
-    
-  }
+  };
 
   this.findRout = (url) => {
     url = url.split('#').pop();
@@ -94,17 +90,17 @@ function Router(routs) {
         return rout.match(url);
       }
     });
-  }
+  };
 
   // Подписаться на изменения URL
   window.addEventListener('hashchange', (ev) => handleUrl(ev.newURL));
-  
+
   // При загрузке страницы - считать состояние и запустить обработчик
   this.handleUrl(window.location.href);
-  
+
   // Переопределить поведение внутренних ссылок
   document.body.addEventListener('click', (ev) => {
-    if(!ev.target.matches('a')) {
+    if (!ev.target.matches('a')) {
       return;
     }
     ev.preventDefault();
