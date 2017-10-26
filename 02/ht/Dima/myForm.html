@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form id="form">
+		Имя: <input id="name">
+		Город: <select id="city">
+			<option>Минск</option>
+			<option>Брест</option>
+			<option>Гродно</option>
+			<option>Могилёв</option>
+			<option>Витебск</option>
+			<option>Гомель</option>
+		</select><br><br>
+		<textarea rows="10" cols="30" name="text" id="text" placeholder="введите коментарий"></textarea><br><br>
+		Ваш пол: <input type="radio" name="sex" value="мужской" id="sex"> Мужской || Женский <input type="radio" name="sex" value="женский" id="sex"><br><br>
+		<button type="reset" id="button">Отправить данные</button>
+	</form>
+	<hr>
+	<div id="result"></div><br><br>
+
+
+	<table id="calendar2">
+		<thead>
+			<tr><td>‹<td colspan="5"><td>›
+			<tr><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс
+		<tbody>
+	</table>
+
+	<ul id="history"></ul>
+	<button id="clearStorege">Очистить локальное хранилище</button>
+ 
+<script src="myScript.js"></script>
+
+	
+</body>
+</html>
