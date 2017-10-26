@@ -43,7 +43,7 @@ function drawSetings() {
       setings.customYear = +customYear;
     }
 
-    var codeText = 	'<div id="content"></div><script>var setings = ' + JSON.stringify(setings, null, ' ') + ';</script><script src="*ваш путь к файлу*/calendar.js"></script>';
+    var codeText = 	'<!--Подключение стилей--><link rel="stylesheet" type="text/css" href="https://rawgit.com/DmitryBelonogy/calendar/master/css/style.css"><!--Подключение скрипта--><div id="content"></div><script>var setings = ' + JSON.stringify(setings, null, ' ') + ';</script><script src="https://rawgit.com/DmitryBelonogy/calendar/master/js/calendar.js"></script>';
     
     //выводим setings на экран
       code.innerText = codeText;
