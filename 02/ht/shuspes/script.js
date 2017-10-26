@@ -10,9 +10,24 @@
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+  if(objA === objB) return true;
+  if (objA == null && objB == null) return true;
+  if (objA == null || objB == null) return false;
+  if (typeof objA === 'number' && typeof objB === 'number' && isNaN(objA) && isNaN(objB)) return true;
+  if(typeof objA !== "object" && typeof objB !== "object") return objA === objB;
+
+  var objAKeys = Object.keys(objA);
+  var objBKeys = Object.keys(objB);
+  
+  if(objAKeys.length !== objBKeys.length) return false;
+
+  return !objAKeys.some(function(key) {
+    if(!objBKeys.includes(key)) return true;
+    if(objA === objA[key] && objB === objB[key]) return false;
+    return !isDeepEqual(objA[key], objB[key]);
+  });
 }
 
 /**
@@ -21,8 +36,11 @@ function isDeepEqual(objA, objB) {
  * @param {*} context значение для this
  * @return {function} функция с зафиксированным контекстом
  */
+
 function bind(func, context) {
-  return undefined;
+  return function() { 
+    return func.apply(context, arguments); 
+  }
 }
 
 /**
@@ -31,11 +49,24 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
+Function.prototype.myBind = function(newContext) {
+  return bind(this, newContext);
+}
+
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
+
+var o = {};
+Object.defineProperty(o, "magicProperty", {
+  set: function(value) {
+    console.log(value, new Date());
+  }
+});
+
+// o.magicProperty = 3;
 
 /**
 * Создать конструктор с методами, так, 
@@ -44,23 +75,73 @@ function bind(func, context) {
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
+function User() {
+  this.askName = function() {
+    this.name = prompt('Insert your name');
+    return this;
+  }
+
+  this.askAge = function() {
+    this.age = prompt('Insert your age');    
+    return this;
+  }
+
+  this.showAgeInConsole = function() {
+    console.log(this.age);
+    return this;
+  }
+
+  this.showNameInAlert = function() {
+    alert(this.name);
+    return this;
+  }
+}
+
+var u = new User();
+// u.askName().askAge().showAgeInConsole().showNameInAlert();
+
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+
+function calculate(operator) {
+  return function(firstValue) {
+    return function(secondValue) {
+      var result;
+      switch(operator) {
+        case "+":
+          result = firstValue + secondValue;
+          break;
+        case "-":
+          result = firstValue - secondValue;
+          break;
+        case ":":
+        case "/":
+          result = firstValue / secondValue;
+          break;
+        case "*":
+          result = firstValue * secondValue;
+          break;
+        default:
+          result = 0;
+      }
+      return result;
+    }
+  }
 }
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  throw "undefined";
-}
+
+var Singleton = (function() {
+  var instance;
+  return function () {return instance || (instance = this)};
+}())
 
 /**
   * Создайте функцию ForceConstructor
@@ -68,8 +149,15 @@ function Singleton() {
   * вызвана она с new или без
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
+
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  if(this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  } else {
+    return new ForceContructor(a, b, c);
+  }
 }
 
 /**
@@ -81,8 +169,20 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw "undefined";
+
+function sum(value) {
+  value = value || 0;
+
+  function sumIt(anotherValue) {
+    anotherValue = anotherValue || 0;
+    return sum(value + anotherValue);
+  }
+
+  sumIt.toString = function() {
+    return value;
+  };
+
+  return sumIt;
 }
 
 function log(x) {
@@ -112,6 +212,13 @@ function curry(func) {}
 что объект является экземпляром двух классов
 */
 /* Тут ваш код */
+
+function PreUser() {};
+PreUser.prototype = new Array();
+
+function User() {};
+User.prototype = new PreUser();
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
