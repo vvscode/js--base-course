@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
 
-/*1*
+/*1 - почти*
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
  * и проверяет идентичны ли они по содержимому. Например
@@ -11,13 +11,14 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if( typeof objA !== typeof objB ) return false;debugger
-    if( isNaN(objA) && typeof objA !== 'string' && typeof objA !== 'object' ) return true;debugger
-    if( typeof objA === 'string' || typeof objA === 'number' ) return objA === objB;debugger
-    if(Object.keys(objA).length !== Object.keys(objB).length) return false;debugger
+    if( typeof objA !== typeof objB ) return false;
+    if( isNaN(objA) && typeof objA !== 'string' && typeof objA !== 'object' ) return true;
+    if( typeof objA === 'string' || typeof objA === 'number' ) return objA === objB;
+    if(Object.keys(objA).length !== Object.keys(objB).length) return false;
 
     for (var key in objA) {
-        if (!isDeepEqual(objA[key], objB[key])) return false;debugger
+        if ( objA[key] === objA && objA[key] === objB  ) continue;
+        if (!isDeepEqual(objA[key], objB[key])) return false;
     }
     return true;
 }
@@ -133,7 +134,12 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+    if (!(this instanceof ForceContructor)) {
+        return new ForceContructor(a, b, c);
+    }
+    this.a = a;
+    this.b = b;
+    this.c = c;
 }
 
 /* 9 - сделано*
