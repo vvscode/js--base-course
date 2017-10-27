@@ -75,7 +75,66 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
 
+    var date = new Date(year, (month - 1), 1);
+
+    var dateInMonth = new Date(year, month, 0);
+
+    var str = "<h4>Заголовки в таблице:</h4>" +
+        '<table border="1">' +
+        " <tr>" +
+        "<th>Пн</th>" +
+        "<th>Вт</th>" +
+        " <th>Ср</th>" +
+        "<th>Чт</th>" +
+        " <th>Пт.</th>" +
+        "<th>Сб</th>" +
+        "<th>Вс</th>" +
+        "</tr>";
+
+
+    var day = date.getDay()
+    if (day == 0)
+        day = 7;
+    if (day != 1) {
+        str += "<tr>"
+        for (var i = 1; i < day; i++) {
+            str += "<td></td>";
+        }
+    }
+
+    for (var index = 1; index <= dateInMonth.getDate(); index++) {
+
+        switch (date.getDay()) {
+            case 1:
+            {
+                str += "<tr><td>" + date.getDate() + "</td>";
+                date.setDate(index + 1)
+
+                break;
+            }
+            case 0:
+            {
+                str += "<td>" + date.getDate() + "</td></tr>";
+                date.setDate(index + 1)
+
+                break;
+            }
+
+            default:
+            {
+                str += "<td>" + date.getDate() + "</td>";
+                date.setDate(index + 1)
+            }
+                break;
+        }
+    }
+    if (dateInMonth.getDay() == 0)
+        str += "</table>";
+    else
+        str += "</tr></table>";
+    htmlEl.innerHTML = str;
 }
+
 
 
 /**
@@ -86,16 +145,15 @@ function drawCalendar(year, month, htmlEl) {
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
 function isDeepEqual(objA, objB) {
-
+    if( typeof objA === typeof objB && typeof objA !== 'object' ) return objA === objB;
+    if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+    for (var key in objA) {
+        if (!isDeepEqual(objA[key], objB[key])) return false;
+    }
+    return true;
 }
-
-
-
-
-
-
-
 
 
 
