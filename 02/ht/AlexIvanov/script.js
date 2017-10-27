@@ -11,16 +11,15 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if( typeof objA !== typeof objB ) return false;
-    if( isNaN(objA) ) return true;
-    if( typeof objA === 'string' ) return objA === objB;
-    if( typeof objA === 'number' ) return objA === objB;
-    if(Object.keys(objA).length !== Object.keys(objB).length) return false;
+    if( typeof objA !== typeof objB ) return false;debugger
+    if( isNaN(objA) && typeof objA !== 'string' && typeof objA !== 'object' ) return true;debugger
+    if( typeof objA === 'string' || typeof objA === 'number' ) return objA === objB;debugger
+    if(Object.keys(objA).length !== Object.keys(objB).length) return false;debugger
+
     for (var key in objA) {
-        if (!isDeepEqual(objA[key], objB[key])) return false;
+        if (!isDeepEqual(objA[key], objB[key])) return false;debugger
     }
     return true;
-
 }
 
 /*2 - сделано*
