@@ -11,8 +11,16 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+    if( typeof objA !== typeof objB ) return false;
+    if( isNaN(objA) ) return true;
+    if( typeof objA === 'string' ) return objA === objB;
+    if( typeof objA === 'number' ) return objA === objB;
+    if(Object.keys(objA).length !== Object.keys(objB).length) return false;
+    for (var key in objA) {
+        if (!isDeepEqual(objA[key], objB[key])) return false;
+    }
+    return true;
+
 }
 
 /*2 - сделано*
