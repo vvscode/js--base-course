@@ -160,8 +160,6 @@ var Singleton = (function() {
     instance = this;
     else return instance;
   }
-
-  Singleton.prototype.test = function() {};
   
   return Singleton;
   })()
