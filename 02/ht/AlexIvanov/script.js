@@ -127,15 +127,15 @@ function Singleton() {
     Singleton.instance = this;
 }
 
-/* 8 - *
+/* 8 - сделано*
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
   * вызвана она с new или без
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-    if (!(this instanceof ForceContructor)) {
-        return new ForceContructor(a, b, c);
+    if (!(this instanceof ForceContructor)) { //если this не объекта ForceContructor
+        return new ForceContructor(a, b, c); // вызываем рекурсивно функцию снова с методом new
     }
     this.a = a;
     this.b = b;
@@ -183,19 +183,26 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
-
+function curry(a) {
+   return function (b) {
+        return function (c) {
+            return function (d) {
+                return function (e) {
+                    return b+c+d+e;
+                }
+            }
+        }
+    }
+}
 /* 11 - сделано *
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
 
 function PreUser() {
-
 }
 
 function User() {
-
 }
 
 PreUser.prototype = User.prototype = [];
