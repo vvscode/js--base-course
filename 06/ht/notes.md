@@ -1,4 +1,4 @@
-# Загрузка данных с удаленного сервера
+****# Загрузка данных с удаленного сервера
 
 Актуальные варианты работы c `ajax`:
 
@@ -44,4 +44,9 @@ let getForecastByAddress = (str) => getLatLng(str)
   .catch((e) => {
     //  здесь можно обработать ошибки, например 
   });
+```
+
+Пример использования CORS proxy:
+```
+http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/53.890838,27.5372046?lang=ru&units=si
 ```
