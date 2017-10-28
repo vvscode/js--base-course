@@ -22,15 +22,15 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    
-        for (var i = 1; i <= 100; i++) {
-    
-            var item = !(i % 15) && 'FizzBuzz' || !(i % 3) && 'Fizz' || !(i % 5) && 'Buzz' || i;
-            log(item);
-    
-        }
-    
-    
+    for (var index = 1; index < 101; index++) {
+
+        (index % 3 == 0 && index % 5 == 0) && log("FizzBuzz");
+        (index % 3 == 0 && index % 5 != 0) && log("Fizz");
+        (index % 5 == 0 && index % 3 != 0) && log("Buzz");
+        (index % 5 != 0 && index % 3 != 0) && log(index);
+
+
+    }
 }
 
 
@@ -42,19 +42,8 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    return textString === textString.split('').reverse().join('')
+    return textString == textString.split('').reverse().join('');
 }
-
-// Ещё вариант решения
-
-function isPalindrome(str) {
-    for (var i = 0; i < str.length; i++) {
-        if (str.substr(i, 1) !== str.substr(str.length - i - 1, 1)) {
-            return false;
-        }
-    }
-    return true;
-};
 
 
 /**
@@ -65,43 +54,66 @@ function isPalindrome(str) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-
 function drawCalendar(year, month, htmlEl) {
-    
-        var jsMonth = month - 1;
-        var date = new Date(year, jsMonth, 1);
-        var tdCountBeforeFirst = date.getDay() - 1;
-        var lastDay = new Date(year, month, 0);
-        var daysCount = lastDay.getDate();
-        var lastWeekDay = lastDay.getDay();
-        if (lastDay.getDay() === 0) {
-          lastWeekDay = 7;
-        };
-        var tdCountAfterLast = 7 - lastWeekDay;
-        var totalCellCount = tdCountBeforeFirst + tdCountAfterLast + daysCount;
-        var calendar = document.createElement('div');
-        
-        calendar.insertAdjacentHTML('beforeEnd', '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr></table>');
-        var cell, n = 1 - tdCountBeforeFirst;
-    
-        for (var i = 0; i < totalCellCount / 7; i++ ) {
-          
-            calendar.lastChild.lastChild.insertAdjacentHTML('beforeEnd', '<tr></tr>');
-    
-            for (var j = 0; j < 7; j++) {
-                if (n > 0 && n <= daysCount) {
-                    cell = '<td>' + n + '</td>';
-                } else {
-                    cell = '<td></td>';
-                }; 
-                calendar.lastChild.lastChild.lastChild.insertAdjacentHTML('beforeEnd', cell);
-                n++; 
-            }
-        };
-        htmlEl.innerHTML = '';
-        htmlEl.appendChild(calendar);
-    };
-    
+    var date = new Date(year, (month - 1), 1);
+    var dateInMonth = new Date(year, month, 0);
+    var str = "<h4>Заголовки в таблице:</h4>" +
+        '<table border="1">' +
+        " <tr>" +
+        "<th>Пн</th>" +
+        "<th>Вт</th>" +
+        " <th>Ср</th>" +
+        "<th>Чт</th>" +
+        " <th>Пт.</th>" +
+        "<th>Сб</th>" +
+        "<th>Вс</th>" +
+        "</tr>";
+
+
+    var day = date.getDay()
+    if (day == 0)
+        day = 7;
+    if (day != 1) {
+        str += "<tr>"
+        for (var i = 1; i < day; i++) {
+            str += "<td></td>";
+        }
+    }
+
+    for (var index = 1; index <= dateInMonth.getDate(); index++) {
+
+        switch (date.getDay()) {
+            case 1:
+                {
+                    str += "<tr><td>" + date.getDate() + "</td>";
+                    date.setDate(index + 1)
+
+                    break;
+                }
+            case 0:
+                {
+                    str += "<td>" + date.getDate() + "</td></tr>";
+                    date.setDate(index + 1)
+
+                    break;
+                }
+
+            default:
+                {
+                    str += "<td>" + date.getDate() + "</td>";
+                    date.setDate(index + 1)
+                }
+                break;
+        }
+    }
+    if (dateInMonth.getDay() == 0)
+        str += "</table>";
+    else
+        str += "</tr></table>";
+    htmlEl.innerHTML = str;
+
+}
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -112,15 +124,12 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (JSON.stringify(objA) == JSON.stringify(objB)) {
-        return true;
-    } else if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-    }
-
+    if (typeof(objA) !== typeof(objB)) return false;
+    if (typeof(objA) !== 'object') return objA === objB;
+    if (Array.isArray(objA) != Array.isArray(objB)) return false;
+    if (Object.keys(objA).length !== Object.keys(objB).length) return false;
     for (var key in objA) {
-        if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-            return isDeepEqual(objA[key], objB[key]);
-        }
-    } return false;
+        if (!isDeepEqual(objA[key], objB[key])) return false;
+    }
+    return true;
 }
