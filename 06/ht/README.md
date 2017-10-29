@@ -34,3 +34,13 @@
  3. [Using ES6 with gulp](https://markgoodyear.com/2015/06/using-es6-with-gulp/)
 
 Уделите этому пункту внимание и время! Настроенная система сборки экономит вам время и создает удобное окружение для хорошего кода.
+
+
+## Прочитать
+
+1. [Мультивставка: insertAdjacentHTML и DocumentFragment](https://learn.javascript.ru/multi-insert)
+1. [Интерфейсы. Прочь от MVC](http://javascript.ru/optimize/antimvc)
+
+## Посмотреть
+
+1. [Компонентный подход от Вовы](https://www.youtube.com/watch?v=sH04-Ypak_s)
