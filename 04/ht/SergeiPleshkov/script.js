@@ -54,7 +54,7 @@ function addNote(settings, storageID) {
 		
 	}
 	
-	calendar.addEventListener('click', function () {
+	document.addEventListener('click', function () {
 		var target = event.target;
 		if (target.tagName === 'TD' && target.innerHTML) {
 			var noteComment = prompt('Напишите комментарий', 'Важное событие');
@@ -71,12 +71,13 @@ function addNote(settings, storageID) {
 
 function removeNote(settings, storageID) {
 	if (!settings.removeNotes || !settings.addNotes) return;
-	calendar.addEventListener('click', function (event, storageID) {
+	document.addEventListener('click', function (event, storageID) {
 		var target = event.target;
 		if (target.className === 'rmNote' && confirm('Удалить запись "' + target.parentNode.innerText + '"?')) {
 			target.parentNode.remove();
+			storageID = settings.year + '' + settings.month;
+			localStorage.setItem(storageID, calendar.innerHTML);
 		}
-		localStorage.setItem(storageID, calendar.innerHTML);
 	});
 }
 
@@ -99,32 +100,34 @@ function createButtons(settings, storageID) {
 }
 
 function drawInteractiveCalendar(settings) {
-	document.getElementById('content').innerHTML = null;
-	var el = document.createElement('div');
-	document.getElementById('content').appendChild(el);
+	var el = document.getElementById('content');
+	el.innerHTML = null;
 
 	var calendar = document.createElement('div');
 	calendar.id = 'calendar';
-	
-	var storageID = settings.year + '' + settings.month;
-	if (storageID in localStorage) {
-		calendar.innerHTML = localStorage.getItem(storageID);
-		el.appendChild(calendar);
-		return;
-	}
 	var calendarHead = document.createElement('div');
 	calendarHead.id = 'calendar-head';
 	calendar.appendChild(calendarHead);
-
-	el.appendChild(calendar);
 	
-	if (settings.changeMonth) {
-		createButtons(settings);
-	}
+	el.appendChild(calendar);
+	calendar = document.getElementById('calendar');
+	
 	if (settings.showCurrent) {
 		var current = document.createElement('div');
 		current.id = 'current';
 		calendarHead.insertBefore(current, calendarHead.lastChild);
+	}
+	if (settings.changeMonth) {
+		createButtons(settings);
+	}
+	
+	var storageID = settings.year + '' + settings.month;
+	if (storageID in localStorage) {
+		el.innerHTML = null;		
+		el.innerHTML = localStorage.getItem(storageID);
+		addNote(settings, storageID);
+		removeNote(settings, storageID);
+		return;
 	}
 	addNote(settings, storageID);
 	removeNote(settings, storageID);
