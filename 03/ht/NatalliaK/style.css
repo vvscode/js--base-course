@@ -71,14 +71,6 @@ td:active {
 	border-style: solid;
 }
 
-td.empty:hover {
-	background-color: transparent;
-}
-
-td.empty:active {
-	background-color: transparent;
-}
-
 .userSelect {
 	position: relative;
 
@@ -87,6 +79,14 @@ td.empty:active {
 
 	font-size: 0.4em;
 	text-indent: -2px;
+}
+
+td.empty:hover {
+	background-color: transparent;
+}
+
+td.empty:active {
+	background-color: transparent;
 }
 
 p{
@@ -227,4 +227,12 @@ select:nth-of-type(4) {
 
 .hide {
 	display: none;
+}
+
+.output {
+	width: 40%;
+	margin: 10px;
+
+	text-align: left;
+	font-size: 0.5em;
 }
