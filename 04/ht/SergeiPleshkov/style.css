@@ -1,0 +1,52 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+    height: 90%;
+}
+tbody {
+    width: 100%;
+    height: 100%;
+}
+
+td,
+th,
+tr {
+  padding: 3px;
+  text-align: right;
+}
+tr {
+    width: 100%;
+
+}
+
+td {
+    border: 2px solid silver;
+}
+
+th {
+  font-weight: bold;
+  background-color: #E6E6E6;
+}
+
+tbody tr td:last-child {
+  color: red;
+}
+
+#calendar-head {
+  margin: 10px 5px 10px 5px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+}
+
+#calendar {
+}
+
+#calendar-container {
+  align-self: end;
+}
+
+.note {
+  border: 1px solid silver;
+  text-align: center;
+}
