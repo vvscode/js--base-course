@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> form </title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="...">
+    <meta name="description" content="...">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            font-family: 'Open Sans';
+        }
+        .box {
+            background-color: #dbdbdb;
+            height: 100%;
+        }
+        .form_anketa {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form_anketa fieldset {
+            border: 1px solid #2294d6;
+            background-color: #fff;
+            position: relative;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .form_anketa legend {
+            font-size: 22px;
+            font-weight: normal;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            background-color: #2294d6;
+            border-radius: 3px 3px 0 0;
+            color: #fff;
+            left: 0;
+            right: 0;
+            padding: 10px 0;
+            width: 100%;
+        }
+        .form_anketa label {
+            display: block;
+            margin: 4px 0;
+        }
+        .icon__home__telinput .gender{
+            margin: 0;
+            padding-left: 40px;
+        }
+        .button {
+            width: 200px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #2294d6;
+            color: #fff;
+            font-size: 16px;
+            display: block;
+            border: none;
+            margin: 0 auto;
+        }
+        .icon {
+            margin: 20px 0;
+            position: relative;
+        }
+        .icon input {
+            padding-left: 25px;
+            width: 550px;
+            padding: 5px 0 5px 25px;
+            border: 2px solid #d8f1ff;
+            border-radius: 5px;
+        }
+        .icon .comments:focus,
+        .icon input:focus {
+            outline: none;
+            border: 2px solid #2294d6;
+            border-radius: 5px;
+        }
+        .icon .comments {
+            min-width: 550px;
+            min-height: 100px;
+            max-width: 570px;
+            max-height: 120px;
+            padding: 5px 0 5px 25px;
+            border: 2px solid #d8f1ff;
+            border-radius: 5px;
+        }
+        .icon__home:before,
+        .icon:before {
+            height: 14px;
+            width: 14px;
+            content: "";
+            position: absolute;
+            top: 32px;
+            left: 10px;
+            background-image: url(http://fe.it-academy.by/Sites/0022004/sprite.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .gender input {
+            width: 12px;
+            height: 12px;
+        }
+        .icon__home__textinput {
+            margin-top: 60px;
+        }
+        .icon__home__textinput:before {
+            background-position: -64px 0;
+        }
+        .icon__home__emailinput:before {
+            background-position: -84px 0;
+        }
+        .icon__home__telinput:before {
+            background-position: -105px 0;
+        }
+        .icon__home__comments:before {
+            background-position: -22px 0;
+        }
+        .icon__home:before {
+            background-image: url(http://fe.it-academy.by/Sites/0022004/sprite_2.png);
+            height: 18px;
+            width: 18px;
+            top: 16px;
+            left: 195px;
+            background-position: 0 0;
+        }
+        .icon label {
+            padding-left: 10px;
+            font-size: 14px;
+        }
+        .icon input,
+        .icon textarea {
+            font-family: 'Open Sans';
+        }
+    </style>
+</head>
+<body>
+<!--
+ Создать веб страницу. Добавить на нее форму с полями
+ - имя (строкое поле),
+ - родной город (Выпадающий список),
+ - Комментарий (многострочное поле), пол (radiobutton).
+ При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
+ после чего поля очистить.
+ -->
+<div class="box">
+    <form class="form_anketa">
+        <fieldset>
+            <legend class="icon__home"> Обратная связь </legend>
+            <div class="icon icon__home__textinput">
+                <label for="textinput">	Имя: </label>
+                <input type="text" name="name" class="textinput" id="textinput" placeholder="Введите Ваше имя">
+            </div>
+            <div class="icon icon__home__emailinput">
+                <label> Ваш родной город: </label>
+                <select name="city" style="width: 200px; height: 30px; padding: 5px 0 5px 25px; margin-top:2px" >
+                    <option selected> Брест </option>
+                    <option> Витебск </option>
+                    <option> Гомель </option>
+                    <option> Гродно </option>
+                    <option> Могилев </option>
+                    <option> Минск </option>
+                </select>
+            </div>
+            <div class="icon icon__home__telinput">
+                <label for="telinput"> Ваш пол: </label>
+                <label class="gender"> Мужской
+                    <input type="radio" name="sex" class="telinput" id="gender">
+                </label>
+
+                <label class="gender"> Женский
+                    <input type="radio" name="sex" class="telinput" id="telinput">
+                </label>
+            </div>
+
+
+            <div class="icon icon__home__comments">
+                <label for="comments"> Комментарии: </label>
+                <textarea class="comments" id="comments" placeholder="Текст комментария..."></textarea>
+            </div>
+            <div class="icon__home__button">
+                <button class="button" id="button"> Отправить </button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

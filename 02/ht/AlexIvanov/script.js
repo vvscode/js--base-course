@@ -167,7 +167,7 @@ function log(x) {
   console.log(+x);
 }
 
-/* 10 *
+/* 10 - сделано*
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
@@ -183,16 +183,22 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(a) {
-   return function (b) {
-        return function (c) {
-            return function (d) {
-                return function (e) {
-                    return b+c+d+e;
-                }
-            }
+function curry(func) {
+    var funcArg = [];
+    return function f(a) {
+        funcArg.push(a);
+        if( funcArg.length === func.length){
+            return func.apply(this, funcArg)
         }
+        return f.bind(null)
     }
+
+}
+function target1(a,b,c,d) {
+    return a + b + c + d;
+}
+function target2(a,b) {
+    return a + b;
 }
 /* 11 - сделано *
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
