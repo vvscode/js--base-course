@@ -243,69 +243,88 @@ User.prototype = new PreUser();
 */
 function drawInteractiveCalendar(el) {
   var currentDate = new Date(); 
-  var calendarRender = drawCalendar.call(null, el);
-  calendarRender(currentDate.getFullYear(), currentDate.getMonth());
-  initCalendarbuttons(currentDate.getFullYear(), currentDate.getMonth(), calendarRender);
+  var belWeekFormat = [1, 2, 3, 4, 5, 6, 0];
+  drawCalendar(el, currentDate, belWeekFormat);
 }
 
-function drawCalendar(htmlEl) {
-  htmlEl.innerHTML = '<button id="previousMonth">[<]</button><span id="caption"></span><button id="nextMonth">[>]</button><div id="calendarTable"></div>';
+function drawCalendar(element, initDate, weekFormat) {  
+  var drawHeader = function() {  
+    var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};    
+    var calendarWeekDays = weekFormat.map(function(day) {
+      return `<th>${weekDays[day]}</th>`;
+    }).join("");
   
-  return function(year, month) {
-    var belWeek = [1, 2, 3, 4, 5, 6, 0];
-    var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};
-
-    var day = new Date(year, month);
-    var currentMonth = day.toLocaleString("ru", {month: 'long'});
-    var currentYear = day.getFullYear();
-    var calendarHeader = belWeek.map(function(day) { return `<th>${weekDays[day]}</th>`}).join("");
-
-    var calendarBody = "<tr>";
-    for(var i = 0; belWeek[i] != day.getDay(); i++) {
-      calendarBody += "<td></td>";
-    }
-
-    while(month == day.getMonth()) {
-      if(day.getDay() == 1) calendarBody += "<tr>";
-        calendarBody += `<td>${day.getDate()}</td>`;
-      if(day.getDay() == 0) calendarBody += "</tr>";
-      day.setDate(day.getDate() + 1);
-    }
-
-    if(day.getDay() !== 0) calendarBody += "</tr>";
-    
-    document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
-    document.getElementById("calendarTable").innerHTML = `<table><tr>${calendarHeader}</tr>${calendarBody}</table>`;
+    element.innerHTML = [
+      '<span style="cursor: pointer" id="previousMonth">[<]</span>',
+      '<span id="caption"></span>',
+      '<span style="cursor: pointer" id="nextMonth">[>]</span>',
+      '<div>',
+      calendarWeekDays,
+      '</div>',
+      '<div id="calendarTable"></div>'
+    ].join("");
   }
-}
 
-function initCalendarbuttons(year, month, calendarRender) {
-  var day = new Date(year, month);  
-  var navigation = calendarNavigation.call(null, 1, day, calendarRender);
-
-  document.getElementById("previousMonth").addEventListener("click", function() {
-    navigation("-");
-  });
-
-  document.getElementById("nextMonth").addEventListener("click", function() {
-    navigation("+");
-  })
-}
-
-function calendarNavigation(monthCount, initDate, calendarRender) {
-  var month = initDate.getMonth();
-  var date = initDate;
-
-  return function(direction) {
-    if(direction === "+") {
-      date.setMonth(month + monthCount);
+  var drawBody = function() {    
+    return function(year, month) {
+      var day = new Date(year, month);
+      var currentMonth = day.toLocaleString("ru", {month: 'long'});
+      var currentYear = day.getFullYear();
+  
+      var calendarBody = "<tr>";
+      for(var i = 0; weekFormat[i] != day.getDay(); i++) {
+        calendarBody += "<td></td>";
+      }
+  
+      while(month == day.getMonth()) {
+        if(day.getDay() == weekFormat[0]) calendarBody += "<tr>";
+          calendarBody += `<td>${day.getDate()}</td>`;
+        if(day.getDay() == weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
+        day.setDate(day.getDate() + 1);
+      }
+      if(day.getDay() !== weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
       
-    } else if(direction === "-") {
-      date.setMonth(month - monthCount);
+      document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
+      document.getElementById("calendarTable").innerHTML = `<table>${calendarBody}</table>`;
+    }
+  }
+
+  var initNavigateButtons = function(year, month, calendarRender) {
+    var day = new Date(year, month); 
+    
+    var navigate = function(monthStep, initDate, calendarRender) {
+      var month = initDate.getMonth();
+      var date = initDate;
+    
+      return function(direction) {
+        if(direction === "+") {
+          date.setMonth(month + monthStep);
+          
+        } else if(direction === "-") {
+          date.setMonth(month - monthStep);
+        }
+    
+        month = date.getMonth();
+        
+        calendarRender(date.getFullYear(), month);
+      }
     }
 
-    month = date.getMonth();
-    
-    calendarRender(date.getFullYear(), month);
+    var navigation = navigate.call(null, 1, day, calendarRender);
+  
+    document.getElementById("previousMonth").addEventListener("click", function() {
+      navigation("-");
+    });
+  
+    document.getElementById("nextMonth").addEventListener("click", function() {
+      navigation("+");
+    })
   }
+
+  drawHeader();
+  var calendarBodyRender = drawBody.call();
+  var year = initDate.getFullYear();
+  var month = initDate.getMonth();
+  initNavigateButtons(year, month, calendarBodyRender);
+  calendarBodyRender(year, month);
 }
