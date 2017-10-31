@@ -205,7 +205,34 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+function curry(func) {
+  this.returnFunction = function(x) {
+    argumentsCount--;
+    if(argumentsCount > 0) {
+      return this.returnFunction(b);
+    } else {
+      console.log();
+    }
+  }
+
+  var argumentsCount = func.length;
+  // for(var i = 1; i <= argumentsCount; i++) {
+    return function(x) {
+      argumentsCount--;
+      if(argumentsCount > 0) {
+        return function(x) {
+
+        }
+      }
+    }
+  // }
+}
+
+// function target1(a,b,c,d) { return a + b + c + d }
+// function target2(a,b) { return a + b }
+// console.log("10", curry(target1)(1)(2)(3)(4)); // 10
+// console.log("13", curry(target2)(5)(8)); // 13
+
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -265,28 +292,26 @@ function drawCalendar(element, initDate, weekFormat) {
     ].join("");
   }
 
-  var drawBody = function() {    
-    return function(year, month) {
-      var day = new Date(year, month);
-      var currentMonth = day.toLocaleString("ru", {month: 'long'});
-      var currentYear = day.getFullYear();
-  
-      var calendarBody = "<tr>";
-      for(var i = 0; weekFormat[i] != day.getDay(); i++) {
-        calendarBody += "<td></td>";
-      }
-  
-      while(month == day.getMonth()) {
-        if(day.getDay() == weekFormat[0]) calendarBody += "<tr>";
-          calendarBody += `<td>${day.getDate()}</td>`;
-        if(day.getDay() == weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
-        day.setDate(day.getDate() + 1);
-      }
-      if(day.getDay() !== weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
-      
-      document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
-      document.getElementById("calendarTable").innerHTML = `<table>${calendarBody}</table>`;
+  var drawBody = function(year, month) {    
+    var day = new Date(year, month);
+    var currentMonth = day.toLocaleString("ru", {month: 'long'});
+    var currentYear = day.getFullYear();
+
+    var calendarBody = "<tr>";
+    for(var i = 0; weekFormat[i] != day.getDay(); i++) {
+      calendarBody += "<td></td>";
     }
+
+    while(month == day.getMonth()) {
+      if(day.getDay() == weekFormat[0]) calendarBody += "<tr>";
+        calendarBody += `<td>${day.getDate()}</td>`;
+      if(day.getDay() == weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
+      day.setDate(day.getDate() + 1);
+    }
+    if(day.getDay() !== weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
+    
+    document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
+    document.getElementById("calendarTable").innerHTML = `<table>${calendarBody}</table>`;
   }
 
   var initNavigateButtons = function(year, month, calendarRender) {
@@ -322,9 +347,68 @@ function drawCalendar(element, initDate, weekFormat) {
   }
 
   drawHeader();
-  var calendarBodyRender = drawBody.call();
   var year = initDate.getFullYear();
   var month = initDate.getMonth();
-  initNavigateButtons(year, month, calendarBodyRender);
-  calendarBodyRender(year, month);
+  initNavigateButtons(year, month, drawBody);
+  drawBody(year, month);
 }
+
+function throttle(func, wait) {
+  var timerId;
+
+  return function() {    
+    if(timerId) {
+      return;
+    } else {
+      var args = Array.prototype.slice.call(arguments);
+      func.apply(this, args);
+      timerId = setTimeout(function() {timerId = null;}, wait);  
+    } 
+  }
+}
+
+function debounce(func, wait) {
+  var timerId;
+
+  function calling() {
+    if(timerId) {
+      clearTimeout(timerId);
+    }
+    var args = Array.prototype.slice.call(arguments);
+    timerId = setTimeout(function() {func.apply(this, args)}, wait);   
+    return calling;   
+  }
+
+  return calling;
+}
+
+var logDate = function(value) {
+  console.log(new Date());
+  console.log("value", value);
+}
+
+// console.warn("debounce function");
+// logDate(0);
+// var debounceFunc = debounce(logDate, 5000);
+// debounceFunc(1);
+// debounceFunc(2);
+// setTimeout(function() { debounceFunc(3) }, 3000);
+// debounceFunc(4);
+// setTimeout(function() { debounceFunc(5) }, 7000);
+
+// console.warn("throttle function");
+// var throttleFunc = throttle(logDate, 5000);
+// throttleFunc(1);
+// throttleFunc(2);
+// setTimeout(function() { throttleFunc(3) }, 3000);
+// throttleFunc(4);
+// setTimeout(function() { throttleFunc(5) }, 7000);
+
+function sleep(sleepTime) {
+  var sleepTime = new Date().getTime() + sleepTime * 1000;  
+  while(new Date().getTime() < sleepTime) {}
+}
+// console.warn("sleep function");
+// console.log(new Date());
+// sleep(9);
+// console.log(new Date());
