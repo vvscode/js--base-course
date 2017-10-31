@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> form </title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="...">
+    <meta name="description" content="...">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="formCSS.css" rel="stylesheet">
+
+</head>
+<body>
+<!--
+ Создать веб страницу. Добавить на нее форму с полями
+ - имя (строкое поле),
+ - родной город (Выпадающий список),
+ - Комментарий (многострочное поле), пол (radiobutton).
+ При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
+ после чего поля очистить.
+ -->
+<div class="box">
+    <form class="questionary">
+        <fieldset>
+            <legend class="icon__home"> Обратная связь </legend>
+
+            <div class="icon icon__name">
+                <label for="name__input">	Имя: </label>
+                <input type="text" name="name__form" class="textinput" id="name__input" placeholder="Введите Ваше имя">
+            </div>
+
+            <div class="icon icon__city">
+                <label> Ваш родной город: </label>
+                <select name="city" id="city__input">
+                    <option selected> Брест </option>
+                    <option> Витебск </option>
+                    <option> Гомель </option>
+                    <option> Гродно </option>
+                    <option> Могилев </option>
+                    <option> Минск </option>
+                </select>
+            </div>
+
+            <div class="icon icon__sex">
+                <label for="telinput"> Ваш пол: </label>
+                <label class="gender"> Мужской
+                    <input type="radio" name="sex" class="telinput" id="gender">
+                </label>
+                <label class="gender"> Женский
+                    <input type="radio" name="sex" class="telinput" id="telinput">
+                </label>
+            </div>
+
+            <div class="icon icon__comments">
+                <label for="comments"> Комментарии: </label>
+                <textarea class="comments" id="comments" placeholder="Текст комментария..."></textarea>
+            </div>
+
+            <div class="buttons">
+                <div class="icon__button">
+                    <button class="button__send" id="button__send"> Собрать данные </button>
+                </div>
+
+                <div class="icon__button">
+                    <button class="button__reset" id="button__reset"> Очистить </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
+    <script src="formJS.js"></script>
+</body>
+</html>
