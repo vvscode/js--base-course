@@ -153,7 +153,22 @@ body, html {
 .button__reset{
     background-color: red;
 }
+.button__send:active,
+.button__reset:active {
+    outline:none;
+    background-color: rgba(34, 148, 214,0.5);
+}
+.button__send:focus,
+.button__reset:focus {
+    outline:none;
+}
 /* стили для формы вывода данных*/
 
+.first__div{
+    margin: 50px auto;
+    width: 500px;
+    /*height: 80px;*/
+    background-color: red;
+}
 
 

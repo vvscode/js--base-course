@@ -1,59 +1,71 @@
 /**
  * Created by sherstyuk on 31.10.2017.
  */
-var nameInput = document.getElementById('name__input');
+var a = document.querySelector('.questionary');
+
 var buttonSend = document.getElementById('button__send');
-var comments = document.getElementById('comments');
-
-
-
-
-
-nameInput.addEventListener('blur', saveName);
-comments.addEventListener('blur', saveComment);
-/*var cityInput = document.getElementById('city__input');
-
-
-
-
+buttonSend.addEventListener('click', addForm, false);
 
 var buttonReset = document.getElementById('button__reset');
+buttonReset.addEventListener('click', delForm, false);
 
-
-buttonReset.addEventListener('click', );*/
+var nameInput = document.getElementById('name__input');
+nameInput.addEventListener('blur', saveName);
 function saveName() {
-    alert( 'сохраняем имя' );
-    var name = nameInput.value;
-    alert(name);
-    return name;
+    return nameInput.value;
 }
 
-function saveComment() {
-    alert( 'сохраняем коментарии' );
-    var comment = comments.value;
-    alert(comment);
-    return comment;
-}
-
-var select = document.querySelector("select");
-
-select.addEventListener('change', saveCity );
-
+var city = document.getElementById('city__input');
+city.addEventListener('change', saveCity );
 function saveCity() {
-    alert('Сохраняем город')
+    return city.value;
 }
-
-
-
-
-
 
 var sex = document.getElementsByName('sex');
-
 for (var i=0; i < sex.length; i++){
     sex[i].addEventListener('change',saveSex )
 }
 
 function saveSex () {
-    alert('Сохраняем пол')
+    if(sex[1] === true) {
+        return 'Мужской';
+    }
+    return 'Женский';
+}
+
+var comments = document.getElementById('comments');
+comments.addEventListener('blur', saveComment);
+
+
+function saveComment() {
+    return comments.value;
+}
+
+/* добавляем данные на страницу*/
+var newForm1 = document.createElement('div');
+var nameInput1 = document.createElement('div');
+var city1 = document.createElement('div');
+var sex1 = document.createElement('div');
+var comments1 = document.createElement('div');
+
+function addForm() {
+    newForm1.className = 'first__div' ;
+    nameInput1.innerHTML = 'Ваше имя: ' + saveName();
+    city1.innerHTML = 'Ваш родной город: ' + saveCity();
+    sex1.innerHTML = 'Ваш пол: ' + saveSex();
+    comments1.innerHTML = 'Ваши коментарии: ' + saveComment();
+
+    a.appendChild(newForm1);
+    newForm1.appendChild(nameInput1);
+    newForm1.appendChild(city1);
+    newForm1.appendChild(sex1);
+    newForm1.appendChild(comments1);
+}
+
+function delForm() {
+    newForm1.removeChild(nameInput1);
+    newForm1.removeChild(city1);
+    newForm1.removeChild(sex1);
+    newForm1.removeChild(comments1);
+    a.removeChild(newForm1)
 }
