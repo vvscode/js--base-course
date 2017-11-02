@@ -7,19 +7,20 @@ body, html {
     background-color: #dbdbdb;
     height: 100%;
 }
-.questionary {
-    width: 600px;
+.user__form {
+    width: 650px;
     margin: 0 auto;
     padding: 20px;
 }
-.questionary fieldset {
+.user__form fieldset {
     border: 1px solid #2294d6;
     background-color: #fff;
     position: relative;
     padding: 15px;
     border-radius: 5px;
+    margin: 0;
 }
-.questionary legend {
+.user__form legend {
     font-size: 22px;
     font-weight: normal;
     text-align: center;
@@ -33,7 +34,7 @@ body, html {
     padding: 10px 0;
     width: 100%;
 }
-.questionary label {
+.user__form label {
     display: block;
     margin: 4px 0;
 }
@@ -55,19 +56,20 @@ body, html {
 }
 .icon input {
     padding-left: 25px;
-    width: 550px;
+    width: 100%;
     padding: 5px 0 5px 25px;
     border: 2px solid #d8f1ff;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 .icon__city select:focus,
-.icon .comments:focus,
+.icon .form__comments:focus,
 .icon input:focus {
     outline: none;
     border: 2px solid #2294d6;
     border-radius: 5px;
 }
-.icon .comments {
+.icon .form__comments {
     min-width: 550px;
     min-height: 100px;
     max-width: 570px;
@@ -91,7 +93,7 @@ body, html {
 .icon__city select{
     width: 200px;
     height: 30px;
-    padding: 5px 0 5px 25px;
+    padding: 3px 0 5px 25px;
     margin-top:2px;
     border-color: #d8f1ff;
     border-radius: 6px;
@@ -165,10 +167,11 @@ body, html {
 /* стили для формы вывода данных*/
 
 .first__div{
-    margin: 50px auto;
-    width: 500px;
-    /*height: 80px;*/
-    background-color: red;
+    margin: 20px auto;
+    border: 1px solid #2294d6;
+    background-color: #f4ffa7;
+    padding: 15px;
+    border-radius: 5px;
 }
 
 

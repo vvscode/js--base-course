@@ -94,8 +94,8 @@ function log(x) {
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
  * 
- * function target1(a,b,c,d) { return a + b + c + d }
- * function target2(a,b) { return a + b }
+ * function target1(userForm,b,c,d) { return userForm + b + c + d }
+ * function target2(userForm,b) { return userForm + b }
  * curry(target1)(1)(2)(3)(4) // 10
  * curry(target2)(5)(8) // 13
  * 
