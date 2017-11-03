@@ -206,33 +206,30 @@ function log(x) {
  * @param {*} func 
  */
 function curry(func) {
-  this.returnFunction = function(x) {
+  var argumentsCount = func.length;
+  var argValues = [];
+  
+  function result() {
+    var argsArr = Array.prototype.slice.call(arguments); 
+    argValues = argValues.concat(argsArr);
     argumentsCount--;
-    if(argumentsCount > 0) {
-      return this.returnFunction(b);
-    } else {
-      console.log();
-    }
+    if(argumentsCount == 0)
+      return func.apply(this, argValues);    
+    return result;
   }
 
-  var argumentsCount = func.length;
-  // for(var i = 1; i <= argumentsCount; i++) {
-    return function(x) {
-      argumentsCount--;
-      if(argumentsCount > 0) {
-        return function(x) {
-
-        }
-      }
-    }
-  // }
+  return result;
 }
 
-// function target1(a,b,c,d) { return a + b + c + d }
-// function target2(a,b) { return a + b }
+// function target1(a, b, c, d) { return a + b + c + d };
+// function target2(a, b) { return a + b };
+// function target3(a, b) { return a * b };
+// function target4(a, b, c, d, e, f, g, k, l, m) { return a + b + c + d + e + f + g + k + l + m };
+
 // console.log("10", curry(target1)(1)(2)(3)(4)); // 10
 // console.log("13", curry(target2)(5)(8)); // 13
-
+// console.log("15", curry(target3)(3)(5)); // 15
+// console.log("55", curry(target4)(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)); // 55
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -353,7 +350,7 @@ function drawCalendar(element, initDate, weekFormat) {
   drawBody(year, month);
 }
 
-function throttle(func, wait) {
+function throttle(fun, delay) {
   var timerId;
 
   return function() {    
@@ -361,13 +358,13 @@ function throttle(func, wait) {
       return;
     } else {
       var args = Array.prototype.slice.call(arguments);
-      func.apply(this, args);
-      timerId = setTimeout(function() {timerId = null;}, wait);  
+      fun.apply(this, args);
+      timerId = setTimeout(function() {timerId = null;}, delay);  
     } 
   }
 }
 
-function debounce(func, wait) {
+function debounce(fun, delay) {
   var timerId;
 
   function calling() {
@@ -375,7 +372,7 @@ function debounce(func, wait) {
       clearTimeout(timerId);
     }
     var args = Array.prototype.slice.call(arguments);
-    timerId = setTimeout(function() {func.apply(this, args)}, wait);   
+    timerId = setTimeout(function() {fun.apply(this, args)}, delay);   
     return calling;   
   }
 
@@ -404,8 +401,8 @@ var logDate = function(value) {
 // throttleFunc(4);
 // setTimeout(function() { throttleFunc(5) }, 7000);
 
-function sleep(sleepTime) {
-  var sleepTime = new Date().getTime() + sleepTime * 1000;  
+function sleep(seconds) {
+  var sleepTime = new Date().getTime() + seconds * 1000;  
   while(new Date().getTime() < sleepTime) {}
 }
 // console.warn("sleep function");
