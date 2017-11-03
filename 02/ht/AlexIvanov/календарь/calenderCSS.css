@@ -1,24 +1,20 @@
 body {
-    background-color: #445566;
+    background-color: #ffffff;
 }
 table {
-    font-size: 18px;
+    font-size: 20px;
     text-align: center;
     border-collapse: collapse;
-    width: 358px;
-    height: 320px;
+    width: 361px;
+    height: 321px;
     margin: 3% auto;
-}
-th h1{
-    margin: 24px auto;
-    padding: 0;
-    font-size: 20px;
 }
 .button__left {
     float: left;
 }
 .button__right {
     float: right;
+
 }
 
 .button__right,
@@ -39,19 +35,23 @@ th h1{
     background-color: #154f8d;
 }
 
-td {
-    width: 38px;
-    height: 38px;
+td,th {
+    box-sizing: border-box;
+    height: 54px;
 }
 table,
 td {
     padding: 5px;
-    border: 1px solid #671c1c;
+    border: 1px solid rgb(70, 72, 76);
+}
+td {
+    background-color: white;
 }
 th {
     text-transform: uppercase;
-    background-color: #9f4747;
+    background-color: rgb(70, 72, 76);
     color: #ffffff;
+
 }
 .weekend {
     color: #fff;
@@ -63,4 +63,26 @@ th {
 .anotherMonth {
     color: #787878;
     background-color: #919191;
+}
+
+.days_Of_Last_Month {
+    background-color: rgba(218, 177, 164, 0.5);
+}
+
+.days_Of_This_Month {
+    background-color: rgb(217, 155, 171);
+}
+
+.days_Next_Month {
+    background-color: #ff233d;
+}
+
+.days_name{
+    background-color: rgba(70, 72, 76, 0.5);
+}
+#leftButton{
+    float: left;
+}
+#rightButton{
+    float: right;
 }
