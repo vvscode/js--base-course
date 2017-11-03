@@ -1,43 +1,43 @@
 body {
     background-color: #ffffff;
 }
+
+.calendar__head,
+.calendar {
+/*    width: 361px;*/
+    margin: 0 auto;
+}
+.calendar h2 {
+    font-size: 25px;
+    text-align: center;
+    box-sizing: content-box;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    width: 420px;
+    margin: 0 auto;
+    position: relative;
+}
+.calendar div {
+    background-color: #46484c;
+    color: white;
+}
+.calendar hr{
+    margin: 0 3%;
+    padding: 0;
+}
 table {
     font-size: 20px;
     text-align: center;
     border-collapse: collapse;
-    width: 361px;
-    height: 321px;
-    margin: 3% auto;
+    margin: 0 auto;
 }
-.button__left {
-    float: left;
-}
-.button__right {
-    float: right;
-
-}
-
-.button__right,
-.button__left {
-    width: 20%;
-    height: 100%;
-    background-color: #9f4747;
-    outline: none;
-    border: none;
-}
-.button__right:hover,
-.button__left:hover {
-    background-color: #ffa500;
-}
-
-.button__right:active,
-.button__left:active {
-    background-color: #154f8d;
-}
-
 td,th {
     box-sizing: border-box;
-    height: 54px;
+    height: 60px;
+    width: 60px;
 }
 table,
 td {
@@ -48,7 +48,7 @@ td {
     background-color: white;
 }
 th {
-    text-transform: uppercase;
+    font-size: 20px;
     background-color: rgb(70, 72, 76);
     color: #ffffff;
 

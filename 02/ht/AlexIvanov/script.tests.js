@@ -331,7 +331,8 @@ describe("User / PreUser", function() {
 
 describe("curry", function() {
   it("добавить тесты", function() {
-    assert.isOk(false === true);
+    assert.isOk( curry(target1)(1)(2)(3)(4) === 10);
+    assert.isOk( curry(target2)(5)(8) === 13);
   });
 });
 
