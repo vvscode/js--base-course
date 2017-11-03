@@ -345,11 +345,42 @@ function drawCalendar(element, initDate, weekFormat) {
   }
 
   var initNoteFunctionality = function() {
+    var calendarId = element.id;
+
+    var updateNoteStorage = function(notes) {
+      localStorage.setItem(calendarId, JSON.stringify(notes));
+    };
+
+    var getNotesFromStorage = function() {
+      return JSON.parse(localStorage.getItem(calendarId));      
+    }
+
+    var initStorage = function() {
+      updateNoteStorage([]);
+    };
+
+    var displayNote = function(noteString) {
+      var calendarHistory = document.getElementById("calsendarHistory"); //NOTE: use element.querySelector for insert some string to element
+      var history = calendarHistory.innerHTML;
+      calendarHistory.innerHTML = calendarHistory.innerHTML + noteString + "<br>";
+    }
+
+    var notes = getNotesFromStorage();
+    if(notes) {
+      notes.forEach(function(note) {
+        displayNote(note);
+      });
+    } else {
+      initStorage();      
+    }
+
     var addNote = function(date, question) {
       question = question || "Input note.";
       var note = prompt(question).trim();
       if(note) {
-        displayNote(createNote(note, date)); 
+        var noteString = createNote(note, date);
+        displayNote(noteString); 
+        saveNote(noteString);
         return;       
       }
       addNote(date, "Note cannot be empty or whitespace. Please, input correct note.");
@@ -359,10 +390,10 @@ function drawCalendar(element, initDate, weekFormat) {
       return `${note} - ${date.toLocaleString("ru")}`;
     }
 
-    var displayNote = function(noteString) {
-      var calendarHistory = document.getElementById("calsendarHistory"); //NOTE: use element.querySelector for insert some string to element
-      var history = calendarHistory.innerHTML;
-      calendarHistory.innerHTML = calendarHistory.innerHTML + noteString + "<br>";
+    var saveNote = function(noteString) {
+      var notes = getNotesFromStorage();
+      notes.push(noteString);
+      updateNoteStorage(notes);
     }
 
     document.getElementById("calendarTable").addEventListener("click", function(event) {
