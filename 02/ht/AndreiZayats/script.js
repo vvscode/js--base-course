@@ -11,19 +11,22 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
+  if (objA !== objA && objB !== objB) return true; // Проверка на NaN
   if (typeof objA !== typeof objB) return false; // Сначала проверяем объекты
   if (typeof(objA) === 'object' && typeof(objB) === 'object') // Проверка вложенных объектов
   {
-      if(objA.length !== objB.length)	return false;
-      for(var key in objA)
-      {
-          if (!isDeepEqual(objA[key], objB[key])) return false;
-      }
-  return true;
-}
+    if(objA.length !== objB.length)	return false;
+    for(var key in objA)
+    {
+      if (objA == objA[key] && objB == objB[key]) break;
+      if (!isDeepEqual(objA[key], objB[key])) return false;
+    }
+    return true;
+  }
   if (objA !== "object" || objB !== "object") return ( objA == objB ); // Проверка основных типов данных
-}
+};
+
+
 
 /**
  * Функция фиксации контекста
@@ -35,7 +38,7 @@ function bind (func, context) {
   return function () {
     return func.apply(context, arguments);
   };
-}
+};
 
 /**
  * Реализовать метод .myBind для всех функций, 
@@ -44,13 +47,20 @@ function bind (func, context) {
  */
 Function.prototype.myBind = function (context) {
   return bind (this, context);
-}
+};
 
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
+var o = {
+  magicProperty : function(arg){
+    time = new Date();
+    console.log(arg + " " + time.getHours() + ":" + time.getMinutes());
+  }
+};
+
 
 /**
 * Создать конструктор с методами, так, 
@@ -58,6 +68,27 @@ Function.prototype.myBind = function (context) {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+  function User1(name, age) {
+    this.name;
+    this.age;
+  };
+    User1.prototype.askName = function(){
+      this.name = prompt("input name:", "name1");
+      return this;
+    };
+    User1.prototype.askAge = function(){
+      this.age = prompt("nput age:", "13");
+      return this;
+    };
+    User1.prototype.showAgeInConsole = function(){
+      console.log(this.age);
+      return this;
+    };
+    User1.prototype.showNameInAlert = function(){
+      alert(this.name);
+      return this;
+    };
+
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -65,9 +96,14 @@ Function.prototype.myBind = function (context) {
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
+function calculate(method) {
   /* put your code here */
-}
+  return function(a) {
+    return function(b) {
+      return eval(a + method + b);
+    };
+  };
+};
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
