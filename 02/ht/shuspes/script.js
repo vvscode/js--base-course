@@ -285,7 +285,8 @@ function drawCalendar(element, initDate, weekFormat) {
       '<div>',
       calendarWeekDays,
       '</div>',
-      '<div id="calendarTable"></div>'
+      '<div id="calendarTable"></div>',
+      '<div id="calsendarHistory"></div>'
     ].join("");
   }
 
@@ -301,7 +302,7 @@ function drawCalendar(element, initDate, weekFormat) {
 
     while(month == day.getMonth()) {
       if(day.getDay() == weekFormat[0]) calendarBody += "<tr>";
-        calendarBody += `<td>${day.getDate()}</td>`;
+        calendarBody += `<td data-date="${day}">${day.getDate()}</td>`;
       if(day.getDay() == weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
       day.setDate(day.getDate() + 1);
     }
@@ -343,11 +344,44 @@ function drawCalendar(element, initDate, weekFormat) {
     })
   }
 
+  var initNoteFunctionality = function() {
+    var addNote = function(date, question) {
+      question = question || "Input note.";
+      var note = prompt(question).trim();
+      if(note) {
+        displayNote(createNote(note, date)); 
+        return;       
+      }
+      addNote(date, "Note cannot be empty or whitespace. Please, input correct note.");
+    };
+
+    var createNote = function(note, date) {
+      return `${note} - ${date.toLocaleString("ru")}`;
+    }
+
+    var displayNote = function(noteString) {
+      var calendarHistory = document.getElementById("calsendarHistory"); //NOTE: use element.querySelector for insert some string to element
+      var history = calendarHistory.innerHTML;
+      calendarHistory.innerHTML = calendarHistory.innerHTML + noteString + "<br>";
+    }
+
+    document.getElementById("calendarTable").addEventListener("click", function(event) {
+      var dataset = event.target.dataset;
+      if(dataset) {
+        var date = dataset["date"];
+        if(date) {
+          addNote(date);
+        }
+      }
+    })
+  }
+
   drawHeader();
   var year = initDate.getFullYear();
   var month = initDate.getMonth();
   initNavigateButtons(year, month, drawBody);
   drawBody(year, month);
+  initNoteFunctionality();
 }
 
 function throttle(fun, delay) {
