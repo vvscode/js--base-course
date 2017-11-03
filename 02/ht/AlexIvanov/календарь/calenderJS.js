@@ -3,7 +3,6 @@ let nowYear =  nowDate.getFullYear();
 var nowMonth = nowDate.getMonth();
 
 function createCalendar(id, year, month) {
-    addMonth(month);
     let daysOfLastMonth = '';
     let daysOfThisMonth = '';
     let daysNextMonth = '';
@@ -72,8 +71,9 @@ function addNameMonth(month) {
 
 createCalendar("calendar", nowYear, nowMonth);
 
-function addMonth (a) {
-    return a += 1 ;
+function addMonth () {
+    debugger;
+    return nowMonth += 1 ;
 }
 
 function takeAwayMonth() {
