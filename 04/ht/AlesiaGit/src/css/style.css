@@ -1,0 +1,287 @@
+body {
+	font-family: 'Lato', sans-serif;
+	font-size: 14px;
+}
+
+.root {
+	position: relative;
+}
+
+.links__wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.divider {
+	margin: 0 5px;
+}
+
+.preview__wrapper {
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	padding-bottom: 30px;
+}
+
+.preview__settings {
+	width: 50%;
+	flex-grow: 1;
+	background-color: #eeeff1;
+}
+
+.preview__calendar {
+	width: 50%;
+	flex-grow: 1;
+}
+
+.calendar__create-btn {
+	font-family: 'Lato', sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 3px;
+	margin-top: 10px;
+}
+
+.calendar__wrapper {
+	max-width: 90%;
+	display: flex;
+	flex-flow: column;
+	padding-bottom: 30px;
+}
+
+.calendar__header {
+	max-width: 100%;
+	display: flex;
+	justify-content: center;
+	background-color: #dadfe8;
+	height: 50px;
+	border: 1px solid #f8f8f8;
+	border-bottom: 0;
+}
+
+.calendar__title {
+	text-align: center;
+	font-size: 22px;
+	text-transform: uppercase;
+	font-weight: bold;
+	line-height: 50px;
+    color: #717272;
+}
+
+.calendar__month-name {
+	font-size: 18px;
+	text-transform: uppercase;
+	line-height: 50px;
+	font-weight: bold;
+}
+
+.calendar__ruler {
+	border: 0;
+	background-color: transparent;
+	font-size: 25px;
+	text-transform: uppercase;
+	line-height: 50px;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 0 30px;
+	color: #717272;
+}
+
+.calendar__ruler:hover,
+.calendar__ruler:active,
+.calendar__ruler:focus {
+	outline: none;
+}
+
+
+.calendar__table {
+	display: table;
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+.calendar__table-cell {
+	height: 90px;
+	border: 1px solid #f8f8f8;
+	width: 14.2%;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+	padding: 7px;
+	background-color: #f3e3f0;
+}
+
+
+.calendar__table-cell-empty {
+	background-color: #dadfe8;
+}
+
+.note__block-wrapper {
+	display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #dadfe8;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.note__text-style {
+	text-align: left;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
+
+.note__close-button {
+	border: none;
+    background-color: transparent;
+    outline: none;
+    font-family: monospace;
+    font-size: 12px;
+    padding-right: 5px;
+    padding-left: 10px;
+}
+
+.settings {
+	max-width: 90%;
+	margin: 0 auto;
+
+	//width: 800px;
+}
+
+.settings__title {
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.settings__form {
+	border: 1px solid #000;
+    border-radius: 10px;
+    max-width: 60%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.form-item {
+	display: flex;
+	flex-flow: row nowrap;
+	margin: 15px;
+}
+
+.settings__guidelines {
+	margin: 0;
+}
+
+.settings__guidelines-bold {
+	font-weight: bold;
+}
+
+.settings__checkbox {
+	margin-right: 7px;
+}
+
+.settings__select {
+	margin-right: 7px;
+}
+
+.settings__input-field {
+	margin: auto 10px;
+	border-radius: 4px;
+	border: 1px solid #d6d8db;
+	font-family: 'Lato', sans-serif;
+	font-style: italic;
+	padding-bottom: 2px;
+	text-indent: 3px;
+}
+
+.settings__input-field:focus,
+.settings__input-field:active {
+	outline: none;
+}
+
+
+/*note*/
+.note-form {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 40%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-form__buttons-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+}
+
+.note-form__btn {
+	height: 20px;
+    margin: 15px 5px;
+    border: 1px solid #e7e8e9;
+    padding: 6px 16px;
+    border-radius: 10px;
+}
+
+.note-form__btn-save {
+	background-color: #f3e3f0;
+}
+
+.note-form__btn-cancel {
+	background-color: #e7e8e9;
+}
+
+.note-form__input-field {
+	width: 90%;
+	font-family: 'Lato', sans-serif;
+    margin-top: 15px;
+    resize: none;
+    background-color: rgba(218, 223, 232, 0.5);
+    outline: none;
+    border-color: #e7e8e9;
+}
+
+.note {
+	display: flex;
+	justify-content: space-between;
+}
+
+.note__text {
+	text-align: left;
+    word-wrap: break-word;
+}
+
+.note__delete {
+	position: relative;
+	min-width: 24px;
+	width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.note__delete:after {
+	position: absolute;
+    content: "";
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background: url(../img/close-btn.png);
+    background-size: 40%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
