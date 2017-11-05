@@ -1,5 +1,4 @@
 //31 array for month tasks - 1 element for each day
-var monthTasks;
 
 function genKey(date,calendarID)
 {
@@ -7,15 +6,16 @@ function genKey(date,calendarID)
 }
 
 //receives list of tasks from storage or DB
-function getData(date, calendarID)
-{ var data=JSON.parse(localStorage.getItem(genKey(date,calendarID)));
-  if (data!=null) monthTasks = data;
-  else  monthTasks=Array(32).fill("");
+function getData(calendarObj)
+{
+    var data=JSON.parse(localStorage.getItem(genKey(calendarObj.defDate,calendarObj.calendarID)));
+  if (data!=null) calendarObj.monthTasks = data;
+  else calendarObj.monthTasks=Array(32).fill("");
 };
 
 //sends list of tasks to storage
-function setData(date, monthTasks, calendID){
-localStorage.setItem(genKey(date,calendID),JSON.stringify(monthTasks));
+function setData(calendarObj, date){
+localStorage.setItem(genKey(date,calendarObj.calendarID),JSON.stringify(calendarObj.monthTasks));
 };
 
 /**sends list of tasks to calendar from 1st to last days
@@ -23,13 +23,13 @@ localStorage.setItem(genKey(date,calendID),JSON.stringify(monthTasks));
  * @param first - first day to update
  * @param last - last day to update + 1 (since strict < in cycle)
  */
-function sendDataToCalendar(first, last){
+function sendDataToCalendar(first, last, calendarObj){
     for (var i=first;i<last;i++)
 {
-    if (monthTasks[i]=='') continue;
-    var tasksToDraw=monthTasks[i].split('\u0283');
+    if (calendarObj.monthTasks[i]=='') continue;
+    var tasksToDraw=calendarObj.monthTasks[i].split('\u0283');
     tasksToDraw.forEach(function (task) {
-        drawTaskInDay(task,i);
+        drawTaskInDay(task,i,calendarObj);
     });
 }
 };
@@ -37,17 +37,17 @@ function sendDataToCalendar(first, last){
 
 //sends single received task to be displayed in calendar
 //or removed the task
-function addDayTask(task, date){
-    if (monthTasks[date.getDate()]=='') monthTasks[date.getDate()]=task;
-    else monthTasks[date.getDate()]+='\u0283'+task;
+function addDayTask(task, date, calendarObj){
+    if (calendarObj.monthTasks[date.getDate()]=='') calendarObj.monthTasks[date.getDate()]=task;
+    else calendarObj.monthTasks[date.getDate()]+='\u0283'+task;
 }
 
-function removeDayTask(task,day)
+function removeDayTask(task,day, calendarObj)
 {
-    var pos=monthTasks[day].indexOf(task);
-    if(pos) monthTasks[day]=monthTasks[day].replace('\u0283'+task,"");
-    else monthTasks[day]=monthTasks[day].replace(task,'');
-    if (monthTasks[day].indexOf('\u0283')==0) monthTasks[day]=monthTasks[day].slice(1);
+    var pos=calendarObj.monthTasks[day].indexOf(task);
+    if(pos) calendarObj.monthTasks[day]=calendarObj.monthTasks[day].replace('\u0283'+task,"");
+    else calendarObj.monthTasks[day]=calendarObj.monthTasks[day].replace(task,'');
+    if (calendarObj.monthTasks[day].indexOf('\u0283')==0) calendarObj.monthTasks[day]=monthTasks[day].slice(1);
 }
 
 function getTask(date)

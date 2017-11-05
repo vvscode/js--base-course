@@ -1,30 +1,34 @@
 
-var currCalendar=new Calendar(1,1,1,1,new Date(2017,10,1));
-currCalendar.drawIntCalendar(document.getElementById('calendar'));
+var currCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),111);
+currCalendar.drawIntCalendar(document.getElementById('calendar111'));
 
+var secCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),222);
+secCalendar.drawIntCalendar(document.getElementById('calendar222'));
 
 function Calendar(showMonthYear,allowPrevNext,allowAddTask,allowRemoveTask,defDate, calendarID)
-{this.calendarID=calendarID&&"calendar"+Math.floor(Math.random()*10000);
+{this.calendarID="calendar"+calendarID||"calendar"+Math.floor(Math.random()*10000);
 this.showMonthYear=showMonthYear;
 this.allowPrevNext=allowPrevNext;
 this.allowAddTask=allowAddTask;
 this.allowRemoveTask=allowRemoveTask;
 this.defDate=defDate;
+this.monthTasks;
+this.calendarElement=document.getElementById(calendarID);
 this.drawIntCalendar=function(elem) {
         drawCalendar(this,elem);
         // if add is enabled - get data and set EventListener to span with date
         if (this.allowAddTask) {
-            getData(this.defDate,calendarID);
-            sendDataToCalendar(1,monthTasks.length);
+            getData(this);
+            sendDataToCalendar(1,this.monthTasks.length,this);
             elem.addEventListener("click",function addTask(event)
             {if (event.target.className!='dataAddTask') return;
                 var target=event.target;
                 var date = new Date(this.defDate.getFullYear(), this.defDate.getMonth(), target.innerHTML);
                 var task=getTask(date);
                 if (task!=""&&task!=null)
-                {addDayTask(task,date);
-                setData(date,monthTasks,calendarID);
-                drawTaskInDay(task,date.getDate());
+                {addDayTask(task,date,this);
+                setData(this,date);
+                drawTaskInDay(task,date.getDate(),this);
                 };
 
 
@@ -54,11 +58,10 @@ this.drawIntCalendar=function(elem) {
                 this.defDate.setFullYear(year, month, 1);
                 drawCalendar(this, elem);
                 if (this.allowAddTask) {
-                    getData(this.defDate, calendarID);
-                    sendDataToCalendar(1,monthTasks.length);
+                    getData(this);
+                    sendDataToCalendar(1,this.monthTasks.length,this);
                 }
-                // if add is enabled - get data and set EventListener to span with date
-                if (this.allowAddTask) getData(this.defDate, calendarID);
+
             }.bind(this));
         }
         // event listener to call function to remove task
@@ -71,8 +74,8 @@ this.drawIntCalendar=function(elem) {
                 var remDate=new Date(this.defDate.getFullYear(),this.defDate.getMonth(),day);
                 var shouldRemove=confirmTaskRemoval(task,remDate);
                 if (!shouldRemove) return;
-                removeDayTask(task,day);
-                setData(remDate,monthTasks,calendarID)
+                removeDayTask(task,day,this);
+                setData(this, remDate)
                 refreshCell(day);
         }.bind(this));
 
@@ -88,11 +91,11 @@ function drawCalendar(obj,elem)
     var dayOfWeek1=date.getDay();
     var calendarTable="<table style='empty-cells: hide'>";
     //configurable header
-    if (obj.allowPrevNext) calendarTable+="<th><button class='prevMonth'><</button>";
-    else calendarTable+="<th>";
+    if (obj.allowPrevNext) calendarTable+="<caption><button class='prevMonth'><</button>";
+    else calendarTable+="<caption>";
     if (obj.showMonthYear) calendarTable+=(date.getMonth()+1)+"/"+date.getFullYear();
-    if (obj.allowPrevNext) calendarTable+="<button class='nextMonth'>></button></th>";
-    else calendarTable+="<th>"
+    if (obj.allowPrevNext) calendarTable+="<button class='nextMonth'>></button></caption>";
+    else calendarTable+="</caption>"
     //caption - filling days of week cells
     calendarTable+="<tr bgcolor='#e6e6fa'><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>";
     //sunday =7
@@ -110,14 +113,14 @@ function drawCalendar(obj,elem)
     elem.innerHTML=calendarTable;
 };
 
-function drawTaskInDay(task,day)
+function drawTaskInDay(task,day,calendarObj)
 {
     if (task=="") return;
     var taskToAdd=document.createTextNode(task);
     var elemToAdd=document.createElement("div");
     elemToAdd.className="addedTask";
     elemToAdd.appendChild(taskToAdd);
-    var cellsToAddTo=document.getElementsByClassName("dataAddTask");
+    var cellsToAddTo=document.getElementById(calendarObj.calendarID).getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToAddTo.length;i++) {
         if (cellsToAddTo[i].innerHTML == day) {
             cellsToAddTo[i].parentNode.appendChild(elemToAdd);
@@ -126,7 +129,7 @@ function drawTaskInDay(task,day)
     }
 };
 
-function refreshCell(day)
+function refreshCell(day, calendarObj)
 {
     var cellsToClear=document.getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToClear.length;i++) {
@@ -135,6 +138,6 @@ function refreshCell(day)
            while (tdCell.firstChild!=tdCell.lastChild) tdCell.removeChild(tdCell.lastChild);
         }
     }
-    sendDataToCalendar(day,day+1);
+    sendDataToCalendar(day,day+1,calendarObj);
 }
 
