@@ -31,7 +31,6 @@ this.drawIntCalendar=function(elem) {
                 drawTaskInDay(task,date.getDate(),this);
                 };
 
-
             }.bind(this));
         }
         //EventListeners for PrevNext
@@ -66,7 +65,7 @@ this.drawIntCalendar=function(elem) {
         }
         // event listener to call function to remove task
         if (this.allowRemoveTask)
-            addEventListener("click",function removeTask(event){
+            elem.addEventListener("click",function removeTask(event){
                 var target=event.target;
                 if (target.className!='addedTask') return;
                 var day=parseInt(target.parentNode.firstChild.innerHTML);
@@ -75,8 +74,8 @@ this.drawIntCalendar=function(elem) {
                 var shouldRemove=confirmTaskRemoval(task,remDate);
                 if (!shouldRemove) return;
                 removeDayTask(task,day,this);
-                setData(this, remDate)
-                refreshCell(day);
+                setData(this, remDate);
+                refreshCell(day,this);
         }.bind(this));
 
     }
@@ -131,7 +130,8 @@ function drawTaskInDay(task,day,calendarObj)
 
 function refreshCell(day, calendarObj)
 {
-    var cellsToClear=document.getElementsByClassName("dataAddTask");
+
+    var cellsToClear=document.getElementById(calendarObj.calendarID).getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToClear.length;i++) {
         if (cellsToClear[i].innerHTML == day) {
             var tdCell=cellsToClear[i].parentNode;

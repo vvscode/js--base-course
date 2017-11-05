@@ -47,7 +47,7 @@ function removeDayTask(task,day, calendarObj)
     var pos=calendarObj.monthTasks[day].indexOf(task);
     if(pos) calendarObj.monthTasks[day]=calendarObj.monthTasks[day].replace('\u0283'+task,"");
     else calendarObj.monthTasks[day]=calendarObj.monthTasks[day].replace(task,'');
-    if (calendarObj.monthTasks[day].indexOf('\u0283')==0) calendarObj.monthTasks[day]=monthTasks[day].slice(1);
+    if (calendarObj.monthTasks[day].indexOf('\u0283')==0) calendarObj.monthTasks[day]=calendarObj.monthTasks[day].slice(1);
 }
 
 function getTask(date)

@@ -1,0 +1,18 @@
+table button {
+    margin:7px;
+}
+table{
+    border-collapse: separate;
+    border-spacing: 3px 7px;
+}
+table td {
+    border: 1px solid black;
+    vertical-align: top;
+    width: 90px;
+    height:30px;
+}
+table td span{
+    padding: 1px 5px 1px 5px;
+    background-color: lightsteelblue;
+    border-radius:50%;
+}
