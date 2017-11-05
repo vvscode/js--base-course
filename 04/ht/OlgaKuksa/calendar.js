@@ -1,9 +1,9 @@
 
 var currCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),111);
-currCalendar.drawIntCalendar(document.getElementById('calendar111'));
+
 
 var secCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),222);
-secCalendar.drawIntCalendar(document.getElementById('calendar222'));
+
 
 function Calendar(showMonthYear,allowPrevNext,allowAddTask,allowRemoveTask,defDate, calendarID)
 {this.calendarID="calendar"+calendarID||"calendar"+Math.floor(Math.random()*10000);
@@ -13,8 +13,10 @@ this.allowAddTask=allowAddTask;
 this.allowRemoveTask=allowRemoveTask;
 this.defDate=defDate;
 this.monthTasks;
-this.calendarElement=document.getElementById(calendarID);
-this.drawIntCalendar=function(elem) {
+this.drawIntCalendar=function() {
+    var elem=document.createElement("div");
+    elem.setAttribute("id",this.calendarID);
+    document.body.appendChild(elem);
         drawCalendar(this,elem);
         // if add is enabled - get data and set EventListener to span with date
         if (this.allowAddTask) {
@@ -78,7 +80,9 @@ this.drawIntCalendar=function(elem) {
                 refreshCell(day,this);
         }.bind(this));
 
-    }
+    };
+//calling function to draw calendar
+    this.drawIntCalendar();
 }
 
 //draws calendar template
