@@ -15,7 +15,7 @@ this.drawIntCalendar=function(elem) {
         // if add is enabled - get data and set EventListener to span with date
         if (this.allowAddTask) {
             getData(this.defDate,calendarID);
-            sendDataToCalendar();
+            sendDataToCalendar(1,monthTasks.length);
             elem.addEventListener("click",function addTask(event)
             {if (event.target.className!='dataAddTask') return;
                 var target=event.target;
@@ -23,13 +23,17 @@ this.drawIntCalendar=function(elem) {
                 var task=getTask(date);
                 if (task!=""&&task!=null)
                 {addDayTask(task,date);
-                    setData(date,monthTasks,calendarID)};
+                setData(date,monthTasks,calendarID);
+                drawTaskInDay(task,date.getDate());
+                };
+
 
             }.bind(this));
         }
         //EventListeners for PrevNext
         if (this.allowPrevNext) {
             elem.addEventListener("click", function buttons(event) {
+                if (event.target.className!="prevMonth"&&event.target.className != "nextMonth") return;
                 var month = this.defDate.getMonth();
                 var year = this.defDate.getFullYear();
 
@@ -51,7 +55,7 @@ this.drawIntCalendar=function(elem) {
                 drawCalendar(this, elem);
                 if (this.allowAddTask) {
                     getData(this.defDate, calendarID);
-                    sendDataToCalendar();
+                    sendDataToCalendar(1,monthTasks.length);
                 }
                 // if add is enabled - get data and set EventListener to span with date
                 if (this.allowAddTask) getData(this.defDate, calendarID);
@@ -62,12 +66,14 @@ this.drawIntCalendar=function(elem) {
             addEventListener("click",function removeTask(event){
                 var target=event.target;
                 if (target.className!='addedTask') return;
-                var day=target.parentNode.firstChild.innerHTML;
+                var day=parseInt(target.parentNode.firstChild.innerHTML);
                 var task=target.innerHTML;
                 var remDate=new Date(this.defDate.getFullYear(),this.defDate.getMonth(),day);
                 var shouldRemove=confirmTaskRemoval(task,remDate);
                 if (!shouldRemove) return;
                 removeDayTask(task,day);
+                setData(remDate,monthTasks,calendarID)
+                refreshCell(day);
         }.bind(this));
 
     }
@@ -115,11 +121,20 @@ function drawTaskInDay(task,day)
     for (var i=0;i<cellsToAddTo.length;i++) {
         if (cellsToAddTo[i].innerHTML == day) {
             cellsToAddTo[i].parentNode.appendChild(elemToAdd);
-            //это почему-то не работает и вставляет после таблицы. Вася, почему?
-            //document.body.insertBefore(elemToAdd, cellsToAddTo[i].nextSibling);
             return;
         }
     }
 };
 
+function refreshCell(day)
+{
+    var cellsToClear=document.getElementsByClassName("dataAddTask");
+    for (var i=0;i<cellsToClear.length;i++) {
+        if (cellsToClear[i].innerHTML == day) {
+            var tdCell=cellsToClear[i].parentNode;
+           while (tdCell.firstChild!=tdCell.lastChild) tdCell.removeChild(tdCell.lastChild);
+        }
+    }
+    sendDataToCalendar(day,day+1);
+}
 

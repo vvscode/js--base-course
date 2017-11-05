@@ -23,8 +23,8 @@ localStorage.setItem(genKey(date,calendID),JSON.stringify(monthTasks));
  * @param first - first day to update
  * @param last - last day to update + 1 (since strict < in cycle)
  */
-function sendDataToCalendar(){
-for (var i=1;i<monthTasks.length;i++)
+function sendDataToCalendar(first, last){
+    for (var i=first;i<last;i++)
 {
     if (monthTasks[i]=='') continue;
     var tasksToDraw=monthTasks[i].split('\u0283');
@@ -44,9 +44,10 @@ function addDayTask(task, date){
 
 function removeDayTask(task,day)
 {
-
-    monthTasks[day].replace(('\u0283'+task),"");
-
+    var pos=monthTasks[day].indexOf(task);
+    if(pos) monthTasks[day]=monthTasks[day].replace('\u0283'+task,"");
+    else monthTasks[day]=monthTasks[day].replace(task,'');
+    if (monthTasks[day].indexOf('\u0283')==0) monthTasks[day]=monthTasks[day].slice(1);
 }
 
 function getTask(date)
@@ -59,4 +60,3 @@ function confirmTaskRemoval(task,date)
 {
     return confirm("Are you sure you want to remove \""+task+"\" scheduled for "+date.toLocaleDateString("EN-us",{ year: 'numeric', month: 'long', day: 'numeric'})+"?");
 }
-// '\u0259' - разделитель
