@@ -26,13 +26,17 @@ this.drawIntCalendar=function() {
             elem.addEventListener("dblclick",function addTask(event)
             {if (event.target.className!='dataAddTask'&&event.target.parentNode.className!='dataAddTask') return;
                 var target=event.target;
-                var day=target.innerHTML&&target.parentNode.firstChild.innerHTML;
+                var day;
+                if (target.tagName!="TD") day=target.parentNode.firstChild.innerHTML;
+                else {
+                    day=target.firstChild.innerHTML;
+                }
                 var date = new Date(this.defDate.getFullYear(), this.defDate.getMonth(), day);
                 var task=getTask(date);
                 if (task!=""&&task!=null)
-                {addDayTask(task,date,this);
+                {addDayTask(task.trim(),date,this);
                 setData(this,date);
-                drawTaskInDay(task,date.getDate(),this);
+                drawTaskInDay(task.trim(),date.getDate(),this);
                 };
 
             }.bind(this));
@@ -61,10 +65,6 @@ this.drawIntCalendar=function() {
                 this.defDate.setFullYear(year, month, 1);
                 setState(this);
                 drawCalendar(this, elem);
-                if (this.allowAddTask) {
-                    getData(this);
-                    sendDataToCalendar(1,this.monthTasks.length,this);
-                }
 
             }.bind(this));
         }
