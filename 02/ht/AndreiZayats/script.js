@@ -55,11 +55,12 @@ Function.prototype.myBind = function (context) {
 * в консоль выводилось значение, которое присваивается и текущее время
 */
 var o = {
-  magicProperty : function(arg){
-    time = new Date();
+  set magicProperty (arg) {
+    var time = new Date();
     console.log(arg + " " + time.getHours() + ":" + time.getMinutes());
   }
 };
+
 
 
 /**
@@ -110,8 +111,9 @@ function calculate(method) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
-}
+  if (!Singleton.instance) Singleton.instance = this;
+  return Singleton.instance;
+};
 
 /**
   * Создайте функцию ForceConstructor
@@ -120,8 +122,15 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
-}
+  if ( this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  }
+  else {
+    return new ForceContructor(a,b,c);
+  }
+};
 
 /**
  * Написать фукнцию сумматор, которая будет работать 
