@@ -9,13 +9,14 @@ this.showMonthYear=showMonthYear;
 this.allowPrevNext=allowPrevNext;
 this.allowAddTask=allowAddTask;
 this.allowRemoveTask=allowRemoveTask;
-this.defDate=new Date(defDate.getFullYear(),defDate.getMonth(),1);
+this.defDate=new Date(defDate.getFullYear(),defDate.getMonth(),2);
 this.monthTasks;
 this.drawIntCalendar=function() {
     var elem=document.createElement("div");
     elem.setAttribute("id",this.calendarID);
     elem.setAttribute("class","calendar");
     document.body.appendChild(elem);
+    getState(this);
         drawCalendar(this,elem);
         // if add is enabled - get data and set EventListener to span with date
         if (this.allowAddTask) {
@@ -55,7 +56,8 @@ this.drawIntCalendar=function() {
                     }
                     else month += 1;
                 }
-                this.defDate.setFullYear(year, month, 1);
+                this.defDate.setFullYear(year, month, 2);
+                setState(this);
                 drawCalendar(this, elem);
                 if (this.allowAddTask) {
                     getData(this);

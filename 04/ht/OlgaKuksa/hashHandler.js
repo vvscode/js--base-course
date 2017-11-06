@@ -1,7 +1,8 @@
-window.location.hash="#Calendar";
+
+if (window.location.hash=="")  window.location.hash="#Calendar";
+else onHashChange();
 
 window.onhashchange=onHashChange;
-
 
 function onHashChange()
 {

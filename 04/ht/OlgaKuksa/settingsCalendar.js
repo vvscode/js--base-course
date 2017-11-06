@@ -49,7 +49,6 @@ function drawScriptBar()
 }
 
 
-
 function createElement(type,name,id,labelText,checked)
 {
     var lb1=document.createElement("label");
@@ -62,3 +61,5 @@ function createElement(type,name,id,labelText,checked)
     lb1.innerHTML+=labelText;
     return lb1;
 }
+
+

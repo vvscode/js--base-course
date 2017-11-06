@@ -17,6 +17,15 @@
     border-radius:50%;
 }
 
+.calendar.addedTask{
+    margin:2px;
+}
+
+.calendar{
+    margin:30px 100px 20px 50px;
+}
+
+
 #defYear, #defMonth{
     width: 5em;
     margin: 5px;
@@ -42,8 +51,6 @@
     float:left;
 }
 
-#CalScript div{
-    margin-left: 30px;
-    margin-right: 100px;
-  
+#scriptArea, #settingsBar {
+    margin:30px 100px 20px 50px;
 }
