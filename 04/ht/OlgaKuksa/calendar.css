@@ -6,16 +6,20 @@
     border-spacing: 3px 7px;
 }
 .calendar table td {
-    border: 1px solid grey;
-    border-radius:12%;
-    vertical-align: top;
-    width: 90px;
-    height:30px;
-}
+     border: 1px solid grey;
+     border-radius:12%;
+     vertical-align: top;
+     width: 90px;
+     height:30px;
+ }
 .calendar table td span{
-    padding: 1px 5px 1px 5px;
+    padding: 1px 3px 1px 3px;
     background-color: lightsteelblue;
-    border-radius:50%;
+    border-radius:40%;
+}
+
+.calendar table div {
+    margin:5px;
 }
 
 .calendar.addedTask{
@@ -26,6 +30,12 @@
     margin:30px 100px 20px 50px;
 }
 
+.calendar table td div .delIcon{
+    padding: 0px 3px 2px 4px;
+    background-color:lightsalmon;
+    border-radius:50%;
+    margin:3px;
+}
 
 #defYear, #defMonth{
     width: 5em;

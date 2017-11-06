@@ -21,12 +21,13 @@ this.drawIntCalendar=function() {
     }
     getState(this);
         drawCalendar(this,elem);
-        // if add is enabled - get data and set EventListener to span with date
+        // if add is enabled set EventListener with date cell
         if (this.allowAddTask) {
-            elem.addEventListener("click",function addTask(event)
-            {if (event.target.className!='dataAddTask') return;
+            elem.addEventListener("dblclick",function addTask(event)
+            {if (event.target.className!='dataAddTask'&&event.target.parentNode.className!='dataAddTask') return;
                 var target=event.target;
-                var date = new Date(this.defDate.getFullYear(), this.defDate.getMonth(), target.innerHTML);
+                var day=target.innerHTML&&target.parentNode.firstChild.innerHTML;
+                var date = new Date(this.defDate.getFullYear(), this.defDate.getMonth(), day);
                 var task=getTask(date);
                 if (task!=""&&task!=null)
                 {addDayTask(task,date,this);
@@ -71,9 +72,10 @@ this.drawIntCalendar=function() {
         if (this.allowRemoveTask)
             elem.addEventListener("click",function removeTask(event){
                 var target=event.target;
-                if (target.className!='addedTask') return;
-                var day=parseInt(target.parentNode.firstChild.innerHTML);
-                var task=target.innerHTML;
+                if (target.className!='delIcon') return;
+                var day=parseInt(target.parentNode.parentNode.firstChild.innerHTML);
+                var task=target.parentNode.innerText;
+                task=task.substring(0,task.length-1);
                 var remDate=new Date(this.defDate.getFullYear(),this.defDate.getMonth(),day);
                 var shouldRemove=confirmTaskRemoval(task,remDate);
                 if (!shouldRemove) return;
@@ -110,7 +112,7 @@ function drawCalendar(obj,elem)
     for (var i=1;i<dayOfWeek1;i++)
         calendarTable+="<td></td>";
     for (var i=1;i<=numberOfDays;i++) {
-        calendarTable +="<td><span class='dataAddTask'>"+i+"</span></td>";
+        calendarTable +="<td class='dataAddTask'><span>"+i+"</span></td>";
         //going to next line
         if ((dayOfWeek1+i-1) % 7 == 0&&i!=numberOfDays) calendarTable += "</tr><tr>"
     }
@@ -128,10 +130,14 @@ function drawTaskInDay(task,day,calendarObj)
     var elemToAdd=document.createElement("div");
     elemToAdd.className="addedTask";
     elemToAdd.appendChild(taskToAdd);
+    var iconToDel=document.createElement("span");
+    iconToDel.setAttribute("class","delIcon");
+    iconToDel.innerHTML="x";
+    elemToAdd.appendChild(iconToDel);
     var cellsToAddTo=document.getElementById(calendarObj.calendarID).getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToAddTo.length;i++) {
-        if (cellsToAddTo[i].innerHTML == day) {
-            cellsToAddTo[i].parentNode.appendChild(elemToAdd);
+        if (cellsToAddTo[i].firstChild.innerHTML == day) {
+            cellsToAddTo[i].appendChild(elemToAdd);
             return;
         }
     }
@@ -142,8 +148,8 @@ function refreshCell(day, calendarObj)
 
     var cellsToClear=document.getElementById(calendarObj.calendarID).getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToClear.length;i++) {
-        if (cellsToClear[i].innerHTML == day) {
-            var tdCell=cellsToClear[i].parentNode;
+        if (cellsToClear[i].firstChild.innerHTML == day) {
+            var tdCell=cellsToClear[i];
            while (tdCell.firstChild!=tdCell.lastChild) tdCell.removeChild(tdCell.lastChild);
         }
     }
