@@ -379,3 +379,73 @@ function drawCalendar(htmlEl, year, month) {
 var calendarWrap = document.getElementById('calendar-wrap');
 var calendarCurrentDate;
 drawInteractiveCalendar(calendarWrap, 2017, 10);
+
+//Написать реализацию функций debounce и throttle
+
+function debounce(fun, delay, immediate){
+    var timeout;
+    return function () {
+      var context = this,
+          args = arguments;
+      var later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
+//throttle
+
+function throttle(fun, delay) {
+
+  var isThrottled = false,
+    savedArgs,
+    savedThis;
+
+  function wrapper() {
+
+    if (isThrottled) { // (2)
+      savedArgs = arguments;
+      savedThis = this;
+      return;
+    }
+
+    fun.apply(this, arguments); // (1)
+
+    isThrottled = true;
+
+    setTimeout(function() {
+      isThrottled = false; // (3)
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, delay);
+  }
+
+  return wrapper;
+}
+
+
+//Создать синхронную функцию sleep(seconds) так, чтобы работал код
+//console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+//sleep(9);
+//console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+
+function sleep(seconds){
+
+  let sec = seconds * 1000;
+  console.log(new Date());
+  let delay = new Date().getTime() + sec;
+  while (new Date().getTime() < delay) {
+    console.log('delay');
+}
+return console.log(new Date());
+
+}
+
+sleep(3);
