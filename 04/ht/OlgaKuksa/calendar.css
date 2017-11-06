@@ -6,7 +6,8 @@
     border-spacing: 3px 7px;
 }
 .calendar table td {
-    border: 1px solid black;
+    border: 1px solid grey;
+    border-radius:12%;
     vertical-align: top;
     width: 90px;
     height:30px;
@@ -41,16 +42,16 @@
 }
 
 
-#CalScript textarea{
-    width:250px;
+textarea{
+    float:left;
+    width:300px;
     height:220px;
-    margin:15px;
+    margin-right: 100px;
+    margin-top: 30px;
 }
 
-#scriptArea{
-    float:left;
-}
 
 #scriptArea, #settingsBar {
     margin:30px 100px 20px 50px;
 }
+

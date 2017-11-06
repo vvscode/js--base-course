@@ -9,19 +9,20 @@ this.showMonthYear=showMonthYear;
 this.allowPrevNext=allowPrevNext;
 this.allowAddTask=allowAddTask;
 this.allowRemoveTask=allowRemoveTask;
-this.defDate=new Date(defDate.getFullYear(),defDate.getMonth(),2);
+this.defDate=new Date(defDate.getFullYear(),defDate.getMonth(),1);
 this.monthTasks;
 this.drawIntCalendar=function() {
-    var elem=document.createElement("div");
-    elem.setAttribute("id",this.calendarID);
-    elem.setAttribute("class","calendar");
-    document.body.appendChild(elem);
+    var elem=document.getElementById(this.calendarID);
+    if (!elem) {
+        elem = document.createElement("div");
+        elem.setAttribute("id", this.calendarID);
+        elem.setAttribute("class", "calendar");
+        document.body.appendChild(elem);
+    }
     getState(this);
         drawCalendar(this,elem);
         // if add is enabled - get data and set EventListener to span with date
         if (this.allowAddTask) {
-            getData(this);
-            sendDataToCalendar(1,this.monthTasks.length,this);
             elem.addEventListener("click",function addTask(event)
             {if (event.target.className!='dataAddTask') return;
                 var target=event.target;
@@ -56,7 +57,7 @@ this.drawIntCalendar=function() {
                     }
                     else month += 1;
                 }
-                this.defDate.setFullYear(year, month, 2);
+                this.defDate.setFullYear(year, month, 1);
                 setState(this);
                 drawCalendar(this, elem);
                 if (this.allowAddTask) {
@@ -115,6 +116,9 @@ function drawCalendar(obj,elem)
     }
     calendarTable+="</tr></table>";
     elem.innerHTML=calendarTable;
+    if (obj.allowAddTask||obj.allowRemoveTask) {
+        getData(obj);
+        sendDataToCalendar(1,obj.monthTasks.length,obj);}
 };
 
 function drawTaskInDay(task,day,calendarObj)
