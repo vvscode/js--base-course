@@ -1,18 +1,49 @@
-table button {
+.calendar table button {
     margin:7px;
 }
-table{
+.calendar table{
     border-collapse: separate;
     border-spacing: 3px 7px;
 }
-table td {
+.calendar table td {
     border: 1px solid black;
     vertical-align: top;
     width: 90px;
     height:30px;
 }
-table td span{
+.calendar table td span{
     padding: 1px 5px 1px 5px;
     background-color: lightsteelblue;
     border-radius:50%;
+}
+
+#defYear, #defMonth{
+    width: 5em;
+    margin: 5px;
+}
+
+
+#CalScript {
+    border: 1px solid black;
+}
+
+#settingsBar fieldset{
+    width: 250px;
+}
+
+
+#CalScript textarea{
+    width:250px;
+    height:220px;
+    margin:15px;
+}
+
+#scriptArea{
+    float:left;
+}
+
+#CalScript div{
+    margin-left: 30px;
+    margin-right: 100px;
+  
 }

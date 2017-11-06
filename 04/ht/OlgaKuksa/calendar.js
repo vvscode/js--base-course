@@ -1,8 +1,6 @@
 
-var currCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),111);
+//var currCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),111);
 
-
-var secCalendar=new Calendar(1,1,1,1,new Date(2017,10,1),222);
 
 
 function Calendar(showMonthYear,allowPrevNext,allowAddTask,allowRemoveTask,defDate, calendarID)
@@ -11,11 +9,12 @@ this.showMonthYear=showMonthYear;
 this.allowPrevNext=allowPrevNext;
 this.allowAddTask=allowAddTask;
 this.allowRemoveTask=allowRemoveTask;
-this.defDate=defDate;
+this.defDate=new Date(defDate.getFullYear(),defDate.getMonth(),1);
 this.monthTasks;
 this.drawIntCalendar=function() {
     var elem=document.createElement("div");
     elem.setAttribute("id",this.calendarID);
+    elem.setAttribute("class","calendar");
     document.body.appendChild(elem);
         drawCalendar(this,elem);
         // if add is enabled - get data and set EventListener to span with date
