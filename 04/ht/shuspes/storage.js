@@ -1,4 +1,4 @@
-(function storage(calendarId) {
+var Storage = (function(calendarId) {
     function createGuid() {
         function S4() {
             return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
@@ -69,13 +69,13 @@
             var calendarData = getCalendarData();
             var existsDates = Object.keys(calendarData);
             existsDates.forEach(function(date) {
-              var notes = obj[date]["notes"] || {};
-              var notesArray = Object.keys(notes).map(function(noteId) {
+            var notes = obj[date]["notes"] || {};
+            var notesArray = Object.keys(notes).map(function(noteId) {
                 var noteObject = notes[noteId];
                 noteObject["noteId"] = noteId;
                 return noteObject;
-              });
-              calendarData[date] = notesArray;
+            });
+            calendarData[date] = notesArray;
             });
             return calendarData
         }
