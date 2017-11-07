@@ -194,4 +194,71 @@ function curry(func) {}
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
+// Получаем текущие дату месяц
+var tmpMonth = new Date().getMonth();
+var tmpYear = new Date().getFullYear();
+// Рисуем календарь
+drawCalendar(tmpYear,tmpMonth,document.body);
+function prevClick(){
+    if (tmpMonth==1)
+    {
+        tmpMonth = 12;
+        tmpYear--;
+    }
+    else tmpMonth--;
+    drawCalendar(tmpYear,tmpMonth,document.body); 
+}
+function nextClick(){
+    if (tmpMonth==12)
+    {
+        tmpMonth = 1;
+        tmpYear++;
+    }
+    else tmpMonth++;
+    drawCalendar(tmpYear,tmpMonth,document.body); 
+}
+function drawCalendar(year, month, htmlEl) {
+  /* Календарь из предыдущего урока */
+  var monthNumber = month-1; // Перевод номера месяца без изменения глобального значения
+  var monthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+  var currentMonth = new Date(year,monthNumber);
+  var monthDayTotal = new Date(currentMonth.getFullYear(),currentMonth.getMonth()+1,0).getDate(); // Количество дней месяца
+  var monthDayLastName = new Date(currentMonth.getFullYear(),currentMonth.getMonth(),monthDayTotal).getDay(); // День недели последнего дня месяца
+  var monthDayFirstName = new Date(currentMonth.getFullYear(),currentMonth.getMonth(),1).getDay(); // День недели первого дня месяца
+  var calendarTable = ("<table><tr>");
+  calendarTable += ("<p><button id='prevButton' onclick='prevClick()'><</button><b>"+monthName[monthNumber]+" "+year+"</b><button id='nextButton' onclick='nextClick()'>></button></p>"); // Собираем таблицу
+  calendarTable += ("<td width=30>"+"Пн"+"</td>");
+  calendarTable += ("<td width=30>"+"Вт"+"</td>");
+  calendarTable += ("<td width=30>"+"Ср"+"</td>");
+  calendarTable += ("<td width=30>"+"Чт"+"</td>");
+  calendarTable += ("<td width=30>"+"Пт"+"</td>");
+  calendarTable += ("<td width=30>"+"Сб"+"</td>");
+  calendarTable += ("<td width=30>"+"Вс"+"</td></tr>");
+  calendarTable += ("<tr>");
+  if (monthDayFirstName!=0) // Добавляем пустые ячейки в начале месяца
+  {
+      for(var i=1; i<monthDayFirstName; i++)
+      {
+          calendarTable += ("<td/>");
+      }
+  }
+  else // Если первый день воскресенье добавляем полную строку
+  {
+      for(var i=1; i<7; i++)
+      {
+          calendarTable += ("<td/>");
+      }
+  }
+  for (var i = 1; i <= monthDayTotal; i++) // заполняем таблицу днями
+  {
+      calendarTable += ("<td width=30>"+i+"</td>");
+      if (new Date(currentMonth.getFullYear(),currentMonth.getMonth(),i).getDay() == 0)
+      {
+          calendarTable += ("</tr><tr>"); // Если день недели Воскресенье - перевод строки
+      }
+  }
+  calendarTable += ("</tr></table>"); // Закрываем таблицу
+  htmlEl.innerHTML = calendarTable;
+}
+// Не потребовалось...
 function drawInteractiveCalendar(el) {}
