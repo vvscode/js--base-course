@@ -3,16 +3,51 @@
 /* eslint max-len: "off" */
 
 /**
- * Написать функцию `isDeepEqual`
- * которая принимает на вход двe переменных
- * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
- * @return {boolean} идентичны ли параметры по содержимому
- */
+* Написать функцию `isDeepEqual`
+* которая принимает на вход двe переменных
+* и проверяет идентичны ли они по содержимому. Например
+* @param {*} objA
+* @param {*} objB
+* @return {boolean} идентичны ли параметры по содержимому
+*/
+
+
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+
+    var aKeys = Object.keys(objA);
+
+    for(var i = 0; i < aKeys.length; i++) {
+        var propKey = aKeys[i];
+        var propValA = objA[propKey];
+        var propValB = objB[propKey];
+        if (typeof propValA === 'object' && typeof propValB === 'object') {
+            if (!isEqual(propValA, propValB)) {
+                return false;
+            }
+        } else {
+            if (propValA !== propValB) {
+                return false;
+            }
+        }
+    }
+
+    var bKeys = Object.keys(objB);
+    for(var u = 0; u < bKeys.length;u++) {
+        var propKeyB = bKeys[u];
+        var propValAb = objA[propKey];
+        var propValBb = objB[propKey];
+        if (typeof propValAb === 'object' && typeof propValBb === 'object') {
+            if (!isEqual(propValAb, propValBb)) {
+                return false;
+            }
+        } else {
+            if (propValAb !== propValBb) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -21,8 +56,17 @@ function isDeepEqual(objA, objB) {
  * @param {*} context значение для this
  * @return {function} функция с зафиксированным контекстом
  */
+
 function bind(func, context) {
-  return undefined;
+    return function() {
+        return func.apply(context, arguments);
+    };
+}
+
+function myBind(funct) {
+        return function() {
+            return func.apply(context, arguments);
+        };
 }
 
 /**
@@ -30,6 +74,16 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
+
+var date = new Date();
+
+var o = {
+  magicProperty: function alertTime(number) {
+      console.log(number + date.getDay())
+  }
+};
+
+
 
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
@@ -44,14 +98,42 @@ function bind(func, context) {
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
+
+
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(firstVar, secondVar) {
+    var values = firstVar && secondVar;
+    var firstVar;
+    var secondVar;
+    var result;
+
+    switch (values) {
+    case '+':
+        result = firstVar + secondVar;
+        console.log(result);
+        break;
+    case '-':
+        result = firstVar - secondVar;
+        console.log(result);
+        break;
+    case '*':
+        result = firstVar * secondVar;
+        console.log(result);
+        break;
+    case '/':
+        result = firstVar/secondVar;
+        console.log(result);
+        break;
+    default:
+        alert( 'Я таких значений не знаю' );
+    }
+
+    return result;
 }
 
 /**
