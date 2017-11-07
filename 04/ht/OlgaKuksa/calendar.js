@@ -130,10 +130,12 @@ function drawTaskInDay(task,day,calendarObj)
     var elemToAdd=document.createElement("div");
     elemToAdd.className="addedTask";
     elemToAdd.appendChild(taskToAdd);
-    var iconToDel=document.createElement("span");
-    iconToDel.setAttribute("class","delIcon");
-    iconToDel.innerHTML="x";
-    elemToAdd.appendChild(iconToDel);
+    if (calendarObj.allowRemoveTask) {
+        var iconToDel = document.createElement("span");
+        iconToDel.setAttribute("class", "delIcon");
+        iconToDel.innerHTML = "x";
+        elemToAdd.appendChild(iconToDel);
+    }
     var cellsToAddTo=document.getElementById(calendarObj.calendarID).getElementsByClassName("dataAddTask");
     for (var i=0;i<cellsToAddTo.length;i++) {
         if (cellsToAddTo[i].firstChild.innerHTML == day) {
