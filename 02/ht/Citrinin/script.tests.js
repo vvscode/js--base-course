@@ -357,6 +357,7 @@ describe("curry", function() {
 });
 
 describe("debounce", function() {
+    this.timeout(10000);
     it("Функция", function() {
         assert.isOk(typeof debounce === "function");
     });
@@ -375,8 +376,7 @@ describe("debounce", function() {
         setTimeout(function() { fDebounce(6, array) }, 2400); //выполнится
 
         setTimeout(function() {
-            assert.isOk(array.length === 1);
-            assert.isOk(array[0] === 6);
+            assert.deepEqual(array, [6])
             done();
         }, 3500);
     });
@@ -392,9 +392,7 @@ describe("debounce", function() {
         setTimeout(function() { fDebounce(6, array) }, 3600); //выполнится
 
         setTimeout(function() {
-            assert.isOk(array.length === 4);
-            assert.isOk(array[0] === 3);
-            assert.isOk(array[3] === 6);
+            assert.deepEqual(array, [3, 4, 5, 6]);
             done();
         }, 5000);
 
@@ -403,6 +401,7 @@ describe("debounce", function() {
 
 
 describe("throttle", function() {
+    this.timeout(10000);
     it("Функция", function() {
         assert.isOk(typeof throttle === "function");
     });
@@ -419,11 +418,8 @@ describe("throttle", function() {
         setTimeout(function() { fThrottle(4, array) }, 800); // игнор
         setTimeout(function() { fThrottle(5, array) }, 1600); // выполнится
         setTimeout(function() { fThrottle(6, array) }, 2400); //игнор
-
         setTimeout(function() {
-            assert.isOk(array.length === 2);
-            assert.isOk(array[0] === 3);
-            assert.isOk(array[1] === 5);
+            assert.deepEqual(array, [3, 5]);
             done();
         }, 3000);
     });
@@ -439,9 +435,7 @@ describe("throttle", function() {
         setTimeout(function() { fThrottle(6, array) }, 3600); //выполнится
 
         setTimeout(function() {
-            assert.isOk(array.length === 4);
-            assert.isOk(array[0] === 3);
-            assert.isOk(array[3] === 6);
+            assert.deepEqual(array, [3, 4, 5, 6]);
             done();
         }, 4000);
     });
