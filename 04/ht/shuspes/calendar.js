@@ -40,19 +40,23 @@ var Calendar = (function(storage, config) {
         var navigationFunction = allowNavigation ? navigation(initDate) : function(){};
         rootElement.addEventListener("click", function(event) {
             var targetClassList = event.target.classList;
-            if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes && !isForDemonstration) {
+            if(targetClassList.contains("js-event-openRemoveNoteForm")) {
+                //NOTE: openRemoveNoteForm
+                openRemoveNoteForm(event.target);
+            } else if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes && !isForDemonstration) {
                 //NOTE: removeNote
-                console.log("removeNote");
-                removeNote(event.target);
-            } else if(targetClassList.contains("js-event-closeAddNoteForm")) {
-                //NOTE: closeAddNoteForm
-                console.log("closeAddNoteForm");
-                closeAddNoteForm();
+                var result = removeNote(event.target);
+                if(result) {
+                    closeNoteModal();
+                }
+            } else if(targetClassList.contains("js-event-closeNoteModal")) {
+                //NOTE: closeNoteModal
+                closeNoteModal();
             } else if(targetClassList.contains("js-event-addNote")) {
                 //NOTE: addNote
                 var result = addNote(event.target);
                 if(result) {
-                    closeAddNoteForm();
+                    closeNoteModal();
                 }
             } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation && !isForDemonstration) {
                 //NOTE: navigation
@@ -67,16 +71,7 @@ var Calendar = (function(storage, config) {
             var targetClassList = event.target.classList;        
             if(targetClassList.contains("js-event-openAddNoteForm") && allowAddNotes && !isForDemonstration) {
                 //NOTE: openAddNoteForm
-                var dataset = event.target.dataset;
-                if(dataset) {
-                    var utcDate = dataset["utcdate"];
-                    if(utcDate) {
-                        rootElement.getElementsByClassName("js-content-addNote")[0].dataset["utcdate"] = utcDate;
-                        Array.prototype.forEach.call(rootElement.getElementsByClassName("css-calendar-note"), function(noteEl) {
-                            noteEl.classList.toggle("visible");
-                        });
-                    }
-                }
+                openAddNoteForm(event.target);
             }
         });
     }
@@ -96,12 +91,55 @@ var Calendar = (function(storage, config) {
         }
     }
 
-    function closeAddNoteForm() { //VARIABLES: rootElement
+    function closeNoteModal() { //VARIABLES: rootElement
         Array.prototype.forEach.call(rootElement.getElementsByClassName("css-calendar-note"), function(noteEl) {
             noteEl.classList.toggle("visible");
         });
-        rootElement.getElementsByClassName("js-calendar-noteForm-noteValidation")[0].innerHTML = "";
-        rootElement.getElementsByClassName("js-calendar-noteForm-text")[0].value = "";
+        rootElement.getElementsByClassName("js-content-note-form")[0].innerHTML = "";
+    }
+
+    function openNoteModal(modalContent) {
+        Array.prototype.forEach.call(rootElement.getElementsByClassName("css-calendar-note"), function(noteEl) {
+            noteEl.classList.toggle("visible");
+        });
+        rootElement.getElementsByClassName("js-content-note-form")[0].innerHTML = modalContent;        
+    }
+
+    function openAddNoteForm(target) {
+        var utcDate = getDataAttr(target, "utcdate");
+        if(utcDate) {
+            var content = renderAddNoteForm(utcDate);
+            openNoteModal(content);
+        }
+    }
+
+    function openRemoveNoteForm(target) {
+        var noteId = getDataAttr(target, "noteid");
+        var utcDate = getDataAttr(target, "utcdate");
+        if(noteId && utcDate) {
+            var content = renderRemoveNoteForm(utcDate, noteId);
+            openNoteModal(content);                
+        }
+    }
+
+    function renderAddNoteForm(utcDate) {
+        return [
+            '<textarea class="js-calendar-noteForm-text css-calendar-note-form-text" placeholder="Задача"></textarea>',
+            '<span class="js-calendar-noteForm-noteValidation css-validation css-calendar-note-form-validation"></span>',            
+            '<div class="css-calendar-note-form-buttonsBlock">',
+            '<button class="js-event-closeNoteModal css-button secondary css-calendar-note-form-button">Отмена</button>',
+            `<button data-utcDate="${utcDate}" class="js-event-addNote css-button primary css-calendar-note-form-button">Добавить задачу</button>`,
+            '</div>'
+        ].join("");
+    }
+
+    function renderRemoveNoteForm(utcDate, noteId) {
+        return [
+            '<div class="css-calendar-note-form-buttonsBlock">',
+            '<button class="js-event-closeNoteModal css-button secondary css-calendar-note-form-button">Отмена</button>',
+            `<button data-noteId="${noteId}" data-utcDate="${utcDate}" class="js-event-removeNote css-button primary css-calendar-note-form-button">Удалить задачу</button>`,
+            '</div>'
+        ].join("");
     }
 
     function addNote(target) { //VARIABLES: rootElement
@@ -111,34 +149,35 @@ var Calendar = (function(storage, config) {
             rootElement.getElementsByClassName("js-calendar-noteForm-noteValidation")[0].innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
             return result;
         }
-        var dataset = target.dataset;
-        if(dataset) {
-            var utcDate = dataset["utcdate"];
-            if(utcDate) {
-                var noteId = storage.setNote(utcDate, noteText);
-                if(!noteId) return result;
-                result = true;
-                var noteObj = {message: noteText};
-                // monthNotes = newMonthNotes;
-                return result;            
-
-            }
+        var utcDate = getDataAttr(target, "utcdate");
+        if(utcDate) {
+            var noteId = storage.setNote(utcDate, noteText);
+            if(!noteId) return result;
+            result = true;
+            var noteObj = {message: noteText};
+            // monthNotes = newMonthNotes;
+            return result;            
         }
     }
 
     function removeNote(target) {
-        var dataset = target.dataset;
-        if(dataset) {
-            var noteId = dataset["noteid"];
-            var utcDate = dataset["utcdate"];
-            if(noteId && utcDate) {
-                storage.deleteNote(utcDate, noteId);
-            }
+        var result = false;
+        var noteId = getDataAttr(target, "noteid");
+        var utcDate = getDataAttr(target, "utcdate");
+        if(noteId && utcDate) {
+            result = storage.deleteNote(utcDate, noteId);
         }
+        return result;
     }
 
     function updateDayNotes(utcDay, note) {
 
+    }
+
+    function getDataAttr(target, attrName) {
+        if(!target || !attrName) return;
+        var dataset = target.dataset;
+        return dataset ? dataset[attrName] : null;  
     }
 
     function prepareEnvironment() { //VARIABLES: rootElement
@@ -148,15 +187,9 @@ var Calendar = (function(storage, config) {
             '</div>',            
             '<div class="css-calendar-body">',
             '</div>',
-            '<div class="css-calendar-note css-calendar-note-form">',
-            '<textarea class="js-calendar-noteForm-text css-calendar-note-form-text" placeholder="Задача"></textarea>',
-            '<span class="js-calendar-noteForm-noteValidation css-validation css-calendar-note-form-validation"></span>',            
-            '<div class="css-calendar-note-form-buttonsBlock">',
-            '<button class="js-event-closeAddNoteForm css-button secondary css-calendar-note-form-button">Отмена</button>',
-            '<button class="js-event-addNote js-content-addNote css-button primary css-calendar-note-form-button">Добавить задачу</button>',
+            '<div class="js-content-note-form css-calendar-note css-calendar-note-form">',
             '</div>',
-            '</div>',
-            '<div class="js-event-closeAddNoteForm css-calendar-note css-calendar-note-background">',
+            '<div class="js-event-closeNoteModal css-calendar-note css-calendar-note-background">',
             '</div>',
             '</div>'
         ].join("");
@@ -275,168 +308,11 @@ var Calendar = (function(storage, config) {
         var noteText = noteObj["message"];
         return `<div class="css-calendar-body-note">
                     <span class="css-calendar-body-note-text" title="${noteText}">${noteText}</span>
-                    ${allowRemoveNotes ? `<span data-noteId="${noteObj["noteId"]}" data-utcDate="${utcDate}" class="js-event-removeNote css-button close css-calendar-body-note-deleteButton"></span>` : ""}
+                    ${allowRemoveNotes ? `<span data-noteId="${noteObj["noteId"]}" data-utcDate="${utcDate}" class="js-event-openRemoveNoteForm css-button close css-calendar-body-note-deleteButton"></span>` : ""}
                 </div>`; 
     }
 
     return {
         drawCalendar: drawCalendar
     }
-
-    // function drawInteractiveCalendar(el) {
-    //     var currentDate = new Date(); 
-    //     var belWeekFormat = [1, 2, 3, 4, 5, 6, 0];
-    //     drawCalendar(el, currentDate, belWeekFormat);
-    //   }
-      
-    //   function drawCalendar(element, initDate, weekFormat) {  
-    //     var drawHeader = function() {  
-    //       var weekDays = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};    
-    //       var calendarWeekDays = weekFormat.map(function(day) {
-    //         return `<th>${weekDays[day]}</th>`;
-    //       }).join("");
-        
-    //       element.innerHTML = [
-    //         '<span style="cursor: pointer" id="previousMonth">[<]</span>',
-    //         '<span id="caption"></span>',
-    //         '<span style="cursor: pointer" id="nextMonth">[>]</span>',
-    //         '<div>',
-    //         calendarWeekDays,
-    //         '</div>',
-    //         '<div id="calendarTable"></div>',
-    //         '<div id="calsendarHistory"></div>'
-    //       ].join("");
-    //     }
-      
-    //     var drawBody = function(year, month) {    
-    //       var day = new Date(year, month);
-    //       var currentMonth = day.toLocaleString("ru", {month: 'long'});
-    //       var currentYear = day.getFullYear();
-      
-    //       var calendarBody = "<tr>";
-    //       for(var i = 0; weekFormat[i] != day.getDay(); i++) {
-    //         calendarBody += "<td></td>";
-    //       }
-      
-    //       while(month == day.getMonth()) {
-    //         if(day.getDay() == weekFormat[0]) calendarBody += "<tr>";
-    //           calendarBody += `<td data-date="${day}">${day.getDate()}</td>`;
-    //         if(day.getDay() == weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
-    //         day.setDate(day.getDate() + 1);
-    //       }
-    //       if(day.getDay() !== weekFormat[weekFormat.length - 1]) calendarBody += "</tr>";
-          
-    //       document.getElementById("caption").innerHTML = `${currentMonth} / ${currentYear}`;
-    //       document.getElementById("calendarTable").innerHTML = `<table>${calendarBody}</table>`;
-    //     }
-      
-    //     var initNavigateButtons = function(year, month, calendarRender) {
-    //       var day = new Date(year, month); 
-          
-    //       var navigate = function(monthStep, initDate, calendarRender) {
-    //         var month = initDate.getMonth();
-    //         var date = initDate;
-          
-    //         return function(direction) {
-    //           if(direction === "+") {
-    //             date.setMonth(month + monthStep);
-                
-    //           } else if(direction === "-") {
-    //             date.setMonth(month - monthStep);
-    //           }
-          
-    //           month = date.getMonth();
-              
-    //           calendarRender(date.getFullYear(), month);
-    //         }
-    //       }
-      
-    //       var navigation = navigate.call(null, 1, day, calendarRender);
-        
-    //       document.getElementById("previousMonth").addEventListener("click", function() {
-    //         navigation("-");
-    //       });
-        
-    //       document.getElementById("nextMonth").addEventListener("click", function() {
-    //         navigation("+");
-    //       })
-    //     }
-      
-    //     var initNoteFunctionality = function() {
-    //       var calendarId = element.id;
-      
-    //       var updateNoteStorage = function(notes) {
-    //         localStorage.setItem(calendarId, JSON.stringify(notes));
-    //       };
-      
-    //       var getNotesFromStorage = function() {
-    //         return JSON.parse(localStorage.getItem(calendarId));      
-    //       }
-      
-    //       var initStorage = function() {
-    //         updateNoteStorage([]);
-    //       };
-      
-    //       var displayNote = function(noteString) {
-    //         var calendarHistory = document.getElementById("calsendarHistory"); //NOTE: use element.querySelector for insert some string to element
-    //         var history = calendarHistory.innerHTML;
-    //         calendarHistory.innerHTML = calendarHistory.innerHTML + noteString + "<br>";
-    //       }
-      
-    //       var notes = getNotesFromStorage();
-    //       if(notes) {
-    //         notes.forEach(function(note) {
-    //           displayNote(note);
-    //         });
-    //       } else {
-    //         initStorage();      
-    //       }
-      
-    //       var addNote = function(date, question) {
-    //         question = question || "Input note.";
-    //         var note = prompt(question).trim();
-    //         if(note) {
-    //           var noteString = createNote(note, date);
-    //           displayNote(noteString); 
-    //           saveNote(noteString);
-    //           return;       
-    //         }
-    //         addNote(date, "Note cannot be empty or whitespace. Please, input correct note.");
-    //       };
-      
-    //       var createNote = function(note, date) {
-    //         return `${note} - ${date.toLocaleString("ru")}`;
-    //       }
-      
-    //       var saveNote = function(noteString) {
-    //         var notes = getNotesFromStorage();
-    //         notes.push(noteString);
-    //         updateNoteStorage(notes);
-    //       }
-      
-    //       document.getElementById("calendarTable").addEventListener("click", function(event) {
-    //         var dataset = event.target.dataset;
-    //         if(dataset) {
-    //           var date = dataset["date"];
-    //           if(date) {
-    //             addNote(date);
-    //           }
-    //         }
-    //       })
-    //     }
-      
-    //     drawHeader();
-    //     var year = initDate.getFullYear();
-    //     var month = initDate.getMonth();
-    //     initNavigateButtons(year, month, drawBody);
-    //     drawBody(year, month);
-    //     initNoteFunctionality();
-    //   }
-
-
-
-
-
-
-
 })(Storage, config);
