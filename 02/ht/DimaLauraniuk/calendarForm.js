@@ -57,6 +57,7 @@ function drawInterectiveCalendar(htmlEl) {
             drawCalendar(yearSelected, monthSelected, el);
         }
     });
+    
 
     function addDateComment(selectedDay, dayComment) {
         var newComment = document.createElement('div');
