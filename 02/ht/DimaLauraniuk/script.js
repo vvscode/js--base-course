@@ -139,7 +139,7 @@ function calculate(operator) {
  * new Singleton() === new Singleton
  */
 
-var Singleton = (function() {
+var Singleton = (function () {
   var instance;
   return function () {
     if (!instance) {
@@ -261,4 +261,48 @@ console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
 function sleep(seconds) {
   var delayedDateTime = Date.now() + seconds * 1000;
   while (Date.now() < delayedDateTime) { }
+}
+
+function debounce(fun, delay) {
+  var condition = false;
+  return function () {
+    if (condition) {
+      return;
+    }
+    fun.apply(this, arguments);
+    condition = true;
+    setTimeout(function () {
+      condition = false;
+    }, delay);
+  }
+}
+
+function throttle(fun, delay) {
+
+  var condition = false;
+  var args;
+  var context;
+
+  function wrap() {
+
+    if (condition) {
+      args = arguments;
+      context = this;
+      return;
+    }
+
+    fun.apply(this, arguments);
+    condition = true;
+
+    setTimeout(function () {
+      condition = false;
+      if (args) {
+        wrap.apply(context, args);
+        args = null;
+        context = null;
+      }
+    }, delay);
+  }
+
+  return wrap;
 }

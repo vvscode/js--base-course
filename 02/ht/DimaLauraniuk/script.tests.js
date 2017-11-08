@@ -350,4 +350,48 @@ describe("curry", function () {
   });
 });
 
+describe("debounce", function () {
+  var sum = 0;
+  function func(a, b) {
+    sum = a + b;
+  };
+  var funcDebounce = debounce(func, 1000);
+  it("do not call func twice in 1000 ms", function () {
+    funcDebounce(2, 2);
+    assert.isOk(sum == 4);
+    funcDebounce(5, 55);
+    assert.isOk(sum == 4);
+  })
+  it("call func when enough time passed", function () {
+    setTimeout(function () { func(3, 3) }, 1100);
+    setTimeout(function () { assert.isOk(sum == 6) }, 1500);
+    setTimeout(function () { func(4, 4) }, 2000);
+    setTimeout(function () { assert.isOk(sum == 8) }, 2500);
+  })
+});
+
+describe("throttle test", function () {
+
+
+  it("throttle test 100 ms delay", function () {
+
+    var sum = 0;
+    function func(a, b) {
+      sum = a + b;
+      return;
+    }
+    var funcThrottle = throttle(func, 1000);
+
+    setTimeout(function () { funcThrottle(2, 2) }, 100);
+    setTimeout(function () {
+      assert.equal(sum, 4);
+    }, 1000);
+    setTimeout(function () { funcThrottle(3, 3) }, 500);
+    setTimeout(function () {
+      assert.equal(sum, 4);
+    }, 1000);
+
+  });
+});
+
 mocha.run();
