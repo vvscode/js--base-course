@@ -19,8 +19,8 @@ var Calendar = (function(storage, config) {
     var allowRemoveNotes = Boolean(config["allowRemoveNotes"]);
 
     var weekFormat = [1, 2, 3, 4, 5, 6, 0]; //NOTE: move to configuration
-    var weekDaysConf = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"};   
-    var monthNotes = storage.getAllNotes(); //NOTE: move to init calendar method. storage methods should return new object
+    var weekDaysConf = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"}; 
+    var monthNotes = {};  
     
     function drawCalendar() { //NOTE: maybay use this! method for outside
         prepareEnvironment();
@@ -32,6 +32,7 @@ var Calendar = (function(storage, config) {
     }
 
     function drawCalendarChangeSet(date) {
+        monthNotes = storage.getMonthNotes(date.getFullYear(), date.getMonth()); //NOTE: move to init calendar method. storage methods should return new object    
         drawCalendarCaption(date);
         drawCalendarBody(date);
     }
@@ -45,19 +46,15 @@ var Calendar = (function(storage, config) {
                 openRemoveNoteForm(event.target);
             } else if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes && !isForDemonstration) {
                 //NOTE: removeNote
-                var result = removeNote(event.target);
-                if(result) {
-                    closeNoteModal();
-                }
+                removeNote(event.target);
+                closeNoteModal();
             } else if(targetClassList.contains("js-event-closeNoteModal")) {
                 //NOTE: closeNoteModal
                 closeNoteModal();
             } else if(targetClassList.contains("js-event-addNote")) {
                 //NOTE: addNote
-                var result = addNote(event.target);
-                if(result) {
-                    closeNoteModal();
-                }
+                addNote(event.target);
+                closeNoteModal();
             } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation && !isForDemonstration) {
                 //NOTE: navigation
                 if(targetClassList.contains("leftButton")) {
@@ -143,35 +140,44 @@ var Calendar = (function(storage, config) {
     }
 
     function addNote(target) { //VARIABLES: rootElement
-        var result = false;
         var noteText = rootElement.getElementsByClassName("js-calendar-noteForm-text")[0].value.trim();
         if(noteText === "") {
             rootElement.getElementsByClassName("js-calendar-noteForm-noteValidation")[0].innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
-            return result;
+            return;
         }
         var utcDate = getDataAttr(target, "utcdate");
         if(utcDate) {
-            var noteId = storage.setNote(utcDate, noteText);
-            if(!noteId) return result;
-            result = true;
-            var noteObj = {message: noteText};
-            // monthNotes = newMonthNotes;
-            return result;            
+            var noteObj = storage.setNote(utcDate, noteText);
+            if(!noteObj) return;
+            addDayNoteToHtml(utcDate, noteObj);            
         }
     }
 
     function removeNote(target) {
-        var result = false;
         var noteId = getDataAttr(target, "noteid");
         var utcDate = getDataAttr(target, "utcdate");
         if(noteId && utcDate) {
-            result = storage.deleteNote(utcDate, noteId);
+            var result = storage.deleteNote(utcDate, noteId);
+            if(result) {
+                removeNoteFromHtml(utcDate, noteId);
+            }
         }
-        return result;
     }
 
-    function updateDayNotes(utcDay, note) {
+    function addDayNoteToHtml(utcDay, noteObj) {
+        var newNote = renderNote(utcDay, noteObj);
+        var dayNotesContainer = rootElement
+                .querySelector(`[data-utcdate="${utcDay}"].js-content-day`)
+                .querySelector('.js-content-calendar-dayNotes');
+        dayNotesContainer.insertAdjacentHTML("afterbegin", newNote);
+    }
 
+    function removeNoteFromHtml(utcDay, noteId) {
+        var note = rootElement
+                .querySelector(`[data-utcdate="${utcDay}"].js-content-day`)
+                .querySelector('.js-content-calendar-dayNotes')
+                .querySelector(`[data-noteId="${noteId}"]`);
+        note.parentNode.removeChild(note);
     }
 
     function getDataAttr(target, attrName) {
@@ -284,9 +290,9 @@ var Calendar = (function(storage, config) {
         var utcDate = Date.UTC(day.getFullYear(), day.getMonth(), day.getDate());
         var dayNotes = monthNotes[utcDate];
         result.push(
-            `<div data-utcdate="${utcDate}" class="js-event-openAddNoteForm css-calendar-body-day">
+            `<div data-utcdate="${utcDate}" class="js-event-openAddNoteForm js-content-day css-calendar-body-day">
                 <div data-utcdate="${utcDate}" class="js-event-openAddNoteForm css-calendar-body-dayNumber ${isAnotherMonth ? "anotherMonth" : ""}">${day.getDate()}</div>
-                <div class="css-calendar-body-dayNotes ${isAnotherMonth ? "anotherMonth" : ""}">
+                <div class="js-content-calendar-dayNotes css-calendar-body-dayNotes ${isAnotherMonth ? "anotherMonth" : ""}">
                         ${renderDayNotes(utcDate, dayNotes)}
                 </div>
             </div>`
@@ -306,7 +312,7 @@ var Calendar = (function(storage, config) {
 
     function renderNote(utcDate, noteObj) { //VARIABLES: allowRemoveNotes
         var noteText = noteObj["message"];
-        return `<div class="css-calendar-body-note">
+        return `<div data-noteId="${noteObj["noteId"]}" class="css-calendar-body-note">
                     <span class="css-calendar-body-note-text" title="${noteText}">${noteText}</span>
                     ${allowRemoveNotes ? `<span data-noteId="${noteObj["noteId"]}" data-utcDate="${utcDate}" class="js-event-openRemoveNoteForm css-button close css-calendar-body-note-deleteButton"></span>` : ""}
                 </div>`; 
