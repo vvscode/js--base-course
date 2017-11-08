@@ -6,7 +6,8 @@ var Storage = (function(calendarId) {
         return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
     };
     function getCalendarStorageObj() {
-        var calendarObjectString = localStorage.getItem(calendarId) || {};
+        var calendarObjectString = localStorage.getItem(calendarId);
+        if(!calendarObjectString) return {};
         return JSON.parse(calendarObjectString);
     };
     function setCalendarStorageObj(obj) {
@@ -33,7 +34,7 @@ var Storage = (function(calendarId) {
             var dateData = calendarData[date] || {};
             var dateNotes = dateData["notes"] || {};
             var noteId = createGuid();            
-            dateNotes[noteId] = { message };
+            dateNotes[noteId] = { message: message, noteId: noteId };
 
             dateData["notes"] = dateNotes;
             calendarData[date] = dateData;
@@ -69,7 +70,7 @@ var Storage = (function(calendarId) {
             var calendarData = getCalendarData();
             var existsDates = Object.keys(calendarData);
             existsDates.forEach(function(date) {
-            var notes = obj[date]["notes"] || {};
+            var notes = calendarData[date]["notes"] || {};
             var notesArray = Object.keys(notes).map(function(noteId) {
                 var noteObject = notes[noteId];
                 noteObject["noteId"] = noteId;
