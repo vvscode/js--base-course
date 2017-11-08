@@ -79,22 +79,25 @@ o = {
 function User() {
     this.age;
     this.name;
-    this.askAge = function() {
-        this.age = +prompt("How old are you?", 18);
-        return this;
-    };
-    this.askName = function() {
-        this.name = prompt("What is your name?", "Fluffy");
-        return this;
-    };
-    this.showAgeInConsole = function() {
-        console.log("You are " + this.age + " years old");
-        return this;
-    };
-    this.showNameInAlert = function() {
-        alert("Your name is " + this.name);
-        return this;
-    }
+}
+
+User.prototype.askAge = function() {
+    this.age = +prompt("How old are you?", 18);
+    return this;
+};
+
+User.prototype.askName = function() {
+    this.name = prompt("What is your name?", "Fluffy");
+    return this;
+};
+
+User.prototype.showAgeInConsole = function() {
+    console.log("You are " + this.age + " years old");
+    return this;
+};
+User.prototype.showNameInAlert = function() {
+    alert("Your name is " + this.name);
+    return this;
 }
 
 /**
@@ -127,14 +130,6 @@ function calculate(sign) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-    var x;
-    return function() {
-        if (x !== this) {
-            x = this;
-        }
-    }
-}
 
 var Singleton = (function() {
     var instance;
@@ -142,9 +137,8 @@ var Singleton = (function() {
     function Singleton() {
         if (!instance) {
             instance = this;
-        } else {
-            return instance;
         }
+        return instance;
     }
     return Singleton;
 })();
@@ -179,7 +173,7 @@ function sum(a) {
     function fun(b) {
         return sum(resSum + (b || 0));
     }
-    fun.toString = function() {
+    fun.valueOf = function() {
         return resSum
     };
     return fun;
