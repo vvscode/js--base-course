@@ -12,7 +12,7 @@ function drawInterectiveCalendar(htmlEl) {
     var okModalWindow = document.getElementById("ok");
     var cancelModalWindow = document.getElementById("cancel");
     var dayComment = "";
-    htmlEl.onclick = function (event) {
+    htmlEl.addEventListener('click',function (event) {
         var target = event.target;
         if (target.tagName === 'TD' && target.innerHTML) {
             modalWindow.style.display = "block";
@@ -56,7 +56,7 @@ function drawInterectiveCalendar(htmlEl) {
             }
             drawCalendar(yearSelected, monthSelected, el);
         }
-    }
+    });
 
     function addDateComment(selectedDay, dayComment) {
         var newComment = document.createElement('div');
