@@ -26,11 +26,11 @@ var Storage = (function() {
     };
     function getNotesInRange(calendarId, firstDate, lastDate) {
         var calendarData = getCalendarData(calendarId);
-        var utcFirstDate = Date.UTC(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate());
-        var utcLastDate = Date.UTC(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate());
+        var numFirstDate = firstDate.getTime();
+        var numLastDate = lastDate.getTime();
 
         Object.keys(calendarData).filter(function(date) {
-            return date >= utcFirstDate && date <= utcLastDate;
+            return date >= numFirstDate && date <= numLastDate;
         }).forEach(function(date) {
             var notes = calendarData[date]["notes"] || {};
             var notesArray = Object.keys(notes).map(function(noteId) {

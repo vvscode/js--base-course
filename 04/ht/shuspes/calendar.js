@@ -19,6 +19,8 @@ var Calendar = (function(storage) {
         var allowAddNotes = Boolean(config["allowAddNotes"]);
         var allowRemoveNotes = Boolean(config["allowRemoveNotes"]);
 
+        var dayForHighlight = new Date();
+        dayForHighlight = new Date(dayForHighlight.getFullYear(), dayForHighlight.getMonth());
         var weekFormat = [1, 2, 3, 4, 5, 6, 0]; //NOTE: move to configuration
         var weekDaysConf = {0: "Вс", 1: "Пн", 2: "Вт", 3: "Ср", 4: "Чт", 5: "Пт", 6: "Сб"}; 
         var monthNotes = {};  
@@ -94,89 +96,89 @@ var Calendar = (function(storage) {
             Array.prototype.forEach.call(rootElement.getElementsByClassName("css-calendar-note"), function(noteEl) {
                 noteEl.classList.toggle("visible");
             });
-            rootElement.getElementsByClassName("js-content-note-form")[0].innerHTML = "";
+            rootElement.querySelector(".js-content-note-form").innerHTML = "";
         }
 
         function openNoteModal(modalContent) {
             Array.prototype.forEach.call(rootElement.getElementsByClassName("css-calendar-note"), function(noteEl) {
                 noteEl.classList.toggle("visible");
             });
-            rootElement.getElementsByClassName("js-content-note-form")[0].innerHTML = modalContent;        
+            rootElement.querySelector(".js-content-note-form").innerHTML = modalContent;        
         }
 
         function openAddNoteForm(target) {
-            var utcDate = getDataAttr(target, "utcdate");
-            if(utcDate) {
-                var content = renderAddNoteForm(utcDate);
+            var numDate = getDataAttr(target, "numdate");
+            if(numDate) {
+                var content = renderAddNoteForm(numDate);
                 openNoteModal(content);
             }
         }
 
         function openRemoveNoteForm(target) {
             var noteId = getDataAttr(target, "noteid");
-            var utcDate = getDataAttr(target, "utcdate");
-            if(noteId && utcDate) {
-                var content = renderRemoveNoteForm(utcDate, noteId);
+            var numDate = getDataAttr(target, "numdate");
+            if(noteId && numDate) {
+                var content = renderRemoveNoteForm(numDate, noteId);
                 openNoteModal(content);                
             }
         }
 
-        function renderAddNoteForm(utcDate) {
+        function renderAddNoteForm(numDate) {
             return [
                 '<textarea class="js-calendar-noteForm-text css-calendar-note-form-text" placeholder="Задача"></textarea>',
                 '<span class="js-calendar-noteForm-noteValidation css-validation css-calendar-note-form-validation"></span>',            
                 '<div class="css-calendar-note-form-buttonsBlock">',
                 '<button class="js-event-closeNoteModal css-button secondary css-calendar-note-form-button">Отмена</button>',
-                `<button data-utcDate="${utcDate}" class="js-event-addNote css-button primary css-calendar-note-form-button">Добавить задачу</button>`,
+                `<button data-numdate="${numDate}" class="js-event-addNote css-button primary css-calendar-note-form-button">Добавить задачу</button>`,
                 '</div>'
             ].join("");
         }
 
-        function renderRemoveNoteForm(utcDate, noteId) {
+        function renderRemoveNoteForm(numDate, noteId) {
             return [
                 '<div class="css-calendar-note-form-buttonsBlock">',
                 '<button class="js-event-closeNoteModal css-button secondary css-calendar-note-form-button">Отмена</button>',
-                `<button data-noteId="${noteId}" data-utcDate="${utcDate}" class="js-event-removeNote css-button primary css-calendar-note-form-button">Удалить задачу</button>`,
+                `<button data-noteId="${noteId}" data-numdate="${numDate}" class="js-event-removeNote css-button primary css-calendar-note-form-button">Удалить задачу</button>`,
                 '</div>'
             ].join("");
         }
 
         function addNote(target) { //VARIABLES: rootElement
-            var noteText = rootElement.getElementsByClassName("js-calendar-noteForm-text")[0].value.trim();
+            var noteText = rootElement.querySelector(".js-calendar-noteForm-text").value.trim();
             if(noteText === "") {
-                rootElement.getElementsByClassName("js-calendar-noteForm-noteValidation")[0].innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
+                rootElement.querySelector(".js-calendar-noteForm-noteValidation").innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
                 return;
             }
-            var utcDate = getDataAttr(target, "utcdate");
-            if(utcDate) {
-                var noteObj = storage.setNote(calendarId, utcDate, noteText);
+            var numDate = getDataAttr(target, "numdate");
+            if(numDate) {
+                var noteObj = storage.setNote(calendarId, numDate, noteText);
                 if(!noteObj) return;
-                addDayNoteToHtml(utcDate, noteObj);            
+                addDayNoteToHtml(numDate, noteObj);            
             }
         }
 
         function removeNote(target) {
             var noteId = getDataAttr(target, "noteid");
-            var utcDate = getDataAttr(target, "utcdate");
-            if(noteId && utcDate) {
-                var result = storage.deleteNote(calendarId, utcDate, noteId);
+            var numDate = getDataAttr(target, "numdate");
+            if(noteId && numDate) {
+                var result = storage.deleteNote(calendarId, numDate, noteId);
                 if(result) {
-                    removeNoteFromHtml(utcDate, noteId);
+                    removeNoteFromHtml(numDate, noteId);
                 }
             }
         }
 
-        function addDayNoteToHtml(utcDay, noteObj) {
-            var newNote = renderNote(utcDay, noteObj);
+        function addDayNoteToHtml(numDate, noteObj) {
+            var newNote = renderNote(numDate, noteObj);
             var dayNotesContainer = rootElement
-                    .querySelector(`[data-utcdate="${utcDay}"].js-content-day`)
+                    .querySelector(`[data-numdate="${numDate}"].js-content-day`)
                     .querySelector('.js-content-calendar-dayNotes');
             dayNotesContainer.insertAdjacentHTML("afterbegin", newNote);
         }
 
-        function removeNoteFromHtml(utcDay, noteId) {
+        function removeNoteFromHtml(numDate, noteId) {
             var note = rootElement
-                    .querySelector(`[data-utcdate="${utcDay}"].js-content-day`)
+                    .querySelector(`[data-numdate="${numDate}"].js-content-day`)
                     .querySelector('.js-content-calendar-dayNotes')
                     .querySelector(`[data-noteId="${noteId}"]`);
             note.parentNode.removeChild(note);
@@ -223,12 +225,12 @@ var Calendar = (function(storage) {
                 ].join("");
                 calendarHeader.push(rightButton);
             }
-            var headerEl = rootElement.getElementsByClassName("css-calendar-header")[0];
+            var headerEl = rootElement.querySelector(".css-calendar-header");
             headerEl.innerHTML = calendarHeader.join("");
         }
 
         function drawCalendarWeekDays() { //VARIABLES: rootElement, weekFormat, weekDaysConf 
-            var bodyEl = rootElement.getElementsByClassName("css-calendar-body")[0];
+            var bodyEl = rootElement.querySelector(".css-calendar-body");
             var weekDays = ['<div class="css-calendar-body-weekDays">'];
             var calendarWeekDays = weekFormat.forEach(function(day) {
                 weekDays.push(`<div class="css-weekDay">${weekDaysConf[day]}</div>`);
@@ -246,11 +248,11 @@ var Calendar = (function(storage) {
         }
 
         function drawCalendarBody(referenceDate) { //VARIABLES: rootElement, weekFormat 
-            var monthEl = rootElement.getElementsByClassName("js-content-calendar-month")[0];                        
+            var monthEl = rootElement.querySelector(".js-content-calendar-month");                        
             if(!monthEl) {        
-                var bodyEl = rootElement.getElementsByClassName("css-calendar-body")[0];
+                var bodyEl = rootElement.querySelector(".css-calendar-body");
                 bodyEl.insertAdjacentHTML("beforeend", '<div class="js-content-calendar-month css-calendar-body-month"></div>');
-                monthEl = rootElement.getElementsByClassName("js-content-calendar-month")[0];  
+                monthEl = rootElement.querySelector(".js-content-calendar-month");  
             }
             var referenceDateMonth = referenceDate.getMonth();
             var referenceDateWeekDay = referenceDate.getDay();        
@@ -289,13 +291,13 @@ var Calendar = (function(storage) {
             if(day.getDay() === weekFormat[0]) {
                 result.push('<div class="css-calendar-body-week">'); //NOTE: open week
             }
-            var utcDate = Date.UTC(day.getFullYear(), day.getMonth(), day.getDate());
-            var dayNotes = monthNotes[utcDate];
+            var numDate = day.getTime();
+            var dayNotes = monthNotes[numDate];
             result.push(
-                `<div data-utcdate="${utcDate}" class="js-event-openAddNoteForm js-content-day css-calendar-body-day">
-                    <div data-utcdate="${utcDate}" class="js-event-openAddNoteForm css-calendar-body-dayNumber ${isAnotherMonth ? "anotherMonth" : ""}">${day.getDate()}</div>
+                `<div data-numdate="${numDate}" class="js-event-openAddNoteForm js-content-day css-calendar-body-day ${day.getTime() === dayForHighlight.getTime() ? "currentDay" : ""}">
+                    <div data-numdate="${numDate}" class="js-event-openAddNoteForm css-calendar-body-dayNumber ${isAnotherMonth ? "anotherMonth" : ""}">${day.getDate()}</div>
                     <div class="js-content-calendar-dayNotes css-calendar-body-dayNotes ${isAnotherMonth ? "anotherMonth" : ""}">
-                            ${renderDayNotes(utcDate, dayNotes)}
+                            ${renderDayNotes(numDate, dayNotes)}
                     </div>
                 </div>`
             );
@@ -305,18 +307,18 @@ var Calendar = (function(storage) {
             return result.join("");
         }
 
-        function renderDayNotes(utcDate, notes) {
+        function renderDayNotes(numDate, notes) {
             if(!notes || notes.length === 0) return "";
             return notes.map(function(noteObj) {
-                return renderNote(utcDate, noteObj);
+                return renderNote(numDate, noteObj);
             }).join("");
         }
 
-        function renderNote(utcDate, noteObj) { //VARIABLES: allowRemoveNotes
+        function renderNote(numDate, noteObj) { //VARIABLES: allowRemoveNotes
             var noteText = noteObj["message"];
             return `<div data-noteId="${noteObj["noteId"]}" class="css-calendar-body-note">
                         <span class="css-calendar-body-note-text" title="${noteText}">${noteText}</span>
-                        ${allowRemoveNotes ? `<span data-noteId="${noteObj["noteId"]}" data-utcDate="${utcDate}" class="js-event-openRemoveNoteForm css-button close css-calendar-body-note-deleteButton"></span>` : ""}
+                        ${allowRemoveNotes ? `<span data-noteId="${noteObj["noteId"]}" data-numDate="${numDate}" class="js-event-openRemoveNoteForm css-button close css-calendar-body-note-deleteButton"></span>` : ""}
                     </div>`; 
         }
     }
