@@ -50,11 +50,19 @@ function loadCalendar() {
     }
 }
 
+function loadCreatePage() {
+    var element = document.getElementById("main");  
+    if(element) { 
+        var createPage = new CreatePage(element);
+        createPage.render();
+    }
+}
+
 function loadPage(page) {
     document.getElementById("main").innerHTML = "";
     if(page === "Calendar") {
         loadCalendar();
     } else if(page === "Create") {
-        console.log("Create");
+        loadCreatePage();
     }
 }

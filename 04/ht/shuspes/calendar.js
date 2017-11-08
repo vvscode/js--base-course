@@ -208,23 +208,21 @@ var Calendar = (function(storage) {
         
         function drawCalendarHeader() { //VARIABLES: allowNavigation, showCaption, rootElement
             var calendarHeader = [];
-            if(allowNavigation) {
-                var leftButton = [
-                    '<div class="css-calendar-header-leftButton">',
-                    '<button class="js-event-calendarNavigation css-button navigation leftButton"><</button>',
-                    '</div>'
-                ].join("");
-                calendarHeader.push(leftButton);
-            }
+            var leftButton = [
+                '<div class="css-calendar-header-leftButton">',
+                `${allowNavigation ? '<button class="js-event-calendarNavigation css-button navigation leftButton"><</button>' : ""}`,
+                '</div>'
+            ].join("");
+            calendarHeader.push(leftButton);
+
             if(showCaption) calendarHeader.push('<div class="css-calendar-header-caption"></div>');
-            if(allowNavigation) {
-                var rightButton = [
-                    '<div class="css-calendar-header-rightButton">',
-                    '<button class="js-event-calendarNavigation css-button navigation rightButton">></button>',
-                    '</div>'
-                ].join("");
-                calendarHeader.push(rightButton);
-            }
+            var rightButton = [
+                '<div class="css-calendar-header-rightButton">',
+                `${allowNavigation ? '<button class="js-event-calendarNavigation css-button navigation rightButton">></button>' : ""}`,
+                '</div>'
+            ].join("");
+            calendarHeader.push(rightButton);
+
             var headerEl = rootElement.querySelector(".css-calendar-header");
             headerEl.innerHTML = calendarHeader.join("");
         }
