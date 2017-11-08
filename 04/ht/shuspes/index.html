@@ -4,12 +4,13 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div id="calendar"></div>
+        <div class="css-site-header">
+            <a href="Calendar">Calendar</a>
+            <a href="Create">Create</a>
+        </div>
+        <div id="main" style="width: 100%; height: calc(100% - 20px);"></div>
+        <!-- <div id="calendar" style="width: 100%; height: calc(100% - 20px);"></div> -->
     </body>
-    <script>
-        var element = document.getElementById("calendar");    
-        var calendarId = element.id; 
-    </script>
     <script src="storage.js"></script>          
     <script src="calendar.js"></script>
     <script src="app.js"></script>    

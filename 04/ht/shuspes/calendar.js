@@ -33,14 +33,15 @@ var Calendar = (function(storage) {
         }
 
         function drawCalendarChangeSet(date) {
-            monthNotes = storage.getMonthNotes(date.getFullYear(), date.getMonth()); //NOTE: move to init calendar method. storage methods should return new object    
+            monthNotes = storage.getMonthNotes(calendarId, date.getFullYear(), date.getMonth()); //NOTE: move to init calendar method. storage methods should return new object    
             drawCalendarCaption(date);
             drawCalendarBody(date);
         }
 
         function initCalendarActions(initDate) { //VARIABLES: rootElement, allowRemoveNotes, isForDemonstration, allowNavigation
+            var calendarContainer = rootElement.querySelector(".js-content-calendarContainer");
             var navigationFunction = allowNavigation ? navigation(initDate) : function(){};
-            rootElement.addEventListener("click", function(event) {
+            calendarContainer.addEventListener("click", function(event) {
                 var targetClassList = event.target.classList;
                 if(targetClassList.contains("js-event-openRemoveNoteForm")) {
                     //NOTE: openRemoveNoteForm
@@ -65,7 +66,7 @@ var Calendar = (function(storage) {
                     }
                 }
             });
-            rootElement.addEventListener("dblclick", function(event) {
+            calendarContainer.addEventListener("dblclick", function(event) {
                 var targetClassList = event.target.classList;        
                 if(targetClassList.contains("js-event-openAddNoteForm") && allowAddNotes && !isForDemonstration) {
                     //NOTE: openAddNoteForm
@@ -148,7 +149,7 @@ var Calendar = (function(storage) {
             }
             var utcDate = getDataAttr(target, "utcdate");
             if(utcDate) {
-                var noteObj = storage.setNote(utcDate, noteText);
+                var noteObj = storage.setNote(calendarId, utcDate, noteText);
                 if(!noteObj) return;
                 addDayNoteToHtml(utcDate, noteObj);            
             }
@@ -158,7 +159,7 @@ var Calendar = (function(storage) {
             var noteId = getDataAttr(target, "noteid");
             var utcDate = getDataAttr(target, "utcdate");
             if(noteId && utcDate) {
-                var result = storage.deleteNote(utcDate, noteId);
+                var result = storage.deleteNote(calendarId, utcDate, noteId);
                 if(result) {
                     removeNoteFromHtml(utcDate, noteId);
                 }
@@ -189,7 +190,7 @@ var Calendar = (function(storage) {
 
         function prepareEnvironment() { //VARIABLES: rootElement
             var calemdarTemplate = [
-                '<div class="css-calendar-container">',
+                '<div class="js-content-calendarContainer css-calendar-container">',
                 '<div class="css-calendar-header">',
                 '</div>',            
                 '<div class="css-calendar-body">',
