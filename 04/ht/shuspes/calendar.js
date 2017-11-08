@@ -57,8 +57,8 @@ var Calendar = (function(storage) {
                     closeNoteModal();
                 } else if(targetClassList.contains("js-event-addNote")) {
                     //NOTE: addNote
-                    addNote(event.target);
-                    closeNoteModal();
+                    var result = addNote(event.target);
+                    if(result) closeNoteModal();
                 } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation && !isForDemonstration) {
                     //NOTE: navigation
                     if(targetClassList.contains("leftButton")) {
@@ -144,15 +144,18 @@ var Calendar = (function(storage) {
         }
 
         function addNote(target) { //VARIABLES: rootElement
+            var result = false;
             var noteText = rootElement.querySelector(".js-calendar-noteForm-text").value.trim();
             if(noteText === "") {
                 rootElement.querySelector(".js-calendar-noteForm-noteValidation").innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
-                return;
+                return result;
             }
             var numDate = getDataAttr(target, "numdate");
             if(numDate) {
                 var noteObj = storage.setNote(calendarId, numDate, noteText);
-                if(!noteObj) return;
+                if(!noteObj) return result;
+                result = true;
+                return result;
                 addDayNoteToHtml(numDate, noteObj);            
             }
         }
