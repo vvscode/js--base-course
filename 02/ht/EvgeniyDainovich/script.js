@@ -164,9 +164,6 @@ var Singleton = (function () {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  var a;
-  var b;
-  var c;
   if (this instanceof ForceContructor) {
     this.a = a;
     this.b = b;
