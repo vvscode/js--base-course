@@ -331,6 +331,8 @@ describe("User / PreUser", function () {
 
 describe("curry", function () {
   it("суммирует числа", function () {
+    function target1(a, b, c, d) { return a + b + c + d }
+    function target2(a, b) { return a + b }
     assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
     assert.isOk(curry(target1)(1)(6)(3)(0) === 10);
     assert.isOk(curry(target2)(4)(6) === 10);

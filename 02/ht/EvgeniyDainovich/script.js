@@ -78,9 +78,6 @@ function O() {
     }
   });
 }
-// var o = new O();
-// o.magicProperty = 3;
-// o.magicProperty = 5;
 
 /**
 * Создать конструктор с методами, так, 
@@ -88,29 +85,27 @@ function O() {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+AgeNameAsker.prototype.askName = function () {
+  this.name = prompt("What is your name", "Vitek");
+  return this;
+};
+AgeNameAsker.prototype.askAge = function () {
+  this.age = prompt("What is your age", "12");
+  return this;
+};
+AgeNameAsker.prototype.showAgeInConsole = function () {
+  alert("age: " + this.age);
+  return this;
+};
+AgeNameAsker.prototype.showNameInAlert = function () {
+  alert("name: " + this.name);
+  return this;
+};
+
 function AgeNameAsker() {
   var name;
   var age;
-
-  this.askName = function () {
-    this.name = prompt("What is your name", "Vitek");
-    return this;
-  }
-  this.askAge = function () {
-    this.age = prompt("What is your age", "12");
-    return this;
-  }
-  this.showAgeInConsole = function () {
-    alert("age: " + this.age);
-    return this;
-  }
-  this.showNameInAlert = function () {
-    alert("name: " + this.name);
-    return this;
-  }
 }
-
-
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -154,13 +149,12 @@ function calculate(opr) {
 
 var Singleton = (function () {
   var instance;
-  function Singleton() {
+  return function () {
     if (instance) {
       return instance;
     }
     instance = this;
   }
-  return Singleton;
 })();
 
 /**
@@ -170,7 +164,18 @@ var Singleton = (function () {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  var a;
+  var b;
+  var c;
+  if (this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    return this;
+  }
+  else {
+    return new ForceContructor(a, b, c);
+  }
 }
 
 /**
@@ -215,8 +220,7 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function target1(a, b, c, d) { return a + b + c + d }
-function target2(a, b) { return a + b }
+
 
 function curry(func) {
   var count = func.length;

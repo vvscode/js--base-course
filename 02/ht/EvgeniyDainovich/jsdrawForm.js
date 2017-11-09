@@ -7,37 +7,42 @@
 Добавть на страницу index.html вызов календаря
 */
 
-counter(document.querySelector("#calendar"));
+drawCalendarPattern(document.querySelector("#calendar"));
 
-function counter(element) {
-    var initDate = new Date(2017, 10, 1);
+function drawCalendarPattern(element) {
+    var initDate = new Date();
 
     element.innerHTML = "<button id= 'dec'>-</button> <span id='mnth'>" + (initDate.getMonth() + 1) + "</span>" + "/" + " <span id='year'>" + initDate.getFullYear() +
         "</span>" + "<button id='inc'>+</button><br><div id=\"calendarContent\"></div>";
 
-    drawCalendar(document.querySelector("#calendarContent"), initDate.getFullYear(), initDate.getMonth());
+    drawCalendarContent(document.querySelector("#calendarContent"), initDate.getFullYear(), initDate.getMonth());
     var spanMonth = element.querySelector('#mnth');
     var spanYear = element.querySelector('#year');
+    var localStorageDates = localStorage.getItem("holidayDates") || "";
+    var holidayElement = document.getElementById("listDates");
+    holidayElement.innerHTML = localStorageDates;
     element.addEventListener("click", function (el) {
         if (el.target.matches('button')) {
             if (el.target.matches('#inc')) {
                 initDate.setMonth(initDate.getMonth() + 1);
             }
             else if (el.target.matches('#dec')) {
-
                 initDate.setMonth(initDate.getMonth() - 1);
             }
         }
         else if (el.target.matches('td')) {
-            alert(el.target.innerHTML + "/" + (initDate.getMonth() + 1) + "/" + initDate.getFullYear());
+            var selectedDate = el.target.innerHTML + "/" + (initDate.getMonth() + 1) + "/" + initDate.getFullYear();
+            localStorageDates += "<span>" + selectedDate + "-" + prompt(selectedDate, "ДЗ по JS") + "</span><br>";
+            holidayElement.innerHTML = localStorageDates;
         }
         spanMonth.innerHTML = initDate.getMonth() + 1;
         spanYear.innerHTML = initDate.getFullYear();
-        drawCalendar(document.querySelector("#calendarContent"), initDate.getFullYear(), initDate.getMonth());
+        drawCalendarContent(document.querySelector("#calendarContent"), initDate.getFullYear(), initDate.getMonth());
+        localStorage.setItem("holidayDates", localStorageDates);
     });
 }
 
-function drawCalendar(htmlEl, year, month) {
+function drawCalendarContent(htmlEl, year, month) {
     var date = new Date(year, month);
     var strToHtml = "<table><tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr><tr>";
     var deltai = (date.getDay() + 6) % 7;
@@ -65,9 +70,8 @@ function drawCalendar(htmlEl, year, month) {
 */
 
 var element = document.getElementById("insert");
-var inputString;
 var cities = ["Minsk", "Gomel", "Grodno", "Brest", "Mogilev", "Vitebsk"];
-inputString = "<form> <table width='30%' cellspacing='0' cellpadding='6'><tr><td align='right'>Name</td><td><input id='nameInput'></input></td></tr><tr><td align='right'>City</td><td><select id='citiesList'>";
+var inputString = "<form> <table width='30%' cellspacing='0' cellpadding='6'><tr><td align='right'>Name</td><td><input id='nameInput'></input></td></tr><tr><td align='right'>City</td><td><select id='citiesList'>";
 for (var i = 0; i < cities.length; i++) {
     inputString += "<option>" + cities[i] + "</option>";
 };
