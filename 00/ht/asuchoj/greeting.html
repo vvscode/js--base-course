@@ -19,7 +19,7 @@
 
       var userName = '';
       var userAge = '';
-      var reg = /^[a-zA-Z]+(-[а-яА-Я]+)*$/i; // находит все буквы А-Я, а-я, A-Z, a-z
+      var reg = /^([a-zа-яё]+|\d+)$/i; // находит все буквы А-Я, а-я, A-Z, a-z
 
       getAgeAndNAme();
       displayMess (userName, userAge)
