@@ -1,4 +1,4 @@
-﻿var IStorage = {
+﻿var IStorage = {//
     setData: (key, value) => new Promise(function (resolve, reject) { window.localStorage.setItem(key, value); resolve([key,value]); }),
     getData: key => new Promise(function (resolve, reject) {
         let value = window.localStorage.getItem(key);
@@ -9,7 +9,6 @@ var IAskUser = {
     setNote: (dayElem) => new Promise(function (resolve, reject) {
         let value = prompt("Текст заметки");
         if (value) {
-          //  drawNoteToDay(dayElem, value);
             resolve(value);
         }
     })
@@ -17,6 +16,10 @@ var IAskUser = {
 
 (function (window, storage,askUser) {
     var nameOfMonth = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+    /**
+ * конструктор календаря
+ * @param {*} options объект с настройками
+ */
     function Calendar(options) {
         this.options = {};
         this.options.htmlEl = options.htmlEl;
@@ -28,16 +31,24 @@ var IAskUser = {
         this.options.startYear = options.startYear;
         drawCalendar(this.options);
     }
+ /**
+ * Функция рисующая календарь и добавляющая обработчики событий
+ * @param {*} options объект с настройками
+ */
     function drawCalendar(options) {
         drawControlCalendar(options);
         drawTableOfDays(options.htmlEl);
-        if (options.allowAddNotes==true) drawNoteToCalendar(options);
-        if (options.allowChange == true) options.htmlEl.onclick = clickCalendarHandler;
+        if (options.allowAddNotes == true) drawNoteToCalendar(options.htmlEl, options.allowRemoveNotes);
         if (options.allowAddNotes == true) options.htmlEl.ondblclick = function (event) { dblClickCalendarHandler(event,options) } ;
+       if (options.allowChange == true) options.htmlEl.onclick = function (event) { clickCalendarHandler(event, options) };
+       
        
         
     }
-
+/**
+ * Функция рисующая органы управления календарем
+ * @param {*} options объект с настройками
+ */
 function drawControlCalendar(options) {
     let year = options.startYear;
     let month = options.startMonth;
@@ -69,9 +80,13 @@ function drawControlCalendar(options) {
     divCalendar.appendChild(btnNext);
     }
 }
+/**
+ * Функция перерисовывющая таблицу дней календаря
+ * @param {*} htmlEl элемент календарь
+ */
 function drawTableOfDays(htmlEl) {
-    if (htmlEl.querySelector('table')) htmlEl.removeChild(htmlEl.querySelector('table'));
-    var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+    if (htmlEl.getElementsByClassName('tableCalendar').length > 0) htmlEl.getElementsByClassName('tableCalendar')[0].remove();
+    var table = '<table class="tableCalendar"><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
     let firstDayMonth = new Date(getYear(htmlEl), getNumOfSelectedMonth(htmlEl));
     let nextMonth = new Date(getYear(htmlEl), +getNumOfSelectedMonth(htmlEl) + 1, 0);
     for (var i = 1; i < changeNumOfDay(firstDayMonth.getDay()); i++)//заполнение первой строчки
@@ -94,14 +109,18 @@ function drawTableOfDays(htmlEl) {
     table += '</tr></table>';
     htmlEl.innerHTML += table;
 }
-  
-    function drawNoteToCalendar(options) {
-        let htmlEl = options.htmlEl;
+  /**
+ * Функция добавляет заметки 
+ * @param {*} htmlEl элемент календарь
+    * @param {*} allowRemoveNotes булево значение можно ли удалять заметки
+ */
+function drawNoteToCalendar(htmlEl, allowRemoveNotes) {
+      
     let days = htmlEl.getElementsByClassName('tdDay');
     for (let i = 0; i < days.length; i++) {
         let key = days[i].innerHTML.split(' ')[0] + '.' + getNumOfSelectedMonth(htmlEl) + '.' + getYear(htmlEl);
         storage.getData(key).then(function (result) {
-            if (options.allowRemoveNotes == false) {
+            if (allowRemoveNotes == false) {
                 drawNoteToDayWithoutDelBtn(days[i], result);
             }
             else {
@@ -111,29 +130,39 @@ function drawTableOfDays(htmlEl) {
         });
     }
 }
-
-function clickCalendarHandler() {
-    let month = getNumOfSelectedMonth(this);
-    let year = getYear(this);
-    if (event.target.className == 'btnNext') {
-        if (month == 11) { month = 0; year++; }
-        else month++;
-        this.getElementsByClassName('lblMonth')[0].innerHTML = nameOfMonth[month];
-        this.getElementsByClassName('lblYear')[0].innerHTML = " / " + year;
-        drawTableOfDays(this);
-        drawNoteToCalendar(this);
+ /**
+ * Функция обработка клика 
+ * @param {*} event элемент клика
+  * @param {*} options объект с настройками
+ */
+function clickCalendarHandler(event, options) {
+       let htmlEl = options.htmlEl;
+        let month = getNumOfSelectedMonth(htmlEl);
+        let year = getYear(htmlEl);
+        if (event.target.className == 'btnNext') {
+            if (month == 11) { month = 0; year++; }
+            else month++;
+            htmlEl.getElementsByClassName('lblMonth')[0].innerHTML = nameOfMonth[month];
+            htmlEl.getElementsByClassName('lblYear')[0].innerHTML = " / " + year;
+            drawTableOfDays(htmlEl);
+           if (options.allowAddNotes) drawNoteToCalendar(htmlEl, options.allowRemoveNotes);
+            
+        }
+        if (event.target.className == 'btnPrev') {
+            if (month == 0) { month = 11; year--; }
+            else month--;
+            htmlEl.getElementsByClassName('lblMonth')[0].innerHTML = nameOfMonth[month];
+            htmlEl.getElementsByClassName('lblYear')[0].innerHTML = " / " + year;
+            drawTableOfDays(htmlEl);
+            if (options.allowAddNotes) drawNoteToCalendar(htmlEl, options.allowRemoveNotes);
+        }
     }
-    if (event.target.className == 'btnPrev') {
-        if (month == 0) { month = 11; year--; }
-        else month--;
-        this.getElementsByClassName('lblMonth')[0].innerHTML = nameOfMonth[month];
-        this.getElementsByClassName('lblYear')[0].innerHTML = " / " + year;
-        drawTableOfDays(this);
-        drawNoteToCalendar(this);
-    }
-}
-
-    function dblClickCalendarHandler(event, options) {
+ /**
+ * Функция обработка двойного клика 
+ * @param {*} event элемент двойного клика
+  * @param {*} options объект с настройками
+ */
+function dblClickCalendarHandler(event, options) {
     if (event.target.className == "tdDay") {
         let dayElem = event.target;
         let selectedDay = dayElem.innerHTML.split(' ')[0];
@@ -152,21 +181,34 @@ function clickCalendarHandler() {
     }
 };
 
-
+/**
+ * Функция обработка удаления записи 
+ * @param {*} key ключ записи
+   */
 function btnDeleteClickHandler(key) {
     if (event.target.className == "btnDelete") {
         storage.setData(key, "").then(this.removeChild(this.querySelector('div')));
     }
 }
+ /**
+ * Функция рисует заметки без возможности их удалить 
+ * @param {*} dayElem элемент день в который добавляется заметка
+    * @param {*} value текст
+ */
 function drawNoteToDayWithoutDelBtn(dayElem, value) {
     let note = dayElem.innerHTML.split(' ')[0] + ' <div class="divNote"><label class="lblNote">' + value + '</label></div >';
     dayElem.innerHTML = note;
 }
-
+ /**
+ * Функция рисует заметки 
+ * @param {*} dayElem элемент день в который добавляется заметка
+    * @param {*} value текст
+ */
 function drawNoteToDay(dayElem,value) {
     let note = dayElem.innerHTML.split(' ')[0] + ' <div class="divNote"><label class="lblNote">' + value + '</label><button class="btnDelete">X</button ></div >';
     dayElem.innerHTML = note;
 }
+
 function changeNumOfDay(numDay)//для воскресенья меняем с 0 на 7
     {
         if (numDay === 0) { numDay = 7 };
