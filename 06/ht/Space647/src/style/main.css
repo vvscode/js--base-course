@@ -1,0 +1,42 @@
+header{
+  text-align: center;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  size: 1.3rem
+}
+.links{
+  padding: 0px 15px;
+
+}
+.workPlace{
+  text-align: center;
+  padding: 250px 0% 0 0%;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  size: 15px
+}
+a {
+  text-decoration: none;
+}
+#map {
+  margin: 0 auto;
+  width: 400px;
+  height: 300px;
+}
+.history{
+  float: left;
+  margin: 0 0 0 10%;
+}
+.weather{
+  margin: 0 0 0 200px;
+  pading: 0;
+}
+#WebIcon{
+  float: left;
+  margin: -31px 0 0 141px;
+}
+.summaryWeather{
+  padding: 0 57% 0 0;
+}
+footer{
+ margin: 10% 10% 0 0;
+ text-align: center;
+}
