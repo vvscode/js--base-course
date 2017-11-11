@@ -1,0 +1,25 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#app {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.navPanel__item {
+  padding-right: 5px;
+  border-right: solid 2px black;
+}
+
+.search__input {
+  width: 50%;
+}
+
+.left,
+.right {
+  width: 50%;
+}
