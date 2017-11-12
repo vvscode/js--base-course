@@ -23,3 +23,8 @@
 .right {
   width: 50%;
 }
+
+#map {
+  margin-top: 50px;
+  height: 500px;
+}
