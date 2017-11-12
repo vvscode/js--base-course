@@ -1,5 +1,3 @@
-import Weather from "../components/Weather";
-
 const main = {
   name: "main",
   match: "",
@@ -8,8 +6,8 @@ const main = {
     fetch("https://api.userinfo.io/userinfos")
       .then(res => res.json())
       .then(coordinates => {
-        new Weather().getWeather(coordinates.position, "fetch");
-        console.log(coordinates.position);
+        window.location.hash = `coordinates/latitude=${coordinates.position
+          .latitude}&longitude=${coordinates.position.longitude}`;
       });
   }
 };
