@@ -66,7 +66,11 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
+	if (htmlEl.querySelector(`.Calendar`)) { //check old calendar
+  	htmlEl.removeChild(htmlEl.querySelector(`.Calendar`));
+  }
 	let table = document.createElement(`table`); // create table
+	table.className = `Calendar`;
 	table.innerHTML = `<thead><tr></tr></thead><tbody><tr></tr></tbody>`; // with head and body
 	let thead = table.querySelector(`thead>tr`);
   let tbody = table.querySelector(`tbody`).lastElementChild;
@@ -107,7 +111,7 @@ function drawCalendar(year, month, htmlEl) {
   		tbody.appendChild(td);
   	}
   }
-  htmlEl.appendChild(table); //paste table in DOM
+  	htmlEl.appendChild(table); //paste table in DOM 
 }
 
 
@@ -120,6 +124,23 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+	if (objA.toString()===`[object Object]` && objB.toString()===`[object Object]`) {
+		let x=y=0;
+		for(let key in objA) {
+
+			x++;
+		}
+		for(let key in objB) {
+			y++;
+		}
+		if (x!==y) {return false};
+		for(let key in objA) {
+			if (typeof objA[key] === `object` && typeof objB[key] === `object`) {
+				if (!isDeepEqual(objA[key], objB[key])) {return false};
+			} else if (objA[key] !== objB[key]) {return false};
+		}
+		return true;
+	} else {
+		return objA.toString()===objB.toString();
+	}
 }
