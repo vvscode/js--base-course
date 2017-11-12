@@ -63,6 +63,18 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+/*        if (objA.length !== objB.length){
+            return false;
+        } else if (typeof objA !== typeof objB) {
+            return false;
+        } else if (typeof objA === 'object' && typeof objB === 'object'){
+            return objA.join(',') === objB.join(',');
+        } else {
+            return objA === objB;
+        }*/
+    if (JSON.stringify(objA)!== JSON.stringify(objB)){
+        return false
+    } else {
+        return true;
+    }
 }
