@@ -22,22 +22,22 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-let arr = [];
-for (let i=1; i<=100; i++) {
-	arr[i-1]=i;
-}
-for (let i=3; i<=100; i=i+3) {
-	arr[i-1]=`Fizz`;
-}
-for (let i=5; i<=100; i=i+5) {
-	arr[i-1]=`Buzz`;
-}
-for (let i=15; i<=100; i=i+15) {
-	arr[i-1]=`FizzBuzz`;
-}
-arr.forEach(function(elem) {
-	log(elem);
-});
+	let arr = [];
+	for (let i=1; i<=100; i++) {
+		arr[i-1]=i;
+	}
+	for (let i=3; i<=100; i=i+3) {
+		arr[i-1]=`Fizz`;
+	}
+	for (let i=5; i<=100; i=i+5) {
+		arr[i-1]=`Buzz`;
+	}
+	for (let i=15; i<=100; i=i+15) {
+		arr[i-1]=`FizzBuzz`;
+	}
+	arr.forEach(function(elem) {
+		log(elem);
+	});
 }
 
 
@@ -49,9 +49,15 @@ arr.forEach(function(elem) {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- 	let polin=textString.split(``).reverse().join(``);
-	return textString===polin;
+  for (let i=0; i<=textString.length/2; i++) {
+    if (textString[i]!==textString[textString.length-1-i]) {
+      return false;
+    }
+  }
+  return true;
 }
+
+
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
@@ -61,52 +67,55 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-	if (htmlEl.querySelector(`.Calendar`)) { //check old calendar
-  	htmlEl.removeChild(htmlEl.querySelector(`.Calendar`));
+  if (htmlEl.querySelector(`.Calendar`)) { //check old calendar
+    htmlEl.removeChild(htmlEl.querySelector(`.Calendar`));
   }
-	let table = document.createElement(`table`); // create table
-	table.className = `Calendar`;
-	table.innerHTML = `<thead><tr></tr></thead><tbody><tr></tr></tbody>`; // with head and body
-	let thead = table.querySelector(`thead>tr`);
+  let table = document.createElement(`table`); // create table
+  table.className = `Calendar`;
+  table.innerHTML = `<thead><tr></tr></thead><tbody><tr></tr></tbody>`; // with head and body
+  let thead = table.querySelector(`thead>tr`);
   let tbody = table.querySelector(`tbody`).lastElementChild;
+  let count = 0;
 
-	for (let i=0; i<7; i++) { // write in head days of week
-		let th = document.createElement(`th`);
-		let date = new Date (2017,10,13+i);
-		let op = {weekday: 'short'}
-		date.toLocaleString(`RU`,op);
-		th.innerText = date.toLocaleString(`ru`,op).toUpperCase();
-		thead.appendChild(th);
-	}
-	function checkTr() { // if a string of table is more 7 cells then create the next string of the table 
-		if (tbody.querySelectorAll(`td`).length===7) {
-			let tr = document.createElement(`tr`);
-			table.querySelector(`tbody`).appendChild(tr);
-			tbody = table.querySelector(`tbody`).lastElementChild;
-		}
-	}
+  for (let i=0; i<7; i++) { // write in head days of week
+    let th = document.createElement(`th`);
+    let date = new Date (2017,10,13+i);
+    let op = {weekday: 'short'};
+    th.innerText = date.toLocaleString(`ru`,op).toUpperCase();
+    thead.appendChild(th);
+  }
+
   let date = new Date (year, month-1,1);
   let limit = date.getDay()>0 ? date.getDay() : 7; 
   for (let i=1; i<limit; i++) { //insert empty cells until first day of month
-  	let td = document.createElement(`td`);
-  	tbody.appendChild(td);
+    let td = document.createElement(`td`);
+    tbody.appendChild(td);
+    count++;
   }
+
   for (let i=1; i<32; i++) { //write days of month
-  	let date = new Date (year, month-1,i);
-  	if (date.getMonth()==month-1) {
-  		let td = document.createElement(`td`);
-  		td.innerText = date.getDate();
-  		checkTr();
-  		tbody.appendChild(td);
-  	}
+    let date = new Date (year, month-1,i);
+    if (date.getMonth()==month-1) {
+      let td = document.createElement(`td`);
+      td.innerText = date.getDate();
+      if (count===7) {
+        count=0;
+        let tr = document.createElement(`tr`);
+        table.querySelector(`tbody`).appendChild(tr);
+        tbody = table.querySelector(`tbody`).lastElementChild;
+      }
+      tbody.appendChild(td);
+      count++;
+    }
   }
+
   if (tbody.querySelectorAll(`td`).length<7) { //insert empty cells until the string end
-  	for (let i=tbody.querySelectorAll(`td`).length; i<7 ;i++) {
-  		let td = document.createElement(`td`);
-  		tbody.appendChild(td);
-  	}
+    for (let i=tbody.querySelectorAll(`td`).length; i<7 ;i++) {
+      let td = document.createElement(`td`);
+      tbody.appendChild(td);
+    }
   }
-  	htmlEl.appendChild(table); //paste table in DOM 
+    htmlEl.appendChild(table); //paste table in DOM 
 }
 
 
