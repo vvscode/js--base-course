@@ -90,8 +90,8 @@ var CreatePage = (function(Calendar) {
                             allowRemoveNotes: ${this.calendarConfig.allowRemoveNotes},
                             allowNavigation: ${this.calendarConfig.allowNavigation},
                             allowDisplayCurrentDay: ${this.calendarConfig.allowDisplayCurrentDay},
-                            date: {month: ${this.calendarConfig.date["month"]}, year: ${this.calendarConfig.date["year"]}}
-                            userClassName: ${this.calendarConfig.userClassName}
+                            date: {month: ${this.calendarConfig.date["month"]}, year: ${this.calendarConfig.date["year"]}},
+                            userClassName: "${this.calendarConfig.userClassName}"
                         });
                         calendar.drawCalendar();                         
                     })();
