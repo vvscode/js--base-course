@@ -149,8 +149,8 @@ describe('isDeepEqual', function() {
     });
 
     it('распознает разные числа', function() {
-        let a = 1;
-        let b = 2;
+        var a = 1;
+        var b = 2;
         return assert.isOk(isDeepEqual(a, b) === false);
     });
 });
