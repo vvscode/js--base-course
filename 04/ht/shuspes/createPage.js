@@ -42,7 +42,8 @@ var CreatePage = (function(Calendar) {
                 showCaption: true,
                 allowNavigation: true,
                 allowAddNotes: true,
-                allowRemoveNotes: true
+                allowRemoveNotes: true,
+                allowDisplayCurrentDay: true
             }
         }
 
@@ -60,6 +61,7 @@ var CreatePage = (function(Calendar) {
                         `<input type="checkbox" name="allowNavigation" ${this.calendarConfig.allowNavigation ? 'checked' : ''}>allow navigation<br>`,
                         `<input type="checkbox" name="allowAddNotes" ${this.calendarConfig.allowAddNotes ? 'checked' : ''}>allow add<br>`,
                         `<input type="checkbox" name="allowRemoveNotes" ${this.calendarConfig.allowRemoveNotes ? 'checked' : ''}>allow remove<br>`,
+                        `<input type="checkbox" name="allowDisplayCurrentDay" ${this.calendarConfig.allowDisplayCurrentDay ? 'checked' : ''}>display current day<br>`,                                                
                         `Year <input type="text" name="year" value="${this.calendarConfig.date["year"]}">`,
                         `Month <input type="text" name="month" value="${this.calendarConfig.date["month"] + 1}">`,               
                     '</fieldset>',
@@ -84,6 +86,7 @@ var CreatePage = (function(Calendar) {
                             allowAddNotes: ${this.calendarConfig.allowAddNotes},
                             allowRemoveNotes: ${this.calendarConfig.allowRemoveNotes},
                             allowNavigation: ${this.calendarConfig.allowNavigation},
+                            allowDisplayCurrentDay: ${this.calendarConfig.allowDisplayCurrentDay},
                             date: {month: ${this.calendarConfig.date["month"]}, year: ${this.calendarConfig.date["year"]}}
                         })
                     })();
@@ -113,7 +116,8 @@ var CreatePage = (function(Calendar) {
                 showCaption: calendarConfigForm.showCaption.checked,
                 allowNavigation: calendarConfigForm.allowNavigation.checked,
                 allowAddNotes: calendarConfigForm.allowAddNotes.checked,
-                allowRemoveNotes: calendarConfigForm.allowRemoveNotes.checked
+                allowRemoveNotes: calendarConfigForm.allowRemoveNotes.checked,
+                allowDisplayCurrentDay: calendarConfigForm.allowDisplayCurrentDay.checked
             }
         }
     }

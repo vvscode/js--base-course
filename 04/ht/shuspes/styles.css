@@ -113,6 +113,7 @@
     width: calc(100% / 7);
     height: 100%;
     border-left: 1px solid lightgray;
+    overflow: auto; /*NOTE: quick fix*/
 }
 
 .css-calendar-body-week .css-calendar-body-day:last-child {

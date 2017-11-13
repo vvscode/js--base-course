@@ -42,7 +42,8 @@ function loadCalendar() {
             showCaption: true,
             allowNavigation: true,
             allowAddNotes: true,
-            allowRemoveNotes: true
+            allowRemoveNotes: true,
+            allowDisplayCurrentDay: true
         };
         
         var calendar = new Calendar(config);

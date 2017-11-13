@@ -13,11 +13,11 @@ var Calendar = (function(storage) {
                 year: new Date().getFullYear() 
             };
         };
-        var isForDemonstration = Boolean(config["isForDemonstration"]);
         var showCaption = Boolean(config["showCaption"]);
         var allowNavigation = Boolean(config["allowNavigation"]);
         var allowAddNotes = Boolean(config["allowAddNotes"]);
         var allowRemoveNotes = Boolean(config["allowRemoveNotes"]);
+        var allowDisplayCurrentDay = Boolean(config["allowDisplayCurrentDay"]);
 
         var dayForHighlight = new Date();
         dayForHighlight = new Date(dayForHighlight.getFullYear(), dayForHighlight.getMonth());
@@ -40,7 +40,7 @@ var Calendar = (function(storage) {
             drawCalendarBody(date);
         }
 
-        function initCalendarActions(initDate) { //VARIABLES: rootElement, allowRemoveNotes, isForDemonstration, allowNavigation
+        function initCalendarActions(initDate) { //VARIABLES: rootElement, allowRemoveNotes, allowNavigation
             var calendarContainer = rootElement.querySelector(".js-content-calendarContainer");
             var navigationFunction = allowNavigation ? navigation(initDate) : function(){};
             calendarContainer.addEventListener("click", function(event) {
@@ -48,7 +48,7 @@ var Calendar = (function(storage) {
                 if(targetClassList.contains("js-event-openRemoveNoteForm")) {
                     //NOTE: openRemoveNoteForm
                     openRemoveNoteForm(event.target);
-                } else if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes && !isForDemonstration) {
+                } else if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes) {
                     //NOTE: removeNote
                     removeNote(event.target);
                     closeNoteModal();
@@ -59,7 +59,7 @@ var Calendar = (function(storage) {
                     //NOTE: addNote
                     var result = addNote(event.target);
                     if(result) closeNoteModal();
-                } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation && !isForDemonstration) {
+                } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation) {
                     //NOTE: navigation
                     if(targetClassList.contains("leftButton")) {
                         navigationFunction("-");                    
@@ -70,7 +70,7 @@ var Calendar = (function(storage) {
             });
             calendarContainer.addEventListener("dblclick", function(event) {
                 var targetClassList = event.target.classList;        
-                if(targetClassList.contains("js-event-openAddNoteForm") && allowAddNotes && !isForDemonstration) {
+                if(targetClassList.contains("js-event-openAddNoteForm") && allowAddNotes) {
                     //NOTE: openAddNoteForm
                     openAddNoteForm(event.target);
                 }
@@ -155,8 +155,8 @@ var Calendar = (function(storage) {
                 var noteObj = storage.setNote(calendarId, numDate, noteText);
                 if(!noteObj) return result;
                 result = true;
-                return result;
-                addDayNoteToHtml(numDate, noteObj);            
+                addDayNoteToHtml(numDate, noteObj);     
+                return result;                
             }
         }
 
@@ -285,7 +285,7 @@ var Calendar = (function(storage) {
             monthEl.innerHTML = monthInStringFormat;
         }
         
-        function renderDay(day, isAnotherMonth) { //VARIABLES: weekFormat, monthNotes
+        function renderDay(day, isAnotherMonth) { //VARIABLES: weekFormat, monthNotes, allowDisplayCurrentDay
             if(!day) return "";
             isAnotherMonth = Boolean(isAnotherMonth); //NOTE: current moth by default
             var result = [];
@@ -295,7 +295,7 @@ var Calendar = (function(storage) {
             var numDate = day.getTime();
             var dayNotes = monthNotes[numDate];
             result.push(
-                `<div data-numdate="${numDate}" class="js-event-openAddNoteForm js-content-day css-calendar-body-day ${day.getTime() === dayForHighlight.getTime() ? "currentDay" : ""}">
+                `<div data-numdate="${numDate}" class="js-event-openAddNoteForm js-content-day css-calendar-body-day ${day.getTime() === dayForHighlight.getTime() && allowDisplayCurrentDay ? "currentDay" : ""}">
                     <div data-numdate="${numDate}" class="js-event-openAddNoteForm css-calendar-body-dayNumber ${isAnotherMonth ? "anotherMonth" : ""}">${day.getDate()}</div>
                     <div class="js-content-calendar-dayNotes css-calendar-body-dayNotes ${isAnotherMonth ? "anotherMonth" : ""}">
                             ${renderDayNotes(numDate, dayNotes)}
