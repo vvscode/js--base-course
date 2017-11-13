@@ -24,69 +24,75 @@ var Storage = (function() {
     function getCalendarData(calendarId) {
         return getCalendarStorageObj(calendarId)["calendarData"] || {};
     };
-    function getNotesInRange(calendarId, firstDate, lastDate) {
-        var calendarData = getCalendarData(calendarId);
-        var numFirstDate = firstDate.getTime();
-        var numLastDate = lastDate.getTime();
-
-        Object.keys(calendarData).filter(function(date) {
-            return date >= numFirstDate && date <= numLastDate;
-        }).forEach(function(date) {
-            var notes = calendarData[date]["notes"] || {};
-            var notesArray = Object.keys(notes).map(function(noteId) {
-                var noteObject = notes[noteId];
-                noteObject["noteId"] = noteId;
-                return noteObject;
-            });
-            calendarData[date] = notesArray;
-        });
-        return calendarData
-    }
 
     return {
-        setNote: function(calendarId, date, message) {
-            if(!date) return;
+        setNote: function(calendarId, numDate, message) {
+            if(!numDate) return;
             message = message || "";
 
+            var date = new Date(+numDate);
+            var year = date.getFullYear();
+            var month = date.getMonth();
+
             var calendarData = getCalendarData(calendarId);
-            var dateData = calendarData[date] || {};
+            var monthData = calendarData[`${year}-${month}`] || {};
+            var dateData = monthData[numDate] || {};
             var dateNotes = dateData["notes"] || {};
             var noteId = createGuid(); 
             var noteObject = { message: message, noteId: noteId };
             dateNotes[noteId] = noteObject;
 
             dateData["notes"] = dateNotes;
-            calendarData[date] = dateData;
+            monthData[numDate] = dateData;
+            calendarData[`${year}-${month}`] = monthData;
 
             setCalendarData(calendarId, calendarData);
             return noteObject;
         },
-        deleteNote: function(calendarId, date, noteId) {
+        deleteNote: function(calendarId, numDate, noteId) {
             var result = false;
-            if(!date || !noteId) return result;
+            if(!numDate || !noteId) return result;
+
+            var date = new Date(+numDate);
+            var year = date.getFullYear();
+            var month = date.getMonth();
             
             var calendarData = getCalendarData(calendarId);
-            var dateData = calendarData[date];
+            var monthData = calendarData[`${year}-${month}`];        
+            if(!monthData) return result;            
+            var dateData = monthData[numDate];
             if(!dateData) return result;
             var dateNotes = dateData["notes"];
             if(!dateNotes) return result;
 
             result = delete dateNotes[noteId];
             if(result) {
-                calendarData[date]["notes"] = dateNotes;
+                calendarData[`${year}-${month}`][numDate]["notes"] = dateNotes;
                 setCalendarData(calendarId, calendarData);            
             }
             return result;
         },
-        getMonthNotes: function(calendarId, year, month) {
-            var firstDate = new Date(year, month, 1);
-            var lastDate = new Date(firstDate);
-            while (lastDate.getMonth() === month) {
-                lastDate.setDate(lastDate.getDate() + 1);
+        getMonthNotes: function(calendarId, year, month, getNearby = false) { //FIXME: use year-month keys
+            var calendarData = getCalendarData(calendarId) || {};
+            var monthNotes = calendarData[`${year}-${month}`] || {}; 
+            if(getNearby) {
+                var date = new Date(year, month);
+                date.setMonth(month - 1);
+                var previousMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];                
+                date.setMonth(month + 1);
+                var nextMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];
+                Object.assign(monthNotes, previousMonthNotes, nextMonthNotes);
             }
-            lastDate.setDate(lastDate.getDate() + 5); //NOTE: for display next month notes
-            firstDate.setDate(firstDate.getDate() - 5); //NOTE: for display previous month notes            
-            return getNotesInRange(calendarId, firstDate, lastDate);
+            Object.keys(monthNotes).forEach(function(date) {
+                var notes = monthNotes[date]["notes"] || {};
+                var notesArray = Object.keys(notes).map(function(noteId) {
+                    var noteObject = notes[noteId];
+                    noteObject["noteId"] = noteId;
+                    return noteObject;
+                });
+                monthNotes[date] = notesArray;
+            });
+            return monthNotes;
         }
     }
 })();

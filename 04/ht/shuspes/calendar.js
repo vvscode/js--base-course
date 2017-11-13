@@ -1,6 +1,5 @@
 var Calendar = (function(storage) {
     //save config to storage (localStorage)
-    //TODO: add js- classes to elements
     return function Calendar(config) {
         var rootElement = config["element"];
         if(!rootElement) return;
@@ -36,7 +35,7 @@ var Calendar = (function(storage) {
         }
 
         function drawCalendarChangeSet(date) {
-            monthNotes = storage.getMonthNotes(calendarId, date.getFullYear(), date.getMonth()); //NOTE: move to init calendar method. storage methods should return new object    
+            monthNotes = storage.getMonthNotes(calendarId, date.getFullYear(), date.getMonth(), true); //NOTE: move to init calendar method. storage methods should return new object    
             drawCalendarCaption(date);
             drawCalendarBody(date);
         }
