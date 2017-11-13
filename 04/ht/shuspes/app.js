@@ -43,7 +43,8 @@ function loadCalendar() {
             allowNavigation: true,
             allowAddNotes: true,
             allowRemoveNotes: true,
-            allowDisplayCurrentDay: true
+            allowDisplayCurrentDay: true,
+            userClassName: ""
         };
         
         var calendar = new Calendar(config);

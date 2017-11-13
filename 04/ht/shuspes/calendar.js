@@ -13,6 +13,7 @@ var Calendar = (function(storage) {
                 year: new Date().getFullYear() 
             };
         };
+        var userClassName = config["userClassName"].trim();
         var showCaption = Boolean(config["showCaption"]);
         var allowNavigation = Boolean(config["allowNavigation"]);
         var allowAddNotes = Boolean(config["allowAddNotes"]);
@@ -193,9 +194,9 @@ var Calendar = (function(storage) {
             return dataset ? dataset[attrName] : null;  
         }
 
-        function prepareEnvironment() { //VARIABLES: rootElement
+        function prepareEnvironment() { //VARIABLES: rootElement, userClassName
             var calemdarTemplate = [
-                '<div class="js-content-calendarContainer css-calendar-container">',
+                `<div class="js-content-calendarContainer css-calendar-container ${userClassName}">`,
                 '<div class="css-calendar-header">',
                 '</div>',            
                 '<div class="css-calendar-body">',

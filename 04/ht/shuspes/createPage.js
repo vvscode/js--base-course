@@ -43,7 +43,8 @@ var CreatePage = (function(Calendar) {
                 allowNavigation: true,
                 allowAddNotes: true,
                 allowRemoveNotes: true,
-                allowDisplayCurrentDay: true
+                allowDisplayCurrentDay: true,
+                userClassName: ""
             }
         }
 
@@ -63,7 +64,8 @@ var CreatePage = (function(Calendar) {
                         `<input type="checkbox" name="allowRemoveNotes" ${this.calendarConfig.allowRemoveNotes ? 'checked' : ''}>allow remove<br>`,
                         `<input type="checkbox" name="allowDisplayCurrentDay" ${this.calendarConfig.allowDisplayCurrentDay ? 'checked' : ''}>display current day<br>`,                                                
                         `Year <input type="text" name="year" value="${this.calendarConfig.date["year"]}">`,
-                        `Month <input type="text" name="month" value="${this.calendarConfig.date["month"] + 1}">`,               
+                        `Month <input type="text" name="month" value="${this.calendarConfig.date["month"] + 1}">`,    
+                        `Class name <input type="text" name="userClassName" value="${this.calendarConfig.userClassName}">`,           
                     '</fieldset>',
                 '</form>'
             ].join("");
@@ -73,14 +75,15 @@ var CreatePage = (function(Calendar) {
         function renderScriptBlock() {
             var template = 
                 `<pre>
-                &lt;script src="localStorage.js"&gt;&lt;/script&gt;
-                &lt;script src="calendar.js"&gt;&lt;/script&gt;
+                &lt;script src="https://rawgit.com/shuspes/js--base-course/04/04/ht/shuspes/storage.js"&gt;&lt;/script&gt;
+                &lt;script src="https://rawgit.com/shuspes/js--base-course/04/04/ht/shuspes/calendar.js"&gt;&lt;/script&gt;
+                &lt;link rel="stylesheet" href="https://rawgit.com/shuspes/js--base-course/04/04/ht/shuspes/calendar.css"&gt;&lt;/link&gt;
                 &lt;script&gt;
                     (function() {
-                        var id = 'calendar' +  Math.random();
+                        var id = 'calendar' +  Math.round(Math.random() * 1000);
                         document.write('&lt;div id="' + id + '"&gt;&lt;/div&gt;');
                         var element = document.querySelector("#" + id);
-                        new Calendar({
+                        var calendar = new Calendar({
                             element: element,
                             showCaption: ${this.calendarConfig.showCaption},
                             allowAddNotes: ${this.calendarConfig.allowAddNotes},
@@ -88,7 +91,9 @@ var CreatePage = (function(Calendar) {
                             allowNavigation: ${this.calendarConfig.allowNavigation},
                             allowDisplayCurrentDay: ${this.calendarConfig.allowDisplayCurrentDay},
                             date: {month: ${this.calendarConfig.date["month"]}, year: ${this.calendarConfig.date["year"]}}
-                        })
+                            userClassName: ${this.calendarConfig.userClassName}
+                        });
+                        calendar.drawCalendar();                         
                     })();
                 &lt;/script&gt;
                 </pre>`
@@ -117,7 +122,8 @@ var CreatePage = (function(Calendar) {
                 allowNavigation: calendarConfigForm.allowNavigation.checked,
                 allowAddNotes: calendarConfigForm.allowAddNotes.checked,
                 allowRemoveNotes: calendarConfigForm.allowRemoveNotes.checked,
-                allowDisplayCurrentDay: calendarConfigForm.allowDisplayCurrentDay.checked
+                allowDisplayCurrentDay: calendarConfigForm.allowDisplayCurrentDay.checked,
+                userClassName: calendarConfigForm.userClassName.value.trim()
             }
         }
     }
