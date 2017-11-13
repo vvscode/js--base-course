@@ -30,12 +30,6 @@ YandexMap.prototype.changeMapCenter = function (lat, lng) {
     this[map].panTo([lat, lng], { flying: true, duration: 300 });
 }
 
-YandexMap.prototype.setMapState = function (state) {
-    this[map].setCenter(state.center);
-    this[map].setType(`yandex#${state.mapType}`);
-    this[map].setZoom(state.zoom);
-}
-
 YandexMap.prototype.subscribeToMapClick = function(){
     this[map].events.add('click', (ev) => {
         var location = ev.get('coords');
