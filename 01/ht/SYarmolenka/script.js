@@ -49,14 +49,9 @@ arr.forEach(function(elem) {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- 	let polin=``;
-	for (let i=textString.length-1; i>=0; i--) {
-		polin+=textString[i];
-	} 
+ 	let polin=textString.split(``).reverse().join(``);
 	return textString===polin;
 }
-
-
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
@@ -127,7 +122,6 @@ function isDeepEqual(objA, objB) {
 	if (objA.toString()===`[object Object]` && objB.toString()===`[object Object]`) {
 		let x=y=0;
 		for(let key in objA) {
-
 			x++;
 		}
 		for(let key in objB) {
