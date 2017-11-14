@@ -337,14 +337,16 @@ function drawCalendar(element, initDate, weekFormat) {
   }
 
   var initNoteFunctionality = function() {
-    var calendarId = element.id;
+    this.calendarId = element.id;
 
     var updateNoteStorage = function(notes) {
-      localStorage.setItem(calendarId, JSON.stringify(notes));
+      setTimeout(function(notes) {
+        localStorage.setItem(this.calendarId, JSON.stringify(notes));
+      }, 0, notes);
     };
 
     var getNotesFromStorage = function() {
-      return JSON.parse(localStorage.getItem(calendarId));      
+      return JSON.parse(localStorage.getItem(this.calendarId));            
     }
 
     var initStorage = function() {
@@ -356,15 +358,17 @@ function drawCalendar(element, initDate, weekFormat) {
       var history = calendarHistory.innerHTML;
       calendarHistory.innerHTML = calendarHistory.innerHTML + noteString + "<br>";
     }
-
-    var notes = getNotesFromStorage();
-    if(notes) {
-      notes.forEach(function(note) {
-        displayNote(note);
-      });
-    } else {
-      initStorage();      
-    }
+    
+    setTimeout(function() {
+      var notes = getNotesFromStorage();
+      if(notes) {
+        notes.forEach(function(note) {
+          displayNote(note);
+        });
+      } else {
+        initStorage();      
+      }
+    }, 0);
 
     var addNote = function(date, question) {
       question = question || "Input note.";
@@ -372,7 +376,7 @@ function drawCalendar(element, initDate, weekFormat) {
       if(note) {
         var noteString = createNote(note, date);
         displayNote(noteString); 
-        saveNote(noteString);
+        setTimeout(saveNote(noteString), 0, noteString);
         return;       
       }
       addNote(date, "Note cannot be empty or whitespace. Please, input correct note.");
