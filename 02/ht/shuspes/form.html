@@ -1,12 +1,10 @@
 <html>
     <body>
         <form name="userForm" class="css-form" onsubmit="submitUserForm(event)">
-            <!-- - имя (строкое поле),  -->
             <div class="css-form-input">
                 <span class="css-form-inputName">Name</span>
                 <input name="userName" type="text" class="css-form-inputValue" placeholder="Alex">
             </div>
-            <!-- - родной город (Выпадающий список),  -->
             <div class="css-form-input">
                 <span class="css-form-inputName">City</span>
                 <select name="userCity" class="css-form-inputValue">
@@ -18,12 +16,10 @@
                     <option value="Luninec">Luninec</option>                    
                 </select>
             </div>
-            <!-- - Комментарий (многострочное поле) -->
             <div class="css-form-input">
                 <span class="css-form-inputName">Comment</span>
                 <textarea name="userComment" class="css-form-inputValue" placeholder="Some comment"></textarea>
             </div>
-            <!-- - пол (radiobutton). -->
             <div class="css-form-input">
                 <span class="css-form-inputName">Gender</span>
                 <div  class="css-form-inputValue">
@@ -40,27 +36,16 @@
         <div id="result"></div>
     </body>
     <style>
-        /* form {
-            display: flex;
-            flex-direction: column;
-            width: 300px;
-        } */
         .css-form {
             width: 300px;
         }
 
         .css-form .css-form-input {
             padding: 10px;
-            /* display: table; */
         }
 
         .css-form .css-form-inputName {
-            /* display: table; */
             padding-right: 20px;
-        }
-
-        .css-form .css-form-inputValue {
-            /* display: table; */
         }
     </style>
     <script>
