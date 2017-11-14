@@ -119,6 +119,9 @@ function urlHandle(url) {
         var divForTextArea = document.createElement('div');
         divForTextArea.className = "col-md-6";
         divForTextArea.appendChild(codeText);
+        divForTextArea.innerHTML += '<span>*If you want to add two inentical calendars generate new ID</span><br>';
+        divForTextArea.innerHTML += '<a class="btn btn-default" href="code">Generate new ID</a>'
+
 
         //превью календаря
         var divCalendarPreview = document.createElement('div');
@@ -151,7 +154,7 @@ function urlHandle(url) {
 
 
 function generateScript(param) {
-    return '<script src="calendar.script.js"></sc' + 'ript> \n\
+    return '<script src="https://cdn.rawgit.com/Citrinin/js--base-course/04/04/ht/Citrinin/calendar.script.js"></sc' + 'ript> \n\
 <script> \n\t(function(){ \n\
 \t\tvar id = "' + getCalendarKey() + '"; \n\
 \t\tdocument.write("<div id= " + id + "></div>"); \n\
