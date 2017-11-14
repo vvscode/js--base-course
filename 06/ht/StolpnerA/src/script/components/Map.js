@@ -4,7 +4,18 @@ class Map {
   }
 
   renderMap(coordinates) {
-    document.querySelector("#app").innerHTML = `<div id='map'></div>`;
+    let divApp = document.querySelector("#app");
+    if (divApp.innerHTML !== "") {
+      return;
+    }
+    divApp.innerHTML = `
+      <div id='map'></div>
+      <div class="infoWeather">
+        <div class="history"></div>
+        <div class="weather"></div>
+        <div class="favorites"></div>
+      </div>
+    `;
     this.getMap(coordinates);
   }
 
@@ -12,12 +23,12 @@ class Map {
     ymaps.ready(() => {
       this.map = new ymaps.Map("map", {
         center: [eval(coordinates.latitude), eval(coordinates.longitude)],
-        zoom: 15
+        zoom: 13
       });
 
       let showCenter = () => {
         let arrCentr = this.map.getCenter();
-        // this.getWeather(arrCentr[0], arrCentr[1]);
+        window.location.hash = `coordinates/latitude=${arrCentr[0]}&longitude=${arrCentr[1]}`;
       };
       this.map.events.add("actionend", showCenter);
     });
