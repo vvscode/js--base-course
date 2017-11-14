@@ -12,7 +12,14 @@ class Weather {
       `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${DARK_SKY_API_KEY}/${coordinates.latitude},${coordinates.longitude}?lang=ru&units=si`
     )
       .then(res => res.json())
-      .then(data => console.log(JSON.parse(data.body)));
+      .then(data => this.renderWeather(JSON.parse(data.body).currently));
+  }
+
+  renderWeather(dataWeather) {
+    let divWeather = document.querySelector(".weather");
+    divWeather.innerHTML = `${((dataWeather.temperature - 32) *
+      (5 / 9)
+    ).toFixed(2)}<br>`;
   }
 }
 

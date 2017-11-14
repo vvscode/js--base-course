@@ -11,8 +11,8 @@ const coordinates = {
       let items = item.split("=");
       coordinates[items[0]] = items[1];
     });
-    // new Weather().getWeather(coordinates, "fetch");\
     new Map().renderMap(coordinates);
+    new Weather().getWeather(coordinates, "fetch");
   }
 };
 
