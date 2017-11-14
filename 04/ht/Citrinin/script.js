@@ -1,3 +1,5 @@
+window.location.hash = 'calendar';
+
 //стартовый календарь
 var calendarParams = {
     element: 'maincalendar',
@@ -9,18 +11,18 @@ var calendarParams = {
     month: (new Date()).getMonth() + 1
 };
 
+var pages = {
+    code: handleCodePage,
+    calendar: handleCalendarPage
+}
+
 Calendar(calendarParams);
 
 //обработчик клика по ссылкам
 
-document.body.addEventListener('click', (ev) => {
-    if (!ev.target.matches('a')) {
-        return;
-    }
-    ev.preventDefault();
-    let url = ev.target.getAttribute('href');
-    window.location.hash = url;
-    urlHandle(url);
+window.addEventListener('hashchange', (ev) => {
+    let hash = window.location.hash.split('#')[1];
+    (pages[hash] || handleCalendarPage)();
 
 });
 
@@ -85,73 +87,78 @@ function drawCreationWindow(htmlElement) {
 
 
 
-function urlHandle(url) {
-    if (url === "code") {
-        window.document.title = "Create calendar!";
-        document.querySelector("#maincalendar").innerHTML = "";
-        var codeElement = document.querySelector(".settings");
-        codeElement.innerHTML = "";
-        var settingsDiv = document.createElement('div');
-        codeElement.appendChild(settingsDiv);
-        drawCreationWindow(settingsDiv);
-        settingsDiv.addEventListener('click', (event) => {
+function handleCodePage() {
 
-            if (event.target.matches("[type=checkbox]")) {
-                calendarParams[event.target.value] = event.target.checked;
-            } else if (event.target.matches(".selectMonth")) {
-                calendarParams.month = event.target.value;
-            } else if (event.target.matches(".selectYear")) {
-                calendarParams.year = event.target.value;
-            }
+    window.document.title = "Create calendar!";
+    document.querySelector("#maincalendar").innerHTML = "";
+    var codeElement = document.querySelector(".settings");
+    codeElement.innerHTML = "";
+    var settingsDiv = document.createElement('div');
+    codeElement.appendChild(settingsDiv);
+    drawCreationWindow(settingsDiv);
+    settingsDiv.addEventListener('click', (event) => {
 
-            Calendar(calendarParams);
-            var codeCalendar = document.querySelector(".codeCalendar");
-            codeCalendar.value = generateScript(calendarParams);
+        if (event.target.matches("[type=checkbox]")) {
+            calendarParams[event.target.value] = event.target.checked;
+        } else if (event.target.matches(".selectMonth")) {
+            calendarParams.month = event.target.value;
+        } else if (event.target.matches(".selectYear")) {
+            calendarParams.year = event.target.value;
+        }
 
-
-        });
-
-        //Превью календаря и исходный код
-        //код
-        var codeText = document.createElement('textarea');
-        codeText.rows = 10;
-        codeText.className = "form-control noresize codeCalendar";
-        var divForTextArea = document.createElement('div');
-        divForTextArea.className = "col-md-6";
-        divForTextArea.appendChild(codeText);
-        divForTextArea.innerHTML += '<span>*If you want to add two inentical calendars generate new ID</span><br>';
-        divForTextArea.innerHTML += '<a class="btn btn-default" href="code">Generate new ID</a>'
-
-
-        //превью календаря
-        var divCalendarPreview = document.createElement('div');
-        divCalendarPreview.className = "control-label col-md-6";
-        divCalendarPreview.id = "calendarPreview";
-        //контейнер для кода и превью
-        var bottomDiv = document.createElement('div');
-        bottomDiv.className = "form-group";
-        bottomDiv.appendChild(divForTextArea);
-        bottomDiv.appendChild(divCalendarPreview);
-
-        codeElement.appendChild(bottomDiv);
-        //поместить сгенерированный календарь в превью
-        calendarParams.element = "calendarPreview";
         Calendar(calendarParams);
-
-        //поместить сгенерированный код в textarea
         var codeCalendar = document.querySelector(".codeCalendar");
         codeCalendar.value = generateScript(calendarParams);
 
 
+    });
 
-    } else if (url === "calendar") {
-        window.document.title = "Calendar" + calendarParams.month + "/" + calendarParams.year;
-        document.querySelector('.settings').innerHTML = "";
-        calendarParams.element = 'maincalendar';
-        Calendar(calendarParams);
-    }
+    //Превью календаря и исходный код
+    //код
+    var codeText = document.createElement('textarea');
+    codeText.rows = 10;
+    codeText.className = "form-control noresize codeCalendar";
+    var divForTextArea = document.createElement('div');
+    divForTextArea.className = "col-md-6";
+    divForTextArea.appendChild(codeText);
+    divForTextArea.innerHTML += '<span>*If you want to add two inentical calendars generate new ID</span><br>';
+    divForTextArea.innerHTML += '<button class="btn btn-default" onclick="buttonNewIdHandler()">Generate new ID</button>'
+
+
+    //превью календаря
+    var divCalendarPreview = document.createElement('div');
+    divCalendarPreview.className = "control-label col-md-6";
+    divCalendarPreview.id = "calendarPreview";
+    //контейнер для кода и превью
+    var bottomDiv = document.createElement('div');
+    bottomDiv.className = "form-group";
+    bottomDiv.appendChild(divForTextArea);
+    bottomDiv.appendChild(divCalendarPreview);
+
+    codeElement.appendChild(bottomDiv);
+    //поместить сгенерированный календарь в превью
+    calendarParams.element = "calendarPreview";
+    Calendar(calendarParams);
+
+    //поместить сгенерированный код в textarea
+    var codeCalendar = document.querySelector(".codeCalendar");
+    codeCalendar.value = generateScript(calendarParams);
+
+
+
 };
 
+function handleCalendarPage() {
+    window.document.title = "Calendar" + calendarParams.month + "/" + calendarParams.year;
+    document.querySelector('.settings').innerHTML = "";
+    calendarParams.element = 'maincalendar';
+    Calendar(calendarParams);
+};
+
+function buttonNewIdHandler() {
+    var codeCalendar = document.querySelector(".codeCalendar");
+    codeCalendar.value = generateScript(calendarParams);
+}
 
 function generateScript(param) {
     return '<script src="https://cdn.rawgit.com/Citrinin/js--base-course/04/04/ht/Citrinin/calendar.script.js"></sc' + 'ript> \n\
