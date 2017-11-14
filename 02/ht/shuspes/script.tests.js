@@ -330,8 +330,44 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+  it("возвращает функцию после первого вызова", function() {
+    var func1 = function() {return 1};
+    var func2 = function(a) {return a};
+    assert.isFunction(curry(func1));   
+    assert.isFunction(curry(func2));
+  });
+  it("возвращает результат после последнего вызова", function() {
+    var func1 = function() {return 1};
+    var func2 = function(a) {return a}; 
+    assert.isNotFunction(curry(func1)(2));    
+    assert.isOk(curry(func1)(2) === 1);
+    assert.isNotFunction(curry(func2)(2));        
+    assert.isOk(curry(func2)(2) === 2);    
+  });
+  it("возвращает функцию для каждого параметра кроме последнего", function() {
+    var func = function(a, b) {return a + b};
+    var curryFunc = curry(func);
+    var argLength = func.length;
+    while(argLength > 0) {
+      assert.isOk(typeof curryFunc(argLength) === "function");
+      argLength--;      
+    }
+  });
+  it("работает для функции сложения с 2я аргументами", function() {
+    var func = function(a, b) {return a + b};
+    assert.isOk(curry(func)(2)(5) === 7);   
+  });
+  it("работает для функции сложения с 5ю аргументами", function() {
+    var func = function(a, b, c, d, e) {return a + b + c + d + e};
+    assert.isOk(curry(func)(2)(5)(12)(44)(8) === 2 + 5 + 12 + 44 + 8);   
+  });
+  it("работает для функции умножения с 2я аргументами", function() {
+    var func = function(a, b) {return a * b};
+    assert.isOk(curry(func)(2)(5) === 10);   
+  });
+  it("работает для сложной функции", function() {
+    var func = function(a, b, c, f) {return a * b + c /f};
+    assert.isOk(curry(func)(2)(5)(3)(9) === func(2, 5, 3, 9));   
   });
 });
 
