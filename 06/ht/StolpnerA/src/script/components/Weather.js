@@ -9,7 +9,9 @@ class Weather {
 
   getWeatherByFetch(coordinates) {
     fetch(
-      `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${DARK_SKY_API_KEY}/${coordinates.latitude},${coordinates.longitude}?lang=ru&units=si`
+      `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${DARK_SKY_API_KEY}/${coordinates.latitude ||
+        coordinates.lat},${coordinates.longitude ||
+        coordinates.lng}?lang=ru&units=si`
     )
       .then(res => res.json())
       .then(data => this.renderWeather(JSON.parse(data.body).currently));

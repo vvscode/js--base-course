@@ -1,11 +1,13 @@
 class Map {
   constructor() {
     this.map = {};
+    this.mySetCenter = this.mySetCenter.bind(this);
   }
 
   renderMap(coordinates) {
     let divApp = document.querySelector("#app");
     if (divApp.innerHTML !== "") {
+      this.mySetCenter(coordinates);
       return;
     }
     divApp.innerHTML = `
@@ -22,7 +24,10 @@ class Map {
   getMap(coordinates) {
     ymaps.ready(() => {
       this.map = new ymaps.Map("map", {
-        center: [eval(coordinates.latitude), eval(coordinates.longitude)],
+        center: [
+          eval(coordinates.latitude || coordinates.lat),
+          eval(coordinates.longitude || coordinates.lng)
+        ],
         zoom: 13
       });
 
@@ -32,6 +37,14 @@ class Map {
       };
       this.map.events.add("actionend", showCenter);
     });
+  }
+
+  mySetCenter(coordinates) {
+    console.log(document.querySelector("#map"));
+    this.map.setCenter([
+      eval(coordinates.latitude || coordinates.lat),
+      eval(coordinates.longitude || coordinates.lng)
+    ]);
   }
 }
 

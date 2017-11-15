@@ -21,11 +21,20 @@
     </div>
     <div class="right">
       <input class="search__input" type="text">
-      <button>Search</button>
+      <button class="search">Search</button>
     </div>
   </nav>
   <div id="app"></div>
 
+  <script>
+    let input = document.querySelector('.search__input');
+    document.querySelector('.search').addEventListener("click", () => {
+      if (!input.value) {
+        return
+      }
+      window.location.hash = `city=${input.value}`;
+    })
+  </script>
   <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
   <script src="./script/app.js"></script>
 </body>
