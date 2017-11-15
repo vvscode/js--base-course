@@ -27,72 +27,76 @@ var Storage = (function() {
 
     return {
         setNote: function(calendarId, numDate, message) {
-            if(!numDate) return;
-            message = message || "";
-
-            var date = new Date(+numDate);
-            var year = date.getFullYear();
-            var month = date.getMonth();
-
-            var calendarData = getCalendarData(calendarId);
-            var monthData = calendarData[`${year}-${month}`] || {};
-            var dateData = monthData[numDate] || {};
-            var dateNotes = dateData["notes"] || {};
-            var noteId = createGuid(); 
-            var noteObject = { message: message, noteId: noteId };
-            dateNotes[noteId] = noteObject;
-
-            dateData["notes"] = dateNotes;
-            monthData[numDate] = dateData;
-            calendarData[`${year}-${month}`] = monthData;
-
-            setCalendarData(calendarId, calendarData);
-            return noteObject;
+            return new Promise(function(resolve, reject) {
+                if(!numDate) reject();
+                message = message || "";
+    
+                var date = new Date(+numDate);
+                var year = date.getFullYear();
+                var month = date.getMonth();
+    
+                var calendarData = getCalendarData(calendarId);
+                var monthData = calendarData[`${year}-${month}`] || {};
+                var dateData = monthData[numDate] || {};
+                var dateNotes = dateData["notes"] || {};
+                var noteId = createGuid(); 
+                var noteObject = { message: message, noteId: noteId };
+                dateNotes[noteId] = noteObject;
+    
+                dateData["notes"] = dateNotes;
+                monthData[numDate] = dateData;
+                calendarData[`${year}-${month}`] = monthData;
+    
+                setCalendarData(calendarId, calendarData);
+                resolve(noteObject);
+            });
         },
         deleteNote: function(calendarId, numDate, noteId) {
-            var result = false;
-            if(!numDate || !noteId) return result;
-
-            var date = new Date(+numDate);
-            var year = date.getFullYear();
-            var month = date.getMonth();
-            
-            var calendarData = getCalendarData(calendarId);
-            var monthData = calendarData[`${year}-${month}`];        
-            if(!monthData) return result;            
-            var dateData = monthData[numDate];
-            if(!dateData) return result;
-            var dateNotes = dateData["notes"];
-            if(!dateNotes) return result;
-
-            result = delete dateNotes[noteId];
-            if(result) {
+            return new Promise(function(resolve, reject) {
+                if(!numDate || !noteId) return reject();
+    
+                var date = new Date(+numDate);
+                var year = date.getFullYear();
+                var month = date.getMonth();
+                
+                var calendarData = getCalendarData(calendarId);
+                var monthData = calendarData[`${year}-${month}`];        
+                if(!monthData) return reject();            
+                var dateData = monthData[numDate];
+                if(!dateData) return reject();
+                var dateNotes = dateData["notes"];
+                if(!dateNotes) return reject();
+    
+                var isSuccessDeleting = delete dateNotes[noteId];
+                if(!isSuccessDeleting) return reject();
                 calendarData[`${year}-${month}`][numDate]["notes"] = dateNotes;
-                setCalendarData(calendarId, calendarData);            
-            }
-            return result;
-        },
-        getMonthNotes: function(calendarId, year, month, getNearby = false) { //FIXME: use year-month keys
-            var calendarData = getCalendarData(calendarId) || {};
-            var monthNotes = calendarData[`${year}-${month}`] || {}; 
-            if(getNearby) {
-                var date = new Date(year, month);
-                date.setMonth(month - 1);
-                var previousMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];                
-                date.setMonth(month + 1);
-                var nextMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];
-                Object.assign(monthNotes, previousMonthNotes, nextMonthNotes);
-            }
-            Object.keys(monthNotes).forEach(function(date) {
-                var notes = monthNotes[date]["notes"] || {};
-                var notesArray = Object.keys(notes).map(function(noteId) {
-                    var noteObject = notes[noteId];
-                    noteObject["noteId"] = noteId;
-                    return noteObject;
-                });
-                monthNotes[date] = notesArray;
+                setCalendarData(calendarId, calendarData);
+                return resolve();  
             });
-            return monthNotes;
+        },
+        getMonthNotes: function(calendarId, year, month, getNearby = false) {
+            return new Promise(function(resolve, reject) {
+                var calendarData = getCalendarData(calendarId) || {};
+                var monthNotes = calendarData[`${year}-${month}`] || {}; 
+                if(getNearby) {
+                    var date = new Date(year, month);
+                    date.setMonth(month - 1);
+                    var previousMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];                
+                    date.setMonth(month + 1);
+                    var nextMonthNotes = calendarData[`${date.getFullYear()}-${date.getMonth()}`];
+                    Object.assign(monthNotes, previousMonthNotes, nextMonthNotes);
+                }
+                Object.keys(monthNotes).forEach(function(date) {
+                    var notes = monthNotes[date]["notes"] || {};
+                    var notesArray = Object.keys(notes).map(function(noteId) {
+                        var noteObject = notes[noteId];
+                        noteObject["noteId"] = noteId;
+                        return noteObject;
+                    });
+                    monthNotes[date] = notesArray;
+                });
+                return resolve(monthNotes);                
+            });
         }
     }
 })();

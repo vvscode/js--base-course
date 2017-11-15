@@ -35,9 +35,31 @@ var Calendar = (function(storage) {
         }
 
         function drawCalendarChangeSet(date) {
-            monthNotes = storage.getMonthNotes(calendarId, date.getFullYear(), date.getMonth(), true); //NOTE: move to init calendar method. storage methods should return new object    
+            storage.getMonthNotes(calendarId, date.getFullYear(), date.getMonth(), true).then(function(loadedNotes) {
+                monthNotes = loadedNotes;
+            }).then(function() {
+                displayCalendarNotes();
+            });
             drawCalendarCaption(date);
             drawCalendarBody(date);
+        }
+
+        function displayCalendarNotes() { //VARIABLES: rootElement, monthNotes
+            var monthNotesDates = Object.keys(monthNotes);
+            if(monthNotesDates.length === 0) return;
+            var monthContent = rootElement.querySelector(".js-content-calendar-month");
+            if(!monthContent) return;
+
+            monthNotesDates.forEach(function(numDate) {
+                var dayNotes = monthNotes[numDate];
+                if(dayNotes.length === 0) return;
+                var day = monthContent.querySelector(`[data-numdate="${numDate}"].js-content-day`);
+                if(!day) return;
+                var dayNotesBlock = day.querySelector(".js-content-calendar-dayNotes");
+                if(!dayNotesBlock) return;
+                var dayNotesBlockContent = renderDayNotes(numDate, dayNotes);
+                dayNotesBlock.innerHTML = dayNotesBlockContent;
+            });
         }
 
         function initCalendarActions(initDate) { //VARIABLES: rootElement, allowRemoveNotes, allowNavigation
@@ -46,21 +68,16 @@ var Calendar = (function(storage) {
             calendarContainer.addEventListener("click", function(event) {
                 var targetClassList = event.target.classList;
                 if(targetClassList.contains("js-event-openRemoveNoteForm")) {
-                    //NOTE: openRemoveNoteForm
                     openRemoveNoteForm(event.target);
                 } else if(targetClassList.contains("js-event-removeNote") && allowRemoveNotes) {
-                    //NOTE: removeNote
                     removeNote(event.target);
                     closeNoteModal();
                 } else if(targetClassList.contains("js-event-closeNoteModal")) {
-                    //NOTE: closeNoteModal
                     closeNoteModal();
                 } else if(targetClassList.contains("js-event-addNote")) {
-                    //NOTE: addNote
                     var result = addNote(event.target);
                     if(result) closeNoteModal();
                 } else if(targetClassList.contains("js-event-calendarNavigation") && allowNavigation) {
-                    //NOTE: navigation
                     if(targetClassList.contains("leftButton")) {
                         navigationFunction("-");                    
                     } else if(targetClassList.contains("rightButton")) {
@@ -71,7 +88,6 @@ var Calendar = (function(storage) {
             calendarContainer.addEventListener("dblclick", function(event) {
                 var targetClassList = event.target.classList;        
                 if(targetClassList.contains("js-event-openAddNoteForm") && allowAddNotes) {
-                    //NOTE: openAddNoteForm
                     openAddNoteForm(event.target);
                 }
             });
@@ -144,30 +160,29 @@ var Calendar = (function(storage) {
         }
 
         function addNote(target) { //VARIABLES: rootElement
-            var result = false;
             var noteText = rootElement.querySelector(".js-calendar-noteForm-text").value.trim();
             if(noteText === "") {
                 rootElement.querySelector(".js-calendar-noteForm-noteValidation").innerHTML = "Note cannot be empty or whitespace. Please, input correct note.";
-                return result;
+                return false;
             }
             var numDate = getDataAttr(target, "numdate");
             if(numDate) {
-                var noteObj = storage.setNote(calendarId, numDate, noteText);
-                if(!noteObj) return result;
-                result = true;
-                addDayNoteToHtml(numDate, noteObj);     
-                return result;                
+                storage.setNote(calendarId, numDate, noteText).then(function(noteObj) {
+                    if(noteObj) {
+                        addDayNoteToHtml(numDate, noteObj);     
+                    }
+                });           
             }
+            return true;
         }
 
         function removeNote(target) {
             var noteId = getDataAttr(target, "noteid");
             var numDate = getDataAttr(target, "numdate");
             if(noteId && numDate) {
-                var result = storage.deleteNote(calendarId, numDate, noteId);
-                if(result) {
+                storage.deleteNote(calendarId, numDate, noteId).then(function() {
                     removeNoteFromHtml(numDate, noteId);
-                }
+                });
             }
         }
 
