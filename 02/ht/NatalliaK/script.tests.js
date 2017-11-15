@@ -286,11 +286,11 @@ describe("sum", function() {
   });
   it("сумматоры независимые", function() {
     var s1 = sum(1);
-    var s12 = s1(2);
-    var s15 = s1(5);
-    var s152 = s15(2);
-    var s159 = s15(9);
-    var s10 = s1();
+		var s12 = s1(2);
+		var s15 = s1(5);
+		var s152 = s15(2);
+		var s159 = s15(9);
+		var s10 = s1();
     assert.isOk(+s1 === 1);
     assert.isOk(+s12 === 3);
     assert.isOk(+s15 === 6);
@@ -330,9 +330,44 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("добавить тесты", function() {
-    assert.isOk(false === true);
+	function target1(a, b, c, d) { return a + b + c + d };
+  function target2(a, b) { return a + b };
+	it("функция с 4 параметрами возвращает верное значение", function() {
+		assert.isOk( curry(target1)(1)(2)(3)(4) === 10);
+	});
+	it("функция с 2 параметрами возвращает верное значение", function() {
+		assert.isOk(curry(target2)(5)(8));
+	});
+});
+
+describe("throttle(f, ms)", function() {
+	var log = '';
+
+	function f(a) {	log += a;	}
+
+	return function () {
+    var saveValue = this;
+    var saveArg = arguments;
+
+		setTimeout(function() {
+			f.apply(saveValue, saveArg);
+		}, ms);
+	};
+
+	var f1000 = throttle(f, 1000);
+
+  it("первый вызов, который должен сработать сразу", function() {
+		f1000(1);
+		assert.equal(log, "1");
+	});
+
+  it("второй вызов до 1000 ms", function() {
+
   });
+
+  it("третий вызов после 1000 ms", function() {
+
+	});
 });
 
 mocha.run();

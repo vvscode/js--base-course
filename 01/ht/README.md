@@ -81,7 +81,6 @@
 ### Решить задачи из коанов
  - https://github.com/mrdavidlaing/javascript-koans
  - https://github.com/liammclennan/JavaScript-Koans
- - https://github.com/garysye/javascript-koans
 
 Если с какой-то темой будут затруднения - пишите в общий чат, с упоминанием `@vvscode`. 
 Схема работы:
