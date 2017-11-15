@@ -373,6 +373,7 @@ describe("curry", function() {
 
 describe("debounce", function() {
   it("возвращает функцию", function() {
+    var sum = 0;
     var func = function sumIt(a, b) {
       sum = a + b;
     };
@@ -419,7 +420,7 @@ describe("debounce", function() {
     debounceFunc(1, 2);
     assert.isOk(sum === 0);
     setTimeout(function() {
-      debounceFunc(1, 2);
+      debounceFunc(4, 3);
       assert.isOk(sum === 0);     
     }, 50);
   });
@@ -432,15 +433,15 @@ describe("debounce", function() {
     debounceFunc(1, 2);
     assert.isOk(sum === 0);
     setTimeout(function() {
-      debounceFunc(1, 2);
+      debounceFunc(3, 2);
       assert.isOk(sum === 0);     
     }, 50);
     setTimeout(function() {
-      debounceFunc(1, 2);
+      debounceFunc(12, 2);
       assert.isOk(sum === 0);     
     }, 50);
     setTimeout(function() {
-      assert.isOk(sum === 3);     
+      assert.isOk(sum === 14);     
     }, 200);
   });
   it("функция вызовется с последним переданным контекстом", function() {
@@ -458,6 +459,80 @@ describe("debounce", function() {
     setTimeout(function() {
       assert.isOk(sum === 4);     
     }, 150);
+  });
+});
+
+describe("throttle", function() {
+  it("возвращает функцию", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    assert.isFunction(throttleFunc);
+  });
+  it("исполнится сразу после вызова", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    throttleFunc(1, 2);
+    assert.isOk(sum === 3);
+  });
+  it("не исполнится при моментальном втором вызове", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    throttleFunc(1, 2);
+    assert.isOk(sum === 3);
+    throttleFunc(4, 8);
+    assert.isOk(sum === 3);    
+  });
+  it("не исполнится при повторном вызове в пределах wait", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    throttleFunc(1, 2);
+    assert.isOk(sum === 3);
+    setTimeout(function() {
+      throttleFunc(4, 8);
+      assert.isOk(sum === 3); 
+    }, 70);
+  });
+  it("исполнится после повторного вызова после wait", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    throttleFunc(1, 2);
+    assert.isOk(sum === 3);
+    setTimeout(function() {
+      throttleFunc(4, 8);
+      assert.isOk(sum === 12); 
+    }, 120);
+  });
+  it("не обнуляет wait (not debounce)", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var throttleFunc = throttle(func, 100);
+    throttleFunc(1, 2);
+    assert.isOk(sum === 3);
+    setTimeout(function() {
+      throttleFunc(4, 8);
+      assert.isOk(sum === 3); 
+    }, 50);
+    setTimeout(function() {
+      throttleFunc(2, 18);
+      assert.isOk(sum === 20); 
+    }, 105);
   });
 });
 

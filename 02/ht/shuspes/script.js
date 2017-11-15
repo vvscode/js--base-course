@@ -211,18 +211,6 @@ function curry(func) {
   }
 }
 
-// function target1(a, b, c, d) { return a + b + c + d };
-// function target2(a, b) { return a + b };
-// function target3(a, b) { return a * b };
-// function target4(a, b, c, d, e, f, g, k, l, m) { return a + b + c + d + e + f + g + k + l + m };
-// function target5(a, b) { return a * b };
-
-// console.log("10", curry(target1)(1)(2)(3)(4)); // 10
-// console.log("13", curry(target2)(5)(8)); // 13
-// console.log("15", curry(target3)(3)(5)); // 15
-// console.log("55", curry(target4)(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)); // 55
-// console.log("36", curry(target5)(3)(12)); // 36
-
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
@@ -439,28 +427,6 @@ function debounce(fun, delay) {
 
   return calling;
 }
-
-var logDate = function(value) {
-  console.log(new Date());
-  console.log("value", value);
-}
-
-// console.warn("debounce function");
-// logDate(0);
-// var debounceFunc = debounce(logDate, 5000);
-// debounceFunc(1);
-// debounceFunc(2);
-// setTimeout(function() { debounceFunc(3) }, 3000);
-// debounceFunc(4);
-// setTimeout(function() { debounceFunc(5) }, 7000);
-
-// console.warn("throttle function");
-// var throttleFunc = throttle(logDate, 5000);
-// throttleFunc(1);
-// throttleFunc(2);
-// setTimeout(function() { throttleFunc(3) }, 3000);
-// throttleFunc(4);
-// setTimeout(function() { throttleFunc(5) }, 7000);
 
 function sleep(seconds) {
   var sleepTime = new Date().getTime() + seconds * 1000;  
