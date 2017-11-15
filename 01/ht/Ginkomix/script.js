@@ -36,7 +36,6 @@ function drawCalendar(year,month,htmlElement) {
         else  return number - 1;
 
     }
-
     var now = new Date(year,month-1);
 
     var Calendar = '<table><tr>';
@@ -44,13 +43,24 @@ function drawCalendar(year,month,htmlElement) {
         Calendar+='<th></th>';
     }
     while(now.getMonth()===month-1) {
+
         Calendar += '<td>' + now.getDate() + '</td>';
-        if (getDayNumber(now) % 7 === 0) { 
+        if (getDayNumber(now) % 6 === 0 && getDayNumber(now)!==0) {
+            console.log(getDayNumber(now));
             Calendar += '</tr><tr>';
         }
         now.setDate(now.getDate() + 1);
     }
     Calendar += '</tr></table>';
-    console.log(Calendar);
+    htmlElement= Calendar;
 }
- drawCalendar(2015,4);
+
+function isDeepEqual(a,b) {
+    if (typeof(a)==="object" && a !== null && typeof(b) === "object" && b !== null) {
+        for (key in a)
+            if (!isDeepEqual(a[key], b[key]))
+                return false;
+        return true;
+    }
+    return a===b;
+}
