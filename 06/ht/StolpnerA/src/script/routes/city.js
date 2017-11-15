@@ -9,7 +9,10 @@ const city = {
     let country = location.hash.slice(6);
     Promise.resolve()
       .then(() => new Search().getCoordinates(country, "fetch"))
-      .then(coords => new Map().renderMap(coords));
+      .then(
+        coords =>
+          (window.location.hash = `coordinates/latitude=${coords.lat}&longitude=${coords.lng}`)
+      );
   }
 };
 

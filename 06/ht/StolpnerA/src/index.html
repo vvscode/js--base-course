@@ -19,20 +19,22 @@
       <a class="navPanel__item" href="#">Main</a>
       <a href="#author">Author</a>
     </div>
-    <div class="right">
+    <form class="right">
       <input class="search__input" type="text">
       <button class="search">Search</button>
-    </div>
+    </form>
   </nav>
   <div id="app"></div>
 
   <script>
     let input = document.querySelector('.search__input');
-    document.querySelector('.search').addEventListener("click", () => {
+    document.querySelector('.right').addEventListener("submit", (ev) => {
+      ev.preventDefault();
       if (!input.value) {
         return
       }
       window.location.hash = `city=${input.value}`;
+      input.value = '';
     })
   </script>
   <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>

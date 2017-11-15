@@ -1,13 +1,13 @@
+let map;
+
 class Map {
-  constructor() {
-    this.map = {};
-    this.mySetCenter = this.mySetCenter.bind(this);
-  }
+  constructor() {}
 
   renderMap(coordinates) {
     let divApp = document.querySelector("#app");
-    if (divApp.innerHTML !== "") {
-      this.mySetCenter(coordinates);
+    let isMap = divApp.querySelector("#map");
+    if (isMap) {
+      this.setCenter(coordinates);
       return;
     }
     divApp.innerHTML = `
@@ -18,30 +18,29 @@ class Map {
         <div class="favorites"></div>
       </div>
     `;
-    this.getMap(coordinates);
+    this.showMap(coordinates);
   }
 
-  getMap(coordinates) {
+  showMap(coordinates) {
     ymaps.ready(() => {
-      this.map = new ymaps.Map("map", {
+      map = new ymaps.Map("map", {
         center: [
           eval(coordinates.latitude || coordinates.lat),
           eval(coordinates.longitude || coordinates.lng)
         ],
-        zoom: 13
+        zoom: 10
       });
 
       let showCenter = () => {
-        let arrCentr = this.map.getCenter();
+        let arrCentr = map.getCenter();
         window.location.hash = `coordinates/latitude=${arrCentr[0]}&longitude=${arrCentr[1]}`;
       };
-      this.map.events.add("actionend", showCenter);
+      map.events.add("actionend", showCenter);
     });
   }
 
-  mySetCenter(coordinates) {
-    console.log(document.querySelector("#map"));
-    this.map.setCenter([
+  setCenter(coordinates) {
+    map.setCenter([
       eval(coordinates.latitude || coordinates.lat),
       eval(coordinates.longitude || coordinates.lng)
     ]);
