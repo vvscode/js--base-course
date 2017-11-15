@@ -16,11 +16,9 @@ Router.prototype.handleHashChange = function (url) {
     this.routes.forEach((item, i, arr) => {
         if (typeof item.match === "string" && item.match === url) {
             this.activeRoute = item;
-        }
-        if (typeof item.match === "function" && item.match(url)) {
+        } else if (typeof item.match === "function" && item.match(url)) {
             this.activeRoute = item;
-        }
-        if (item.match instanceof RegExp && item.match.test(url)) {
+        } else if (item.match instanceof RegExp && item.match.test(url)) {
             this.activeRoute = item;
         }
     });
@@ -37,16 +35,17 @@ Router.prototype.getParams = function (url) {
 Router.prototype.execFunctions = function () {
     Promise.resolve()
         .then(() => {
-            if (this.prevRoute) this.prevRoute.onLeave(this.prevParam);
+            this.prevRoute && this.prevRoute.onLeave(this.prevParam);
         })
         .then(() => {
-            if (this.activeRoute) this.activeRoute.onBeforeEnter(this.activeParam);
+            this.activeRoute && this.activeRoute.onBeforeEnter(this.activeParam);
         })
         .then(() => {
-            if (this.activeRoute) this.activeRoute.onEnter(this.activeParam);
+            this.activeRoute && this.activeRoute.onEnter(this.activeParam);
         })
         .then(() => {
             this.prevRoute = this.activeRoute;
             this.prevParam = this.activeParam;
-        });
+        })
+        .catch(() => alert("ошибка"));
 };

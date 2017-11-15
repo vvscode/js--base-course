@@ -5,7 +5,7 @@
 EventBus.prototype.trigger = function (event, data) {
     (this.listeners[event] || []).forEach(cb => {
         if (typeof cb === "function") {
-            cb.apply(null, Array.prototype.slice.call(arguments, 1));
+            cb.apply(null, [].slice.call(arguments, 1));
         }
     });
 };
@@ -15,7 +15,7 @@ EventBus.prototype.on = function (event, cb) {
 };
 EventBus.prototype.off = function (event, cb) {
     if (!cb) {
-        this.listeners[event].splice(0, this.listeners[event].length);
+        this.listeners[event] = (this.listeners[event] || []).lenght = 0;
         return;
     }
     this.listeners[event] = (this.listeners[event] || [])
