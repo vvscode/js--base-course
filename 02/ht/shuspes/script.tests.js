@@ -371,4 +371,94 @@ describe("curry", function() {
   });
 });
 
+describe("debounce", function() {
+  it("возвращает функцию", function() {
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    assert.isFunction(debounceFunc);
+  });
+  it("функция не отрабатывает сразу после вызова", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    assert.isOk(sum === 0);
+  });
+  it("функция отрабатывает после истечения wait", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    setTimeout(function() {
+      assert.isOk(sum === 3);
+    }, 100);
+  });
+  it("функция не вызывается после моментального повторного вызова", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    assert.isOk(sum === 0);
+    debounceFunc(4, 3);
+    assert.isOk(sum === 0);    
+  });
+  it("функция не вызывается после повторного вызова в пределах wait", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    assert.isOk(sum === 0);
+    setTimeout(function() {
+      debounceFunc(1, 2);
+      assert.isOk(sum === 0);     
+    }, 50);
+  });
+  it("wait обнуляется после каждого вызова в пределах wait", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    assert.isOk(sum === 0);
+    setTimeout(function() {
+      debounceFunc(1, 2);
+      assert.isOk(sum === 0);     
+    }, 50);
+    setTimeout(function() {
+      debounceFunc(1, 2);
+      assert.isOk(sum === 0);     
+    }, 50);
+    setTimeout(function() {
+      assert.isOk(sum === 3);     
+    }, 200);
+  });
+  it("функция вызовется с последним переданным контекстом", function() {
+    var sum = 0;
+    var func = function sumIt(a, b) {
+      sum = a + b;
+    };
+    var debounceFunc = debounce(func, 100);
+    debounceFunc(1, 2);
+    assert.isOk(sum === 0);
+    setTimeout(function() {
+      debounceFunc(3, 1);
+      assert.isOk(sum === 0);     
+    }, 50);
+    setTimeout(function() {
+      assert.isOk(sum === 4);     
+    }, 150);
+  });
+});
+
 mocha.run();
