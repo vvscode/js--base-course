@@ -25,11 +25,11 @@ $('.button').on('click',function(){
             $('.answer').css('display','flex');
              array.push(string);
              if(array[1]>=18){
-              $('.Hellow').text('Привествую, '+array[0]
-                                +'. Уж '+array[1]+' лет прошло.');  
+
+              $('.Hellow').text('Привествую, '+array[0]+'. Уж '+array[1]+' лет прошло.');  
              }else {
-                 $('.Hellow').text('Здарова, '+array[0]
-                                +'. Как твои '+array[1]+'?');  
+                 $('.Hellow').text('Здарова, '+array[0]+'. Как твои '+array[1]+'?');  
+
              }
 
         }
