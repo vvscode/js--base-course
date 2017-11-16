@@ -1,7 +1,7 @@
 function log(a) {
     console.log(a);
 }
-function FizzBuzz(){
+function fizzBuzz(){
     var arr =[];
     for(var a = 1;a<=100;a++) {
         arr.push(a);
@@ -22,9 +22,7 @@ function FizzBuzz(){
 
 function isPolindrom(str) {
     var reversStr = str.split("").reverse().join("");
-    if(str===reversStr)
-        return true;
-    else return false;
+    return str===reversStr;
 }
 
 function drawCalendar(year,month,htmlElement) {
@@ -32,7 +30,9 @@ function drawCalendar(year,month,htmlElement) {
     function getDayNumber(date) { 
         var number = date.getDay();
         if(number === 0)
+        {
             return number = 6;
+        }
         else  return number - 1;
 
     }
@@ -52,15 +52,23 @@ function drawCalendar(year,month,htmlElement) {
         now.setDate(now.getDate() + 1);
     }
     Calendar += '</tr></table>';
-    htmlElement= Calendar;
+    htmlElement.innerHTML= Calendar;
 }
 
-function isDeepEqual(a,b) {
-    if (typeof(a)==="object" && a !== null && typeof(b) === "object" && b !== null) {
-        for (key in a)
-            if (!isDeepEqual(a[key], b[key]))
+function isDeepEqual(objA, objB) {
+    if (typeof(objA)==="object" && objA != null && typeof(objB) === "object" && objB != null) {
+        if (Object.values(objA).length != Object.values(objB).length) 
+        {
+            return false;
+        }
+        for(var prop in objA) 
+        {
+            if (!isDeepEqual(objA[prop], objB[prop]))
+            {
                 return false;
-        return true;
+            }
+        }
+        return true; 
     }
-    return a===b;
+    return objA == objB; 
 }
