@@ -1,0 +1,147 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.header {
+	display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    height: 60px;
+    justify-content: center;
+}
+
+.header-block {
+	width: 33%;
+	display: flex;
+	justify-content: center;
+}
+
+.radio-label {
+	margin: 5px;
+}
+
+.menu-item {
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 0 5px;
+}
+
+.info {
+	display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.info-block {
+	width: 33%;
+	border: 1px solid #9a9a9a;
+	height: 200px;
+}
+
+.info-block:nth-child(2) {
+	margin: 0 10px;
+}
+
+.info-block-title {
+	padding: 20px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.favorites {
+	overflow-y: scroll;
+}
+
+.submit {
+	margin-left: 5px;
+	font-family: "Roboto", sans-serif;
+}
+
+.map-wrapper {
+	position: relative;
+}
+
+.map {
+    height: 400px;
+    margin: 10px 5px;
+}
+
+.add-favorites-modal {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 100;
+	height: 150px;
+    width: 300px;
+	background-color: #ffffff;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-favorites-title {
+	font-weight: bold;
+	text-align: center;
+}
+
+.add-favorites-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.add-favorites-name {
+	width: 90%;
+    outline: 0;
+    margin: 10px 0;
+}
+
+.add-favorites-buttons-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+}
+
+.add-favorites-button {
+	margin: 5px;
+}
+
+li {
+	list-style: none;
+    margin: 3px 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
+}
+
+input:focus {
+	outline: none;
+}
+
+.history-list,
+.weather-details,
+.favorites-list {
+	margin: 0 20px;
+	padding: 0;
+}
+
+.avatar {
+	width: 80px;
+    height: auto;
+    float: left;
+    margin: 20px;
+}

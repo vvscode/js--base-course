@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather widget</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="widget" id="widget"></div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKo5YGsYo-juM1aSfFQc_P1SN2v_NDl9w"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script>
+	var map, geocoder;
+var router = new Router({
+	routes: [{
+		name: 'index',
+		match: '',
+		onEnter: () => {
+			console.log('<index');
+			new mainPage();
+			console.log('index>');
+		}
+	}, {
+		name: 'city',
+		match: /city=(.+)/,
+		onEnter: coords => new weatherPage(coords)
+	}, {
+		name: 'about',
+		match: 'about',
+		onEnter: () => new aboutPage()
+	}]
+});
+	</script>
+</body>
+</html>
