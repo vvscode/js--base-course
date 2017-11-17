@@ -24,8 +24,12 @@ function log(a) {
  */
 
 function fizzBuzz() {
+
   for (var a = 1; a <= 100; a++) {
-    var c = (a % 15 === 0) && 'FizzBuzz' || (a % 3 === 0) && 'Fizz' || (a % 5 === 0) && 'Buzz' || a;
+    var c = (a % 15 === 0) && 'FizzBuzz' ||
+      (a % 3 === 0) && 'Fizz' ||
+      (a % 5 === 0) && 'Buzz' ||
+      a;
     log(c)
   }
 }
@@ -39,12 +43,13 @@ function fizzBuzz() {
  */
 
 function isPolindrom(textString) {
-  var newTextString = textString
-    .split('')
-    .reverse()
-    .join('');
+  var newTextString = '';
+  for (var i = textString.length - 1; i >= 0; i--) {
+    newTextString += textString.charAt(i);
+  }
   return newTextString === textString;
 }
+
 
 
 /*

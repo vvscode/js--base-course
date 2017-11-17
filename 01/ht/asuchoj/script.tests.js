@@ -49,7 +49,7 @@ describe('isPolindrom', function() {
         return assert.isOk(isPolindrom('asd') === false);
     });
     it('asdsa - полиндром', function() {
-        return assert.isOk(isPolindrom('asdsa') === true);
+        return assert.isOk(isPolindrom('KUULILENNUTEETUNNELILUUK') === true);
     });
     it('"" - полиндром', function() {
         return assert.isOk(isPolindrom('') === true);
