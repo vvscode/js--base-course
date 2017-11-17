@@ -1,30 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">    
-    <title>Calendar SPA</title>
+  <meta charset="utf-8">
+  <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-	<a href="#calendar">Calendar</a>
-	<a href="#settings">Options</a>
-	<div id="content"></div>
-	<script>
-		var settings = {
-			id: "calendarNew",
-			changeMonth: true,
-			addNotes: true,
-			removeNotes: true,
-			showCurrent: true,
-            year: 2017,
-            month: 10
-		};
-	</script>
-    <script src="script.js"></script>
+  <div>
+    <a href="calendar">Calendar</a>
+    <a href="options">Options</a>
+  </div>
+  <hr>
+  <div id="content" class="content">
+    <div class="fullScreen" id="#calendar1"></div>
+  </div>
+  <script src="eventBus.js"></script>
+  <script src="localStorage.js"></script>
+  <script src="calendar.js"></script>
+  <script src="router.js"></script>
+  <script src="calendarConfiguration.js"></script>
+  <script src="app.js"></script>
+
 </body>
 
 </html>
