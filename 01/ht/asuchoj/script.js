@@ -7,7 +7,7 @@
  * @param {*} a 
  */
 function log(a) {
-    console.log(a);
+  console.log(a);
 }
 
 /* Раместите ваш код ниже */
@@ -23,10 +23,10 @@ function log(a) {
  */
 
 function fizzBuzz() {
-    for( var a = 1; a <= 100; a++){
-        var c = (a % 15 === 0) && 'FizzBuzz' || (a % 3 === 0) && 'Fizz' || (a % 5 === 0) && 'Buzz' || a;
-        log(c)
-    }
+  for (var a = 1; a <= 100; a++) {
+    var c = (a % 15 === 0) && 'FizzBuzz' || (a % 3 === 0) && 'Fizz' || (a % 5 === 0) && 'Buzz' || a;
+    log(c)
+  }
 }
 
 /**
@@ -38,11 +38,11 @@ function fizzBuzz() {
  */
 
 function isPolindrom(textString) {
-    var newTextString = textString
-      .split('')
-      .reverse()
-      .join('');
-    return newTextString === textString;
+  var newTextString = textString
+    .split('')
+    .reverse()
+    .join('');
+  return newTextString === textString;
 }
 
 
@@ -54,65 +54,68 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-/*function drawCalendar(year, month, htmlEl) {
-    var date = new Date(year, (month - 1), 1);
-    var dateInMonth = new Date(year, month, 0);
-    var str =
-      "<h4>Заголовки в таблице:</h4>" +
-      '<table>' +
-      '<tr>' +
-      '<th>Пн</th>' +
-      '<th>Вт</th>' +
-      '<th>Ср</th>' +
-      '<th>Чт</th>' +
-      '<th>Пт.</th>' +
-      '<th>Сб</th>' +
-      '<th>Вс</th>' +
-      '</tr>';
 
-    var day = date.getDay();
-    if (day === 0){
-        day = 7;
+function drawCalendar(year, month, htmlEl) {
+  var date = new Date(year, (month - 1), 1);
+  var dateInMonth = new Date(year, month, 0);
+  var str =
+    "<h4>Заголовки в таблице:</h4>" +
+    '<table>' +
+    '<tr>' +
+    '<th>Пн</th>' +
+    '<th>Вт</th>' +
+    '<th>Ср</th>' +
+    '<th>Чт</th>' +
+    '<th>Пт.</th>' +
+    '<th>Сб</th>' +
+    '<th>Вс</th>' +
+    '</tr>';
+
+  var day = date.getDay();
+
+  if (day === 0) {
+    day = 7;
+  }
+
+  if (day !== 1) {
+    str += "<tr>";
+    for (var i = 1; i < day; i++) {
+      str += "<td></td>";
     }
-    if (day !== 1) {
-        str += "<tr>";
-        for (var i = 1; i < day; i++) {
-            str += "<td></td>";
-        }
+  }
+
+  for (var index = 1; index <= dateInMonth.getDate(); index++) {
+
+    switch (date.getDay()) {
+      case 1:
+      {
+        str += "<tr><td>" + date.getDate() + "</td>";
+        date.setDate(index + 1);
+        break;
+      }
+      case 0:
+      {
+        str += "<td>" + date.getDate() + "</td></tr>";
+        date.setDate(index + 1);
+        break;
+      }
+      default:
+      {
+        str += "<td>" + date.getDate() + "</td>";
+        date.setDate(index + 1)
+      }
+        break;
     }
+  }
 
-    for (var index = 1; index <= dateInMonth.getDate(); index++) {
+  if (dateInMonth.getDay() === 0) {
+    str += "</table>";
+  } else {
+    str += "</tr></table>";
+  }
 
-        switch (date.getDay()) {
-            case 1:
-                {
-                    str += "<tr><td>" + date.getDate() + "</td>";
-                    date.setDate(index + 1);
-                    break;
-                }
-            case 0:
-                 {
-                     str += "<td>" + date.getDate() + "</td></tr>";
-                     date.setDate(index + 1);
-                     break;
-                 }
-            default:
-                {
-                    str += "<td>" + date.getDate() + "</td>";
-                    date.setDate(index + 1)
-                }
-            break;
-        }
-    }
-
-    if (dateInMonth.getDay() === 0){
-        str += "</table>";
-    } else {
-      str += "</tr></table>";
-    }
-
-    htmlEl.innerHTML = str;
-}*/
+  htmlEl.innerHTML = str;
+}
 
 /**
  * Написать функцию `isDeepEqual`
@@ -122,19 +125,23 @@ function isPolindrom(textString) {
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
-/*
+
 function isDeepEqual(objA, objB) {
 
-    if (typeof (objA) !== 'object' && typeof (objB) !== 'object') {
-        return objA === objB
+  if (typeof(objA) !== 'object' && typeof(objB) !== 'object') {
+    return objA === objB
+  }
+
+  if (Object.keys(objA).length !== Object.keys(objB).length) {
+    return false;
+  }
+
+  for (var key in objA) {
+    if (!isDeepEqual(objA[key], objB[key])) {
+      return false;
     }
-    if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-    }
-    for (var key in objA) {
-        if (!isDeepEqual(objA[key], objB[key])) {
-            return false;
-        }
-    }
-    return true;
-}*/
+  }
+
+  return true;
+}
+
