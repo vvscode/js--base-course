@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HT 02</title>
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+    <script src="script.js"></script>
+    <script src="script.tests.js"></script>
+    <h2> Задача 12. Создать веб страницу. Добавить на нее форму с полями.</h2>
+   <!--
+    Создать веб страницу. Добавить на нее форму с полями
+    - имя (строкое поле),
+    - родной город (Выпадающий список),
+    - Комментарий (многострочное поле), пол (radiobutton).
+    При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
+    после чего поля очистить.
+    -->
+    <form class="anketa">
+        <fieldset>
+            <legend> Обратная связь </legend>
+            <div>
+                <label for="textinput">	Имя: </label>
+                <input type="text" name="name" class="textinput" id="textinput" placeholder="Введите Ваше имя">
+            </div>
+            <div>
+                <label for="textinput">	Родной город: </label>
+                <select size="3" multiple name="city">
+                    <option> Брест </option>
+                    <option> Витебск </option>
+                    <option> Гомель </option>
+                    <option> Гродно </option>
+                    <option> Могилев </option>
+                    <option> Минск </option>
+                </select>
+            </div>
+            <div class="form_anketa_input">
+                <label for="messenge"> Сообщение: </label>
+                <textarea class="messenge" id="messenge" placeholder="Текст сообщения..."></textarea>
+            </div>
+
+            <div>
+                <label> Пол </label>
+                <label> Мужской
+                    <input type="radio" name="gender" value="man">
+                </label>
+                <label> Женский
+                    <input type="radio" name="gender" value="woman">
+                </label>
+            </div>
+            <div class="form_anketa_input">
+                <button class="button" id="button"> Отправить </button>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

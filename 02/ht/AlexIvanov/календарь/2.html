@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    #calendar2 {
+        width: 100%;
+        line-height: 1.2em;
+        font-size: 15px;
+        text-align: center;
+    }
+    #calendar2 thead tr:last-child {
+        font-size: small;
+        color: rgb(85, 85, 85);
+    }
+    #calendar2 thead tr:nth-child(1) td:nth-child(2) {
+        color: rgb(50, 50, 50);
+    }
+    #calendar2 thead tr:nth-child(1) td:nth-child(1):hover, #calendar2 thead tr:nth-child(1) td:nth-child(3):hover {
+        cursor: pointer;
+    }
+    #calendar2 tbody td {
+        color: rgb(44, 86, 122);
+    }
+    #calendar2 tbody td:nth-child(n+6), #calendar2 .holiday {
+        color: rgb(231, 140, 92);
+    }
+    #calendar2 tbody td.today {
+        background: rgb(220, 0, 0);
+        color: #fff;
+    }
+</style>
+
+<table id="calendar2">
+    <thead>
+    <tr><td>‹<td colspan="5"><td>›
+    <tr><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс
+    <tbody>
+</table>
+
+<script>
+
+</script>
+</body>
+</html>
