@@ -1,0 +1,119 @@
+body {
+    display: flex;
+    background: linear-gradient(to bottom,#a9c4df,#e7ecf0);
+    height: 100vh;
+}
+
+.container{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    align-items: center;
+    min-width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td,
+th,
+tr {
+    padding: 3px;
+    text-align: center;
+}
+
+th {
+    font-weight: bold;
+    background-color: #E6E6E6;
+}
+
+tbody tr td:last-child {
+    color: red;
+}
+
+table td{
+    padding: 8px;
+    transition-duration: 0.4s;
+}
+
+table td:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+td + td,
+th + th { border-left: 1px solid #E6E6E6; }
+tr + tr { border-top: 1px solid #E6E6E6; }
+
+#calendar-head {
+    margin: 10px 5px 10px 5px;
+    width: 230px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+}
+
+#current{
+    font-weight: bold;
+}
+
+#calendar {
+    height: 270px;
+}
+
+#calendar-container {
+    align-self: end;
+}
+
+.note {
+    border: 1px solid silver;
+    border-radius: 3px;
+    text-align: center;
+    width: 160px;
+    transition-duration: 0.4s;
+}
+
+.note:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+#mainForm p{
+    width: 100%;
+    padding: 0px;
+}
+
+input[type=text],
+input[type=password],
+textarea{
+    box-sizing : border-box;
+}
+
+p #comment, #city, #name{
+    position: relative;
+    width: 100%;
+    padding: 7px;
+}
+
+#city:nth-of-type(3) {
+    /* 16px is the break */
+    font: 16px Georgia, Serif !important;
+}
+
+#submit{
+    cursor: pointer;
+    transition-duration: 0.4s;
+    padding: 7px;
+    width: 100%;
+    font-weight: bold;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+#submit:hover {
+    background-color: gray;
+}
+
