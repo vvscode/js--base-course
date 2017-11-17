@@ -77,17 +77,17 @@ function drawCalendar(year, month, htmlEl) {
 
     outer: while (month === (date.getMonth() + 1)) {
 
-        for (var i = 0; i <= 6; i++) {
-            i === 0 ? calendar += "<tr>" : false;
+        for (var i = 1; i <= 7; i++) {
+            i === 1 ? calendar += "<tr>" : false;
 
-            if (date.getDay()  === i && (month === (date.getMonth() + 1))) {
+            if (checkDay() === i && (month === (date.getMonth() + 1))) {
                 calendar += "<td>" + date.getDate() + "</td>";
                 date.setDate(date.getDate() + 1);
             } else {
                 calendar += "<td></td>";
             }
 
-            if (i === 6) {
+            if (i === 7) {
                 calendar += "</tr>";
                 continue outer;
             }
@@ -95,6 +95,22 @@ function drawCalendar(year, month, htmlEl) {
     }
 
     htmlEl.innerHTML = calendar;
+
+    function checkDay() {
+        var day;
+        switch (date.getDay()) {
+            case 0:
+                day = 7;
+                break;
+            case 7:
+                day = 1;
+                break;
+            default:
+                day = date.getDay();
+                break;
+        }
+        return day;
+    }
 }
 
 
@@ -107,11 +123,38 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    var value;
+    var value = false;
 
-    if (objA === objB) {
+    if (JSON.stringify(objA) === JSON.stringify(objB)) {
         value = true;
-    } else value = false;
+    }
+
+    checkObject(objA, objB);
+
+    function checkObject(objectA, objectB) {
+        if ((objectA.__proto__.forEach) && (objectB.__proto__.forEach)) {
+            if (JSON.stringify(objectA) === JSON.stringify(objectB)) {
+                value = true;
+            }
+        }
+        else if (typeof (objectA) === "object" && typeof (objectB) === "object") {
+            checkKeyInObject(objectA, objectB);
+            value ? checkKeyInObject(objectB, objectA) : false;
+        }
+    }
+
+    function checkKeyInObject(obj1, obj2) {
+        for (var key in obj1) {
+            checkObject(obj1[key], obj2[key]);
+
+            if (JSON.stringify(obj1[key]) === JSON.stringify(obj2[key]) && key in obj2) {
+                value = true;
+            } else {
+                value = false;
+                break;
+            }
+        }
+    }
 
     return value;
 
