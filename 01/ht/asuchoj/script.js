@@ -43,13 +43,28 @@ function fizzBuzz() {
  */
 
 function isPolindrom(textString) {
-  var newTextString = '';
-  for (var i = textString.length - 1; i >= 0; i--) {
-    newTextString += textString.charAt(i);
-  }
-  return newTextString === textString;
-}
 
+  var result,numberOfChecks;
+
+  if(textString.length === 0 || textString.length === 1  ) { // если "" или "a"
+    numberOfChecks = 1;
+  } else if (textString.length % 2 === 0) {
+    numberOfChecks = textString.length / 2;
+  } else {
+    numberOfChecks = ( textString.length - 1 ) / 2;
+  }
+
+  for(var i = 0; i < numberOfChecks; i++){
+    if( textString.charAt(i) === textString.charAt((textString.length - 1) - i)){ // проверяем первую и последнюю буквы
+      result = true;
+    } else {
+      result = false;
+      break; // если где-то не равно прекращаем цикл
+    }
+  }
+
+  return result;
+}
 
 
 /*
