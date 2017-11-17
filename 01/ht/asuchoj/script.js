@@ -42,7 +42,7 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 
-function isPolindrom(textString) {
+/*function isPolindrom(textString) {
 
   var result,numberOfChecks;
 
@@ -64,8 +64,22 @@ function isPolindrom(textString) {
   }
 
   return result;
-}
+}*/
 
+
+function isPolindrom(textString) {
+
+    var result = true;
+
+    for(var i = 0; i <= textString.length / 2; i++){
+        if( textString.charAt(i) !== textString.charAt( (textString.length - 1) - i) ) { // проверяем первую и последнюю буквы
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+}
 
 /*
  Реализовать фукнцию `drawCalendar` , 
