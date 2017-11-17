@@ -130,9 +130,18 @@ function isDeepEqual(objA, objB) {
     return objA === objB
   }
 
+  if (objA === objB && objA === null) {
+    return true
+  }
+
   if (Object.keys(objA).length !== Object.keys(objB).length) {
     return false;
   }
+
+  if (Object.keys(objA).length !== Object.keys(objB).length) {
+    return false;
+  }
+
 
   for (var key in objA) {
     if (!isDeepEqual(objA[key], objB[key])) {

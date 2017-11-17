@@ -118,6 +118,9 @@ describe('isDeepEqual', function() {
     it('распознает массивы разной длинны', function() {
         return assert.isOk(isDeepEqual([1, 2, 5], [1, 2, 5, 7]) === false);
     });
+    it('null & null', function() {
+        return assert.isOk(isDeepEqual(null, null) === true);
+    });
 
     var a = {prop1: 1, list: [1, 2, 3], o: {x: 2}};
     var b = {list: [1, 2, 3], o: {x: 2}};
