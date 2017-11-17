@@ -6,6 +6,7 @@
  * Функция вывода строк для работы в fizzBuzz
  * @param {*} a 
  */
+
 function log(a) {
   console.log(a);
 }
@@ -46,13 +47,13 @@ function isPolindrom(textString) {
 }
 
 
-/**
- * Реализовать фукнцию `drawCalendar` , 
- * которая принимает три аргумента - год, месяц, htmlElement 
- * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
- * @param {number} year 
- * @param {number} month - номер месяца, начиная с 1
- * @param {external:HTMLElement} htmlEl 
+/*
+ Реализовать фукнцию `drawCalendar` , 
+ которая принимает три аргумента - год, месяц, htmlElement 
+ и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
+ @param {number} year 
+ @param {number} month - номер месяца, начиная с 1
+ @param {external:HTMLElement} htmlEl 
  */
 
 function drawCalendar(year, month, htmlEl) {
@@ -87,20 +88,17 @@ function drawCalendar(year, month, htmlEl) {
   for (var index = 1; index <= dateInMonth.getDate(); index++) {
 
     switch (date.getDay()) {
-      case 1:
-      {
+      case 1: {
         str += "<tr><td>" + date.getDate() + "</td>";
         date.setDate(index + 1);
         break;
       }
-      case 0:
-      {
+      case 0: {
         str += "<td>" + date.getDate() + "</td></tr>";
         date.setDate(index + 1);
         break;
       }
-      default:
-      {
+      default: {
         str += "<td>" + date.getDate() + "</td>";
         date.setDate(index + 1)
       }
@@ -117,13 +115,13 @@ function drawCalendar(year, month, htmlEl) {
   htmlEl.innerHTML = str;
 }
 
-/**
- * Написать функцию `isDeepEqual`
- * которая принимает на вход двe переменных
- * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
- * @return {boolean} идентичны ли параметры по содержимому
+/*
+ Написать функцию `isDeepEqual`
+ которая принимает на вход двe переменных
+ и проверяет идентичны ли они по содержимому. Например
+ @param {*} objA 
+ param {*} objB 
+ @return {boolean} идентичны ли параметры по содержимому
  */
 
 function isDeepEqual(objA, objB) {
