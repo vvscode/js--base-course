@@ -1,4 +1,4 @@
-class mainPage {
+class MainPage {
 	constructor () {
 		this.getUserCoords();
 	}
@@ -10,7 +10,7 @@ class mainPage {
 			var coords = (data.position.latitude).toFixed(6) + ',' + (data.position.longitude).toFixed(6);
 
 			window.location.hash = "#city=" + coords;
-			new weatherPage(coords);
+			new WeatherPage(coords);
 		});
 					
 	}

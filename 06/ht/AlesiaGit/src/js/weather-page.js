@@ -1,4 +1,4 @@
-class weatherPage {
+class WeatherPage {
 
 	constructor (coords) {
 
@@ -220,7 +220,7 @@ class weatherPage {
 	}
 
 	getWeather() {
-		if (document.getElementById('xhr').checked) {
+		if (document.getElementById('xhr').checked === true) {
 			this.xhrWeather();
 		} else {
 			this.fetchWeather();
@@ -235,6 +235,7 @@ class weatherPage {
 
 		xhr.onreadystatechange = function() {
 		  if (xhr.readyState != 4) return;
+		  
 
 		  if (xhr.status != 200) {
 		    alert( 'ошибка: ' + (this.status ? this.statusText : 'запрос не удался') );

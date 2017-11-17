@@ -18,17 +18,17 @@ var router = new Router({
 		match: '',
 		onEnter: () => {
 			console.log('<index');
-			new mainPage();
+			new MainPage();
 			console.log('index>');
 		}
 	}, {
 		name: 'city',
 		match: /city=(.+)/,
-		onEnter: coords => new weatherPage(coords)
+		onEnter: coords => new WeatherPage(coords)
 	}, {
 		name: 'about',
 		match: 'about',
-		onEnter: () => new aboutPage()
+		onEnter: () => new AboutPage()
 	}]
 });
 	</script>
