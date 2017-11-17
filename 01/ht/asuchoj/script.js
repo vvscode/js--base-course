@@ -46,15 +46,16 @@ function isPolindrom(textString) {
 }
 
 
-/**
- * Реализовать фукнцию `drawCalendar` , 
- * которая принимает три аргумента - год, месяц, htmlElement 
- * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
- * @param {number} year 
- * @param {number} month - номер месяца, начиная с 1
- * @param {external:HTMLElement} htmlEl 
+/*
+ Реализовать фукнцию `drawCalendar` , 
+ которая принимает три аргумента - год, месяц, htmlElement 
+ и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
+ @param {number} year 
+ @param {number} month - номер месяца, начиная с 1
+ @param {external:HTMLElement} htmlEl 
  */
-/*function drawCalendar(year, month, htmlEl) {
+
+function drawCalendar(year, month, htmlEl) {
     var date = new Date(year, (month - 1), 1);
     var dateInMonth = new Date(year, month, 0);
     var str =
@@ -112,17 +113,16 @@ function isPolindrom(textString) {
     }
 
     htmlEl.innerHTML = str;
-}*/
+}
 
-/**
- * Написать функцию `isDeepEqual`
- * которая принимает на вход двe переменных
- * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
- * @return {boolean} идентичны ли параметры по содержимому
- */
 /*
+ Написать функцию `isDeepEqual`
+ которая принимает на вход двe переменных
+ и проверяет идентичны ли они по содержимому. Например
+ @param {*} objA 
+ param {*} objB 
+ @return {boolean} идентичны ли параметры по содержимому
+ */
 function isDeepEqual(objA, objB) {
 
     if (typeof (objA) !== 'object' && typeof (objB) !== 'object') {
@@ -137,4 +137,4 @@ function isDeepEqual(objA, objB) {
         }
     }
     return true;
-}*/
+}
