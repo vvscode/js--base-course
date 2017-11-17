@@ -42,7 +42,7 @@ function isPolindrom(textString) {
     var polindrom = textString.toLowerCase();
     polindrom = polindrom.split(" ").join('');
     var bool;
-    for (var i = 0; i <= polindrom.length; i++) {
+    for (var i = 0; i <= Math.ceil(polindrom.length / 2); i++) {
         if (polindrom[i] === (polindrom[polindrom.length - i - 1] )) {
             bool = true;
         } else {
