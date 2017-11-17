@@ -1,0 +1,25 @@
+{
+  "name": "weather-widget",
+  "version": "1.0.0",
+  "description": "weather widget",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "browser-sync": "^2.18.12",
+    "gulp-babel": "^7.0.0",
+     "gulp-watch": "^4.3.11",
+     "gulp-concat": "^2.6.1",
+     "gulp-autoprefixer": "^4.0.0",
+     "gulp-uglify": "^3.0.0",
+     "gulp-minify-css": "^1.2.4",
+     "gulp-fontmin": "^0.7.4",
+     "rimraf": "^2.6.2",
+     "gulp": "^3.9.1"
+
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
