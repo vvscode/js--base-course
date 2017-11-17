@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" id="form">
+        <p>
+            <input type="text" name="name" id="name" value="">
+        </p>
+        <p>
+            <select name="city" id="city">
+                <option value="Брест">Брест</option>
+                <option value="Витебск">Витебск</option>
+                <option value="Гомель">Гомель</option>
+                <option value="Гродно">Гродно</option>
+                <option value="Минск">Минск</option>
+                <option value="Могилев">Могилев</option>
+            </select>
+        </p>
+        <p>
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        </p>
+        <p>
+            <input type="radio" name="gender" id="male" checked>Мужской</p>
+        <p>
+            <input type="radio" name="gender" id="female">Женский</p>
+        <input type="button" value="Выбрать" id="submit">
+        <div id="output" name="output"></div>
+    </form> 
+    <div id="calendar-container">
+        <div id="calendar-wrap"></div>
+        <div id="calendarlist"></div>
+    </div>   
+    <script src="./script.js"></script>
+    <script>PersonalInfo()</script>
+</body>
+</html>
