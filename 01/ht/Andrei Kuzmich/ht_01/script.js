@@ -46,8 +46,8 @@ function isPolindrom(textString) {
      var letters = textString.split(''); 
      var revLetters = textString.split('').reverse();
  
-     var arr = textString.split('').reverse().join("");
-     return textString == arr;
+     var Str = textString.split('').reverse().join("");
+     return textString == Str;
  
         }           
 
