@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <script src="https://api-maps.yandex.ru/1.1/index.xml" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HT 02</title>
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+    <!--<script src="script.js"></script>-->
+    <script src="WeatherHelper.js"></script>
+	<script src="ForecastArea.js"></script>
+    <script src="MapArea.js"></script>
+    <script src="SearchArea.js"></script>
+    <script src="PageRenderer.js"></script>
+    <script src="HistoryArea.js"></script>
+    <script src="DAO.js"></script>
+    <script src="Router.js"></script>
+    <script src="Util.js"></script>
+
+
+</body>
+<script>
+
+    (
+        function(){
+        var currCordinates = {};
+        var pageRenderer = new PageRenderer();
+        var cityDao = new DAO(localStorage);
+        var routes = [
+            {
+                name: 'city',
+                match: /[/]city[/](.+)/,
+                onBeforeEnter: (params) => {
+                    var city = params;
+                    if(params instanceof  Object){
+                        city = params[0];
+                    }
+                    console.log(`onBeforeEnter city:${city}`);
+                    pageRenderer.updatePageAccordingToEnteredData(city);
+                },
+
+                onEnter: (city) => console.log(`onEnter city:${city}`),
+                onLeave: (city) => console.log(`onLeave city:${city}`)
+            },
+            {
+                name: 'location',
+                match: /([-]{0,1}[0-9]{1,3})[.]([0-9]{0,})[,]([-]{0,1}[0-9]{1,3})[.]([0-9]{0,})/,
+                onBeforeEnter: (params) => {
+                    //console.log(`onBeforeEnter city:${city}`);
+                    var coordiates = {
+                        lat: params[0] + '.' + params[1],
+                        lng: params[2] + '.' + params[3]
+                    };
+                    pageRenderer.updatePageAccordingToCoordinates(coordiates);
+                },
+
+                onEnter: (city) => console.log(`onEnter city:${city}`),
+                onLeave: (city) => console.log(`onLeave city:${city}`)
+            },
+            {
+                name: 'about',
+                match: (text) => text === 'about',
+                onBeforeEnter: () => console.log(`onBeforeEnter about`),
+                onEnter: () => console.log(`onEnter about`),
+                onLeave: () => console.log(`onLeave about`)
+            }
+        ];
+
+        var options = {
+            routes: routes
+        }
+        var router = new Router(options);
+
+
+
+        var searchInputDiv = document.createElement('div');
+        searchInputDiv.id = 'searchInputDivId';
+        var input = document.createElement("input");
+        input.placeholder = 'Поиск';
+        input.type = "text";
+        input.className = "inputClass";
+        input.id="searchAreaId";
+
+        input.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) { // enter
+                //pageRenderer.updatePageAccordingToEnteredData();
+                location.hash = '/city/' + input.value;
+            }
+        });
+
+        var addToFavouriteBlock = document.createElement('div');
+        addToFavouriteBlock.textContent='Добавить в избранное';
+        addToFavouriteBlock.id = 'addToFavouriteBlockId';
+        addToFavouriteBlock.className = 'favouriteClass';
+        addToFavouriteBlock.addEventListener("click", function(event) {
+            event.preventDefault();
+            pageRenderer.updateFavouriteListAfterNewItemAdded();
+        });
+
+        var favouriteDiv = document.createElement('div');
+
+        favouriteDiv.id = 'favouriteDivId';
+        favouriteDiv.className = 'favouriteArea';
+        //favouriteDiv.addEventListener('click',deleteAreaClickHandler );
+
+        var mainLink = document.createElement('a');
+        var linkText = document.createTextNode("Главная");
+        mainLink.appendChild(linkText);
+        mainLink.title = "Главая";
+        mainLink.className = 'linkStyle';
+        mainLink.id = 'mainLinkId';
+        mainLink.addEventListener("click", function(event) {
+            pageRenderer.drawContentForCurrPosition(blocksWithDinamicContent);
+        });
+
+        searchInputDiv.appendChild(input);
+
+        document.body.appendChild(mainLink);
+        document.body.appendChild(addToFavouriteBlock);
+        document.body.appendChild(searchInputDiv);
+
+        document.body.appendChild(favouriteDiv);
+
+        var mapAreaDiv =  document.createElement('div');
+        mapAreaDiv.id = 'YMapsID';
+        document.body.appendChild(mapAreaDiv);
+
+        var historyAreaDiv = document.createElement('div');
+        historyAreaDiv.id = 'historyAreaDivId';
+        historyAreaDiv.className = 'historyArea';
+        document.body.appendChild(historyAreaDiv);
+
+        var infoAreaDiv = document.createElement('div');
+        infoAreaDiv.id = 'infoAreaDivId';
+        infoAreaDiv.className = 'infoArea';
+        document.body.appendChild(infoAreaDiv);
+
+        var favouriteAreaDiv = document.createElement('div');
+        favouriteAreaDiv.id = 'favouriteAreaDivId';
+        favouriteAreaDiv.className = 'favouriteArea';
+        favouriteAreaDiv.addEventListener('click', deleteAreaClickHandler);
+        document.body.appendChild(favouriteAreaDiv);
+
+        var blocksWithDinamicContent = {
+            searchInputDiv: searchInputDiv,
+            mapAreaDiv: mapAreaDiv,
+            infoAreaDiv: infoAreaDiv,
+            historyAreaDiv: historyAreaDiv,
+            favouriteAreaDiv: favouriteAreaDiv
+        };
+
+        var pageRenderer = new PageRenderer();
+        pageRenderer.drawContentAccordingToEnteredData(blocksWithDinamicContent, 'Minsk');
+        location.hash = '/city/Minsk'
+    }) ();
+</script>
+
+</html>
