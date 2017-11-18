@@ -7,12 +7,19 @@ const coordinates = {
   onEnter: () => {
     let hash = location.hash.split("/")[1].split("&");
     let coordinates = {};
+    let query = document.getElementsByName('typeQuery');    
+    for (var i = 0; i < query.length; i++) {
+      if(query[i].checked) {
+        query = query[i].value
+        break;
+      }
+    }
     hash.map(item => {
       let items = item.split("=");
       coordinates[items[0]] = items[1];
     });
     new Map().renderMap(coordinates);
-    new Weather().getWeather(coordinates, "fetch");
+    new Weather().getWeather(coordinates, query);
   }
 };
 

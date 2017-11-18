@@ -4,6 +4,8 @@ class Weather {
   getWeather(coordinates, typeQuery) {
     if (typeQuery === "fetch") {
       this.getWeatherByFetch(coordinates);
+    } else if (typeQuery === "xhr") {
+      this.getWeatherByXhr(coordinates);      
     }
   }
 
@@ -22,6 +24,23 @@ class Weather {
     divWeather.innerHTML = `${((dataWeather.temperature - 32) *
       (5 / 9)
     ).toFixed(2)}<br>`;
+  }
+
+  getWeatherByXhr(coordinates) {
+    let that = this;
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${DARK_SKY_API_KEY}/${coordinates.latitude ||
+      coordinates.lat},${coordinates.longitude ||
+      coordinates.lng}?lang=ru&units=si`, true);
+      xhr.send();
+
+      xhr.onload = xhr.onerror = function () {
+        if (this.status !== 200) console.log('error:  ' + this.status);
+        var data = JSON.parse(this.response);
+        that.renderWeather(JSON.parse(data.body).currently)
+      }
+    })
   }
 }
 
