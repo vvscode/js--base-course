@@ -1,0 +1,11 @@
+.view {
+    width: 600px;
+    height: 400px;
+    border: 2px solid black;
+}
+
+.textView {
+    font-size: 24px;
+    font-family: monospace;
+    border: 2px solid black;
+}
