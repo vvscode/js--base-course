@@ -35,7 +35,6 @@ class GameLife {
 
     isAlive(row, col) {
         let counter = 0;
-
         for (let i = row - 1; i <= row + 1; i++) {
             for (let j = col - 1; j <= col + 1; j++) {
                 if (i !== j && this.state[i] && this.state[i][j]) {
@@ -53,13 +52,3 @@ class GameLife {
 }
 
 export default GameLife;
-
-
-// let game = new GameLife({interval: 1000});
-
-// game.start(1000);
-// let timer = setTimeout(() => game.stop(), 10000);
-// let timer2 = setTimeout(() => {
-// console.log('info ' + game.options.interval);
-// game.options.interval = 2000;
-// }, 5000);

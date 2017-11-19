@@ -5,6 +5,7 @@ class TextView {
         this.container = document.getElementById(this.options.container);
 
         this.subscribeToTick();
+        this.subscribeToClick();
     }
 
     render(state) {
