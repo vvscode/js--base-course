@@ -67,9 +67,10 @@ describe("eventBus", function() {
         it("off removes event", () => {
             var eventBus = new EventBus();
             var a = 1;
-            eventBus.on("some:event", (x) => a = a + x);
+            var aFunc = x => a = a + x;
+            eventBus.on("some:event", aFunc);
             assert.isOk(a === 1, "a === 1"); 
-            eventBus.off("some:event", (x) => a = a + x);
+            eventBus.off("some:event", aFunc);
             eventBus.trigger("some:event", 4);
             assert.isOk(a === 1, "a === 1");   
         });
@@ -142,7 +143,7 @@ describe("eventBus", function() {
             eventBus.trigger("some:event", 32);
             assert.isOk(a === 5, "a === 5");             
         });
-        it("once method offs correct handler", () => {
+        it("once method offs correct handler (once after on)", () => {
             var eventBus = new EventBus();
             var a = 1;
             var b = 2;
@@ -150,19 +151,41 @@ describe("eventBus", function() {
             var aFunc = x => a = a + x;
             var bFunc = x => b = b + x;
             
-            eventBus.once("some:event", aFunc);
-            eventBus.on("some:event", bFunc);
+            eventBus.on("some:event", aFunc);
+            eventBus.once("some:event", bFunc);
             
             assert.isOk(a === 1, "a === 1"); 
             assert.isOk(b === 2, "b === 2"); 
-            
             eventBus.trigger("some:event", 4);
             assert.isOk(a === 5, "a === 5"); 
             assert.isOk(b === 6, "b === 6"); 
-            
             eventBus.trigger("some:event", 2);
-            assert.isOk(a === 5, "a === 5");  
-            assert.isOk(b === 8, "b === 8");              
+            assert.isOk(a === 7, "a === 7");  
+            assert.isOk(b === 6, "b === 6");              
+        });
+        it("once method offs correct handler (once befor on)", () => {
+            var eventBus = new EventBus();
+            var a = 1;
+            var b = 2;
+
+            var aFunc = x => a = a + x;
+            var bFunc = x => b = b + x;
+            
+            eventBus.once("some:event", bFunc);            
+            eventBus.on("some:event", aFunc);
+            
+            assert.isOk(a === 1, "a === 1"); 
+            assert.isOk(b === 2, "b === 2"); 
+            // debugger;
+            eventBus.trigger("some:event", 4);
+            console.log(a);
+            console.log(b);
+            
+            assert.isOk(a === 5, "a === 5"); 
+            assert.isOk(b === 6, "b === 6"); 
+            // eventBus.trigger("some:event", 2);
+            // assert.isOk(a === 7, "a === 7");  
+            // assert.isOk(b === 6, "b === 6");             
         });
     });        
 });

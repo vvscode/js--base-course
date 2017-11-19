@@ -5,7 +5,8 @@ var EventBus = function() {
 EventBus.prototype.trigger = function() {
     var data = Array.prototype.slice.call(arguments, 1);
     var event = Array.prototype.slice.call(arguments, 0, 1);
-    (this.listeners[event] || []).forEach(function(handler) {
+    var eventListeners = (this.listeners[event] || []).map(handler => handler);
+    (eventListeners).forEach(function(handler) {
         if(typeof handler === "function")
             handler.apply(null, data);
     });
@@ -17,18 +18,18 @@ EventBus.prototype.on = function(event, handler) {
 }
 
 EventBus.prototype.off = function(event, handler) {
+    if(!handler) delete this.listeners[event];    
     var handlerIndex = (this.listeners[event] || []).indexOf(handler);
     if(handlerIndex >= 0) {
         this.listeners[event].splice(handlerIndex, 1);
-        return;
     }
-    delete this.listeners[event];
 }
 
 EventBus.prototype.once = function(event, handler) {
     var evBus = this;
-    evBus.on(event, function onceHandler() {
+    var onceHandler = function() {
         handler.apply(evBus, arguments);
         evBus.off(event, onceHandler);
-    });
+    }
+    evBus.on(event, onceHandler);
 }
