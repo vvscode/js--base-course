@@ -45,7 +45,7 @@ function isPolindrom(textString) {
 
     if (polindrom === "") value = true;
 
-    for (var i = 0; i < Math.floor(polindrom.length / 2); i++) {
+    for (var i = 0; i < polindrom.length / 2; i++) {
         if (polindrom[i] === (polindrom[polindrom.length - i - 1] )) {
             value = true;
         } else {
