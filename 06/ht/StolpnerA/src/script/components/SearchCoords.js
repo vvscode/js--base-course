@@ -14,7 +14,14 @@ class SearchCoords {
       `https://maps.googleapis.com/maps/api/geocode/json?address=${country}&key=${GOOGLE_API_KEY}`
     )
       .then(res => res.json())
-      .then(data => data.results[0].geometry.location);
+      .then(data => {
+        const divError = document.querySelector(".blockError");
+        divError.innerHTML = ``;
+        if (data.results[0] === undefined) {
+          divError.innerHTML = `Bad request: ${data.status}`;
+        }
+        return data.results[0].geometry.location;
+      });
   }
 
   getCoordinatesByXhr(country) {

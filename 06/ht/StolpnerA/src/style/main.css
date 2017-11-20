@@ -50,3 +50,9 @@
   width: 30%;
   background-color: rgb(218, 218, 218);
 }
+
+.blockError {
+  padding: 20px;
+  color: red;
+  text-align: center;
+}

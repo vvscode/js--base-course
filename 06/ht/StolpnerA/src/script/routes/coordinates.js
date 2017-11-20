@@ -7,10 +7,10 @@ const coordinates = {
   onEnter: () => {
     let hash = location.hash.split("/")[1].split("&");
     let coordinates = {};
-    let query = document.getElementsByName('typeQuery');    
+    let query = document.getElementsByName("typeQuery");
     for (var i = 0; i < query.length; i++) {
-      if(query[i].checked) {
-        query = query[i].value
+      if (query[i].checked) {
+        query = query[i].value;
         break;
       }
     }
