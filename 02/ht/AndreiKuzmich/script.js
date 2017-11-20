@@ -21,10 +21,12 @@ function isDeepEqual(objA, objB) {
  * @param {*} context значение для this
  * @return {function} функция с зафиксированным контекстом
  */
-function bind(func, context) {
-  return undefined;
-}
 
+function bind(func, context) {
+  return function() {
+    return func.apply(context, arguments);
+  };
+}
 /**
  * Реализовать метод .myBind для всех функций, 
  * который работает так же как оригинальный .bind но не использует его внутри
@@ -85,9 +87,25 @@ var u = new Data()
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(param_0) {
+  return function(param_1){
+    return function(param_2){
+      if(param_0==='+'){ 
+        return(param_1 + param_2);
+        }
+       else if(param_0 === '-'){
+          return(param_1 - param_2);
+        }else if(param_0 === '*'){
+          return(param_1 * param_2);
+        }else if(param_0 === '/'){
+          return(param_1 / param_2);
+        }else {
+          return('undefined');
+        }
+    }
+  }
 }
+
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
