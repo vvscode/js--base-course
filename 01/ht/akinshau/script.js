@@ -84,9 +84,10 @@ function drawCalendar(year, month, htmlEl) {
     var resultCalendarMatrix = [];
 
     for(i=0; i<numOfCalendarRows; i++){
-        var week = arrOfCalendarCells.splice(0, 7);
+        var week = arrOfCalendarCells.splice(0, 7).join("");
         resultCalendarMatrix[i] = "<tr>" + week + "</tr>";
     }
+    resultCalendarMatrix = resultCalendarMatrix.join("");
     htmlEl.innerHTML = "<table cellpadding=5 border=1>" + resultCalendarMatrix + "</table>";
 }
 
