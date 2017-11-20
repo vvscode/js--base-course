@@ -1,26 +1,6 @@
 class GameLife {
-    constructor(options, eventBus) {
+    constructor(options) {
         this.options = options;
-        this.eventBus = eventBus;
-        this.state = [
-            [0, 1, 1, 0, 0],
-            [0, 1, 0, 0, 0],
-            [1, 1, 0, 0, 0],
-            [0, 0, 0, 1, 1],
-            [0, 0, 0, 1, 1],
-        ];
-    }
-
-    start(interval=1000) {
-        this.timer = setTimeout(() => {
-            this.state = this.tick();
-            this.eventBus.trigger('gameLife:tick', this.state); // should use array copy
-            this.start(interval);
-        }, interval);
-    }
-
-    stop() {
-        clearTimeout(this.timer);
     }
 
     tick() {

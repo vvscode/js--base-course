@@ -8,4 +8,5 @@
     font-size: 24px;
     font-family: monospace;
     border: 2px solid black;
+    display: inline-block;
 }

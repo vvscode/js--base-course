@@ -21,12 +21,15 @@ var routes = [
                 content.innerHTML = '<div id="view" class="view"></div><div id="stateManager" class="stateManager"></div>';
 
                 eventBus = new EventBus();
-                gameLife = new GameLife({}, eventBus);
+                gameLife = new GameLife({});
                 textView = new TextView({
                     container: "view"
                 }, eventBus);
                 stateManager = new StateManager({
-                    container: 'stateManager'
+                    container: 'stateManager',
+                    speed: 2000, 
+                    width: 20,
+                    heigth: 10
                 }, gameLife, eventBus);
             }
         },

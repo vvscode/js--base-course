@@ -12,33 +12,37 @@ class TextView {
         this.state = state;
         let content = this.state.map(
             (row) => row.map(
-                (cell) => cell ? 'X' : ' ').join('')).join('\n');
+                (cell) => cell ? 'x' : 'o').join('')).join('\n');
 
-        this.container.innerHTML = `<pre class='textView'>\n${content}\n</pre>`;
+        this.container.innerHTML = `<pre class='textView'>${content}</pre>`;
     }
 
     subscribeToClick() {
         this.container.addEventListener('click', (ev) => {
-            let containerWidth = this.container.clientWidth;
-            let containerHeight = this.container.clientHeight;
+            if (!ev.target.matches('pre')) {
+                return;
+            }
 
-            let cellWidth = containerWidth / this.state.length;
-            let cellHeigth = containerHeight / this.state[0].length;
+            let preWidth = ev.target.clientWidth;
+            let preHeight = ev.target.clientHeight;
+
+            let cellWidth = preWidth / this.state.length;
+            let cellHeigth = preHeight / this.state[0].length;
 
             let x = ev.offsetX;
             let y = ev.offsetY;
 
             let cell = {
-                row: Math.floor(x / cellWidth),
-                column: Math.floor(y / cellHeigth),
-            };
+                row: Math.floor(y / cellWidth),
+                column: Math.floor(x / cellHeigth),
+            }
 
-            this.eventBus.trigger('textView:cellChanged', cell);
+            this.eventBus.trigger('view:cellChanged', cell);
         });
     }
 
     subscribeToTick() {
-        this.eventBus.on('gameLife:tick', (state) => this.render(state));
+        this.eventBus.on('stateManager:tick', (state) => this.render(state));
     }
 }
 
