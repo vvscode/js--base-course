@@ -126,39 +126,41 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    var value = false;
+    var value = value || false;
 
-    if (JSON.stringify(objA) === JSON.stringify(objB)) {
-        value = true;
+    if (typeof objA !== 'object' && typeof objB !== 'object') {
+        value = JSON.stringify(objA) === JSON.stringify(objB);
     }
 
-    checkObject(objA, objB);
-
-    function checkObject(objectA, objectB) {
-        if ((objectA.__proto__.forEach) && (objectB.__proto__.forEach)) {
-            if (JSON.stringify(objectA) === JSON.stringify(objectB)) {
-                value = true;
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        if (objA.length === objB.length) {
+            for (var i = 0; i < objA.length; i++) {
+                if (objA[i] === objB[i]) {
+                    value = true;
+                } else {
+                    value = false;
+                    break;
+                }
             }
         }
-        else if (typeof (objectA) === "object" && typeof (objectB) === "object") {
-            checkKeyInObject(objectA, objectB);
-            value ? checkKeyInObject(objectB, objectA) : false;
-        }
+        return value;
     }
 
-    function checkKeyInObject(obj1, obj2) {
-        for (var key in obj1) {
-            checkObject(obj1[key], obj2[key]);
-
-            if (JSON.stringify(obj1[key]) === JSON.stringify(obj2[key]) && key in obj2) {
-                value = true;
-            } else {
-                value = false;
-                break;
+    if (objA instanceof Object && objB instanceof Object) {
+        if (Object.keys(objA).length === Object.keys(objB).length) {
+            for (var key in objA) {
+                if (typeof objA[key] === "object" && typeof objB[key] === "object") {
+                    value = isDeepEqual(objA[key], objB[key]);
+                } else if (objA[key] === objB[key] && isNaN(objA) && isNaN(objB)) {
+                    value = true;
+                } else {
+                    value = false;
+                    break;
+                }
             }
         }
+        return value;
     }
 
     return value;
-
 }
