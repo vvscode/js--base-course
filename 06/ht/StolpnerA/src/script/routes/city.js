@@ -1,4 +1,4 @@
-import Search from "../components/Search";
+import SearchCoords from "../components/SearchCoords";
 import Map from "../components/Map";
 import Weather from "../components/Weather";
 
@@ -14,10 +14,12 @@ const city = {
         break;
       }
     }
-    new Search().getCoordinates(country, query).then(coords => {
-      console.log(coords);
-      window.location.hash = `coordinates/latitude=${coords.lat}&longitude=${coords.lng}`;
-    });
+    new SearchCoords()
+      .getCoordinates(country, query)
+      .then(
+        coords =>
+          (window.location.hash = `coordinates/latitude=${coords.lat}&longitude=${coords.lng}`)
+      );
   }
 };
 
