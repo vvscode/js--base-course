@@ -1,8 +1,9 @@
+import History from "./History";
+
 let map;
+const history = new History();
 
 class Map {
-  constructor() {}
-
   renderMap(coordinates) {
     let divApp = document.querySelector("#app");
     let isMap = divApp.querySelector("#map");
@@ -19,6 +20,7 @@ class Map {
       </div>
     `;
     this.showMap(coordinates);
+    history.renderHistory();
   }
 
   showMap(coordinates) {
@@ -44,6 +46,7 @@ class Map {
       eval(coordinates.latitude || coordinates.lat),
       eval(coordinates.longitude || coordinates.lng)
     ]);
+    history.renderHistory();
   }
 }
 

@@ -1,6 +1,7 @@
 import SearchCoords from "../components/SearchCoords";
 import Map from "../components/Map";
 import Weather from "../components/Weather";
+import History from "../components/History";
 
 const city = {
   name: "city",
@@ -19,7 +20,8 @@ const city = {
       .then(
         coords =>
           (window.location.hash = `coordinates/latitude=${coords.lat}&longitude=${coords.lng}`)
-      );
+      )
+      .then(() => new History().addHistory(country));
   }
 };
 
