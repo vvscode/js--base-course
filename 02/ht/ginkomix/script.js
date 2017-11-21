@@ -65,13 +65,37 @@ Function.__proto__.myBind = function(context){
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
-
+var o = {
+    magicProperty : function(val) {
+        console.log(val);
+    }
+}
 /**
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+var u = {
+    askName: function(){
+        this.a = prompt('Как зовут?', 'Михаил');
+        return this; 
+    },
+    askAge: function(){
+        this.b = prompt('Сколько лет?', '19');
+        return this; 
+    },
+    showAgeInConsole: function(){
+        console.log(this.a);
+        return this; 
+    },
+    showNameInAlert: function(){
+        alert(this.b);
+        return this; 
+
+    }
+
+}
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -140,23 +164,18 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 
-var s = sum();
- log(s); // 0
- log(s(1)); // 1
- log(s(1)(2)); //3
- log(s(3)(4)(5)); // 12
-function sum(num) {
-    var resul = num || 0;
-    function result(num1) {
-        return sum(resul+(num1||0));
+
+
+function sum(a) {
+    var currentSum = a || 0;
+    function f(b) {
+        return sum(currentSum + (b || 0));
     }
-    return result;
+    f.valueOf = function () {
+        return currentSum;
+    };
+    return f;
 }
-
-
-
-
-
 function log(x) {
     console.log(+x);
 }
@@ -177,7 +196,7 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -188,8 +207,16 @@ function curry(func) {}
 // u instanceof User; // true
 // u instanceof Array; // true
 // u instanceof PreUser; // true
+function User(){};
+function PreUser(){};
+PreUser.prototype =Object.create(Array.prototype);
+User.prototype =Object.create(PreUser.prototype);
+
+
+var u = new User();
 
 /*
+
 Создать веб страницу. Добавить на нее форму с полями 
 - имя (строкое поле), 
 - родной город (Выпадающий список), 
