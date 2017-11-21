@@ -5,8 +5,10 @@
 }
 
 .textView {
-    font-size: 24px;
+    font-size: 30px;
     font-family: monospace;
     border: 2px solid black;
     display: inline-block;
+    margin: 0px;
+    white-space: pre-wrap;
 }

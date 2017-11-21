@@ -4,20 +4,26 @@ class GameLife {
     }
 
     tick() {
-        return this.state.map(
+        let resultState = this.state.map(
             (row, i) => {
                 return row.map(
                     (cell, j) => {
                         return +this.isAlive(i, j);
                     });
             });
+
+        this.state = resultState;
     }
 
     isAlive(row, col) {
         let counter = 0;
         for (let i = row - 1; i <= row + 1; i++) {
             for (let j = col - 1; j <= col + 1; j++) {
-                if (i !== j && this.state[i] && this.state[i][j]) {
+                if (i === row && j === col) {
+                    continue;
+                }
+
+                if (this.state[i] && this.state[i][j]) {
                     counter++;
                 }
             }

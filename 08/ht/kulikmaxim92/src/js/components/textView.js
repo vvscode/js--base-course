@@ -2,7 +2,10 @@ class TextView {
     constructor(options, eventBus) {
         this.options = options;
         this.eventBus = eventBus;
-        this.container = document.getElementById(this.options.container);
+
+        this.container = document.createElement('pre');
+        this.container.className = 'textView';
+        document.getElementById(this.options.container).appendChild(this.container);
 
         this.subscribeToTick();
         this.subscribeToClick();
@@ -12,17 +15,13 @@ class TextView {
         this.state = state;
         let content = this.state.map(
             (row) => row.map(
-                (cell) => cell ? 'x' : 'o').join('')).join('\n');
+                (cell) => cell ? 'X' : 'O').join('')).join('\n');
 
-        this.container.innerHTML = `<pre class='textView'>${content}</pre>`;
+        this.container.innerHTML = content;
     }
 
     subscribeToClick() {
         this.container.addEventListener('click', (ev) => {
-            if (!ev.target.matches('pre')) {
-                return;
-            }
-
             let preWidth = ev.target.clientWidth;
             let preHeight = ev.target.clientHeight;
 

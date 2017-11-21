@@ -5,7 +5,6 @@ class StateManager {
         this.eventBus = eventBus;
         this.container = document.getElementById(this.options.container);
         this.states = [];
-        this.currentStateIndex = 0;
 
         this.render();
         this.initGame();
@@ -16,19 +15,27 @@ class StateManager {
         this.subscribeToChangeCell();
     }
 
+    get currentState() {
+        return this.states[this.currentStateIndex];
+    }
+
     initGame() {
         this.gameLife.state = [];
         for (var i = 0; i < this.options.heigth; i++) {
             this.gameLife.state.push(Array(this.options.width).fill(false));
         }
+
         this.states.push(this.gameLife.state);
-        this.eventBus.trigger('stateManager:tick', this.gameLife.state); // should use array copy
+        this.currentStateIndex = this.states.length - 1;
     }
 
     start() {
         this.timer = setTimeout(() => {
-            this.gameLife.state = this.gameLife.tick();
+            this.gameLife.tick();
+            this.states.push(this.gameLife.state);
             this.eventBus.trigger('stateManager:tick', this.gameLife.state); // should use array copy
+            this.currentStateIndex = this.states.length - 1;
+            
             this.start();
         }, this.options.speed);
     }
