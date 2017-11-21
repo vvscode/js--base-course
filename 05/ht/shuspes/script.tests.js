@@ -373,6 +373,14 @@ describe("template", function() {
             compileTemplate(tpl)(elem, data);
             assert.isOk(elem.innerHTML === result);                        
         });
+        it("compileTemplate is working with invalid element", () => {
+            var tpl = "My name is {{name}} {{lastName}}";
+            var data = {
+                name: "Alex",
+                lastName: "Happy"
+            };
+            assert.doesNotThrow(compileTemplate(tpl).bind(this, null, data));           
+        });
     });
 });
 

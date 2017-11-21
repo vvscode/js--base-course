@@ -19,7 +19,9 @@ Template.prototype.createStringFromTemplate = function(data) {
 var compileTemplate = function(tpl) {
     var template = new Template(tpl);
     return function(el, data) {
-        var result = template.createStringFromTemplate(data);
-        el.innerHTML = result;
+        if(el) {
+            var result = template.createStringFromTemplate(data);
+            el.innerHTML = result;
+        }
     };
 }
