@@ -224,7 +224,22 @@ var u = new User();
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
+document.getElementById("assemble").onclick = function(e) {
+    var name = document.getElementById('name').value,
+        city = document.getElementById('city').value,
+        comment = document.getElementById('comment').value,
+        radios = document.getElementsByTagName('input'),
+        radio;
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].type === 'radio' && radios[i].checked ) {
 
+            radio = radios[i].value;       
+        }
+    }
+    
+    console.log(radio);
+
+}
 /* 
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
