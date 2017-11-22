@@ -189,6 +189,7 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
+
 function curry(func) {
  let leng = func.length;
  let i = 0;
@@ -207,6 +208,7 @@ function curry(func) {
    }
    return cycle;
 }
+  }
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
