@@ -1,17 +1,15 @@
 import EventBus from '../utils/eventBus';
-import GameLife from '../utils/gameLife';
 import StateManager from '../components/stateManager';
 import TextView from '../components/textView';
 import CanvasView from '../components/canvasView';
-
-let eventBus, gameLife, stateManager, textView, canvasView;
-
-eventBus = new EventBus();
-gameLife = new GameLife({});
-
-var content = document.getElementById('content');
-
-var routes = [
+import SvgView from '../components/svgView';
+ 
+const SQUARE_SIZE = 30;
+ 
+let eventBus, stateManager;
+ 
+let content = document.getElementById('content');
+let routes = [
     {
         name: 'index',
         match: '',
@@ -21,25 +19,15 @@ var routes = [
         name: 'textView',
         match: '#text',
         onLeave: () => {
-            textView = null;
             document.getElementById('view').innerHTML = '';
         },
         onEnter: () => {
-            if (!stateManager) {
-                content.innerHTML = '<div id="view" class="view"></div><div id="stateManager" class="stateManager"></div>';
-
-                stateManager = new StateManager({
-                    container: 'stateManager',
-                    speed: 2000, 
-                    width: 20,
-                    heigth: 10
-                }, gameLife, eventBus);
-            }
-
-            textView = new TextView({
+            initComponents();
+ 
+            let textView = new TextView({
                 container: "view"
             }, eventBus);
-
+ 
             textView.render(stateManager.currentState);
         },
     },
@@ -47,28 +35,34 @@ var routes = [
         name: 'canvasView',
         match: '#canvas',
         onLeave: () => {
-            canvasView = null
             document.getElementById('view').innerHTML = '';
         },
         onEnter: () => {
-            if (!stateManager) {
-                content.innerHTML = '<div id="view" class="view"></div><div id="stateManager" class="stateManager"></div>';
-
-                stateManager = new StateManager({
-                    container: 'stateManager',
-                    speed: 2000, 
-                    width: 20,
-                    heigth: 10
-                }, gameLife, eventBus);
-            }
-
-            canvasView = new CanvasView({
+            initComponents();
+ 
+            let canvasView = new CanvasView({
                 container: "view",
-                width: 600,
-                height: 400
+                squareSize: SQUARE_SIZE,
             }, eventBus);
-
+ 
             canvasView.render(stateManager.currentState);
+        },
+    },
+    {
+        name: 'svgView',
+        match: '#svg',
+        onLeave: () => {
+            document.getElementById('view').innerHTML = '';
+        },
+        onEnter: () => {
+            initComponents();
+ 
+            let svgView = new SvgView({
+                container: "view",
+                squareSize: SQUARE_SIZE,
+            }, eventBus);
+ 
+            svgView.render(stateManager.currentState);
         },
     },
     {
@@ -78,24 +72,19 @@ var routes = [
         onEnter: () => content.innerHTML = '<div>О сайте</div>',
     },
 ]
-
+ 
 function initComponents() {
-    if (!eventBus && !gameLife && !stateManager) {
-        content.innerHTML = '<div id="view" class="view"></div><div id="stateManager" class="stateManager"></div>';
-
-        gameLife = new GameLife({});
+    if (!eventBus  && !stateManager) {
+        content.innerHTML = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
+ 
+        eventBus = new EventBus();
         stateManager = new StateManager({
             container: 'stateManager',
-            speed: 2000, 
+            speed: 2000,
             width: 20,
-            heigth: 10
-        }, gameLife, eventBus);
+            height: 10
+        }, eventBus);
     }
 }
-
-function clearResources() {
-    eventBus = null;
-
-}
-
+ 
 export default routes;

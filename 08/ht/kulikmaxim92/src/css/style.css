@@ -1,14 +1,17 @@
 .view {
-    width: 600px;
-    height: 400px;
     border: 2px solid black;
+    display: inline-block;
 }
-
+ 
 .textView {
     font-size: 30px;
     font-family: monospace;
-    border: 2px solid black;
-    display: inline-block;
     margin: 0px;
     white-space: pre-wrap;
 }
+ 
+.svg-square {
+    /* height: 20px; */
+    fill: yellow;
+    stroke: black
+  }
