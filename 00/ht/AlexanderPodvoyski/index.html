@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <title>00-ht-Posviyski</title>
+ </head>
+ <body></body>
+ <script>
+  var name, age;
+
+  do {
+    if (!name) {
+      // Empty string in 'prompt' placeholder need for safari browser.
+      name = prompt('Как вас зовут?', '');
+    } else {
+      age = prompt('Сколько вам лет?', '');
+    }
+  } while(!(name && age));
+
+  var mesageLte18 = `Здарова, ${name}. Как твои ${age}?`;
+  var messageGt18 = `Привествую, ${name}. Уж ${age} лет прошло`;
+
+  alert(age < 18 ? mesageLte18 : messageGt18);
+ </script>
+</html>
