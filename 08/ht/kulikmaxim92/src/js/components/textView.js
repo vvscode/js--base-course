@@ -1,19 +1,22 @@
 class TextView {
-    constructor(options, eventBus) {
+    constructor(options, state, eventBus) {
         this.options = options;
         this.eventBus = eventBus;
- 
+        this.state = state;
+        this.init();
+        this.render();
+    }
+
+    init(){
         this.container = document.createElement('pre');
         this.container.className = 'textView';
         document.getElementById(this.options.container).appendChild(this.container);
- 
+
         this.subscribeToTick();
         this.subscribeToClick();
     }
  
-    render(state) {
-        this.state = state;
- 
+    render() {
         let content = '';
         for (var i = 0; i < this.state.length; i++) {
             for (var j = 0; j < this.state[i].length; j++) {
@@ -21,10 +24,6 @@ class TextView {
             }
             content += '\n';
         }
- 
-        // let content = this.state.map(
-        //     (row) => row.map(
-        //         (cell) => cell ? 'X' : 'O').join('')).join('\n');
  
         this.container.innerHTML = content;
     }
@@ -50,7 +49,10 @@ class TextView {
     }
  
     subscribeToTick() {
-        this.eventBus.on('stateManager:tick', (state) => this.render(state));
+        this.eventBus.on('stateManager:tick', (state) => {
+            this.state = state;
+            this.render();
+        });
     }
 }
  

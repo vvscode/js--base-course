@@ -1,25 +1,29 @@
 class CanvasView {
-    constructor(options, eventBus) {
+    constructor(options, state, eventBus) {
         this.options = options;
         this.eventBus = eventBus;
+        this.state = state;
+        this.init();
+        this.render();
+    }
+
+    init(){
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d')
         document.getElementById(this.options.container).appendChild(this.canvas);
        
         this.subscribeToClick();
- 
-        this.eventBus.on('stateManager:tick', (state) => this.render(state));
+        this.subscribeToTick();
     }
  
-    render(state) {
-        this.state = state;
+    render() {
         this.changeCanvasSizeAccordingState();
  
         this.context.clearRect(0, 0, this.options.width, this.options.height);
         this.context.beginPath();
-        for (let i = 0; i < state.length; i++) {
-            for (let j = 0; j < state[i].length; j++) {
-                if (state[i][j]) {
+        for (let i = 0; i < this.state.length; i++) {
+            for (let j = 0; j < this.state[i].length; j++) {
+                if (this.state[i][j]) {
  
                     let pointX = j * this.options.squareSize;
                     let pointY = i * this.options.squareSize;
@@ -50,7 +54,13 @@ class CanvasView {
         this.canvas.addEventListener('click', (ev) =>
             this.eventBus.trigger('view:cellChanged', this.getCellByCoordinates(ev.offsetX, ev.offsetY)));
     }
- 
+
+    subscribeToTick() {
+        this.eventBus.on('stateManager:tick', (state) => {
+            this.state = state;
+            this.render();
+        });
+    } 
 }
  
 export default CanvasView;

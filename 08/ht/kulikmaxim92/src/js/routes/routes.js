@@ -11,64 +11,50 @@ let eventBus, stateManager;
 let content = document.getElementById('content');
 let routes = [
     {
-        name: 'index',
-        match: '',
-        onEnter: () => window.location.hash = 'text',
-    },
-    {
         name: 'textView',
-        match: '#text',
-        onLeave: () => {
-            document.getElementById('view').innerHTML = '';
-        },
+        match: /(^$|#text)/,
+        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
             let textView = new TextView({
                 container: "view"
-            }, eventBus);
- 
-            textView.render(stateManager.currentState);
+            }, stateManager.currentState, eventBus);
         },
     },
     {
         name: 'canvasView',
         match: '#canvas',
-        onLeave: () => {
-            document.getElementById('view').innerHTML = '';
-        },
+        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
             let canvasView = new CanvasView({
                 container: "view",
                 squareSize: SQUARE_SIZE,
-            }, eventBus);
- 
-            canvasView.render(stateManager.currentState);
+            }, stateManager.currentState, eventBus);
         },
     },
     {
         name: 'svgView',
         match: '#svg',
-        onLeave: () => {
-            document.getElementById('view').innerHTML = '';
-        },
+        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
             let svgView = new SvgView({
                 container: "view",
                 squareSize: SQUARE_SIZE,
-            }, eventBus);
- 
-            svgView.render(stateManager.currentState);
+            }, stateManager.currentState, eventBus);
         },
     },
     {
         name: 'about',
         match: '#about',
-        //onBeforeEnter: () => clearResources(),
+        onLeave: () => {
+            content.innerHTML = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
+            stateManager.init();
+        },
         onEnter: () => content.innerHTML = '<div>О сайте</div>',
     },
 ]
