@@ -5,9 +5,6 @@ let arrayHistory = [];
 const db = new BD();
 
 class History {
-  constructor() {
-    this.getHistoryFromStorage();
-  }
   addHistory(country) {
     if (arrayHistory[0] === country) {
       return;
@@ -22,6 +19,7 @@ class History {
     arrayHistory.unshift(country);
 
     this.saveHistoryInStorage();
+    this.renderHistory();
   }
 
   renderHistory() {

@@ -1,7 +1,6 @@
 import History from "./History";
 
 let map;
-const history = new History();
 
 class Map {
   renderMap(coordinates) {
@@ -20,7 +19,7 @@ class Map {
       </div>
     `;
     this.showMap(coordinates);
-    history.renderHistory();
+    new History().renderHistory();
   }
 
   showMap(coordinates) {
@@ -46,7 +45,6 @@ class Map {
       eval(coordinates.latitude || coordinates.lat),
       eval(coordinates.longitude || coordinates.lng)
     ]);
-    history.renderHistory();
   }
 }
 
