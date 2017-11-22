@@ -135,12 +135,8 @@ function isDeepEqual(objA, objB) {
     if (Array.isArray(objA) && Array.isArray(objB)) {
         if (objA.length === objB.length) {
             for (var i = 0; i < objA.length; i++) {
-                if (objA[i] === objB[i]) {
-                    value = true;
-                } else {
-                    value = false;
-                    break;
-                }
+                value = isDeepEqual(objA[i], objB[i]);
+                if (!value) break;
             }
         }
         return value;
@@ -149,14 +145,8 @@ function isDeepEqual(objA, objB) {
     if (objA instanceof Object && objB instanceof Object) {
         if (Object.keys(objA).length === Object.keys(objB).length) {
             for (var key in objA) {
-                if (typeof objA[key] === "object" && typeof objB[key] === "object") {
-                    value = isDeepEqual(objA[key], objB[key]);
-                } else if (objA[key] === objB[key] && isNaN(objA) && isNaN(objB)) {
-                    value = true;
-                } else {
-                    value = false;
-                    break;
-                }
+                value = isDeepEqual(objA[key], objB[key]);
+                if (!value) break;
             }
         }
         return value;
