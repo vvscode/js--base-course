@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Js Base Course - Занятие 7</title>
+  <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/theme/white.css" id="theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Занятие 7</h1>
+      </section>
+      <section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h1>
+            <a href="https://rawgit.com/vvscode/js--base-course/master/questions/index.html" onclick="window.open('https://rawgit.com/vvscode/js--base-course/master/questions/index.html'); return false;"
+              target="_blank">Вопросы!</a>
+          </h1>
+        </section>
+      </section>
+      <section>
+        <h3>Работа с графикой</h3>
+        <ul>
+          <li class="fragment">HTML + CSS</li>
+          <li class="fragment">SVG</li>
+          <li class="fragment">Canvas</li>
+          <li class="fragment">WebGL</li>
+        </ul>
+      </section>
+      <section>
+        <h3>HTML + CSS...</h3>
+        <section>
+          <ul>
+            <li>
+              <a href="https://habrahabr.ru/post/141658/">Все о свойстве border</a>
+            </li>
+            <li>
+              <a href="https://habrahabr.ru/post/169077/">HTML и CSS безумие</a>
+            </li>
+            <li>
+              <a href="https://habrahabr.ru/post/267701/">Игра на голом HTML / CSS</a>
+            </li>
+            <li>
+              <a href="https://habrahabr.ru/post/126207/">Геометрические фигуры на CSS</a>
+            </li>
+            <li>
+              <a href="https://habrahabr.ru/post/247731/">Рисуем анимированную сцену с помощью css</a>
+            </li>
+            <li>
+              <a href="http://kate-land.net/html-css/item/235-cat-html-css">Рисуем котика на HTML, CSS</a>
+            </li>
+            <li>
+              <a href="http://lamastravels.in.ua/other/pictures-css-single-div-15">Рисунки на чистом CSS (single div)</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="https://ru.wikipedia.org/wiki/SVG" target="_blank">SVG ( Scalable Vector Graphics )</a>
+        </h3>
+        <section>
+          <ul>
+            <li class="fragment">XML</li>
+            <li class="fragment">Векторная графика</li>
+            <li class="fragment">Совместимость с CSS</li>
+            <li class="fragment">Размер / сложность</li>
+          </ul>
+        </section>
+        <section>
+          <textarea style="width:100%; min-height: 300px">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="600" height="70">
+
+    <polyline points="5,5 5,20, 150,20, 150,35, 295,35, 295,50, 440,50 440,65"
+      stroke="#b4241b" 
+      stroke-width="3" 
+      fill="none" />
+
+    <polygon points="88,10 56,90 136,42 40,42 120,90"
+      stroke="#b4241b" 
+      stroke-width="3" 
+      fill="#ffff00" 
+      fill-rule="nonzero"/>
+</svg>
+</textarea>
+        </section>
+        <section>
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="600" height="270">
+            <polyline points="5,5 5,20, 150,20, 150,35, 295,35, 295,50, 440,50 440,65" stroke="#b4241b" stroke-width="3" fill="none"
+            />
+            <polygon points="88,10 56,90 136,42 40,42 120,90" stroke="#b4241b" stroke-width="3" fill="#ffff00" fill-rule="nonzero" />
+          </svg>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="https://ru.wikipedia.org/wiki/WebGL" target="_blank">WebGL
+            <br />( Web-based Graphics Library )</a>
+        </h3>
+        <section>
+          <ul>
+            <li class="fragment">3D </li>
+            <li class="fragment">OpenGL / апаратная обработка графики</li>
+            <li class="fragment">Большое число "объектов"</li>
+            <li class="fragment">Сложность при работе "на примитивном" уровне</li>
+          </ul>
+        </section>
+        <section>
+          <a href="http://webglsamples.org/" target="_blank">Примеры на http://webglsamples.org/</a>
+          <br /> Инструменты для работы:
+          <br />
+          <ul>
+            <li>
+              <a href="https://en.wikipedia.org/wiki/Unity_(game_engine)" target="_blank">Unity</a>
+            </li>
+            <li>
+              <a href="https://en.wikipedia.org/wiki/Three.js" target="_blank">Three.js</a>
+            </li>
+            <li>
+              <a href="https://en.wikipedia.org/wiki/Blend4Web" target="_blank">Blend4Web</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="https://ru.wikipedia.org/wiki/Canvas_(HTML)" target="_blank">Canvas</a>
+        </h3>
+        <section>
+          <ul>
+            <li class="fragment">2D контекст</li>
+            <li class="fragment">Работа с примитивами (линии, полифигуры, точки)</li>
+            <li class="fragment">Перемещение по матрице координат и преобразования</li>
+            <li class="fragment">"Растровость"</li>
+          </ul>
+        </section>
+        <section>
+          Порядок работы:
+          <ul>
+            <li class="fragment">Подготовить/настроить холст</li>
+            <li class="fragment">Получить
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D" target="_blank">контекст ( CanvasRenderingContext2D )</a>
+            </li>
+            <li class="fragment">Работа с контекстом</li>
+          </ul>
+        </section>
+        <section>
+          <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial" target="_blank">Руководство по Canvas</a>
+          <ul>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/Basic_usage" target="_blank">Базовое использование</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/%D0%A0%D0%B8%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D1%84%D0%B8%D0%B3%D1%83%D1%80"
+                target="_blank">Рисование форм</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/%D0%98%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B9"
+                target="_blank">Использование изображений</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5_%D1%81%D1%82%D0%B8%D0%BB%D0%B5%D0%B9_%D0%B8_%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2"
+                target="_blank">Применение стилей и цветов</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/Transformations" target="_blank">Трансформации</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing" target="_blank">Композирование и обрезка</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B_%D0%B0%D0%BD%D0%B8%D0%BC%D0%B0%D1%86%D0%B8%D0%B8"
+                target="_blank">Базовое анимирование</a>
+            </li>
+            <li>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas" target="_blank">Оптимизация canvas</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <pre style="font-size: small;"><code data-trim class="javascript">
+  var ctx = document.getElementById('canvas').getContext('2d');
+  // draw background
+  ctx.fillStyle = '#FD0';
+  ctx.fillRect(0, 0, 75, 75);
+
+  ctx.fillStyle = '#6C0';
+  ctx.fillRect(75, 0, 75, 75);
+
+  // set transparency value
+  ctx.globalAlpha = 0.2;
+
+  // Draw semi transparent circles
+  for (i = 0; i < 7; i++) {
+    ctx.beginPath();
+    ctx.arc(75, 75, 10 + 10 * i, 0, Math.PI * 2, true);
+    ctx.fill();
+  }
+</code></pre>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+      </section>
+      <section>
+        <h3>Домашнее задание</h3>
+        <section>
+          <img src="https://rawgit.com/vvscode/js--base-course/07/07/ht/Game-of-Life.png" alt="Game Of Life Screen">
+        </section>
+        <section>
+          <button onclick="window.open('https://codepen.io/vvscode/pen/eevGVa?editors=0010')">Canvas example</button>
+        </section>
+        <section>
+          <button onclick="window.open('https://codepen.io/vvscode/pen/EbWbYP?editors=0100')">SVG example</button>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+      </section>
+      <section>
+        <a href="https://codepen.io/vvscode/pen/qjNLOe" target="_blank">Demo - Arena</a>
+        <br />
+        <a href="https://codepen.io/vvscode/pen/VWzXyv?editors=1010" target="_blank">Demo - Sprite Animation</a>
+        <br />
+        <a href="https://codepen.io/vvscode/pen/awyYVr?editors=0010#0" target="_blank">Demo - Sprite Animation *</a>
+        <br />
+      </section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
+  <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
+    Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls: true,
+      // Display a presentation progress bar
+      progress: true,
+      // Set default timing of 2 minutes per slide
+      defaultTiming: 120,
+      // Display the page number of the current slide
+      slideNumber: true,
+      // Push each slide change to the browser history
+      history: true,
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+      // Enable the slide overview mode
+      overview: true,
+      // Vertical centering of slides
+      center: true,
+      // Enables touch navigation on devices with touch input
+      touch: true,
+      // Loop the presentation
+      loop: false,
+      // Change the presentation direction to be RTL
+      rtl: false,
+      // Randomizes the order of slides each time the presentation loads
+      shuffle: false,
+      // Turns fragments on and off globally
+      fragments: true,
+      // Flags if the presentation is running in an embedded mode,
+      // i.e. contained within a limited portion of the screen
+      embedded: false,
+      // Flags if we should show a help overlay when the questionmark
+      // key is pressed
+      help: true,
+      // Flags if speaker notes should be visible to all viewers
+      showNotes: true,
+      // Global override for autolaying embedded media (video/audio/iframe)
+      // - null: Media will only autoplay if data-autoplay is present
+      // - true: All media will autoplay, regardless of individual setting
+      // - false: No media will autoplay, regardless of individual setting
+      autoPlayMedia: null,
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+      // Stop auto-sliding after user input
+      autoSlideStoppable: true,
+      // Use this method for navigation when auto-sliding
+      autoSlideMethod: Reveal.navigateNext,
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+      // Hides the address bar on mobile devices
+      hideAddressBar: true,
+      // Opens links in an iframe preview overlay
+      previewLinks: true,
+      // Transition style
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+      // Transition style for full page slide backgrounds
+      backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+      // Number of slides away from the current that are visible
+      viewDistance: 3,
+      // Parallax background image
+      parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+      // Number of pixels to move the parallax background per slide
+      // - Calculated automatically unless specified
+      // - Set to 0 to disable movement along an axis
+      parallaxBackgroundHorizontal: null,
+      parallaxBackgroundVertical: null,
+      // The display mode that will be used to show slides
+      display: 'block',
+
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
+          condition: function () {
+            return !document.body.classList;
+          }
+        },
+
+        // Interpret Markdown in <section> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+
+        // Syntax highlight for <code> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+
+        // Zoom in and out with Alt+click
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/zoom-js/zoom.js',
+          async: true
+        },
+
+        // Speaker notes
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/notes/notes.js',
+          async: true
+        },
+
+        // MathJax
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/math/math.js',
+          async: true
+        },
+        {
+          src: 'https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.js'
+        },
+      ]
+    });
+    Reveal.configure({
+      slideNumber: 'c/t'
+    });
+
+  </script>
+</body>
+
+</html>
