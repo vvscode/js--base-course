@@ -189,20 +189,24 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
- function curry(func) {
-  let leng = func.length;
-  let i = 0;
-  let arr = [];
+function curry(func) {
+ let leng = func.length;
+ let i = 0;
+ let arr = [];
 
-  function cycle(a) {
-    if (i < leng) {
-      return cycle;
-    }
-    cycle.valueOf = function() {
-      return func.apply(null, arr);
-    }
-    return cycle;
-  }
+ function cycle(a) {
+   if (i < leng) {
+     i++;
+     arr.push(a);;
+     return cycle;
+   }
+ }
+   console.log(arr);
+   cycle.valueOf = function() {
+     return func.apply(null, arr);
+   }
+   return cycle;
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
