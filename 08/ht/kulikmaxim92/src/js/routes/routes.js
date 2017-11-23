@@ -13,7 +13,6 @@ let routes = [
     {
         name: 'textView',
         match: /(^$|#text)/,
-        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
@@ -21,11 +20,11 @@ let routes = [
                 container: "view"
             }, stateManager.currentState, eventBus);
         },
+        onLeave: () => document.getElementById('view').innerHTML = '',
     },
     {
         name: 'canvasView',
         match: '#canvas',
-        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
@@ -34,11 +33,11 @@ let routes = [
                 squareSize: SQUARE_SIZE,
             }, stateManager.currentState, eventBus);
         },
+        onLeave: () => document.getElementById('view').innerHTML = '',
     },
     {
         name: 'svgView',
         match: '#svg',
-        onLeave: () => document.getElementById('view').innerHTML = '',
         onEnter: () => {
             initComponents();
  
@@ -47,15 +46,17 @@ let routes = [
                 squareSize: SQUARE_SIZE,
             }, stateManager.currentState, eventBus);
         },
+        onLeave: () => document.getElementById('view').innerHTML = '',
     },
     {
         name: 'about',
         match: '#about',
+        onBeforeEnter: () => stateManager.stop(),
+        onEnter: () => content.innerHTML = '<div>О сайте</div>',
         onLeave: () => {
             content.innerHTML = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
-            stateManager.init();
+            stateManager && stateManager.init();
         },
-        onEnter: () => content.innerHTML = '<div>О сайте</div>',
     },
 ]
  
@@ -66,9 +67,14 @@ function initComponents() {
         eventBus = new EventBus();
         stateManager = new StateManager({
             container: 'stateManager',
-            speed: 2000,
             width: 20,
-            height: 10
+            height: 10,
+            speed: {
+                min: 1000,
+                max: 10000,
+                current: 2000,
+                step: 1000
+            },
         }, eventBus);
     }
 }

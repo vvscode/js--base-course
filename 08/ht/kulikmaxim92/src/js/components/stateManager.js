@@ -6,24 +6,29 @@ class StateManager {
         this.eventBus = eventBus;
         this.states = [];
         this.init();
+
+        this.subscribeToChangeCell();
     }
 
     init() {
         this.container = document.getElementById(this.options.container);
         this.render();
-        this.initGame();
+        this.initGameState();
 
         this.subscribeToClick();
         this.subscribeToChangeSpeed();
         this.subscribeToChangeSize();
-        this.subscribeToChangeCell();
     }
 
     get currentState() {
         return this.states[this.stateIndex];
     }
 
-    initGame() {
+    initGameState() {
+        if (this.states.length) {
+            return;
+        }
+
         let state = [];
         for (var i = 0; i < this.options.height; i++) {
             state.push(Array(this.options.width).fill(false));
@@ -43,7 +48,7 @@ class StateManager {
 
             this.gameLife.tick();
             this.states.push(this.gameLife.state);
-            this.eventBus.trigger('stateManager:tick', this.gameLife.state); // should use array copy
+            this.eventBus.trigger('stateManager:stateChanged', this.gameLife.state);
             this.stateIndex = this.states.length - 1;
 
             this.start();
@@ -52,14 +57,21 @@ class StateManager {
 
     stop() {
         clearTimeout(this.timer);
+        this.timer = null;
     }
 
     render() {
-        let content = '<input type="button" value="<<" id="previous"><input type="button" id="play" value="|>">' +
-            '<input type="button" value=">>" id="next">' +
-            `<input type="number" id="width" value="${this.options.width}" step="1" min="0" max="30">` +
-            `<input type="number" id="height" value="${this.options.height}" step="1" min="0" max="20">` +
-            `<input type="range" min="1000" max="10000" step="1000" value="${this.options.speed}">`; // todo: add configuration in options
+        let $$ = this.options.speed;
+        let content = 
+        `<input type="button" value="<<" id="previous">
+        <input type="button" id="play" value="|>">
+        <input type="button" value=">>" id="next">
+        <br><br>
+        Width: <input type="number" id="width" value="${this.options.width}" step="1" min="0" max="30">
+        Height: <input type="number" id="height" value="${this.options.height}" step="1" min="0" max="20">
+        <br><br>
+        Speed: <input type="range" id="speed" min="${$$.min}" max="${$$.max}" step="${$$.step}" value="${$$.current}"` +
+        ` list="speed-values">`;
 
         this.container.innerHTML = content;
     }
@@ -69,7 +81,6 @@ class StateManager {
             if (ev.target.matches('#play')) {
                 if (this.timer) {
                     this.stop();
-                    this.timer = null;
                     ev.target.value = '|>';
                 } else {
                     this.start();
@@ -79,14 +90,13 @@ class StateManager {
 
             if (ev.target.matches('#previous')) {
                 let index = this.stateIndex > 0 ? --this.stateIndex : this.stateIndex;
-                this.eventBus.trigger('stateManager:tick', this.states[index]); // should use array copy
+                this.eventBus.trigger('stateManager:stateChanged', this.states[index]); 
             }
 
             if (ev.target.matches('#next')) {
                 let index = this.stateIndex < this.states.length - 1 ? ++this.stateIndex : this.stateIndex;
-                this.eventBus.trigger('stateManager:tick', this.states[index]); // should use array copy
+                this.eventBus.trigger('stateManager:stateChanged', this.states[index]); 
             }
-
         });
     }
 
@@ -132,9 +142,9 @@ class StateManager {
 
     subscribeToChangeCell() {
         this.eventBus.on('view:cellChanged', ({ row, column }) => {
-            let state = this.states[this.stateIndex];
-            state[row][column] = !state[row][column];
-            this.eventBus.trigger('stateManager:tick', state); // should use array copy
+            this.gameLife.state = this.states[this.stateIndex];
+            this.gameLife.state[row][column] = !this.gameLife.state[row][column];
+            this.eventBus.trigger('stateManager:stateChanged', this.gameLife.state);
         });
     }
 }

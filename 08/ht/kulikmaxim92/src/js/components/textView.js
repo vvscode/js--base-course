@@ -49,7 +49,7 @@ class TextView {
     }
  
     subscribeToTick() {
-        this.eventBus.on('stateManager:tick', (state) => {
+        this.eventBus.on('stateManager:stateChanged', (state) => {
             this.state = state;
             this.render();
         });

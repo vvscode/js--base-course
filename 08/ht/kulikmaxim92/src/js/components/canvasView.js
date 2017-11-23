@@ -24,25 +24,16 @@ class CanvasView {
         for (let i = 0; i < this.state.length; i++) {
             for (let j = 0; j < this.state[i].length; j++) {
                 if (this.state[i][j]) {
- 
                     let pointX = j * this.options.squareSize;
                     let pointY = i * this.options.squareSize;
  
                     this.context.moveTo(pointX, pointY);
                     this.context.rect(pointX, pointY, this.options.squareSize, this.options.squareSize);
-                   
                 }
             }
         }
         this.context.stroke();
         this.context.fill();
-    }
- 
-    getCellByCoordinates(x, y) {
-        return {
-            row: Math.floor(y / this.options.squareSize),
-            column: Math.floor(x / this.options.squareSize),
-        }
     }
  
     changeCanvasSizeAccordingState() {
@@ -55,8 +46,15 @@ class CanvasView {
             this.eventBus.trigger('view:cellChanged', this.getCellByCoordinates(ev.offsetX, ev.offsetY)));
     }
 
+    getCellByCoordinates(x, y) {
+        return {
+            row: Math.floor(y / this.options.squareSize),
+            column: Math.floor(x / this.options.squareSize),
+        }
+    }
+
     subscribeToTick() {
-        this.eventBus.on('stateManager:tick', (state) => {
+        this.eventBus.on('stateManager:stateChanged', (state) => {
             this.state = state;
             this.render();
         });

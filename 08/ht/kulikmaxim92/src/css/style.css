@@ -11,7 +11,10 @@
 }
  
 .svg-square {
-    /* height: 20px; */
     fill: yellow;
-    stroke: black
-  }
+    stroke: black;
+}
+
+#speed {
+    transform: rotate(180deg);
+}
