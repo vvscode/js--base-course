@@ -111,9 +111,18 @@ function calculate(param_0) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  throw "undefined";
-}
+var Singleton = (function(){
+  var instance;
+  function Singleton(){
+    if(typeof instance === 'object'){
+      return instance;
+    }else{
+      instance = this;
+    }
+  }
+  return Singleton;
+}());
+
 
 /**
   * Создайте функцию ForceConstructor
@@ -142,8 +151,31 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw "undefined";
+
+function sum () {
+  
+    var currentSum =arguments[0];
+    if(arguments[0]==='undefined'){
+     currentSum=0;
+    }
+  
+    function f(b) {
+      
+      if(b ==='undefined'){
+        currentSum+=0;
+      }else{
+        currentSum += b;
+      }
+        return f;
+      
+    }
+  
+     f.valueOf = function() {
+      return currentSum;
+    };
+  
+
+   return f;
 }
 
 function log(x) {
@@ -172,7 +204,11 @@ function curry(func) {}
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User(){};
+function PreUser(){};
+
+User.prototype = PreUser.prototype = [];
+var u = new User();
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
