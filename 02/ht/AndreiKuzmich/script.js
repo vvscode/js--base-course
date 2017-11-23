@@ -158,7 +158,6 @@ function sum () {
     if(arguments[0]==='undefined'){
      currentSum=0;
     }
-  
     function f(b) {
       
       if(b ==='undefined'){
@@ -169,12 +168,9 @@ function sum () {
         return f;
       
     }
-  
      f.valueOf = function() {
       return currentSum;
     };
-  
-
    return f;
 }
 

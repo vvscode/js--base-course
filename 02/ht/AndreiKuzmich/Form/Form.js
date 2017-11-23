@@ -6,14 +6,14 @@
 function getFormData() {
     var form = document.forms.my; 
   
-    var elem = form.elements.guestName; 
-    var elem_1 = form.elements.town;
-    var elem_2 = form.elements.text;
-    var elem_3 = form.elements.gender;
+    var userName = form.elements.guestName; 
+    var userTown = form.elements.town;
+    var userComment = form.elements.text;
+    var userGender = form.elements.gender;
   
     var output = document.getElementById("result");
-    output.innerHTML = ('<b>Name: </b>'+ elem.value + '<br>' +'<b>Native town: </b>'+ elem_1.value 
-    + '<br>' + '<b>Comment: </b>' + elem_2.value + '<br>' + '<b>Gender: </b>' + elem_3.value);
+    output.innerHTML = ('<b>Name: </b>'+ userName.value + '<br>' +'<b>Native town: </b>'+ userTown.value 
+    + '<br>' + '<b>Comment: </b>' + userComment.value + '<br>' + '<b>Gender: </b>' + userGender.value);
 } 
 
 window.onload=function(){ 
