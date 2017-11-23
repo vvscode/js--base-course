@@ -24,7 +24,10 @@ function log(a) {
 function fizzBuzz() {
     var a;
     for (var i = 1; i <= 100; i++) {
-        ((i % 3) === 0) && ((i % 5) === 0) && (a = "FizzBuzz") || ((i % 5) === 0) && (a = "Buzz") || ((i % 3) === 0) && (a = "Fizz") || (a = i);
+        ((i % 3) === 0) && ((i % 5) === 0) && (a = "FizzBuzz") ||
+        ((i % 5) === 0) && (a = "Buzz") ||
+        ((i % 3) === 0) && (a = "Fizz") ||
+        (a = i);
 
         log(a);
     }
@@ -39,18 +42,17 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    var value = false;
+    var value = true;
     var polindrom = textString.toLowerCase();
     polindrom = polindrom.split(" ").join('');
 
-    for (var i = 0; i < polindrom.length / 2 || i === 0; i++) {
-        if (polindrom[i] === (polindrom[polindrom.length - i - 1] )) {
-            value = true;
-        } else {
+    for (var i = 0; i < polindrom.length / 2; i++) {
+        if (!(polindrom[i] === (polindrom[polindrom.length - i - 1] ))) {
             value = false;
             break;
         }
     }
+
     return value;
 }
 
