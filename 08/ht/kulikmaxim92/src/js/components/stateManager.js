@@ -1,7 +1,7 @@
 import GameLife from '../utils/gameLife';
 
 class StateManager {
-    constructor(options, eventBus) {
+    constructor(options, eventBus, storage) {
         this.options = options;
         this.eventBus = eventBus;
         this.states = [];
@@ -40,19 +40,19 @@ class StateManager {
     }
 
     start() {
-        this.timer = setTimeout(() => {
-            if (this.stateIndex !== this.states.length - 1) {
-                this.gameLife.state = this.states[this.stateIndex];
-                this.states.length = this.stateIndex + 1;
-            }
+        if (this.stateIndex !== this.states.length - 1) {
+            this.gameLife.state = this.states[this.stateIndex];
+            this.states.length = this.stateIndex + 1;
+        }
 
+        this.timer = setTimeout(() => {
             this.gameLife.tick();
             this.states.push(this.gameLife.state);
             this.eventBus.trigger('stateManager:stateChanged', this.gameLife.state);
             this.stateIndex = this.states.length - 1;
 
             this.start();
-        }, this.options.speed);
+        }, this.options.speed.current);
     }
 
     stop() {
@@ -67,8 +67,8 @@ class StateManager {
         <input type="button" id="play" value="|>">
         <input type="button" value=">>" id="next">
         <br><br>
-        Width: <input type="number" id="width" value="${this.options.width}" step="1" min="0" max="30">
-        Height: <input type="number" id="height" value="${this.options.height}" step="1" min="0" max="20">
+        Width: <input type="number" data-size="width" value="${this.options.width}" step="1" min="0" max="30">
+        Height: <input type="number" data-size="height" value="${this.options.height}" step="1" min="0" max="20">
         <br><br>
         Speed: <input type="range" id="speed" min="${$$.min}" max="${$$.max}" step="${$$.step}" value="${$$.current}"` +
         ` list="speed-values">`;
@@ -103,24 +103,22 @@ class StateManager {
     subscribeToChangeSpeed() {
         this.container.addEventListener('change', (ev) => {
             if (ev.target.matches('input[type=range]')) {
-                this.options.speed = ev.target.value;
+                this.options.speed.current = ev.target.value;
             }
-            
         });
     }
 
     subscribeToChangeSize() {
         this.container.addEventListener('input', (ev) => {
-            if (ev.target.matches('#width')) {
-                this.options.width = +ev.target.value;
+            if (ev.target.hasAttribute('data-size')) {
+                if (ev.target.getAttribute('data-size') === 'height') {
+                    this.options.height = +ev.target.value;
+                } else{
+                    this.options.width = +ev.target.value;
+                } 
+
                 this.changeStateSize();
             }
-
-            if (ev.target.matches('#height')) {
-                this.options.height = +ev.target.value;
-                this.changeStateSize();
-            }
-
         }, true);
     }
 
@@ -137,7 +135,7 @@ class StateManager {
             state[i].length = this.options.width;
         }
 
-        this.eventBus.trigger('stateManager:tick', state); // should use array copy
+        this.eventBus.trigger('stateManager:stateChanged', state);
     }
 
     subscribeToChangeCell() {

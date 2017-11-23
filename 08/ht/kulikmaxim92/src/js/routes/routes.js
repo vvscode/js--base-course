@@ -7,8 +7,9 @@ import SvgView from '../components/svgView';
 const SQUARE_SIZE = 30;
  
 let eventBus, stateManager;
- 
-let content = document.getElementById('content');
+let content = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
+let container = document.getElementById('content');
+
 let routes = [
     {
         name: 'textView',
@@ -52,9 +53,9 @@ let routes = [
         name: 'about',
         match: '#about',
         onBeforeEnter: () => stateManager.stop(),
-        onEnter: () => content.innerHTML = '<div>О сайте</div>',
+        onEnter: () => container.innerHTML = '<div>О сайте</div>',
         onLeave: () => {
-            content.innerHTML = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
+            container.innerHTML = content;
             stateManager && stateManager.init();
         },
     },
@@ -62,7 +63,7 @@ let routes = [
  
 function initComponents() {
     if (!eventBus  && !stateManager) {
-        content.innerHTML = '<div id="view" class="view"></div><hr><div id="stateManager" class="stateManager"></div>';
+        container.innerHTML = content;
  
         eventBus = new EventBus();
         stateManager = new StateManager({
@@ -71,7 +72,7 @@ function initComponents() {
             height: 10,
             speed: {
                 min: 1000,
-                max: 10000,
+                max: 5000,
                 current: 2000,
                 step: 1000
             },

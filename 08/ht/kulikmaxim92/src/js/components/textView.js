@@ -20,7 +20,7 @@ class TextView {
         let content = '';
         for (var i = 0; i < this.state.length; i++) {
             for (var j = 0; j < this.state[i].length; j++) {
-                content += this.state[i][j] ? 'X' : 'O';
+                content += this.state[i][j] ? 'X' : ' ';
             }
             content += '\n';
         }
@@ -33,18 +33,16 @@ class TextView {
             let preWidth = ev.target.clientWidth;
             let preHeight = ev.target.clientHeight;
  
-            let cellWidth = preWidth / this.state.length;
-            let cellHeigth = preHeight / this.state[0].length;
+            let cellWidth = preWidth / this.state[0].length;
+            let cellHeight = preHeight / this.state.length;
  
             let x = ev.offsetX;
             let y = ev.offsetY;
  
-            let cell = {
-                row: Math.floor(y / cellWidth),
-                column: Math.floor(x / cellHeigth),
-            }
- 
-            this.eventBus.trigger('view:cellChanged', cell);
+            this.eventBus.trigger('view:cellChanged', {
+                row: Math.floor(y / cellHeight),
+                column: Math.floor(x / cellWidth),
+            });
         });
     }
  
