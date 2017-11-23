@@ -48,8 +48,8 @@ gulp.task('js:build', function() {
         }))
         .bundle()
         .pipe(source('app.js'))
-        // .pipe(buffer())
-        // .pipe(uglify())
+        .pipe(buffer())
+        .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(path.build.js))
 });

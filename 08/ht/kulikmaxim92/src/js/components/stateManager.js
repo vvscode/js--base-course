@@ -82,9 +82,13 @@ class StateManager {
                 if (this.timer) {
                     this.stop();
                     ev.target.value = '|>';
+                    document.getElementById('previous').disabled = false;
+                    document.getElementById('next').disabled = false;
                 } else {
                     this.start();
                     ev.target.value = '||';
+                    document.getElementById('previous').disabled = true;
+                    document.getElementById('next').disabled = true;
                 }
             }
 
@@ -145,6 +149,7 @@ class StateManager {
             this.eventBus.trigger('stateManager:stateChanged', this.gameLife.state);
         });
     }
+
 }
 
 export default StateManager;
