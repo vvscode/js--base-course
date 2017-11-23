@@ -83,22 +83,21 @@ let o = new ObjectO();
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
-function ObjectU() {
-  this.askName = function() {
-    this.name = prompt(`Enter your name`);
-    return this;
-  };
-  this.askAge = function() {
-    this.age = prompt(`Enter your age`);
-    return this;
-  };
-  this.showAgeInConsole = function() {
-    console.log(this.age);
-    return this;
-  }
-  this.showNameInAlert = function() {
-    alert(this.name);
-  }
+function ObjectU() {};
+ObjectU.prototype.askName = function() {
+  this.name = prompt(`Enter your name`);
+  return this;
+};
+ObjectU.prototype.askAge = function() {
+  this.age = prompt(`Enter your age`);
+  return this;
+};
+ObjectU.prototype.showAgeInConsole = function() {
+  console.log(this.age);
+  return this;
+}
+ObjectU.prototype.showNameInAlert = function() {
+  alert(this.name);
 }
 
 let u = new ObjectU();
@@ -162,9 +161,7 @@ let u = new ObjectU();
        return func;
      }
      func.valueOf = function() {
-       let temp = result;
-       result = a || 0;
-       return temp;
+       return result;
      }
      return func;
  }
@@ -190,30 +187,35 @@ function log(x) {
  * @param {*} func
  */
 
-function curry(func) {
- let leng = func.length;
- let i = 0;
- let arr = [];
+ function curry(func) {
+   let leng = func.length;
+   let i = 0;
+   let arr = [];
 
- function cycle(a) {
-   if (i < leng) {
-     i++;
-     arr.push(a);;
-     return cycle;
-   }
- }
-   console.log(arr);
-   cycle.valueOf = function() {
-     return func.apply(null, arr);
+   function cycle(a) {
+     if (i < leng) {
+       i++;
+       arr.push(a);
+       if (i === leng) {
+         return func.apply(null, arr);
+       }
+       return cycle;
+     }
    }
    return cycle;
-}
+ }
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User() {
+  this.__proto__.__proto__ = new PreUser();
+};
+function PreUser() {
+  this.__proto__.__proto__ = new Array();
+};
+let user = new User();
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
