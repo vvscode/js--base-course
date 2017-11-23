@@ -238,4 +238,101 @@ let user = new User();
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(el) {
+  let year, month;
+  if (!document.querySelector(`.Calendar`)) {
+    year = new Date().getFullYear();
+    month = new Date().getMonth() + 1;
+  }
+
+  function writeData(key, value) {
+    let table = document.querySelector(`.Calendar`);
+    if (!table.objectData) {table.objectData = {}}
+    table.objectData[key] = value;
+    console.log(table.objectData);
+  }
+  function addHead(year, month) {
+    if (!document.querySelector(`.Calendar`)) {
+      return
+    };
+    let monthName = new Date(year, month - 1).toLocaleString(`ru`, {
+      month: 'long'
+    }).toUpperCase();
+    let thead = document.querySelector(`.Calendar`).querySelector(`thead`);
+    let tr = document.createElement(`tr`);
+    for (let i = 0; i < 3; i++) {
+      let th = document.createElement(`th`);
+      if (i === 0) {
+        th.innerHTML = '&#8656';
+        th.classList.add(`back`);
+      }
+      if (i === 1) {
+        th.setAttribute(`colspan`, `5`, 0);
+        th.innerText = `${monthName}/${year}`;
+      }
+      if (i === 2) {
+        th.innerHTML = '&#8658';
+        th.classList.add(`next`);
+      }
+      tr.appendChild(th);
+    }
+    thead.insertBefore(tr, thead.querySelector(`tr`));
+  }
+  drawCalendar(year, month, el);
+  addHead(year, month);
+
+  document.body.onclick = function(e) {
+    if (e.target.closest(`TABLE`)) {
+      if (document.querySelectorAll(`.data`)[1]) {
+        let comment = document.querySelectorAll(`.data`)[1];
+        if (comment.value !== ``) {
+          writeData(comment.saveDate, comment.value);
+        }
+      }
+      while (document.querySelector(`.data`)) {
+        let elem = document.querySelector(`.data`);
+        elem.parentNode.removeChild(elem);
+      }
+    }
+    if (e.target.closest('TH') && e.target.className === `back`) {
+      if (month === 1) {
+        year--;
+        month = 12;
+      } else {
+        month--
+      }
+      drawCalendar(year, month, el);
+      addHead(year, month);
+    }
+    if (e.target.closest('TH') && e.target.className == `next`) {
+      if (month === 12) {
+        year++;
+        month = 1;
+      } else {
+        month++
+      }
+      drawCalendar(year, month, el);
+      addHead(year, month);
+    }
+    if (e.target.closest('TD') && e.target.closest('TD').innerText !== ``) {
+      let day = new Date(year, month-1, e.target.closest('TD').innerText).toLocaleString(`ru`, {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      let div = document.createElement(`div`);
+      let comment = document.createElement(`textarea`);
+      div.classList.add(`data`);
+      comment.classList.add(`data`);
+      comment.saveDate = new Date(year, month-1, e.target.closest('TD').innerText).toLocaleString(`en`, {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      });
+      div.innerText = day;
+      document.body.appendChild(div);
+      document.body.appendChild(comment);
+    }
+  }
+}
