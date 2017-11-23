@@ -384,4 +384,8 @@ describe("template", function() {
     });
 });
 
+describe("Router", () => {
+    it("is function", () => assert.isOk(typeof Router === "function"));
+});
+
 mocha.run();
