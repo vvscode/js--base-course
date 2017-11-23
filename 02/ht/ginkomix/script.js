@@ -76,26 +76,30 @@ var o = {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
-var u = {
-    askName: function(){
-        this.a = prompt('Как зовут?', 'Михаил');
-        return this; 
-    },
-    askAge: function(){
-        this.b = prompt('Сколько лет?', '19');
-        return this; 
-    },
-    showAgeInConsole: function(){
-        console.log(this.a);
-        return this; 
-    },
-    showNameInAlert: function(){
-        alert(this.b);
-        return this; 
+function peopleAsk(){
+    this.a;
+    this.b;
+}
+peopleAsk.__proto__.askName = function(){
+    this.a = prompt('Как зовут?', 'Михаил');
+    return this; 
+}
 
-    }
+peopleAsk.__proto__.askAge= function(){
+    this.b = prompt('Сколько лет?', '19');
+    return this; 
+},
+    peopleAsk.__proto__.showAgeInConsole= function(){
+    console.log(this.a);
+    return this; 
+},
+    peopleAsk.__proto__.showNameInAlert= function(){
+    alert(this.b);
+    return this; 
 
 }
+
+
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -228,18 +232,18 @@ document.getElementById("assemble").onclick = function(e) {
     var name = document.getElementById('name').value,
         city = document.getElementById('city').value,
         comment = document.getElementById('comment').value,
-        radios = document.getElementsByTagName('input'),
-        radio;
-    for (var i = 0; i < radios.length; i++) {
-        if (radios[i].type === 'radio' && radios[i].checked ) {
+        radio = document.querySelector('input[type=radio]:checked').value;
 
-            radio = radios[i].value;       
-        }
-    }
-    
-    console.log(radio);
+    document.getElementById('output').innerHTML = name+' '+city+' '+comment+' '+radio;
+
+    document.getElementById('name').value='';
+    document.getElementById('comment').value='';
 
 }
+
+
+
+
 /* 
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
