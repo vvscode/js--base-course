@@ -27,7 +27,6 @@
      return true;
    } else { return objA.toString() === objB.toString() };
  }
-
 /**
  * Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
@@ -39,7 +38,6 @@
      return func.apply(context, arguments);
    }
  }
-
 /**
  * Реализовать метод .myBind для всех функций,
  * который работает так же как оригинальный .bind но не использует его внутри
@@ -56,27 +54,13 @@ Function.prototype.myBind = function (context) {
 * o.magicProperty = 3 // (любое значение)
 * в консоль выводилось значение, которое присваивается и текущее время
 */
-function ObjectO() {
-  let currentValue;
-  this.magicProperty = undefined;
-  this._timer = setInterval(function(object) {
-    if (`magicProperty` in object) {
-      if (currentValue !== object.magicProperty) {
-        console.log(`Value: ${object.magicProperty} Time: ${new Date().toLocaleString(`en`, {hour:`numeric`, minute:`numeric`, second:`numeric`})}`);
-        currentValue = object.magicProperty;
-      } else {
-        return;
-      }
-    } else {
-      return;
+let o = Object.create(Object.prototype, {
+  magicProperty: {
+    set: function(value) {
+      console.log(`Value: ${value} Time: ${new Date().toLocaleString(`en`, {hour:`numeric`, minute:`numeric`, second:`numeric`})}`);
     }
-  }, 100, this);
-  this._stop = function() {
-    clearInterval(this._timer);
   }
-}
-
-let o = new ObjectO();
+});
 /**
 * Создать конструктор с методами, так,
 * чтобы следующий код работал и делал соответствующие вещи
@@ -125,10 +109,14 @@ let u = new ObjectU();
  function Singleton() {
    if (`singleton` in Singleton) {
      return Singleton.singleton;
-   } else(Singleton.singleton = this);
-   // throw "undefined";
+   } else {
+     Object.defineProperty(this, 'singleton', {
+       value: this,
+       writable: false,
+       configurable: false
+     });
+   }
  }
-
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -136,15 +124,13 @@ let u = new ObjectU();
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
   function ForceContructor(a, b, c) {
-    if (this===window || this===undefined) {
-      return new ForceContructor (a, b, c);
+    if (this === window || this === undefined) {
+      return new ForceContructor(a, b, c);
     }
     this.a = a;
     this.b = b;
     this.c = c;
-    // throw "undefined";
   }
-
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -155,21 +141,20 @@ let u = new ObjectU();
  * Число вызовов может быть неограниченым
  */
  function sum(a) {
-     let result = a || 0;
-     function func(b) {
-       result += b || 0;
-       return func;
-     }
-     func.valueOf = function() {
-       return result;
-     }
+   let result = a || 0;
+   function func(b) {
+     result += b || 0;
      return func;
+   }
+   func.valueOf = function() {
+     return result;
+   }
+   return func;
  }
 
-function log(x) {
-  console.log(+x);
-}
-
+ function log(x) {
+   console.log(+x);
+ }
 /**
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
@@ -229,7 +214,8 @@ let user = new User();
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
 после чего поля очистить.
 */
-
+//../page/index.html
+//../page/script.js
 /*
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
