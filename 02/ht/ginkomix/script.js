@@ -252,4 +252,38 @@ document.getElementById("assemble").onclick = function(e) {
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+
+//  - Создать синхронную функцию `sleep(seconds)` так, чтобы работал код
+// 
+//  console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+//  sleep(9);
+//  console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+
+function sleep(seconds) {
+	var start = Date.now(),
+		end = Date.now() + seconds * 1000;
+	while (Date.now() < end) {
+        //работает этот код!
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
