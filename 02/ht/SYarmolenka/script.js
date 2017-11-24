@@ -27,6 +27,7 @@
      return true;
    } else { return objA.toString() === objB.toString() };
  }
+ 
 /**
  * Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
@@ -38,6 +39,7 @@
      return func.apply(context, arguments);
    }
  }
+
 /**
  * Реализовать метод .myBind для всех функций,
  * который работает так же как оригинальный .bind но не использует его внутри
@@ -49,6 +51,7 @@ Function.prototype.myBind = function (context) {
     return func.apply(context, arguments);
   }
 }
+
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано
 * o.magicProperty = 3 // (любое значение)
@@ -61,6 +64,7 @@ let o = Object.create(Object.prototype, {
     }
   }
 });
+
 /**
 * Создать конструктор с методами, так,
 * чтобы следующий код работал и делал соответствующие вещи
@@ -83,8 +87,8 @@ ObjectU.prototype.showAgeInConsole = function() {
 ObjectU.prototype.showNameInAlert = function() {
   alert(this.name);
 }
-
 let u = new ObjectU();
+
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -117,6 +121,7 @@ let u = new ObjectU();
      });
    }
  }
+
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -131,6 +136,7 @@ let u = new ObjectU();
     this.b = b;
     this.c = c;
   }
+
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -155,6 +161,7 @@ let u = new ObjectU();
  function log(x) {
    console.log(+x);
  }
+
 /**
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
@@ -171,7 +178,6 @@ let u = new ObjectU();
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-
  function curry(func) {
    let leng = func.length;
    let i = 0;
@@ -216,6 +222,7 @@ let user = new User();
 */
 //../page/index.html
 //../page/script.js
+
 /*
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
