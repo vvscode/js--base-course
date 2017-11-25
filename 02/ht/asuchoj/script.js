@@ -88,23 +88,21 @@ Object.defineProperty(o,'magicProperty',{
 */
 
 function Form () {
-  this.askName = function () {
-    this.name = prompt( 'введите имя','ALEX' );
-    return this ;
-  };
-  this.askAge = function () {
-    this.age = prompt( 'введите возраст', 18 );
-    return this;
-  };
-  this.showAgeInConsole = function () {
-    console.log( this.age );
-    return this;
-  };
-  this.showNameInAlert = function () {
-    alert( this.name );
-    return this;
-  }
+
 }
+
+Form.prototype.askName = function () {
+    return this.name = prompt( 'введите имя','ALEX' );
+};
+Form.prototype.askAge = function () {
+     return this.age = prompt( 'введите возраст', 18 );
+};
+Form.prototype.showAgeInConsole = function () {
+    return console.log( this.age );
+};
+Form.prototype.showNameInAlert = function () {
+    return alert( this.name );
+};
 
 /*  ЗАДАНИЕ 6* +
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -131,6 +129,12 @@ function Singleton () {
   }
   Singleton.instance = this;
 }
+
+Singleton.prototype = Object.defineProperty(Singleton, "instance",{
+    value: this,
+    writable: false,
+    configurable: false
+});
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
