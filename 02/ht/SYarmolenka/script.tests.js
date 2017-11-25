@@ -230,7 +230,7 @@ describe("ForceContructor", function() {
     var c = Math.random();
     var o = new ForceContructor(a, undefined, c);
     assert.isOk(typeof o === "object");
-    assert.isOk(o instanceof ForceContructor === true);
+    assert.isOk(o instanceof ForceContructor);
     assert.isOk(o.a === a);
     assert.isOk("b" in o);
     assert.isOk(o.b === undefined);
@@ -254,7 +254,7 @@ describe("ForceContructor", function() {
   });
 });
 
-it("sum", function() {
+describe("sum", function() {
   it("функция", function() {
     assert.isOk(typeof sum === "function");
   });
@@ -266,7 +266,7 @@ it("sum", function() {
   });
   it("складывает числа", function() {
     var s = sum(1);
-    assert.isOk(+s(2) === 2);
+    assert.isOk(+s(2) === 3);
     assert.isOk(+s(3) === 4);
     assert.isOk(+s(95) === 96);
   });
@@ -296,7 +296,7 @@ it("sum", function() {
     assert.isOk(+s15 === 6);
     assert.isOk(+s152 === 8);
     assert.isOk(+s159 === 15);
-    assert.isOk(+s10 === 0);
+    assert.isOk(+s10 === 1);
   });
   it("может отработать много раз", function() {
     var s = sum();
@@ -320,7 +320,7 @@ describe("User / PreUser", function() {
   it("разные конструкторы", function() {
     assert.isOk(User !== PreUser);
   });
-  assert.isOk("создают правильное дерево наследования", function() {
+  it("создают правильное дерево наследования", function() {
     var u = new User();
     var u2 = new User();
     assert.isOk(u instanceof User);
@@ -330,81 +330,17 @@ describe("User / PreUser", function() {
 });
 
 describe("curry", function() {
-  it("Поддерживает каррирование функций с 2,3,4,5 параметрами", function() {
-    function target1(a,b,c,d) { return a + b + c + d };
-    function target2(a,b) { return a + b };
-    assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
-    assert.isOk(curry(target2)(5)(8) === 13);
+	it("Функция", function() {
+    assert.isOk(typeof curry === `function`);
+
   });
-});
+  it("и это функция работает...", function() {
+  	function target1(a,b,c,d) { return a + b + c + d }
+ 		function target2(a,b) { return a * b }
+    assert.isOk(+curry(target1)(1)(2)(3)(4) === 10);
+    assert.isOk(+curry(target1)(1)(2)(3) != 6);
+    assert.isOk(+curry(target2)(5)(8) === 40);
 
-describe("sleep", function() {
-  it("функция", function() {
-    assert.isOk(typeof sleep === "function");
-  });
-  it("Задержка вызова сдедующей операции", function() {
-    var timeStart = new Date(); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
-    sleep(0.1);
-    var timeEnd = new Date(); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
-    var delay = timeEnd - timeStart;
-    assert.isOk(delay >= 0.1*1000);
-  });
-});
-
-describe('debounce', () => {
-  it('Срабатывает через заданный промежуток времени', (done) => {
-    let testVal = 0;
-    let fn = debounce((arg) => testVal = arg, 100);
-
-    fn(10);
-
-    assert.equal(testVal, 0, 'проверка начального состояния');
-    setTimeout(() => assert.equal(testVal, 0, 'значение неизменилось до конца задержки'), 90);
-    setTimeout(() => assert.equal(testVal, 10, 'значение изменилось после задержки'), 110);
-    setTimeout(done, 120);
-  });
-  it('Правильно работает при повторых вызовах', (done) => {
-    let testVal = 0;
-    let fn = debounce((arg) => testVal = arg, 100);
-
-    fn(1);
-    assert.equal(testVal, 0, 'проверка начального состояния');
-    setTimeout(() => fn(2), 50);
-    setTimeout(() => fn(3), 70);    
-    setTimeout(() => assert.equal(testVal, 0, 'значение не изменилось после повторного вызова'), 120);
-    setTimeout(() => assert.equal(testVal, 3, 'значение изменилось после истечения таймера'), 190);
-    setTimeout(done, 250);
-  });
-});
-
-describe('throttle', () => {
-  it('Функция отрабатывает через заданный интервал', (done) => {
-    let testVal = 0;
-    let fn = throttle((x) => testVal = x, 100);
-
-    assert.equal(testVal, 0, 'проверка начального состояния');
-    fn(1);
-    assert.equal(testVal, 1, 'изменение при первом вызове');
-    setTimeout(() => fn(2), 110);
-    setTimeout(() => assert.equal(testVal, 2, 'второй вызов отработал после истечения таймера'), 130);
-    setTimeout(done, 150);
-  });
-  it('Работает при повторных вызовах', (done) => {
-    let testVal = 0;
-    let fn = throttle((x) => testVal = x, 100);
-
-    fn(1);
-    assert.equal(testVal, 1, 'изменение при первом вызове');
-
-    setTimeout(() => fn(2), 50);
-    setTimeout(() => assert.equal(testVal, 1, 'игнор преждевременного вызова'), 70);
-    setTimeout(() => fn(3), 110);    
-    setTimeout(() => assert.equal(testVal, 3, 'изменение значения переменной'), 130);
-    setTimeout(() => fn(4), 200);
-    setTimeout(() => assert.equal(testVal, 3, 'игнор'), 220);
-    setTimeout(() => fn(5), 230);
-    setTimeout(() => assert.equal(testVal, 5, 'изменение значения переменной'), 250);    
-    setTimeout(done, 300);
   });
 });
 
