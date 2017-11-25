@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Js Base Course - Занятие 5</title>
+  <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/theme/white.css" id="theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h1>
+          <a href="https://rawgit.com/vvscode/js--base-course/master/questions/index.html" onclick="window.open('https://rawgit.com/vvscode/js--base-course/master/questions/index.html'); return false;"
+            target="_blank">Вопросы!</a>
+        </h1>
+      </section>
+      <section>
+        <h1>Занятие 6</h1>
+      </section>
+      <section>
+        <h4>Использование ООП</h4>
+        <ul>
+          <li class="fragment">Абстракция</li>
+          <li class="fragment">Наследование</li>
+          <li class="fragment">
+            <i>Состояние</i>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        Составные части приложения
+        <br />
+        <section>
+          <h5>Компонент</h5>
+          <ul>
+            <li class="fragment">Функциональная еденица приложения</li>
+            <li class="fragment">Инкапсулирует логику работы</li>
+            <li class="fragment">Может быть переиспользован</li>
+            <li class="fragment">Может включать в себя другие компоненты</li>
+            <li class="fragment">Работает с "узлом" DOM дерева
+              <sup>*</sup>
+            </li>
+          </ul>
+        </section>
+        <section>
+          Примеры компонентов:
+          <br />
+          <ul>
+            <li>Календарь</li>
+            <li>Форма</li>
+            <li>Меню</li>
+            <li>Контрол формы</li>
+            <li>Кнопка</li>
+          </ul>
+        </section>
+        <section>
+          Обычный компонент включает:
+          <br />
+          <ul>
+            <li>
+              <code>.render</code>
+            </li>
+            <li>Конструктор принимающий зависимости и опции</li>
+            <li>Служебные методы</li>
+          </ul>
+        </section>
+        <section>
+          <a href="http://jsbin.com/mejupon/edit?js,output" onclick="window.open('http://jsbin.com/mejupon/edit?js,output', '_blank');">Пример компонента:</a>
+          <br />
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+var BtnComponent = function(el, num, allowIncrement) {
+  this.el = el;
+  this.num = num;
+  this.render();
+  if (allowIncrement) {
+    this.subscribeToClicks();
+  }
+}
+BtnComponent.prototype.render = function() {
+  this.el.innerHTML = '<button>' + this.num + '</button>';
+}
+
+BtnComponent.prototype.subscribeToClicks = function() {
+  this.el.addEventListener('click', function() {
+    this.num = this.num + 1;
+    this.render();
+  }.bind(this));
+}
+
+                        </code></pre>
+        </section>
+        <section>
+          Router
+        </section>
+        <section>
+          Service
+          <br />
+          <ul>
+            <li>Вспомогательные фукнции и методы</li>
+            <li>Обертка и абстракция</li>
+            <li>StateFull / StateLess</li>
+          </ul>
+        </section>
+        <section>
+          Пример сервиса
+          <br />
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+var LsStore = function(prefix) {
+  this.prefix = prefix;
+} 
+LsStore.prototype = {
+  getItem: function(key) {
+    return Promise.resolve(localStorage.getItem(this.prefix + '_' + key));
+  },
+  setItem: function(key, val) {
+    return Promise.resolve(localStorage.setItem(this.prefix + '_' + key, JSON.stringify(val)));
+  }
+};
+  </code></pre>
+        </section>
+        <section>
+          Application
+          <br /> Собрать все вместе и запустить
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+/* Page1Component , Page2Component , eventBus, Router, service1, service2 */
+var router = new Router([
+{ url: '/page1', onEnter: () => new Page1Component('.content', eventBus, service1) },
+{ url: '/page2', onEnter: () => new Page2Component('.content', service2) }
+], {
+  eventBus: eventBus
+});
+                </code></pre>
+        </section>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h3>Использование сторонних библиотек</h3>
+        <ul>
+          <li class="fragment">Имеют namespace или доступны как модуль</li>
+          <li class="fragment">Подключаются в сборку или через
+            <a href="https://cdnjs.com/" target="_blank">CDN</a>
+          </li>
+          <li class="fragment">Иногда имеют модульную струтуру и поддержку нестандартных сборок</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Основные библиотеки</h2>
+      </section>
+      <section>
+        <h3>
+          <a href="http://jquery.com" target="_blank">JQuery</a> /
+          <a href="http://zeptojs.com/" target="_blank">Zepto</a>
+        </h3>
+        <section>
+          Основные разделы библиотеки:
+          <ul style="font-size: smaller;">
+            <li class="fragment">Выборка элементов ( расширенные селекторы ) / манипуляция DOM</li>
+            <li class="fragment">Работа с атрибутами / значениями / CSS / размерами элементов</li>
+            <li class="fragment">AJAX</li>
+            <li class="fragment">Работа с событиями / Promises</li>
+            <li class="fragment">Работа с событиями ( подписа / отписка / тригеринг )</li>
+            <li class="fragment">Анимации
+              <sup>*</sup>
+            </li>
+          </ul>
+        </section>
+        <section>
+          Выделяется:
+          <ul>
+            <li>Расширяемость ( много плагинов )</li>
+            <li>Решение проблем кроссбраузерности</li>
+            <li>Большое число примеров кода / решения</li>
+            <li>Не изменяет стандартные объекты</li>
+            <li>Null-object паттерн</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="http://underscorejs.ru/" target="_blank">Underscore</a> /
+          <a href="https://lodash.com/" target="_blank">Lodash</a>
+        </h3>
+        <section>
+          Основные разделы библиотеки:
+          <ul>
+            <li class="fragment">Работа с коллекциями/массивами</li>
+            <li class="fragment">Работа с функциями (изменение контекста/работа с аргументами ...)</li>
+            <li class="fragment">Работа с объектами ( выборка свойств, расширение и тп)</li>
+            <li class="fragment">Дополнения для строк и чисел</li>
+            <li class="fragment">Шаблонизатор и утилиты</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="https://d3js.org/" target="_blank">D3</a> /
+          <a href="http://www.chartjs.org/" target="_blank">Chart.js</a>
+        </h3>
+        <section>
+          Основные разделы библиотеки:
+          <ul>
+            <li class="fragment">Визуализация данных (построение графиков/чартов)</li>
+            <li class="fragment">Анимация</li>
+          </ul>
+          <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank">Примеры</a>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="http://backbonejs.ru/" target="_blank">Backbone.js</a>
+        </h3>
+        <section>
+          Основные разделы библиотеки:
+          <ul>
+            <li class="fragment">Роутинг</li>
+            <li class="fragment">MVC составляющие</li>
+            <li class="fragment">Обертка для синхронизации данных</li>
+            <li class="fragment">Событийная модель</li>
+            <li class="fragment">Работа с коллекциями</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h3>
+          <a href="https://jqueryui.com/" target="_blank">JQuery UI</a>
+        </h3>
+        <section>
+          Основные разделы библиотеки:
+          <ul>
+            <li class="fragment">Виджеты (календарь/ табы/ меню/ диалоговые окна / слайдеры )</li>
+            <li class="fragment">Эффекты (расширение эффектов jquery)</li>
+            <li class="fragment">Реализация drag-n-drop, resize, сортировки</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h3>UI Toolkits</h3>
+        <section>
+          <ul>
+            <li>
+              <a href="http://examples.sencha.com/extjs/6.5.0/examples" target="_blank">ExtJs</a>
+            </li>
+            <li>
+              <a href="https://webix.com/" target="_blank">Webix</a>
+            </li>
+            <li>
+              <a href="http://www.telerik.com/kendo-ui" target="_blank">Kendo UI</a>
+            </li>
+            <li>
+              <a href="http://www.qooxdoo.org/" target="_blank">qooxdoo</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          Особенности:
+          <ul>
+            <li class="fragment">Внешний вид "под десктоп"</li>
+            <li class="fragment">Своя объектная/компонентная модель</li>
+            <li class="fragment">Не рады работе с DOM</li>
+            <li class="fragment">Задают структуру приложения</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h3>Фреймворки
+          <sup>*</sup>
+        </h3>
+        <ul>
+          <li class="fragment">
+            <a href="https://angularjs.org/" target="_blank">Angular</a>
+          </li>
+          <li class="fragment">
+            <a href="https://www.meteor.com/" target="_blank">Meteor</a>
+          </li>
+          <li class="fragment">
+            <a href="https://facebook.github.io/react/" target="_blank">React</a>
+          </li>
+          <li class="fragment">
+            <a href="https://www.polymer-project.org/" target="_blank">Polimer</a>
+          </li>
+          <li class="fragment">
+            <a href="https://emberjs.com/" target="_blank">Ember</a>
+          </li>
+          <li class="fragment">
+            <a href="https://ru.vuejs.org/" target="_blank">Vue</a>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
+  <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
+    Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls: true,
+      // Display a presentation progress bar
+      progress: true,
+      // Set default timing of 2 minutes per slide
+      defaultTiming: 120,
+      // Display the page number of the current slide
+      slideNumber: true,
+      // Push each slide change to the browser history
+      history: true,
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+      // Enable the slide overview mode
+      overview: true,
+      // Vertical centering of slides
+      center: true,
+      // Enables touch navigation on devices with touch input
+      touch: true,
+      // Loop the presentation
+      loop: false,
+      // Change the presentation direction to be RTL
+      rtl: false,
+      // Randomizes the order of slides each time the presentation loads
+      shuffle: false,
+      // Turns fragments on and off globally
+      fragments: true,
+      // Flags if the presentation is running in an embedded mode,
+      // i.e. contained within a limited portion of the screen
+      embedded: false,
+      // Flags if we should show a help overlay when the questionmark
+      // key is pressed
+      help: true,
+      // Flags if speaker notes should be visible to all viewers
+      showNotes: true,
+      // Global override for autolaying embedded media (video/audio/iframe)
+      // - null: Media will only autoplay if data-autoplay is present
+      // - true: All media will autoplay, regardless of individual setting
+      // - false: No media will autoplay, regardless of individual setting
+      autoPlayMedia: null,
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+      // Stop auto-sliding after user input
+      autoSlideStoppable: true,
+      // Use this method for navigation when auto-sliding
+      autoSlideMethod: Reveal.navigateNext,
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+      // Hides the address bar on mobile devices
+      hideAddressBar: true,
+      // Opens links in an iframe preview overlay
+      previewLinks: true,
+      // Transition style
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+      // Transition style for full page slide backgrounds
+      backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+      // Number of slides away from the current that are visible
+      viewDistance: 3,
+      // Parallax background image
+      parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+      // Number of pixels to move the parallax background per slide
+      // - Calculated automatically unless specified
+      // - Set to 0 to disable movement along an axis
+      parallaxBackgroundHorizontal: null,
+      parallaxBackgroundVertical: null,
+      // The display mode that will be used to show slides
+      display: 'block',
+
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
+          condition: function () {
+            return !document.body.classList;
+          }
+        },
+
+        // Interpret Markdown in <section> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+
+        // Syntax highlight for <code> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+
+        // Zoom in and out with Alt+click
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/zoom-js/zoom.js',
+          async: true
+        },
+
+        // Speaker notes
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/notes/notes.js',
+          async: true
+        },
+
+        // MathJax
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/math/math.js',
+          async: true
+        },
+        {
+          src: 'https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.js'
+        },
+      ]
+    });
+    Reveal.configure({
+      slideNumber: 'c/t'
+    });
+  </script>
+</body>
+
+</html>
