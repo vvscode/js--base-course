@@ -15,8 +15,8 @@ function isDeepEqual(objA, objB) {
   /* Ваше решение */
     if (typeof objA !== typeof objB) return false;
     if (typeof objA !== 'object') {
-        return (objA === objB)? true: (typeof objA === 'number' && typeof objB === 'number')?isNaN(objA) && isNaN(objB):false;}
-    else {
+        return (objA === objB)? true: (typeof objA === 'number' && typeof objB === 'number')?isNaN(objA) && isNaN(objB):false;
+} else {
         if (objA.length!==objB.length) return false;
         for (var key in objA) {
             if (typeof objA[key] !== 'object') {
@@ -92,6 +92,7 @@ User.prototype.showNameInAlert=function() {
  */
 function calculate(sign) {
   /* put your code here */
+  // можно было через case
   return function(a) {
       return function(b) {
           if (sign==='+') return a+b;
@@ -107,7 +108,7 @@ function calculate(sign) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw 'undefined';
+
 }
 
 /**
@@ -129,8 +130,20 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw 'undefined';
+
+function sum(a) {
+    var s=0;
+    for (var i = 0; i < arguments.length; i++) {
+        s += arguments[i];
+    }
+    function f(b) {
+        s+=b;
+        return f;
+    }
+    f.valueOf=function() {
+        return s;
+    }
+    return f;
 }
 
 function log(x) {
