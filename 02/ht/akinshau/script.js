@@ -10,32 +10,30 @@
  * @param {*} objB
  * @return {boolean} идентичны ли параметры по содержимому
  */
-    function isDeepEqual(objA, objB) {
+function isDeepEqual(objA, objB) {
 
-      if (objA === null && objB === null) {
-        return true;
-      } else if (typeof(objA) !== 'object' && typeof(objA) === typeof(objB) ) {
-          if (typeof(objA) === 'number' && typeof(objB) === 'number' ) {
-            return isNaN(objA) === isNaN(objB);
-          } else {
-            return objA === objB;
-          }
-      } else if (typeof(objA) === 'object' && typeof(objA) === typeof(objB)) {
-        if (objA.length !== obj.length) {
-          return false;
-        } else {
-          for (var key in objA) {
-            if (!(objA[key] === objA && objB[key] === objB) ) {
-              if (!isDeepEqual(objA[key], objB[key])) {
-                return false;
-              }
-            }
+  if (typeof(objA) != 'object' && typeof(objA) === typeof(objB)) {
+    if (objA !== objA && objB !== objB) {
+      return true;
+    }
+    if (objA !== objB) {
+      return false;
+    }
+  } else if (typeof(objA) === 'object' && typeof(objA) === typeof(objB)) {
+    if (Object.keys(objA).length !== Object.keys(objB).length) {
+      return false;
+    } else {
+      for (var key in objA) {
+        if (!(objA[key] === objA && objB[key] === objB)) {
+          if (!isDeepEqual(objA[key], objB[key])) {
+            return false;
           }
         }
-      } else {
-        return true;
       }
     }
+  }
+  return true;
+}
 
 /**
  * Функция фиксации контекста
@@ -54,17 +52,17 @@ function bind(func, context) {
  */
 
 /**
-* Создать объект o так, чтобы каждый раз когда в коде написано
-* o.magicProperty = 3 // (любое значение)
-* в консоль выводилось значение, которое присваивается и текущее время
-*/
+ * Создать объект o так, чтобы каждый раз когда в коде написано
+ * o.magicProperty = 3 // (любое значение)
+ * в консоль выводилось значение, которое присваивается и текущее время
+ */
 
 /**
-* Создать конструктор с методами, так,
-* чтобы следующий код работал и делал соответствующие вещи
-* те запуск кода ниже должен делать то, что говорят методы
-* u.askName().askAge().showAgeInConsole().showNameInAlert();
-*/
+ * Создать конструктор с методами, так,
+ * чтобы следующий код работал и делал соответствующие вещи
+ * те запуск кода ниже должен делать то, что говорят методы
+ * u.askName().askAge().showAgeInConsole().showNameInAlert();
+ */
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -85,11 +83,11 @@ function Singleton() {
 }
 
 /**
-  * Создайте функцию ForceConstructor
-  * которая работает как конструктор независимо от того,
-  * вызвана она с new или без
-  * и сохраняет параметры в создаваемый объект с именами параметров
-  */
+ * Создайте функцию ForceConstructor
+ * которая работает как конструктор независимо от того,
+ * вызвана она с new или без
+ * и сохраняет параметры в создаваемый объект с именами параметров
+ */
 function ForceContructor(a, b, c) {
   throw "undefined";
 }
