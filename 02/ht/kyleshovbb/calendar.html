@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<div id="calendar"></div>
+<script>
+    var date = new Date;
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var htmlEl = document.getElementById("calendar");
+
+    drawInteractiveCalendar(htmlEl);
+
+    htmlEl.onclick = function (e) {
+        var target = e.target;
+        var td = target.closest(".rows");
+        if (td === document.getElementById("left")) month = month - 1;
+        else if (td === document.getElementById("right")) month = month + 1;
+        checkMonth();
+        drawInteractiveCalendar(htmlEl);
+    };
+
+    function drawInteractiveCalendar(htmlEl) {
+        var interactiveCalendar = "<table><tr>" +
+            "<th id='left' class='rows'>[<]</th>" +
+            "<th colspan='5'>" + month + "/" + year + "</th>" +
+            "<th id='right' class='rows right'>[>]</th></tr>";
+        drawCalendar(year, month, htmlEl);
+
+        function drawCalendar(year, month, htmlEl) {
+            var dateOnCalendar = new Date(year, month - 1);
+            interactiveCalendar += "<tr>" +
+                "<th>Понедельник</th>" +
+                "<th>Вторник</th>" +
+                "<th>Среда</th>" +
+                "<th>Четверг</th>" +
+                "<th>Пятница</th>" +
+                "<th>Субота</th>" +
+                "<th>Воскресение</th>" +
+                "</tr>";
+
+            outer: while (month === (dateOnCalendar.getMonth() + 1)) {
+
+                for (var i = 1; i <= 7; i++) {
+                    if (i === 1) interactiveCalendar += "<tr>";
+
+                    if (checkDay() === i && (month === (dateOnCalendar.getMonth() + 1))) {
+                        interactiveCalendar += "<td>" + dateOnCalendar.getDate() + "</td>";
+                        dateOnCalendar.setDate(dateOnCalendar.getDate() + 1);
+                    } else {
+                        interactiveCalendar += "<td></td>";
+                    }
+
+                    if (i === 7) {
+                        interactiveCalendar += "</tr>";
+                        continue outer;
+                    }
+                }
+            }
+            interactiveCalendar += "</table>";
+
+            htmlEl.innerHTML = interactiveCalendar;
+
+            function checkDay() {
+                var day;
+                switch (dateOnCalendar.getDay()) {
+                    case 0:
+                        day = 7;
+                        break;
+                    case 7:
+                        day = 1;
+                        break;
+                    default:
+                        day = dateOnCalendar.getDay();
+                        break;
+                }
+                return day;
+            }
+
+        }
+    }
+
+    function checkMonth() {
+        switch (month) {
+            case 0:
+                month = 12;
+                year -= 1;
+                break;
+            case 13:
+                month = 1;
+                year += 1;
+                break;
+        }
+    }
+
+</script>
+</body>
+</html>
