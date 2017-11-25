@@ -172,7 +172,11 @@ function curry(func) {}
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User() {};
+function PreUser() {};
+PreUser.prototype = Object.create(Array.prototype);
+User.prototype = Object.create(PreUser.prototype);
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
