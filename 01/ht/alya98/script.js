@@ -23,8 +23,8 @@ function log(a) {
  */
 function fizzBuzz() {
  /* Ваше решение */
-    for (i=1;i<=100;i++) {
-        (i%15)===0 &&  log('FizzBuzz') || (i%3)===0 && log('Fizz')|| (i%5)===0 && log('Buzz')||log(i);
+    for (i=1; i<=100; i++) {
+        (i%15)===0 && log('FizzBuzz') || (i%3)===0 && log('Fizz')|| (i%5)===0 && log('Buzz')||log(i);
     }
 }
 
@@ -50,7 +50,21 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+    var date=new Date(year, month-1);
+    var table='<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr>';
+    var day=(date.getDay()+6)%7;
+    for (var i=0; i<day; i++) {
+        table+='<td></td>';
+    }
+    while (date.getMonth()===month-1) {
+        table+='<td>'+date.getDate()+'</td>';
+        date.setDate(date.getDate()+1);
+        if (date.getDay()===1)
+            table+='</tr><tr>';
+
+    }
+    table += '</tr></table>';
+    htmlEl.innerHTML = table;
 
 }
     /**
@@ -66,7 +80,7 @@ function isDeepEqual(objA, objB) {
         if (typeof objA !== typeof objB) return false;
         if (typeof objA !== 'object') return objA === objB;
         else {
-            if(objA.length!==objB.length) return false;
+            if (objA.length!==objB.length) return false;
             for (var key in objA) {
                 if (typeof objA[key] !== 'object') {
                     if (!isDeepEqual(objA[key], objB[key])) return false;
