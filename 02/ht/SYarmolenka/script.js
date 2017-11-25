@@ -27,7 +27,7 @@
      return true;
    } else { return objA.toString() === objB.toString() };
  }
- 
+
 /**
  * Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
@@ -113,13 +113,13 @@ let u = new ObjectU();
  function Singleton() {
    if (`singleton` in Singleton) {
      return Singleton.singleton;
-   } else {
-     Object.defineProperty(this, 'singleton', {
-       value: this,
-       writable: false,
-       configurable: false
-     });
    }
+   Object.defineProperty(this, 'singleton', {
+     value: this,
+     writable: false,
+     configurable: false
+   });
+   return Singleton.singleton = this;
  }
 
 /**
@@ -200,13 +200,10 @@ let u = new ObjectU();
 Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
-function User() {
-  this.__proto__.__proto__ = new PreUser();
-};
-function PreUser() {
-  this.__proto__.__proto__ = new Array();
-};
-let user = new User();
+function User() {};
+function PreUser() {};
+PreUser.prototype = new Array();
+User.prototype = new PreUser();
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
