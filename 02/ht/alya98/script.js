@@ -64,7 +64,7 @@ o.magickProperty=3;
 * чтобы следующий код работал и делал соответствующие вещи
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
-*/
+*///
 function User(name, age) {}
 User.prototype.askName=function() {
     this.name=prompt('Ваше имя?', 'Алина');
