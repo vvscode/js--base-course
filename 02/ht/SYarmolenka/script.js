@@ -110,17 +110,16 @@ let u = new ObjectU();
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
- function Singleton() {
-   if (`singleton` in Singleton) {
-     return Singleton.singleton;
+ let Singleton = (function() {
+   let singleton;
+   return function Singleton() {
+     if (singleton) {
+       return singleton
+     }
+     singleton = this;
+     return singleton;
    }
-   Object.defineProperty(this, 'singleton', {
-     value: this,
-     writable: false,
-     configurable: false
-   });
-   return Singleton.singleton = this;
- }
+ }) ();
 
 /**
   * Создайте функцию ForceConstructor
@@ -147,14 +146,12 @@ let u = new ObjectU();
  * Число вызовов может быть неограниченым
  */
  function sum(a) {
-   let result = a || 0;
+   if (!a) a = 0;
    function func(b) {
-     result += b || 0;
-     return func;
+     if (!b) b = 0;
+     return sum(a+b);
    }
-   func.valueOf = function() {
-     return result;
-   }
+   func.valueOf = function() {return a}
    return func;
  }
 
@@ -324,5 +321,32 @@ function drawInteractiveCalendar(el) {
       document.body.appendChild(div);
       document.body.appendChild(comment);
     }
+  }
+}
+
+
+function debounce (fun, delay) {
+  let timer;
+  return function() {
+    debounce.argts = arguments;
+    if (timer>0) clearTimeout(timer);
+    timer = setTimeout(function() {fun.apply(fun, debounce.argts)}, delay);
+    return fun.bind(fun);
+  }
+}
+
+function throttle (fun, delay) {
+  let timer;
+  let timeCall;
+  return function() {
+    timeCall = new Date();
+    throttle.argts = arguments;
+    if (!timer) {fun.apply(fun, throttle.argts)} else {return fun.bind(fun)}
+    timer = setTimeout(function time() {
+      fun.apply(fun, throttle.argts);
+      timer = setTimeout(time, delay);
+      if ((new Date()-timeCall)>delay) {clearTimeout(timer)}
+    }, delay);
+    return fun.bind(fun);
   }
 }
