@@ -325,28 +325,45 @@ function drawInteractiveCalendar(el) {
 }
 
 
-function debounce (fun, delay) {
+function debounce(fun, delay) {
   let timer;
   return function() {
     debounce.argts = arguments;
-    if (timer>0) clearTimeout(timer);
-    timer = setTimeout(function() {fun.apply(fun, debounce.argts)}, delay);
+    if (timer > 0) clearTimeout(timer);
+    timer = setTimeout(function() {
+      fun.apply(fun, debounce.argts)
+    }, delay);
     return fun.bind(fun);
   }
 }
 
-function throttle (fun, delay) {
+function throttle(fun, delay) {
   let timer;
   let timeCall;
   return function() {
-    timeCall = new Date();
+    timeCall = Date.now();
     throttle.argts = arguments;
-    if (!timer) {fun.apply(fun, throttle.argts)} else {return fun.bind(fun)}
+    if (!timer) {
+      fun.apply(fun, throttle.argts);
+    } else {
+      return fun.bind(fun);
+    }
     timer = setTimeout(function time() {
       fun.apply(fun, throttle.argts);
       timer = setTimeout(time, delay);
-      if ((new Date()-timeCall)>delay) {clearTimeout(timer)}
+      if ((Date.now() - timeCall) > delay) {
+        clearTimeout(timer)
+      }
     }, delay);
     return fun.bind(fun);
   }
+}
+
+let sleep = function(time) {
+  let oldDate = Date.now();
+  let newDate = Date.now();
+  while (newDate-oldDate<time*1000) {
+    newDate = Date.now();
+  }
+  return
 }
