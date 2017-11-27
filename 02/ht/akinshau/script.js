@@ -154,4 +154,57 @@ function curry(func) {}
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(el) {
+  var prevMonth = document.getElementById('prev');
+  var nextMonth = document.getElementById('next');
+
+  function previousMonth() {
+    numMonth -= 1;
+  }
+
+  function nextMonth() {
+    numMonth += 1;
+  }
+}
+
+function drawCalendar(tempYear, tempMonth) {
+  var today = new Date();
+  log(today);
+  var year = today.getFullYear();
+  var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var numMonth = today.getMonth();
+  var prettyMonth = month[numMonth];
+  log(year);
+  var numOfDaysInMonth = new Date(year, numMonth, 0).getDate();
+  var initialDay = new Date(year, numMonth, 1).getDay();
+  log(initialDay);
+  var dayOfWeek = initialDay - 1;
+
+  if(dayOfWeek === -1) {
+    dayOfWeek = 6;
+  }
+
+  var numOfCalendarRows = Math.ceil( (dayOfWeek + numOfDaysInMonth)/7 );
+  var numOfCalendarCells = numOfCalendarRows * 7;
+  var arrOfCalendarCells = [];
+
+  for(var z=0; z<numOfCalendarCells; z++){
+    arrOfCalendarCells[z] = "<td></td>"
+  }
+
+  for( var x=dayOfWeek; x<numOfCalendarCells; x++ ){
+    if ( (x - dayOfWeek) < numOfDaysInMonth ) {
+        var day = x - dayOfWeek + 1;
+        arrOfCalendarCells[x] = "<td>" + day + "</td>";
+    }
+  }
+
+  var resultCalendarMatrix = [];
+
+  for(i=0; i<numOfCalendarRows; i++){
+    var week = arrOfCalendarCells.splice(0, 7).join("");
+    resultCalendarMatrix[i] = "<tr>" + week + "</tr>";
+  }
+  resultCalendarMatrix = resultCalendarMatrix.join("");
+  document.body.innerHTML = "<table cellpadding=5 border=1><tr><td colspan=7 align=center><a href='' id="prev"><</a> " + year + " / " +prettyMonth + " <a href='' id="next"'>></a></td></tr>" + resultCalendarMatrix + "</table>";
+}
