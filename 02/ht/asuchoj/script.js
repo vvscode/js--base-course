@@ -124,16 +124,17 @@ function calculate(operator) {
  * new Singleton() === new Singleton
  */
 function Singleton () {
-  if (Singleton.instance) {
+
+  if ( Singleton.instance ) {
     return Singleton.instance
   }
-}
 
-Singleton.prototype = Object.defineProperty(Singleton, "instance",{
-    value: this,
-    writable: false,
-    configurable: false
-});
+  Object.defineProperty( Singleton, "instance",{
+      value: this,
+      writable: false,
+      configurable: false
+  });
+}
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
@@ -253,5 +254,15 @@ debounce(fun, delay) / throttle(fun, delay)
 * */
 
 function debounce(fun, delay){
+    if( debounce.a ){
+        return
+    } else {
+        setTimeout(function a() {
+            fun();
+            delete debounce.a;
+        }, delay);
+        debounce.a = true;
+    }
 }
+
 
