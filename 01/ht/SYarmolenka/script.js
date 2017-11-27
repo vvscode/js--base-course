@@ -4,7 +4,7 @@
 
 /**
  * Функция вывода строк для работы в fizzBuzz
- * @param {*} a 
+ * @param {*} a
  */
 function log(a) {
     console.log(a);
@@ -13,12 +13,12 @@ function log(a) {
 /* Раместите ваш код ниже */
 
 /**
- * реализовать фукнцию `fizzBuzz` 
- * которая выводит числа от 1 до 100. 
- * Если число кратно 3 - вместо числа вывести `Fizz`. 
- * Если кратно 5 - вывести вместо числа `Buzz`. 
- * Если число кратно и 3 и 5 - вывести вместо числа `FizzBuzz`. 
- * Для вывода использовать фукнцию `log` (аналогично заданию в классе). 
+ * реализовать фукнцию `fizzBuzz`
+ * которая выводит числа от 1 до 100.
+ * Если число кратно 3 - вместо числа вывести `Fizz`.
+ * Если кратно 5 - вывести вместо числа `Buzz`.
+ * Если число кратно и 3 и 5 - вывести вместо числа `FizzBuzz`.
+ * Для вывода использовать фукнцию `log` (аналогично заданию в классе).
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
@@ -42,14 +42,14 @@ function fizzBuzz() {
 
 
 /**
- * реализовать фукнцию  `isPolindrom`, 
+ * реализовать фукнцию  `isPolindrom`,
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
  * является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
- * @param {string} textString 
+ * @param {string} textString
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-  for (let i=0; i<=textString.length/2; i++) {
+  for (let i=0; i<textString.length/2; i++) {
     if (textString[i]!==textString[textString.length-1-i]) {
       return false;
     }
@@ -59,12 +59,12 @@ function isPolindrom(textString) {
 
 
 /**
- * Реализовать фукнцию `drawCalendar` , 
- * которая принимает три аргумента - год, месяц, htmlElement 
- * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
- * @param {number} year 
+ * Реализовать фукнцию `drawCalendar` ,
+ * которая принимает три аргумента - год, месяц, htmlElement
+ * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).
+ * @param {number} year
  * @param {number} month - номер месяца, начиная с 1
- * @param {external:HTMLElement} htmlEl 
+ * @param {external:HTMLElement} htmlEl
  */
 function drawCalendar(year, month, htmlEl) {
   if (htmlEl.querySelector(`.Calendar`)) { //check old calendar
@@ -86,7 +86,7 @@ function drawCalendar(year, month, htmlEl) {
   }
 
   let date = new Date (year, month-1,1);
-  let limit = date.getDay()>0 ? date.getDay() : 7; 
+  let limit = date.getDay()>0 ? date.getDay() : 7;
   for (let i=1; i<limit; i++) { //insert empty cells until first day of month
     let td = document.createElement(`td`);
     tbody.appendChild(td);
@@ -115,7 +115,7 @@ function drawCalendar(year, month, htmlEl) {
       tbody.appendChild(td);
     }
   }
-    htmlEl.appendChild(table); //paste table in DOM 
+    htmlEl.appendChild(table); //paste table in DOM
 }
 
 
@@ -123,8 +123,8 @@ function drawCalendar(year, month, htmlEl) {
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
  * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
+ * @param {*} objA
+ * @param {*} objB
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
