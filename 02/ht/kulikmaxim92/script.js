@@ -169,7 +169,7 @@ function wrapper() {
   */
 function ForceContructor(a, b, c) {
   if (this instanceof ForceContructor) {
-    this.a = a;
+    this.presence = a;
     this.b = b;
     this.c = c;
   } else {

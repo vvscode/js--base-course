@@ -78,7 +78,7 @@ function drawCalendar(year, month, element) {
 
     table += '<tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
     function changeDayNumberIfSunday(dayNumber) {
-        // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as a parameter
+        // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as presence parameter
         if (dayNumber === 0) { dayNumber = numberOfSunday };
         return dayNumber;
     }

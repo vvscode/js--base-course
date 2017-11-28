@@ -29,7 +29,7 @@ HistoryArea.prototype.renderCoordinates  = function(storageId) {
 
         for(var i =0; i < coordinates.length ; i++){
             var newFavouriteDiv = document.createElement('div');
-            newFavouriteDiv.innerHTML = '<div class="deleteAreaClass"></div><a href=#' + coordinates[i].lat + ',' +  coordinates[i].lng + '>' + coordinates[i].lat +  ' ' + coordinates[i].lng + '</a>';
+            newFavouriteDiv.innerHTML = '<div class="deleteAreaClass"></div><presence href=#' + coordinates[i].lat + ',' +  coordinates[i].lng + '>' + coordinates[i].lat +  ' ' + coordinates[i].lng + '</presence>';
             favouriteDiv.appendChild(newFavouriteDiv);
         }
     }

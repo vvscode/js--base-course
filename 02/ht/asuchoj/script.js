@@ -147,7 +147,7 @@ function ForceContructor(a, b, c) {
   if( !(this instanceof ForceContructor) ){
     return new ForceContructor(a, b, c);
   }
-  this.a = a;
+  this.presence = a;
   this.b = b;
   this.c = c;
 }
@@ -253,16 +253,41 @@ function drawInteractiveCalendar(el) {}
 debounce(fun, delay) / throttle(fun, delay)
 * */
 
-function debounce(fun, delay){
-    if( debounce.a ){
-        return
-    } else {
-        setTimeout(function a() {
-            fun();
-            delete debounce.a;
-        }, delay);
-        debounce.a = true;
+function debounce(func, ms) {
+
+  let timer = null;
+
+  return function (...args) {
+    const onComplete = () => {
+      func.apply(this, args);
+      timer = null;
     }
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(onComplete, ms);
+  };
 }
 
 
+
+/*
+function debounce(f, ms) {
+
+  let timer = null;
+
+  return function (...args) {
+    const onComplete = () => {
+      f.apply(this, args);
+      timer = null;
+    }
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(onComplete, ms);
+  };
+}*/

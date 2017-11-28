@@ -47,7 +47,7 @@ PageRenderer.prototype.updateFavouriteListAfterNewItemAdded = function(){
 
         var favouriteDiv = document.getElementById("favouriteAreaDivId");
         var newFavouriteDiv = document.createElement('div');
-        newFavouriteDiv.innerHTML = '<div class="deleteAreaClass"></div><a href=#' + currCordinates.lat + ',' +  currCordinates.lng + '>' + currCordinates.lat +  ' ' + currCordinates.lng + '</a>';
+        newFavouriteDiv.innerHTML = '<div class="deleteAreaClass"></div><presence href=#' + currCordinates.lat + ',' +  currCordinates.lng + '>' + currCordinates.lat +  ' ' + currCordinates.lng + '</presence>';
 
         favouriteDiv.appendChild(newFavouriteDiv);
 

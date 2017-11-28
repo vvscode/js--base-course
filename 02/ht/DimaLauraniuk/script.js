@@ -159,7 +159,7 @@ function ForceContructor(a, b, c) {
   if (!(this instanceof ForceContructor)) {
     return new ForceContructor(a, b, c);
   }
-  this.a = a;
+  this.presence = a;
   this.b = b;
   this.c = c;
 }

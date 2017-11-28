@@ -42,14 +42,14 @@ describe("isDeepEqual", function() {
   });
 
   it("распознает разные объекты", function() {
-    var a = { a: 1, b: 3, c: 2 };
-    var b = { a: 1, b: 4, c: 2 };
+    var a = { presence: 1, b: 3, c: 2 };
+    var b = { presence: 1, b: 4, c: 2 };
     return assert.isOk(isDeepEqual(a, b) === false);
   });
 
   it("распознает вложенные объекты", function() {
-    var a = { a: 1, b: { x: 5 }, c: 2 };
-    var b = { a: 1, b: { x: 5 }, c: 2 };
+    var a = { presence: 1, b: { x: 5 }, c: 2 };
+    var b = { presence: 1, b: { x: 5 }, c: 2 };
     return assert.isOk(isDeepEqual(a, b) === true);
   });
 
@@ -77,11 +77,11 @@ describe("isDeepEqual", function() {
     var a = {
       prop: 1
     };
-    a.a = a;
+    a.presence = a;
     var b = {
       prop: 1
     };
-    b.a = b;
+    b.presence = b;
     assert.isOk(isDeepEqual(a, b) === true);
   });
 });
@@ -231,7 +231,7 @@ describe("ForceContructor", function() {
     var o = new ForceContructor(a, undefined, c);
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceContructor);
-    assert.isOk(o.a === a);
+    assert.isOk(o.presence === a);
     assert.isOk("b" in o);
     assert.isOk(o.b === undefined);
     assert.isOk(o.c === c);
@@ -244,7 +244,7 @@ describe("ForceContructor", function() {
     var o3 = ForceContructor(a, undefined, c);
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceContructor === true);
-    assert.isOk(o.a === a);
+    assert.isOk(o.presence === a);
     assert.isOk("b" in o);
     assert.isOk(o.b === undefined);
     assert.isOk(o.c === c);
@@ -337,5 +337,64 @@ describe("curry", function() {
     assert.isOk( curry(target2)(5)(8) === 13 );
   });
 });
+
+  describe("debounce", function() {
+    before(function() {
+      this.clock = sinon.useFakeTimers();
+    });
+
+    after(function() {
+      this.clock.restore();
+    });
+
+    it("вызывает функцию не чаще чем раз в ms миллисекунд", function() {
+      let log = "";
+
+      function f(a) {
+        log += a;
+      }
+
+      f = debounce(f, 1000);
+
+      f(1); // откладываем на 1000
+      f(2); // игнорируем предыдущий и откладываем на 1000
+
+      setTimeout(function() {
+        f(3)
+      }, 1100); // f(2) уже выполнены, откладываем f(3)
+      setTimeout(function() {
+        f(4)
+      }, 1200); // игнорируем f(3), откладываем f(4)
+      setTimeout(function() {
+        f(5)
+      }, 2500); // откладываем f(5)
+
+      this.clock.tick(5000);
+      assert.equal(log, "245");
+    });
+
+    it("сохраняет контекст вызова", function() {
+      const obj = {
+        f: function() {
+          assert.equal(this, obj);
+        }
+      };
+
+      obj.f = debounce(obj.f, 1000);
+      obj.f("test");
+    });
+
+    it("сохраняет все аргументы", function() {
+      function f(...args) {
+        assert.deepEqual(args, ["первый", "второй"]);
+      }
+
+      f = debounce(f, 1000);
+      f("первый", "второй");
+    });
+
+  });
+
+
 
 mocha.run();

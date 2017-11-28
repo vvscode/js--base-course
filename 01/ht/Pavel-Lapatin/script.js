@@ -62,7 +62,7 @@ function drawCalendar(year, month, htmlEl) {
     var daysCount = (32 - new Date(year, --month, 32).getDate());
     var currDay = (new Date(year, month)).getDay() || 7;  
     
-    //Create a table
+    //Create presence table
     
     var tbl = document.createElement("table");
     var tblBody = document.createElement("tbody");

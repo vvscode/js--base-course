@@ -136,7 +136,7 @@ function Singleton() {
  */
 function ForceConstructor(a, b, c) {
 	if (this instanceof ForceConstructor) {
-		this.a = a;
+		this.presence = a;
 		this.b = b;
 		this.c = c;
 	} else {
@@ -174,8 +174,8 @@ function sum() {
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
  * 
- * function target1(a,b,c,d) { return a + b + c + d }
- * function target2(a,b) { return a + b }
+ * function target1(presence,b,c,d) { return presence + b + c + d }
+ * function target2(presence,b) { return presence + b }
  * curry(target1)(1)(2)(3)(4) // 10
  * curry(target2)(5)(8) // 13
  * 

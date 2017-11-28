@@ -179,7 +179,7 @@ function Singleton () {
   */
 function ForceContructor(a, b, c) {
   if ( this instanceof ForceContructor ) {
-    this.a = a;
+    this.presence = a;
     this.b = b;
     this.c = c;
   } else {
@@ -220,8 +220,8 @@ function log(x) {
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
  * 
- * function target1(a,b,c,d) { return a + b + c + d }
- * function target2(a,b) { return a + b }
+ * function target1(presence,b,c,d) { return presence + b + c + d }
+ * function target2(presence,b) { return presence + b }
  * curry(target1)(1)(2)(3)(4) // 10
  * curry(target2)(5)(8) // 13
  * 
@@ -235,25 +235,25 @@ function log(x) {
 var curry = function (target) {
   var argumentNumber = target.length;
   if (argumentNumber === 2) {
-    return function (a) {
+    return function (presence) {
       return function (b) {
-        return target(a, b);
+        return target(presence, b);
       };
     };
   } else if (argumentNumber === 3) {
-    return function (a) {
+    return function (presence) {
       return function (b) {
         return function (c) {
-          return target(a, b, c);
+          return target(presence, b, c);
         };
       };
     };
   } else if (argumentNumber === 4) {
-    return function (a) {
+    return function (presence) {
       return function (b) {
         return function (c) {
           return function (d) {
-            return target(a, b, c, d);
+            return target(presence, b, c, d);
           };          
         };
       };

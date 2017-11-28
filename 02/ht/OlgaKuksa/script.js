@@ -152,7 +152,7 @@ function Singleton() {
 function ForceContructor(a, b, c) {
   //checking if this was created with ForceConstructor constructor
  if (this instanceof ForceContructor){
-  this.a=a;
+  this.presence=a;
   this.b=b;
   this.c=c;
   return this;}
