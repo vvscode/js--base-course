@@ -228,18 +228,18 @@ var u = new User();
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
-document.getElementById("assemble").onclick = function(e) {
-    var name = document.getElementById('name').value,
-        city = document.getElementById('city').value,
-        comment = document.getElementById('comment').value,
-        radio = document.querySelector('input[type=radio]:checked').value;
-
-    document.getElementById('output').innerHTML = name+' '+city+' '+comment+' '+radio;
-
-    document.getElementById('name').value='';
-    document.getElementById('comment').value='';
-
-}
+//document.getElementById("assemble").onclick = function(e) {
+//    var name = document.getElementById('name').value,
+//        city = document.getElementById('city').value,
+//        comment = document.getElementById('comment').value,
+//        radio = document.querySelector('input[type=radio]:checked').value;
+//
+//    document.getElementById('output').innerHTML = name+' '+city+' '+comment+' '+radio;
+//
+//    document.getElementById('name').value='';
+//    document.getElementById('comment').value='';
+//
+//}
 
 
 
@@ -260,9 +260,9 @@ document.getElementById("assemble").onclick = function(e) {
 //  console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
 
 function sleep(seconds) {
-	var start = Date.now(),
-		end = Date.now() + seconds * 1000;
-	while (Date.now() < end) {
+    var start = Date.now(),
+        end = Date.now() + seconds * 1000;
+    while (Date.now() < end) {
         //работает этот код!
     };
 }
@@ -272,8 +272,52 @@ function sleep(seconds) {
 
 
 
+function debounce(f,ms) {
+    var timer = null;
+
+    return function(...args) {
+
+        function complite(){
+            f.apply(this,args);
+            timer= null;
+        }
+        if(timer) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(complite,ms);
+    }
+}
 
 
+
+function throttle(f,ms) {
+    var isThrottled = false,
+        savedArgs,
+        savedThis; 
+    function wrap(...arg) {
+        if(isThrottled) {
+            savedArgs = arg;
+            savedThis = this;
+            return;  
+        }  
+
+        f.apply(this,arg);  
+        isThrottled = true;
+        
+        setTimeout(function(){
+            isThrottled = false;
+            if (savedArgs) {
+                wrapper.apply(savedThis, savedArgs);
+                savedArgs = savedThis = null;
+            }
+
+        },ms);
+
+
+    } 
+    return wrap;
+}
 
 
 
