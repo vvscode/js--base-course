@@ -255,19 +255,15 @@ debounce(fun, delay) / throttle(fun, delay)
 
 function debounce (fun, delay) {
 
-    let timer = null;
+    let timer;
 
-    return function (...args) {
-        const onComplete = () => {
-            fun.apply(this, args);
-            timer = null;
-        }
+    return function () {
+      var saveA = [].slice.call(arguments, 0);
+      clearInterval(timer);
+      timer = setTimeout( function () {
+        fun.apply(this, saveA)
+      }, delay)
 
-        if (timer) {
-            clearTimeout(timer);
-        }
-
-        timer = setTimeout(onComplete, delay);
     };
 }
 
