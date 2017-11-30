@@ -340,5 +340,6 @@ describe("curry", function() {
         assert.isOk(+curry(target2)(5)(8) === 13);
     });
 });
+document.querySelector
 
 mocha.run();

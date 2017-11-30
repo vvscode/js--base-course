@@ -308,3 +308,8 @@ function throttle(func, wait) {
         }, wait);
     }
 }
+
+function sleep(time) {
+    var timer = (time * 1000) + new Date().getTime();
+    while (timer !== new Date().getTime()) {}
+}
