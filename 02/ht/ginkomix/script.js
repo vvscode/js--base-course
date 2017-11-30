@@ -200,7 +200,22 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
+function curry(target) {
+	var len = target.length;
 
+	return function f1() {
+		var args = Array.prototype.slice.call(arguments, 0);
+		if (args.length >= len) {
+			return target.apply(null, args);
+		}
+		else {
+			return function f2() {
+				var args2 = Array.prototype.slice.call(arguments, 0);
+				return f1.apply(null, args.concat(args2));
+			}
+		}
+	};
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
