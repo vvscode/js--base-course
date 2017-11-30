@@ -252,62 +252,55 @@ function drawInteractiveCalendar(el) {}
 debounce(fun, delay) / throttle(fun, delay)
 * */
 
-<<<<<<< HEAD
 function debounce (fun, delay) {
 
-    let timer;
-
-    return function () {
-      var saveA = [].slice.call(arguments, 0);
-      clearInterval(timer);
-      timer = setTimeout( function () {
-        fun.apply(this, saveA)
-      }, delay)
-
-    };
+  let timer;
+  return function () {
+    var saveA = [].slice.call(arguments, 0);
+    clearInterval(timer);
+    timer = setTimeout(function () {
+      fun.apply(this, saveA)
+    }, delay);
+  }
 }
 
-function throttle(fun, delay) {
+function throttle (fun, delay) {
+  var isThrottled = false,
+    savedArgs,
+    savedThis;
+  
+  function wrapper () {
 
-    var isThrottled = false,
-        savedArgs,
-        savedThis;
-
-    function wrapper() {
-
-        if (isThrottled) {
-            savedArgs = arguments;
-            savedThis = this;
-            return;
-        }
-
-        fun.apply(this, arguments);
-
-        isThrottled = true;
-
-        setTimeout(function() {
-            isThrottled = false;
-            if (savedArgs) {
-                wrapper.apply(savedThis, savedArgs);
-                savedArgs = savedThis = null;
-            }
-        }, delay);
+    if (isThrottled) {
+      savedArgs = arguments;
+      savedThis = this;
+      return;
     }
 
-    return wrapper;
+    fun.apply(this, arguments);
+    isThrottled = true;
+
+    setTimeout(function () {
+      isThrottled = false;
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, delay);
+  }
+
+  return wrapper;
 }
 
-/*Задание 15
-Создать синхронную функцию sleep(seconds) так, чтобы работал код
-console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
-sleep(9);
-console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)*/
+  /*Задание 15
+   Создать синхронную функцию sleep(seconds) так, чтобы работал код
+   console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+   sleep(9);
+   console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)*/
 
-function sleep(seconds){
+  function sleep (seconds) {
+    var finish = Date.now() + seconds * 1000;
+    while (Date.now() < finish) {}
+  }
 
-}
-=======
-function debounce(fun, delay){
-}
 
->>>>>>> parent of d7e42a5... 28.11.2017
