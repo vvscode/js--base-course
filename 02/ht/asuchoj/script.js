@@ -124,16 +124,17 @@ function calculate(operator) {
  * new Singleton() === new Singleton
  */
 function Singleton () {
-  if (Singleton.instance) {
+
+  if ( Singleton.instance ) {
     return Singleton.instance
   }
-}
 
-Singleton.prototype = Object.defineProperty(Singleton, "instance",{
-    value: this,
-    writable: false,
-    configurable: false
-});
+  Object.defineProperty( Singleton, "instance",{
+      value: this,
+      writable: false,
+      configurable: false
+  });
+}
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
@@ -252,7 +253,6 @@ function drawInteractiveCalendar(el) {}
 debounce(fun, delay) / throttle(fun, delay)
 * */
 
-<<<<<<< HEAD
 function debounce (fun, delay) {
 
     let timer;
@@ -306,8 +306,3 @@ console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)*/
 function sleep(seconds){
 
 }
-=======
-function debounce(fun, delay){
-}
-
->>>>>>> parent of d7e42a5... 28.11.2017
