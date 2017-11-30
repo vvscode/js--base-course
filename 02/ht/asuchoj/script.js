@@ -127,14 +127,13 @@ function Singleton () {
   if (Singleton.instance) {
     return Singleton.instance
   }
+
+  Object.defineProperty( Singleton, "instance",{
+    value: this,
+    writable: false,
+    configurable: false
+  });
 }
-
-Object.defineProperty( Singleton, "instance",{
-  value: this,
-  writable: false,
-  configurable: false
-});
-
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
