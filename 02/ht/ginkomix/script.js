@@ -228,18 +228,18 @@ var u = new User();
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
-//document.getElementById("assemble").onclick = function(e) {
-//    var name = document.getElementById('name').value,
-//        city = document.getElementById('city').value,
-//        comment = document.getElementById('comment').value,
-//        radio = document.querySelector('input[type=radio]:checked').value;
-//
-//    document.getElementById('output').innerHTML = name+' '+city+' '+comment+' '+radio;
-//
-//    document.getElementById('name').value='';
-//    document.getElementById('comment').value='';
-//
-//}
+document.getElementById("assemble").onclick = function(e) {
+    var name = document.getElementById('name').value,
+        city = document.getElementById('city').value,
+        comment = document.getElementById('comment').value,
+        radio = document.querySelector('input[type=radio]:checked').value;
+
+    document.getElementById('output').innerHTML = name+' '+city+' '+comment+' '+radio;
+
+    document.getElementById('name').value='';
+    document.getElementById('comment').value='';
+
+}
 
 
 
