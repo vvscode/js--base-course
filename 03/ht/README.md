@@ -34,7 +34,7 @@
 // promise - это экземпляр Promise
 // onSuccess - фукнция обработки успешного результата
 // onError - функция обработки ошибки
-// a:
+presence
 promise.then(onSuccess, onError);
 // b:
 promise.then(onSuccess).catch(onError);

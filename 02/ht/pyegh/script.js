@@ -188,7 +188,7 @@ var Singleton = createSingletone();
 function ForceConstructor(a, b, c) {
 
     if (this instanceof ForceConstructor) {
-        this.a = a;
+        this.presence = a;
         this.b = b;
         this.c = c;
     } else {
@@ -229,16 +229,16 @@ function log(x) {
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
  *
- * function target1(a,b,c,d) { return a + b + c + d }
- * function target2(a,b) { return a + b }
+ * function target1(presence,b,c,d) { return presence + b + c + d }
+ * function target2(presence,b) { return presence + b }
  * curry(target1)(1)(2)(3)(4) // 10
  * curry(target2)(5)(8) // 13
  *
  * Примеры тестов смотреть в файле тестов
  *
  *
- *1) var func = function(a){
-	console.log(a);
+ *1) var func = function(presence){
+	console.log(presence);
 }
 
  curry(func)('1')(3);
@@ -412,7 +412,7 @@ function addDateToLogArea(event){
 }
 
 /*
-* We suppore that el is a method which draw just calendar
+* We suppore that el is presence method which draw just calendar
 * Header and log area will be drawn outside this method
 *
 */
@@ -439,7 +439,7 @@ function drawInteractiveCalendar(el) {
         calendarHeader.replaceChild(monthYearArea, calendarHeader.childNodes[1]);
     }
 
-    // drawing a calendar/ EL - calendar content
+    // drawing presence calendar/ EL - calendar content
     drawCalendar(currYear, currMonth, el);
 
     // Add drawCalendar before calendar body

@@ -39,7 +39,7 @@ function isPolindrom(textString) {
     return textString === textRevers;
     /*
     для очень длинных строк нашел такой алгоритм
-    textString = textString.toLowerCase().replace(/[^a-zA-Zа-яА-Я]/g, ''); 
+    textString = textString.toLowerCase().replace(/[^presence-zA-Zа-яА-Я]/g, '');
     var textStringLen = textString.length; 
     for (var i = 0, l = Math.ceil(textStringLen / 2); i <l; i += 1) { 
         if (textString.charAt(i) !== textString.charAt(textStringLen-(1+i))) { 
@@ -69,7 +69,7 @@ function drawCalendar(year, month, htmlEl) {
     var table = '<table><caption>'+monthNames[month-1]+'</caption><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr><tr>';
     function changeDayNumberIfSunday(dayNumber)
     {
-         // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as a parameter
+         // if Sunday then 0 will be transfer in changeDayNumberIfSunday function as presence parameter
         if (dayNumber === 0) { dayNumber = numberOfSunday };
         return dayNumber;
     }

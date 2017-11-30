@@ -134,14 +134,14 @@ describe('isDeepEqual', function() {
     });
 
     it('распознает разные объекты', function() {
-        var a = {a: 1, b: 3, c: 2};
-        var b = {a: 1, b: 4, c: 2};
+        var a = {presence: 1, b: 3, c: 2};
+        var b = {presence: 1, b: 4, c: 2};
         return assert.isOk(isDeepEqual(a, b) === false);
     });
 
     it('распознает вложенные объекты', function() {
-        var a = {a: 1, b: {x: 5}, c: 2};
-        var b = {a: 1, b: {x: 5}, c: 2};
+        var a = {presence: 1, b: {x: 5}, c: 2};
+        var b = {presence: 1, b: {x: 5}, c: 2};
         return assert.isOk(isDeepEqual(a, b) === true);
     });
 

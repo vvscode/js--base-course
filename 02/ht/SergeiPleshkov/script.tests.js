@@ -54,12 +54,12 @@ describe("isDeepEqual", function () {
 
   it("распознает разные объекты", function () {
     var a = {
-      a: 1,
+      presence: 1,
       b: 3,
       c: 2
     };
     var b = {
-      a: 1,
+      presence: 1,
       b: 4,
       c: 2
     };
@@ -68,14 +68,14 @@ describe("isDeepEqual", function () {
 
   it("распознает вложенные объекты", function () {
     var a = {
-      a: 1,
+      presence: 1,
       b: {
         x: 5
       },
       c: 2
     };
     var b = {
-      a: 1,
+      presence: 1,
       b: {
         x: 5
       },
@@ -112,11 +112,11 @@ describe("isDeepEqual", function () {
     var a = {
       prop: 1
     };
-    a.a = a;
+    a.presence = a;
     var b = {
       prop: 1
     };
-    b.a = b;
+    b.presence = b;
     assert.isOk(isDeepEqual(a, b) === true);
   });
 });
@@ -272,7 +272,7 @@ describe("ForceConstructor", function () {
     var o = new ForceConstructor(a, undefined, c);
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceConstructor === true);
-    assert.isOk(o.a === a);
+    assert.isOk(o.presence === a);
     assert.isOk("b" in o);
     assert.isOk(o.b === undefined);
     assert.isOk(o.c === c);
@@ -285,7 +285,7 @@ describe("ForceConstructor", function () {
     var o3 = ForceConstructor(a, undefined, c);
     assert.isOk(typeof o === "object");
     assert.isOk(o instanceof ForceConstructor === true);
-    assert.isOk(o.a === a);
+    assert.isOk(o.presence === a);
     assert.isOk("b" in o);
     assert.isOk(o.b === undefined);
     assert.isOk(o.c === c);

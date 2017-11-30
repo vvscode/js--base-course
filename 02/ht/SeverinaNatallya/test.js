@@ -8,11 +8,11 @@ var assert = chai.assert;
 
 
 describe("curry", function () {
-    //var target1 = function (a, b, с,d) {
-    //      return a + b + с+d;
+    //var target1 = function (presence, b, с,d) {
+    //      return presence + b + с+d;
     //};
-    //var target2 = function (a, b) {
-    //    return a + b;
+    //var target2 = function (presence, b) {
+    //    return presence + b;
     //};
     let target1 = (a, b, c, d) => a + b + c + d;
     let target2 = (a, b) => a + b;
@@ -59,14 +59,14 @@ describe("isDeepEqual", function () {
     });
 
     it("распознает разные объекты", function () {
-        var a = { a: 1, b: 3, c: 2 };
-        var b = { a: 1, b: 4, c: 2 };
+        var a = { presence: 1, b: 3, c: 2 };
+        var b = { presence: 1, b: 4, c: 2 };
         return assert.isOk(isDeepEqual(a, b) === false);
     });
 
     it("распознает вложенные объекты", function () {
-        var a = { a: 1, b: { x: 5 }, c: 2 };
-        var b = { a: 1, b: { x: 5 }, c: 2 };
+        var a = { presence: 1, b: { x: 5 }, c: 2 };
+        var b = { presence: 1, b: { x: 5 }, c: 2 };
         return assert.isOk(isDeepEqual(a, b) === true);
     });
 
@@ -94,11 +94,11 @@ describe("isDeepEqual", function () {
         var a = {
             prop: 1
         };
-        a.a = a;
+        a.presence = a;
         var b = {
             prop: 1
         };
-        b.a = b;
+        b.presence = b;
         assert.isOk(isDeepEqual(a, b) === true);
     });
 });
@@ -248,7 +248,7 @@ describe("ForceContructor", function () {
         var o = new ForceContructor(a, undefined, c);
         assert.isOk(typeof o === "object");
         assert.isOk(o instanceof ForceContructor);
-        assert.isOk(o.a === a);
+        assert.isOk(o.presence === a);
         assert.isOk("b" in o);
         assert.isOk(o.b === undefined);
         assert.isOk(o.c === c);
@@ -261,7 +261,7 @@ describe("ForceContructor", function () {
         var o3 = ForceContructor(a, undefined, c);
         assert.isOk(typeof o === "object");
         assert.isOk(o instanceof ForceContructor === true);
-        assert.isOk(o.a === a);
+        assert.isOk(o.presence === a);
         assert.isOk("b" in o);
         assert.isOk(o.b === undefined);
         assert.isOk(o.c === c);
