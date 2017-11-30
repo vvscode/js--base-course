@@ -129,11 +129,12 @@ function Singleton () {
   }
 }
 
-Singleton.prototype = Object.defineProperty(Singleton, "instance",{
-    value: this,
-    writable: false,
-    configurable: false
+Object.defineProperty( Singleton, "instance",{
+  value: this,
+  writable: false,
+  configurable: false
 });
+
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
@@ -268,7 +269,7 @@ function throttle (fun, delay) {
   var isThrottled = false,
     savedArgs,
     savedThis;
-  
+
   function wrapper () {
 
     if (isThrottled) {
