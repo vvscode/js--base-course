@@ -60,6 +60,10 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  * 
  */
+Function.prototype.myBind = function(context) {
+  return bind(this, context);
+};
+
  
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
