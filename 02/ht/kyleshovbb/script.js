@@ -168,11 +168,11 @@ var Singleton = (function () {
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceContructor(a, b, c) {
+    if (!(this instanceof ForceContructor)) return new ForceContructor(a, b, c);
+
     this.a = a;
     this.b = b;
     this.c = c;
-
-    if (!(this instanceof ForceContructor)) return new ForceContructor(a, b, c);
 }
 
 /**
@@ -225,7 +225,7 @@ function curry(func) {
     return function anyFunction(arguments) {
         array.push(arguments);
         arreyLength--;
-        if (arreyLength) return anyFunction.bind(null);
+        if (arreyLength) return anyFunction;
         return func.apply(null, array);
     }
 }
@@ -258,17 +258,17 @@ User.prototype = PreUser.prototype;
  после чего поля очистить.
  */
 
-function debounce (func, delay)
-{ var shouldExecute=0;
-
-    return function () {
-        if (shouldExecute) return;
-        func.apply(this, arguments);
-        shouldExecute = 1;
-        setTimeout(function () {
-            shouldExecute = 0
-        }, delay);
-    }
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
 }
 
 function throttle(func, wait) {
@@ -285,7 +285,6 @@ function throttle(func, wait) {
         }
 
         func.apply(this, arguments);
-
         isThrottled = true;
 
         setTimeout(function () {
@@ -300,7 +299,7 @@ function throttle(func, wait) {
 
 function sleep(time) {
     var timer = (time * 1000) + new Date().getTime();
-    while (timer !== new Date().getTime()) {}
+    while (timer > new Date().getTime()) {}
 }
 
 /*

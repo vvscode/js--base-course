@@ -336,10 +336,29 @@ describe("curry", function() {
     assert.isOk(typeof curry === "function");
   });
     it("Суммирование передаваемых аргументов функции", function() {
-        assert.isOk(+curry(target1)(1)(2)(3)(4) === 10);
-        assert.isOk(+curry(target2)(5)(8) === 13);
+      assert.isOk(+curry(target1)(1)(2)(3)(4) === 10);
+      assert.isOk(+curry(target2)(5)(8) === 13);
     });
 });
+
+describe("sleep", function() {
+    it("Функция", function() {
+      assert.isOk(typeof sleep === "function");
+    });
+    it("Функция не работает ассинхронно", function() {
+      var startTime = new Date().getSeconds();
+      sleep(1);
+      var endTime = new Date().getSeconds();
+      assert.isOk(startTime !== endTime);
+    });
+    it("Функция тормозит код на указанное время", function() {
+      var startTime = new Date().getSeconds() + 1;
+      sleep(1);
+      var endTime = new Date().getSeconds();
+      assert.isOk(startTime === endTime);
+    });
+});
+
 document.querySelector
 
 mocha.run();
