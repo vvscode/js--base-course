@@ -19,7 +19,7 @@ Calendar.prototype.creatCalendar = function () {
 
   let thead = table.querySelector(`thead`);
   let tr1 = document.createElement(`tr`);
-  let monthName = new Date(this.year, this.month - 1).toLocaleString(`ru`, {
+  let monthName = new Date(this.year, this.month - 1, 1, 4).toLocaleString(`ru`, {
     month: 'long'
   }).toUpperCase();
   for (let i = 0; i < 3; i++) {
@@ -183,7 +183,7 @@ document.body.addEventListener(`click`, function (e) {
     }
 
     if (e.target.closest('TD') && e.target.closest('TD').innerText !== ``) {
-      let day = new Date(obj.year, obj.month - 1, e.target.closest('TD').innerText).toLocaleString(`ru`, {
+      let day = new Date(obj.year, obj.month - 1, e.target.closest('TD').innerText, 4).toLocaleString(`ru`, {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
@@ -216,7 +216,7 @@ document.body.addEventListener(`click`, function (e) {
 });
 
 function drawCalendar (year, month, htmlEl) {
-  new Calendar (htmlEl, year, month+1);
+  new Calendar (htmlEl, year, month);
 }
 
 function drawInteractiveCalendar (el) {
