@@ -10,9 +10,36 @@
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
+
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+  if (objA===objB){
+    return true;
+  }else if(objA!==objA && objB !==objB){
+    return true;
+  }else if(typeof (objA) === "object" && objA !== null && 
+           typeof (objB) === "object" && objB !== null && 
+           Object.keys(objA).length===Object.keys(objB).length){
+    if(Array.isArray(objA)===Array.isArray(objB)){
+      for(var prop in objA){
+        if(prop in objB){
+          if ((objA[prop] === objA && objB[prop] === objA)
+          || (objB[prop] === objB && objB[prop] === objA)
+          || (objA[prop] === objB && objB[prop] === objA)
+          || (objA[prop] === objA && objB[prop] === objB)){
+            continue;
+          }
+          if (!isDeepEqual(objA[prop],objB[prop])){
+            return false;
+          }
+        }else{
+          return false
+        }
+      }
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -31,8 +58,9 @@ function bind(func, context) {
  * Реализовать метод .myBind для всех функций, 
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
+ * 
  */
-
+ 
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
 * o.magicProperty = 3 // (любое значение) 
@@ -154,25 +182,16 @@ function ForceContructor(a, b, c) {
 
 function sum () {
   
-    var currentSum =arguments[0];
-    if(arguments[0]==='undefined'){
-     currentSum=0;
-    }
+    var currentSum =arguments[0] || 0;
     function f(b) {
-      
-      if(b ==='undefined'){
-        currentSum+=0;
-      }else{
-        currentSum += b;
-      }
-        return f;
-      
+        return sum(currentSum + (b || 0));
     }
      f.valueOf = function() {
       return currentSum;
     };
    return f;
 }
+
 
 function log(x) {
   console.log(+x);
@@ -194,7 +213,9 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+function curry(func) {
+
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -228,3 +249,36 @@ var u = new User();
 Добавть на страницу index.html вызов календаря
 */
 function drawInteractiveCalendar(el) {}
+//в папке interctiveCalendar
+
+
+
+
+function debounce(func, delay) { 
+  var timeout;            
+  return function() {
+      var context = this;   
+      clearTimeout(timeout);   
+      timeout = setTimeout(function(args) {
+          func.apply(context, args);     
+      }, delay); 
+   }; 
+};
+
+
+
+
+
+
+
+function sleep(n){
+  var beforeSleep = new Date().getTime();
+  n *=1000;
+  var afterSleep;
+  do{
+    afterSleep = new Date().getTime(); 
+  } while(afterSleep - beforeSleep < n); 
+}
+console.log(new Date())
+sleep(4)
+console.log(new Date())
