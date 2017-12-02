@@ -217,9 +217,36 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {
 
+function curry (func) {
+  var arity = func.length
+
+  return function f1(...args) {
+    if (args.length >= arity) {
+      return func(...args)
+    } else {
+      return function f2(...moreArgs) {
+        var newArgs = args.concat(moreArgs)
+        return f1(...newArgs)
+      }
+    }
+  }
 }
+
+function target1(a, b) {
+  return a + b 
+}
+function target2(a, b, c) {
+  return a + b + c
+}
+function target3(a, b, c, d) {
+  return a + b + c + d
+}
+function target4(a, b, c, d, e) {
+  return a + b + c + d + e
+}
+
+
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
