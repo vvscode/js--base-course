@@ -107,9 +107,20 @@ function calculate(sign) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
+var Singleton = (function() {
+    var instance;
 
-}
+    return function constructSingleton() {
+        if (instance) {
+            return instance;
+        }
+        if (this && this.constructor === constructSingleton) {
+            instance = this;
+        } else {
+            return new constructSingleton();
+        }
+    }
+}());
 
 /**
   * Создайте функцию ForceConstructor
@@ -118,7 +129,12 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw 'undefined';
+  if (this instanceof ForceContructor) {
+      this.a=a;
+      this.b=b;
+      this.c=c;
+      return this;
+  } else return new ForceContructor(a, b, c);
 }
 
 /**
@@ -132,13 +148,10 @@ function ForceContructor(a, b, c) {
  */
 
 function sum(a) {
-    var s=0;
-    for (var i = 0; i < arguments.length; i++) {
-        s += arguments[i];
-    }
+    var s=a||0;
+
     function f(b) {
-        s+=b;
-        return f;
+        return sum(s+(b||0));
     }
     f.valueOf=function() {
         return s;
@@ -150,7 +163,7 @@ function log(x) {
   console.log(+x);
 }
 
-/**
+/*
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
@@ -166,8 +179,15 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
-
+function curry(func) {
+    var newargs=[];
+    function newf(a) {
+        newargs.push(a);
+        if (newargs.length<func.length) return newf;
+        else return func(...newargs);
+    };
+    return newf;
+}
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
@@ -190,7 +210,7 @@ User.prototype = Object.create(PreUser.prototype);
 При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
 после чего поля очистить.
 */
-
+// смотреть form.html
 /* 
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
@@ -200,3 +220,18 @@ User.prototype = Object.create(PreUser.prototype);
 Добавть на страницу index.html вызов календаря
 */
 function drawInteractiveCalendar(el) {}
+
+
+// debounce
+
+function debounce(f, ms) {
+    var timer = null;
+    return function(...rest) {
+        var onComplete = function() {
+            f.apply(this, rest);
+            timer = null;
+        }
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(onComplete, ms);
+    };
+}
