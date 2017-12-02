@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		form {
+			display: inline-block;
+			width: 300px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		.data  {
+			display: inline-block;
+			width: 250px;
+			margin: 2px 0;
+		}
+	</style>
+</head>
+<body>
+	<form name="uform">
+		<input type="text" name="name" class="data">
+		<br>
+		<select class="data" name="city">
+			<option>Минск</option>
+			<option>Могилев</option>
+			<option>Смоленск</option>
+		</select>
+		<br>
+		<input type="radio" name="sex" value="муж"><label>муж</label>
+		<br>
+		<input type="radio" name="sex" value="жен"><label>жен</label>
+		<br>
+		<textarea cols="10" rows="10" class="data" name="comments">
+		</textarea>
+		<br>
+		<input type="button" id="btn" value="Push">
+	</form>
+	<br>
+	<div id="resultData"></div>
+	<script src="script.js"></script>
+	<script>
+		printData();
+	</script>
+</body>
+</html>
