@@ -59,11 +59,43 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 
-function drawCalendar(year, month, htmlEl){
-  
+function getDay(elem){
+	var newDay = elem.getDay();
+	if (newDay == 0){
+		newDay = 7;
+	}
+	return newDay - 1;
 }
 
-//постараюсь еще доделать
+function drawCalendar(year, month, htmlEl){
+  
+	var table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+	var newMonth = month - 1;
+	var date = new Date(year, newMonth);
+	for (var i = 1; i <= getDay(date); i++) {
+	 	table += '<td></td>';
+	};
+	
+	while (date.getMonth() == newMonth) {
+		table += '<td>' + date.getDate() + '</td>';
+		if (getDay(date) % 7 == 6) {
+			table += '</tr><tr>';
+		}
+		date.setDate(date.getDate() + 1);
+	};
+	
+	if (getDay(date) != 0) {
+	 	for (var i = getDay(date); i < 7; i++) {
+	 		table += '<td></td>';
+	 	}
+	 };
+			
+	table += '</tr></table>';
+    htmlEl.innerHTML = table;
+
+};
+
+
 
 /**
  * Написать функцию `isDeepEqual`
@@ -75,13 +107,27 @@ function drawCalendar(year, month, htmlEl){
  */
 
 function isDeepEqual(objA, objB) {
- if (objA === objB){
-     return true;
- } else {
-     return false;
-    
- }
- return undefined;
+	
+ if (typeof(objA) !== typeof(objB)){
+	 return false;
+  }
+    if (typeof(objA) !== 'object') {
+		return objA === objB;
+	}
+    if (Array.isArray(objA) != Array.isArray(objB)){
+		
+	 return false;
+	}
+    if (Object.keys(objA).length !== Object.keys(objB).length){
+		return false;
+	}
+    for (var key in objA) {
+        if (!isDeepEqual(objA[key], objB[key])){
+			return false;
+		}
+    }
+    return true;
 }
+	
  
 
