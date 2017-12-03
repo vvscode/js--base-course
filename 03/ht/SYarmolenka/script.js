@@ -1,4 +1,4 @@
-document.addEventListener (`DOMContentLoaded`, refreshHash);
+document.addEventListener (`DOMContentLoaded`, readHash);
 
 function Calendar (htmlEl, year, month) {
   this.year = year || new Date().getFullYear();
@@ -117,28 +117,21 @@ Calendar.prototype.refreshComment = function () {
   this.saveChangeToLoacalHash();
 };
 
-Calendar.prototype.saveChangeToLoacalHash = function () {
-  window.location.hash = ``;
-  let str = `YM`;
-  let allTable = document.body.querySelectorAll(`.calendar`);
-  allTable.forEach(function (elem, i) {
-    if (i === allTable.length - 1) {
-      str += JSON.stringify(elem.creator, [`year`, `month`]);
-      return;
+Calendar.prototype.saveChangeToLoacalHash = function() {
+    let hash = window.location.hash;
+    jsonObj = {};
+    jsonObj.year = this.year;
+    jsonObj.month = this.month;
+    jsonObj.comment = this.comment;
+    str = `Cl${this.number}&${JSON.stringify(jsonObj)}END`;
+    if (hash.indexOf(`Cl${this.number}`)>=0) {
+      if (hash.indexOf(str)>=0) return;
+      let first = hash.indexOf(`Cl${this.number}`);
+      let last = hash.indexOf(`}END`, first)+4;
+      window.location.hash = hash.slice(0, first)+str+hash.slice(last);
+      return
     }
-    str += JSON.stringify(elem.creator, [`year`, `month`]);
-    str += `&`;
-  });
-  str += `COMMENTS`;
-  allTable.forEach(function (elem, i) {
-    if (i === allTable.length - 1) {
-      str += JSON.stringify(elem.creator.comment);
-      return;
-    }
-    str += JSON.stringify(elem.creator.comment);
-    str += `&`;
-  });
-  window.location.hash = str;
+    window.location.hash += str;
 };
 
 Calendar.prototype.addComment = function (key, value) {
@@ -223,25 +216,33 @@ function drawInteractiveCalendar (el) {
   new Calendar (el);
 }
 
-function refreshHash () {
+function readHash() {
   let str = window.location.hash;
-  if (str.indexOf(`YM`) > 0 && str.indexOf(`COMMENTS`) > 0) {
-    let index = str.indexOf(`COMMENT`);
-    let ym = str.slice(3, index).split(`&`);
-    let comment = str.slice(index + 8).split(`&`);
-    for (let i = 0; i < ym.length; i++) {
-      let oldObj = JSON.parse(ym[i]);
-      let oldComment = JSON.parse(comment[i]);
-      let newObj = document.querySelectorAll(`.calendar`)[i].creator;
-      newObj.comment = oldComment;
-      for (let key in oldObj) {
-        newObj[key] = oldObj[key];
-      }
-      newObj.refreshCalendar();
-      newObj.refreshComment();
-    }
+  let allCalendarOnPage = document.querySelectorAll(`.calendar`);
+  if (str.indexOf(`Cl`) >= 0 && str.indexOf(`}END`) > 0) {
+    let stringOfObj = str.split(`ENDCl`);;
+    stringOfObj.forEach(function(elem, i, arr) {
+      if (i === 0) elem = elem.slice(3);
+      if (i === arr.length - 1) elem = elem.slice(0, -3);
+      arr[i] = elem;
+    })
+    stringOfObj.forEach(function(elem, i, arr) {
+      arr[i] = elem.split(`&`);
+    })
+    allCalendarOnPage.forEach(function(table) {
+      stringOfObj.forEach(function(elem) {
+        if (+elem[0] === table.creator.number) {
+          let obj = JSON.parse(elem[1]);
+          for (let key in obj) {
+            table.creator[key] = obj[key];
+          }
+        }
+      })
+      table.creator.refreshCalendar();
+      table.creator.refreshComment();
+    })
   }
-}
+};
 
 drawInteractiveCalendar(document.body);
 drawCalendar(2000, 1, document.body);
