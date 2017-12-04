@@ -119,7 +119,7 @@ Calendar.prototype.refreshComment = function () {
 
 Calendar.prototype.saveChangeToLoacalHash = function() {
     let hash = window.location.hash;
-    jsonObj = {};
+    let jsonObj = {};
     jsonObj.year = this.year;
     jsonObj.month = this.month;
     jsonObj.comment = this.comment;
