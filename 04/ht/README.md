@@ -52,7 +52,7 @@
     <script scr="..."></script>
 		<script>
 		(function() {
-			  var id = 'calendar' +  Math.random() ;
+			  var id = 'calendar123';
 			  document.write('<div id="' + id + '"></div>');
 			  new Calendar({
 			    el: '#' + id,
