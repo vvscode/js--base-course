@@ -1,0 +1,30 @@
+header{
+    height: 100px;
+}
+.box {
+    width: 1024px;
+    margin: 0 auto;
+}
+
+.menu .clearfix {
+    height: 0;
+    clear: both;
+}
+
+.menu ul {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+.menu li {
+    float: left;
+    list-style-type: none;
+    padding: 5px;
+}
+.menu a {
+
+    font-size: 20px;
+}
+a.active {
+    color: #ff0000;
+}
