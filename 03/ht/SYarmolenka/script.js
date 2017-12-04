@@ -5,7 +5,7 @@ function Calendar (htmlEl, year, month) {
   this.month = month || new Date().getMonth() + 1;
   this.htmlEl = htmlEl;
   this.comment = {};
-  this.number = document.body.querySelectorAll(`.calendar`).length;
+  // this.number = document.body.querySelectorAll(`.calendar`).length;
   this.calendar = this.creatCalendar();
   this.drawCalendar();
 }
