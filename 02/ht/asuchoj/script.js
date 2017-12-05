@@ -123,17 +123,17 @@ function calculate(operator) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton () {
-  if (Singleton.instance) {
-    return Singleton.instance
-  }
 
-  Object.defineProperty( Singleton, "instance",{
-    value: this,
-    writable: false,
-    configurable: false
-  });
-}
+var Singleton = new function () {
+  var instance;
+  return function () {
+    if(instance){
+      return instance
+    }
+    instance = this;
+    return instance;
+  }
+};
 
 /*  ЗАДАНИЕ 8 *  +
   * Создайте функцию ForceConstructor
