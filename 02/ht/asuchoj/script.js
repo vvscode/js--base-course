@@ -80,6 +80,7 @@ Object.defineProperty(o,'magicProperty',{
   }
 });
 
+
 /*  ЗАДАНИЕ 5* +
 * Создать конструктор с методами, так,
 * чтобы следующий код работал и делал соответствующие вещи
@@ -92,16 +93,20 @@ function Form () {
 }
 
 Form.prototype.askName = function () {
-    return this.name = prompt( 'введите имя','ALEX' );
+    this.name = prompt( 'введите имя','ALEX' );
+    return this;
 };
 Form.prototype.askAge = function () {
-     return this.age = prompt( 'введите возраст', 18 );
+    this.age = prompt( 'введите возраст', 18 );
+    return this;
 };
 Form.prototype.showAgeInConsole = function () {
-    return console.log( this.age );
+    console.log( this.age );
+    return this;
 };
 Form.prototype.showNameInAlert = function () {
-    return alert( this.name );
+    alert( this.name );
+    return this;
 };
 
 /*  ЗАДАНИЕ 6* +
