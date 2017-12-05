@@ -20,7 +20,32 @@
             </div>
         </header>
         <div class="container">
-            <div class="third_page"> </div>
+
+<!--Show Calender-->
+            <div class="calender_page hidden_element">
+                <p> Тут типа календарь </p>
+            </div>
+<!-- Create calender -->
+            <div class="create_calender_page hidden_element">
+                <div class="create_calender_configure">
+                    <form id="create_calender_form">
+                        <fieldset>
+                            <legend> Configure Calendar </legend>
+                            <input type="checkbox" id="change_month" class="create_calender_checkbox"> <label for="change_month">allow change month</label> <br>
+                            <input type="checkbox" id="add_tasks" class="create_calender_checkbox"> <label for="add_tasks"> add tasks </label>  <br>
+                            <input type="checkbox" id="remove_tasks" class="create_calender_checkbox"> <label for="remove_tasks">remove tasks</label>  <br>
+                            <input type="checkbox" id="show_month_year" class="create_calender_checkbox"> <label for="show_month_year">show month/year</label>  <br>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="create_calender_show"></div>
+                <div class="create_calender_script"></div>
+            </div>
+
+<!-- About me -->
+            <div class="about_me_page hidden_element">
+                <p> Тут типа Я!!!!!!!!!! </p>
+            </div>
         </div>
     </div>
 </body>
