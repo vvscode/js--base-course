@@ -59,7 +59,6 @@ document.body.addEventListener('click', function (ev){
 });
 
 //функция отображения нужных/не нужных элементов
-
 function showHiddenElement(el) {
     document.querySelectorAll('.show_element').forEach( function (elem) {
         elem.classList.remove('show_element');

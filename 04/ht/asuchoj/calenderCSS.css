@@ -36,6 +36,18 @@ a.active {
     display: block;
 }
 
+.create_calender_show{
+    position: relative;
+    float: right;
+    margin: 10px;
+}
+.create_calender_configure{
+    width: 420px;
+    margin: 0 auto;
+}
+
+
+
 
 /*из колендаря*/
 
@@ -53,14 +65,9 @@ body {
     text-align: center;
     box-sizing: content-box;
     margin: 0;
-    padding: 30px;
 }
 
-.container {
-    width: 420px;
-    margin: 0 auto;
-    position: relative;
-}
+
 .calendar div {
     background-color: #46484c;
     color: white;
@@ -90,9 +97,6 @@ td {
 }
 th {
     font-size: 20px;
-    background-color: rgb(70, 72, 76);
-    color: #ffffff;
-
 }
 .weekend {
     color: #fff;
@@ -107,7 +111,7 @@ th {
 }
 
 .days_Of_Last_Month {
-    background-color: rgba(218, 177, 164, 0.5);
+    background-color: #FFFFFF;
 }
 
 .days_Of_This_Month:hover {
@@ -122,23 +126,23 @@ th {
     background-color: #ff233d;
 }
 
-.days_name{
-    background-color: rgba(70, 72, 76, 0.5);
-}
+
 #leftButton{
     float: left;
 }
 #rightButton{
     float: right;
 }
+
+
 .prev__button,
-.next__button{
-    margin: 10px;
+.next__button {
+    position: absolute;
+    top: 1px;
     border: none;
-    background-color: #46484C;
-    color: white;
-    height: 68px;
-    width: 68px;
+    height: 59px;
+    width: 59px;
+    background-color: #FFFFFF;
 }
 .prev__button:hover,
 .next__button:hover{
@@ -146,12 +150,16 @@ th {
     color: #000;
     opacity: 0.5;
 }
+
+.prev__button:focus,
+.next__button:focus{
+    outline:none;
+}
 .prev__button{
-    float: left;
+    left: 1px;
 }
 .next__button{
-    float: right;
-
+    right: 1px;
 }
 
 /* бдок информации*/

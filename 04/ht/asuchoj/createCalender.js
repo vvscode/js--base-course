@@ -7,15 +7,24 @@
 
     createCalenderForm.addEventListener('change', function (ev) {
         var target = ev.target;
-        if(target.getAttribute("type") === 'checkbox'){
+
+        if( target.getAttribute("type") === 'checkbox' ){
             alert( target.getAttribute('id') );
+
+            if( !target.hasAttribute('checked') ){
+                target.setAttribute('checked', 'checked')
+            } else {
+                target.removeAttribute('checked', 'checked')
+            }
         }
+
+        new ShowCalender('.create_calender_show',
+          null || new Date().getFullYear(),
+          null || new Date().getMonth(),
+          a = changeMonth.hasAttribute('checked'),
+          b = addTasks.hasAttribute('checked'),
+          c = removeTasks.hasAttribute('checked'),
+          d = showMonthAndYear.hasAttribute('checked'),);
+
     })
-
-
-
-
-
-
-
 })();

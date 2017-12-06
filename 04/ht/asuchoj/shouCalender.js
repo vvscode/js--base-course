@@ -1,40 +1,60 @@
-function f (id) {
-    var a = document.createElement('div');
-    a.className = 'rowinformation';
-    a.id = 'rowinformation';
-    document.querySelector(id).appendChild(a);
-
-
-    var b = document.createElement('div');
-    b.className = 'calendar';
-    b.id = 'calendar';
-    document.querySelector(id).appendChild(b);
 
 
 
-    let firstDate = new Date();
-    let firstYear = firstDate.getFullYear();
-    let firstMonth = firstDate.getMonth();
-    let calender = document.querySelector('#calendar');
-    let rowInformation = document.getElementById('rowinformation');
+function ShowCalender (id, year, month, a, b, c, d,) {
+    var calender = CreateElement ( id, 'div', 'calendar', 'calendar' );
+    var rowInformation = CreateElement ( id, 'div', 'rowinformation', 'rowinformation' );
 
+    var butPrev = CreateElement ( id, 'button', 'prev__button', 'prev_button' );
+    var butnext = CreateElement ( id, 'button', 'next__button', 'next_button' );
 
+    createCalendar("calendar", year, month);
 
+    if ( !d ){
+        document.querySelector('h2').style.display = 'none';
+    }
 
+    if ( !a ){
+        butPrev.style.display = 'none';
+        butnext.style.display = 'none';
+    }
 
+    butPrev.innerHTML = '<';
+    butnext.innerHTML = '>';
 
+    butPrev.addEventListener('click', function() {
+        createCalendar("calendar", year, --month);
+      if ( !d ){
+        document.querySelector('h2').style.display = 'none';
+      }
+    });
 
-    function createCalendar(id, year, month) {
+    butnext.addEventListener('click', function() {
+
+        createCalendar("calendar", year, ++month);
+      if ( !d ){
+        document.querySelector('h2').style.display = 'none';
+      }
+    });
+
+    calender.addEventListener('click', addNewDescriptionDate, false);
+    rowInformation.addEventListener('click', deleteDescription, false);
+
+    /*создание календаря*/
+
+    function createCalendar(id, year, month, d) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
         let elem = document.getElementById(id);
         let dataInCalenderNow = new Date(year, month);
         const THISMONTH = dataInCalenderNow.getMonth();
 
-        /*шапка таблицы*/
-        let calenderHead = '<table><thead><tr><td></td><td colspan="5"><h2>' + addNameMonth(THISMONTH) +
-            ' ' + dataInCalenderNow.getFullYear() + '</h2></td><td></td></tr></thead>';
 
-        /*тело таблицы*/
+
+        /*шапка календаря*/
+        let calenderHead = '<thead><tr><td></td><td colspan="5"><h2>' + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + '</h2></td><td></td></tr></thead>';
+
+
+        /*тело календаря*/
         let nameDays = '<tbody><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th>' +
             '<th>вс</th></tr><tr>';
 
@@ -59,38 +79,13 @@ function f (id) {
             }
         }
         //собираем таблицу
-        elem.innerHTML = calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
+        elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
+
+
+
         let allTd = document.querySelectorAll('td');
-        addClassTd(allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name');
+        addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
         rowInformation.innerHTML = localStorage.getItem('noteList') || null;
-    }
-
-
-    var butPrev = CreateButton( 'prev_button', 'prev__button', '<' );
-    var butnext = CreateButton( 'next_button', 'next__button', '>' );
-
-    document.querySelector(id).appendChild(butPrev);
-    document.querySelector(id).appendChild(butnext);
-
-    butPrev.addEventListener('click', function() {
-        createCalendar("calendar", firstYear, --firstMonth);
-    });
-    butnext.addEventListener('click', function() {
-        createCalendar("calendar", firstYear, ++firstMonth);
-    });
-
-    createCalendar("calendar", firstYear, firstMonth); // запуск нужной пользователю даты (точка отсчета)
-
-
-
-    /* конструктор кнопок */
-
-    function CreateButton( addId, addClass, symbolBotton  ) {
-        but = document.createElement('button');
-        but.id = addId;
-        but.className = addClass;
-        but.innerHTML = symbolBotton;
-        return but
     }
 
     /*функция получения номера дня недели от 0(пн) до 6(вс)*/
@@ -118,6 +113,7 @@ function f (id) {
 
     /*функция получения названия месяца*/
     function addNameMonth(month) {
+
         let nameMonth = '';
         let arrNameMonth = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
         arrNameMonth.forEach(function(item, i) {
@@ -128,18 +124,18 @@ function f (id) {
         return nameMonth;
     }
 
-    /*К генератору листаемого календаря добавить функционал: под календарем добавить блок.
-     При клике на ячейку даты ( но не на пустую ячейку календаря ) в блоке должна добавляться
-     запись о том, по какой ячейке кликнули. Можно добавить запрос описания даты от пользователя
-     с помощью функции prompt и выводить это описание там же). История дат и список, по которым
-     пользоатель клика, должны сохраняться между перезагрузками страницы. Для сохранения использоват
-     LocalStorage. Интерфейс работы с данными (чтение/запись) лучше сделать асинхронным*/
-
-    calender.addEventListener('click', addNewDescriptionDate, false);
-    rowInformation.addEventListener('click', deleteDescription, false);
+    /*конструктор элементов помещаемых на страницу*/
+    function CreateElement (id, nameElem, classNameEl, idNameEl) {
+        var element = document.createElement(nameElem);
+        element.className = classNameEl;
+        element.id = idNameEl;
+        return document.querySelector(id).appendChild(element);
+    }
 
     // добавить коментарий
     function addNewDescriptionDate() {
+
+        if(!b) return;
 
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
         let nameMonth = document.querySelector('.calendar table h2');
@@ -179,6 +175,8 @@ function f (id) {
 
     // удаление коментария
     function deleteDescription() {
+        if(!c) return;
+
         let delDescriptionButton = document.getElementsByClassName('delete_description');
         let target = event.target;
 
@@ -190,7 +188,7 @@ function f (id) {
         localStorage.noteList = rowInformation.innerHTML;
     }
 }
-f ('.container');
+
 
 
 
