@@ -47,8 +47,7 @@ class InitGame {
 	}
 
 	clearLastGame() {
-		var lastGame = JSON.parse(localStorage.getItem('lastGame')) || [];
-		lastGame = [];
+		var lastGame = [];
 		localStorage.setItem('lastGame', JSON.stringify(lastGame));
 	}
 
@@ -72,8 +71,7 @@ class PlayGame {
 	}
 
 	clearLastGame() {
-		var lastGame = JSON.parse(localStorage.getItem('lastGame')) || [];
-		lastGame = [];
+		var lastGame = [];
 		localStorage.setItem('lastGame', JSON.stringify(lastGame));
 	}
 
@@ -156,6 +154,7 @@ class GameArea {
 	update() {
 		for (var i = 0; i < this.follower.length; i++) {
 			if(this.myPlayer.collisionDetected(this.follower[i])) {
+				localStorage.setItem('lastGame', JSON.stringify(this.lastGame));
 				this.stop();
 				this.setHistoryItem();
 				new ScoreBlock(this.score[0], this.score[1]);
@@ -165,6 +164,7 @@ class GameArea {
 		
 		for (var i = 0; i < this.enemy.length; i++) {
 			if(this.myPlayer.collisionDetected(this.enemy[i])) {
+				localStorage.setItem('lastGame', JSON.stringify(this.lastGame));
 				this.stop();
 				this.setHistoryItem();
 				new ScoreBlock(this.score[0], this.score[1]);
@@ -266,7 +266,7 @@ class GameArea {
 		frameRecord.push([this.myPlayer.args, this.myPlayer.color]);
 		
 		this.lastGame.push(frameRecord);
-		localStorage.setItem('lastGame', JSON.stringify(this.lastGame));
+		
 	}
 
 	movePlayer(event) {
