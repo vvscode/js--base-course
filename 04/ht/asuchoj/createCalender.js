@@ -11,46 +11,63 @@
 
 
     showCalender ();
+    addCodCalender();
 
-    createCalenderForm.addEventListener('change', function (ev) {while ( createCalenderShow.firstElementChild ) {
-        createCalenderShow.removeChild( createCalenderShow.firstElementChild );
-      }
-        let target = ev.target;
+    createCalenderForm.addEventListener('change', function (ev) {
 
-        if( target.getAttribute("type") === 'checkbox' ){
+        while ( createCalenderShow.firstElementChild ) {
+            createCalenderShow.removeChild( createCalenderShow.firstElementChild );
+        }
+
+        /*let target = ev.target;*/
+
+        /*if( target.getAttribute("type") === 'checkbox' ){
             if( !target.hasAttribute('checked') ){
                 target.setAttribute('checked', 'checked')
             } else {
                 target.removeAttribute('checked', 'checked')
             }
-        }
+        }*/
+
         showCalender ();
+        addCodCalender();
 
     });
 
-     function showCalender () {
-
-/*       var id = 'calendar' + Math.random();
-       document.write('<div id="' + id + '"></div>');*/
-
-      new ShowCalender ({
-        el:'.create_calender_show',
-        allowChangeMonth: changeMonth.hasAttribute('checked'),
-        allowAddTasks: addTasks.hasAttribute('checked'),
-        allowRemoveTasks: removeTasks.hasAttribute('checked'),
-        showMonth: showMonthAndYear.hasAttribute('checked'),
-        date: addDateValue.value,
-      })
-
-       let createCalenderScript = document.querySelector('#create_calender_script');
-       createCalenderScript.innerText = ShowCalender ({
-         el:'.create_calender_show',
-         allowChangeMonth: changeMonth.hasAttribute('checked'),
-         allowAddTasks: addTasks.hasAttribute('checked'),
-         allowRemoveTasks: removeTasks.hasAttribute('checked'),
-         showMonth: showMonthAndYear.hasAttribute('checked'),
+    function showCalender () {
+        new ShowCalender({
+         el: '.create_calender_show',
+         allowChangeMonth: changeMonth.checked,
+         allowAddTasks: addTasks.checked,
+         allowRemoveTasks: removeTasks.checked,
+         showMonth: showMonthAndYear.checked,
          date: addDateValue.value,
-       })
+        });
     }
+
+    function addCodCalender(){
+
+        let createCalenderScript = document.querySelector('#create_calender_script');
+
+        createCalenderScript.innerText = ['<script src="https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js"></script>',
+            '<script>',
+            '(function() {',
+                'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
+                'document.write(\'<div id=\"\' + id + \'\"></div>\');',
+                'new ShowCalender({',
+                    'el: "#" + id,' ,
+                    'allowChangeMonth:' + changeMonth.checked + ',',
+                    'allowAddTasks:' + addTasks.checked + ',',
+                    'allowRemoveTasks:' + removeTasks.checked + ',',
+                    'showMonth:' + showMonthAndYear.checked + ',',
+                    'date:' + null || addDateValue.value,
+                '})',
+            '})();',
+        '</script>'].join('\n');
+    }
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
 })();
 
