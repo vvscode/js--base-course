@@ -19,16 +19,6 @@
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
 
-        /*let target = ev.target;*/
-
-        /*if( target.getAttribute("type") === 'checkbox' ){
-            if( !target.hasAttribute('checked') ){
-                target.setAttribute('checked', 'checked')
-            } else {
-                target.removeAttribute('checked', 'checked')
-            }
-        }*/
-
         showCalender ();
         addCodCalender();
 

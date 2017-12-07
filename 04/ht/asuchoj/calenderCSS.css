@@ -63,7 +63,13 @@ fieldset{
 .add_month_value {
     margin-top: 25px;
 }
-
+.create_calender_script{
+    border: 1px solid black;
+    float: left;
+    width: 500px;
+    padding: 10px 25px;
+    margin: 10px;
+}
 
 /*из колендаря*/
 

@@ -1,12 +1,11 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
-
     this.el = el;
     this.allowChangeMonth = allowChangeMonth;
     this.allowAddTasks = allowAddTasks;
     this.allowRemoveTasks = allowRemoveTasks;
     this.showMonth = showMonth;
 
-    if( this.date === '' ){
+    if( this.date === 'null' ){
         this.date = new Date();
     } else {
         this.date = new Date(date);
