@@ -12,8 +12,9 @@
 
     showCalender ();
 
-    createCalenderForm.addEventListener('change', function (ev) {
-
+    createCalenderForm.addEventListener('change', function (ev) {while ( createCalenderShow.firstElementChild ) {
+        createCalenderShow.removeChild( createCalenderShow.firstElementChild );
+      }
         let target = ev.target;
 
         if( target.getAttribute("type") === 'checkbox' ){
@@ -23,17 +24,14 @@
                 target.removeAttribute('checked', 'checked')
             }
         }
-
-        alert(addDateValue.value)
-
         showCalender ();
 
     });
 
-    function showCalender () {
-      while ( createCalenderShow.firstElementChild ) {
-        createCalenderShow.removeChild( createCalenderShow.firstElementChild );
-      }
+     function showCalender () {
+
+/*       var id = 'calendar' + Math.random();
+       document.write('<div id="' + id + '"></div>');*/
 
       new ShowCalender ({
         el:'.create_calender_show',
@@ -43,15 +41,16 @@
         showMonth: showMonthAndYear.hasAttribute('checked'),
         date: addDateValue.value,
       })
+
+       let createCalenderScript = document.querySelector('#create_calender_script');
+       createCalenderScript.innerText = ShowCalender ({
+         el:'.create_calender_show',
+         allowChangeMonth: changeMonth.hasAttribute('checked'),
+         allowAddTasks: addTasks.hasAttribute('checked'),
+         allowRemoveTasks: removeTasks.hasAttribute('checked'),
+         showMonth: showMonthAndYear.hasAttribute('checked'),
+         date: addDateValue.value,
+       })
     }
-
-    /*вставка кода*/
-
-
-
-
-
-
 })();
-
 

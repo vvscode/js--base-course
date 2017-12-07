@@ -1,4 +1,5 @@
-function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date }) {
+function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
+
     this.el = el;
     this.allowChangeMonth = allowChangeMonth;
     this.allowAddTasks = allowAddTasks;
