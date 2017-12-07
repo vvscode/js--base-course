@@ -1,20 +1,28 @@
 
 
+function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, year, month}) {
+    this.el = el;
+    this.allowChangeMonth = allowChangeMonth;
+    this.allowAddTasks = allowAddTasks;
+    this.allowRemoveTasks = allowRemoveTasks;
+    this.showMonth = showMonth;
+    this.year = year;
+    this.month = month;
 
-function ShowCalender (id, year, month, a, b, c, d,) {
-    var calender = CreateElement ( id, 'div', 'calendar', 'calendar' );
-    var rowInformation = CreateElement ( id, 'div', 'rowinformation', 'rowinformation' );
 
-    var butPrev = CreateElement ( id, 'button', 'prev__button', 'prev_button' );
-    var butnext = CreateElement ( id, 'button', 'next__button', 'next_button' );
+    var calender = CreateElement ( el, 'div', 'calendar', 'calendar' );
+    var rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
+
+    var butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' );
+    var butnext = CreateElement ( el, 'button', 'next__button', 'next_button' );
 
     createCalendar("calendar", year, month);
 
-    if ( !d ){
+    if ( !showMonth ){
         document.querySelector('h2').style.display = 'none';
     }
 
-    if ( !a ){
+    if ( !allowChangeMonth){
         butPrev.style.display = 'none';
         butnext.style.display = 'none';
     }
@@ -24,17 +32,17 @@ function ShowCalender (id, year, month, a, b, c, d,) {
 
     butPrev.addEventListener('click', function() {
         createCalendar("calendar", year, --month);
-      if ( !d ){
-        document.querySelector('h2').style.display = 'none';
-      }
+        if ( !showMonth ){
+            document.querySelector('h2').style.display = 'none';
+        }
     });
 
     butnext.addEventListener('click', function() {
 
         createCalendar("calendar", year, ++month);
-      if ( !d ){
-        document.querySelector('h2').style.display = 'none';
-      }
+        if ( !showMonth ){
+            document.querySelector('h2').style.display = 'none';
+        }
     });
 
     calender.addEventListener('click', addNewDescriptionDate, false);
@@ -42,17 +50,15 @@ function ShowCalender (id, year, month, a, b, c, d,) {
 
     /*создание календаря*/
 
-    function createCalendar(id, year, month, d) {
+    function createCalendar( el, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
-        let elem = document.getElementById(id);
+        let elem = document.getElementById(el);
+
         let dataInCalenderNow = new Date(year, month);
         const THISMONTH = dataInCalenderNow.getMonth();
 
-
-
         /*шапка календаря*/
-        let calenderHead = '<thead><tr><td></td><td colspan="5"><h2>' + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + '</h2></td><td></td></tr></thead>';
-
+        let calenderHead = '<thead><tr><td colspan="7"><h2>' + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + '</h2></td></tr></thead>';
 
         /*тело календаря*/
         let nameDays = '<tbody><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th>' +
@@ -125,17 +131,17 @@ function ShowCalender (id, year, month, a, b, c, d,) {
     }
 
     /*конструктор элементов помещаемых на страницу*/
-    function CreateElement (id, nameElem, classNameEl, idNameEl) {
+    function CreateElement (el, nameElem, classNameEl, idNameEl) {
         var element = document.createElement(nameElem);
         element.className = classNameEl;
         element.id = idNameEl;
-        return document.querySelector(id).appendChild(element);
+        return document.querySelector(el).appendChild(element);
     }
 
     // добавить коментарий
     function addNewDescriptionDate() {
 
-        if(!b) return;
+        if( !allowAddTasks ) return;
 
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
         let nameMonth = document.querySelector('.calendar table h2');
@@ -175,7 +181,7 @@ function ShowCalender (id, year, month, a, b, c, d,) {
 
     // удаление коментария
     function deleteDescription() {
-        if(!c) return;
+        if( !allowRemoveTasks ) return;
 
         let delDescriptionButton = document.getElementsByClassName('delete_description');
         let target = event.target;

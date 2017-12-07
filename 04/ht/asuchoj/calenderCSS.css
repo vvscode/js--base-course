@@ -45,8 +45,17 @@ a.active {
     width: 420px;
     margin: 0 auto;
 }
-
-
+fieldset{
+    position: relative;
+}
+.add_date{
+    position: absolute;
+    left: 36px;
+    top: 105px;
+}
+.add_data_value {
+    margin-top: 25px;
+}
 
 
 /*из колендаря*/
