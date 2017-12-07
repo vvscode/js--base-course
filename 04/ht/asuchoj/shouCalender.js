@@ -1,20 +1,23 @@
-
-
-function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, year, month}) {
+function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date }) {
     this.el = el;
     this.allowChangeMonth = allowChangeMonth;
     this.allowAddTasks = allowAddTasks;
     this.allowRemoveTasks = allowRemoveTasks;
     this.showMonth = showMonth;
-    this.year = year;
-    this.month = month;
 
+    if( this.date === '' ){
+        this.date = new Date();
+    } else {
+        this.date = new Date(date);
+    }
 
-    var calender = CreateElement ( el, 'div', 'calendar', 'calendar' );
-    var rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
+    var year = new Date().getFullYear();
+    var month = new Date().getMonth();
 
-    var butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' );
-    var butnext = CreateElement ( el, 'button', 'next__button', 'next_button' );
+    let calender = CreateElement ( el, 'div', 'calendar', 'calendar' );
+    let rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
+    let butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' );
+    let butnext = CreateElement ( el, 'button', 'next__button', 'next_button' );
 
     createCalendar("calendar", year, month);
 
@@ -32,24 +35,26 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     butPrev.addEventListener('click', function() {
         createCalendar("calendar", year, --month);
+
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
         }
+
     });
 
     butnext.addEventListener('click', function() {
-
         createCalendar("calendar", year, ++month);
+
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
         }
+
     });
 
     calender.addEventListener('click', addNewDescriptionDate, false);
     rowInformation.addEventListener('click', deleteDescription, false);
 
     /*создание календаря*/
-
     function createCalendar( el, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
         let elem = document.getElementById(el);
@@ -132,7 +137,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     /*конструктор элементов помещаемых на страницу*/
     function CreateElement (el, nameElem, classNameEl, idNameEl) {
-        var element = document.createElement(nameElem);
+        let element = document.createElement(nameElem);
         element.className = classNameEl;
         element.id = idNameEl;
         return document.querySelector(el).appendChild(element);
@@ -147,7 +152,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         let nameMonth = document.querySelector('.calendar table h2');
         let target = event.target;
 
-        [].forEach.call(daysOfThisMonth, function(clickDate) {
+        [].forEach.call( daysOfThisMonth, function(clickDate) {
             if (target === clickDate) {
                 createNewDescriptionDate(clickDate, nameMonth);
                 localStorage.noteList = rowInformation.innerHTML;

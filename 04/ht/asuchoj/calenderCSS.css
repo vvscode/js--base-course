@@ -48,12 +48,19 @@ a.active {
 fieldset{
     position: relative;
 }
-.add_date{
+.add_year{
     position: absolute;
     left: 36px;
     top: 105px;
 }
-.add_data_value {
+.add_month{
+    position: absolute;
+    left: 36px;
+    top: 150px;
+}
+
+.add_year_value,
+.add_month_value {
     margin-top: 25px;
 }
 
