@@ -1,7 +1,4 @@
-function a () {
-
-  /*localStorage.getItem("object")*/
-
+(function (){
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
     let changeMonth = document.querySelector('#change_month');
@@ -10,15 +7,8 @@ function a () {
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
 
-    let createCalenderPage = document.querySelector('.create_calender_page');
-
     addCodCalender();  // код календаря по умолчанию
     showCalender(); // календарь по умолчанию
-
-    if( localStorage.getItem("saveTablcomment") ){
-        document.querySelector(".calendar").innerHTML = localStorage.getItem("saveTablcomment");
-    }
-
 
 /* обработчик на форму настроек календаря */
     createCalenderForm.addEventListener('change', function () {
@@ -35,7 +25,7 @@ function a () {
             event.target.setAttribute('checked', 'checked')
         }
 
-        localStorage.setItem("object", document.querySelector('#create_calender_form').innerHTML);
+        /*localStorage.setItem("object", document.querySelector('#create_calender_form').innerHTML);*/
 
         showCalender ();
         addCodCalender();
@@ -93,8 +83,8 @@ function a () {
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-}
-a();
+})();
+
 
 
 

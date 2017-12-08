@@ -1,6 +1,12 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
-    date === '' ? this.date = new Date() : this.date = new Date(date); // если введена дата, но введенное значение, если нет - текущая дата
+ // если введена дата, то введенное значение, если нет - текущая дата
+    if( date === ''){
+        this.date = new Date()
+    } else {
+        this.date = new Date(date)
+    }
+
     let year = this.date.getFullYear();
     let month = this.date.getMonth();
     let numder = getRandomInt(1, 10e10); // рандомное число для создание классов и id для текущего календаря
@@ -10,9 +16,20 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
 /*создаем и вставляем кнопки управления*/
     let butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' + numder );
-    let butnext = CreateElement ( el, 'button', 'next__button', 'next_button' + numder );
+    let butNext = CreateElement ( el, 'button', 'next__button', 'next_button' + numder );
 
     createCalendar("calendar" + numder, year, month);
+    testLocalStorageKey();
+
+    function testLocalStorageKey() {
+        for (let key in localStorage){
+            if( key === year + ", " + month){
+               return document.querySelector(el + ' table').innerHTML = localStorage.getItem(key);
+            }
+        }
+    }
+    
+
 
     showMonthInCalender (showMonth);
 
@@ -24,7 +41,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     if ( !allowChangeMonth){
         butPrev.style.display = 'none';
-        butnext.style.display = 'none';
+        butNext.style.display = 'none';
     }
 
     if( !allowChangeMonth && !showMonth ) {
@@ -32,19 +49,20 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     }
 
     butPrev.innerHTML = '<';
-    butnext.innerHTML = '>';
+    butNext.innerHTML = '>';
 
 /*обрабботчики для кнопок управления*/
 
     butPrev.addEventListener('click', function() {
         createCalendar("calendar" + numder, year, --month);
         showMonthInCalender (showMonth);
+        testLocalStorageKey();
     });
 
-    butnext.addEventListener('click', function() {
+    butNext.addEventListener('click', function() {
         createCalendar("calendar" + numder, year, ++month);
         showMonthInCalender (showMonth);
-
+        testLocalStorageKey();
     });
 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
@@ -59,7 +77,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         const THISMONTH = dataInCalenderNow.getMonth();
 
         /*шапка календаря*/
-        let calenderHead = '<thead><tr><td colspan="7"><h2>' + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + '</h2></td></tr></thead>';
+        let calenderHead = "<thead><tr><td colspan='7'><h2>" + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + "</h2></td></tr></thead>";
 
         /*тело календаря*/
         let nameDays = '<tbody><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th>' +
@@ -88,11 +106,8 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         //собираем таблицу
         elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
 
-
-
         let allTd = document.querySelectorAll('td');
         addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
-        //rowInformation.innerHTML = localStorage.getItem('noteList') || null;
     }
 
     /*функция получения номера дня недели от 0(пн) до 6(вс)*/
@@ -150,7 +165,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
             if (target === clickDate) {
                 createNewDescriptionDate(clickDate, nameMonth);
-                //localStorage.noteList = rowInformation.innerHTML;
             }
         })
     }
@@ -159,13 +173,13 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     function createNewDescriptionDate() {
 
         let boxDescription = document.createElement('div');
-        boxDescription.className = 'box_description' + numder;
+        boxDescription.className = 'box_description';
 
         let newDescription = document.createElement('div');
-        newDescription.className = 'new_description' + numder;
+        newDescription.className = 'new_description';
 
         let deleteButton = document.createElement('div');
-        deleteButton.className = 'delete_description' + numder;
+        deleteButton.className = 'delete_description';
         deleteButton.innerHTML = "Х";
 
         let userDescription = prompt('Отметить день', 'коментарий к дате');
@@ -177,53 +191,30 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             boxDescription.appendChild(newDescription);
             boxDescription.appendChild(deleteButton);
         }
+
+        var kkkkkk = year + ', ' + month;
+        localStorage.setItem( kkkkkk, document.querySelector(el + ' table').innerHTML )
     }
 
     // удаление коментария
     function deleteDescription() {
         if( !allowRemoveTasks ) return;
 
-        let delDescriptionButton = document.getElementsByClassName('delete_description' + numder);
+        let delDescriptionButton = document.getElementsByClassName('delete_description');
         let target = event.target;
 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
-                    clickDate.closest('.box_description' + numder ).remove();
+                    clickDate.closest('.box_description').remove();
+
                 }
             }
         });
-        //localStorage.noteList = rowInformation.innerHTML;
     }
 
     // получить рандомное число для прибавление его к id и class
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

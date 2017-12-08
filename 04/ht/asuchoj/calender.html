@@ -28,7 +28,7 @@
 
                     <script>
                       (function() {
-                        let id = "calendar552461"
+                        let id = "calendar552461";
                         document.write('<div id="' + id + '"></div>');
                         new ShowCalender({
                           el: "#" + id,
@@ -41,11 +41,11 @@
                       })();
                     </script>
 
-                    <script>
+<!--                <script>
                         if( localStorage.getItem("saveTablcomment") ){
                           document.querySelector(".calendar").innerHTML = localStorage.getItem("saveTablcomment");
                         }
-                    </script>
+                    </script>-->
 
 
 
@@ -64,13 +64,12 @@
                             <input type="text" id="add_date_value" class="add_date_value"> <label class="add_date" for="add_date_value"> add year and month ( data, month) </label>  <br>
                         </fieldset>
 
-                        <script>
-
+<!--                    <script>
                           if( localStorage.getItem("object") ){
                             document.querySelector('#create_calender_form').innerHTML = localStorage.getItem("object");
                           }
+                        </script>-->
 
-                        </script>
                     </form>
                 </div>
                 <div class="create_calender_show" id="create_calender_show"></div>
