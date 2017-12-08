@@ -21,7 +21,7 @@
         <div class="container">
 
 <!--Show Calender-->
-            <div class="calender_page hidden_element">
+            <div class="calender_page hidden_element show_element">
 
                 <div>
                     <script src=" https://rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>
@@ -41,14 +41,6 @@
                       })();
                     </script>
 
-<!--                <script>
-                        if( localStorage.getItem("saveTablcomment") ){
-                          document.querySelector(".calendar").innerHTML = localStorage.getItem("saveTablcomment");
-                        }
-                    </script>-->
-
-
-
                 </div>
             </div>
 <!-- Create calender -->
@@ -64,12 +56,13 @@
                             <input type="text" id="add_date_value" class="add_date_value"> <label class="add_date" for="add_date_value"> add year and month ( data, month) </label>  <br>
                         </fieldset>
 
-<!--                    <script>
+                        <script>
+
                           if( localStorage.getItem("object") ){
                             document.querySelector('#create_calender_form').innerHTML = localStorage.getItem("object");
                           }
-                        </script>-->
 
+                        </script>
                     </form>
                 </div>
                 <div class="create_calender_show" id="create_calender_show"></div>

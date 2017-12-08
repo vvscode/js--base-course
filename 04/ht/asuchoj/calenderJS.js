@@ -35,7 +35,6 @@ document.body.addEventListener('click', function (ev){
 
 
 // обработчик ссылок
-
 document.body.addEventListener('click', function (ev){
 
     document.querySelectorAll('.hidden1').forEach( function (elem) {
@@ -47,17 +46,16 @@ document.body.addEventListener('click', function (ev){
     }
     ev.preventDefault(); // отмена действия браузера
 
-    let link =  ev.target.getAttribute('href');
-    let a;
+    let link = ev.target.getAttribute('href');
+    let showPage;
     if( link === '/link1'){
-        a = document.querySelector('.calender_page');
+        showPage = document.querySelector('.calender_page');
     } else if( link === '/link2'){
-        a = document.querySelector('.create_calender_page');
+        showPage = document.querySelector('.create_calender_page');
     } else if( link === '/link3'){
-        a = document.querySelector('.about_me_page');
+        showPage = document.querySelector('.about_me_page');
     }
-    showHiddenElement(a);
-
+    showHiddenElement(showPage);
 });
 
 //функция отображения нужных/не нужных элементов
@@ -67,5 +65,7 @@ function showHiddenElement(el) {
     });
 
     el.classList.add('show_element');
+
+/*    localStorage.setItem("Последняя открытая ссылка",  )*/
 
 }

@@ -1,4 +1,5 @@
 (function (){
+
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
     let changeMonth = document.querySelector('#change_month');
@@ -14,7 +15,6 @@
     createCalenderForm.addEventListener('change', function () {
 
 /*удаляет календарь и перестраивает с новыми настройками*/
-
         while ( createCalenderShow.firstElementChild ) {
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
@@ -24,8 +24,6 @@
         } else {
             event.target.setAttribute('checked', 'checked')
         }
-
-        /*localStorage.setItem("object", document.querySelector('#create_calender_form').innerHTML);*/
 
         showCalender ();
         addCodCalender();
@@ -42,9 +40,7 @@
         createCalenderScript.appendChild(calenderAddBox);
 
 /*запускаем конструктор календаря*/
-
         new ShowCalender({
-         /*el: '.create_calender_show',*/
          el: "#" + id,
          allowChangeMonth: changeMonth.checked,
          allowAddTasks: addTasks.checked,
@@ -52,14 +48,9 @@
          showMonth: showMonthAndYear.checked,
          date: addDateValue.value,
         });
-
-
-/*        createCalenderPage.innerHTML = localStorage.getItem('noteList') || null;*/
-
     }
 
     function addCodCalender(){
-
         let createCalenderScript = document.querySelector('#create_calender_script');
 
 /* создаем строку с параметрами календаря для вставки*/
@@ -67,7 +58,7 @@
             '<script>',
             '(function() {',
                 'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
-                'document.write(\'<div class="" =\" ffffffff\" id=\"\' + id + \'\"> </div>\');',
+                'document.write(\'<div class="" =\" calendar\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
                     'allowChangeMonth:' + changeMonth.checked + ',',
@@ -83,6 +74,7 @@
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
+
 })();
 
 
