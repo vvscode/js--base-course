@@ -1,4 +1,5 @@
 /*Создаем обработчик URL */
+
 function handleUrl(url) {
     /*удаляет класс active у ссылки*/
     document.querySelectorAll('a.active').forEach( function (el) {
@@ -27,7 +28,7 @@ document.body.addEventListener('click', function (ev){
     ev.preventDefault(); // отмена действия браузера
 
     // При клике по ссылке - обновлять URL
-    var url = ev.target.getAttribute('href');
+    let url = ev.target.getAttribute('href');
     window.location.hash = url; // часть URL после # включительно #/link2
 });
 
@@ -45,8 +46,8 @@ document.body.addEventListener('click', function (ev){
     }
     ev.preventDefault(); // отмена действия браузера
 
-    var link =  ev.target.getAttribute('href');
-    var a;
+    let link =  ev.target.getAttribute('href');
+    let a;
     if( link === '/link1'){
         a = document.querySelector('.calender_page');
     } else if( link === '/link2'){
@@ -63,7 +64,6 @@ function showHiddenElement(el) {
     document.querySelectorAll('.show_element').forEach( function (elem) {
         elem.classList.remove('show_element');
     });
-
     el.classList.add('show_element');
 
 }

@@ -1,41 +1,38 @@
 (function () {
-
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
-
     let changeMonth = document.querySelector('#change_month');
     let addTasks = document.querySelector('#add_tasks');
     let removeTasks = document.querySelector('#remove_tasks');
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
 
+    showCalender (); // календарь по умолчанию
+    addCodCalender();  // код календаря по умолчанию
 
-    showCalender ();
-    addCodCalender();
+/* обработчик на форму настроек календаря */
+    createCalenderForm.addEventListener('change', function () {
 
-    createCalenderForm.addEventListener('change', function (ev) {
+/*удаляет календарь и перестраивает с новыми настройками*/
 
         while ( createCalenderShow.firstElementChild ) {
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
-
-
-
         showCalender ();
         addCodCalender();
-
     });
 
+/*вызываем конструктор календаря*/
     function showCalender () {
-
         let createCalenderScript = document.querySelector('#create_calender_show');
+        let id = 'calendar' +  getRandomInt(1, 1000000);
 
-        var id = 'calendar' +  getRandomInt(1, 1000000);
-        var divQ = document.createElement('div');
-        divQ.id = id;
+/*создаем обвертку для вставляемого календаря, чтоб использовать несколько на странице*/
+        let calenderAddBox = document.createElement('div');
+        calenderAddBox.id = id;
+        createCalenderScript.appendChild(calenderAddBox);
 
-        createCalenderScript.appendChild(divQ);
-
+/*запускаем конструктор календаря*/
         new ShowCalender({
          /*el: '.create_calender_show',*/
          el: "#" + id,
@@ -51,7 +48,8 @@
 
         let createCalenderScript = document.querySelector('#create_calender_script');
 
-        createCalenderScript.innerText = ['<script src="https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js"></script>',
+/* создаем строку с параметрами календаря для вставки*/
+        createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>',
             '<script>',
             '(function() {',
                 'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
@@ -67,9 +65,9 @@
             '})();',
         '</script>'].join('\n');
     }
+
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-
 })();
 

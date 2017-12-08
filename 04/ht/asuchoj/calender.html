@@ -16,20 +16,32 @@
                     <li> <a href="/link2"> Create </a>  </li>
                     <li> <a href="/link3"> About me </a> </li>
                 </ul>
-                <div class="clearfix"> </div>
             </div>
         </header>
         <div class="container">
 
 <!--Show Calender-->
             <div class="calender_page hidden_element">
-                <script>
-                    document.querySelector('#create_calender_script').innerText;
-                </script>>
 
+                <div>
+                    <script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>
+                    <script>
+                      (function() {
+                        let id = "calendar552461"
+                        document.write('<div id="' + id + '"></div>');
+                        new ShowCalender({
+                          el: "#" + id,
+                          allowChangeMonth:true,
+                          allowAddTasks:true,
+                          allowRemoveTasks:true,
+                          showMonth:true,
+                          date:null
+                        })
+                      })();
 
+                    </script>
 
-
+                </div>
             </div>
 <!-- Create calender -->
             <div class="create_calender_page hidden_element">
@@ -41,7 +53,7 @@
                             <input type="checkbox" id="add_tasks" class="create_calender_checkbox" checked="checked"> <label for="add_tasks"> add tasks </label>  <br>
                             <input type="checkbox" id="remove_tasks" class="create_calender_checkbox" checked="checked"> <label for="remove_tasks"> remove tasks </label>  <br>
                             <input type="checkbox" id="show_month_year" class="create_calender_checkbox" checked="checked"> <label for="show_month_year"> show month/year </label>  <br>
-                            <input type="text" id="add_date_value" class="add_date_value"> <label class="add_date" for="add_date_value"> add year </label>  <br>
+                            <input type="text" id="add_date_value" class="add_date_value"> <label class="add_date" for="add_date_value"> add year and month ( data, month) </label>  <br>
 
                         </fieldset>
                     </form>
@@ -56,6 +68,7 @@
                 <p> Тут типа Я!!!!!!!!!! </p>
             </div>
         </div>
+        <div class="clearfix"> </div>
     </div>
 </body>
 

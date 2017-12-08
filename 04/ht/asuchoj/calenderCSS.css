@@ -4,11 +4,13 @@ header{
 .box {
     width: 1024px;
     margin: 0 auto;
+    background-color: gray;
+
 }
 
-.menu .clearfix {
-    height: 0;
+.clearfix {
     clear: both;
+    bottom: 0;
 }
 
 .menu ul {
@@ -228,4 +230,14 @@ th {
 }
 .box_description {
     background-color: #46484C;
+}
+
+.add_date {
+    position: absolute;
+    top: 104px;
+    left: 17px;
+}
+.add_date_value{
+    margin-top: 25px;
+    margin-left: 6px;
 }

@@ -1,21 +1,20 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
-    
-   /* this.el = el;
-    this.allowChangeMonth = allowChangeMonth;
-    this.allowAddTasks = allowAddTasks;
-    this.allowRemoveTasks = allowRemoveTasks;
-    this.showMonth = showMonth;*/
 
-    date === '' ? this.date = new Date() : this.date = new Date(date);
-
-    var numder = getRandomInt(1, 10e10);
+    date === '' ? this.date = new Date() : this.date = new Date(date); // если введена дата, но введенное значение, если нет - текущая дата
 
     let year = this.date.getFullYear();
     let month = this.date.getMonth();
-    let calender = CreateElement ( el, 'div', 'calendar' + numder, 'calendar' + numder );
+
+    let numder = getRandomInt(1, 10e10); // рандомное число для создание классов и id для текущего календаря
+
+/*создаем и вставляем оболочку для календаря*/
+/* CreateElement (el, nameElem, classNameEl, idNameEl) */
+    let calender = CreateElement ( el, 'div', 'calendar', 'calendar' + numder );
     // let rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
-    let butPrev = CreateElement ( el, 'button', 'prev__button' + numder, 'prev_button' + numder );
-    let butnext = CreateElement ( el, 'button', 'next__button' + numder, 'next_button' + numder );
+
+/*создаем и вставляем кнопки управления*/
+    let butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' + numder );
+    let butnext = CreateElement ( el, 'button', 'next__button', 'next_button' + numder );
 
     createCalendar("calendar" + numder, year, month);
 
@@ -31,29 +30,26 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     butPrev.innerHTML = '<';
     butnext.innerHTML = '>';
 
+
+/*обрабботчики для кнопок управления*/
+
     butPrev.addEventListener('click', function() {
         createCalendar("calendar" + numder, year, --month);
-
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
         }
-
     });
 
     butnext.addEventListener('click', function() {
         createCalendar("calendar" + numder, year, ++month);
-
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
         }
 
     });
 
-    calender.addEventListener('click', function () {
-        addNewDescriptionDate();
-        deleteDescription();
-    }, false);
-
+    calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
+    calender.addEventListener('click', deleteDescription, false); // удалить комент
 
     /*создание календаря*/
     function createCalendar( el, year, month) {
@@ -125,7 +121,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     /*функция получения названия месяца*/
     function addNameMonth(month) {
-
         let nameMonth = '';
         let arrNameMonth = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
         arrNameMonth.forEach(function(item, i) {
@@ -150,7 +145,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         if( !allowAddTasks ) return;
 
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-        let nameMonth = document.querySelector('.calendar' + numder + 'table h2');
+        let nameMonth = document.querySelector('#calendar' + numder + 'table h2');
         let target = event.target;
 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
@@ -162,7 +157,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     }
 
     // создать коментарий
-    function createNewDescriptionDate(date, month) {
+    function createNewDescriptionDate() {
 
         let boxDescription = document.createElement('div');
         boxDescription.className = 'box_description' + numder;
@@ -194,7 +189,12 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
-                clickDate.closest('.box_description' + numder ).remove();
+
+                if( confirm('Вы уверены что хотите удали коментарий?') ) {
+                    clickDate.closest('.box_description' + numder ).remove();
+                }
+
+
             }
         });
         //localStorage.noteList = rowInformation.innerHTML;
