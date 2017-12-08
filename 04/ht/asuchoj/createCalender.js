@@ -19,7 +19,7 @@
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
 
-        alert(addDateValue.value)
+
 
         showCalender ();
         addCodCalender();

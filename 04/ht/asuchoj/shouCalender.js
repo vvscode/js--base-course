@@ -1,21 +1,23 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
-    this.el = el;
+    
+   /* this.el = el;
     this.allowChangeMonth = allowChangeMonth;
     this.allowAddTasks = allowAddTasks;
     this.allowRemoveTasks = allowRemoveTasks;
-    this.showMonth = showMonth;
+    this.showMonth = showMonth;*/
 
     date === '' ? this.date = new Date() : this.date = new Date(date);
 
-    var year = this.date.getFullYear();
-    var month = this.date.getMonth();
+    var numder = getRandomInt(1, 10e10);
 
-    let calender = CreateElement ( el, 'div', 'calendar', 'calendar' );
-    let rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
-    let butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' );
-    let butnext = CreateElement ( el, 'button', 'next__button', 'next_button' );
+    let year = this.date.getFullYear();
+    let month = this.date.getMonth();
+    let calender = CreateElement ( el, 'div', 'calendar' + numder, 'calendar' + numder );
+    // let rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );
+    let butPrev = CreateElement ( el, 'button', 'prev__button' + numder, 'prev_button' + numder );
+    let butnext = CreateElement ( el, 'button', 'next__button' + numder, 'next_button' + numder );
 
-    createCalendar("calendar", year, month);
+    createCalendar("calendar" + numder, year, month);
 
     if ( !showMonth ){
         document.querySelector('h2').style.display = 'none';
@@ -30,7 +32,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     butnext.innerHTML = '>';
 
     butPrev.addEventListener('click', function() {
-        createCalendar("calendar", year, --month);
+        createCalendar("calendar" + numder, year, --month);
 
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
@@ -39,7 +41,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     });
 
     butnext.addEventListener('click', function() {
-        createCalendar("calendar", year, ++month);
+        createCalendar("calendar" + numder, year, ++month);
 
         if ( !showMonth ){
             document.querySelector('h2').style.display = 'none';
@@ -47,8 +49,11 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     });
 
-    calender.addEventListener('click', addNewDescriptionDate, false);
-    rowInformation.addEventListener('click', deleteDescription, false);
+    calender.addEventListener('click', function () {
+        addNewDescriptionDate();
+        deleteDescription();
+    }, false);
+
 
     /*создание календаря*/
     function createCalendar( el, year, month) {
@@ -92,7 +97,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
         let allTd = document.querySelectorAll('td');
         addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
-        rowInformation.innerHTML = localStorage.getItem('noteList') || null;
+        //rowInformation.innerHTML = localStorage.getItem('noteList') || null;
     }
 
     /*функция получения номера дня недели от 0(пн) до 6(вс)*/
@@ -145,13 +150,13 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         if( !allowAddTasks ) return;
 
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-        let nameMonth = document.querySelector('.calendar table h2');
+        let nameMonth = document.querySelector('.calendar' + numder + 'table h2');
         let target = event.target;
 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
             if (target === clickDate) {
                 createNewDescriptionDate(clickDate, nameMonth);
-                localStorage.noteList = rowInformation.innerHTML;
+                //localStorage.noteList = rowInformation.innerHTML;
             }
         })
     }
@@ -160,21 +165,21 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     function createNewDescriptionDate(date, month) {
 
         let boxDescription = document.createElement('div');
-        boxDescription.className = 'box_description';
+        boxDescription.className = 'box_description' + numder;
 
         let newDescription = document.createElement('div');
-        newDescription.className = 'new_description';
+        newDescription.className = 'new_description' + numder;
 
         let deleteButton = document.createElement('div');
-        deleteButton.className = 'delete_description';
+        deleteButton.className = 'delete_description' + numder;
         deleteButton.innerHTML = "Х";
 
         let userDescription = prompt('Отметить день', 'коментарий к дате');
 
-        newDescription.innerHTML = '<h2>' + date.innerHTML + ' ' + month.innerHTML + '</h2> <p>' + userDescription + '</p>';
+      newDescription.innerHTML = '<p>' + userDescription + '</p>';
 
         if (userDescription) {
-            rowInformation.appendChild(boxDescription);
+            event.target.appendChild(boxDescription);
             boxDescription.appendChild(newDescription);
             boxDescription.appendChild(deleteButton);
         }
@@ -184,16 +189,22 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     function deleteDescription() {
         if( !allowRemoveTasks ) return;
 
-        let delDescriptionButton = document.getElementsByClassName('delete_description');
+        let delDescriptionButton = document.getElementsByClassName('delete_description' + numder);
         let target = event.target;
 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
-                clickDate.closest('.box_description').remove();
+                clickDate.closest('.box_description' + numder ).remove();
             }
         });
-        localStorage.noteList = rowInformation.innerHTML;
+        //localStorage.noteList = rowInformation.innerHTML;
     }
+
+    // получить рандомное число для прибавление его к id и class
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
 }
 
 
