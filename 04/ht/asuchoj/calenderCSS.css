@@ -4,15 +4,12 @@ header{
 .box {
     width: 1024px;
     margin: 0 auto;
-    background-color: gray;
-
+    background-color: #ffffff;
 }
-
 .clearfix {
     clear: both;
     bottom: 0;
 }
-
 .menu ul {
     float: left;
     margin: 0;
@@ -24,7 +21,6 @@ header{
     padding: 5px;
 }
 .menu a {
-
     font-size: 20px;
 }
 a.active {
@@ -111,7 +107,7 @@ td,th {
     height: 60px;
     width: 60px;
 }
-table,
+
 td {
     padding: 5px;
     border: 1px solid rgb(70, 72, 76);
@@ -121,6 +117,14 @@ td {
 }
 th {
     font-size: 20px;
+}
+thead td {
+    border: none;
+}
+tbody th {
+    background-color: #787878;
+    color: white;
+    border: 1px solid rgb(70, 72, 76);
 }
 .weekend {
     color: #fff;

@@ -1,4 +1,7 @@
-(function () {
+function a () {
+
+  /*localStorage.getItem("object")*/
+
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
     let changeMonth = document.querySelector('#change_month');
@@ -7,8 +10,15 @@
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
 
-    showCalender (); // календарь по умолчанию
+    let createCalenderPage = document.querySelector('.create_calender_page');
+
     addCodCalender();  // код календаря по умолчанию
+    showCalender(); // календарь по умолчанию
+
+    if( localStorage.getItem("saveTablcomment") ){
+        document.querySelector(".calendar").innerHTML = localStorage.getItem("saveTablcomment");
+    }
+
 
 /* обработчик на форму настроек календаря */
     createCalenderForm.addEventListener('change', function () {
@@ -18,6 +28,15 @@
         while ( createCalenderShow.firstElementChild ) {
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
+
+        if( event.target.getAttribute('checked') === 'checked' ){
+            event.target.removeAttribute('checked')
+        } else {
+            event.target.setAttribute('checked', 'checked')
+        }
+
+        localStorage.setItem("object", document.querySelector('#create_calender_form').innerHTML);
+
         showCalender ();
         addCodCalender();
     });
@@ -33,6 +52,7 @@
         createCalenderScript.appendChild(calenderAddBox);
 
 /*запускаем конструктор календаря*/
+
         new ShowCalender({
          /*el: '.create_calender_show',*/
          el: "#" + id,
@@ -42,6 +62,10 @@
          showMonth: showMonthAndYear.checked,
          date: addDateValue.value,
         });
+
+
+/*        createCalenderPage.innerHTML = localStorage.getItem('noteList') || null;*/
+
     }
 
     function addCodCalender(){
@@ -53,7 +77,7 @@
             '<script>',
             '(function() {',
                 'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
-                'document.write(\'<div id=\"\' + id + \'\"></div>\');',
+                'document.write(\'<div class="" =\" ffffffff\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
                     'allowChangeMonth:' + changeMonth.checked + ',',
@@ -69,5 +93,8 @@
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-})();
+}
+a();
+
+
 

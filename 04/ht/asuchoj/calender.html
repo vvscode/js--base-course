@@ -24,7 +24,8 @@
             <div class="calender_page hidden_element">
 
                 <div>
-                    <script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>
+                    <script src=" https://rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>
+
                     <script>
                       (function() {
                         let id = "calendar552461"
@@ -38,8 +39,15 @@
                           date:null
                         })
                       })();
-
                     </script>
+
+                    <script>
+                        if( localStorage.getItem("saveTablcomment") ){
+                          document.querySelector(".calendar").innerHTML = localStorage.getItem("saveTablcomment");
+                        }
+                    </script>
+
+
 
                 </div>
             </div>
@@ -54,8 +62,15 @@
                             <input type="checkbox" id="remove_tasks" class="create_calender_checkbox" checked="checked"> <label for="remove_tasks"> remove tasks </label>  <br>
                             <input type="checkbox" id="show_month_year" class="create_calender_checkbox" checked="checked"> <label for="show_month_year"> show month/year </label>  <br>
                             <input type="text" id="add_date_value" class="add_date_value"> <label class="add_date" for="add_date_value"> add year and month ( data, month) </label>  <br>
-
                         </fieldset>
+
+                        <script>
+
+                          if( localStorage.getItem("object") ){
+                            document.querySelector('#create_calender_form').innerHTML = localStorage.getItem("object");
+                          }
+
+                        </script>
                     </form>
                 </div>
                 <div class="create_calender_show" id="create_calender_show"></div>
