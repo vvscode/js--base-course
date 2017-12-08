@@ -5,14 +5,10 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     this.allowRemoveTasks = allowRemoveTasks;
     this.showMonth = showMonth;
 
-    if( this.date === 'null' ){
-        this.date = new Date();
-    } else {
-        this.date = new Date(date);
-    }
+    date === '' ? this.date = new Date() : this.date = new Date(date);
 
-    var year = new Date().getFullYear();
-    var month = new Date().getMonth();
+    var year = this.date.getFullYear();
+    var month = this.date.getMonth();
 
     let calender = CreateElement ( el, 'div', 'calendar', 'calendar' );
     let rowInformation = CreateElement ( el, 'div', 'rowinformation', 'rowinformation' );

@@ -19,14 +19,26 @@
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
 
+        alert(addDateValue.value)
+
         showCalender ();
         addCodCalender();
 
     });
 
     function showCalender () {
+
+        let createCalenderScript = document.querySelector('#create_calender_show');
+
+        var id = 'calendar' +  getRandomInt(1, 1000000);
+        var divQ = document.createElement('div');
+        divQ.id = id;
+
+        createCalenderScript.appendChild(divQ);
+
         new ShowCalender({
-         el: '.create_calender_show',
+         /*el: '.create_calender_show',*/
+         el: "#" + id,
          allowChangeMonth: changeMonth.checked,
          allowAddTasks: addTasks.checked,
          allowRemoveTasks: removeTasks.checked,
@@ -50,7 +62,7 @@
                     'allowAddTasks:' + addTasks.checked + ',',
                     'allowRemoveTasks:' + removeTasks.checked + ',',
                     'showMonth:' + showMonthAndYear.checked + ',',
-                    'date:' + null || addDateValue.value,
+                    'date:' + ( addDateValue.value === '' ? null : addDateValue.value ) ,
                 '})',
             '})();',
         '</script>'].join('\n');
