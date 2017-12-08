@@ -127,6 +127,10 @@ class GameArea {
 		this.score = JSON.parse(localStorage.getItem('bestscore')) || [0, 0];
 		this.lastGame = JSON.parse(localStorage.getItem('lastGame')) || [];
 
+		if (window.devicePixelRatio >= 2 || screen.width < 600) {
+			new MobileRulers(this.myPlayer);
+		}
+
 	}
 
 	randomNumber() { return (Math.random() < 0.5 ? -1 : 1)*(Math.random() * 2);}
@@ -286,6 +290,50 @@ class GameArea {
 		} 
 
 		if (event.keyCode == 40) {
+			this.myPlayer.speedY = 4;
+		}
+	}
+}
+
+class MobileRulers {
+	constructor(player) {
+		this.rulers = document.createElement('div');
+		this.rulers.className = 'mobile-rulers';
+		this.rulers.innerHTML = '<div class="single">\
+			<img id="up" class="ruler" src="img/up.png" />\
+		</div>\
+		<div class="double">\
+			<img id="left" class="ruler" src="img/left.png" />\
+			<img id="right" class="ruler" src="img/right.png" />\
+		</div>\
+		<div class="single">\
+			<img id="down" class="ruler" src="img/down.png" />\
+		</div>';
+
+		document.querySelector('.game-wrapper').appendChild(this.rulers);	
+
+		this.myPlayer = player;
+
+		document.querySelector('.mobile-rulers').addEventListener('click', this.moveMobile.bind(this));
+	}
+
+	moveMobile(event) {
+		this.myPlayer.speedX = 0;
+		this.myPlayer.speedY = 0;
+
+		if (event.target.id == 'left') {
+			this.myPlayer.speedX = -4;
+		} 
+
+		if (event.target.id == 'right') {
+			this.myPlayer.speedX = 4;
+		} 
+
+		if (event.target.id == 'up') {
+			this.myPlayer.speedY = -4;
+		} 
+
+		if (event.target.id == 'down') {
 			this.myPlayer.speedY = 4;
 		}
 	}
