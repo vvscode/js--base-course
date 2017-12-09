@@ -56,3 +56,4 @@
 
 * https://www.gitbook.com/book/maxfarseer/react-course-ru/details
 * https://abraxabra.ru/react.js/bystryy-start
+* http://thewebland.net/react-js/
