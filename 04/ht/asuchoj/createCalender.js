@@ -67,7 +67,7 @@
             '<script>',
             '(function() {',
                 'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
-                'document.write(\'<div class="" =\" ffffffff\" id=\"\' + id + \'\"> </div>\');',
+                'document.write(\'<div class=\"calendarBox\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
                     'allowChangeMonth:' + changeMonth.checked + ',',

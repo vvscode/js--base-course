@@ -207,7 +207,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
                     clickDate.closest('.box_description').remove();
-
+                    localStorage.removeItem(year + ', ' + month);
                 }
             }
         });

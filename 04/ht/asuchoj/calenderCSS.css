@@ -1,10 +1,5 @@
 header{
-    height: 100px;
-}
-.box {
-    width: 1024px;
-    margin: 0 auto;
-    background-color: #ffffff;
+    height: 40px;
 }
 .clearfix {
     clear: both;
@@ -32,6 +27,8 @@ a.active {
 }
 .show_element {
     display: block;
+    max-width: 1110px;
+    margin: 0 auto;
 }
 
 .create_calender_show{
@@ -64,10 +61,26 @@ fieldset{
 .create_calender_script{
     border: 1px solid black;
     float: left;
-    width: 500px;
+    width: 450px;
     padding: 10px 25px;
     margin: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*из колендаря*/
 
@@ -89,8 +102,7 @@ body {
 
 
 .calendar div {
-    background-color: #46484c;
-    color: white;
+    background-color: #ff0000;
 }
 .calendar hr{
     margin: 0 3%;
@@ -104,8 +116,8 @@ table {
 }
 td,th {
     box-sizing: border-box;
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 80px;
 }
 
 td {
@@ -125,6 +137,9 @@ tbody th {
     background-color: #787878;
     color: white;
     border: 1px solid rgb(70, 72, 76);
+}
+thead td {
+    background-color: #787878;
 }
 .weekend {
     color: #fff;
@@ -161,16 +176,19 @@ tbody th {
 #rightButton{
     float: right;
 }
-
+.new_description{
+    font-size: 12px;
+    margin-top: 5px;
+}
 
 .prev__button,
 .next__button {
     position: absolute;
-    top: 1px;
-    border: none;
-    height: 59px;
-    width: 59px;
-    background-color: #FFFFFF;
+    top: 0;
+    height: 71px;
+    width: 81px;
+    background-color: #787878;
+    border: 1px solid black;
 }
 .prev__button:hover,
 .next__button:hover{
@@ -184,10 +202,10 @@ tbody th {
     outline:none;
 }
 .prev__button{
-    left: 1px;
+    left: 0;
 }
 .next__button{
-    right: 1px;
+    right: -1px;
 }
 
 /* бдок информации*/
@@ -206,12 +224,12 @@ tbody th {
     position: relative;
 }
 .delete_description{
+    font-size: 14px;
     position: absolute;
-    top: 0;
+    top: -18px;
     right: 0;
-    padding: 3px;
     color: white;
-    margin: 2px;
+    margin: 0;
 }
 .delete_description:hover,
 .next__button:hover,
@@ -219,10 +237,7 @@ tbody th {
 .days_Of_This_Month:hover {
     cursor: pointer
 }
-.new_description{
-    margin: 10px 0;
-    border: 1px solid #46484C;
-}
+
 .new_description h2 {
     background-color: #46484C;
     color: white;
@@ -244,4 +259,9 @@ tbody th {
 .add_date_value{
     margin-top: 25px;
     margin-left: 6px;
+}
+.calendarBox{
+    position: relative;
+    width: 560px;
+    margin: 0 auto;
 }
