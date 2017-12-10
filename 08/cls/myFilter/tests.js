@@ -104,8 +104,10 @@ describe('.myFilter', function() {
     let counter = 0;
 
     list.myFilter(function() {
+      if (list.length < 4) {
+        list.push(1);
+      }
       counter++;
-      list.push(1);
     });
     assert.equal(counter, initialLength);
   });
