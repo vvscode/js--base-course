@@ -48,15 +48,15 @@ document.body.addEventListener('click', function (ev){
     ev.preventDefault(); // отмена действия браузера
 
     let link =  ev.target.getAttribute('href');
-    let a;
+    let activePage;
     if( link === '/link1'){
-        a = document.querySelector('.calender_page');
+        activePage = document.querySelector('.calender_page');
     } else if( link === '/link2'){
-        a = document.querySelector('.create_calender_page');
+        activePage = document.querySelector('.create_calender_page');
     } else if( link === '/link3'){
-        a = document.querySelector('.about_me_page');
+        activePage = document.querySelector('.about_me_page');
     }
-    showHiddenElement(a);
+    showHiddenElement(activePage);
 
 });
 
