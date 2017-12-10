@@ -1,0 +1,135 @@
+
+<!DOCTYPE html><html lang='en' class=''>
+<head><script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/vvscode/pen/PKbvro" />
+<meta name="description" content="[mocha template]">
+<meta charset="utf-8">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.4.2/mocha.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+
+<style class="cp-pen-styles"></style></head><body>
+<!-- http://jsbin.com/pufegap/edit?html,js,output -->
+<script src="https://rawgit.com/vvscode/0f884746817fe5b7b536d30bf56c558c/raw/047aa4c26d7072a4ba08072365fc188c2a578054/clicker.js" ></script>
+<body>  
+  <div class="menu">
+    <ul>
+      <li><a href="https://mochajs.org/" target="_blank">Mocha</a></li>
+      <li><a href="http://chaijs.com/" target="_blank">Chai</a></li>
+      <li><a href="http://sinonjs.org/" target="_blank">Sinon</a></li>
+    </ul>
+  </div>
+  <div id="mocha"></div>
+  <hr />
+
+</body>
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<script >'use strict';
+
+mocha.setup('bdd');
+var assert = chai.assert;
+
+// Array.prototype.myFilter = Array.prototype.filter;
+
+describe('.myFilter', function () {
+  it('is function', function () {
+    return assert.isFunction([].myFilter);
+  });
+
+  it('needs cb as first param', function () {
+    var ok = true;
+    try {
+      [].myFilter();
+    } catch (e) {
+      ok = false;
+    }
+    assert.equal(ok, false);
+  });
+
+  it('return list', function () {
+    return assert.ok([].myFilter(function () {
+      return true;
+    }) instanceof Array);
+  });
+
+  it('returns empty list for falsy cb', function () {
+    return assert.ok([1, 2, 3].myFilter(function () {
+      return false;
+    }).length === 0);
+  });
+  it('returns copy list for truthly cb', function () {
+    return assert.deepEqual([1, 2, 3].myFilter(function () {
+      return true;
+    }), [1, 2, 3]);
+  });
+  it('returns copy list for truthly cb', function () {
+    return assert.deepEqual([1, 2, 3].myFilter(function () {
+      return 'some truthly param';
+    }), [1, 2, 3]);
+  });
+  it('returns filtered list', function () {
+    return assert.deepEqual([1, 2, 3].myFilter(function (i) {
+      return i % 2;
+    }), [1, 3]);
+  });
+
+  it('calls passed cb', function () {
+    var list = [1, 2, 3];
+    var spy = sinon.spy();
+    list.myFilter(spy);
+    assert.equal(spy.callCount, list.length);
+  });
+
+  it('calls passed cb only for existing values', function () {
+    var list = [1,,, 3];
+    var spy = sinon.spy();
+    list.myFilter(spy);
+    assert.equal(spy.callCount, 2);
+  });
+
+  it('calls cb with params', function () {
+    var list = [1, 2, 3];
+    var spy = sinon.spy();
+    list.myFilter(spy);
+
+    assert.equal(spy.args.length, list.length);
+    list.forEach(function (item, index) {
+      return assert.deepEqual(spy.args[index], [item, index, list]);
+    });
+  });
+
+  it('use passed thisArgs', function () {
+    var that = undefined;
+
+    var context = { name: 'fake object ' };
+    [1].myFilter(function () {
+      that = this;
+    }, context);
+    assert.equal(that, context);
+  });
+
+  it('use `undefined` as thisArgs by default', function () {
+    var that = 1;
+    [1].myFilter(function () {
+      that = this;
+    });
+    assert.isUndefined(that);
+  });
+
+  it('call cb only on initial state of list', function () {
+    var list = [1, 2, 3];
+    var initialLength = list.length;
+    var counter = 0;
+
+    list.myFilter(function () {
+      counter++;
+      list.push(1);
+    });
+    assert.equal(counter, initialLength);
+  });
+});
+
+mocha.run();
+//# sourceURL=pen.js
+</script>
+</body></html>
