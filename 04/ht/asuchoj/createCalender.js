@@ -37,7 +37,7 @@
 /*вызываем конструктор календаря*/
     function showCalender () {
         let createCalenderScript = document.querySelector('#create_calender_show');
-        let idForCalender = 'previewCalender';
+        let idForCalender = 'preview_';
 
 /*создаем обвертку для вставляемого календаря, чтоб использовать несколько на странице*/
         let calenderAddBox = document.createElement('div');
@@ -66,7 +66,7 @@
         let createCalenderScript = document.querySelector('#create_calender_script');
 
 /* создаем строку с параметрами календаря для вставки*/
-        createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>',
+        createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/calenderConstructor.js "></script>',
             '<script>',
             '(function() {',
                 'var id = "' +  'calender' + getRandomInt(1, 50) + '"',

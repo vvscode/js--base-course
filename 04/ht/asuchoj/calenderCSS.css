@@ -27,7 +27,7 @@ a.active {
 }
 .show_element {
     display: block;
-    max-width: 1110px;
+    max-width: 1190px;
     margin: 0 auto;
 }
 
@@ -79,7 +79,7 @@ fieldset{
 
 
 
-
+.delete_description
 
 
 /*из колендаря*/
@@ -99,11 +99,6 @@ body {
     box-sizing: content-box;
     margin: 0;
 }
-
-
-.calendar div {
-    background-color: #ff0000;
-}
 .calendar hr{
     margin: 0 3%;
     padding: 0;
@@ -114,30 +109,32 @@ table {
     border-collapse: collapse;
     margin: 0 auto;
 }
-td,th {
+thead td {
+    border: none;
+}
+thead h2 {
+    margin: 5px 20px;
+}
+tbody th {
+    border: 1px solid black;
     box-sizing: border-box;
-    height: 70px;
-    width: 80px;
+    background-color: #787878;
+    color: white;
 }
 
 td {
+    box-sizing: border-box;
+    height: 90px;
+    width: 90px;
     padding: 5px;
     border: 1px solid rgb(70, 72, 76);
-}
-td {
     background-color: white;
 }
 th {
     font-size: 20px;
-}
-thead td {
-    border: none;
-}
-tbody th {
     background-color: #787878;
-    color: white;
-    border: 1px solid rgb(70, 72, 76);
 }
+
 thead td {
     background-color: #787878;
 }
@@ -183,12 +180,12 @@ thead td {
 
 .prev__button,
 .next__button {
+    border: none;
     position: absolute;
     top: 0;
-    height: 71px;
-    width: 81px;
+    height: 30px;
+    width: 90px;
     background-color: #787878;
-    border: 1px solid black;
 }
 .prev__button:hover,
 .next__button:hover{
@@ -226,10 +223,12 @@ thead td {
 .delete_description{
     font-size: 14px;
     position: absolute;
-    top: -18px;
-    right: 0;
+    top: -1px;
+    right: 4px;
     color: white;
     margin: 0;
+    background-color: #ff0000;
+
 }
 .delete_description:hover,
 .next__button:hover,
@@ -246,9 +245,8 @@ thead td {
 
 .new_description p {
     background-color: #ECD8D1;
-}
-.box_description {
-    background-color: #46484C;
+    margin: 0 15px 0 0;
+    padding: 0;
 }
 
 .add_date {
