@@ -1,5 +1,6 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
- // если введена дата, то введенное значение, если нет - текущая дата
+
+    // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
     if( date === ''){
         this.date = new Date()
     } else {
@@ -8,7 +9,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     let year = this.date.getFullYear();
     let month = this.date.getMonth();
-    //let numder = getRandomInt(1, 10e10); // рандомное число для создание классов и id для текущего календаря
 
 /*создаем и вставляем оболочку для календаря*/
     let calender = CreateElement ( el, 'div', 'calendar', el + 'calendar');
@@ -16,33 +16,37 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 /*создаем и вставляем кнопки управления*/
     let butPrev = CreateElement ( el, 'button', 'prev__button', el + 'prev_button');
     let butNext = CreateElement ( el, 'button', 'next__button', el + 'next_button');
-
-    createCalendar( el + 'calendar' , year, month);
-    testCheck ()
-
     butPrev.innerHTML = '<';
     butNext.innerHTML = '>';
+
+
+/*отрисовка календаря*/
+    createCalendar( el + 'calendar' , year, month);
+
+/*убираем элементы, которые не нужно (из настроек)*/
+    testCheckBox();
+
 /*обрабботчики для кнопок управления*/
     butPrev.addEventListener('click', function() {
         createCalendar(el + 'calendar', year, --month);
-        testCheck ()
+        testCheckBox ()
     });
 
     butNext.addEventListener('click', function() {
         createCalendar(el + 'calendar', year, ++month);
-        testCheck ()
+        testCheckBox ()
     });
 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
     calender.addEventListener('click', deleteDescription, false); // удалить коментарий
 
-    /*создание календаря*/
+/*функция создание календаря*/
     function createCalendar( el, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
         let elem = document.getElementById(el);
 
         let dataInCalenderNow = new Date(year, month);
-        const THISMONTH = dataInCalenderNow.getMonth();
+        const THISMONTH = dataInCalenderNow.getMonth(); 
 
         /*шапка календаря*/
         let calenderHead = "<thead><tr><th colspan='7'><h2>" + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + "</h2></th></tr></thead>";
@@ -78,8 +82,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
     }
 
-    /*функция получения номера дня недели от 0(пн) до 6(вс)*/
-    /* по стандарту 0(вс) до 6(сб)*/
+/*функция получения номера дня недели от 0(пн) до 6(вс)(по стандарту 0(вс) до 6(сб))*/
     function getNumDay(date) {
         let day = date.getDay();
         if (day === 0) {
@@ -88,11 +91,11 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         return day - 1; // если пн = 1 - по стандарту, становиться 0 по функции
     }
 
-    /*функция получения названия месяца*/
+/*функция получения названия месяца*/
     function addNameMonth(month) {
         let nameMonth = '';
         let arrNameMonth = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-        arrNameMonth.forEach(function(item, i) {
+        arrNameMonth.forEach( function(item, i) {
             if (month === i) {
                 nameMonth += item;
             }
@@ -100,18 +103,19 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         return nameMonth;
     }
 
-    /*конструктор элементов помещаемых на страницу*/
-    function CreateElement (el, nameElem, classNameEl, idNameEl) {
-        let element = document.createElement(nameElem);
-        element.className = classNameEl;
-        element.id = idNameEl;
-        return document.querySelector(el).appendChild(element);
+/*конструктор элементов помещаемых на страницу*/
+    function CreateElement (parentElId, nameElem, classNameEl, idNameEl) {
+        let newElement = document.createElement(nameElem);
+        newElement.className = classNameEl;
+        newElement.id = idNameEl;
+        return document.querySelector(parentElId).appendChild(newElement);
     }
 
-    // добавить коментарий
+// добавить заметку в календарь
     function addNewDescriptionDate() {
 
         if( !allowAddTasks ) return;
+
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
         let nameMonth = document.querySelector(el + '#calendar' + ' table h2');
         let target = event.target;
@@ -146,7 +150,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             boxDescription.appendChild(deleteButton);
         }
 
-/*        var kkkkkk = year + ', ' + month;*/
         localStorage.setItem( el + 'calendar' + year + ', ' + month , document.querySelector(el + ' table').innerHTML )
     }
 
@@ -169,9 +172,9 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     /*функция добавления классов в ячейки*/
     function addClassTd(arrTD, className1, className2, className3, ) {
         arrTD.forEach(function(a) {
-            if (a.innerHTML.valueOf() > 0 && a.innerHTML.valueOf() < 32) {
+            if (a.innerHTML.parseInt > 0 && a.innerHTML.parseInt < 32) {
                 a.className = className2
-            } else if (isNaN(a.innerHTML.valueOf())) {
+            } else if (isNaN(a.innerHTML.parseInt)) {
                 a.className = className3
             } else {
                 a.className = className1
@@ -179,23 +182,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         })
     }
 
-/*    /!*Если ключ в локалстор совпадает с id календаря и датой то из локалсторадж*!/
-    function testLocalStorageKey() {
-        for (let key in localStorage){
-            if( key === el + 'calendar' + year + ', ' + month){
-                return document.querySelector( el + ' table').innerHTML = localStorage.getItem(key);
-            }
-        }
-    }*/
-
-/*    function showMonthInCalender (showMonth) {
-        if ( !showMonth ){
-            document.querySelector( el + ' h2').style.display = 'none';
-        }
-    }*/
-
-    function testCheck () {
-
+    function testCheckBox () {
         for (let key in localStorage){
             if( key === el + 'calendar' + year + ', ' + month){
                 return document.querySelector( el + ' table').innerHTML = localStorage.getItem(key);

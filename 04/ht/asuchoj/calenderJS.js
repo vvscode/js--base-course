@@ -1,4 +1,20 @@
 /*Создаем обработчик URL */
+var page = {
+    link1: document.querySelector('.calender_page'),
+    link2: document.querySelector('.create_calender_page'),
+    link3: document.querySelector('.about_me_page')
+};
+
+yyy(localStorage.getItem('текущая страница'));
+
+function yyy(elem) {
+    for ( var key in page){
+        if(!elem) return;
+        if( '/' + key === elem){
+            page[key].classList.add('show_element');
+        }
+    }
+}
 
 function handleUrl(url) {
     /*удаляет класс active у ссылки*/
@@ -7,10 +23,9 @@ function handleUrl(url) {
     });
     document.querySelectorAll('a[href="' + url.split('#').pop() + '"]').forEach( function (el) {
         //удаляет весь url до # остается /link2 который дальше переберается
-        el.classList.add('active')
+        el.classList.add('active');
     });
 }
-
 // Подписаться на изменения URL
 window.addEventListener('hashchange', function (ev) {
     //событие происходит когда изменяется hash
@@ -47,27 +62,27 @@ document.body.addEventListener('click', function (ev){
     ev.preventDefault(); // отмена действия браузера
 
     let link =  ev.target.getAttribute('href');
-    let activePage;
-    if( link === '/link1'){
-        activePage = document.querySelector('.calender_page');
-    } else if( link === '/link2'){
-        activePage = document.querySelector('.create_calender_page');
-    } else if( link === '/link3'){
-        activePage = document.querySelector('.about_me_page');
-    }
-    showHiddenElement(activePage);
-
+    ggg(link)
 });
+
+function ggg(elem) {
+    for ( var key in page){
+        if( '/' + key === elem){
+            localStorage.setItem( 'текущая страница', elem + '');
+            return showHiddenElement(page[key]);
+        }
+    }
+}
+
 
 //функция отображения нужных/не нужных элементов
 function showHiddenElement(el) {
     document.querySelectorAll('.show_element').forEach( function (elem) {
         elem.classList.remove('show_element');
-        localStorage.removeItem('текущая страница');
+        /*localStorage.removeItem('текущая страница');*/
     });
-
     el.classList.add('show_element');
-    localStorage.setItem( 'текущая страница',  el.innerHTML)
 }
+
 
 

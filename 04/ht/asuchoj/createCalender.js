@@ -8,8 +8,6 @@
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
 
-
-
     addCodCalender();  // код календаря по умолчанию
     showCalender(); // календарь по умолчанию
 
@@ -17,7 +15,6 @@
     createCalenderForm.addEventListener('change', function () {
 
 /*удаляет календарь и перестраивает с новыми настройками*/
-
         while ( createCalenderShow.firstElementChild ) {
             createCalenderShow.removeChild( createCalenderShow.firstElementChild );
         }
@@ -27,8 +24,6 @@
         } else {
             event.target.setAttribute('checked', 'checked')
         }
-
-        /*localStorage.setItem("object", document.querySelector('#create_calender_form').innerHTML);*/
 
         showCalender ();
         addCodCalender();
@@ -45,20 +40,15 @@
         createCalenderScript.appendChild(calenderAddBox);
 
 /*запускаем конструктор календаря*/
-
         new ShowCalender({
-         /*el: '.create_calender_show',*/
-         el: "#" + idForCalender,
-         allowChangeMonth: changeMonth.checked,
-         allowAddTasks: addTasks.checked,
-         allowRemoveTasks: removeTasks.checked,
-         showMonth: showMonthAndYear.checked,
-         date: addDateValue.value,
+             /*el: '.create_calender_show',*/
+             el: "#" + idForCalender,
+             allowChangeMonth: changeMonth.checked,
+             allowAddTasks: addTasks.checked,
+             allowRemoveTasks: removeTasks.checked,
+             showMonth: showMonthAndYear.checked,
+             date: addDateValue.value,
         });
-
-
-/*        createCalenderPage.innerHTML = localStorage.getItem('noteList') || null;*/
-
     }
 
     function addCodCalender(){
@@ -69,7 +59,7 @@
         createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/calenderConstructor.js "></script>',
             '<script>',
             '(function() {',
-                'var id = "' +  'calender' + getRandomInt(1, 50) + '"',
+                'var id = "' +  'calender' + getRandomInt(1, 50) + '";',
                 'document.write(\'<div class=\"calendarBox\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
@@ -86,5 +76,4 @@
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-
 })();
