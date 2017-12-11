@@ -9,26 +9,26 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     let year = this.date.getFullYear();
     let month = this.date.getMonth();
-    let numder = getRandomInt(1, 10e10); // рандомное число для создание классов и id для текущего календаря
+    //let numder = getRandomInt(1, 10e10); // рандомное число для создание классов и id для текущего календаря
 
 /*создаем и вставляем оболочку для календаря*/
-    let calender = CreateElement ( el, 'div', 'calendar', 'calendar' + numder );
+    let calender = CreateElement ( el, 'div', el + 'calendar', el + 'calendar');
 
 /*создаем и вставляем кнопки управления*/
-    let butPrev = CreateElement ( el, 'button', 'prev__button', 'prev_button' + numder );
-    let butNext = CreateElement ( el, 'button', 'next__button', 'next_button' + numder );
+    let butPrev = CreateElement ( el, 'button', el + 'prev__button', el + 'prev_button');
+    let butNext = CreateElement ( el, 'button', el + 'next__button', el + 'next_button');
 
-    createCalendar("calendar" + numder, year, month);
+    createCalendar( el + 'calendar' , year, month);
     testLocalStorageKey();
 
     function testLocalStorageKey() {
         for (let key in localStorage){
-            if( key === year + ", " + month){
-               return document.querySelector(el + ' table').innerHTML = localStorage.getItem(key);
+            if( key === el + 'calendar' + year + ', ' + month){
+               return document.querySelector( el + ' table').innerHTML = localStorage.getItem(key);
             }
         }
     }
-    
+
 
 
     showMonthInCalender (showMonth);
@@ -54,19 +54,19 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 /*обрабботчики для кнопок управления*/
 
     butPrev.addEventListener('click', function() {
-        createCalendar("calendar" + numder, year, --month);
+        createCalendar(el + 'calendar', year, --month);
         showMonthInCalender (showMonth);
         testLocalStorageKey();
     });
 
     butNext.addEventListener('click', function() {
-        createCalendar("calendar" + numder, year, ++month);
+        createCalendar(el + 'calendar', year, ++month);
         showMonthInCalender (showMonth);
         testLocalStorageKey();
     });
 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
-    calender.addEventListener('click', deleteDescription, false); // удалить комент
+    calender.addEventListener('click', function(){ deleteDescription('delete_description') }, false); // удалить коментарий
 
     /*создание календаря*/
     function createCalendar( el, year, month) {
@@ -110,6 +110,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
     }
 
+
     /*функция получения номера дня недели от 0(пн) до 6(вс)*/
     /* по стандарту 0(вс) до 6(сб)*/
     function getNumDay(date) {
@@ -120,18 +121,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         return day - 1; // если пн = 1 - по стандарту, становиться 0 по функции
     }
 
-    /*функция добавления классов в ячейки*/
-    function addClassTd(arrTD, className1, className2, className3, ) {
-        arrTD.forEach(function(a) {
-            if (a.innerHTML.valueOf() > 0 && a.innerHTML.valueOf() < 32) {
-                a.className = className2
-            } else if (isNaN(a.innerHTML.valueOf())) {
-                a.className = className3
-            } else {
-                a.className = className1
-            }
-        })
-    }
+
 
     /*функция получения названия месяца*/
     function addNameMonth(month) {
@@ -159,7 +149,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         if( !allowAddTasks ) return;
 
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-        let nameMonth = document.querySelector('#calendar' + numder + 'table h2');
+        let nameMonth = document.querySelector(el + '#calendar' + ' table h2');
         let target = event.target;
 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
@@ -192,29 +182,37 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             boxDescription.appendChild(deleteButton);
         }
 
-        var kkkkkk = year + ', ' + month;
-        localStorage.setItem( kkkkkk, document.querySelector(el + ' table').innerHTML )
+/*        var kkkkkk = year + ', ' + month;*/
+        localStorage.setItem( el + 'calendar' + year + ', ' + month , document.querySelector(el + ' table').innerHTML )
     }
 
     // удаление коментария
-    function deleteDescription() {
+    function deleteDescription(elem) {
         if( !allowRemoveTasks ) return;
 
-        let delDescriptionButton = document.getElementsByClassName('delete_description');
+        let delDescriptionButton = document.getElementsByClassName(elem);
         let target = event.target;
 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
                     clickDate.closest('.box_description').remove();
-                    localStorage.removeItem(year + ', ' + month);
+                    localStorage.removeItem(el + 'calendar' + year + ', ' + month);
                 }
             }
         });
     }
 
-    // получить рандомное число для прибавление его к id и class
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
+    /*функция добавления классов в ячейки*/
+    function addClassTd(arrTD, className1, className2, className3, ) {
+        arrTD.forEach(function(a) {
+            if (a.innerHTML.valueOf() > 0 && a.innerHTML.valueOf() < 32) {
+                a.className = className2
+            } else if (isNaN(a.innerHTML.valueOf())) {
+                a.className = className3
+            } else {
+                a.className = className1
+            }
+        })
     }
 }

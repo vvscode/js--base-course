@@ -1,4 +1,5 @@
 (function (){
+
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
     let changeMonth = document.querySelector('#change_month');
@@ -6,6 +7,8 @@
     let removeTasks = document.querySelector('#remove_tasks');
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
+
+
 
     addCodCalender();  // код календаря по умолчанию
     showCalender(); // календарь по умолчанию
@@ -34,18 +37,18 @@
 /*вызываем конструктор календаря*/
     function showCalender () {
         let createCalenderScript = document.querySelector('#create_calender_show');
-        let id = 'calendar' +  getRandomInt(1, 1000000);
+        let idForCalender = 'previewCalender';
 
 /*создаем обвертку для вставляемого календаря, чтоб использовать несколько на странице*/
         let calenderAddBox = document.createElement('div');
-        calenderAddBox.id = id;
+        calenderAddBox.id = idForCalender;
         createCalenderScript.appendChild(calenderAddBox);
 
 /*запускаем конструктор календаря*/
 
         new ShowCalender({
          /*el: '.create_calender_show',*/
-         el: "#" + id,
+         el: "#" + idForCalender,
          allowChangeMonth: changeMonth.checked,
          allowAddTasks: addTasks.checked,
          allowRemoveTasks: removeTasks.checked,
@@ -66,7 +69,7 @@
         createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/shouCalender.js "></script>',
             '<script>',
             '(function() {',
-                'var id = "calendar' +  getRandomInt(1, 1000000) + '"',
+                'var id = "' +  'calender' + getRandomInt(1, 50) + '"',
                 'document.write(\'<div class=\"calendarBox\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
@@ -83,4 +86,5 @@
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
+
 })();
