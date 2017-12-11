@@ -1,0 +1,58 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#app {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.navPanel__item {
+  padding-right: 5px;
+  border-right: solid 2px black;
+}
+
+.search__input {
+  width: 50%;
+}
+
+.left,
+.right {
+  width: 50%;
+}
+
+#map {
+  margin-top: 50px;
+  height: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.infoWeather {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.history {
+  width: 30%;
+  background-color: rgb(218, 218, 218);
+}
+.weather {
+  width: 30%;
+  text-align: center;
+  background-color: rgb(218, 218, 218);
+}
+
+.favorites {
+  width: 30%;
+  background-color: rgb(218, 218, 218);
+}
+
+.blockError {
+  padding: 20px;
+  color: red;
+  text-align: center;
+}

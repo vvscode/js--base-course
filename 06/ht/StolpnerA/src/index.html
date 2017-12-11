@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="./style/main.css">
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="left">
+      <input type="radio" id="xhr" name="typeQuery" value="xhr">
+      <label for="xhr">XHR</label>
+      <input type="radio" id="fetch" name="typeQuery" value="fetch" checked>
+      <label for="fetch">fetch</label>
+      <a class="navPanel__item" href="#about">About</a>
+      <a class="navPanel__item" href="#">Main</a>
+      <a href="#author">Author</a>
+    </div>
+    <form class="right">
+      <input class="search__input" type="text">
+      <button class="search">Search</button>
+    </form>
+  </nav>
+  <div class="blockError"></div>
+  <div id="app"></div>
+
+  <script src="https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
+  <script src="./script/app.js"></script>
+</body>
+
+</html>
