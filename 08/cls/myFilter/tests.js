@@ -1,3 +1,4 @@
+'use strict';
 mocha.setup('bdd');
 let assert = chai.assert;
 describe('.myFilter', function() {
