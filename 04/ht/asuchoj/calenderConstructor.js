@@ -111,11 +111,9 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         return document.querySelector(parentElId).appendChild(newElement);
     }
 
-// добавить заметку в календарь
+// добавить коментарий
     function addNewDescriptionDate() {
-
         if( !allowAddTasks ) return;
-
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
         let nameMonth = document.querySelector(el + '#calendar' + ' table h2');
         let target = event.target;
@@ -172,9 +170,9 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     /*функция добавления классов в ячейки*/
     function addClassTd(arrTD, className1, className2, className3, ) {
         arrTD.forEach(function(a) {
-            if (a.innerHTML.parseInt > 0 && a.innerHTML.parseInt < 32) {
+            if (a.innerHTML.valueOf() > 0 && a.innerHTML.valueOf() < 32) {
                 a.className = className2
-            } else if (isNaN(a.innerHTML.parseInt)) {
+            } else if (isNaN(a.innerHTML.valueOf())) {
                 a.className = className3
             } else {
                 a.className = className1
