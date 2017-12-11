@@ -1,5 +1,4 @@
 /*Создаем обработчик URL */
-localStorage.getItem("object");
 
 function handleUrl(url) {
     /*удаляет класс active у ссылки*/
@@ -64,8 +63,11 @@ document.body.addEventListener('click', function (ev){
 function showHiddenElement(el) {
     document.querySelectorAll('.show_element').forEach( function (elem) {
         elem.classList.remove('show_element');
+        localStorage.removeItem('текущая страница');
     });
 
     el.classList.add('show_element');
-
+    localStorage.setItem( 'текущая страница',  el.innerHTML)
 }
+
+
