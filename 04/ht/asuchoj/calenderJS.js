@@ -48,7 +48,7 @@ document.body.addEventListener('click', function (ev){
 
 /*отображает страницу, которая была открыта последней(из localStorage)*/
 function addLastPage(elem) {
-    for ( var key in page){
+    for ( let key in page){
         if(!elem) return;
         if( '/' + key === elem){
             page[key].classList.add('show_element');
@@ -70,7 +70,7 @@ function handleUrl(url) {
 
 /*отображает нужную страницу при переходе по ссылке*/
 function showPageWhenClickedLink(elem) {
-    for ( var key in page){
+    for ( let key in page){
         if( '/' + key === elem){
             localStorage.setItem( 'текущая страница', elem + '');
             return showHiddenElement(page[key]);

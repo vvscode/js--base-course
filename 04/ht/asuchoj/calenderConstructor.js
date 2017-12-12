@@ -4,9 +4,9 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     let dateInCalender;
 
     if( date === ''){
-        dateInCalender = new Date()
+        dateInCalender = new Date();
     } else {
-        dateInCalender = new Date(date)
+        dateInCalender = new Date(date);
     }
 
     let year = dateInCalender.getFullYear();
@@ -31,22 +31,22 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 /*обрабботчики для кнопок управления*/
     butPrev.addEventListener('click', function() {
         createCalendar(el + 'calendar', year, --month);
-        testCheckBox ()
+        testCheckBox();
     });
 
     butNext.addEventListener('click', function() {
         createCalendar(el + 'calendar', year, ++month);
-        testCheckBox ()
+        testCheckBox();
     });
 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
     calender.addEventListener('click', deleteDescription, true); // удалить коментарий
 
 /*функция создание календаря*/
-    function createCalendar( elllll, year, month) {
+    function createCalendar( element, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
 
-        let elem = document.getElementById(elllll);
+        let elem = document.getElementById(element);
         let dataInCalenderNow = new Date(year, month);
         const THISMONTH = dataInCalenderNow.getMonth();
 
@@ -90,13 +90,19 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     }
 
-    function addAllDescriptionDate () {
-        var a = document.querySelectorAll( el + ' .days_Of_This_Month');
 
-        [].forEach.call(a, function (element) {
-            for( var key in localStorage ){
-                if( key === el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML)){
-                    element.innerHTML = localStorage.getItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML))
+    function addNameLocalStorageKey(param) {
+        return a = el + '_' + year + '_' + month + '_' + param;
+    }
+
+
+    function addAllDescriptionDate () {
+        let td = document.querySelectorAll( el + ' .days_Of_This_Month');
+
+        [].forEach.call(td, function (element) {
+            for( let key in localStorage ){
+                if( key === addNameLocalStorageKey( parseInt('' + element.innerHTML) ) ){
+                    element.innerHTML = localStorage.getItem( addNameLocalStorageKey( parseInt('' + element.innerHTML) ));
                 }
             }
         })
@@ -146,7 +152,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     function addNewDescriptionDate() {
         if( !allowAddTasks ) return;
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-/*        let nameMonth = document.querySelector(el + '#calendar' + ' table h2');*/
         let target = event.target;
 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
@@ -179,7 +184,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             boxDescription.appendChild(deleteButton);
         }
 
-        localStorage.setItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML), element.innerHTML )
+        localStorage.setItem( addNameLocalStorageKey( parseInt('' + element.innerHTML) ), element.innerHTML );
     }
 
     // удаление коментария
@@ -190,8 +195,8 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
-                    alert( parseInt( clickDate.parentNode.parentNode.innerHTML ));
-                    localStorage.removeItem(el + '_' + year + '_' + month + '_' + parseInt( clickDate.parentNode.parentNode.innerHTML ));
+
+                    localStorage.removeItem( addNameLocalStorageKey( parseInt(clickDate.parentNode.parentNode.innerHTML ) ) );
                     clickDate.closest('.box_description').remove();
                  }
             }
