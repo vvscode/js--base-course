@@ -1,31 +1,34 @@
 "use strict";
 let months = ["January", "February", "March", "April", "May", "June", "July", "August",
     "September", "October", "November", "December"];
-
-function calendar(options) {
-    let id = 'calendar' + Math.random();
-
-    options.el = options.el || "#" + id;
-    options.allowChangeMonth = options.allowChangeMonth || showArrows.checked;
-    options.addTasks = options.addTasks || addTasks.checked;
-    options.removeTasks = options.removeTasks || removeTasks.checked;
-    options.showMonthAndYear = options.showMonthAndYear || showMonthAndYear.checked;
-    options.date = options.date || [selectYear.value, selectMonth.value];
-    options.tableClass = options.tableClass || addClass.value;
-
-    let settings = options;
+/**
+ * Начало создания календаря и запись настроек в localStorage
+ * @param {object} settings - Настройки календаря, которые указаны в блоке с JS кодом
+ * @param {string} settings.el - Задаём ID для календаря
+ * @param {boolean} settings.allowChangeMonth - Указываем, будут ли отображаться стрелки для листания месяцев
+ * @param {boolean} settings.addTasks - Указываем, будут ли добавляться описания к дате в календарь
+ * @param {boolean} settings.removeTasks - Указываем, будут ли удаляться описания из даты в календаре
+ * @param {boolean} settings.showMonthAndYear - Указываем, будут ли отображаться месяц и год в календаре
+ * @param {array} settings.date - Задаём год и месяц
+ * @param {string} settings.tableCstringlass - Указываем класс, который будет добавлен для календаря
+ */
+function calendar(settings) {
     let idElement = settings.el.slice(1);
     let htmlElement = document.getElementById(idElement);
 
     calendar.prototype.drawCalendar(+settings.date[0], +settings.date[1], htmlElement, settings);
-    setTimeout(function () {
-        window.localStorage['calendarSettings'] = JSON.stringify(settings);
-    }, 0);
+    Promise.resolve(window.localStorage['calendarSettings'] = JSON.stringify(settings));
 }
 
 calendar.prototype = {
+    /**
+     * Создание календаря
+     * @param {number} year - Год который будет отображаться в календаре
+     * @param {number} month - Месяц который будет отображаться в календаре
+     * @param {object} htmlEl - HTML элемент в который будет добавляться календарь
+     * @param {object} settings - Настройки календаря, которые указаны в блоке с JS кодом
+     */
     drawCalendar (year, month, htmlEl, settings) {
-
         let interactiveCalendar = `<table class="${settings.tableClass}"><tr>`;
         if (settings.allowChangeMonth) {
             interactiveCalendar += `<th class='rows left'>\◀</th>`;
@@ -105,7 +108,9 @@ calendar.prototype = {
                 calendar.prototype.createDescriptions(year, month, calendarNumber, settings, htmlEl);
             }
         };
-
+        /**
+         * Проверка на выход календаря за пределы месяца
+         */
         function checkMonth() {
             switch (month) {
                 case 0:
@@ -119,7 +124,10 @@ calendar.prototype = {
             }
         }
     },
-
+    /**
+     * Проверка на выход дня недели за пределы количества дней недели
+     * @param {object} dateOnCalendar - Дата, которая указана в календаре
+     */
     checkDay(dateOnCalendar) {
         let day;
         switch (dateOnCalendar.getDay()) {
@@ -135,7 +143,14 @@ calendar.prototype = {
         }
         return day;
     },
-
+    /**
+     * Добавление описания дня недели в календарь и обновление календаря
+     * @param {number} year - Год, который отображается в календаре
+     * @param {number} month - Месяц, который отображается в календаре
+     * @param {number} day - День, который отображается в календаре
+     * @param {object} htmlEl - HTML элемент в который будет добавляться календарь
+     * @param {object} settings - Настройки календаря, которые указаны в блоке с JS кодом
+     */
     createDescriptions(year, month, day, settings, htmlEl) {
         let descriptionMonth = "0" + month;
         descriptionMonth = descriptionMonth.slice(-2);
@@ -153,7 +168,13 @@ calendar.prototype = {
         }
         calendar.prototype.drawCalendar(year, month, htmlEl, settings);
     },
-
+    /**
+     * Преобразование описания дня недели из localStorage в удобный для работы формат и запуск
+     * добавления описаний в каленарь
+     * @param {number} year - Год, который отображается в календаре
+     * @param {number} month - Месяц, который отображается в календаре
+     * @param {object} settings - Настройки календаря, которые указаны в блоке с JS кодом
+     */
     checkTask(year, month, settings) {
         if (!!localStorage['descriptions' + settings.el]) {
             let descriptions = localStorage['descriptions' + settings.el];
@@ -167,7 +188,17 @@ calendar.prototype = {
             });
         }
     },
-
+    /**
+     * Добавление описаний в календарь после проверки на соответствие даты создания описания
+     * с датой в календаре
+     * @param {number} taskYear - Год, в который было создано описания дня недели
+     * @param {number} taskMonth - Месяц, в который было создано описания дня недели
+     * @param {number} taskDay - День, в который было создано описания дня недели
+     * @param {number} index - Индекс описания дня недели в массиве
+     * @param {string} taskDescription - Описание дня недели
+     * @param {number} year - Год, который отображается в календаре
+     * @param {number} month - Месяц, который отображается в календаре
+     */
     addTask(taskYear, taskMonth, taskDay, index, taskDescription, year, month) {
         if (taskYear === year && taskMonth === month) {
             let cells = document.querySelectorAll("div[id*='calendar'] td[data-content]");
@@ -188,7 +219,18 @@ calendar.prototype = {
             });
         }
     },
-
+    /**
+     * Удаление описания даты календаря из localStorage
+     * @param {object} parentButton - HTML элемент, где находится описание дня недели и кнопка удаления
+     * @param {object} settings - Настройки календаря, которые указаны в блоке с JS кодом
+     * @param {string} settings.el - Задаём ID для календаря
+     * @param {boolean} settings.allowChangeMonth - Указываем, будут ли отображаться стрелки для листания месяцев
+     * @param {boolean} settings.addTasks - Указываем, будут ли добавляться описания к дате в календарь
+     * @param {boolean} settings.removeTasks - Указываем, будут ли удаляться описания из даты в календаре
+     * @param {boolean} settings.showMonthAndYear - Указываем, будут ли отображаться месяц и год в календаре
+     * @param {array} settings.date - Задаём год и месяц в календаре
+     * @param {string} settings.tableCstringlass - Указываем класс, который будет добавлен для календаря
+     */
     removeTask(parentButton, settings) {
         let dataTask = parentButton.getAttribute("data-task");
         let descriptions = localStorage['descriptions' + settings.el];

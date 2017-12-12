@@ -1,5 +1,8 @@
 "use strict";
-
+/**
+ * Скрываем либо отображается элементы страницы в зависимости от того, на какую страницу перешли
+ * @param {string} page - Название страницы, на которую перешли при помощи меню
+ */
 function show(page) {
     let indexDiv = document.querySelector("#index");
     let aboutDiv = document.querySelector("div[id='aboutDiv']");
@@ -30,11 +33,15 @@ function show(page) {
             hideCreate();
             break;
     }
-
+    /**
+     * Скрываем блок с формой и JS кодом
+     */
     function hideCreate() {
         indexDiv.style.display = "none";
     }
-
+    /**
+     * Скрываем блок со страницы "about"
+     */
     function hideAbout() {
         if (aboutDiv) {
             aboutDiv.style.display = "none";

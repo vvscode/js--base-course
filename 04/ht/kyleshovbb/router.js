@@ -4,14 +4,22 @@ let Router = function (options) {
 }
 
 Router.prototype = {
+    /**
+     * Подписываемся на изменение Хэша
+     */
     init: function () {
         window.addEventListener('hashchange', () => this.handleUrl(window.location.hash));
         this.handleUrl(window.location.hash);
     },
+    /**
+     * находим роут с которого уходим
+     */
     findPreviousActiveRoute: function () {
-
         return this.currentRoute;
     },
+    /**
+     * находим роут на который переходим
+     */
     findNewActiveRoute: function (url) {
         let route = this.routes.find((routeItem) => {
             if (typeof routeItem.match === 'string') {
@@ -25,11 +33,20 @@ Router.prototype = {
 
         return route;
     },
+    /**
+     * Находим роут на который переходим
+     * @param {object} route - Указываем роутер
+     * @param {string} url - Получаем хэш из урла
+     * @returns {array} params - Массив с параметрами роутера
+     */
     getRouteParams(route, url) {
         let params = url.match(route.match) || [];
         params.shift();
         return params;
     },
+    /**
+     * Находим текущий и прошлый роутер
+     */
     handleUrl: function (url) {
         url = url.slice(1);
         let previousRoute = this.findPreviousActiveRoute();
@@ -51,6 +68,10 @@ let router = new Router({
     routes: [{
         name: 'index',
         match: '',
+        /**
+         * Переписываем на странице блок с JS кодом и скрываем HTML элементы не относящиеся к
+         * странице "'index'"
+         */
         onBeforeEnter: () => {
             onFormChange();
             show('index');
@@ -59,6 +80,9 @@ let router = new Router({
     }, {
         name: 'calendar',
         match: 'calendar',
+        /**
+         * Если нету блока с календарём, то создаём свой и добавляем ему класс .fullCalendar
+         */
         onBeforeEnter: () => {
             let myCalendar = document.querySelector("div[id|='calendar']");
             if (!myCalendar) {
@@ -74,7 +98,13 @@ let router = new Router({
             myCalendar.style.display = "block";
             myCalendar.classList.add("fullCalendar");
         },
+        /**
+         * Скрываем элементы, которые не относятся к странице "calendar"
+         */
         onEnter: () => show('calendar'),
+        /**
+         * Удаляем с блока класс .fullCalendar
+         */
         onLeave: () => {
             let myCalendar = document.querySelector("div[id|='calendar']");
             myCalendar.classList.remove("fullCalendar");
@@ -82,8 +112,17 @@ let router = new Router({
     }, {
         name: 'about',
         match: 'about',
+        /**
+         * Скрываем элементы, которые не относятся к странице "about"
+         */
         onBeforeEnter: () => show('about'),
+        /**
+         * Создаём или отображаем блок с текстом на странице "about"
+         */
         onEnter: () => addAbout(),
+        /**
+         * Скрываем блок с текстом на странице "about"
+         */
         onLeave: () => {
             let aboutDiv = document.querySelector("div[id='aboutDiv']");
             aboutDiv.style.display = "none";

@@ -1,3 +1,6 @@
+/**
+ * Создаём или отображаем блок с текстом на странице "about"
+ */
 function addAbout() {
     let about = document.querySelector("#aboutDiv");
     if (!about) {
