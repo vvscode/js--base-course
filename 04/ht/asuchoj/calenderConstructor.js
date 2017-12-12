@@ -21,7 +21,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     butPrev.innerHTML = '<';
     butNext.innerHTML = '>';
 
-
 /*отрисовка календаря*/
     createCalendar( el + 'calendar' , year, month);
 
@@ -81,8 +80,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         //собираем таблицу
         elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
 
-
-
         let allTd = document.querySelectorAll('td');
         addClassTd ( allTd, 'empty_field', 'days_Of_This_Month');
 
@@ -90,11 +87,9 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
     }
 
-
     function addNameLocalStorageKey(param) {
         return a = el + '_' + year + '_' + month + '_' + param;
     }
-
 
     function addAllDescriptionDate () {
         let td = document.querySelectorAll( el + ' .days_Of_This_Month');
