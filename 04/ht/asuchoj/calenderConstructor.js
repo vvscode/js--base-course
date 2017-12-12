@@ -91,18 +91,18 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         addAllDescriptionDate();
 
     }
-  function addAllDescriptionDate () {
 
-    var a = document.querySelectorAll( el + ' .days_Of_This_Month');
+    function addAllDescriptionDate () {
+        var a = document.querySelectorAll( el + ' .days_Of_This_Month');
 
-    [].forEach.call(a, function (element) {
-      for( var key in localStorage ){
-        if( key === el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML)){
-          element.innerHTML = localStorage.getItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML))
-        }
-      }
-    })
-  }
+        [].forEach.call(a, function (element) {
+            for( var key in localStorage ){
+                if( key === el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML)){
+                    element.innerHTML = localStorage.getItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML))
+                }
+            }
+        })
+    }
 
 /*функция добавления классов в ячейки*/
     function addClassTd(arrTD, className1, className2) {
