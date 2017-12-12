@@ -42,8 +42,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
     calender.addEventListener('click', deleteDescription, true); // удалить коментарий
 
-
-  /**/
 /*функция создание календаря*/
     function createCalendar( elllll, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
@@ -189,38 +187,27 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         if( !allowRemoveTasks ) return;
         let delDescriptionButton = document.getElementsByClassName('delete_description');
         let target = event.target;
-
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
                     alert( parseInt( clickDate.parentNode.parentNode.innerHTML ));
-
                     localStorage.removeItem(el + '_' + year + '_' + month + '_' + parseInt( clickDate.parentNode.parentNode.innerHTML ));
                     clickDate.closest('.box_description').remove();
-
-
                  }
             }
         });
     }
 
     function testCheckBox () {
-
-
-
         if ( !showMonth ){
             document.querySelector( el + ' h2').style.display = 'none';
         }
-
         if ( !allowChangeMonth){
             butPrev.style.display = 'none';
             butNext.style.display = 'none';
         }
-
         if( !allowChangeMonth && !showMonth ) {
             document.querySelector( el + ' thead').style.display = 'none';
         }
     }
-    
-
 }

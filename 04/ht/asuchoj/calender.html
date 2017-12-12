@@ -23,36 +23,12 @@
             <div class="calender_page hidden_element">
                 <div>
                     <script src="https://rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/calenderConstructor.js"></script>
-                    <script>
-                        (function() {
-                            var id = "calendar1";
-                            document.write('<div class="calendarBox" id="' + id + '"> </div>');
-                            new ShowCalender({
-                                el: "#" + id,
-                                allowChangeMonth:true,
-                                allowAddTasks:true,
-                                allowRemoveTasks:true,
-                                showMonth:true,
-                                date:  '2017, 11'})
-                        })();
-                    </script>
+                    <script src="calender1.js"></script>
+
                 </div>
                 <div>
                     <script src="https://rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/calenderConstructor.js"></script>
-                    <script>
-                        (function() {
-                            var id = "calendar2";
-                            document.write('<div class="calendarBox" id="' + id + '"> </div>');
-                            new ShowCalender({
-                                el: "#" + id,
-                                allowChangeMonth:true,
-                                allowAddTasks:true,
-                                allowRemoveTasks:true,
-                                showMonth:true,
-                                date: '2017, 08'
-                            })
-                        })();
-                    </script>
+                    <script src="calender2.js"></script>
                 </div>
             </div>
 <!-- Create calender -->
@@ -69,7 +45,6 @@
                         </fieldset>
                     </form>
                 </div>
-
                 <div class="create_calender_script" id="create_calender_script"></div>
                 <div class="create_calender_show" id="create_calender_show"></div>
             </div>
@@ -80,8 +55,9 @@
         </div>
     </div>
 </body>
+
 <script src="calenderJS.js"></script>
 <script src="calenderConstructor.js"></script>
 <script src="createCalender.js"></script>
-<script src="aboutMe.js"></script>
+
 </html>
