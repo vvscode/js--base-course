@@ -1,13 +1,53 @@
-/*Создаем обработчик URL */
-var page = {
+/*массив страниц приложения*/
+let page = {
     link1: document.querySelector('.calender_page'),
     link2: document.querySelector('.create_calender_page'),
     link3: document.querySelector('.about_me_page')
 };
+/*если приложение открывалось - показывает последнюю страницу*/
+addLastPage(localStorage.getItem('текущая страница'));
 
-yyy(localStorage.getItem('текущая страница'));
+// Подписаться на изменения URL
+window.addEventListener('hashchange', function (ev) {
+  //событие происходит когда изменяется hash
+  handleUrl(ev.newURL)
+});
 
-function yyy(elem) {
+// При загрузке страницы - считать состояние и запустить обработчик
+handleUrl(window.location.href); // весь url текущего окна/ссылки
+
+// Переопределить поведение внутренних ссылок
+document.body.addEventListener('click', function (ev){
+  if( !ev.target.matches('a')){ // true, если соответствует CSS селектору
+    return;
+  }
+  ev.preventDefault(); // отмена действия браузера
+
+  // При клике по ссылке - обновлять URL
+  let url = ev.target.getAttribute('href');
+  window.location.hash = url; // часть URL после # включительно #/link2
+});
+
+
+// обработчик ссылок
+document.body.addEventListener('click', function (ev){
+
+  document.querySelectorAll('.hidden1').forEach( function (elem) {
+    elem.classList.remove('hidden1');
+  });
+
+  if( !ev.target.matches('a')){ // true, если соответствует CSS селектору
+    return;
+  }
+  ev.preventDefault(); // отмена действия браузера
+
+  let link =  ev.target.getAttribute('href');
+  showPageWhenClickedLink(link)
+});
+
+
+/*отображает страницу, которая была открыта последней(из localStorage)*/
+function addLastPage(elem) {
     for ( var key in page){
         if(!elem) return;
         if( '/' + key === elem){
@@ -16,6 +56,7 @@ function yyy(elem) {
     }
 }
 
+/*Создаем обработчик URL */
 function handleUrl(url) {
     /*удаляет класс active у ссылки*/
     document.querySelectorAll('a.active').forEach( function (el) {
@@ -26,46 +67,9 @@ function handleUrl(url) {
         el.classList.add('active');
     });
 }
-// Подписаться на изменения URL
-window.addEventListener('hashchange', function (ev) {
-    //событие происходит когда изменяется hash
-   handleUrl(ev.newURL)
-});
 
-// При загрузке страницы - считать состояние и запустить обработчик
-handleUrl(window.location.href); // весь url текущего окна/ссылки
-
-// Переопределить поведение внутренних ссылок
-document.body.addEventListener('click', function (ev){
-    if( !ev.target.matches('a')){ // true, если соответствует CSS селектору
-      return;
-    }
-    ev.preventDefault(); // отмена действия браузера
-
-    // При клике по ссылке - обновлять URL
-    let url = ev.target.getAttribute('href');
-    window.location.hash = url; // часть URL после # включительно #/link2
-});
-
-
-// обработчик ссылок
-
-document.body.addEventListener('click', function (ev){
-
-    document.querySelectorAll('.hidden1').forEach( function (elem) {
-        elem.classList.remove('hidden1');
-    });
-
-    if( !ev.target.matches('a')){ // true, если соответствует CSS селектору
-        return;
-    }
-    ev.preventDefault(); // отмена действия браузера
-
-    let link =  ev.target.getAttribute('href');
-    ggg(link)
-});
-
-function ggg(elem) {
+/*отображает нужную страницу при переходе по ссылке*/
+function showPageWhenClickedLink(elem) {
     for ( var key in page){
         if( '/' + key === elem){
             localStorage.setItem( 'текущая страница', elem + '');
@@ -73,7 +77,6 @@ function ggg(elem) {
         }
     }
 }
-
 
 //функция отображения нужных/не нужных элементов
 function showHiddenElement(el) {

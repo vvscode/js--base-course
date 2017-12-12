@@ -1,14 +1,16 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
     // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
+    let dateInCalender;
+
     if( date === ''){
-        this.date = new Date()
+        dateInCalender = new Date()
     } else {
-        this.date = new Date(date)
+        dateInCalender = new Date(date)
     }
 
-    let year = this.date.getFullYear();
-    let month = this.date.getMonth();
+    let year = dateInCalender.getFullYear();
+    let month = dateInCalender.getMonth();
 
 /*создаем и вставляем оболочку для календаря*/
     let calender = CreateElement ( el, 'div', 'calendar', el + 'calendar');
@@ -38,15 +40,17 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     });
 
     calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
-    calender.addEventListener('click', deleteDescription, false); // удалить коментарий
+    calender.addEventListener('click', deleteDescription, true); // удалить коментарий
 
+
+  /**/
 /*функция создание календаря*/
-    function createCalendar( el, year, month) {
+    function createCalendar( elllll, year, month) {
         let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
-        let elem = document.getElementById(el);
 
+        let elem = document.getElementById(elllll);
         let dataInCalenderNow = new Date(year, month);
-        const THISMONTH = dataInCalenderNow.getMonth(); 
+        const THISMONTH = dataInCalenderNow.getMonth();
 
         /*шапка календаря*/
         let calenderHead = "<thead><tr><th colspan='7'><h2>" + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + "</h2></th></tr></thead>";
@@ -62,6 +66,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
 
         // ячейки календаря с датами
         while (dataInCalenderNow.getMonth() === THISMONTH) {
+
             daysOfThisMonth += '<td>' + dataInCalenderNow.getDate() + '</td>';
             if (getNumDay(dataInCalenderNow) % 7 === 6) { // вс, последний день - перевод строки
                 daysOfThisMonth += '</tr><tr>';
@@ -78,8 +83,36 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         //собираем таблицу
         elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
 
+
+
         let allTd = document.querySelectorAll('td');
-        addClassTd ( allTd, 'days_Of_Last_Month', 'days_Of_This_Month', 'days_name' );
+        addClassTd ( allTd, 'empty_field', 'days_Of_This_Month');
+
+        addAllDescriptionDate();
+
+    }
+  function addAllDescriptionDate () {
+
+    var a = document.querySelectorAll( el + ' .days_Of_This_Month');
+
+    [].forEach.call(a, function (element) {
+      for( var key in localStorage ){
+        if( key === el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML)){
+          element.innerHTML = localStorage.getItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML))
+        }
+      }
+    })
+  }
+
+/*функция добавления классов в ячейки*/
+    function addClassTd(arrTD, className1, className2) {
+        arrTD.forEach(function(el) {
+            if ( parseInt(el.innerHTML) ) {
+                el.className = className2
+            } else {
+                el.className = className1
+            }
+        })
     }
 
 /*функция получения номера дня недели от 0(пн) до 6(вс)(по стандарту 0(вс) до 6(сб))*/
@@ -115,18 +148,18 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     function addNewDescriptionDate() {
         if( !allowAddTasks ) return;
         let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-        let nameMonth = document.querySelector(el + '#calendar' + ' table h2');
+/*        let nameMonth = document.querySelector(el + '#calendar' + ' table h2');*/
         let target = event.target;
 
         [].forEach.call( daysOfThisMonth, function(clickDate) {
             if (target === clickDate) {
-                return createNewDescriptionDate(clickDate, nameMonth);
+                return createNewDescriptionDate(clickDate);
             }
         })
     }
 
     // создать коментарий
-    function createNewDescriptionDate() {
+    function createNewDescriptionDate(element) {
 
         let boxDescription = document.createElement('div');
         boxDescription.className = 'box_description';
@@ -148,7 +181,7 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             boxDescription.appendChild(deleteButton);
         }
 
-        localStorage.setItem( el + 'calendar' + year + ', ' + month , document.querySelector(el + ' table').innerHTML )
+        localStorage.setItem( el + '_' + year + '_' + month + '_' + parseInt('' + element.innerHTML), element.innerHTML )
     }
 
     // удаление коментария
@@ -160,32 +193,20 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         [].forEach.call(delDescriptionButton, function(clickDate) {
             if (target === clickDate) {
                 if( confirm('Вы уверены что хотите удали коментарий?') ) {
+                    alert( parseInt( clickDate.parentNode.parentNode.innerHTML ));
+
+                    localStorage.removeItem(el + '_' + year + '_' + month + '_' + parseInt( clickDate.parentNode.parentNode.innerHTML ));
                     clickDate.closest('.box_description').remove();
-                    localStorage.removeItem(el + 'calendar' + year + ', ' + month);
-                }
+
+
+                 }
             }
         });
     }
 
-    /*функция добавления классов в ячейки*/
-    function addClassTd(arrTD, className1, className2, className3, ) {
-        arrTD.forEach(function(a) {
-            if (a.innerHTML.valueOf() > 0 && a.innerHTML.valueOf() < 32) {
-                a.className = className2
-            } else if (isNaN(a.innerHTML.valueOf())) {
-                a.className = className3
-            } else {
-                a.className = className1
-            }
-        })
-    }
-
     function testCheckBox () {
-        for (let key in localStorage){
-            if( key === el + 'calendar' + year + ', ' + month){
-                return document.querySelector( el + ' table').innerHTML = localStorage.getItem(key);
-            }
-        }
+
+
 
         if ( !showMonth ){
             document.querySelector( el + ' h2').style.display = 'none';
@@ -200,4 +221,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
             document.querySelector( el + ' thead').style.display = 'none';
         }
     }
+    
+
 }

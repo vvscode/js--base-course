@@ -1,5 +1,4 @@
 (function (){
-
     let createCalenderForm = document.querySelector('#create_calender_form');
     let createCalenderShow = document.querySelector('.create_calender_show');
     let changeMonth = document.querySelector('#change_month');
@@ -32,7 +31,7 @@
 /*вызываем конструктор календаря*/
     function showCalender () {
         let createCalenderScript = document.querySelector('#create_calender_show');
-        let idForCalender = 'preview_';
+        let idForCalender = 'preview';
 
 /*создаем обвертку для вставляемого календаря, чтоб использовать несколько на странице*/
         let calenderAddBox = document.createElement('div');
