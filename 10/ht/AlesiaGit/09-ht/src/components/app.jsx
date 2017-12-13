@@ -34,31 +34,6 @@ class App extends Component {
     );
   };
 
-  hideDone = event => {
-    if (event.target.id === "show") {
-      this.setState({
-        items: this.state.items.map(item => {
-          return {
-            ...item,
-            display: "table-row"
-          };
-        })
-      });
-    } else {
-      this.setState({
-        items: this.state.items.map(
-          item =>
-            item.done !== true
-              ? item
-              : {
-                  ...item,
-                  display: "none"
-                }
-        )
-      });
-    }
-  };
-
   sortColumn = (order, columnName) => {
     let range = columnName.columnName;
 
