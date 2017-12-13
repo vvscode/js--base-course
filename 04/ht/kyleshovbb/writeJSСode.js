@@ -11,7 +11,7 @@ master/_CDN/Calendar/create.js"></script>
 (function () {
     let id = 'calendar' + Math.random();
     document.write('<div id="' + id + '"></div>');
-    calendar({
+    new Calendar({
         el: '#' + id,
         allowChangeMonth: ${allowChangeMonth.checked},
         addTasks: ${addTasks.checked},

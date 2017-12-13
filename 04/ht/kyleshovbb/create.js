@@ -12,15 +12,24 @@ let months = ["January", "February", "March", "April", "May", "June", "July", "A
  * @param {array} settings.date - Задаём год и месяц
  * @param {string} settings.tableCstringlass - Указываем класс, который будет добавлен для календаря
  */
-function calendar(settings) {
-    let idElement = settings.el.slice(1);
-    let htmlElement = document.getElementById(idElement);
+function Calendar(settings) {
+    this.el = settings.el;
+    this.allowChangeMonth = settings.allowChangeMonth;
+    this.addTasks = settings.addTasks;
+    this.removeTasks = settings.removeTasks;
+    this.showMonthAndYear = settings.showMonthAndYear;
+    this.date = settings.date;
+    this.tableClass = settings.tableClass;
 
-    calendar.prototype.drawCalendar(+settings.date[0], +settings.date[1], htmlElement, settings);
-    Promise.resolve(window.localStorage['calendarSettings'] = JSON.stringify(settings));
+    let htmlElement = document.querySelector(settings.el);
+
+    this.drawCalendar(+settings.date[0], +settings.date[1], htmlElement, settings);
+    setTimeout(function () {
+        localStorage['calendarSettings'] = JSON.stringify(settings);
+    }, 0)
 }
 
-calendar.prototype = {
+Calendar.prototype = {
     /**
      * Создание календаря
      * @param {number} year - Год который будет отображаться в календаре
@@ -60,7 +69,7 @@ calendar.prototype = {
             for (let i = 1; i <= 7; i++) {
                 if (i === 1) interactiveCalendar += "<tr>";
 
-                if (calendar.prototype.checkDay(dateOnCalendar) === i && (month === (dateOnCalendar.getMonth() + 1))) {
+                if (this.checkDay(dateOnCalendar) === i && (month === (dateOnCalendar.getMonth() + 1))) {
                     interactiveCalendar += `<td data-content> ${dateOnCalendar.getDate()}</td>`;
                     dateOnCalendar.setDate(dateOnCalendar.getDate() + 1);
                 } else {
@@ -75,11 +84,8 @@ calendar.prototype = {
         }
 
         interactiveCalendar += "</table>";
-
         htmlEl.innerHTML = interactiveCalendar;
-
-        calendar.prototype.checkTask(year, month, settings);
-
+        this.checkTask(year, month, settings);
         htmlEl.onclick = function (e) {
             let target = e.target;
             let rows = target.closest(".rows");
@@ -90,24 +96,24 @@ calendar.prototype = {
                 settings.allowChangeMonth) {
                 month -= 1;
                 checkMonth();
-                calendar.prototype.drawCalendar(year, month, htmlEl, settings);
+                Calendar.prototype.drawCalendar(year, month, htmlEl, settings);
             }
             else if (rows === document.querySelector(".right") &&
                 settings.allowChangeMonth) {
                 month += 1;
                 checkMonth();
-                calendar.prototype.drawCalendar(year, month, htmlEl, settings);
+                Calendar.prototype.drawCalendar(year, month, htmlEl, settings);
             }
             else if (settings.removeTasks && button) {
                 let parentButton = button.parentElement;
-                calendar.prototype.removeTask(parentButton, settings);
+                Calendar.prototype.removeTask(parentButton, settings);
                 parentButton.remove();
             }
             else if (settings.addTasks && td.firstChild) {
                 let calendarNumber = td.childNodes["0"].textContent;
-                calendar.prototype.createDescriptions(year, month, calendarNumber, settings, htmlEl);
+                Calendar.prototype.createDescriptions(year, month, calendarNumber, settings, htmlEl);
             }
-        };
+        }
         /**
          * Проверка на выход календаря за пределы месяца
          */
@@ -166,7 +172,7 @@ calendar.prototype = {
         } else {
             localStorage['descriptions' + settings.el] += descriptionLS;
         }
-        calendar.prototype.drawCalendar(year, month, htmlEl, settings);
+        this.drawCalendar(year, month, htmlEl, settings);
     },
     /**
      * Преобразование описания дня недели из localStorage в удобный для работы формат и запуск
@@ -184,7 +190,7 @@ calendar.prototype = {
                 let taskMonth = +item.slice(5, 7);
                 let taskDay = +item.slice(8, 10);
                 let taskDescription = item.slice(11);
-                calendar.prototype.addTask(taskYear, taskMonth, taskDay, i, taskDescription, year, month);
+                this.addTask(taskYear, taskMonth, taskDay, i, taskDescription, year, month);
             });
         }
     },

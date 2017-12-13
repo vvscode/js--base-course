@@ -42,13 +42,13 @@ function startDrawCalendar() {
     if (calendars.length) {
         calendars.forEach(function (item) {
             let settings = createSettings(item);
-            calendar(settings);
+            new Calendar(settings);
         });
     } else {
         let myCalendar = document.createElement("div");
         myCalendar.setAttribute("id", 'calendar');
         let settings = createSettings(myCalendar);
         document.body.appendChild(myCalendar);
-        calendar(settings);
+        new Calendar(settings);
     }
 }

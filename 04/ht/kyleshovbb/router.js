@@ -1,7 +1,7 @@
 let Router = function (options) {
     this.routes = options.routes || [];
     this.init();
-}
+};
 
 Router.prototype = {
     /**
@@ -73,17 +73,26 @@ let router = new Router({
          * странице "'index'"
          */
         onBeforeEnter: () => {
+            let calendar = document.querySelector("div[id|='calendar']");
+            let indexDiv = document.querySelector("#index");
+            if (calendar) {
+                calendar.style.display = "block";
+            }
+            indexDiv.style.display = "block";
             onFormChange();
-            show('index');
         },
-        onEnter: () => startDrawCalendar()
+        onEnter: () => startDrawCalendar(),
+        onLeave: () => {
+            let indexDiv = document.querySelector("#index");
+            indexDiv.style.display = "none";
+        }
     }, {
         name: 'calendar',
         match: 'calendar',
         /**
          * Если нету блока с календарём, то создаём свой и добавляем ему класс .fullCalendar
          */
-        onBeforeEnter: () => {
+        onEnter: () => {
             let myCalendar = document.querySelector("div[id|='calendar']");
             if (!myCalendar) {
                 let calendarSettings = JSON.parse(localStorage['calendarSettings']);
@@ -91,17 +100,15 @@ let router = new Router({
                 let year = +calendarSettings.date[0];
                 let fullCalendar = document.createElement("div");
                 fullCalendar.setAttribute("id", 'calendar');
-                calendar.prototype.drawCalendar(year, month, fullCalendar, calendarSettings);
                 document.body.appendChild(fullCalendar);
+                Calendar.prototype.drawCalendar(year, month, fullCalendar, calendarSettings);
             }
             myCalendar = document.querySelector("div[id|='calendar']");
-            myCalendar.style.display = "block";
             myCalendar.classList.add("fullCalendar");
+            myCalendar.style.display = "block";
+            let indexDiv = document.querySelector("#index");
+            indexDiv.style.display = "none";
         },
-        /**
-         * Скрываем элементы, которые не относятся к странице "calendar"
-         */
-        onEnter: () => show('calendar'),
         /**
          * Удаляем с блока класс .fullCalendar
          */
@@ -115,7 +122,18 @@ let router = new Router({
         /**
          * Скрываем элементы, которые не относятся к странице "about"
          */
-        onBeforeEnter: () => show('about'),
+        onBeforeEnter: () => {
+            let indexDiv = document.querySelector("#index");
+            indexDiv.style.display = "none";
+            let calendar = document.querySelector("div[id|='calendar']");
+            if (calendar) {
+                calendar.style.display = "none";
+            }
+            let aboutDiv = document.querySelector("div[id='aboutDiv']");
+            if (aboutDiv) {
+                aboutDiv.style.display = "block";
+            }
+        },
         /**
          * Создаём или отображаем блок с текстом на странице "about"
          */
