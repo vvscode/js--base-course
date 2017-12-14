@@ -26,7 +26,7 @@ function Calendar(settings) {
     this.drawCalendar(+settings.date[0], +settings.date[1], htmlElement, settings);
     setTimeout(function () {
         localStorage['calendarSettings'] = JSON.stringify(settings);
-    }, 0)
+    }, 0);
 }
 
 Calendar.prototype = {
@@ -86,6 +86,8 @@ Calendar.prototype = {
         interactiveCalendar += "</table>";
         htmlEl.innerHTML = interactiveCalendar;
         this.checkTask(year, month, settings);
+
+        let self = this;
         htmlEl.onclick = function (e) {
             let target = e.target;
             let rows = target.closest(".rows");
@@ -96,22 +98,22 @@ Calendar.prototype = {
                 settings.allowChangeMonth) {
                 month -= 1;
                 checkMonth();
-                Calendar.prototype.drawCalendar(year, month, htmlEl, settings);
+                self.drawCalendar(year, month, htmlEl, settings);
             }
             else if (rows === document.querySelector(".right") &&
                 settings.allowChangeMonth) {
                 month += 1;
                 checkMonth();
-                Calendar.prototype.drawCalendar(year, month, htmlEl, settings);
+                self.drawCalendar(year, month, htmlEl, settings);
             }
             else if (settings.removeTasks && button) {
                 let parentButton = button.parentElement;
-                Calendar.prototype.removeTask(parentButton, settings);
+                self.removeTask(parentButton, settings);
                 parentButton.remove();
             }
             else if (settings.addTasks && td.firstChild) {
                 let calendarNumber = td.childNodes["0"].textContent;
-                Calendar.prototype.createDescriptions(year, month, calendarNumber, settings, htmlEl);
+                self.createDescriptions(year, month, calendarNumber, settings, htmlEl);
             }
         }
         /**

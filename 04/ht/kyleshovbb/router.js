@@ -96,12 +96,10 @@ let router = new Router({
             let myCalendar = document.querySelector("div[id|='calendar']");
             if (!myCalendar) {
                 let calendarSettings = JSON.parse(localStorage['calendarSettings']);
-                let month = +calendarSettings.date[1];
-                let year = +calendarSettings.date[0];
                 let fullCalendar = document.createElement("div");
                 fullCalendar.setAttribute("id", 'calendar');
                 document.body.appendChild(fullCalendar);
-                Calendar.prototype.drawCalendar(year, month, fullCalendar, calendarSettings);
+                new Calendar(calendarSettings);
             }
             myCalendar = document.querySelector("div[id|='calendar']");
             myCalendar.classList.add("fullCalendar");
