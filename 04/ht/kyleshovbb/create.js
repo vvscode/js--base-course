@@ -24,7 +24,7 @@ function Calendar(settings) {
     let htmlElement = document.querySelector(settings.el);
 
     this.drawCalendar(+settings.date[0], +settings.date[1], htmlElement, settings);
-    setTimeout(function () {
+    setTimeout(() => {
         localStorage['calendarSettings'] = JSON.stringify(settings);
     }, 0);
 }
@@ -115,7 +115,7 @@ Calendar.prototype = {
                 let calendarNumber = td.childNodes["0"].textContent;
                 self.createDescriptions(year, month, calendarNumber, settings, htmlEl);
             }
-        }
+        };
         /**
          * Проверка на выход календаря за пределы месяца
          */
@@ -169,12 +169,14 @@ Calendar.prototype = {
         if (!description) return;
         let descriptionLS = `${descriptionYear}:${descriptionMonth}:${descriptionDay} ${description} ;;`;
 
-        if (!localStorage['descriptions' + settings.el]) {
-            localStorage.setItem('descriptions' + settings.el, descriptionLS);
-        } else {
-            localStorage['descriptions' + settings.el] += descriptionLS;
-        }
-        this.drawCalendar(year, month, htmlEl, settings);
+        setTimeout(() => {
+            if (!localStorage['descriptions' + settings.el]) {
+                localStorage.setItem('descriptions' + settings.el, descriptionLS);
+            } else {
+                localStorage['descriptions' + settings.el] += descriptionLS;
+            }
+            this.drawCalendar(year, month, htmlEl, settings);
+        },0)
     },
     /**
      * Преобразование описания дня недели из localStorage в удобный для работы формат и запуск
