@@ -1,6 +1,6 @@
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
-    // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
+// если введена дата, то введенное значение, если нет - текущая дата по умолчанию
     let dateInCalender;
 
     if( date === ''){
@@ -47,13 +47,10 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     calender.addEventListener('click', function () {
         deleteDescription( allowRemoveTasks, el, year, month );
         }, true);
-
-
 }
 
-
 /*функция создание календаря*/
-function createCalendar( element, year, month, el) {
+function createCalendar( element, year, month, el ) {
   let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
 
   let elem = document.getElementById(element);
@@ -93,7 +90,7 @@ function createCalendar( element, year, month, el) {
 
   let allTd = document.querySelectorAll('td');
 
-  addClassTd ( el, allTd, 'empty_field', 'days_Of_This_Month');
+  addClassTd (allTd, 'empty_field', 'days_Of_This_Month');
   addAllDescriptionDate( el, year, month)
 }
 
@@ -114,7 +111,7 @@ function addAllDescriptionDate( element, year, month ) {
 }
 
 /*функция добавления классов в ячейки*/
-function addClassTd(element, arrTD, className1, className2) {
+function addClassTd(arrTD, className1, className2) {
   arrTD.forEach(function(element) {
     if ( parseInt(element.innerHTML) ) {
       element.className = className2;

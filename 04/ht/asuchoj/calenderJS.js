@@ -1,16 +1,19 @@
 /*массив страниц приложения*/
+
 let page = {
     link1: document.querySelector('.calender_page'),
     link2: document.querySelector('.create_calender_page'),
     link3: document.querySelector('.about_me_page')
 };
-/*если приложение открывалось - показывает последнюю страницу*/
-addLastPage(localStorage.getItem('текущая страница'));
 
 // Подписаться на изменения URL
 window.addEventListener('hashchange', function (ev) {
   //событие происходит когда изменяется hash
-  handleUrl(ev.newURL)
+  handleUrl(ev.newURL);
+
+  let link =  ev.target.getAttribute('href');
+  showHiddenElement(link);
+
 });
 
 // При загрузке страницы - считать состояние и запустить обработчик
@@ -42,18 +45,18 @@ document.body.addEventListener('click', function (ev){
   ev.preventDefault(); // отмена действия браузера
 
   let link =  ev.target.getAttribute('href');
-  showPageWhenClickedLink(link)
+  showHiddenElement(link)
 });
 
 /*отображает страницу, которая была открыта последней(из localStorage)*/
-function addLastPage(elem) {
+/*function addLastPage(elem) {
     for ( let key in page){
         if(!elem) return;
         if( '/' + key === elem){
             page[key].classList.add('show_element');
         }
     }
-}
+}*/
 
 /*Создаем обработчик URL */
 function handleUrl(url) {
@@ -66,23 +69,12 @@ function handleUrl(url) {
         el.classList.add('active');
     });
 }
-
-/*отображает нужную страницу при переходе по ссылке*/
-function showPageWhenClickedLink(elem) {
-    for ( let key in page){
-        if( '/' + key === elem){
-            localStorage.setItem( 'текущая страница', elem + '');
-            return showHiddenElement(page[key]);
-        }
-    }
-}
-
 //функция отображения нужных/не нужных элементов
 function showHiddenElement(el) {
     document.querySelectorAll('.show_element').forEach( function (elem) {
         elem.classList.remove('show_element');
-        /*localStorage.removeItem('текущая страница');*/
     });
+
     el.classList.add('show_element');
 }
 
