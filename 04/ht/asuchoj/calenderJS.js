@@ -45,7 +45,6 @@ document.body.addEventListener('click', function (ev){
   showPageWhenClickedLink(link)
 });
 
-
 /*отображает страницу, которая была открыта последней(из localStorage)*/
 function addLastPage(elem) {
     for ( let key in page){

@@ -22,192 +22,201 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     butNext.innerHTML = '>';
 
 /*отрисовка календаря*/
-    createCalendar( el + 'calendar' , year, month);
+    createCalendar ( el + 'calendar' , year, month, el);
 
 /*убираем элементы, которые не нужно (из настроек)*/
-    testCheckBox();
+    testCheckBox ( el, showMonth, allowChangeMonth, butPrev, butNext );
 
 /*обрабботчики для кнопок управления*/
     butPrev.addEventListener('click', function() {
-        createCalendar(el + 'calendar', year, --month);
-        testCheckBox();
+        createCalendar (el + 'calendar', year, --month, el);
+        testCheckBox ( el, showMonth, allowChangeMonth, butPrev, butNext );
     });
 
     butNext.addEventListener('click', function() {
-        createCalendar(el + 'calendar', year, ++month);
-        testCheckBox();
+        createCalendar (el + 'calendar', year, ++month, el);
+        testCheckBox ( el, showMonth, allowChangeMonth, butPrev, butNext );
     });
 
-    calender.addEventListener('dblclick', addNewDescriptionDate, false); // при двойном клике - записать комент
-    calender.addEventListener('click', deleteDescription, true); // удалить коментарий
+/*при двойном клике - записать комент*/
+    calender.addEventListener('dblclick', function () {
+        addNewDescriptionDate(allowAddTasks, el, year, month) ; // addNameLocalStorageKey(  );
+        }, false); //
+
+/* удалить коментарий  */
+    calender.addEventListener('click', function () {
+        deleteDescription( allowRemoveTasks, el, year, month );
+        }, true);
+
+
+}
+
 
 /*функция создание календаря*/
-    function createCalendar( element, year, month) {
-        let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
+function createCalendar( element, year, month, el) {
+  let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
 
-        let elem = document.getElementById(element);
-        let dataInCalenderNow = new Date(year, month);
-        const THISMONTH = dataInCalenderNow.getMonth();
+  let elem = document.getElementById(element);
+  let dataInCalenderNow = new Date(year, month);
+  const THISMONTH = dataInCalenderNow.getMonth();
 
-        /*шапка календаря*/
-        let calenderHead = "<thead><tr><th colspan='7'><h2>" + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + "</h2></th></tr></thead>";
+    /*шапка календаря*/
+  let calenderHead = "<thead><tr><th colspan='7'><h2>" + addNameMonth(THISMONTH) + ' ' + dataInCalenderNow.getFullYear() + "</h2></th></tr></thead>";
 
-        /*тело календаря*/
-        let nameDays = '<tbody><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th>' +
-            '<th>вс</th></tr><tr>';
+    /*тело календаря*/
+  let nameDays = '<tbody><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th>' +
+    '<th>вс</th></tr><tr>';
 
-        // заполнить первый ряд от понедельника и до дня, с которого начинается месяц * * * | 1  2  3  4
-        for (let i = 0; i < getNumDay(dataInCalenderNow); i++) {
-            daysOfLastMonth += '<td></td>';
-        }
+  // заполнить первый ряд от понедельника и до дня, с которого начинается месяц * * * | 1  2  3  4
+  for (let i = 0; i < getNumDay(dataInCalenderNow); i++) {
+    daysOfLastMonth += '<td></td>';
+  }
 
-        // ячейки календаря с датами
-        while (dataInCalenderNow.getMonth() === THISMONTH) {
+  // ячейки календаря с датами
+  while (dataInCalenderNow.getMonth() === THISMONTH) {
 
-            daysOfThisMonth += '<td>' + dataInCalenderNow.getDate() + '</td>';
-            if (getNumDay(dataInCalenderNow) % 7 === 6) { // вс, последний день - перевод строки
-                daysOfThisMonth += '</tr><tr>';
-            }
-            dataInCalenderNow.setDate(dataInCalenderNow.getDate() + 1);
-        }
-
-        // добить таблицу пустыми ячейками, если нужно
-        if (getNumDay(dataInCalenderNow) !== 0) {
-            for (let i = getNumDay(dataInCalenderNow); i < 7; i++) {
-                daysNextMonth += '<td></td>';
-            }
-        }
-        //собираем таблицу
-        elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
-
-        let allTd = document.querySelectorAll('td');
-        addClassTd ( allTd, 'empty_field', 'days_Of_This_Month');
-
-        addAllDescriptionDate();
-
+    daysOfThisMonth += '<td>' + dataInCalenderNow.getDate() + '</td>';
+    if (getNumDay(dataInCalenderNow) % 7 === 6) { // вс, последний день - перевод строки
+      daysOfThisMonth += '</tr><tr>';
     }
+    dataInCalenderNow.setDate(dataInCalenderNow.getDate() + 1);
+  }
 
-    function addNameLocalStorageKey(param) {
-        return a = el + '_' + year + '_' + month + '_' + param;
+  // добить таблицу пустыми ячейками, если нужно
+  if (getNumDay(dataInCalenderNow) !== 0) {
+    for (let i = getNumDay(dataInCalenderNow); i < 7; i++) {
+      daysNextMonth += '<td></td>';
     }
+  }
+  //собираем таблицу
+  elem.innerHTML = '<table>' + calenderHead + nameDays + daysOfLastMonth + daysOfThisMonth + daysNextMonth + '</tr></tbody></table>';
 
-    function addAllDescriptionDate () {
-        let td = document.querySelectorAll( el + ' .days_Of_This_Month');
+  let allTd = document.querySelectorAll('td');
 
-        [].forEach.call(td, function (element) {
-            for( let key in localStorage ){
-                if( key === addNameLocalStorageKey( parseInt('' + element.innerHTML) ) ){
-                    element.innerHTML = localStorage.getItem( addNameLocalStorageKey( parseInt('' + element.innerHTML) ));
-                }
-            }
-        })
+  addClassTd ( el, allTd, 'empty_field', 'days_Of_This_Month');
+  addAllDescriptionDate( el, year, month)
+}
+
+function addNameLocalStorageKey(element, year, month, param) {
+  return element + '_' + year + '_' + month + '_' + param;
+}
+
+function addAllDescriptionDate( element, year, month ) {
+  let td = document.querySelectorAll(element + ' .days_Of_This_Month');
+
+  [].forEach.call(td, function (elem) {
+    for (let key in localStorage) {
+      if (key === addNameLocalStorageKey(element, year, month, parseInt('' + elem.innerHTML))) {
+        elem.innerHTML = localStorage.getItem( addNameLocalStorageKey(element, year, month, parseInt('' + elem.innerHTML)) );
+      }
     }
+  })
+}
 
 /*функция добавления классов в ячейки*/
-    function addClassTd(arrTD, className1, className2) {
-        arrTD.forEach(function(el) {
-            if ( parseInt(el.innerHTML) ) {
-                el.className = className2
-            } else {
-                el.className = className1
-            }
-        })
+function addClassTd(element, arrTD, className1, className2) {
+  arrTD.forEach(function(element) {
+    if ( parseInt(element.innerHTML) ) {
+      element.className = className2;
+    } else {
+      element.className = className1;
     }
+  })
+}
 
 /*функция получения номера дня недели от 0(пн) до 6(вс)(по стандарту 0(вс) до 6(сб))*/
-    function getNumDay(date) {
-        let day = date.getDay();
-        if (day === 0) {
-            day = 7; //если вс = 0 - по стандарту, приравниваем к 7, возвращаем =6!
-        }
-        return day - 1; // если пн = 1 - по стандарту, становиться 0 по функции
-    }
+function getNumDay(date) {
+  let day = date.getDay();
+  if (day === 0) {
+    day = 7; //если вс = 0 - по стандарту, приравниваем к 7, возвращаем =6!
+  }
+  return day - 1; // если пн = 1 - по стандарту, становиться 0 по функции
+}
 
 /*функция получения названия месяца*/
-    function addNameMonth(month) {
-        let nameMonth = '';
-        let arrNameMonth = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-        arrNameMonth.forEach( function(item, i) {
-            if (month === i) {
-                nameMonth += item;
-            }
-        });
-        return nameMonth;
+function addNameMonth(month) {
+  let nameMonth = '';
+  let arrNameMonth = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  arrNameMonth.forEach( function(item, i) {
+    if (month === i) {
+      nameMonth += item;
     }
+  });
+  return nameMonth;
+}
 
 /*конструктор элементов помещаемых на страницу*/
-    function CreateElement (parentElId, nameElem, classNameEl, idNameEl) {
-        let newElement = document.createElement(nameElem);
-        newElement.className = classNameEl;
-        newElement.id = idNameEl;
-        return document.querySelector(parentElId).appendChild(newElement);
-    }
+function CreateElement (parentElId, nameElem, classNameEl, idNameEl) {
+  let newElement = document.createElement(nameElem);
+  newElement.className = classNameEl;
+  newElement.id = idNameEl;
+  return document.querySelector(parentElId).appendChild(newElement);
+}
 
 // добавить коментарий
-    function addNewDescriptionDate() {
-        if( !allowAddTasks ) return;
-        let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
-        let target = event.target;
+function addNewDescriptionDate(allowAddTasksParam, element, year, month) {
+  if( !allowAddTasksParam ) return;
+  let daysOfThisMonth = document.querySelectorAll('.days_Of_This_Month');
+  let target = event.target;
 
-        [].forEach.call( daysOfThisMonth, function(clickDate) {
-            if (target === clickDate) {
-                return createNewDescriptionDate(clickDate);
-            }
-        })
+  [].forEach.call( daysOfThisMonth, function(clickDate) {
+    if (target === clickDate) {
+      return createNewDescriptionDate(clickDate, element, year, month);
     }
+  });
 
-    // создать коментарий
-    function createNewDescriptionDate(element) {
+}
 
-        let boxDescription = document.createElement('div');
-        boxDescription.className = 'box_description';
+// создать коментарий
+function createNewDescriptionDate(clickDate, element, year, month) {
 
-        let newDescription = document.createElement('div');
-        newDescription.className = 'new_description';
+  let boxDescription = document.createElement('div');
+  boxDescription.className = 'box_description';
 
-        let deleteButton = document.createElement('div');
-        deleteButton.className = 'delete_description';
-        deleteButton.innerHTML = "Х";
+  let newDescription = document.createElement('div');
+  newDescription.className = 'new_description';
 
-        let userDescription = prompt('Отметить день', 'коментарий к дате');
+  let deleteButton = document.createElement('div');
+  deleteButton.className = 'delete_description';
+  deleteButton.innerHTML = "Х";
 
-        newDescription.innerHTML = '<p>' + userDescription + '</p>';
+  let userDescription = prompt('Отметить день', 'коментарий к дате');
+  newDescription.innerHTML = '<p>' + userDescription + '</p>';
 
-        if ( userDescription ) {
-            event.target.appendChild(boxDescription);
-            boxDescription.appendChild(newDescription);
-            boxDescription.appendChild(deleteButton);
-        }
+  if ( userDescription ) {
+    event.target.appendChild(boxDescription);
+    boxDescription.appendChild(newDescription);
+    boxDescription.appendChild(deleteButton);
+  }
 
-        localStorage.setItem( addNameLocalStorageKey( parseInt('' + element.innerHTML) ), element.innerHTML );
+  localStorage.setItem( addNameLocalStorageKey(element, year, month,( parseInt('' + clickDate.innerHTML))) , clickDate.innerHTML );
+}
+
+// удаление коментария
+function deleteDescription(allowRemoveTasksParam, element, year, month) {
+
+  if( !allowRemoveTasksParam ) return;
+  let delDescriptionButton = document.getElementsByClassName('delete_description');
+  let target = event.target;
+  [].forEach.call(delDescriptionButton, function(clickDate) {
+    if (target === clickDate) {
+      if( confirm('Вы уверены что хотите удали коментарий?') ) {
+        localStorage.removeItem( addNameLocalStorageKey(element, year, month, parseInt( clickDate.parentNode.parentNode.innerHTML )) );
+        clickDate.closest('.box_description').remove();
+      }
     }
+  });
+}
 
-    // удаление коментария
-    function deleteDescription() {
-        if( !allowRemoveTasks ) return;
-        let delDescriptionButton = document.getElementsByClassName('delete_description');
-        let target = event.target;
-        [].forEach.call(delDescriptionButton, function(clickDate) {
-            if (target === clickDate) {
-                if( confirm('Вы уверены что хотите удали коментарий?') ) {
-
-                    localStorage.removeItem( addNameLocalStorageKey( parseInt(clickDate.parentNode.parentNode.innerHTML ) ) );
-                    clickDate.closest('.box_description').remove();
-                 }
-            }
-        });
-    }
-
-    function testCheckBox () {
-        if ( !showMonth ){
-            document.querySelector( el + ' h2').style.display = 'none';
-        }
-        if ( !allowChangeMonth){
-            butPrev.style.display = 'none';
-            butNext.style.display = 'none';
-        }
-        if( !allowChangeMonth && !showMonth ) {
-            document.querySelector( el + ' thead').style.display = 'none';
-        }
-    }
+function testCheckBox ( element, showMonthParam, allowChangeMonthParam, butPrev, butNext ) {
+  if ( !showMonthParam ){
+    document.querySelector( element + ' h2').style.display = 'none';
+  }
+  if ( !allowChangeMonthParam ){
+    butPrev.style.display = 'none';
+    butNext.style.display = 'none';
+  }
+  if( !allowChangeMonthParam && !showMonthParam ) {
+    document.querySelector( element + ' thead').style.display = 'none';
+  }
 }
