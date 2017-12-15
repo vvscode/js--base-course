@@ -46,7 +46,7 @@ function isDeepEqual(objA, objB) {
  */
 function bind(func, context) {
     return function() {
-        func.apply(context,arguments);
+       return func.apply(context,arguments);
     };
 }
 
@@ -65,11 +65,14 @@ Function.__proto__.myBind = function(context){
 * o.magicProperty = 3 // (любое значение) 
 * в консоль выводилось значение, которое присваивается и текущее время
 */
-var o = {
-    magicProperty : function(val) {
-        console.log(val);
-    }
+function createMagic() {
+	var o = new createMagic();
 }
+createMagic.prototype.magicProperty(val) {
+	 console.log(val);
+}
+ createMagic();
+
 /**
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
