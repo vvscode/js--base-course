@@ -217,3 +217,31 @@ function testCheckBox ( element, showMonthParam, allowChangeMonthParam, butPrev,
     document.querySelector( element + ' thead').style.display = 'none';
   }
 }
+
+
+/*
+const willGift = new Promise(
+  (resolve, reject) => {
+    let win = Math.random().toFixed(1);
+    if( win > 0.5){
+      resolve('Ты выиграл');
+    } else {
+      reject('Ты неудачник');
+    }
+  }
+);
+const writeOnFb = function (gift) {
+  /!*return new Promise((resolve, reject) => resolve('Я выиграл!'))*!/
+  return Promise.resolve('Я выиграл!');
+};
+
+const buyTicket = function(){
+  console.log('покупаю билет');
+  willGift
+    .then(writeOnFb)
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
+  console.log('отдыхаю');
+};
+
+buyTicket();*/
