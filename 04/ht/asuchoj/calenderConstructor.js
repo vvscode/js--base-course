@@ -1,3 +1,44 @@
+/*
+const willGift = new Promise(
+  (resolve, reject) => {
+    let win = Math.random().toFixed(1);
+    if( win > 0.5){
+      resolve('Ты выиграл');
+    } else {
+      reject('Ты неудачник');
+    }
+  }
+);
+const writeOnFb = function (gift) {
+  /!*return new Promise((resolve, reject) => resolve('Я выиграл!'))*!/
+  return Promise.resolve('Я выиграл!');
+};
+
+const buyTicket = function(){
+  console.log('покупаю билет');
+  willGift
+    .then(writeOnFb)
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
+  console.log('отдыхаю');
+};
+
+buyTicket();*/
+
+
+
+
+/*
+
+@constructor{ShowCalender} - конструктор календаря
+@param{object} el - елемент на странице куда вставлять календарь
+@param{boolean} allowChangeMonth - разрешает ли изменять месяцы (из настроек)
+@param{boolean} allowAddTasks - разрешает добавление коментариев к ячейке календаря или нет (из настроек)
+@param{boolean} allowRemoveTasks - разрешает удаление коментариев из ячейки календаря или нет (из настроек)
+@param{string} allowRemoveTasks - разрешает удаление коментариев из ячейки календаря или нет (из настроек)
+@param{boolean} date - дата камендаря в формате год/ месяц (из настроек)
+@param{object} page - страницы приложения */
+
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
 // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
@@ -48,7 +89,6 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
         deleteDescription( allowRemoveTasks, el, year, month );
         }, true);
 }
-
 /*функция создание календаря*/
 function createCalendar( element, year, month, el ) {
   let daysOfLastMonth = '', daysOfThisMonth = '', daysNextMonth = '';
@@ -71,7 +111,6 @@ function createCalendar( element, year, month, el ) {
 
   // ячейки календаря с датами
   while (dataInCalenderNow.getMonth() === THISMONTH) {
-
     daysOfThisMonth += '<td>' + dataInCalenderNow.getDate() + '</td>';
     if (getNumDay(dataInCalenderNow) % 7 === 6) { // вс, последний день - перевод строки
       daysOfThisMonth += '</tr><tr>';
@@ -100,11 +139,12 @@ function addNameLocalStorageKey(element, year, month, param) {
 
 function addAllDescriptionDate( element, year, month ) {
   let td = document.querySelectorAll(element + ' .days_Of_This_Month');
-
   [].forEach.call(td, function (elem) {
     for (let key in localStorage) {
       if (key === addNameLocalStorageKey(element, year, month, parseInt('' + elem.innerHTML))) {
-        elem.innerHTML = localStorage.getItem( addNameLocalStorageKey(element, year, month, parseInt('' + elem.innerHTML)) );
+        setTimeout( function () {
+          elem.innerHTML = localStorage.getItem( addNameLocalStorageKey(element, year, month, parseInt('' + elem.innerHTML)) );
+        }, 0);
       }
     }
   })
@@ -186,7 +226,10 @@ function createNewDescriptionDate(clickDate, element, year, month) {
     boxDescription.appendChild(deleteButton);
   }
 
-  localStorage.setItem( addNameLocalStorageKey(element, year, month,( parseInt('' + clickDate.innerHTML))) , clickDate.innerHTML );
+  setTimeout(function () {
+      localStorage.setItem( addNameLocalStorageKey(element, year, month,( parseInt('' + clickDate.innerHTML))) , clickDate.innerHTML );
+  });
+
 }
 
 // удаление коментария
@@ -198,7 +241,9 @@ function deleteDescription(allowRemoveTasksParam, element, year, month) {
   [].forEach.call(delDescriptionButton, function(clickDate) {
     if (target === clickDate) {
       if( confirm('Вы уверены что хотите удали коментарий?') ) {
-        localStorage.removeItem( addNameLocalStorageKey(element, year, month, parseInt( clickDate.parentNode.parentNode.innerHTML )) );
+          setTimeout(function () {
+              localStorage.removeItem( addNameLocalStorageKey(element, year, month, parseInt( clickDate.parentNode.parentNode.innerHTML )) );
+          });
         clickDate.closest('.box_description').remove();
       }
     }
@@ -219,29 +264,4 @@ function testCheckBox ( element, showMonthParam, allowChangeMonthParam, butPrev,
 }
 
 
-/*
-const willGift = new Promise(
-  (resolve, reject) => {
-    let win = Math.random().toFixed(1);
-    if( win > 0.5){
-      resolve('Ты выиграл');
-    } else {
-      reject('Ты неудачник');
-    }
-  }
-);
-const writeOnFb = function (gift) {
-  /!*return new Promise((resolve, reject) => resolve('Я выиграл!'))*!/
-  return Promise.resolve('Я выиграл!');
-};
 
-const buyTicket = function(){
-  console.log('покупаю билет');
-  willGift
-    .then(writeOnFb)
-    .then(result => console.log(result))
-    .catch(error => console.log(error));
-  console.log('отдыхаю');
-};
-
-buyTicket();*/

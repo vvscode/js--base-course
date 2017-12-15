@@ -1,4 +1,4 @@
-/*массив страниц приложения*/
+/* @param{object} page - страницы приложения */
 let page = {
     link1: document.querySelector('.calender_page'),
     link2: document.querySelector('.create_calender_page'),

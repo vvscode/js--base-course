@@ -40,7 +40,6 @@
 
 /*запускаем конструктор календаря*/
         new ShowCalender({
-             /*el: '.create_calender_show',*/
              el: "#" + idForCalender,
              allowChangeMonth: changeMonth.checked,
              allowAddTasks: addTasks.checked,
