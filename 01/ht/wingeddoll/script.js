@@ -128,6 +128,26 @@ function drawCalendar(year, month, htmlEl) {
  */
 
 function isDeepEqual(objA, objB) {
+    if (typeof(objA) === "object" && typeof(objB) === "object") { // Сработает только для типа объект
+
+        var keysObjA = Object.keys(objA); // возьмет ключи, создаст массив
+        var keysObjB = Object.keys(objB);
+        if (keysObjA.length != keysObjB.length) { return false; } // сравнит длину
+        return !keysObjA.filter(function(key) { //оператор "!" нужнен для того, чтобы вернуть логическое значение
+            if (typeof objA[key] === "object" || Array.isArray(objA[key])) {
+                return !isDeepEqual(objA[key], objB[key]); // если ключ объект или массив вызовет саму себя для сравнения
+            } else {
+                return objA[key] !== objB[key];
+            } //если не объект и не массив сравнит и выдаст противоположное значение, которое на выходе поменяет оператор "!"
+        }).length;
+    } else {
+        return JSON.stringify(objA) === JSON.stringify(objB); // Сработает для всего остального
+    }
+}
+
+
+
+/*function isDeepEqual(objA, objB) {
     if (Object.keys(objA).length !== Object.keys(objB).length) return false; // сравнивает длину объектов
     for (var key in objA) { // проходит через перечисляемые свойства объекта
         if (typeof objA[key] === "object" && typeof objB[key] === "object") {
@@ -137,4 +157,4 @@ function isDeepEqual(objA, objB) {
     }
     return JSON.stringify(objA) === JSON.stringify(objB);
     // преобразует значение JavaScript в строку JSON и возвращает результат сравнения двух строк
-}
+} */
