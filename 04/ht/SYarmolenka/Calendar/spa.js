@@ -1,17 +1,19 @@
-document.addEventListener(`DOMContentLoaded`, checkLocal); // обработать при загрузке
+document.addEventListener(`DOMContentLoaded`, checkHash); // обработать при загрузке
 
-function checkLocal() { // проверить local и переключится на "другую" страницу
-  if (window.sessionStorage.getItem(`spa`)===`page1`) {changePage(1)};
-  if (window.sessionStorage.getItem(`spa`)===`page2` || !window.sessionStorage.getItem(`spa`)) {changePage(2)};
-  if (window.sessionStorage.getItem(`spa`)===`page3`) {changePage(3)};
+function checkHash() { // проверить hash и переключится на "другую" страницу
+  let hash = window.location.hash.slice(1);
+  if (hash === `page1`) {changePage(1)};
+  if (hash === `page2` || hash === ``) {changePage(2)};
+  if (hash === `page3`) {changePage(3)};
 }
 
 document.body.addEventListener(`click`, function (e) { // клик для переключения
   if (!e.target.closest(`a`)) return;
   e.preventDefault();
-  window.sessionStorage.setItem(`spa`, e.target.name);
-  checkLocal();
+  window.location.hash = e.target.name; // переписать hash
 })
+
+window.addEventListener(`hashchange`, checkHash);
 
 function changePage(number){ // переключение страниц
   let divs = document.querySelectorAll(`div`);

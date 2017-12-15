@@ -21,15 +21,11 @@ function readHash() { // чтение local/session и обновление св
 };
 
 function Calendar (setupObject) { // кнструктор
+  Object.assign(this, setupObject);
   let date = setupObject.date.split(`,`);
   this.year = date[0];
   this.month = date[1];
   this.htmlEl = document.querySelector(setupObject.el);
-  this.showMonth = setupObject.showMonth;
-  this.allowChangeMonth = setupObject.allowChangeMonth;
-  this.allowAdd = setupObject.allowAdd;
-  this.allowRemove = setupObject.allowRemove;
-  this.addClass = setupObject.addClass;
   this.number = document.querySelectorAll(`.calendar`).length;
   this.calendar = this.creatCalendar();
   this.drawCalendar();
@@ -163,18 +159,17 @@ Calendar.prototype.refreshCalendar = function() { // обновить кален
 };
 
 Calendar.prototype.saveChangeToLoacalHash = function() { // записать изменения в local/session
-    let jsonObj = {};
-    jsonObj.year = this.year;
-    jsonObj.month = this.month;
-    jsonObj.number = this.number;
-    jsonObj.showMonth = this.showMonth;
-    jsonObj.allowChangeMonth = this.allowChangeMonth;
-    jsonObj.allowAdd = this.allowAdd;
-    jsonObj.allowRemove = this.allowRemove;
-    jsonObj.addClass = this.addClass;
-    jsonObj.comment = this.comment;
-    let json = JSON.stringify(jsonObj);
-    window.sessionStorage.setItem(`Cl${this.number}`, json);
+  let json = JSON.stringify(this, [`year`,
+    `month`,
+    `number`,
+    `showMonth`,
+    `allowChangeMonth`,
+    `allowAdd`,
+    `allowRemove`,
+    `addClass`,
+    `comment`
+  ]);
+  window.sessionStorage.setItem(`Cl${this.number}`, json);
 };
 
 Calendar.prototype.createTaskArea = function(element) { // создает окно для ввода задания
@@ -263,7 +258,7 @@ document.body.addEventListener(`click`, function (e) { // изменить ме�
     let table = e.target.closest('TABLE');
     let obj = table.creator;
     if (e.target.closest('TH') && e.target.className === `back`) {
-      if (obj.month-1 < 1) {
+      if (+obj.month - 1 < 1) {
         obj.year--;
         obj.month = 12;
       } else {
@@ -272,7 +267,7 @@ document.body.addEventListener(`click`, function (e) { // изменить ме�
       obj.refreshCalendar();
     }
     if (e.target.closest('TH') && e.target.className === `next`) {
-      if (obj.month+1 > 12) {
+      if (+obj.month + 1 > 12) {
         obj.year++;
         obj.month = 1;
       } else {
