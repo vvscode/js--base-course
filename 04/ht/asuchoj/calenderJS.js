@@ -1,5 +1,4 @@
 /*массив страниц приложения*/
-
 let page = {
     link1: document.querySelector('.calender_page'),
     link2: document.querySelector('.create_calender_page'),
@@ -10,10 +9,6 @@ let page = {
 window.addEventListener('hashchange', function (ev) {
   //событие происходит когда изменяется hash
   handleUrl(ev.newURL);
-
-  let link =  ev.target.getAttribute('href');
-  showHiddenElement(link);
-
 });
 
 // При загрузке страницы - считать состояние и запустить обработчик
@@ -31,7 +26,6 @@ document.body.addEventListener('click', function (ev){
   window.location.hash = url; // часть URL после # включительно #/link2
 });
 
-
 // обработчик ссылок
 document.body.addEventListener('click', function (ev){
 
@@ -43,20 +37,19 @@ document.body.addEventListener('click', function (ev){
     return;
   }
   ev.preventDefault(); // отмена действия браузера
-
-  let link =  ev.target.getAttribute('href');
-  showHiddenElement(link)
 });
 
 /*отображает страницу, которая была открыта последней(из localStorage)*/
-/*function addLastPage(elem) {
+function addLastPage(elem) {
     for ( let key in page){
         if(!elem) return;
         if( '/' + key === elem){
             page[key].classList.add('show_element');
+        } else {
+            page[key].classList.remove('show_element');
         }
     }
-}*/
+}
 
 /*Создаем обработчик URL */
 function handleUrl(url) {
@@ -67,16 +60,12 @@ function handleUrl(url) {
     document.querySelectorAll('a[href="' + url.split('#').pop() + '"]').forEach( function (el) {
         //удаляет весь url до # остается /link2 который дальше переберается
         el.classList.add('active');
-    });
-}
-//функция отображения нужных/не нужных элементов
-function showHiddenElement(el) {
-    document.querySelectorAll('.show_element').forEach( function (elem) {
-        elem.classList.remove('show_element');
-    });
 
-    el.classList.add('show_element');
+        let link =  el.getAttribute('href');
+        addLastPage(link);
+    });
 }
+
 
 
 
