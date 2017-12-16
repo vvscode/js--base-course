@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <title>Calendar</title>
+    
+</head>
+<body>
+    <nav>
+        <a id = "calendar" href="#1">Calendar</a>
+        <a id = "create"  href="#2">Create</a>
+        <a id = "about" href="#3">About</a>
+    </nav>
+    
+    
+        <div class = "main"></div>
+        <section id="sec">
+            <div class = "block1">
+                <div class = "inputs">
+                    <label for="allowChange"><input id = "allowChange" type="checkbox">Allow changing month</label><br/>
+                    <label for="allowAdd"><input id = "allowAdd" type="checkbox">Allow adding tasks</label><br/>
+                    <label for="allowRemove"><input id = "allowRemove" type="checkbox">Allow removing tasks</label><br/>
+                    <label for="show"><input id = "show" type="checkbox">Show month / year</label><br/>
+                        <input id = "dateM" type="number" onkeyup="this.value=this.value.replace(/[^0-9]+/g,''); 
+                                                          isRightMonthValue(this);" style="width: 60px" placeholder = "month"> 
+                        <input id = "dateY" type="number" onkeyup="this.value=this.value.replace(/[^0-9]+/g,''); 
+                                                          isRightYearValue(this);" style="width: 60px" placeholder = "year"><br/> 
+                    <label for="class"><input id = "class" type="text" size="15" placeholder = "Class for your table"></label><br/>                            
+                </div>
+            </div>
+            <div class = "block2"></div>
+            <div class = "block3"></div>
+        </section>
+        <div class = "about">Well done!</div>
+    <script src = 'navigation.js'></script>
+    <script src = 'calendar.js'></script>
+    <script src = 'eventListeners.js'></script>
+    <script src = 'storage.js'></script>
+    <script src = 'conditions.js'></script>
+    <script src = 'create.js'></script>
+</body>
+</html>
