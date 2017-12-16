@@ -236,18 +236,18 @@ function createNewDescriptionDate(clickDate, element, year, month) {
 function deleteDescription(allowRemoveTasksParam, element, year, month) {
 
   if( !allowRemoveTasksParam ) return;
-  let delDescriptionButton = document.getElementsByClassName('delete_description');
   let target = event.target;
-  [].forEach.call(delDescriptionButton, function(clickDate) {
-    if (target === clickDate) {
+
+  if (target.classList.contains("delete_description")) {
       if( confirm('Вы уверены что хотите удали коментарий?') ) {
+
+          let numberDay = parseInt( target.parentNode.parentNode.innerHTML );
           setTimeout(function () {
-              localStorage.removeItem( addNameLocalStorageKey(element, year, month, parseInt( clickDate.parentNode.parentNode.innerHTML )) );
+              localStorage.removeItem( addNameLocalStorageKey(element, year, month, numberDay));
           });
-        clickDate.closest('.box_description').remove();
+          target.closest('.box_description').remove();
       }
-    }
-  });
+  }
 }
 
 function testCheckBox ( element, showMonthParam, allowChangeMonthParam, butPrev, butNext ) {

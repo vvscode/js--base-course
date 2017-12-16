@@ -27,7 +27,7 @@ a.active {
 }
 .show_element {
     display: block;
-    max-width: 1190px;
+    max-width: 1270px;
     margin: 0 auto;
 }
 
@@ -107,8 +107,8 @@ tbody th {
 
 td {
     box-sizing: border-box;
-    height: 90px;
-    width: 90px;
+    height: 100px;
+    width: 100px;
     padding: 5px;
     border: 1px solid rgb(70, 72, 76);
     background-color: white;
@@ -168,8 +168,8 @@ thead td {
     border: none;
     position: absolute;
     top: 0;
-    height: 32px;
-    width: 90px;
+    height: 31px;
+    width: 100px;
     background-color: #787878;
 }
 .prev__button:hover,
@@ -208,13 +208,13 @@ thead td {
 .delete_description{
     font-size: 14px;
     position: absolute;
-    top: -1px;
-    right: 4px;
+    top: -17px;
+    right: 1px;
     color: white;
     margin: 0;
     background-color: #ff0000;
-
 }
+
 .delete_description:hover,
 .next__button:hover,
 .prev__button:hover,
@@ -230,8 +230,6 @@ thead td {
 
 .new_description p {
     background-color: #ECD8D1;
-    margin: 0 15px 0 0;
-    padding: 0;
 }
 
 .add_date {
@@ -239,12 +237,18 @@ thead td {
     top: 104px;
     left: 17px;
 }
+.add_class_calender,
 .add_date_value{
     margin-top: 25px;
     margin-left: 6px;
 }
 .calendarBox{
     position: relative;
-    width: 560px;
+    width: 700px;
     margin: 0 auto;
+}
+.class_calender{
+    position: absolute;
+    top: 151px;
+    left: 17px;
 }

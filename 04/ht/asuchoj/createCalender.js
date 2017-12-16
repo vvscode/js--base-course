@@ -6,6 +6,7 @@
     let removeTasks = document.querySelector('#remove_tasks');
     let showMonthAndYear = document.querySelector('#show_month_year');
     let addDateValue = document.querySelector('#add_date_value');
+    let addClassCalender = document.querySelector('#add_class_calender');
 
     addCodCalender();  // код календаря по умолчанию
     showCalender(); // календарь по умолчанию
@@ -53,11 +54,19 @@
 
         let createCalenderScript = document.querySelector('#create_calender_script');
 
+        let nameIdCalender;
+
+        if(addClassCalender.value === ''){
+            nameIdCalender = 'calender' + getRandomInt(1, 50);
+        } else {
+            nameIdCalender = addClassCalender.value;
+        }
+
 /* создаем строку с параметрами календаря для вставки*/
         createCalenderScript.innerText = ['<script src=" https://cdn.rawgit.com/asuchoj/js--base-course/04/04/ht/asuchoj/calenderConstructor.js "></script>',
             '<script>',
             '(function() {',
-                'var id = "' +  'calender' + getRandomInt(1, 50) + '";',
+                'var id = "' +  nameIdCalender + '";',
                 'document.write(\'<div class=\"calendarBox\" id=\"\' + id + \'\"> </div>\');',
                 'new ShowCalender({',
                     'el: "#" + id,' ,
