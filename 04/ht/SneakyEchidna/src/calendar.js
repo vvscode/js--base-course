@@ -111,12 +111,11 @@ let Calendar = (function(storage, askUser) {
       if (event.target.className === 'day' && options.allowAdd === true) {
       addNote(event.target, el, thisMonth, thisYear, options);
     };
-      // if (event.target === 'td') {
-      //   console.log(1);
-      // }
     });
   }
-
+/**
+ * Запись заметок в календарь
+ */
   function drawNoteToCalendar() {
   let days = el.getElementsByClassName('day');
   for (let i = 0; i < days.length; i++) {
@@ -131,7 +130,10 @@ let Calendar = (function(storage, askUser) {
       });
   }
 }
-
+/**
+ * Ввод пользователем заметки и добавление её в календарь
+ * @param {object} target целевой элемент календаря для отрисовки в нём заметки
+ */
 function addNote(target) {
   let thisElement = target;
   let thisDay = target.innerHTML.split(' ')[0];
@@ -143,7 +145,11 @@ function addNote(target) {
     });
 });
 }
-
+/**
+ * Запись заметки в ячейку календаря
+ * @param {element} dayElement целевой элемент
+ * @param {string} result пользовательская заметка
+ */
 function drawNote(dayElement, result) {
   let note;
   if (options.allowRemove) {
@@ -157,7 +163,10 @@ function drawNote(dayElement, result) {
   }
   dayElement.innerHTML = note;
 }
-
+/**
+ * Обработка события удаления заметки
+ * @param {*} key Ключ в storage
+ */
 function btnDeleteClickHandler(key) {
   if (event.target.className == 'btnDelete') {
       storage.setData(key, '').then(this.removeChild(this.querySelector('div')));
