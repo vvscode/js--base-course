@@ -1,34 +1,4 @@
 /*
-const willGift = new Promise(
-  (resolve, reject) => {
-    let win = Math.random().toFixed(1);
-    if( win > 0.5){
-      resolve('Ты выиграл');
-    } else {
-      reject('Ты неудачник');
-    }
-  }
-);
-const writeOnFb = function (gift) {
-  /!*return new Promise((resolve, reject) => resolve('Я выиграл!'))*!/
-  return Promise.resolve('Я выиграл!');
-};
-
-const buyTicket = function(){
-  console.log('покупаю билет');
-  willGift
-    .then(writeOnFb)
-    .then(result => console.log(result))
-    .catch(error => console.log(error));
-  console.log('отдыхаю');
-};
-
-buyTicket();*/
-
-
-
-
-/*
 
 @constructor{ShowCalender} - конструктор календаря
 @param{object} el - елемент на странице куда вставлять календарь
@@ -38,7 +8,6 @@ buyTicket();*/
 @param{string} allowRemoveTasks - разрешает удаление коментариев из ячейки календаря или нет (из настроек)
 @param{boolean} date - дата камендаря в формате год/ месяц (из настроек)
 @param{object} page - страницы приложения */
-
 function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
 // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
