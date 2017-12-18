@@ -23,11 +23,11 @@ function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, 
     let month = dateInCalender.getMonth();
 
 /*создаем и вставляем оболочку для календаря*/
-    let calender = CreateElement ( el, 'div', 'calendar', el + 'calendar');
+    let calender = createElementFunc ( el, 'div', 'calendar', el + 'calendar');
 
 /*создаем и вставляем кнопки управления*/
-    let butPrev = CreateElement ( el, 'button', 'prev__button', el + 'prev_button');
-    let butNext = CreateElement ( el, 'button', 'next__button', el + 'next_button');
+    let butPrev = createElementFunc ( el, 'button', 'prev__button', el + 'prev_button');
+    let butNext = createElementFunc ( el, 'button', 'next__button', el + 'next_button');
     butPrev.innerHTML = '<';
     butNext.innerHTML = '>';
 
@@ -152,7 +152,7 @@ function addNameMonth(month) {
 }
 
 /*конструктор элементов помещаемых на страницу*/
-function CreateElement (parentElId, nameElem, classNameEl, idNameEl) {
+function createElementFunc (parentElId, nameElem, classNameEl, idNameEl) {
   let newElement = document.createElement(nameElem);
   newElement.className = classNameEl;
   newElement.id = idNameEl;
