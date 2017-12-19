@@ -8,7 +8,7 @@
 @param{string} allowRemoveTasks - разрешает удаление коментариев из ячейки календаря или нет (из настроек)
 @param{boolean} date - дата камендаря в формате год/ месяц (из настроек)
 @param{object} page - страницы приложения */
-function ShowCalender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
+function Calender ( {el, allowChangeMonth, allowAddTasks, allowRemoveTasks, showMonth, date } ) {
 
 // если введена дата, то введенное значение, если нет - текущая дата по умолчанию
     let dateInCalender;

@@ -40,7 +40,7 @@
         createCalenderScript.appendChild(calenderAddBox);
 
 /*запускаем конструктор календаря*/
-        new ShowCalender({
+        new Calender({
              el: "#" + idForCalender,
              allowChangeMonth: changeMonth.checked,
              allowAddTasks: addTasks.checked,
@@ -68,7 +68,7 @@
             '(function() {',
                 'var id = "' +  nameIdCalender + '";',
                 'document.write(\'<div class=\"calendarBox\" id=\"\' + id + \'\"> </div>\');',
-                'new ShowCalender({',
+                'new Calender({',
                     'el: "#" + id,' ,
                     'allowChangeMonth:' + changeMonth.checked + ',',
                     'allowAddTasks:' + addTasks.checked + ',',
