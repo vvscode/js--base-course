@@ -1,6 +1,6 @@
 /*
 
-@constructor{ShowCalender} - конструктор календаря
+@constructor{Calender} - конструктор календаря
 @param{object} el - елемент на странице куда вставлять календарь
 @param{boolean} allowChangeMonth - разрешает ли изменять месяцы (из настроек)
 @param{boolean} allowAddTasks - разрешает добавление коментариев к ячейке календаря или нет (из настроек)
