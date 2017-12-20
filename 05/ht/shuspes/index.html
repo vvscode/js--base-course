@@ -13,5 +13,14 @@
     <script src="eventBus.js"></script>
     <script src="template.js"></script>
     <script src="router.js"></script>
-    <script src="script.tests.js"></script>
+    <script>
+        mocha.setup("bdd");
+        var assert = chai.assert;
+    </script>
+    <script src="eventBus.tests.js"></script>
+    <script src="template.tests.js"></script>
+    <script src="router.tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
 </html>
