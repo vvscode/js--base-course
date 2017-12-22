@@ -1,23 +1,28 @@
 document.addEventListener (`DOMContentLoaded`, readHash); // обработать при загрузке
 
 function readHash() { // чтение local/session и обновление свойств объекта календарь
-  let str = window.sessionStorage.getItem(`calendar`);
-  let allCalendar = document.querySelectorAll(`.calendar`);
-  allCalendar.forEach(function(table) {
-    for (let key in window.sessionStorage) {
-      if (`Cl${table.creator.number}` === key) {
-        let obj = JSON.parse(window.sessionStorage[key]);
-        for (let key in obj) {
-          if (key === `html`) {
-            table.creator.calendar.querySelector(`tbody`).innerHTML = obj[key];
-            continue;
+  Promise.resolve()
+    .then(function () {
+      return window.sessionStorage.getItem(`calendar`);
+    })
+    .then(function (str) {
+      let allCalendar = document.querySelectorAll(`.calendar`);
+      allCalendar.forEach(function(table) {
+        for (let key in window.sessionStorage) {
+          if (`Cl${table.creator.number}` === key) {
+            let obj = JSON.parse(window.sessionStorage[key]);
+            for (let key in obj) {
+              if (key === `html`) {
+                table.creator.calendar.querySelector(`tbody`).innerHTML = obj[key];
+                continue;
+              }
+              table.creator[key] = obj[key];
+            }
           }
-          table.creator[key] = obj[key];
         }
-      }
-    }
-    table.creator.refreshCalendar();
-  })
+        table.creator.refreshCalendar();
+      })
+    });
 };
 
 function Calendar (setupObject) { // кнструктор
@@ -155,25 +160,31 @@ Calendar.prototype.refreshCalendar = function() { // обновить кален
   if (this.comment && +this.year === +this.comment[0] && +this.month === +this.comment[1]) {
     this.calendar.querySelector(`tbody`).innerHTML = this.comment[2];
   }
-  this.hideBtnRemove();
+  if (this.allowRemove) {
+    this.hideBtnRemove(true);
+  } else {
+    this.hideBtnRemove(false);
+  }
 };
 
 Calendar.prototype.saveChangeToLoacalHash = function() { // записать изменения в local/session
-  let json = JSON.stringify(this, [`year`,
-    `month`,
-    `number`,
-    `showMonth`,
-    `allowChangeMonth`,
-    `allowAdd`,
-    `allowRemove`,
-    `addClass`,
-    `comment`
-  ]);
-  window.sessionStorage.setItem(`Cl${this.number}`, json);
+  let self = this;
+  Promise.resolve(self).then(function(obj) {
+    let json = JSON.stringify(obj, [`year`,
+      `month`,
+      `number`,
+      `showMonth`,
+      `allowChangeMonth`,
+      `allowAdd`,
+      `allowRemove`,
+      `addClass`,
+      `comment`
+    ]);
+    window.sessionStorage.setItem(`Cl${obj.number}`, json);
+  });
 };
 
 Calendar.prototype.createTaskArea = function(element) { // создает окно для ввода задания
-  if (this.allowAdd) {
     let comment = document.createElement(`textarea`);
     let tbCoor = element.getBoundingClientRect();
     comment.classList.add(`comment`);
@@ -181,7 +192,6 @@ Calendar.prototype.createTaskArea = function(element) { // создает окн
     document.body.appendChild(comment);
     comment.style.top = tbCoor.bottom - 1 + `px`;
     comment.style.left = tbCoor.left + `px`;
-  }
 }
 
 Calendar.prototype.addTask = function (area) { // записывает задание в ячейку календаря
@@ -214,17 +224,17 @@ Calendar.prototype.hideArea = function (area) { // скрываеть окно �
   area.parentNode.removeChild(area);
 }
 
-Calendar.prototype.hideBtnRemove = function () { // скрывает кнопку удаления задания
+Calendar.prototype.hideBtnRemove = function (remove) { // скрывает кнопку удаления задания
   let divs = document.querySelectorAll(`.del_task`);
-  divs.forEach(function (elem) {
-    if (this.allowRemove) {
+  if (remove) {
+    divs.forEach(function (elem) {
       elem.classList.remove(`hide`);
-      elem.nextElementSibling.style.paddingLeft = `18px`;
-    } else {
+    })
+} else {
+    divs.forEach(function (elem) {
       elem.classList.add(`hide`);
-      elem.nextElementSibling.style.paddingLeft = `1px`;
-    }
-  }, this);
+    })
+  }
 }
 
 Calendar.prototype.deleteTask = function (task) { // удаляет задание из календаря
@@ -234,7 +244,7 @@ Calendar.prototype.deleteTask = function (task) { // удаляет задани
 }
 
 document.body.addEventListener(`dblclick`, function(e) { // даблклик для записи задания
-  if (e.target.closest('TD') && e.target.closest('TD').innerText !== ``) {
+  if (e.target.closest('TD') && e.target.closest('TD').innerText !== `` && e.target.closest('table').creator.allowAdd) {
       e.target.closest('table').creator.createTaskArea(e.target.closest('TD'));
     }
 });
