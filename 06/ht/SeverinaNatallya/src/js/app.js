@@ -1,4 +1,5 @@
 ﻿import {
+   debounce,
     changeHashByMapState,
     getMapCenterFromHash,
     getUserInfoFetch,
@@ -9,7 +10,8 @@
     getCityNameByCoordXHR,
     getForecastByCoordXHR,
     getForecastByCityNameXHR,
-    changeMapStateByCityName
+    changeMapStateByCityName,
+    iStorage
 } from "./services";
 import EventBus from "./EventBus";
 import Router from "./Router";
