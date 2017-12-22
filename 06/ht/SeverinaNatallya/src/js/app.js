@@ -1,4 +1,17 @@
-﻿import EventBus from "./EventBus";
+﻿import {
+    changeHashByMapState,
+    getMapCenterFromHash,
+    getUserInfoFetch,
+    getCityNameByCoordFetch,
+    getForecastByCoordFetch,
+    getForecastByCityNameFetch,
+    getUserInfoXHR,
+    getCityNameByCoordXHR,
+    getForecastByCoordXHR,
+    getForecastByCityNameXHR,
+    changeMapStateByCityName
+} from "./services";
+import EventBus from "./EventBus";
 import Router from "./Router";
 import WeatherForecast from "./WeatherForecast";
 import RequestHistory from "./RequestHistory";
