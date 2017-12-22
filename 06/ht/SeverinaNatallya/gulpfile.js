@@ -1,11 +1,15 @@
 'use strict';
 
 var gulp = require('gulp'),
+	babelify = require('babelify'),
+	browserify = require('browserify'),
+	source = require('vinyl-source-stream'),
+	rename = require('gulp-rename'),
+	uglify = require('gulp-uglify'),
+	buffer = require('vinyl-buffer'),
     watch = require('gulp-watch'),
     prefixer = require('gulp-autoprefixer'),
-    uglify = require('gulp-uglify'),
-	buffer = require('vinyl-buffer'),
-	gutil = require('gulp-util'),
+    //gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     rigger = require('gulp-rigger'),
@@ -24,7 +28,7 @@ var gulp = require('gulp'),
     },
     src: { //Пути откуда брать исходники
         html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-        js: 'src/js/main.js',//В стилях и скриптах нам понадобятся только main файлы
+        js: 'src/js/app.js',//В стилях и скриптах нам понадобятся только main файлы
         style: 'src/style/main.scss',
         img: 'src/img/**/*.*' //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
     },
@@ -53,14 +57,18 @@ gulp.task('html:build', function () {
 });
 //Собираем javascript
 gulp.task('js:build', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(sourcemaps.init()) //Инициализируем sourcemap
+     return browserify({
+        entries: [path.src.js]
+        })
+        .transform(babelify.configure({
+            presets : ['es2015']
+        }))
+        .bundle()
+        .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(uglify())
-		.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-        .pipe(sourcemaps.write()) //Пропишем карты
-        .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
 //Собираем стили
