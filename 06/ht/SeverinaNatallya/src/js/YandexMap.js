@@ -16,8 +16,7 @@ YandexMap.prototype.drawMap = function () {
     //кнопка добавить в избранное
     var btnAdd2Favor = new this.ymaps.control.Button({
         data: {
-            src:
-            "https://rawgit.com/NatallyaSeverina/js--base-course/06ht/06/ht/SeverinaNatallya/build/img/favorites.png"
+            image: "https://rawgit.com/NatallyaSeverina/js--base-course/06ht/06/ht/SeverinaNatallya/build/img/favorites.png"
         },
         options: {
             float: "right"
