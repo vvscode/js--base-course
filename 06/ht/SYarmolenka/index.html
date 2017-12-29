@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="head">
+      <input type="radio" name="http" checked><span>XHR</span>
+      <input type="radio" name="http"  id="fetch"><span>fetch</span>
+    </div>
+    <div class="head search">
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Main</a></li>
+        <li><a href="#">Athor</a></li>
+      </ul>
+    </div>
+    <div class="head">
+      <div id="search">
+        <input type="text">
+        <div id="button">
+          Найти
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="map">
+      <div id="star"><img src="star-icon.png" alt=""> </div>
+    </div>
+  </main>
+  <footer>
+    <div id="history">123</div>
+    <div id="weather"></div>
+    <div id="favorite">456</div>
+  </footer>
+
+  <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <script src="https://js.cx/babel-core/browser.min.js"></script>
+  <script type="text/babel" src="script.js"></script>
+</body>
+</html>

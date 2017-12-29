@@ -1,0 +1,84 @@
+.head {
+  margin-left: 1%;
+  display: inline-block;
+  width: 31.75%;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+.head>* {
+  margin-top: 5px;
+  font: 20px Arial;
+}
+#fetch {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+li {
+  display: inline;
+  margin-right: 40px;
+}
+a {
+  text-decoration: none;
+  color: #000;
+  padding: 5px;
+}
+#search {
+  display: inline-block;
+  height: 25px;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+#search>input {
+  height: 80%;
+  border: none;
+  font-size: 20px;
+}
+#button {
+  display: inline-block;
+  border-left: 1px solid #000;
+  padding: 1px;
+  cursor: pointer;
+  background: #E8FFF4;
+}
+#search>input:focus {
+  outline: none;
+}
+main {
+  display: inline-block;
+  width: 100%;
+}
+#map {
+  float: left;
+  height: 400px;
+  width: 98%;
+  display: inline;
+  margin: 1%;
+  margin-top: 0;
+  overflow: hidden;
+}
+#star {
+  position: absolute;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+  left: 93%;
+  top: 10%;
+}
+#star>img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+footer>* {
+  margin-left: 1%;
+  display: inline-block;
+  width: 30.25%;
+  height: 140px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  vertical-align: middle;
+  padding: 0.5%
+}
