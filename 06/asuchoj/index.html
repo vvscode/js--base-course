@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link href="style.css" rel="stylesheet">
+
     <title>прогноз погоды</title>
 
 
-    <script src="//api-maps.yandex.ru/2.0/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
-    <script src="mapbasics.js" type="text/javascript"></script>
-
+    <meta charset="UTF-8">
+    <link href="style.css" rel="stylesheet">
+<!--    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />-->
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<!--    <script src="mapbasics.js" type="text/javascript"></script>-->
 </head>
 <body>
 <div class="box">
@@ -35,13 +36,16 @@
         <div class="ccc"></div>
     </div>
     <div class="yandex_map">
+
         <div id="map" style="width:600px; height:500px"></div>
         <pre id="info"></pre>
+
     </div>
     <div class="google_coordinates">
 
     </div>
 
+    <script src="mapbasics.js" type="text/javascript"></script>
     <script src="js.js"></script>
 </div>
 </body>
