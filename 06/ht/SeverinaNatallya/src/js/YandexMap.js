@@ -1,4 +1,5 @@
-﻿import { debounce, changeHashByMapState } from "./services";
+﻿import {debounce} from "./utils";
+import {changeHashByMapState } from "./services";
 var YandexMap = function (center, eventBus, ymaps) {
     this.map;
     this.center = center;

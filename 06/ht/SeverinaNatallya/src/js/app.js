@@ -1,5 +1,5 @@
 ﻿import {
-   debounce,
+    //debounce,
     changeHashByMapState,
     getMapCenterFromHash,
     getUserInfoFetch,
@@ -11,7 +11,7 @@
     getForecastByCoordXHR,
     getForecastByCityNameXHR,
     changeMapStateByCityName,
-    iStorage
+    //iStorage
 } from "./services";
 import EventBus from "./EventBus";
 import Router from "./Router";
@@ -26,11 +26,8 @@ form.addEventListener("submit", ev => {
     ev.preventDefault();
     changeMapStateByCityName(form, eventBus, form.search.value);
 });
-//компонент прогноза
 new WeatherForecast(document.getElementsByClassName("weather")[0], eventBus);
-////компонент истории запросов
 new RequestHistory(document.getElementsByClassName("history")[0], eventBus);
-////компонент избранных
 new FavoriteList(document.getElementsByClassName("favorites")[0], eventBus);
 ////загрузка карты либо по координатам нахождения пользователя, либо из url
 getMapCenterFromHash(form.rb.value)
@@ -43,40 +40,56 @@ getMapCenterFromHash(form.rb.value)
     });
 //при смене центра карты меняется прогноз погоды
 eventBus.on("weatherMap:centerChange", center => {
-    let lat = center[0];
-    let lng = center[1];
+    let [lat, lng] = center
+    //let lat = center[0];
+    //let lng = center[1];
     let forecastText;
-    if (form.rb.value == "fetch") {
-        getForecastByCoordFetch({
-            lat,
-            lng
+    let getForecastPromise = form.rb.value == "fetch"
+        ? getForecastByCoordFetch({ lat, lng })
+        : getForecastByCoordXHR({ lat, lng }); // тут единственное различие
+    getForecastPromise
+        .then(({ temp, descript, humidity, windSpeed }) => {
+            forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
+            eventBus.trigger("weatherMap:changeForecast", forecastText);
         })
-            .then(({ temp, descript, humidity, windSpeed }) => {
-                forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
-                eventBus.trigger("weatherMap:changeForecast", forecastText);
-            })
-            .catch(error => {
-                eventBus.trigger(
-                    "weatherMap:changeForecast",
-                    "ошибка получения прогноза"
-                );
-            });
-    } else {
-        getForecastByCoordXHR({
-            lat,
-            lng
-        })
-            .then(({ temp, descript, humidity, windSpeed }) => {
-                forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
-                eventBus.trigger("weatherMap:changeForecast", forecastText);
-            })
-            .catch(error => {
-                eventBus.trigger(
-                    "weatherMap:changeForecast",
-                    "ошибка получения прогноза"
-                );
-            });
-    }
+        .catch(error => {
+            eventBus.trigger(
+                "weatherMap:changeForecast",
+                "ошибка получения прогноза"
+            );
+        });
+
+    //if (form.rb.value == "fetch") {
+    //    getForecastByCoordFetch({
+    //        lat,
+    //        lng
+    //    })
+    //        .then(({ temp, descript, humidity, windSpeed }) => {
+    //            forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
+    //            eventBus.trigger("weatherMap:changeForecast", forecastText);
+    //        })
+    //        .catch(error => {
+    //            eventBus.trigger(
+    //                "weatherMap:changeForecast",
+    //                "ошибка получения прогноза"
+    //            );
+    //        });
+    //} else {
+    //    getForecastByCoordXHR({
+    //        lat,
+    //        lng
+    //    })
+    //        .then(({ temp, descript, humidity, windSpeed }) => {
+    //            forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
+    //            eventBus.trigger("weatherMap:changeForecast", forecastText);
+    //        })
+    //        .catch(error => {
+    //            eventBus.trigger(
+    //                "weatherMap:changeForecast",
+    //                "ошибка получения прогноза"
+    //            );
+    //        });
+    //}
 });
 
 //обработчик события нажатия кнопки добавить в избранное
