@@ -1,12 +1,14 @@
-ul{
+
+header ul{
     list-style-type: none;
+    margin: 0;
 }
-li{
+header li{
     float: left;
     padding: 10px;
 }
 .box{
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
 }
 .ccc{
@@ -59,7 +61,7 @@ li{
     width: 37px;
     height: 100%;
     cursor: pointer;
-    background: url(images/sprite/go.png) 50% no-repeat;
+    background: url(../images/sprite/go.png) 50% no-repeat;
     opacity: 0.5;
 }
 .header__search .search .submit:hover {
