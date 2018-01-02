@@ -4,6 +4,7 @@
     <title>прогноз погоды</title>
     <meta charset="UTF-8">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/search_button.css" rel="stylesheet">
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
@@ -34,7 +35,7 @@
 
     </header>
     <main>
-        <div class="about page page-show">
+        <div class="about page">
             <h1> Приложением "Прогноз погоды"</h1>
             <h2> Общая задача </h2>
             <ol> Сайт состоит из трех блоков.
@@ -81,14 +82,29 @@
                 <li> Должны поддерживаться ссылки с указанием города
                      ( например /city/Minsk )</li>
             </ul>
-
-
         </div>
-        <div class="main page">
-            <div class="yandex_map">
-                <div id="map" style="width:600px; height:500px"></div>
+        <div class="main">
+            <div>
+                <div id="map" class="yandex_map" ></div>
                 <pre id="info"></pre>
             </div>
+            <div class="history">
+               <div>
+                   <p> History </p>
+               </div>
+            </div>
+            <div class="weather_and_information">
+                <div>
+                    <p> Weather </p>
+                </div>
+                <div class="weather"></div>
+            </div>
+            <div class="favorites">
+                <div>
+                    <p> Favorites </p>
+                </div>
+            </div>
+
             <div class="google_coordinates">
 
             </div>
@@ -110,3 +126,4 @@
 
 </body>
 </html>
+

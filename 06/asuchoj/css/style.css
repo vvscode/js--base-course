@@ -1,4 +1,9 @@
-
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
 header ul{
     list-style-type: none;
     margin: 0;
@@ -10,69 +15,44 @@ header li{
 .box{
     max-width: 700px;
     margin: 0 auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .ccc{
     clear: both;
 }
 
-/*Кнопка поиска*/
-
-.header__search {
-    float: right;
-    margin: 5px;
-    min-width: 200px;
-    z-index: 9;
+.yandex_map{
+    width:600px;
+    height:500px;
+    margin: 0 auto;
 }
 
-.header__search .search {
-    position: relative;
+.page{
+    display: none;
+
+
 }
-.header__search .search input {
-    border: none;
+.page-show{
+     display: block;
+ }
+
+main{
+    flex-grow: 1;
 }
-.header__search .search .input {
-    width: 100%;
-    padding: 8px 37px 9px 15px;
-    -moz-box-sizing: border-box;
+
+.history,
+.weather_and_information,
+.favorites{
+    border: 2px solid black;
+    width: calc((100% - 30px)/3);
+    height: 200px;
     box-sizing: border-box;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    background: #EEE;
-    font: 13px Tahoma, Arial, sans-serif;
-    color: #555;
-    outline: none;
+    float: left;
+    margin: 5px;
 }
-.header__search .search .input:focus {
-    box-shadow: inset 0 0 5px rgba(255, 165, 0, 0.6), inset 0 1px 2px rgba(255, 165, 0, 0.8);
-    background: #E8E8E8;
-    color: #333;
-    z-index: 10;
-}
-.header__search .search .input:hover {
-    box-shadow: inset 0 0 5px rgba(21, 79, 141, 0.6), inset 0 1px 2px rgba(21, 79, 141, 0.8);
-    background: #E8E8E8;
-    color: #333;
-    z-index: 5;
-}
-.header__search .search .submit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 37px;
-    height: 100%;
-    cursor: pointer;
-    background: url(../images/sprite/go.png) 50% no-repeat;
-    opacity: 0.5;
-}
-.header__search .search .submit:hover {
-    opacity: 0.8;
-}
-.header__search .search .submit:focus {
-    border-radius: 20px;
-    outline: none;
-    border: 2px solid #ffa500;
-    opacity: 0.6;
-}
-input[type="search"] {
-    -webkit-appearance: none;
+p{
+    text-align: center;
+    margin: 5px;
 }

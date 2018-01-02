@@ -56,43 +56,48 @@ let router = new Router({
     routes: [{
         name: 'about',
         match: 'about',
-        onBeforeEnter: () => {
-            addClassAndDel ()
-        },
         onEnter: () => {
-            addClassAndDel ()
+            console.log(`11`);
+            addClass();
         },
         onLeave: () => {
-            addClassAndDel ()
+            console.log(`12`);
+            delClass();
         }
     }, {
         name: 'main',
         match: 'main',
-        onBeforeEnter: () => {
-            addClassAndDel ()
-        },
         onEnter: () => {
-            addClassAndDel ()
+            console.log(`21`);
+            addClass();
         },
         onLeave: () => {
-            addClassAndDel ()
+            console.log(`22`);
+            delClass();
         }
+    }, {
+        name: 'city',
+        match: /city\/(.+)/,
+        onEnter: (city) => console.log(`onEnter city:${city}`),
+        onLeave: (city) => console.log(`onLeave city:${city}`)
     }, {
         name: 'author',
         match: 'author',
-        onBeforeEnter: () => {
-            addClassAndDel ()
-        },
         onEnter: () => {
-            addClassAndDel ()
+            console.log(`31`);
+            addClass();
         },
         onLeave: () => {
-            addClassAndDel ()
+            console.log(`32`);
+            delClass();
         }
     }]
 });
 
-function addClassAndDel () {
-    let a = document.querySelector('.page');
-    a.classList.toggle("page-show");
+function addClass() {
+
+}
+
+function delClass() {
+
 }
