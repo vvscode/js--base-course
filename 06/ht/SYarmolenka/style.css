@@ -82,3 +82,26 @@ footer>* {
   vertical-align: middle;
   padding: 0.5%
 }
+.hide {
+  display: none;
+}
+.close {
+  background: #f00;
+  width: 20px;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+}
+.favorite {
+  text-align: right;
+}
+.favorite>span {
+  float: left
+}
+.favorite, .history {
+  margin: 1px;
+  padding: 2px;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 3px;
+}

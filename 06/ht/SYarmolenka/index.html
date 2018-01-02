@@ -9,18 +9,18 @@
 </head>
 <body>
   <header>
-    <div class="head">
-      <input type="radio" name="http" checked><span>XHR</span>
-      <input type="radio" name="http"  id="fetch"><span>fetch</span>
+    <div class="head request">
+      <input type="radio" class="http" name="request" value="XHR"checked><span>XHR</span>
+      <input type="radio" class="http" name="request" value="fetch" id="fetch"><span>fetch</span>
     </div>
-    <div class="head search">
+    <div class="head">
       <ul>
         <li><a href="#">About</a></li>
         <li><a href="#">Main</a></li>
         <li><a href="#">Athor</a></li>
       </ul>
     </div>
-    <div class="head">
+    <div class="head search">
       <div id="search">
         <input type="text">
         <div id="button">
@@ -35,12 +35,22 @@
     </div>
   </main>
   <footer>
-    <div id="history">123</div>
-    <div id="weather"></div>
-    <div id="favorite">456</div>
+    <div id="history"></div>
+    <div id="weather">
+      <div></div>
+      <div></div>
+    </div>
+    <div id="favorite"></div>
   </footer>
-
+  <script>
+    let stage = {};
+    let myMap;
+  </script>
   <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <script type="text/javascript" src="observer.js"></script>
+  <script type="text/javascript" src="request.js"></script>
+  <script type="text/javascript" src="local.js"></script>
   <script type="text/javascript" src="script.js"></script>
+  <script type="text/javascript" src="route.js"></script>
 </body>
 </html>

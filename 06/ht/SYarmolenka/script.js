@@ -1,19 +1,25 @@
-// let stage {
-//   request,
-//   page
-//   search
-//   coords
-// }
-export let myMap;
-
-export stage = {};
-
-function init (position) {
+function init () {
   myMap = new ymaps.Map(`map`, {
-    center: position,
-    zoom: 10,
+    center: stage.coords,
+    zoom: stage.zoom,
     controls: ['zoomControl']
   });
+  myMap.events.add('actionend', function () {
+    Promise.resolve().then(function(){
+      stage.coords = myMap.getCenter();
+      stage.zoom = myMap.getZoom();
+    }).then(refreshCoords);
+  });
+}
+
+function refreshMap () {
+    offsetMap(stage.zoom, stage.coords);
+    requestWeather();
+    requestCityName();
+}
+
+function refreshCoords() {
+  window.location.hash = `${stage.coords[0]},${stage.coords[1]}&zoom=${stage.zoom}`;
 }
 
 function offsetMap (zoom, coords) {
@@ -21,46 +27,15 @@ function offsetMap (zoom, coords) {
   return coords;
 }
 
-function getWeather (coords) {
-  let xhr = new XMLHttpRequest();
-  let str = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/0fbec31d64e8fba6637a108f151904ad/${coords[0]},${coords[1]}?lang=be%26units=si`;
-  xhr.open(`GET`, str, true);
-  xhr.onload = function() {
-    let obj = JSON.parse(JSON.parse(this.responseText).body);
-    let div = document.querySelector(`#weather`);
-    div.innerText = obj.daily.summary;
-  }
-  xhr.onerror = function() {
-    alert('Ошибка ' + this.status);
-  }
-  xhr.send();
-}
-
-ymaps.ready(init).then(function(){
-  ymaps.geolocation.get({provider: `yandex`})
-  .then(function (result) {return result.geoObjects.position})
-  .then(offsetMap.bind(null, 10))
-  .then(getWeather);
+document.body.addEventListener(`keypress`, function (e) {
+  if (e.keyCode != 13 || !e.target.matches(`#search>input`)) return;
+  requestCoords (e.target.value);
+  e.target.value = ``;
 });
-
-let search = document.querySelector(`#search>input`);
-search.addEventListener(`keypress`, function (e) {
-  if (e.keyCode != 13) return;
-  ymaps.geocode(e.target.value)
-    .then(function(res) {
-      let coords = res.geoObjects.get(0).geometry.getCoordinates();
-      return coords})
-    .then(offsetMap.bind(null, 10))
-    .then(getWeather);
-})
 
 document.body.addEventListener(`click`, function (e) {
   if (!e.target.matches(`#button`)) return;
   e.preventDefault();
-  ymaps.geocode(search.value)
-    .then(function(res) {
-      let coords = res.geoObjects.get(0).geometry.getCoordinates();
-      return coords})
-    .then(offsetMap.bind(null, 10))
-    .then(getWeather);
+  requestCoords (e.target.previousElementSibling.value);
+  e.target.previousElementSibling.value = ``;
 });
