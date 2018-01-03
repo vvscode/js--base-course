@@ -55,7 +55,9 @@
         }
 
         this.delInf = function(event) {
-            if(self.allowRemove) {
+            if(!self.allowRemove) {
+                return;
+            }
                 var where = document.querySelector('.boxSave'+self.element);
                 var target = event.target;
                 if(target.tagName != 'BUTTON') {
@@ -76,11 +78,13 @@
                         self.output(where,textObj[key],data[1],data[0]);
                     }	
                 });
-            }
+            
         }
 
         this.newTask = function(event) {
-            if(self.allowAdd) {
+            if!(self.allowAdd) {
+                return;
+            }
                 var where = document.querySelector('.boxSave'+self.element);
                 self.getNumDay(event,self.daySelect)
                     .then(function(day) {
@@ -109,7 +113,7 @@
                         self.daySelect = self.setActive(self.daySelect);
                     }
                 });
-            }
+            
         }
     }
 
@@ -131,7 +135,6 @@
 
     Calendar.prototype.clearText = function (where){
         where.innerHTML = '';
-        return 0;
     }
 
     Calendar.prototype.toArr = function(num) {
@@ -296,20 +299,6 @@ this.allowAdd = "+allowAdd+ "; \n\
 this.allowRemove = "+allowRemove+ ";\n \
 var self = this; \n\
 this.daySelect = 0;\n \
-function changeMonthBack(){\n \
-self.month--; \n\
-if(self.month===0) {\n \
-self.month=12; \n\
-self.year--;\n \
-} \n\
-} \n\
-function changeMonthNext(){\n \
-self.month++; \n\
-if(self.month===13) {\n \
-self.month=1;\n \
-self.year++;\n \
-} \n\
-} \n\
 this.clickChangeCalendar = function(event){\n \
 if(self.showMonth) {\n\
 if(event.target.tagName!='BUTTON') {\n \
@@ -318,12 +307,12 @@ return;\n \
 let classButton = event.target.getAttribute('class');\n \
 var where = document.querySelector('.boxSave'+self.element);\n \
 if(classButton==='buttonLeft'){\n \
-changeMonthBack();\n \
+  self.changeMonthBack(self);\n \
 self.daySelect = self.clearText(where); \n\
 self.drawCalendar(); \n\
 }\n \
 if(classButton==='buttonRight'){ \n\
-changeMonthNext();\n \
+ self.changeMonthNext(self);\n \
 self.daySelect =self.clearText(where);\n \
 self.drawCalendar();\n \
 }\n \
@@ -413,6 +402,21 @@ var sObj = JSON.stringify(storageObj);\n\
 localStorage.setItem(link[0],sObj);	\n\
 return	resolve();\n\
 });\n\
+}\n\
+Calendar.prototype.changeMonthBack = function(self){\n\
+self.month--;\n\
+if(self.month===0) {\n\
+self.month=12;\n\
+self.year--;\n\
+}\n\
+}\n\
+\n\
+Calendar.prototype.changeMonthNext = function(self){\n\
+self.month++;\n\
+if(self.month===13) {\n\
+self.month=1;\n\
+self.year++;\n\
+}\n\
 }\n\
 Calendar.prototype.output = function(where,text,num,data){\n\
 var p = document.createElement('p');\n\
@@ -556,24 +560,3 @@ document.querySelector('.boxSave'+calendar.element).addEventListener('click',cal
     }
     calendarTest.configure();
 })()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
