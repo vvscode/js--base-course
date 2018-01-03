@@ -68,7 +68,7 @@ function settingAreaChangeHandler1(settingArea) {
         if (target.id == 'currYear') {
             calendarPreview.currentDate = new Date(target.value, calendarPreview.currentDate.getMonth(), 2);
         }
-        setStateToLocalStorage(calendarPreview);
+        setCalendarOptionsToLocalStorage(calendarPreview);
 
         var temp = document.getElementById(calendarPreview.calendarId);
         temp.parentNode.removeChild(temp);
