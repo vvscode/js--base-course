@@ -1,5 +1,4 @@
 ﻿import {
-    //debounce,
     changeHashByMapState,
     getMapCenterFromHash,
     getUserInfoFetch,
@@ -10,8 +9,7 @@
     getCityNameByCoordXHR,
     getForecastByCoordXHR,
     getForecastByCityNameXHR,
-    changeMapStateByCityName,
-    //iStorage
+    changeMapStateByCityName
 } from "./services";
 import EventBus from "./EventBus";
 import Router from "./Router";
@@ -40,9 +38,7 @@ getMapCenterFromHash(form.rb.value)
     });
 //при смене центра карты меняется прогноз погоды
 eventBus.on("weatherMap:centerChange", center => {
-    let [lat, lng] = center
-    //let lat = center[0];
-    //let lng = center[1];
+    let [lat, lng] = center;
     let forecastText;
     let getForecastPromise = form.rb.value == "fetch"
         ? getForecastByCoordFetch({ lat, lng })
@@ -58,38 +54,6 @@ eventBus.on("weatherMap:centerChange", center => {
                 "ошибка получения прогноза"
             );
         });
-
-    //if (form.rb.value == "fetch") {
-    //    getForecastByCoordFetch({
-    //        lat,
-    //        lng
-    //    })
-    //        .then(({ temp, descript, humidity, windSpeed }) => {
-    //            forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
-    //            eventBus.trigger("weatherMap:changeForecast", forecastText);
-    //        })
-    //        .catch(error => {
-    //            eventBus.trigger(
-    //                "weatherMap:changeForecast",
-    //                "ошибка получения прогноза"
-    //            );
-    //        });
-    //} else {
-    //    getForecastByCoordXHR({
-    //        lat,
-    //        lng
-    //    })
-    //        .then(({ temp, descript, humidity, windSpeed }) => {
-    //            forecastText = `<h2>В ближайшие 3 часа ожидается:<br/>температура ${temp} C<br/>влажность ${humidity}%<br/>скорость ветра ${windSpeed} м/с<br/>${descript}</h2>`;
-    //            eventBus.trigger("weatherMap:changeForecast", forecastText);
-    //        })
-    //        .catch(error => {
-    //            eventBus.trigger(
-    //                "weatherMap:changeForecast",
-    //                "ошибка получения прогноза"
-    //            );
-    //        });
-    //}
 });
 
 //обработчик события нажатия кнопки добавить в избранное
@@ -112,10 +76,7 @@ var router = new Router({
         {
             name: "index", //начальная страница
             match: "",
-            onEnter: () => {
-                //  alert("Index");
-                // var map = new window.YandexMap(centerMap, eventBus);
-            }
+            onEnter: () => { }
         },
         {
             name: "about", //о программе
