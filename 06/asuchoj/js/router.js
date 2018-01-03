@@ -78,7 +78,9 @@ let router = new Router({
     }, {
         name: 'city',
         match: /city\/(.+)/,
-        onEnter: (city) => console.log(`onEnter city:${city}`),
+        onEnter: (city) => {
+         console.log(`onEnter city:${city}`);
+        },
         onLeave: (city) => console.log(`onLeave city:${city}`)
     }, {
         name: 'author',

@@ -47,7 +47,6 @@ main{
 .favorites{
     border: 2px solid black;
     width: calc((100% - 30px)/3);
-    height: 200px;
     box-sizing: border-box;
     float: left;
     margin: 5px;
