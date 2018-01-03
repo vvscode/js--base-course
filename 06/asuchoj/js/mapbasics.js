@@ -1,3 +1,4 @@
+/*
 let yaMap;
 
 ymaps.ready(init);
@@ -13,11 +14,15 @@ function init(x) {
       zoom: 10,
       controls: ['zoomControl', 'typeSelector']
     });
-/*
-    g();*/
+
+      var showCenter = () => info.innerHTML = (info.innerHTML +'\n' + 'Center: ' + yaMap.getCenter().join(' - ')).trim();
+  yaMap.events.add('actionend', showCenter);
+
+  showCenter();
 
 }
 
 function setCenter (lat, lng) {
   yaMap.setCenter([lat, lng]);
 }
+*/
