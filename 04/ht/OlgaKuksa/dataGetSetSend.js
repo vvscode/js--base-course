@@ -22,12 +22,16 @@ function getData(calendarObj) {
 
 //sends list of tasks to storage
 function setData(calendarObj, date) {
-    localStorage.setItem(genKey(date, calendarObj.calendarID), JSON.stringify(calendarObj.monthTasks));
+    return new Promise((resolve, reject)=>{
+        localStorage.setItem(genKey(date, calendarObj.calendarID), JSON.stringify(calendarObj.monthTasks));
+    }).catch(console.log("Error while saving list of tasks to LocalStorage"))
 };
 
 //sends calendar state to localStorage
 function setState(calendarObj) {
-    localStorage.setItem(calendarObj.calendarID + "Options", JSON.stringify(calendarObj));
+    return new Promise((resolve, reject)=>{
+        localStorage.setItem(calendarObj.calendarID + "Options", JSON.stringify(calendarObj))
+    }).catch(console.log("Error while saving calendar state to LocalStorage"))
 }
 
 /**
