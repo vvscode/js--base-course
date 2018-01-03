@@ -1,28 +1,28 @@
-.calendar table button {
-    margin:7px;
+button.prevMonth,
+button.nextMonth {
+    margin:1em;
 }
-.calendar table{
+
+.calendar-table{
     border-collapse: separate;
     border-spacing: 3px 7px;
 }
-.calendar table td {
+
+.calendar-cell {
      border: 1px solid grey;
      border-radius:12%;
      vertical-align: top;
      width: 90px;
      height:30px;
  }
-.calendar table td span{
+
+.calendar-day{
     padding: 1px 3px 1px 3px;
     background-color: lightsteelblue;
     border-radius:40%;
 }
 
-.calendar table div {
-    margin:5px;
-}
-
-.calendar.addedTask{
+.calendar-cell-text{
     margin:2px;
 }
 
@@ -30,7 +30,7 @@
     margin:30px 100px 20px 50px;
 }
 
-.calendar table td div .delIcon{
+.delIcon{
     padding: 0px 3px 2px 4px;
     background-color:lightsalmon;
     border-radius:50%;
@@ -52,7 +52,7 @@
 }
 
 
-textarea{
+.calendar-settings-textarea{
     float:left;
     width:300px;
     height:220px;

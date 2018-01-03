@@ -1,7 +1,5 @@
 var previewCalendar;
 
-
-
 function drawLayout() {
     if (previewCalendar == null) previewCalendar = new Calendar(1, 1, 1, 1, new Date(), 130985);
     else previewCalendar.drawIntCalendar();
@@ -67,15 +65,16 @@ function addingEvListToSettingsBar(settBar) {
 //draws textarea for script output
 function drawScriptBar() {
 
-    var divelem = document.createElement("div");
-    divelem.setAttribute("id", "scriptArea");
+    var divElem = document.createElement("div");
+    divElem.setAttribute("id", "scriptArea");
     var elem = document.createElement("textarea");
     elem.setAttribute("readonly", "true");
     elem.setAttribute("rows", "10");
     elem.setAttribute("cols", "30");
+    elem.setAttribute("class", "calendar-settings-textarea")
     elem.value = genScript(previewCalendar);
-    divelem.appendChild(elem);
-    document.getElementById("CalScript").insertBefore(divelem, document.getElementById(previewCalendar.calendarID));
+    divElem.appendChild(elem);
+    document.getElementById("CalScript").insertBefore(divElem, document.getElementById(previewCalendar.calendarID));
 
 }
 
@@ -84,14 +83,13 @@ function drawScriptBar() {
  * @param calendarObj - calendar object to be generated into script
  */
 function genScript(calendarObj) {
-    var textScript = "<script src='dataGetSetSend.js'></script>\r\n"
-    textScript += "<script src='calendar.js'></script>\n"
-    textScript += "<script src='addCalendarCSS.js'></script>\n<script>"
-    textScript += "new Calendar(" + previewCalendar.showMonthYear + "," + previewCalendar.allowPrevNext + ","
-    textScript += previewCalendar.allowAddTask + "," + previewCalendar.allowRemoveTask + ","
-    textScript += "new Date(" + previewCalendar.defDate.getFullYear() + ',' + previewCalendar.defDate.getMonth() + ',' + "1))"
-    textScript += "</script>"
-    return textScript;
+    return `<script src='dataGetSetSend.js'></script>
+    <script src='calendar.js'></script>
+    <script src='addCalendarCSS.js'></script>
+    <script>
+    new Calendar(${previewCalendar.showMonthYear}, ${previewCalendar.allowPrevNext}, ${previewCalendar.allowAddTask}, ${previewCalendar.allowRemoveTask},
+    new Date(${previewCalendar.defDate.getFullYear()}, ${previewCalendar.defDate.getMonth()}, 1))
+    </script>`;
 }
 /**
  * creates input DOM element and returns it
@@ -104,12 +102,12 @@ function genScript(calendarObj) {
  */
 function createElement(type, name, id, labelText, checked) {
     var lb1 = document.createElement("label");
-    var Cb1 = document.createElement("input");
-    Cb1.setAttribute('type', type);
-    Cb1.setAttribute('name', name);
-    Cb1.setAttribute('id', id);
-    if (type == "checkbox" && checked == 1) Cb1.setAttribute("checked", "true");
-    lb1.appendChild(Cb1);
+    var cb1 = document.createElement("input");
+    cb1.setAttribute('type', type);
+    cb1.setAttribute('name', name);
+    cb1.setAttribute('id', id);
+    if (type == "checkbox" && checked == 1) cb1.setAttribute("checked", "true");
+    lb1.appendChild(cb1);
     lb1.innerHTML += labelText;
     return lb1;
 }
