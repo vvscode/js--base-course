@@ -1,8 +1,6 @@
 'use strict'
 function Model() {
-
   let that = this;
-
   this.addCoordinatesWithGoogle = function (city) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET','http://maps.googleapis.com/maps/api/geocode/json?address='
@@ -18,7 +16,6 @@ function Model() {
       }
     }
   }
-
   this.addCoordinatesWithGoogleFetch = function (city) {
     fetch('http://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&sensor=false&language=ru')
       .then(function (response) {

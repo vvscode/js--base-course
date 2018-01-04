@@ -57,40 +57,34 @@ let router = new Router({
         name: 'about',
         match: 'about',
         onEnter: () => {
-            console.log(`11`);
             addClass();
         },
         onLeave: () => {
-            console.log(`12`);
             delClass();
         }
     }, {
         name: 'main',
         match: 'main',
         onEnter: () => {
-            console.log(`21`);
             addClass();
         },
         onLeave: () => {
-            console.log(`22`);
             delClass();
         }
     }, {
         name: 'city',
         match: /city\/(.+)/,
         onEnter: (city) => {
-         console.log(`onEnter city:${city}`);
         },
-        onLeave: (city) => console.log(`onLeave city:${city}`)
+        onLeave: (city) => {
+        }
     }, {
         name: 'author',
         match: 'author',
         onEnter: () => {
-            console.log(`31`);
             addClass();
         },
         onLeave: () => {
-            console.log(`32`);
             delClass();
         }
     }]

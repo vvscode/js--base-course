@@ -2,10 +2,13 @@
 let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
 let request = document.getElementsByName('request_type');
-
+let addInFavorites = document.querySelector('#add_in_favorites')
 let newElementModel = new Model();
 let newElementView = new View();
-
+let arrCity = [];
+let arrWithFavoritesCity = [];
+let historyCity = document.querySelector('.history_city')
+let favoritesCity = document.querySelector('.favorites_city')
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
@@ -13,16 +16,6 @@ for (let i=0; i < request.length; i++){
     alert(i);
   })
 }
-
-/*function saveSex() {
-  for (let i = 0; i < request.length; i++) {
-    if (request[i].checked) {
-      return request[i].value;
-    }
-  }
-}*/
-
-
 
 ymaps.ready(newElementView.init);
 
@@ -48,48 +41,122 @@ setTimeout(function () {
   })
 }, 1000)
 
+// Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
     elem.preventDefault();
-
-    let city = searchEnter.value;
-    if(!city){
-        city = prompt('Введите наименование города', 'Минск')
-    }
-    ttt (city);
-    addCityInHistory (city);
+    let city = testEnterValue(searchEnter.value)
+    city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase()
+    addWetherAndCoord (city);
+    addArrCity(city, arrCity);
+    addArr (arrCity, historyCity, addElemWithCityInHTML);
 });
 
+// Обработкик кнопки добавить в избранное
+addInFavorites.addEventListener('click',()=>{
+  let space = [addRoundNumber( newElementView.yaMap.getCenter()[0], 1000 ), addRoundNumber( newElementView.yaMap.getCenter()[0], 1000) ];
+  addArrCity (space, arrWithFavoritesCity );
+  addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+  addArrCity (space, arrWithFavoritesCity);
+/*
 
+  addElemInDOM (parentElement, arrChild)*/
+});
 
-function addCityInHistory (cityName) {
-    let boxWithP = document.querySelectorAll('.history_city p');
-    let historyBox = document.querySelector('.history_city');
-    let city = cityName.toLowerCase();
-
-
-
-  if(boxWithP){
-        [].forEach.call(boxWithP,function (el) {
-            console.log(boxWithP);
-            if( el.innerHTML.toLowerCase() === '' + city ){
-                historyBox.removeChild(el);
-            }
-
-        });
-    }
-
-    if(boxWithP.length >= 5){
-        historyBox.removeChild(historyBox.lastElementChild)
-    }
-
-    city = city.charAt(0).toUpperCase() + city.substr(1);
-    historyBox.innerHTML = '<p>' + city + '</p>' + '\n' + historyBox.innerHTML;
+//функция округления чисел
+function addRoundNumber(num, valueRound) {
+  return Math.round(num * valueRound) / valueRound
 }
 
 
-function ttt (el) {
-  location.href = '#city/' + el;
-  f(el);
+
+
+// функция для создания массива 5 элементов
+// сначала добавляет по 1-му элементу пока не создаст массив
+// после добавления 5-го - добавляет первый, удаляет последний
+
+function addArrCity (value, arr ) {
+  if (arr.length === 0) {
+    return arr.unshift(value);
+  }
+  arr.forEach(function (el, i) {
+    if (el.toString() === value.toString()) {
+      arr.splice(i, 1);
+    }
+  })
+  if (arr.length < 5) {
+    arr.unshift(value);
+  } else if( arr.length >= 5) {
+    arr.pop();
+    arr.unshift(value);
+  }
+  return arr;
+}
+
+// создает елемент с городом для добавления на HTML
+function addElemWithCityInHTML(el) {
+  return '<p>' + el + '<p>'
+}
+
+
+// создает елемент c координатами любимым городом
+// вернет массив елементов для вставки
+
+/*function addElemWithSpaceInHTML(el) {
+  let btn = createMyNewElement ('button', 'btn_delete');
+  let par = createMyNewElement ('par', 'btn_delete');
+  return [ par, btn]
+}*/
+
+function addElemWithSpaceInHTML(el) {
+  return '<div> ' +
+    '<p> <a href="#" onclick="() => { newElementView.setCenterMap(newElementView.yaMap ,' + el[0] + ',' +  el[1] +  ' )}" >' + el + '</a> </p>' +
+    '<button> x </button>' +
+    '</div>'
+}
+
+
+
+//функция для создания елементов
+function createMyNewElement (el, className, idName) {
+  let element = document.createElement(el);
+  if(className){
+    element.className = className
+  }
+  if(className){
+    element.id = idName
+  }
+  return element
+}
+
+/*//вставка обьектов на страницу
+function addElemInDOM (parentElement, arrChild) {
+  let fragment = document.createDocumentFragment();
+  arrChild.forEach(function (el) {
+    fragment.appendChild(el);
+  })
+  parentElement.appendChild(fragment);
+}*/
+
+//Функция вставки елементов на страницу
+function addArr (arr, parentElem, insertionHTMLel ) {
+  parentElem.innerHTML = '';
+  arr.forEach(function (el) {
+    parentElem.innerHTML = parentElem.innerHTML + insertionHTMLel(el)  ;
+  })
+}
+
+// Функция проверки введённых значений (доработать)
+function testEnterValue (value) {
+  if(value === ''){
+    return prompt('Введите наименование города', 'Минск')
+  }
+  return value;
+}
+
+// Функция перемещает центр карты в нужный город и выводит погоду
+function addWetherAndCoord (el) {
+/*  location.href = '#city/' + el;
+  f(el);*/
   newElementModel.addCoordinatesWithGoogle(el);
 
   setTimeout(function () {
@@ -102,6 +169,7 @@ function ttt (el) {
   }, 3000);
 }
 
+/*
 function f(el) {
     let newEl = document.createElement('newElementModel');
     newEl.href = '#city/' + el;
@@ -110,77 +178,11 @@ function f(el) {
 
 function g() {
     var a = location.hash.split('/');
-
 }
 
 function Controller() {
     
-}
-/*
-
-function EventBus() {
-    this.listeners = {};
-}
-EventBus.prototype.on = function(eventName, cb) {
-    this.listeners[eventName] = Array.isArray(this.listeners[eventName]) ? this.listeners[eventName] : [];
-    this.listeners[eventName].push(cb);
-};
-EventBus.prototype.off = function(eventName, cb) {
-    if (!eventName && cb) {
-        for (let key in this.listeners) {
-            this.listeners[key].forEach((el) => {
-                let newArr = [];
-                if (el !== cb) {
-                    newArr.push(el)
-                }
-                return this.listeners[key] = newArr;
-            })
-        }
-    }
-    if (eventName && !cb) {
-        for (let key in this.listeners) {
-            if (this.listeners[key] === this.listeners[eventName]) {
-                this.listeners[eventName] = undefined;
-            }
-        }
-    }
-    if (eventName && cb) {
-        let newArr = [];
-        if (cb === undefined) return;
-        this.listeners[eventName].forEach((el) => {
-            if (el !== cb) {
-                newArr.push(el)
-            }
-        });
-        return this.listeners[eventName] = newArr;
-    }
-    if (!eventName && !cb) {
-        return this.listeners = {};
-    }
-};
-EventBus.prototype.trigger = function(eventName, ...data) {
-    (this.listeners[eventName] || []).forEach(cb => cb.apply(this, data))
-};
-EventBus.prototype.once = function(eventName, cb) {
-    let self = this;
-
-    function addOnceCallback() {
-        cb.apply(this, arguments);
-        self.off(eventName, addOnceCallback);
-    }
-    this.on(eventName, addOnceCallback);
-};
-*/
-
-
-/*n.on('coor', (a,b,c,d)=>{
-  newElementView.k(()=>{
-    newElementModel.addWeatherWithDarkSky(newElementView.yaMap.getCenter()[0],newElementView.yaMap.getCenter()[1])
-    newElementView.showWeather(newElementModel.weatherFromDarkSky)
-  })
-})
-
-n.trigger('coor', [])*/
+}*/
 
 
 
