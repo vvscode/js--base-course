@@ -11,109 +11,111 @@
         this.block = block ||'#calendar';
         var self = this;
         this.daySelect = 0;
+        this.clickChangeCalendarBind = this.clickChangeCalendar.bind(this);
+        this.configureBind = this.configure.bind(this);
+        this.newTaskBind = this.newTask.bind(this);
+        this.delInfBind = this.delInf.bind(this);
 
-        this.clickChangeCalendar = function(event){
-            if(self.showMonth) {
-                if(event.target.tagName!="BUTTON") {
+
+    }
+
+    Calendar.prototype.delInf = function(event) {
+        if(!this.allowRemove) {
+            return;
+        }
+        var where = document.querySelector('.boxSave'+this.element);
+        var target = event.target;
+        if(target.tagName != 'BUTTON') {
+            return;
+        }
+        var id = event.target.getAttribute('id');
+        var nextTrip = confirm('Удалить?');
+        if(!nextTrip) {
+            return;
+        }
+        var data = this.toArr(id);
+        var textObj =  this.outputOllStorage(data[0]);
+        var self = this;
+        this.removeItemFromStorage(data)
+            .then(function(){
+            textObj =  self.outputOllStorage(data[0]);
+            where.innerHTML = '';
+            for(var key in textObj) {
+                self.output(where,textObj[key],data[1],data[0]);
+            }	
+        });
+
+    }
+
+    Calendar.prototype.newTask = function(event) {
+        if(!this.allowAdd) {
+            return;
+        }
+        var self = this;
+        var where = document.querySelector('.boxSave'+this.element);
+        this.getNumDay(event,this.daySelect)
+            .then(function(day) {
+            var data = ''+self.element+self.year+self.month+day;
+            var textObj =  self.outputOllStorage(data);							  
+            where.innerHTML = '';
+            for(var key in textObj) {
+                self.output(where,textObj[key],key,data);
+            }
+            return day;							  
+        }).then(function(day){
+            if(self.daySelect === day) {
+                var text = self.getText();
+                if(text===null) {
                     return;
                 }
-                let classButton = event.target.getAttribute('class');
-                var where = document.querySelector('.boxSave'+self.element);
-                if(classButton==='buttonLeft'){
-                    self.changeMonthBack(self);
-
-                    self.daySelect = self.clearText(where);
-                    self.drawCalendar();
-                }
-                if(classButton==='buttonRight'){
-                     self.changeMonthNext(self);
-                    self.daySelect =self.clearText(where);
-                    self.drawCalendar();
-                }
+                var data = ''+self.element+self.year+self.month+day;
+                var objStorage= {}, num =where.childNodes.length ;
+                self.output(where,text,num,data); 
+                objStorage[num] = text;	
+                self.saveText(data,objStorage); 
+                self.outputOllStorage(data);
+            } else {
+                self.daySelect = day;
+                self.daySelect = self.setActive(self.daySelect);
             }
-        }
+        });
 
-        this.configure = function() {
-            var elementTest = (Math.random()*(1000-1)+1).toFixed(),
-                showMonthTest = document.querySelector('#changeMonth').checked ? 1 : 0,
-                allowAddTest = document.querySelector('#addTasks').checked ? 1 : 0,
-                allowRemoveTest = document.querySelector('#removeTasks').checked ? 1 : 0,
-                yearParamTest = document.querySelector('#year').value || 2017,
-                monthParamTest = document.querySelector('#month').value || 12,
-                classCalendarTest = document.querySelector('#class').value || 'ginkoMix';
-            self.year =	yearParamTest || now.getYear();
-            self.month = monthParamTest || now.getMonth();
-            self.showMonth =  showMonthTest;
-            self.allowAdd =  allowAddTest;
-            self.allowRemove =  allowRemoveTest;
-            self.calendarScript(elementTest,showMonthTest,allowAddTest,allowRemoveTest,yearParamTest,monthParamTest,classCalendarTest)
-                .then(function(){
+    }
 
-                self.drawCalendar();
+    Calendar.prototype.configure = function() {
+        var elementTest = (Math.random()*(1000-1)+1).toFixed(),
+            showMonthTest = document.querySelector('#changeMonth').checked ? 1 : 0,
+            allowAddTest = document.querySelector('#addTasks').checked ? 1 : 0,
+            allowRemoveTest = document.querySelector('#removeTasks').checked ? 1 : 0,
+            yearParamTest = document.querySelector('#year').value || 2017,
+            monthParamTest = document.querySelector('#month').value || 12,
+            classCalendarTest = document.querySelector('#class').value || 'ginkoMix';
+        this.year =	yearParamTest || now.getYear();
+        this.month = monthParamTest || now.getMonth();
+        this.showMonth =  showMonthTest;
+        this.allowAdd =  allowAddTest;
+        this.allowRemove =  allowRemoveTest;   this.calendarScript(elementTest,showMonthTest,allowAddTest,allowRemoveTest,yearParamTest,monthParamTest,classCalendarTest);
+        this.drawCalendar();    
+    }
 
-            });
-        }
-
-        this.delInf = function(event) {
-            if(!self.allowRemove) {
+    Calendar.prototype.clickChangeCalendar = function(event){
+        if(this.showMonth) {
+            if(event.target.tagName!="BUTTON") {
                 return;
             }
-                var where = document.querySelector('.boxSave'+self.element);
-                var target = event.target;
-                if(target.tagName != 'BUTTON') {
-                    return;
-                }
-                var id = event.target.getAttribute('id');
-                var nextTrip = confirm('Удалить?');
-                if(!nextTrip) {
-                    return;
-                }
-                var data = self.toArr(id);
-                console.log(data);
-                var textObj =  self.outputOllStorage(data[0]);
-                self.removeItemFromStorage(data).then(function(){
-                    textObj =  self.outputOllStorage(data[0]);
-                    where.innerHTML = '';
-                    for(var key in textObj) {
-                        self.output(where,textObj[key],data[1],data[0]);
-                    }	
-                });
-            
-        }
+            let classButton = event.target.getAttribute('class');
+            var where = document.querySelector('.boxSave'+this.element);
+            if(classButton==='buttonLeft'){
+                this.changeMonthBack(this);
 
-        this.newTask = function(event) {
-            if!(self.allowAdd) {
-                return;
+                this.daySelect = this.clearText(where);
+                this.drawCalendar();
             }
-                var where = document.querySelector('.boxSave'+self.element);
-                self.getNumDay(event,self.daySelect)
-                    .then(function(day) {
-                    var data = ''+self.element+self.year+self.month+day;
-                    var textObj =  self.outputOllStorage(data);							  
-                    where.innerHTML = '';
-                    for(var key in textObj) {
-                        self.output(where,textObj[key],key,data);
-                    }
-                    return day;							  
-                }).then(function(day){
-                    if(self.daySelect === day) {
-                        var text = self.getText();
-                        console.log(typeof text);
-                        if(text===null) {
-                            return;
-                        }
-                        var data = ''+self.element+self.year+self.month+day;
-                        var objStorage= {}, num =where.childNodes.length ;
-                        self.output(where,text,num,data); 
-                        objStorage[num] = text;	
-                        self.saveText(data,objStorage); 
-                        self.outputOllStorage(data);
-                    } else {
-                        self.daySelect = day;
-                        self.daySelect = self.setActive(self.daySelect);
-                    }
-                });
-            
+            if(classButton==='buttonRight'){
+                this.changeMonthNext(this);
+                this.daySelect =this.clearText(where);
+                this.drawCalendar();
+            }
         }
     }
 
@@ -299,29 +301,17 @@ this.allowAdd = "+allowAdd+ "; \n\
 this.allowRemove = "+allowRemove+ ";\n \
 var self = this; \n\
 this.daySelect = 0;\n \
-this.clickChangeCalendar = function(event){\n \
-if(self.showMonth) {\n\
-if(event.target.tagName!='BUTTON') {\n \
-return;\n \
-} \n\
-let classButton = event.target.getAttribute('class');\n \
-var where = document.querySelector('.boxSave'+self.element);\n \
-if(classButton==='buttonLeft'){\n \
-  self.changeMonthBack(self);\n \
-self.daySelect = self.clearText(where); \n\
-self.drawCalendar(); \n\
-}\n \
-if(classButton==='buttonRight'){ \n\
- self.changeMonthNext(self);\n \
-self.daySelect =self.clearText(where);\n \
-self.drawCalendar();\n \
-}\n \
-}\n \
-}\n \
-this.delInf = function(event) { \n\
-if(self.allowRemove) {\n \
-var where = document.querySelector('.boxSave'+self.element); \n\
-var target = event.target;\n \
+this.clickChangeCalendarBind = this.clickChangeCalendar.bind(this);\n\
+this.configureBind = this.configure.bind(this);\n\
+this.newTaskBind = this.newTask.bind(this);\n\
+this.delInfBind = this.delInf.bind(this);\n\
+}\n\
+Calendar.prototype.delInf = function(event) {\n\
+if(!this.allowRemove) {\n\
+return;\n\
+}\n\
+var where = document.querySelector('.boxSave'+this.element);\n\
+var target = event.target;\n\
 if(target.tagName != 'BUTTON') {\n\
 return;\n\
 }\n\
@@ -330,10 +320,11 @@ var nextTrip = confirm('Удалить?');\n\
 if(!nextTrip) {\n\
 return;\n\
 }\n\
-var data = self.toArr(id);\n\
-console.log(data);\n\
-var textObj =  self.outputOllStorage(data[0]);\n\
-self.removeItemFromStorage(data).then(function(){\n\
+var data = this.toArr(id);\n\
+var textObj =  this.outputOllStorage(data[0]);\n\
+var self = this;\n\
+this.removeItemFromStorage(data)\n\
+.then(function(){\n\
 textObj =  self.outputOllStorage(data[0]);\n\
 where.innerHTML = '';\n\
 for(var key in textObj) {\n\
@@ -341,29 +332,30 @@ self.output(where,textObj[key],data[1],data[0]);\n\
 }	\n\
 });\n\
 }\n\
+Calendar.prototype.newTask = function(event) {\n\
+if(!this.allowAdd) {\n\
+return;\n\
 }\n\
-this.newTask = function(event) {\n\
-if(self.allowAdd) {\n\
-var where = document.querySelector('.boxSave'+self.element);\n\
-self.getNumDay(event,self.daySelect)\n\
+var self = this;\n\
+var where = document.querySelector('.boxSave'+this.element);\n\
+this.getNumDay(event,this.daySelect)\n\
 .then(function(day) {\n\
 var data = ''+self.element+self.year+self.month+day;\n\
-var textObj =  self.outputOllStorage(data);	\n						  \
+var textObj =  self.outputOllStorage(data);\n\
 where.innerHTML = '';\n\
 for(var key in textObj) {\n\
 self.output(where,textObj[key],key,data);\n\
 }\n\
-return day;			\n				  \
+return day;		\n\
 }).then(function(day){\n\
 if(self.daySelect === day) {\n\
 var text = self.getText();\n\
-console.log(typeof text);\n\
 if(text===null) {\n\
 return;\n\
 }\n\
 var data = ''+self.element+self.year+self.month+day;\n\
 var objStorage= {}, num =where.childNodes.length ;\n\
-self.output(where,text,num,data);\n \
+self.output(where,text,num,data); \n\
 objStorage[num] = text;	\n\
 self.saveText(data,objStorage); \n\
 self.outputOllStorage(data);\n\
@@ -372,6 +364,38 @@ self.daySelect = day;\n\
 self.daySelect = self.setActive(self.daySelect);\n\
 }\n\
 });\n\
+}\n\
+Calendar.prototype.configure = function() {\n\
+var elementTest = (Math.random()*(1000-1)+1).toFixed(),\n\
+showMonthTest = document.querySelector('#changeMonth').checked ? 1 : 0,\n\
+allowAddTest = document.querySelector('#addTasks').checked ? 1 : 0,\n\
+allowRemoveTest = document.querySelector('#removeTasks').checked ? 1 : 0,\n\
+yearParamTest = document.querySelector('#year').value || 2017,\n\
+monthParamTest = document.querySelector('#month').value || 12,\n\
+classCalendarTest = document.querySelector('#class').value || 'ginkoMix';\n\
+this.year =	yearParamTest || now.getYear();\n\
+this.month = monthParamTest || now.getMonth();\n\
+this.showMonth =  showMonthTest;\n\
+this.allowAdd =  allowAddTest;\n\
+this.allowRemove =  allowRemoveTest;   \n\this.calendarScript(elementTest,showMonthTest,allowAddTest,allowRemoveTest,yearParamTest,monthParamTest,classCalendarTest);\n\
+this.drawCalendar();    \n\
+}\n\
+Calendar.prototype.clickChangeCalendar = function(event){\n\
+if(this.showMonth) {\n\
+if(event.target.tagName!='BUTTON') {\n\
+return;\n\
+}\n\
+let classButton = event.target.getAttribute('class');\n\
+var where = document.querySelector('.boxSave'+this.element);\n\
+if(classButton==='buttonLeft'){\n\
+this.changeMonthBack(this);\n\
+this.daySelect = this.clearText(where);\n\
+this.drawCalendar();\n\
+}\n\
+if(classButton==='buttonRight'){\n\
+this.changeMonthNext(this);\n\
+this.daySelect =this.clearText(where);\n\
+this.drawCalendar();\n\
 }\n\
 }\n\
 }\n\
@@ -530,12 +554,12 @@ item.className = 'activeDay';\n\
 });\n\
 return day;	\n\
 }\n\
-let calendar = new Calendar();\n\
+let calendar = new Calendar(2017,12);\n\\n\
 calendar.drawInteractiveCalendar();\n\
 calendar.drawCalendar();\n\
-document.querySelector('.divButton'+calendar.element).addEventListener('click',calendar.clickChangeCalendar);\n\
-document.querySelector('#divCalendarMain'+calendar.element).addEventListener('click',calendar.newTask);\n\
-document.querySelector('.boxSave'+calendar.element).addEventListener('click',calendar.delInf);\n\
+document.querySelector('.divButton'+calendar.element).addEventListener('click',calendar.clickChangeCalendarBind);\n\
+document.querySelector('#divCalendarMain'+calendar.element).addEventListener('click',calendar.newTaskBind);\n\
+document.querySelector('.boxSave'+calendar.element).addEventListener('click',calendar.delInfBind);\n\
 })()";
             return resolve();
         });
@@ -546,17 +570,17 @@ document.querySelector('.boxSave'+calendar.element).addEventListener('click',cal
     let calendar = new Calendar(2017,12);
     calendar.drawInteractiveCalendar();
     calendar.drawCalendar();
-    document.querySelector('.divButton'+calendar.element).addEventListener('click',calendar.clickChangeCalendar);
-    document.querySelector('#divCalendarMain'+calendar.element).addEventListener('click',calendar.newTask);
-    document.querySelector('.boxSave'+calendar.element).addEventListener('click',calendar.delInf);
+    document.querySelector('.divButton'+calendar.element).addEventListener('click',calendar.clickChangeCalendarBind);
+    document.querySelector('#divCalendarMain'+calendar.element).addEventListener('click',calendar.newTaskBind);
+    document.querySelector('.boxSave'+calendar.element).addEventListener('click',calendar.delInfBind);
 
     let calendarTest = new Calendar(2017,12,'#testCalendarBlock',3);
     calendarTest.drawInteractiveCalendar();
-    calendarTest.drawCalendar();	document.querySelector('.divButton'+calendarTest.element).addEventListener('click',calendarTest.clickChangeCalendar);	document.querySelector('#divCalendarMain'+calendarTest.element).addEventListener('click',calendarTest.newTask);
-    document.querySelector('.boxSave'+calendarTest.element).addEventListener('click',calendarTest.delInf);
+    calendarTest.drawCalendar();	document.querySelector('.divButton'+calendarTest.element).addEventListener('click',calendarTest.clickChangeCalendar);	document.querySelector('#divCalendarMain'+calendarTest.element).addEventListener('click',calendarTest.newTaskBind);
+    document.querySelector('.boxSave'+calendarTest.element).addEventListener('click',calendarTest.delInfBind);
     var element = document.querySelectorAll('.inputConfigure');
     for(var i = 0;i<element.length;i++) {
-        element[i].addEventListener('change',calendarTest.configure);
+        element[i].addEventListener('change',calendarTest.configureBind);
     }
-    calendarTest.configure();
+    calendarTest.configureBind();
 })()
