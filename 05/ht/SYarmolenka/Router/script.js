@@ -32,12 +32,14 @@ let route = {
     });
     this.change(``, window.location.hash.slice(1));
   },
-  change: function () {
-    let iroute = route.interpret(arguments[0]);
+  change: function(oldHash, newHash) {
+    let iroute = route.interpret(oldHash);
+    if (!iroute) return console.error(`The interpret(oldHash) didn't find a route!`);
     if (typeof iroute.onLeave === `function`) {
       Promise.resolve(iroute.param).then(iroute.onLeave);
     }
-    iroute = route.interpret(arguments[1]);
+    iroute = route.interpret(newHash);
+    if (!iroute) return console.error(`The interpret(newHash) didn't find a route!`);
     if (typeof iroute.onEnter === `function`) {
       Promise.resolve(iroute.param).then(iroute.onEnter);
     }
@@ -46,42 +48,3 @@ let route = {
     }
   }
 };
-
-function Figure(figure, match) {
-  this.name = figure;
-  this.match = match;
-}
-Figure.prototype.onEnter = function (arr) {
-  let div = document.querySelector(`.${arr[1]}.${arr[2]}`);
-  div.style.display = ``;
-}
-Figure.prototype.onBefore = function (arr) {
-  let div = document.querySelector(`.${arr[1]}.${arr[2]}`);
-  setTimeout(function (div) {div.style.display = `none`}, 250, div);
-  setTimeout(function (div) {div.style.display = ``}, 300, div);
-}
-Figure.prototype.onLeave = function (arr) {
-  let div = document.querySelector(`.${arr[1]}.${arr[2]}`);
-  div.style.display = `none`;
-}
-route.routes = [{
-    name: `index`,
-    match: ``,
-    onEnter: function () {
-      let divs = document.querySelectorAll(`div`);
-      divs.forEach(function (div) {
-        div.style.display = ``;
-      })
-    },
-    onLeave: function () {
-      let divs = document.querySelectorAll(`div`);
-      divs.forEach(function (div) {
-        div.style.display = `none`;
-      })
-    }
-  },
-  new Figure(`square`, /(square) is (.+)/),
-  new Figure(`circle`, /(circle) is (.+)/)
-];
-
-route.start();
