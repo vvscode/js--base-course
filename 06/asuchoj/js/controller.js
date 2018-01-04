@@ -2,13 +2,14 @@
 let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
 let request = document.getElementsByName('request_type');
-let addInFavorites = document.querySelector('#add_in_favorites')
+let addInFavorites = document.querySelector('#add_in_favorites');
 let newElementModel = new Model();
 let newElementView = new View();
 let arrCity = [];
 let arrWithFavoritesCity = [];
-let historyCity = document.querySelector('.history_city')
-let favoritesCity = document.querySelector('.favorites_city')
+let historyCity = document.querySelector('.history_city');
+let favoritesCity = document.querySelector('.favorites_city');
+/*let favorites = document.querySelector('.favorites');*/
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
@@ -36,16 +37,16 @@ if(location.hash === ''){
 
 setTimeout(function () {
   newElementView.k(()=>{
-    newElementModel.addWeatherWithDarkSky(newElementView.yaMap.getCenter()[0],newElementView.yaMap.getCenter()[1])
+    newElementModel.addWeatherWithDarkSky(newElementView.yaMap.getCenter()[0],newElementView.yaMap.getCenter()[1]);
     newElementView.showWeather(newElementModel.weatherFromDarkSky)
   })
-}, 1000)
+}, 1000);
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
     elem.preventDefault();
-    let city = testEnterValue(searchEnter.value)
-    city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase()
+    let city = testEnterValue(searchEnter.value);
+    city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase();
     addWetherAndCoord (city);
     addArrCity(city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);
@@ -57,15 +58,21 @@ addInFavorites.addEventListener('click',()=>{
   addArrCity (space, arrWithFavoritesCity );
   addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
   addArrCity (space, arrWithFavoritesCity);
-/*
-
-  addElemInDOM (parentElement, arrChild)*/
 });
+
+// Обработкик кнопок удаление
+favoritesCity.addEventListener('click',(event)=>{
+    let target = event.target;
+    if( target.tagName !== 'BUTTON' ) return;
+    favoritesCity.removeChild(target.parentNode)
+});
+
 
 //функция округления чисел
 function addRoundNumber(num, valueRound) {
   return Math.round(num * valueRound) / valueRound
 }
+
 
 
 
@@ -82,7 +89,7 @@ function addArrCity (value, arr ) {
     if (el.toString() === value.toString()) {
       arr.splice(i, 1);
     }
-  })
+  });
   if (arr.length < 5) {
     arr.unshift(value);
   } else if( arr.length >= 5) {
@@ -169,8 +176,8 @@ function addWetherAndCoord (el) {
   }, 3000);
 }
 
-/*
-function f(el) {
+
+/*function f(el) {
     let newEl = document.createElement('newElementModel');
     newEl.href = '#city/' + el;
     return newEl
@@ -178,11 +185,9 @@ function f(el) {
 
 function g() {
     var a = location.hash.split('/');
-}
-
-function Controller() {
-    
 }*/
 
 
-
+function Controller() {
+    
+}
