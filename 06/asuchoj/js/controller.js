@@ -3,13 +3,13 @@ let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
 let request = document.getElementsByName('request_type');
 let addInFavorites = document.querySelector('#add_in_favorites');
-let newElementModel = new Model();
-let newElementView = new View();
+let newEventBus = new EventBus();
+
 let arrCity = [];
 let arrWithFavoritesCity = [];
 let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
-/*let favorites = document.querySelector('.favorites');*/
+
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
@@ -18,64 +18,52 @@ for (let i=0; i < request.length; i++){
   })
 }
 
-ymaps.ready(newElementView.init);
-
-if(location.hash === ''){
-  setTimeout(function () {
-    newElementModel.addWeatherWithDarkSky(newElementView.addStateCenterMap()[0], newElementView.addStateCenterMap()[1] );
-  }, 1500);
-
-  setTimeout(function () {
-    newElementView.showWeather(newElementModel.weatherFromDarkSky)
-  }, 3000);
-} else {
-  if(location.hash.split('/')[1]){
-
-  }
-}
-
-
-setTimeout(function () {
-  newElementView.k(()=>{
-    newElementModel.addWeatherWithDarkSky(newElementView.yaMap.getCenter()[0],newElementView.yaMap.getCenter()[1]);
-    newElementView.showWeather(newElementModel.weatherFromDarkSky)
-  })
-}, 1000);
+newEventBus.on('showMap', (cb)=>{ cb() });
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
-    elem.preventDefault();
-    let city = testEnterValue(searchEnter.value);
-    city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase();
-    addWetherAndCoord (city);
-    addArrCity(city, arrCity);
+    elem.preventDefault(); // отмена стандартного действия
+    let city = testEnterValue(searchEnter.value); // проверка на введенное значение
+    city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
+
+    newEventBus.trigger('addCity', city); // Отправляем наименование города подписчикам
+
+    addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);
 });
 
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
-  let space = [addRoundNumber( newElementView.yaMap.getCenter()[0], 1000 ), addRoundNumber( newElementView.yaMap.getCenter()[0], 1000) ];
-  addArrCity (space, arrWithFavoritesCity );
-  addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-  addArrCity (space, arrWithFavoritesCity);
+  let space;
+  newEventBus.on('getCentralYandexMap', (centralArr)=>{
+    space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
+    addArrCity (space, arrWithFavoritesCity);
+    addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+
+  });
+
+  newEventBus.trigger('addInFavorites');
 });
 
 // Обработкик кнопок удаление
 favoritesCity.addEventListener('click',(event)=>{
     let target = event.target;
     if( target.tagName !== 'BUTTON' ) return;
-    favoritesCity.removeChild(target.parentNode)
+    favoritesCity.removeChild(target.parentNode);
+    let t = target.parentNode.querySelector('p a');
+    t = t.innerHTML;
+    addArrCity (t, arrWithFavoritesCity );
+    arrWithFavoritesCity.forEach((el, i)=>{
+      if( el + '' === t + '' ){
+        return arrWithFavoritesCity.splice(i, 1);
+      }
+    });
 });
-
 
 //функция округления чисел
 function addRoundNumber(num, valueRound) {
   return Math.round(num * valueRound) / valueRound
 }
-
-
-
-
 
 // функция для создания массива 5 элементов
 // сначала добавляет по 1-му элементу пока не создаст массив
@@ -105,6 +93,16 @@ function addElemWithCityInHTML(el) {
 }
 
 
+function storeFavoritesCity() {
+  let r = JSON.stringify( document.querySelector('.favorites_city').innerHTML);
+  return Promise.resolve(localStorage.setItem('favoritesCity',r));
+}
+
+function getFavoritesCity() {
+    return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
+}
+
+
 // создает елемент c координатами любимым городом
 // вернет массив елементов для вставки
 
@@ -114,16 +112,9 @@ function addElemWithCityInHTML(el) {
   return [ par, btn]
 }*/
 
-function addElemWithSpaceInHTML(el) {
-  return '<div> ' +
-    '<p> <a href="#" onclick="() => { newElementView.setCenterMap(newElementView.yaMap ,' + el[0] + ',' +  el[1] +  ' )}" >' + el + '</a> </p>' +
-    '<button> x </button>' +
-    '</div>'
-}
 
 
-
-//функция для создания елементов
+/*//функция для создания елементов
 function createMyNewElement (el, className, idName) {
   let element = document.createElement(el);
   if(className){
@@ -133,7 +124,7 @@ function createMyNewElement (el, className, idName) {
     element.id = idName
   }
   return element
-}
+}*/
 
 /*//вставка обьектов на страницу
 function addElemInDOM (parentElement, arrChild) {
@@ -152,29 +143,23 @@ function addArr (arr, parentElem, insertionHTMLel ) {
   })
 }
 
-// Функция проверки введённых значений (доработать)
-function testEnterValue (value) {
-  if(value === ''){
-    return prompt('Введите наименование города', 'Минск')
-  }
-  return value;
-}
+
 
 // Функция перемещает центр карты в нужный город и выводит погоду
-function addWetherAndCoord (el) {
-/*  location.href = '#city/' + el;
-  f(el);*/
+/*function addWetherAndCoord (el) {
+/!*  location.href = '#city/' + el;
+  f(el);*!/
   newElementModel.addCoordinatesWithGoogle(el);
 
   setTimeout(function () {
-    newElementView.setCenterMap(newElementView.yaMap ,newElementModel.locationCity.lat, newElementModel.locationCity.lng);
+/!*    newElementView.setCenterMap(newElementView.yaMap ,newElementModel.locationCity.lat, newElementModel.locationCity.lng);*!/
     newElementModel.addWeatherWithDarkSky(newElementModel.locationCity.lat, newElementModel.locationCity.lng );
   }, 1500);
 
   setTimeout(function () {
     newElementView.showWeather(newElementModel.weatherFromDarkSky)
   }, 3000);
-}
+}*/
 
 
 /*function f(el) {
@@ -188,6 +173,56 @@ function g() {
 }*/
 
 
-function Controller() {
-    
+//функция вставки
+function addElemWithSpaceInHTML(el) {
+  return '<div> ' +
+      '<p> <a href="#">' + el + '</a></p>' +
+      '<button> x </button>' +
+      '</div>'
 }
+// Функция проверки введённых значений (доработать)
+function testEnterValue (value) {
+    if(value === ''){
+        return prompt('Введите наименование города', 'Минск')
+    }
+    return value;
+}
+
+
+
+/*
+* var btn = document.querySelector('button');
+
+function storeData(data) {
+  return Promise.resolve(localStorage.setItem('data', JSON.stringify(data)));
+}
+
+function getData() {
+  return Promise.resolve(JSON.parse(localStorage.getItem('data')));
+}
+
+function getMessage() {
+  return Promise.resolve(prompt());
+}
+
+
+
+btn.addEventListener('click', function() {
+  getMessage()
+    .then(function(msg) {
+       return storeData(msg);
+    })
+    .then(function() {
+      return getData();
+    })
+    .then(function(data) {
+        alert(data);
+    });
+});*/
+
+
+
+
+
+
+

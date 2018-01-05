@@ -8,12 +8,7 @@ let assert = chai.assert;
 
 
 
-describe("Шаблонизатор", function() {
-  let arrCity = [];
-/*  let city = 'Анкара';*/
-  /*let arrCity = ['Минск','Брест','Гродно', 'Витебск', 'Могилев', 'Гомель', 'Борисов'];
-*/
-
+describe("функция", function() {
   it('добавляет 1 город', () => {
     let city = 'Анкара';
     let arr = [];
@@ -65,6 +60,23 @@ describe("Шаблонизатор", function() {
     assert.equal( arr[0] , 'Анкара');
     assert.equal( arr[1] , undefined);
   });
+
+  it('при удалении из массива элемента, вновьдобавленные не заменяют существующие', () => {
+    let city = 'Анкара';
+    let arr = ['Анкара','Минск','Брест','Гродно', 'Витебск'];
+
+    arr.forEach((el, i)=>{
+      if( el + '' === city ){
+        return arr.splice(i, 1);
+      }
+    });
+
+    assert.equal( arr.toString() , ['Минск','Брест','Гродно', 'Витебск'].toString());
+    addArrCity ( city, arr );
+    assert.equal( arr.toString() , ['Анкара','Минск','Брест','Гродно', 'Витебск'].toString());
+  });
+
+
 });
 
 

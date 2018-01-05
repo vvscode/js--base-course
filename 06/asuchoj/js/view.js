@@ -1,31 +1,44 @@
-function View() {
+'use strict';
+// Модуль отвечает за вывод в DOM
+(function() {
+  let yaMap;
+  ymaps.ready(init);
 
-  let that = this;
+  newEventBus.on('showWeather', (el)=>{
+    setTimeout(showWeather (el),4)
+  });
 
-  this.init = function() {
-    let yaMap = new ymaps.Map('map', {
-      center: [53.90, 27.56], // Минск
-      zoom: 10,
-      controls: ['zoomControl', 'typeSelector']
+  newEventBus.on('p', (el)=>{
+    setTimeout(showWeather (el),4)
+  });
+
+  newEventBus.trigger('showMap', init);
+
+  function init () {
+    yaMap = new ymaps.Map('map', {
+      center: [53.90, 27.56],
+        zoom: 10,
+        controls: ['zoomControl', 'typeSelector']
     });
 
-    let showCenter = () => {
-      info.innerHTML = (info.innerHTML +'\n' + 'Center: ' + yaMap.getCenter().join(' - ')).trim();
-      that.c = yaMap.getCenter();
-    };
+/*    yaMap.events.add('actionend',yaMap.getCenter(); );*/
 
-    that.k = function (f) {
+    newEventBus.on('addSpace', (lat, lng)=>{
+      yaMap.setCenter([lat, lng]);
+    });
 
-      yaMap.events.add('actionend', f);
-    }
-    that.yaMap = yaMap;
+    newEventBus.on('addInFavorites', ()=>{
+      newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
+    });
+
+    newEventBus.trigger('p', yaMap.getCenter())
+
+
+    newEventBus.trigger()
+
   }
 
-  this.addStateCenterMap = function () {
-    return that.yaMap.getCenter();
-  }
-
-  this.showWeather = function (el) {
+  function showWeather (el) {
     let temperature = '<p> Температура: ' + Math.round(( el.temperature - 32 ) / 1.8) + ' &#8451 </p>';
     let pressure = '<p> Давление: ' + el.pressure + '</p>';
     let humidity = '<p> Влажность: ' + el.humidity + '</p>';
@@ -33,13 +46,7 @@ function View() {
     let precipProbability = '<p> Вероятность осадков: ' + el.precipProbability + '</p>';
     let cloudCover = '<p> Облачность: ' + el.cloudCover + '</p>';
     let summary = '<p> Сводка: ' + el.summary + '</p>';
-
     let i = document.querySelector('.weather');
     i.innerHTML = summary + temperature + pressure + humidity + windSpeed + precipProbability + cloudCover;
   }
-
-  this.setCenterMap = function (el, lat, lng) {
-      el.setCenter([lat, lng]);
-      this.showWeather(el);
-  }
-}
+})();
