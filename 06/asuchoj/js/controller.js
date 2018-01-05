@@ -17,8 +17,13 @@ for (let i=0; i < request.length; i++){
     alert(i);
   })
 }
+newEventBus.on('showMap',(cb) => {
+  newEventBus.trigger('addWeather', cb[0], cb[1])
+});
 
-newEventBus.on('showMap', (cb)=>{ cb() });
+newEventBus.on('getWeather', (param)=>{
+  newEventBus.trigger('showWeatherCity', param);
+})
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
@@ -33,13 +38,9 @@ searchButton.addEventListener('click',(elem)=>{
       newEventBus.trigger('addWeather', lat, lng)
     })
 
-    newEventBus.on('getWeather', (lat, lng)=>{
-      newEventBus.trigger('showWeatherCity', lat, lng);
+    newEventBus.on('getWeather', (param)=>{
+      newEventBus.trigger('showWeatherCity', param);
     })
-
-
-
-
 
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);
@@ -52,7 +53,6 @@ addInFavorites.addEventListener('click',()=>{
     space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
     addArrCity (space, arrWithFavoritesCity);
     addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-
   });
 
   newEventBus.trigger('addInFavorites');
@@ -81,7 +81,6 @@ function addRoundNumber(num, valueRound) {
 // функция для создания массива 5 элементов
 // сначала добавляет по 1-му элементу пока не создаст массив
 // после добавления 5-го - добавляет первый, удаляет последний
-
 function addArrCity (value, arr ) {
   if (arr.length === 0) {
     return arr.unshift(value);
@@ -105,7 +104,6 @@ function addElemWithCityInHTML(el) {
   return '<p>' + el + '<p>'
 }
 
-
 function storeFavoritesCity() {
   let r = JSON.stringify( document.querySelector('.favorites_city').innerHTML);
   return Promise.resolve(localStorage.setItem('favoritesCity',r));
@@ -115,39 +113,6 @@ function getFavoritesCity() {
     return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
 }
 
-
-// создает елемент c координатами любимым городом
-// вернет массив елементов для вставки
-
-/*function addElemWithSpaceInHTML(el) {
-  let btn = createMyNewElement ('button', 'btn_delete');
-  let par = createMyNewElement ('par', 'btn_delete');
-  return [ par, btn]
-}*/
-
-
-
-/*//функция для создания елементов
-function createMyNewElement (el, className, idName) {
-  let element = document.createElement(el);
-  if(className){
-    element.className = className
-  }
-  if(className){
-    element.id = idName
-  }
-  return element
-}*/
-
-/*//вставка обьектов на страницу
-function addElemInDOM (parentElement, arrChild) {
-  let fragment = document.createDocumentFragment();
-  arrChild.forEach(function (el) {
-    fragment.appendChild(el);
-  })
-  parentElement.appendChild(fragment);
-}*/
-
 //Функция вставки елементов на страницу
 function addArr (arr, parentElem, insertionHTMLel ) {
   parentElem.innerHTML = '';
@@ -156,36 +121,6 @@ function addArr (arr, parentElem, insertionHTMLel ) {
   })
 }
 
-
-
-// Функция перемещает центр карты в нужный город и выводит погоду
-/*function addWetherAndCoord (el) {
-/!*  location.href = '#city/' + el;
-  f(el);*!/
-  newElementModel.addCoordinatesWithGoogle(el);
-
-  setTimeout(function () {
-/!*    newElementView.setCenterMap(newElementView.yaMap ,newElementModel.locationCity.lat, newElementModel.locationCity.lng);*!/
-    newElementModel.addWeatherWithDarkSky(newElementModel.locationCity.lat, newElementModel.locationCity.lng );
-  }, 1500);
-
-  setTimeout(function () {
-    newElementView.showWeather(newElementModel.weatherFromDarkSky)
-  }, 3000);
-}*/
-
-
-/*function f(el) {
-    let newEl = document.createElement('newElementModel');
-    newEl.href = '#city/' + el;
-    return newEl
-}
-
-function g() {
-    var a = location.hash.split('/');
-}*/
-
-
 //функция вставки
 function addElemWithSpaceInHTML(el) {
   return '<div> ' +
@@ -193,6 +128,7 @@ function addElemWithSpaceInHTML(el) {
       '<button> x </button>' +
       '</div>'
 }
+
 // Функция проверки введённых значений (доработать)
 function testEnterValue (value) {
     if(value === ''){
@@ -200,42 +136,5 @@ function testEnterValue (value) {
     }
     return value;
 }
-
-
-
-/*
-* var btn = document.querySelector('button');
-
-function storeData(data) {
-  return Promise.resolve(localStorage.setItem('data', JSON.stringify(data)));
-}
-
-function getData() {
-  return Promise.resolve(JSON.parse(localStorage.getItem('data')));
-}
-
-function getMessage() {
-  return Promise.resolve(prompt());
-}
-
-
-
-btn.addEventListener('click', function() {
-  getMessage()
-    .then(function(msg) {
-       return storeData(msg);
-    })
-    .then(function() {
-      return getData();
-    })
-    .then(function(data) {
-        alert(data);
-    });
-});*/
-
-
-
-
-
 
 

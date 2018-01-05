@@ -25,7 +25,6 @@
         let r = JSON.parse(xhr.responseText);
         let lat = r.results[0].geometry.location.lat;
         let lng = r.results[0].geometry.location.lng;
-
         newEventBus.trigger('getSpace', lat, lng);
       }
     }
@@ -43,8 +42,7 @@
       } else {
         let weather1 = JSON.parse(xhr.responseText);
         let weatherObj = JSON.parse(weather1.body);
-
-        newEventBus.trigger('getWeather', weatherObj);
+        newEventBus.trigger('getWeather', weatherObj.currently);
       }
     }
   }

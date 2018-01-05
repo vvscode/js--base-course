@@ -8,21 +8,16 @@
     showWeather (el)
   });
 
-  newEventBus.on('p', (el)=>{
-    showWeather (el)
-  });
-
-  newEventBus.trigger('showMap', init);
+  let info = document.querySelector('#info');
 
   function init () {
     yaMap = new ymaps.Map('map', {
-      center: [53.90, 27.56],
-        zoom: 10,
+      center: [53.905,27.562],
+        zoom: 11,
         controls: ['zoomControl', 'typeSelector']
     });
 
-/*    yaMap.events.add('actionend',yaMap.getCenter(); );*/
-
+    newEventBus.trigger('showMap',yaMap.getCenter()); //показать погоду стартовой страницы
 
     newEventBus.on('showCity', (lat, lng)=>{
       yaMap.setCenter([lat, lng]);
@@ -32,10 +27,10 @@
       newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
     });
 
-    newEventBus.trigger('p', yaMap.getCenter())
-
-    newEventBus.trigger()
-
+    // завершение действия с картой
+    yaMap.events.add('actionend', ()=>{
+      newEventBus.trigger('showMap',yaMap.getCenter());
+    });
   }
 
   function showWeather (el) {
