@@ -9,18 +9,17 @@
 </head>
 <body>
   <header>
-    <div class="head request">
-      <input type="radio" class="http" name="request" value="XHR"checked><span>XHR</span>
-      <input type="radio" class="http" name="request" value="fetch" id="fetch"><span>fetch</span>
+    <div class="head">
+      <div class="request r1 hide">
+        <label><input type="radio" class="http" name="request" value="XHR"checked>XHR</label>
+      </div><div class="request r2 hide">
+        <label><input type="radio" class="http" name="request" value="fetch">fetch</label>
+      </div>
     </div>
     <div class="head">
-      <ul>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Main</a></li>
-        <li><a href="#">Athor</a></li>
-      </ul>
+      <ul><li><a href="#" class="route a1">About</a></li><li><a href="#" class="route a2">Main</a></li><li><a href="#" class="route a3">Author</a></li></ul>
     </div>
-    <div class="head search">
+    <div class="head search hide">
       <div id="search">
         <input type="text">
         <div id="button">
@@ -29,12 +28,12 @@
       </div>
     </div>
   </header>
-  <main>
+  <main class="hide">
     <div id="map">
-      <div id="star"><img src="star-icon.png" alt=""> </div>
+      <div id="star"><img src="pics/star-icon.png" alt=""> </div>
     </div>
   </main>
-  <footer>
+  <footer class="hide">
     <div id="history"></div>
     <div id="weather">
       <div></div>
@@ -42,6 +41,8 @@
     </div>
     <div id="favorite"></div>
   </footer>
+  <div class="about"></div>
+  <div class="author"></div>
   <script>
     let stage = {};
     let myMap;

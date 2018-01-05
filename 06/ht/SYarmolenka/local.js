@@ -2,7 +2,7 @@ let history = document.querySelector(`#history`);
 let favorite = document.querySelector(`#favorite`);
 let session = window.sessionStorage.getItem('history');
 let local = window.localStorage.getItem('favorite');
-history.innerHTML = (session !== null) ? session : `История:`;
+history.innerHTML = (session !== null) ? session : `История поиска:`;
 favorite.innerHTML = (local !== null) ? local : `Избранное:`;
 
 document.body.addEventListener(`click`, function (e) {

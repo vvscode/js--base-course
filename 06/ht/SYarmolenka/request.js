@@ -51,7 +51,7 @@ function getWeather (respone) {
 };
 
 function requestCityName () {
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${stage.coords[0]},${stage.coords[1]}&result_type=locality&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${stage.coords[0]+0.001},${stage.coords[1]+0.001}&result_type=locality&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
   if (stage.request === `XHR`) getThroughXhr (url, `city`);
   if (stage.request === `fetch`) getThroughFetch (url, `city`);
 }
@@ -59,6 +59,7 @@ eb.on(`city`, getCityName);
 
 function getCityName (respone) {
   let obj = JSON.parse(respone);
+  console.log(obj);
   stage.city = (obj.status !== `OK`) ? `None` : obj.results[0].address_components[0].long_name;
   let div = document.querySelector(`#weather`).children[0];
   div.innerText = `Населенный пункт: ${stage.city}\n`;
