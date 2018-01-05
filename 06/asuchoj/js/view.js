@@ -4,12 +4,12 @@
   let yaMap;
   ymaps.ready(init);
 
-  newEventBus.on('showWeather', (el)=>{
-    setTimeout(showWeather (el),4)
+  newEventBus.on('showWeatherCity', (el)=>{
+    showWeather (el)
   });
 
   newEventBus.on('p', (el)=>{
-    setTimeout(showWeather (el),4)
+    showWeather (el)
   });
 
   newEventBus.trigger('showMap', init);
@@ -23,7 +23,8 @@
 
 /*    yaMap.events.add('actionend',yaMap.getCenter(); );*/
 
-    newEventBus.on('addSpace', (lat, lng)=>{
+
+    newEventBus.on('showCity', (lat, lng)=>{
       yaMap.setCenter([lat, lng]);
     });
 
@@ -32,7 +33,6 @@
     });
 
     newEventBus.trigger('p', yaMap.getCenter())
-
 
     newEventBus.trigger()
 

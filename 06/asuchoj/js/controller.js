@@ -26,7 +26,20 @@ searchButton.addEventListener('click',(elem)=>{
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
-    newEventBus.trigger('addCity', city); // Отправляем наименование города подписчикам
+    newEventBus.trigger('addSpace', city); // Отправляем наименование города подписчикам
+
+    newEventBus.on('getSpace', (lat, lng)=>{
+      newEventBus.trigger('showCity', lat, lng);
+      newEventBus.trigger('addWeather', lat, lng)
+    })
+
+    newEventBus.on('getWeather', (lat, lng)=>{
+      newEventBus.trigger('showWeatherCity', lat, lng);
+    })
+
+
+
+
 
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);

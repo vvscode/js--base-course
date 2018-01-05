@@ -3,12 +3,12 @@
 (function() {
 
   // ожидаем наименование города
-  newEventBus.on('addCity', (city)=>{
+  newEventBus.on('addSpace', (city)=>{
       addCoordinatesWithGoogle (city)
   });
 
   // ожидаем координаты местности
-  newEventBus.on('addSpace', (lat, lng)=>{
+  newEventBus.on('addWeather', (lat, lng)=>{
       addWeatherWithDarkSky (lat, lng)
   });
 
@@ -26,7 +26,7 @@
         let lat = r.results[0].geometry.location.lat;
         let lng = r.results[0].geometry.location.lng;
 
-        newEventBus.trigger('addSpace', lat, lng);
+        newEventBus.trigger('getSpace', lat, lng);
       }
     }
   }
@@ -43,7 +43,8 @@
       } else {
         let weather1 = JSON.parse(xhr.responseText);
         let weatherObj = JSON.parse(weather1.body);
-        newEventBus.trigger('showWeather', weatherObj);
+
+        newEventBus.trigger('getWeather', weatherObj);
       }
     }
   }
