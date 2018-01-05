@@ -15,7 +15,7 @@ function compileTemplate(tp1) {
 }
 
 function EventBus() {
-    this.listeners = [];
+    this.listeners = {};
 }
 
 EventBus.prototype.on = function (name, cb) {
