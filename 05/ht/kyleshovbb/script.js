@@ -25,11 +25,7 @@ EventBus.prototype.on = function (name, cb) {
 
 EventBus.prototype.trigger = function (name, ...data) {
     if (this.listeners[name] && data.length) {
-        this.listeners[name].forEach(cb => {
-            let args = [];
-            data.forEach(value => args.push(value));
-            cb(...args);
-        });
+        this.listeners[name].forEach(cb => cb(...data));
     } else if (this.listeners[name]) {
         this.listeners[name].forEach(cb => cb(data));
     }
@@ -57,7 +53,7 @@ function Router(options = []) {
     this.routes = options.routes;
     window.addEventListener("hashchange", () => this.hashCheck(window.location.hash));
     this.hashCheck(window.location.hash);
-};
+}
 
 Router.prototype = {
     findNewRoute: function (hash) {
