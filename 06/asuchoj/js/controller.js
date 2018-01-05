@@ -7,8 +7,41 @@ let newEventBus = new EventBus();
 
 let arrCity = [];
 let arrWithFavoritesCity = [];
+
 let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
+
+//загрузка данных с локалсторедж
+
+if( localStorage.historyCity !== '' ){
+/*  historyCity.innerHTML = JSON.parse(localStorage.getItem('historyCity'));*/
+  arrCity = JSON.parse(localStorage.getItem('historyCity'));
+  addArr (arrCity, historyCity, addElemWithCityInHTML);
+}
+
+if( localStorage.favoritesCity !== '' ){
+ /* favoritesCity.innerHTML = JSON.parse(localStorage.getItem('favoritesCity'));*/
+  arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
+  addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+}
+
+function saveHistoryCityInLocal() {
+  let value = JSON.stringify( arrCity );
+  return Promise.resolve(localStorage.setItem('historyCity', value));
+}
+
+function getHistoryCity() {
+  return Promise.resolve( JSON.parse(localStorage.getItem('historyCity')));
+}
+
+function storeFavoritesCity() {
+  let value = JSON.stringify( arrWithFavoritesCity );
+  return Promise.resolve(localStorage.setItem('favoritesCity', value));
+}
+
+function getFavoritesCity() {
+  return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
+}
 
 
 // обработчик радиобаттонов
@@ -18,14 +51,16 @@ for (let i=0; i < request.length; i++){
   })
 }
 newEventBus.on('showMap',(cb) => {
-  newEventBus.trigger('addWeather', cb[0], cb[1])
+  newEventBus.trigger('addWeather', cb[0], cb[1]);
+  newEventBus.on('getWeather', (param)=>{
+    newEventBus.trigger('showWeatherCity', param);
+  })
 });
 
-newEventBus.on('getWeather', (param)=>{
-  newEventBus.trigger('showWeatherCity', param);
-})
+
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
+
 searchButton.addEventListener('click',(elem)=>{
     elem.preventDefault(); // отмена стандартного действия
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
@@ -44,6 +79,8 @@ searchButton.addEventListener('click',(elem)=>{
 
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);
+
+    saveHistoryCityInLocal()
 });
 
 // Обработкик кнопки добавить в избранное
@@ -56,6 +93,7 @@ addInFavorites.addEventListener('click',()=>{
   });
 
   newEventBus.trigger('addInFavorites');
+  storeFavoritesCity();
 });
 
 // Обработкик кнопок удаление
@@ -71,6 +109,7 @@ favoritesCity.addEventListener('click',(event)=>{
         return arrWithFavoritesCity.splice(i, 1);
       }
     });
+    storeFavoritesCity();
 });
 
 //функция округления чисел
@@ -82,6 +121,16 @@ function addRoundNumber(num, valueRound) {
 // сначала добавляет по 1-му элементу пока не создаст массив
 // после добавления 5-го - добавляет первый, удаляет последний
 function addArrCity (value, arr ) {
+
+/*  let arr = [];
+
+  [].forEach.call(nArr, function (el) {
+    console.log(el)
+    arr = arr.push(el);
+  })
+
+  console.log(arr)*/
+
   if (arr.length === 0) {
     return arr.unshift(value);
   }
@@ -101,16 +150,7 @@ function addArrCity (value, arr ) {
 
 // создает елемент с городом для добавления на HTML
 function addElemWithCityInHTML(el) {
-  return '<p>' + el + '<p>'
-}
-
-function storeFavoritesCity() {
-  let r = JSON.stringify( document.querySelector('.favorites_city').innerHTML);
-  return Promise.resolve(localStorage.setItem('favoritesCity',r));
-}
-
-function getFavoritesCity() {
-    return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
+  return '<p>' + el + '</p>'
 }
 
 //Функция вставки елементов на страницу
@@ -124,7 +164,7 @@ function addArr (arr, parentElem, insertionHTMLel ) {
 //функция вставки
 function addElemWithSpaceInHTML(el) {
   return '<div> ' +
-      '<p> <a href="#">' + el + '</a></p>' +
+      '<p> <a href="#">' + el + '</a> </p>' +
       '<button> x </button>' +
       '</div>'
 }

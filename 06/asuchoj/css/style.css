@@ -41,10 +41,6 @@ header li{
      display: block;
  }
 
-main{
-    flex-grow: 1;
-}
-
 .history,
 .weather_and_information,
 .favorites{
@@ -54,14 +50,12 @@ main{
     float: left;
     margin: 5px;
 }
-.main h3,
-.main p {
+footer h3,
+footer p {
     text-align: center;
     margin: 5px;
 }
-.favorites_city{
 
-}
 .favorites_city div{
     position: relative;
 }
