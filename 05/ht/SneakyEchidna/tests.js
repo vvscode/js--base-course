@@ -30,6 +30,27 @@ describe('EventBus', () => {
     it('trigger is a EventBus method', () => {
       assert.isOk(typeof new EventBus().trigger === 'function');
     });
+    it('trigger launches cb', () => {
+      let a = 0;
+      eb.on('someEvent', () => a++);
+      eb.trigger('someEvent');
+      assert.isOk(a === 1);
+    });
+    it('trigger launches cb with params', () => {
+      let c;
+      eb.on('someEvent', (a, b) => (c = a + b));
+      eb.trigger('someEvent', 2, 3);
+      assert.isOk(c === 5);
+    });
+    it('trigger works with different events', () => {
+      let a = 0;
+      let b = 0;
+      eb.on('someEvent', (x) => (a = a + x));
+      eb.on('otherEvent', (x) => (b = b + x));
+      eb.trigger('someEvent', 1);
+      eb.trigger('otherEvent', 1);
+      assert.isOk(a === 1 && b === 1);
+    });
   });
   describe('on', () => {
     it('on is a EventBus method', () => {
@@ -43,10 +64,24 @@ describe('EventBus', () => {
     it('off is a EventBus method', () => {
       assert.isOk(typeof new EventBus().off === 'function');
     });
+    it('off unsubscribes from event', () => {
+      let a = 0;
+      eb.on('someEvent', () => a++);
+      eb.off('someEvent');
+      eb.trigger('someEvent');
+      assert.isOk(a === 0);
+    });
   });
   describe('once', () => {
     it('once is a EventBus method', () => {
       assert.isOk(typeof new EventBus().once === 'function');
+    });
+    it('once launches callback only once', () => {
+      let a = 0;
+      eb.once('someEvent', (b) => (a += a + b));
+      eb.trigger('someEvent', 1);
+      eb.trigger('someEvent', 1);
+      assert.isOk(a === 1);
     });
   });
 });
