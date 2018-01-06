@@ -7,7 +7,7 @@ function drawConfigurationModule() {
   wrapper.appendChild(createConfigForm());
   document.body.appendChild(wrapper);
 }
-
+// TODO -- to much repetition. Need to add function that generates form content based on config
 function createConfigForm() {
   let form = document.createElement('form');
   form.setAttribute('id', 'configForm');
