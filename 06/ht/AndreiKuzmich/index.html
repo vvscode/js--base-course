@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src = "https://api-maps.yandex.ru/2.1/?lang=en_US" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<title>Map</title>
+</head>
+<body>
+	<form>
+		<div class = "navigation">
+	        <a id = "aboutMe" class="line" href="#1">About</a>
+	        <a id = "mainInfo" class="line" href="#2">Main</a>
+	        <a id = "pageAuthor" href="#3" class="line">Author</a>
+		</div>
+		</form>
+	<form >
+	
+<div id = "main">
+		<div class = "formBtn">
+				<label for="xhr"><input type="radio" id = "xhr" name="request" checked>XHR</label>
+				<label for="fetch"><input type="radio" id = "fetch" name="request">Fetch</label>
+				<label for="find"><input type="text" id = "find" placeholder = "Enter a city"></label>
+			</div>
+			
+		</form>
+		<div class="div1" id = "map"></div>
+		<div class="flex-container">
+				<div class="div">
+					<div class = "header">Request's history:</div>
+					<div id = "history" class = "text"></div>
+				</div>
+				<div class="div"> 
+					<div  class = "header">Weather:</div>
+					<div id = 'weather' class="text"></div>
+				</div>
+				<div class="div">
+					<div  class = "header">Favourites:<br/></div>
+					<div id = "favourites" class = "text"></div>
+				</div>
+		</div>
+</div>
+<div id = "about">
+	<div id = "textAbout">
+	Here you can view the weather forecast for any place in the world and find this place on the map.<br /><br />
+	You also have an opportunity to add/delete cities, which you look for most of all to your favourite list.<br /><br />
+	In the left bottom corner you can look through the history of your last 5 requests and view the weather forecast
+	for any item from the history-list by kclicking on it.
+	</div>
+</div>
+<div id = "author">
+		<div id = "photo"></div>
+		<div id = "name">Andrei Kuzmich</div>
+		<div id = "contacts">
+				Email: <a href="https://mail.google.com/mail/u/0/#inbox">andrewk1931@gmail.com</a>  <br />
+				Git-hub profile: <a href="https://github.com/andrew1931">github.com	</a> 
+	
+		</div>
+</div>
+    <script async src='js/storage.js'></script>
+	<script async src='js/coordsReqs.js'></script>
+	<script async src='js/weatherReqs.js'></script>
+	
+	<script async src='js/history.js'></script>
+	<script async src='js/map.js'></script>
+	<script async src='js/nav.js'></script>	
+</body>
+</html>
