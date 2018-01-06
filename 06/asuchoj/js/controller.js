@@ -12,18 +12,15 @@ let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
 
 //загрузка данных с локалсторедж
-
-if( localStorage.historyCity !== '' ){
-/*  historyCity.innerHTML = JSON.parse(localStorage.getItem('historyCity'));*/
+/*if( localStorage.historyCity !== '' ){
   arrCity = JSON.parse(localStorage.getItem('historyCity'));
   addArr (arrCity, historyCity, addElemWithCityInHTML);
 }
 
 if( localStorage.favoritesCity !== '' ){
- /* favoritesCity.innerHTML = JSON.parse(localStorage.getItem('favoritesCity'));*/
   arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
   addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-}
+}*/
 
 function saveHistoryCityInLocal() {
   let value = JSON.stringify( arrCity );
@@ -45,6 +42,7 @@ function getFavoritesCity() {
 
 
 // обработчик радиобаттонов
+
 for (let i=0; i < request.length; i++){
   request[i].addEventListener('change',function () {
     alert(i);
@@ -63,6 +61,7 @@ newEventBus.on('showMap',(cb) => {
 
 searchButton.addEventListener('click',(elem)=>{
     elem.preventDefault(); // отмена стандартного действия
+    alert('10');
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
@@ -71,11 +70,11 @@ searchButton.addEventListener('click',(elem)=>{
     newEventBus.on('getSpace', (lat, lng)=>{
       newEventBus.trigger('showCity', lat, lng);
       newEventBus.trigger('addWeather', lat, lng)
-    })
+    });
 
     newEventBus.on('getWeather', (param)=>{
       newEventBus.trigger('showWeatherCity', param);
-    })
+    });
 
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML);
@@ -150,7 +149,7 @@ function addArrCity (value, arr ) {
 
 // создает елемент с городом для добавления на HTML
 function addElemWithCityInHTML(el) {
-  return '<p>' + el + '</p>'
+  return '<p> <a href="#">' + el + '</a> </p>'
 }
 
 //Функция вставки елементов на страницу

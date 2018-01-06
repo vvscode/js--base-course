@@ -18,9 +18,9 @@
                 <li>
                     <label><input type="radio" name="request_type"> Fetch </label>
                 </li>
-                <li><a href="#about"> About </a></li>
-                <li><a href="#main"> Main </a></li>
-                <li><a href="#author"> Author </a></li>
+                <li class="menu_link"><a href="#about"> About </a></li>
+                <li class="menu_link"><a href="#main"> Main </a></li>
+                <li class="menu_link"><a href="#author"> Author </a></li>
             </ul>
 
             <div class="header__search">
@@ -81,15 +81,10 @@
             </ul>
         </div>
         <div class="main">
-            <div>
-                <p> Панель управления </p>
+            <div id="map" class="yandex_map" ></div>
+            <div class="add_in_favorites_button">
                 <button id="add_in_favorites"> Add in favorites </button>
             </div>
-            <div>
-                <div id="map" class="yandex_map" ></div>
-                <pre id="info"></pre>
-            </div>
-            <div class="google_coordinates"></div>
         </div>
         <div class="author page"><p> я молодец </p></div>
 

@@ -1,5 +1,6 @@
 * {
     margin: 0;
+    padding: 0;
 }
 a {
     text-decoration: none;
@@ -27,7 +28,7 @@ header li{
 }
 
 .yandex_map{
-    width:600px;
+    width:686px;
     height:500px;
     margin: 0 auto;
 }
@@ -65,4 +66,28 @@ footer p {
     right: 0;
 }
 
-
+menu li{
+    margin: 6px 0;
+    padding: 10px 5px;
+}
+.menu_link{
+    border: 2px solid black;
+    margin: 5px;
+    padding: 10px;
+}
+#add_in_favorites{
+    margin: 5px;
+    padding: 10px;
+    border: 2px solid black;
+}
+.yandex_map{
+    border: 2px solid black;
+}
+.main{
+    position: relative;
+}
+.add_in_favorites_button{
+    position: absolute;
+    top: 0px;
+    left: 5px;
+}
