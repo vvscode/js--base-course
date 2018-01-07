@@ -2,17 +2,28 @@
 // Модуль отвечает за вывод в DOM
 (function() {
   let yaMap;
-  ymaps.ready(init);
+
+    ymaps.ready(init);
+
+  if(true){
+
+      let lat = 50;
+      let lng = 30;
+
+  }
+
+
 
   newEventBus.on('showWeatherCity', (el)=>{
+    console.log('showWeatherCity');
     showWeather (el)
   });
 
   let info = document.querySelector('#info');
 
-  function init () {
+  function init (lat, lng) {
     yaMap = new ymaps.Map('map', {
-      center: [53.905,27.562],
+      center: [lat, lng],
         zoom: 11,
         controls: ['zoomControl', 'typeSelector']
     });

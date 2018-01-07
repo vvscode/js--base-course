@@ -1,4 +1,28 @@
 'use strict';
+
+
+
+/* обработчики
+    addSpace - запросить координаты места
+    addWeather - запросить погоду
+    addNameCity - запросить имя города
+
+    getSpace - запросить координаты места
+    getWeather - запросить погоду
+    getNameCity - запросить имя города
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
 let request = document.getElementsByName('request_type');
@@ -8,8 +32,6 @@ let arrCity = [];
 let arrWithFavoritesCity = [];
 let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
-
-
 
 //загрузка данных с локалсторедж
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
@@ -55,6 +77,8 @@ newEventBus.on('showMap',(cb) => {
   })
 });
 
+console.log('идет загрузка страницы');
+
 
 
 
@@ -67,21 +91,10 @@ searchButton.addEventListener('click',(elem)=>{
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
-    /*newEventBus.trigger('addSpace', city); // Отправляем наименование города подписчикам
-
-    newEventBus.on('getSpace', (lat, lng)=>{
-      newEventBus.trigger('showCity', lat, lng);
-      newEventBus.trigger('addWeather', lat, lng)
-    });
-
-    newEventBus.on('getWeather', (param)=>{
-      newEventBus.trigger('showWeatherCity', param);
-    });
-*/
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML, );
 
-    location.hash = '#city/' + city;
+/*    location.hash = '#city/' + city;*/
 
 
     saveHistoryCityInLocal()
@@ -92,16 +105,19 @@ newEventBus.on('init',() => {
     WWW(t)
 });
 
-function WWW(param) {
-        newEventBus.trigger('addSpace', param);
-        newEventBus.on('getSpace', (lat, lng)=>{
-            newEventBus.trigger('showCity', lat, lng);
-            newEventBus.trigger('addWeather', lat, lng)
-        });
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
 
+
+
+
+function WWW(param) {
+    newEventBus.trigger('addSpace', param);
+    newEventBus.on('getSpace', (lat, lng)=>{
+        newEventBus.trigger('showCity', lat, lng);
+        newEventBus.trigger('addWeather', lat, lng)
+    });
+    newEventBus.on('getWeather', (param)=>{
+        newEventBus.trigger('showWeatherCity', param);
+    });
 }
 
 
@@ -139,7 +155,7 @@ favoritesCity.addEventListener('click',(event)=>{
     }
 
     if( target.tagName === 'BUTTON' ) {
-        alert('aaa');
+
         favoritesCity.removeChild(target.parentNode);
         let t = target.parentNode.querySelector('p');
         t = t.innerHTML;
