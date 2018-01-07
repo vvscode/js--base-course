@@ -79,8 +79,11 @@ newEventBus.on('showMap',(cb) => {
   })
 });
 
+<<<<<<< HEAD
 console.log('идет загрузка страницы');
 
+=======
+>>>>>>> parent of bd8e8b4... пока работает
 
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
@@ -91,6 +94,7 @@ searchButton.addEventListener('click',(elem)=>{
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     addArrCity (city, arrCity);
@@ -159,11 +163,31 @@ function WWW(param) {
 });
 
 >>>>>>> parent of bd8e8b4... пока работает
+=======
+    newEventBus.trigger('addSpace', city); // Отправляем наименование города подписчикам
+
+    newEventBus.on('getSpace', (lat, lng)=>{
+      newEventBus.trigger('showCity', lat, lng);
+      newEventBus.trigger('addWeather', lat, lng)
+    });
+
+    newEventBus.on('getWeather', (param)=>{
+      newEventBus.trigger('showWeatherCity', param);
+    });
+
+    addArrCity (city, arrCity);
+    addArr (arrCity, historyCity, addElemWithCityInHTML);
+
+    saveHistoryCityInLocal()
+});
+
+>>>>>>> parent of bd8e8b4... пока работает
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
   let space;
   newEventBus.on('getCentralYandexMap', (centralArr)=>{
     space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     /*newEventBus.trigger('addNameCity', space);
@@ -179,6 +203,10 @@ addInFavorites.addEventListener('click',()=>{
     addArrCity (space, arrWithFavoritesCity);
     addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 >>>>>>> parent of bd8e8b4... пока работает
+=======
+    addArrCity (space, arrWithFavoritesCity);
+    addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+>>>>>>> parent of bd8e8b4... пока работает
   });
 
   newEventBus.trigger('addInFavorites');
@@ -188,6 +216,7 @@ addInFavorites.addEventListener('click',()=>{
 // Обработкик кнопок удаление
 favoritesCity.addEventListener('click',(event)=>{
     let target = event.target;
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     if( target.tagName === 'P' ) {
@@ -217,6 +246,8 @@ historyCity.addEventListener('click',()=>{
         location.hash  = '#city/' + target.innerHTML;
     }
 =======
+=======
+>>>>>>> parent of bd8e8b4... пока работает
     if( target.tagName !== 'BUTTON' ) return;
     favoritesCity.removeChild(target.parentNode);
     let t = target.parentNode.querySelector('p a');
@@ -228,6 +259,9 @@ historyCity.addEventListener('click',()=>{
       }
     });
     storeFavoritesCity();
+<<<<<<< HEAD
+>>>>>>> parent of bd8e8b4... пока работает
+=======
 >>>>>>> parent of bd8e8b4... пока работает
 });
 

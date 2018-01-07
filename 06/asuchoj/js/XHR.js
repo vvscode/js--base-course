@@ -9,17 +9,13 @@
 
   // ожидаем координаты местности
   newEventBus.on('addWeather', (lat, lng)=>{
-<<<<<<< HEAD
-      console.log('weather');
       addWeatherWithDarkSky (lat, lng);
   });
 
   // ожидание координат для запроса имя местности
   newEventBus.on('addNameCity', (param)=>{
       fff (param);
-=======
       addWeatherWithDarkSky (lat, lng)
->>>>>>> parent of bd8e8b4... пока работает
   });
 
   function addCoordinatesWithGoogle (city) {
@@ -39,18 +35,10 @@
         let lat = r.results[0].geometry.location.lat;
         let lng = r.results[0].geometry.location.lng;
         newEventBus.trigger('getSpace', lat, lng);
-<<<<<<< HEAD
-/*        newEventBus.trigger('getNameCity', nameCity);*/
-
-
-
-=======
->>>>>>> parent of bd8e8b4... пока работает
       }
     }
   }
 
-<<<<<<< HEAD
   function fff (latLng) {
       console.log('2');
     let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng}`;
@@ -69,8 +57,7 @@
     }
   }
 
-=======
->>>>>>> parent of bd8e8b4... пока работает
+
   function addWeatherWithDarkSky (lat, lng) {
       console.log('3');
 
