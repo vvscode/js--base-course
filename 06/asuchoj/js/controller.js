@@ -91,12 +91,9 @@ searchButton.addEventListener('click',(elem)=>{
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
+
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML, );
-
-/*    location.hash = '#city/' + city;*/
-
-
     saveHistoryCityInLocal()
 });
 
@@ -110,14 +107,30 @@ newEventBus.on('init',() => {
 
 
 function WWW(param) {
-    newEventBus.trigger('addSpace', param);
-    newEventBus.on('getSpace', (lat, lng)=>{
+
+
+    if( parseInt(param) ){
+        param = param.split(',');
+        let lat = param[0];
+        let lng = param[1];
+
         newEventBus.trigger('showCity', lat, lng);
-        newEventBus.trigger('addWeather', lat, lng)
-    });
-    newEventBus.on('getWeather', (param)=>{
-        newEventBus.trigger('showWeatherCity', param);
-    });
+        newEventBus.trigger('addWeather', lat, lng);
+
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+    } else {
+        newEventBus.trigger('addSpace', param);
+        newEventBus.on('getSpace', (lat, lng)=>{
+            newEventBus.trigger('showCity', lat, lng);
+            newEventBus.trigger('addWeather', lat, lng)
+        });
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+    }
+
 }
 
 
@@ -132,15 +145,16 @@ addInFavorites.addEventListener('click',()=>{
   newEventBus.on('getCentralYandexMap', (centralArr)=>{
     space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
 
-    newEventBus.trigger('addNameCity', space);
+    /*newEventBus.trigger('addNameCity', space);
     newEventBus.on('getNameCity', (nameCity)=> {
         addArrCity(nameCity, arrWithFavoritesCity);
         addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-    })
+    })*/
+
+      addArrCity(space, arrWithFavoritesCity);
+      addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+
   });
-
-
-
 
   newEventBus.trigger('addInFavorites');
   storeFavoritesCity();
