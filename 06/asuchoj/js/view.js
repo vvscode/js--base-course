@@ -14,16 +14,22 @@
         });
 
         newEventBus.on('addInFavorites', ()=>{
-            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
+            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
+            newEventBus.off('getCentralYandexMap');
         });
+
 
         newEventBus.on('showCity', (lat, lng)=>{
             yaMap.setCenter([lat, lng]);
         });
 
+
         yaMap.events.add('actionend', ()=>{
             /*newEventBus.trigger('showMap',yaMap.getCenter());*/
         });
+
+
+
         return yaMap;
     }
 

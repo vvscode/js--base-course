@@ -51,7 +51,7 @@
     }*/
 
     function addWeatherWithDarkSky (lat, lng) {
-        let Key = '26776a12e7570e6d0e483b205f4318af';
+        let Key = '5cd56ba90549b6696d1add4135f559f9';
         let url = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${Key}/${lat},${lng}?lang=ru&units=si`;
         let xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);

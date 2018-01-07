@@ -108,16 +108,9 @@ newEventBus.on('init',() => {
 
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
-    alert('1');
-
     newEventBus.trigger('addInFavorites');
-
-    newEventBus.on('getCentralYandexMap', (centralArr)=>{
-
-        console.log('!!!!' + centralArr);
-
+    newEventBus.on('getCentralYandexMap', centralArr =>{
         let space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
-
         newEventBus.trigger('addNameCity', space);
         addArrCity(space, arrWithFavoritesCity);
         addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
