@@ -48,12 +48,12 @@ for (let i=0; i < request.length; i++){
     })
 }
 
-newEventBus.on('showMap',(cb) => {
+/*newEventBus.on('showMap',(cb) => {
     newEventBus.trigger('addWeather', cb[0], cb[1]);
     newEventBus.on('getWeather', (param)=>{
         newEventBus.trigger('showWeatherCity', param);
     })
-});
+});*/
 
 
 
@@ -67,17 +67,6 @@ searchButton.addEventListener('click',(elem)=>{
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
 
-    /*newEventBus.trigger('addSpace', city); // Отправляем наименование города подписчикам
-
-    newEventBus.on('getSpace', (lat, lng)=>{
-      newEventBus.trigger('showCity', lat, lng);
-      newEventBus.trigger('addWeather', lat, lng)
-    });
-
-    newEventBus.on('getWeather', (param)=>{
-      newEventBus.trigger('showWeatherCity', param);
-    });
-*/
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML, );
 
@@ -89,45 +78,51 @@ searchButton.addEventListener('click',(elem)=>{
 
 newEventBus.on('init',() => {
     let t = location.hash.split('/')[1];
-    WWW(t)
-});
+    console.log(t);
+    if( parseInt(t) ){
+        console.log('первый if');
+        t = t.split(',');
+        let lat = t[0];
+        let lng = t[1];
+        console.log(lat, lng);
 
-function WWW(param) {
-    newEventBus.trigger('addSpace', param);
-    newEventBus.on('getSpace', (lat, lng)=>{
         newEventBus.trigger('showCity', lat, lng);
-        newEventBus.trigger('addWeather', lat, lng)
-    });
-    newEventBus.on('getWeather', (param)=>{
-        newEventBus.trigger('showWeatherCity', param);
-    });
-
-}
-
-
-
-
-
+        newEventBus.trigger('addWeather', lat, lng);
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+    } else {
+        console.log('2-й if');
+        newEventBus.trigger('addSpace', t);
+        newEventBus.on('getSpace', (lat, lng)=>{
+            console.log(lat, lng);
+            newEventBus.trigger('showCity', lat, lng);
+            newEventBus.trigger('addWeather', lat, lng)
+        });
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+    }
+});
 
 
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
-    let space;
-    newEventBus.on('getCentralYandexMap', (centralArr)=>{
-        space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
-
-        newEventBus.trigger('addNameCity', space);
-        newEventBus.on('getNameCity', (nameCity)=> {
-            addArrCity(nameCity, arrWithFavoritesCity);
-            addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-        })
-    });
-
-
-
+    alert('1');
 
     newEventBus.trigger('addInFavorites');
-    storeFavoritesCity();
+
+    newEventBus.on('getCentralYandexMap', (centralArr)=>{
+
+        console.log('!!!!' + centralArr);
+
+        let space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
+
+        newEventBus.trigger('addNameCity', space);
+        addArrCity(space, arrWithFavoritesCity);
+        addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+        storeFavoritesCity();
+    });
 });
 
 // Обработкик для favorites
@@ -152,7 +147,6 @@ favoritesCity.addEventListener('click',(event)=>{
         storeFavoritesCity();
     }
 });
-
 
 //обработчик для History
 historyCity.addEventListener('click',()=>{

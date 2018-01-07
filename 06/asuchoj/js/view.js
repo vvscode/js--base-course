@@ -3,13 +3,9 @@
 (function() {
     let yaMap;
     ymaps.ready(init);
-
     newEventBus.on('showWeatherCity', (el)=>{
         showWeather (el)
     });
-
-    let info = document.querySelector('#info');
-
     function init () {
         yaMap = new ymaps.Map('map', {
             center: [53.905,27.562],
@@ -17,24 +13,22 @@
             controls: ['zoomControl', 'typeSelector']
         });
 
-        newEventBus.trigger('showMap',yaMap.getCenter()); //показать погоду стартовой страницы
+        newEventBus.on('addInFavorites', ()=>{
+            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
+        });
 
         newEventBus.on('showCity', (lat, lng)=>{
             yaMap.setCenter([lat, lng]);
         });
 
-        newEventBus.on('addInFavorites', ()=>{
-            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
-        });
-
-        // завершение действия с картой
         yaMap.events.add('actionend', ()=>{
-            newEventBus.trigger('showMap',yaMap.getCenter());
+            /*newEventBus.trigger('showMap',yaMap.getCenter());*/
         });
+        return yaMap;
     }
 
     function showWeather (el) {
-        /*    console.log(1);*/
+        console.log('showWeather');
         let temperature = '<p> Температура: ' + Math.round(( el.temperature - 32 ) / 1.8) + ' &#8451 </p>';
         let pressure = '<p> Давление: ' + el.pressure + '</p>';
         let humidity = '<p> Влажность: ' + el.humidity + '</p>';

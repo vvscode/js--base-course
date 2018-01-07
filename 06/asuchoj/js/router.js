@@ -76,7 +76,7 @@ let router = new Router({
 
         },
         onEnter: () => {
-            newEventBus.trigger('init');
+            newEventBus.trigger('init')
         },
         onLeave: () => {
 
