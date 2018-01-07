@@ -1,97 +1,99 @@
-let Router = function (options) {
-    this.routes = options.routes || [];
-    this.eventBus = options.eventBus;
+let Router = function(options) {
+    options ? this.routes = options.routes : this.routes = [];
     this.init();
 };
 
 Router.prototype = {
-    init: function () {
-        // 1. Подписать this.handleUrl на изменения url
+    init: function() {
         window.addEventListener('hashchange', () => this.handleUrl(window.location.hash));
-        // 2. Выполнить this.handleUrl
         this.handleUrl(window.location.hash);
     },
-    findPreviousActiveRoute: function () {
-        // Найти роут с которого уходим
+
+    findPreviousActiveRoute: function() {
         return this.currentRoute;
     },
-    findNewActiveRoute: function (url) {
-        // Найти роут на который переходим
-        let route = this.routes.find((routeItem) => {
+
+    findNewActiveRoute: function(url) {
+        let r = this.routes.find((routeItem) => {
             if (typeof routeItem.match === 'string') {
-                return url === routeItem.match;
-            } else if (typeof routeItem.match === 'function') {
-                return routeItem.match(url);
-            } else if (routeItem.match instanceof RegExp) {
-                return url.match(routeItem.match);
-            }
-        });
-        return route;
+            return url === routeItem.match;
+        } else if (typeof routeItem.match === 'function') {
+            return routeItem.match(url);
+        } else if (routeItem.match instanceof RegExp) {
+            return url.match(routeItem.match);
+        }
+    });
+        return r;
     },
     getRouteParams(route, url) {
-        let params = url.match(route.match) || [];
-        params.shift();
+        let params;
+        if (!route && !url) {
+            params = []
+        } else {
+            params = url.match(route.match);
+        }
         return params;
     },
-    handleUrl: function (url) {
-        url = url.slice(1);
-        // Найти текущий роут
-        let previousRoute = this.findPreviousActiveRoute();
-        // Найти новый роут
-        let newRoute = this.findNewActiveRoute(url);
 
+    handleUrl: function(url) {
+        url = url.split('#').pop();
+        let previousRoute = this.findPreviousActiveRoute();
+        let newRoute = this.findNewActiveRoute(url);
         let routeParams = this.getRouteParams(newRoute, url);
 
-        // Если есть роут с которого уходим - выполнить его .onLeave
         Promise.resolve()
             .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(...this.currentRouteParams))
-            // После этого выполнить .onBeforeEnter для нового активного роута
             .then(() => newRoute && newRoute.onBeforeEnter && newRoute.onBeforeEnter(...routeParams))
-            // После этого выполнить .onEnter для ногового активного роута ( только если с .onBeforeEnter все ок)
             .then(() => newRoute && newRoute.onEnter && newRoute.onEnter(...routeParams))
             .then(() => {
                 this.currentRoute = newRoute;
                 this.currentRouteParams = routeParams;
-            });
+            })
     },
 };
 
 let router = new Router({
     routes: [{
-        name: 'index',
-        match: '',
-        onBeforeEnter: () => {
-
-        },
+        name: 'about',
+        match: 'about',
         onEnter: () => {
-
+            addClass();
         },
         onLeave: () => {
-
+            delClass();
         }
-    },{
+    }, {
+        name: 'main',
+        match: 'main',
+        onEnter: () => {
+            addClass();
+        },
+        onLeave: () => {
+            delClass();
+        }
+    }, {
         name: 'city',
-        match: /city(.+)/,
-        onBeforeEnter: () => {
-
+        match: /city\/(.+)/,
+        onEnter: (city) => {
         },
-        onEnter: () => {
-            newEventBus.trigger('init');
-        },
-        onLeave: () => {
-
+        onLeave: (city) => {
         }
-    },{
-        name: 'string',
-        match: (text) => text ,
-        onBeforeEnter: () => {
-
-        },
+    }, {
+        name: 'author',
+        match: 'author',
         onEnter: () => {
-
+            addClass();
         },
         onLeave: () => {
-
+            delClass();
         }
     }]
 });
+
+function addClass() {
+
+}
+
+function delClass() {
+
+}

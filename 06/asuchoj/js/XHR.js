@@ -4,11 +4,12 @@
 
   // ожидаем наименование города
   newEventBus.on('addSpace', (city)=>{
-      addCoordinatesWithGoogle (city);
+      addCoordinatesWithGoogle (city)
   });
 
   // ожидаем координаты местности
   newEventBus.on('addWeather', (lat, lng)=>{
+<<<<<<< HEAD
       console.log('weather');
       addWeatherWithDarkSky (lat, lng);
   });
@@ -16,6 +17,9 @@
   // ожидание координат для запроса имя местности
   newEventBus.on('addNameCity', (param)=>{
       fff (param);
+=======
+      addWeatherWithDarkSky (lat, lng)
+>>>>>>> parent of bd8e8b4... пока работает
   });
 
   function addCoordinatesWithGoogle (city) {
@@ -34,17 +38,19 @@
         let r = JSON.parse(xhr.responseText);
         let lat = r.results[0].geometry.location.lat;
         let lng = r.results[0].geometry.location.lng;
-/*        let nameCity = r.results[0]['formatted_address'];*/
         newEventBus.trigger('getSpace', lat, lng);
-        newEventBus.trigger('getSpace', lat, lng);
+<<<<<<< HEAD
 /*        newEventBus.trigger('getNameCity', nameCity);*/
 
 
 
+=======
+>>>>>>> parent of bd8e8b4... пока работает
       }
     }
   }
 
+<<<<<<< HEAD
   function fff (latLng) {
       console.log('2');
     let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng}`;
@@ -63,6 +69,8 @@
     }
   }
 
+=======
+>>>>>>> parent of bd8e8b4... пока работает
   function addWeatherWithDarkSky (lat, lng) {
       console.log('3');
 
@@ -83,30 +91,7 @@
       }
     }
   }
-
-
-
-
-
-
-
-
 })();
-
-//для определения местоположения
-
-/*ymaps.geolocation.get({
-    // Зададим способ определения геолокации
-    // на основе ip пользователя.
-    provider: 'yandex',
-    // Включим автоматическое геокодирование результата.
-    autoReverseGeocode: true
-}).then(function (result) {
-    // Выведем результат геокодирования.
-    console.log(result.geoObjects.get(0).properties.get('metaDataProperty'));
-});*/
-
-
 
 
 
