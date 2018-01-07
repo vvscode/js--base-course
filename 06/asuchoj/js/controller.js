@@ -13,46 +13,46 @@ let favoritesCity = document.querySelector('.favorites_city');
 
 //загрузка данных с локалсторедж
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
-  arrCity = JSON.parse(localStorage.getItem('historyCity'));
-  addArr (arrCity, historyCity, addElemWithCityInHTML);
+    arrCity = JSON.parse(localStorage.getItem('historyCity'));
+    addArr (arrCity, historyCity, addElemWithCityInHTML);
 }
 
 if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
-  arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
-  addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+    arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
+    addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 }
 
 function saveHistoryCityInLocal() {
-  let value = JSON.stringify( arrCity );
-  return Promise.resolve(localStorage.setItem('historyCity', value));
+    let value = JSON.stringify( arrCity );
+    return Promise.resolve(localStorage.setItem('historyCity', value));
 }
 
 function getHistoryCity() {
-  return Promise.resolve( JSON.parse(localStorage.getItem('historyCity')));
+    return Promise.resolve( JSON.parse(localStorage.getItem('historyCity')));
 }
 
 function storeFavoritesCity() {
-  let value = JSON.stringify( arrWithFavoritesCity );
-  return Promise.resolve(localStorage.setItem('favoritesCity', value));
+    let value = JSON.stringify( arrWithFavoritesCity );
+    return Promise.resolve(localStorage.setItem('favoritesCity', value));
 }
 
 function getFavoritesCity() {
-  return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
+    return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
 }
 
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
-  request[i].addEventListener('change',function () {
-    alert(i);
-  })
+    request[i].addEventListener('change',function () {
+        alert(i);
+    })
 }
 
 newEventBus.on('showMap',(cb) => {
-  newEventBus.trigger('addWeather', cb[0], cb[1]);
-  newEventBus.on('getWeather', (param)=>{
-    newEventBus.trigger('showWeatherCity', param);
-  })
+    newEventBus.trigger('addWeather', cb[0], cb[1]);
+    newEventBus.on('getWeather', (param)=>{
+        newEventBus.trigger('showWeatherCity', param);
+    })
 });
 
 
@@ -93,14 +93,14 @@ newEventBus.on('init',() => {
 });
 
 function WWW(param) {
-        newEventBus.trigger('addSpace', param);
-        newEventBus.on('getSpace', (lat, lng)=>{
-            newEventBus.trigger('showCity', lat, lng);
-            newEventBus.trigger('addWeather', lat, lng)
-        });
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
+    newEventBus.trigger('addSpace', param);
+    newEventBus.on('getSpace', (lat, lng)=>{
+        newEventBus.trigger('showCity', lat, lng);
+        newEventBus.trigger('addWeather', lat, lng)
+    });
+    newEventBus.on('getWeather', (param)=>{
+        newEventBus.trigger('showWeatherCity', param);
+    });
 
 }
 
@@ -112,22 +112,22 @@ function WWW(param) {
 
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
-  let space;
-  newEventBus.on('getCentralYandexMap', (centralArr)=>{
-    space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
+    let space;
+    newEventBus.on('getCentralYandexMap', (centralArr)=>{
+        space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
 
-    newEventBus.trigger('addNameCity', space);
-    newEventBus.on('getNameCity', (nameCity)=> {
-        addArrCity(nameCity, arrWithFavoritesCity);
-        addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-    })
-  });
-
-
+        newEventBus.trigger('addNameCity', space);
+        newEventBus.on('getNameCity', (nameCity)=> {
+            addArrCity(nameCity, arrWithFavoritesCity);
+            addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+        })
+    });
 
 
-  newEventBus.trigger('addInFavorites');
-  storeFavoritesCity();
+
+
+    newEventBus.trigger('addInFavorites');
+    storeFavoritesCity();
 });
 
 // Обработкик для favorites
@@ -164,49 +164,49 @@ historyCity.addEventListener('click',()=>{
 
 //функция округления чисел
 function addRoundNumber(num, valueRound) {
-  return Math.round(num * valueRound) / valueRound
+    return Math.round(num * valueRound) / valueRound
 }
 
 // функция для создания массива 5 элементов
 // сначала добавляет по 1-му элементу пока не создаст массив
 // после добавления 5-го - добавляет первый, удаляет последний
 function addArrCity (value, arr ) {
-  if (arr.length === 0) {
-    return arr.unshift(value);
-  }
-  arr.forEach(function (el, i) {
-    if (el.toString() === value.toString()) {
-      arr.splice(i, 1);
+    if (arr.length === 0) {
+        return arr.unshift(value);
     }
-  });
-  if (arr.length < 5) {
-    arr.unshift(value);
-  } else if( arr.length >= 5) {
-    arr.pop();
-    arr.unshift(value);
-  }
-  return arr;
+    arr.forEach(function (el, i) {
+        if (el.toString() === value.toString()) {
+            arr.splice(i, 1);
+        }
+    });
+    if (arr.length < 5) {
+        arr.unshift(value);
+    } else if( arr.length >= 5) {
+        arr.pop();
+        arr.unshift(value);
+    }
+    return arr;
 }
 
 // создает елемент с городом для добавления на HTML
 function addElemWithCityInHTML(el) {
-  return  '<p>' + el +  '</p>'
+    return  '<p>' + el +  '</p>'
 }
 
 //Функция вставки елементов на страницу
 function addArr (arr, parentElem, insertionHTMLel ) {
-  parentElem.innerHTML = '';
-  arr.forEach(function (el) {
-    parentElem.innerHTML = parentElem.innerHTML + insertionHTMLel(el)  ;
-  })
+    parentElem.innerHTML = '';
+    arr.forEach(function (el) {
+        parentElem.innerHTML = parentElem.innerHTML + insertionHTMLel(el)  ;
+    })
 }
 
 //функция вставки
 function addElemWithSpaceInHTML(el) {
-  return '<div> ' +
-      '<p>' + el +  '</p>' +
-      '<button> x </button>' +
-      '</div>'
+    return '<div> ' +
+        '<p>' + el +  '</p>' +
+        '<button> x </button>' +
+        '</div>'
 }
 
 // Функция проверки введённых значений (доработать)

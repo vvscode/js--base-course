@@ -1,48 +1,48 @@
 'use strict';
 // Модуль отвечает за вывод в DOM
 (function() {
-  let yaMap;
-  ymaps.ready(init);
+    let yaMap;
+    ymaps.ready(init);
 
-  newEventBus.on('showWeatherCity', (el)=>{
-    showWeather (el)
-  });
-
-  let info = document.querySelector('#info');
-
-  function init () {
-    yaMap = new ymaps.Map('map', {
-      center: [53.905,27.562],
-        zoom: 11,
-        controls: ['zoomControl', 'typeSelector']
+    newEventBus.on('showWeatherCity', (el)=>{
+        showWeather (el)
     });
 
-    newEventBus.trigger('showMap',yaMap.getCenter()); //показать погоду стартовой страницы
+    let info = document.querySelector('#info');
 
-    newEventBus.on('showCity', (lat, lng)=>{
-      yaMap.setCenter([lat, lng]);
-    });
+    function init () {
+        yaMap = new ymaps.Map('map', {
+            center: [53.905,27.562],
+            zoom: 11,
+            controls: ['zoomControl', 'typeSelector']
+        });
 
-    newEventBus.on('addInFavorites', ()=>{
-      newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
-    });
+        newEventBus.trigger('showMap',yaMap.getCenter()); //показать погоду стартовой страницы
 
-    // завершение действия с картой
-    yaMap.events.add('actionend', ()=>{
-      newEventBus.trigger('showMap',yaMap.getCenter());
-    });
-  }
+        newEventBus.on('showCity', (lat, lng)=>{
+            yaMap.setCenter([lat, lng]);
+        });
 
-  function showWeather (el) {
-/*    console.log(1);*/
-    let temperature = '<p> Температура: ' + Math.round(( el.temperature - 32 ) / 1.8) + ' &#8451 </p>';
-    let pressure = '<p> Давление: ' + el.pressure + '</p>';
-    let humidity = '<p> Влажность: ' + el.humidity + '</p>';
-    let windSpeed = '<p> Скорость ветра: ' + el.windSpeed + '</p>';
-    let precipProbability = '<p> Вероятность осадков: ' + el.precipProbability + '</p>';
-    let cloudCover = '<p> Облачность: ' + el.cloudCover + '</p>';
-    let summary = '<p> Сводка: ' + el.summary + '</p>';
-    let i = document.querySelector('.weather');
-    i.innerHTML = summary + temperature + pressure + humidity + windSpeed + precipProbability + cloudCover;
-  }
+        newEventBus.on('addInFavorites', ()=>{
+            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter())
+        });
+
+        // завершение действия с картой
+        yaMap.events.add('actionend', ()=>{
+            newEventBus.trigger('showMap',yaMap.getCenter());
+        });
+    }
+
+    function showWeather (el) {
+        /*    console.log(1);*/
+        let temperature = '<p> Температура: ' + Math.round(( el.temperature - 32 ) / 1.8) + ' &#8451 </p>';
+        let pressure = '<p> Давление: ' + el.pressure + '</p>';
+        let humidity = '<p> Влажность: ' + el.humidity + '</p>';
+        let windSpeed = '<p> Скорость ветра: ' + el.windSpeed + '</p>';
+        let precipProbability = '<p> Вероятность осадков: ' + el.precipProbability + '</p>';
+        let cloudCover = '<p> Облачность: ' + el.cloudCover + '</p>';
+        let summary = '<p> Сводка: ' + el.summary + '</p>';
+        let i = document.querySelector('.weather');
+        i.innerHTML = summary + temperature + pressure + humidity + windSpeed + precipProbability + cloudCover;
+    }
 })();
