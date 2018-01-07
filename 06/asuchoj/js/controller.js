@@ -48,87 +48,75 @@ for (let i=0; i < request.length; i++){
     })
 }
 
-newEventBus.on('showMap',(cb) => {
-    newEventBus.trigger('addWeather', cb[0], cb[1]);
-    newEventBus.on('getWeather', (param)=>{
-        newEventBus.trigger('showWeatherCity', param);
-    })
-});
-
-
-
-
-
-
-
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
     elem.preventDefault(); // отмена стандартного действия
     let city = testEnterValue(searchEnter.value); // проверка на введенное значение
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
-
-    /*newEventBus.trigger('addSpace', city); // Отправляем наименование города подписчикам
-
-    newEventBus.on('getSpace', (lat, lng)=>{
-      newEventBus.trigger('showCity', lat, lng);
-      newEventBus.trigger('addWeather', lat, lng)
-    });
-
-    newEventBus.on('getWeather', (param)=>{
-      newEventBus.trigger('showWeatherCity', param);
-    });
-*/
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML, );
-
     location.hash = '#city/' + city;
-
-
     saveHistoryCityInLocal()
 });
 
-newEventBus.on('init',() => {
-    let t = location.hash.split('/')[1];
-    WWW(t)
-});
-
-function WWW(param) {
-    newEventBus.trigger('addSpace', param);
-    newEventBus.on('getSpace', (lat, lng)=>{
-        newEventBus.trigger('showCity', lat, lng);
-        newEventBus.trigger('addWeather', lat, lng)
-    });
-    newEventBus.on('getWeather', (param)=>{
-        newEventBus.trigger('showWeatherCity', param);
-    });
+function showW() {
 
 }
 
 
+newEventBus.on('init',() => {
+    let t = location.hash.split('/')[1];
+
+    if(parseInt(t)){
+        t = t.split(',');
+        let lat = t[0];
+        let lng = t[1];
+            newEventBus.trigger('showCity', lat, lng);
+            newEventBus.trigger('addWeather', lat, lng);
 
 
 
 
+            newEventBus.on('getWeather', (param)=>{
+                newEventBus.trigger('showWeatherCity', param);
+                console.log('погода');
+            });
+
+    } else {
+        newEventBus.trigger('addSpace', t);
+        newEventBus.on('getSpace', (lat, lng)=>{
+            newEventBus.trigger('showCity', lat, lng);
+            newEventBus.trigger('addWeather', lat, lng);
+            newEventBus.on('getWeather', (param)=>{
+                newEventBus.trigger('showWeatherCity', param);
+                console.log('погода');
+            });
+
+        });
+    }
+});
 
 // Обработкик кнопки добавить в избранное
 addInFavorites.addEventListener('click',()=>{
-    let space;
-    newEventBus.on('getCentralYandexMap', (centralArr)=>{
-        space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
 
-        newEventBus.trigger('addNameCity', space);
-        newEventBus.on('getNameCity', (nameCity)=> {
-            addArrCity(nameCity, arrWithFavoritesCity);
-            addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-        })
+
+    newEventBus.trigger('addInFavorites');
+
+    newEventBus.on('getCentralYandexMap', (centralArr)=>{
+        let space = [addRoundNumber( centralArr[0],1000 ), addRoundNumber( centralArr[1],1000) ];
+
+        addArrCity(space, arrWithFavoritesCity);
+        addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+
     });
 
 
 
 
-    newEventBus.trigger('addInFavorites');
+
     storeFavoritesCity();
 });
+
 
 // Обработкик для favorites
 favoritesCity.addEventListener('click',(event)=>{
@@ -139,7 +127,7 @@ favoritesCity.addEventListener('click',(event)=>{
     }
 
     if( target.tagName === 'BUTTON' ) {
-        alert('aaa');
+
         favoritesCity.removeChild(target.parentNode);
         let t = target.parentNode.querySelector('p');
         t = t.innerHTML;
@@ -192,7 +180,6 @@ function addArrCity (value, arr ) {
 function addElemWithCityInHTML(el) {
     return  '<p>' + el +  '</p>'
 }
-
 //Функция вставки елементов на страницу
 function addArr (arr, parentElem, insertionHTMLel ) {
     parentElem.innerHTML = '';
@@ -200,7 +187,6 @@ function addArr (arr, parentElem, insertionHTMLel ) {
         parentElem.innerHTML = parentElem.innerHTML + insertionHTMLel(el)  ;
     })
 }
-
 //функция вставки
 function addElemWithSpaceInHTML(el) {
     return '<div> ' +
@@ -208,7 +194,6 @@ function addElemWithSpaceInHTML(el) {
         '<button> x </button>' +
         '</div>'
 }
-
 // Функция проверки введённых значений (доработать)
 function testEnterValue (value) {
     if(value === ''){
