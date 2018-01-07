@@ -13,24 +13,22 @@
             controls: ['zoomControl', 'typeSelector']
         });
 
-        newEventBus.on('addInFavorites', ()=>{
-            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
-            newEventBus.off('getCentralYandexMap');
+        yaMap.events.add('actionend', ()=>{
+            console.log('1');
+            /*location.hash = '#city/' + yaMap.getCenter();*/
         });
 
+        newEventBus.on('addInFavorites', ()=>{
+            newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
+        });
+
+        yaMap.events.add('dblclick', function (e) {
+            newEventBus.trigger('getCentralYandexMap', e.get('coords') );
+        });
 
         newEventBus.on('showCity', (lat, lng)=>{
             yaMap.setCenter([lat, lng]);
         });
-
-
-        yaMap.events.add('actionend', ()=>{
-            /*newEventBus.trigger('showMap',yaMap.getCenter());*/
-        });
-
-
-
-        return yaMap;
     }
 
     function showWeather (el) {

@@ -2,14 +2,17 @@
 // Модуль XHR запросов
 (function() {
 
-    // ожидаем наименование города
-
+    // ожидаем наименование города для получения его координат
     newEventBus.on('addSpace', (city)=>{
-        console.log('координаты google');
+        // Запуск cb для получения координат города
+        // отправка значений подписчикам
         addCoordinatesWithGoogle (city);
     });
+
+    // ожидание координат для получения погоды
     newEventBus.on('addWeather', (lat, lng)=>{
-        console.log('получить погоду');
+        // Запуск cb для получения погоды по координатам
+        // отправка значений подписчикам
         addWeatherWithDarkSky (lat, lng);
     });
 
@@ -32,23 +35,6 @@
             }
         }
     }
-
-/*    function fff (latLng) {
-        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng}`;
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET',url,true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState !== 4) return;
-            if (xhr.status !== 200) {
-                alert( xhr.status + ': ' + xhr.statusText );
-            }else{
-                let r = JSON.parse(xhr.responseText);
-                let nameCity = r.results['0'].address_components['3'].long_name;
-/!*                newEventBus.trigger('getNameCity', nameCity);*!/
-            }
-        }
-    }*/
 
     function addWeatherWithDarkSky (lat, lng) {
         let Key = '5cd56ba90549b6696d1add4135f559f9';
