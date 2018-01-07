@@ -34,7 +34,7 @@
   }
 
   function showWeather (el) {
-    console.log(1);
+/*    console.log(1);*/
     let temperature = '<p> Температура: ' + Math.round(( el.temperature - 32 ) / 1.8) + ' &#8451 </p>';
     let pressure = '<p> Давление: ' + el.pressure + '</p>';
     let humidity = '<p> Влажность: ' + el.humidity + '</p>';
@@ -45,5 +45,4 @@
     let i = document.querySelector('.weather');
     i.innerHTML = summary + temperature + pressure + humidity + windSpeed + precipProbability + cloudCover;
   }
-
 })();

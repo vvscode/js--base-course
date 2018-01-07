@@ -6,8 +6,6 @@
 mocha.setup("bdd");
 let assert = chai.assert;
 
-
-
 describe("функция", function() {
   it('добавляет 1 город', () => {
     let city = 'Анкара';
