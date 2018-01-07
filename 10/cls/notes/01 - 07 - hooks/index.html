@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <h1>
+       Basic React element via JSX
+    </h1>
+    <div id="container">
+    </div>
+    <pre id="log"></pre>
+    <script  type="text/babel">
+      function log(text) {
+        document.querySelector('#log').innerHTML += text + '\n';
+      }
+      
+      class Card extends React.Component{
+        constructor() {
+          super();
+          log(`contstructor`);
+          this.state = {
+            counter: 0,
+          };
+        }
+        inc1() {
+          this.setState({
+            counter: this.state.counter + 1
+          });
+        }
+        inc2() {
+          this.props.inc();
+        }
+        render() {
+          log(`render`);
+          return (<div>
+            <h4>Agent {this.props.name} </h4>
+            <p className="description">counter {this.state.counter}</p>
+            <p className="description">num {this.props.num}</p>
+            <button data-role="submit" onClick={() => this.inc1()}>Greet Bob internally</button>
+            <button data-role="submit" onClick={() => this.inc2()}>Greet Bob externally</button>
+          </div>)
+        }
+        
+        componentWillMount() {
+          log(`componentWillMount`, ...arguments);
+        }
+        componentDidMount() {
+          log(`componentDidMount`, ...arguments);
+        }
+        componentWillReceiveProps() {
+          log(`componentWillReceiveProps`, ...arguments);
+        }
+        shouldComponentUpdate() {
+          log(`shouldComponentUpdate`, ...arguments);
+          return true;
+        }
+        componentWillUpdate() {
+          log(`componentWillUpdate`, ...arguments);
+        }
+        componentDidUpdate() {
+          log(`componentDidUpdate`, ...arguments);
+        }
+        componentWillUnmount() {
+          log(`componentWillUnmount`, ...arguments);
+        }
+        componentDidCatch() {
+          log(`componentDidCatch`, ...arguments);
+        }
+      }
+      
+      class CardWrapper extends React.Component {
+        state = {
+          num: 0
+        }
+        increment() {
+          let oldNum = this.state.num;
+          this.setState({
+             num: oldNum+1
+          });
+        }
+        render() {
+          let num = this.state.num || 0;
+          return (<Card  name="Bob" num={num} inc={this.increment.bind(this)} />)
+        }
+      }
+    
+
+      ReactDOM.render(
+        <div>
+          <CardWrapper />
+        </div>,
+        document.getElementById('container')
+      );
+    </script>
+  </body>
+</html>
