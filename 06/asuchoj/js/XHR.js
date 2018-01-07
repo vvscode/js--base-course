@@ -21,9 +21,6 @@
   function addCoordinatesWithGoogle (city) {
     let url = `http://maps.googleapis.com/maps/api/geocode/json?address=${city}&sensor=false&language=ru`;
     let xhr = new XMLHttpRequest();
-
-    console.log(city);
-
     xhr.open('GET',url,true);
     xhr.send();
     xhr.onreadystatechange = function () {
@@ -40,7 +37,6 @@
   }
 
   function fff (latLng) {
-      console.log('2');
     let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng}`;
     let xhr = new XMLHttpRequest();
     xhr.open('GET',url,true);
@@ -51,7 +47,7 @@
             alert( xhr.status + ': ' + xhr.statusText );
         }else{
             let r = JSON.parse(xhr.responseText);
-            let nameCity = r.results[0]['address_components']['1']['long_name'];
+            let nameCity = r.results['0'].address_components['3'].long_name;
             newEventBus.trigger('getNameCity', nameCity);
         }
     }
@@ -59,10 +55,7 @@
 
 
   function addWeatherWithDarkSky (lat, lng) {
-      console.log('3');
-
-    let MY_KEY = '70ca437b51aee21fc08f0c9bee2cb550';
-    let url = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/${MY_KEY}/${lat},${lng}?lang=ru&units=si`;
+    let url = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/9cf393a369007d40d97c0e977f9b38c5/${lat},${lng}?lang=ru&units=si`;
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.send();
@@ -74,7 +67,6 @@
         let weather1 = JSON.parse(xhr.responseText);
         let weatherObj = JSON.parse(weather1.body);
         newEventBus.trigger('getWeather', weatherObj.currently);
-          console.log('3');
       }
     }
   }
