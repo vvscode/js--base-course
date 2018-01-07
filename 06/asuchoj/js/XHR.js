@@ -1,39 +1,21 @@
 'use strict';
 // Модуль XHR запросов
 (function() {
+
+    // ожидаем наименование города
     newEventBus.on('addSpace', (city)=>{
-        console.log('Запрос координат города');
         addCoordinatesWithGoogle (city);
     });
 
-    newEventBus.on('addWeather', (lat, lng)=>{
-        console.log('addWeather');
-        addWeatherWithDarkSky (lat, lng);
-        newEventBus.off('getWeather');
-    });
-
-
-
-/*    // ожидаем наименование города
-
-
     // ожидаем координаты местности
     newEventBus.on('addWeather', (lat, lng)=>{
-        alert('1');
-        console.log('1');
-
         addWeatherWithDarkSky (lat, lng);
-        newEventBus.off('getWeather');
+    });
 
-    });*/
-
-
-/*
     // ожидание координат для запроса имя местности
     newEventBus.on('addNameCity', (param)=>{
-        console.log('3');
         fff (param);
-    });*/
+    });
 
     function addCoordinatesWithGoogle (city) {
         let url = `http://maps.googleapis.com/maps/api/geocode/json?address=${city}&sensor=false&language=ru`;
@@ -48,9 +30,10 @@
                 let r = JSON.parse(xhr.responseText);
                 let lat = r.results[0].geometry.location.lat;
                 let lng = r.results[0].geometry.location.lng;
+                /*        let nameCity = r.results[0]['formatted_address'];*/
                 newEventBus.trigger('getSpace', lat, lng);
-                newEventBus.off('getSpace');
-
+                newEventBus.trigger('getSpace', lat, lng);
+                /*        newEventBus.trigger('getNameCity', nameCity);*/
             }
         }
     }
@@ -86,7 +69,59 @@
                 let weather1 = JSON.parse(xhr.responseText);
                 let weatherObj = JSON.parse(weather1.body);
                 newEventBus.trigger('getWeather', weatherObj.currently);
-}
+            }
         }
     }
+
+
+
+
+
+
+
+
 })();
+
+//для определения местоположения
+
+/*ymaps.geolocation.get({
+    // Зададим способ определения геолокации
+    // на основе ip пользователя.
+    provider: 'yandex',
+    // Включим автоматическое геокодирование результата.
+    autoReverseGeocode: true
+}).then(function (result) {
+    // Выведем результат геокодирования.
+    console.log(result.geoObjects.get(0).properties.get('metaDataProperty'));
+});*/
+
+
+
+
+
+/*
+
+
+
+
+
+function Model() {
+  let that = this;
+
+
+/!*  this.addCoordinatesWithGoogleFetch = function (city) {
+    fetch('http://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&sensor=false&language=ru')
+      .then(function (response) {
+        return response.json();
+      })
+      .catch(()=>{
+        alert('1')
+      })
+  };*!/
+
+
+}
+
+newEventBus.on('addSpace', (lat, lng)=>{
+    newElementView.setCenterMap(newElementView.yaMap ,lat, lng);
+});*/
