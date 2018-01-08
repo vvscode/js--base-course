@@ -9,7 +9,19 @@ let arrWithFavoritesCity = [];
 let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
 let hashForCityPage = '#city/';
+let xhrAndFetchValue;
 
+// обработчик радиобаттонов
+[].forEach.call(request,(elem)=>{
+    if( elem.getAttribute('checked') !== null ){
+        console.log('ннннннннннннннннннн');
+        xhrAndFetchValue = elem.value;
+    }
+    elem.addEventListener('change',()=> {
+        console.log('ККККККККККККККК');
+        xhrAndFetchValue = elem.value;
+    })
+});
 
 //загрузка данных с локалсторедж для history
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
@@ -34,6 +46,11 @@ newEventBus.on('init',() => {
 
     if( parseInt(t) ){
         newEventBus.trigger('showCity', lat, lng);
+        newEventBus.on('xhrAndFetch?', ()=>{
+            newEventBus.trigger('xhrAndFetch', xhrAndFetchValue);
+            newEventBus.off('xhrAndFetch?');
+        });
+
         newEventBus.trigger('addWeather', lat, lng);
         newEventBus.on('getWeather', (param)=>{
             newEventBus.trigger('showWeatherCity', param);
@@ -45,6 +62,11 @@ newEventBus.on('init',() => {
         });
     } else {
         newEventBus.trigger('addSpace', t);
+        newEventBus.on('xhrAndFetch?', ()=>{
+            newEventBus.trigger('xhrAndFetch', xhrAndFetchValue);
+            newEventBus.off('xhrAndFetch?');
+        });
+
         newEventBus.on('getSpace', (lat, lng)=>{
             newEventBus.on('прогрузиласьКарта', ()=>{
                 console.log('рууууууйфвыаывмвым');
@@ -66,12 +88,7 @@ newEventBus.on('getCentralYandexMap', centralArr =>{
     t1(centralArr);
 });
 
-// обработчик радиобаттонов
-for (let i=0; i < request.length; i++){
-    request[i].addEventListener('change',function () {
-        alert(i);
-    })
-}
+
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
@@ -100,11 +117,11 @@ favoritesCity.addEventListener('click',(event)=>{
     if( target.tagName === 'BUTTON' ) {
 
         favoritesCity.removeChild(target.parentNode);
-        let t = target.parentNode.querySelector('p');
-        t = t.innerHTML;
-        addArrCity (t, arrWithFavoritesCity );
+        let er = target.parentNode.querySelector('p');
+        er = er.innerHTML;
+        addArrCity (er, arrWithFavoritesCity );
         arrWithFavoritesCity.forEach((el, i)=>{
-            if( el + '' === t + '' ){
+            if( el + '' === er + '' ){
                 return arrWithFavoritesCity.splice(i, 1);
             }
         });

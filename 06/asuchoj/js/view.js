@@ -70,7 +70,4 @@
         return Math.round(el)
     }
 
-    function roundValue (el) {
-        return Math.round(el)
-    }
 })();
