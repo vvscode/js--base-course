@@ -20,23 +20,51 @@ if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
     addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 }
 
-function saveHistoryCityInLocal() {
-    let value = JSON.stringify( arrCity );
-    return Promise.resolve(localStorage.setItem('historyCity', value));
-}
+newEventBus.on('init',() => {
+    let t = location.hash.split('/')[1];
 
-function getHistoryCity() {
-    return Promise.resolve( JSON.parse(localStorage.getItem('historyCity')));
-}
 
-function storeFavoritesCity() {
-    let value = JSON.stringify( arrWithFavoritesCity );
-    return Promise.resolve(localStorage.setItem('favoritesCity', value));
-}
+    console.log(t);
 
-function getFavoritesCity() {
-    return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
-}
+    t = t.split(',');
+    let lat = t[0];
+    let lng = t[1];
+
+
+
+    if( parseInt(t) ){
+
+        newEventBus.trigger('showCity', lat, lng);
+        newEventBus.trigger('addWeather', lat, lng);
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+
+        newEventBus.on('прогрузиласьКарта', ()=>{
+            console.log('рууууууйфвыаывмвым');
+            newEventBus.trigger('t', lat, lng);
+        });
+
+    } else {
+
+        newEventBus.trigger('addSpace', t);
+        newEventBus.on('getSpace', (lat, lng)=>{
+
+            newEventBus.on('прогрузиласьКарта', ()=>{
+                console.log('рууууууйфвыаывмвым');
+                newEventBus.trigger('t', lat, lng);
+            });
+
+            console.log(lat, lng);
+            newEventBus.trigger('showCity', lat, lng);
+            newEventBus.trigger('addWeather', lat, lng)
+        });
+        newEventBus.on('getWeather', (param)=>{
+            newEventBus.trigger('showWeatherCity', param);
+        });
+
+
+    }
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
@@ -56,33 +84,7 @@ searchButton.addEventListener('click',(elem)=>{
     saveHistoryCityInLocal()
 });
 
-newEventBus.on('init',() => {
-    let t = location.hash.split('/')[1];
-    console.log(t);
-    if( parseInt(t) ){
-        console.log('первый if');
-        t = t.split(',');
-        let lat = t[0];
-        let lng = t[1];
-        console.log(lat, lng);
 
-        newEventBus.trigger('showCity', lat, lng);
-        newEventBus.trigger('addWeather', lat, lng);
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
-    } else {
-        console.log('2-й if');
-        newEventBus.trigger('addSpace', t);
-        newEventBus.on('getSpace', (lat, lng)=>{
-            console.log(lat, lng);
-            newEventBus.trigger('showCity', lat, lng);
-            newEventBus.trigger('addWeather', lat, lng)
-        });
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
-    }
 });
 
 // Обработкик кнопки добавить в избранное
@@ -188,4 +190,20 @@ function testEnterValue (value) {
     return value;
 }
 
+function saveHistoryCityInLocal() {
+    let value = JSON.stringify( arrCity );
+    return Promise.resolve(localStorage.setItem('historyCity', value));
+}
 
+function getHistoryCity() {
+    return Promise.resolve( JSON.parse(localStorage.getItem('historyCity')));
+}
+
+function storeFavoritesCity() {
+    let value = JSON.stringify( arrWithFavoritesCity );
+    return Promise.resolve(localStorage.setItem('favoritesCity', value));
+}
+
+function getFavoritesCity() {
+    return Promise.resolve( JSON.parse(localStorage.getItem('favoritesCity')));
+}

@@ -1,21 +1,33 @@
 'use strict';
 // Модуль отвечает за вывод в DOM
+
 (function() {
     let yaMap;
     ymaps.ready(init);
+
     newEventBus.on('showWeatherCity', (el)=>{
+        console.log('view2');
         showWeather (el)
     });
+
+    newEventBus.on('t', (lat, lng)=>{
+        console.log("3333333333333333333333");
+        setCenterMaps(lat,lng);
+    });
+
     function init () {
+        console.log('а карта когда');
+        console.log('111111111111111111');
         yaMap = new ymaps.Map('map', {
             center: [53.905,27.562],
             zoom: 11,
             controls: ['zoomControl', 'typeSelector']
         });
 
+        newEventBus.trigger('прогрузиласьКарта');
+
         yaMap.events.add('actionend', ()=>{
-            console.log('1');
-            /*location.hash = '#city/' + yaMap.getCenter();*/
+            console.log('view1');
         });
 
         newEventBus.on('addInFavorites', ()=>{
@@ -27,8 +39,19 @@
         });
 
         newEventBus.on('showCity', (lat, lng)=>{
-            yaMap.setCenter([lat, lng]);
+            console.log("3333333333333333333333");
+            setCenterMaps(lat,lng);
         });
+
+/*        newEventBus.on('t', (lat, lng)=>{
+            console.log("3333333333333333333333");
+            setCenterMaps(lat,lng);
+        });*/
+    }
+
+    function setCenterMaps(lat,lng) {
+        console.log('центр установлен');
+        yaMap.setCenter([lat, lng]);
     }
 
     function showWeather (el) {

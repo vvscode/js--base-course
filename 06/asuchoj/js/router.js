@@ -73,13 +73,14 @@ let router = new Router({
         name: 'city',
         match: /city(.+)/,
         onBeforeEnter: () => {
-
+            console.log('router1')
         },
         onEnter: () => {
-            newEventBus.trigger('init')
+            newEventBus.trigger('init');
+            console.log('router2')
         },
         onLeave: () => {
-
+            console.log('router3')
         }
     },{
         name: 'string',
