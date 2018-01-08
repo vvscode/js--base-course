@@ -64,7 +64,7 @@ let router = new Router({
 
         },
         onEnter: () => {
-
+            addClassInShowPage();
         },
         onLeave: () => {
 
@@ -77,7 +77,7 @@ let router = new Router({
         },
         onEnter: () => {
             newEventBus.trigger('init');
-            console.log('router2')
+            addClassInShowPage();
         },
         onLeave: () => {
             console.log('router3')
@@ -86,13 +86,35 @@ let router = new Router({
         name: 'string',
         match: (text) => text ,
         onBeforeEnter: () => {
-
+            delClassInPages ()
         },
         onEnter: () => {
-
+            addClassInShowPage()
         },
         onLeave: () => {
-
+            delClassInPages ()
         }
     }]
 });
+
+function addClassInShowPage() {
+
+    let thisPageHash = location.hash.split('#').join('');
+    let thisPage;
+
+    if(thisPageHash === 'about' || thisPageHash === 'author'){
+        thisPage = document.querySelector( '.' + location.hash.split('#')[1]);
+    } else {
+        thisPage = document.querySelector('.main');
+    }
+
+    thisPage.classList.add('page_show');
+    console.log(thisPage)
+}
+
+function delClassInPages () {
+    let allPages = document.querySelectorAll('.page');
+    [].forEach.call(allPages, (elem)=>{
+        elem.classList.remove('page_show')
+    });
+}

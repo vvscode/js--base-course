@@ -14,8 +14,18 @@ header ul{
 }
 header li{
     float: left;
-    padding: 10px;
 }
+
+.menu_link {
+    background-color: black;
+}
+
+.menu_link a {
+    color: white;
+    display: block;
+    padding: 10px 20px;
+}
+
 .box{
     max-width: 700px;
     margin: 0 auto;
@@ -28,19 +38,35 @@ header li{
 }
 
 .yandex_map{
-    width:686px;
-    height:250px;
-    margin: 0 auto;
+    position: relative;
+    height: 300px;
 }
 
 .page{
     display: none;
-
-
+    margin: 20px;
 }
-.page-show{
+
+.page h1 {
+    text-align: center;
+    padding: 10px 0;
+}
+.page li {
+    padding: 10px 0;
+}
+.page span {
+    background-color: #bfbfbf;
+    color: black;
+}
+.page h3{
+    text-align: center;
+}
+
+.page_show{
      display: block;
  }
+
+
 
 .history,
 .weather_and_information,
@@ -49,12 +75,12 @@ header li{
     width: calc((100% - 30px)/3);
     box-sizing: border-box;
     float: left;
-    margin: 5px;
+    margin: 10px 5px;
 }
 footer h3,
 footer p {
     text-align: center;
-    margin: 5px;
+    padding: 5px;
 }
 
 .favorites_city div{
@@ -62,23 +88,43 @@ footer p {
 }
 .favorites_city button{
     position: absolute;
+    margin: 5px;
     top: 0;
     right: 0;
+    padding: 0 4px;
+}
+footer h3 {
+    background-color: black;
+    color: white;
 }
 
 menu li{
-    margin: 6px 0;
-    padding: 10px 5px;
+    margin: 5px 5px;
 }
 .menu_link{
-    border: 2px solid black;
     margin: 5px;
-    padding: 10px;
 }
-#add_in_favorites{
+.history_city p:hover,
+.favorites_city p:hover,
+.menu_link:hover {
+    background-color: black;
+    opacity: 0.5;
+    color: white;
+    cursor: pointer;
+}
+.favorites_city button:hover{
+    background-color: black;
+    color: white;
+}
+
+/*.favorites_city div,
+.history_city  {
+    margin: 5px;
+}*/
+
+#add_to_favorites{
     margin: 5px;
     padding: 10px;
-    border: 2px solid black;
 }
 .yandex_map{
     border: 2px solid black;
@@ -87,7 +133,8 @@ menu li{
     position: relative;
 }
 .add_in_favorites_button{
+    z-index: 1;
     position: absolute;
-    top: 0px;
+    top: 5px;
     left: 5px;
 }

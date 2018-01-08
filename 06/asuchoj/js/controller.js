@@ -2,38 +2,37 @@
 let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
 let request = document.getElementsByName('request_type');
-let addInFavorites = document.querySelector('#add_in_favorites');
+let addInFavorites = document.querySelector('#add_to_favorites');
 let newEventBus = new EventBus();
 let arrCity = [];
 let arrWithFavoritesCity = [];
 let historyCity = document.querySelector('.history_city');
 let favoritesCity = document.querySelector('.favorites_city');
+let hashForCityPage = '#city/';
 
-//загрузка данных с локалсторедж
+
+//загрузка данных с локалсторедж для history
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
     arrCity = JSON.parse(localStorage.getItem('historyCity'));
     addArr (arrCity, historyCity, addElemWithCityInHTML);
 }
 
+//загрузка данных с локалсторедж для favoritesCity
 if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
     arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
     addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 }
 
+//при изменении hath
 newEventBus.on('init',() => {
     let t = location.hash.split('/')[1];
-
-
     console.log(t);
 
     t = t.split(',');
     let lat = t[0];
     let lng = t[1];
 
-
-
     if( parseInt(t) ){
-
         newEventBus.trigger('showCity', lat, lng);
         newEventBus.trigger('addWeather', lat, lng);
         newEventBus.on('getWeather', (param)=>{
@@ -44,12 +43,9 @@ newEventBus.on('init',() => {
             console.log('рууууууйфвыаывмвым');
             newEventBus.trigger('t', lat, lng);
         });
-
     } else {
-
         newEventBus.trigger('addSpace', t);
         newEventBus.on('getSpace', (lat, lng)=>{
-
             newEventBus.on('прогрузиласьКарта', ()=>{
                 console.log('рууууууйфвыаывмвым');
                 newEventBus.trigger('t', lat, lng);
@@ -62,9 +58,13 @@ newEventBus.on('init',() => {
         newEventBus.on('getWeather', (param)=>{
             newEventBus.trigger('showWeatherCity', param);
         });
-
-
     }
+});
+
+// для double click
+newEventBus.on('getCentralYandexMap', centralArr =>{
+    t1(centralArr);
+});
 
 // обработчик радиобаттонов
 for (let i=0; i < request.length; i++){
@@ -80,11 +80,8 @@ searchButton.addEventListener('click',(elem)=>{
     city = city.charAt(0).toUpperCase() + city.substr(1).toLowerCase(); // форматирование значения для добавления в масссив
     addArrCity (city, arrCity);
     addArr (arrCity, historyCity, addElemWithCityInHTML, );
-    location.hash = '#city/' + city;
+    location.hash = hashForCityPage + city;
     saveHistoryCityInLocal()
-});
-
-
 });
 
 // Обработкик кнопки добавить в избранное
@@ -92,24 +89,12 @@ addInFavorites.addEventListener('click',()=>{
     newEventBus.trigger('addInFavorites'); //добавь центр карты
 });
 
-// для double click
-newEventBus.on('getCentralYandexMap', centralArr =>{
-    t1(centralArr);
-});
-
-function t1(p) {
-    let space = [addRoundNumber( p[0],1000 ), addRoundNumber( p[1],1000) ];
-    addArrCity(space, arrWithFavoritesCity);
-    addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
-    storeFavoritesCity();
-}
-
 // Обработкик для favorites
 favoritesCity.addEventListener('click',(event)=>{
     let target = event.target;
 
     if( target.tagName === 'P' ) {
-        location.hash  = '#city/' + target.innerHTML;
+        location.hash  = hashForCityPage + target.innerHTML;
     }
 
     if( target.tagName === 'BUTTON' ) {
@@ -131,9 +116,16 @@ favoritesCity.addEventListener('click',(event)=>{
 historyCity.addEventListener('click',()=>{
     let target = event.target;
     if( target.tagName === 'P' ) {
-        location.hash  = '#city/' + target.innerHTML;
+        location.hash  = hashForCityPage + target.innerHTML;
     }
 });
+
+function t1(p) {
+    let space = [addRoundNumber( p[0],1000 ), addRoundNumber( p[1],1000) ];
+    addArrCity(space, arrWithFavoritesCity);
+    addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+    storeFavoritesCity();
+}
 
 //функция округления чисел
 function addRoundNumber(num, valueRound) {
