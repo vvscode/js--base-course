@@ -28,7 +28,7 @@ EventBus.prototype.off = function(str, cb) {
                 } 
             });
             for(var i = 0;i<num.length;i++) {
-                this.event[str].splice(num,1); 
+                this.event[str].splice(num[i],1); 
             }    
             return;
         }
@@ -38,7 +38,7 @@ EventBus.prototype.off = function(str, cb) {
 EventBus.prototype.once = function(str, cb) {
     var self = this;
     function tmp() {
-        cb.apply(this,arguments);
+        cb.apply(self,arguments);
         self.off(str,tmp);
     }
     this.on(str,tmp);
