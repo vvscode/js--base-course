@@ -16,8 +16,9 @@
         });
         yaMap.events.add('actionend', ()=>{
             console.log('координаты карты кто-то меняет');
-
-            newEventBus.trigger('координаты карты кто-то меняет', yaMap.getCenter()[0], yaMap.getCenter()[1]);
+            yaMap.getCenter();
+            location.hash = '#city/' + yaMap.getCenter();
+            /*newEventBus.trigger('координаты карты кто-то меняет', yaMap.getCenter()[0], yaMap.getCenter()[1]);*/
         });
         newEventBus.on('показать_центер_карты', (lat, lng)=>{
             setCenterMaps(lat,lng);
