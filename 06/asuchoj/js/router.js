@@ -61,7 +61,6 @@ let router = new Router({
         name: 'index',
         match: '',
         onBeforeEnter: () => {
-
         },
         onEnter: () => {
             addClassInShowPage();
@@ -73,14 +72,12 @@ let router = new Router({
         name: 'city',
         match: /city(.+)/,
         onBeforeEnter: () => {
-            console.log('router1')
         },
         onEnter: () => {
             newEventBus.trigger('init');
             addClassInShowPage();
         },
         onLeave: () => {
-            console.log('router3')
         }
     },{
         name: 'string',
@@ -98,18 +95,14 @@ let router = new Router({
 });
 
 function addClassInShowPage() {
-
     let thisPageHash = location.hash.split('#').join('');
     let thisPage;
-
     if(thisPageHash === 'about' || thisPageHash === 'author'){
         thisPage = document.querySelector( '.' + location.hash.split('#')[1]);
     } else {
         thisPage = document.querySelector('.main');
     }
-
     thisPage.classList.add('page_show');
-    console.log(thisPage)
 }
 
 function delClassInPages () {

@@ -3,35 +3,19 @@
 (function() {
 
     // ожидаем выбор способа получения запроса
-
     // ожидаем наименование города для получения его координат
-    newEventBus.on('addSpace', (city)=>{
+
+    newEventBus.on('Дать_данные', (type, city)=>{
         // Запуск cb для получения координат города
         // отправка значений подписчикам
-        newEventBus.trigger('xhrAndFetch?');
-        newEventBus.on('xhrAndFetch', (type)=>{
-
-            let coordinatesXHR = addCoordinatesWithGoogleXHR (city);
-            let coordinatesFetch = addCoordinatesWithGoogleFetch (city);
-            addValueWithXhrOrFleth(type, coordinatesXHR, coordinatesFetch);
-            newEventBus.off('xhrAndFetch');
-        });
-
+        addValueWithXhrOrFeth(type, addCoordinatesWithGoogleXHR, addCoordinatesWithGoogleFetch)(city);
     });
 
     // ожидание координат для получения погоды
-    newEventBus.on('addWeather', (lat, lng)=>{
+    newEventBus.on('Запросить_погоду_для_города', (type, lat, lng)=>{
         // Запуск cb для получения погоды по координатам
         // отправка значений подписчикам
-        newEventBus.trigger('xhrAndFetch?');
-        newEventBus.on('xhrAndFetch', (type)=>{
-            newEventBus.off('xhrAndFetch?');
-            let weatherXHR = addWeatherWithDarkSkyXHR (lat, lng);
-            let weatherFetch = addWeatherWithDarkSkyFetch (lat, lng);
-            addValueWithXhrOrFleth(type, weatherXHR, weatherFetch);
-            newEventBus.off('xhrAndFetch?');
-        });
-
+        addValueWithXhrOrFeth( type, addWeatherWithDarkSkyXHR, addWeatherWithDarkSkyFetch )(lat, lng);
     });
 
     function addCoordinatesWithGoogleXHR (city) {
@@ -47,9 +31,7 @@
                 let r = JSON.parse(xhr.responseText);
                 let lat = r.results[0].geometry.location.lat;
                 let lng = r.results[0].geometry.location.lng;
-                newEventBus.trigger('getSpace', lat, lng);
-                newEventBus.off('getSpace');
-                console.log('координаты google отправлены');
+                newEventBus.trigger('Дать_координаты_с_гугла', lat, lng);
             }
         }
     }
@@ -63,10 +45,9 @@
             .then(function (user) {
                 let lat = user.results[0].geometry.location.lat;
                 let lng = user.results[0].geometry.location.lng;
-                newEventBus.trigger('getSpace', lat, lng);
-                newEventBus.off('getSpace');
+                return newEventBus.trigger('Дать_координаты_с_гугла', lat, lng);
             })
-            .then(alert)
+            .catch(alert)
     }
 
     function addWeatherWithDarkSkyXHR (lat, lng) {
@@ -82,9 +63,7 @@
             } else {
                 let weather1 = JSON.parse(xhr.responseText);
                 let weatherObj = JSON.parse(weather1.body);
-                newEventBus.trigger('getWeather', weatherObj.currently);
-                newEventBus.off('getWeather');
-                console.log('отправить  погоду');
+                newEventBus.trigger('Погода_получена', weatherObj.currently);
             }
         }
     }
@@ -98,25 +77,19 @@
             })
             .then(function (user) {
                 let weatherObj = JSON.parse(user.body);
-                newEventBus.trigger('getWeather', weatherObj.currently);
-                newEventBus.off('getWeather');
-                console.log('отправить Fetch погоду');
+                return newEventBus.trigger('Погода_получена', weatherObj.currently);
             })
             .catch(alert)
     }
 
-
-    function addValueWithXhrOrFleth(type, cbXHR, cbFetch) {
-        if(type === 'XHR'){
-            console.log(' данные с XHR ');
+    function addValueWithXhrOrFeth(type, cbXHR, cbFetch) {
+        if( type === 'XHR'){
             return cbXHR;
-        }
-        if(type === 'Fetch'){
-            console.log(' данные с Fetch ');
+        } else if (type === 'Fetch') {
             return cbFetch;
+        } else {
+            alert('Секретная ошибка которую я не нашел')
         }
-        alert('Ошибка')
     }
-
 })();
 

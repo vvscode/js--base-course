@@ -4,30 +4,26 @@
     let yaMap;
     ymaps.ready(init);
 
-    newEventBus.on('showWeatherCity', (el)=>{
-        console.log('view2');
+    newEventBus.on('Отрисовать_погоду', (el)=>{
         showWeather (el)
     });
 
-    newEventBus.on('t', (lat, lng)=>{
-        console.log("3333333333333333333333");
-        setCenterMaps(lat,lng);
-    });
-
     function init () {
-        console.log('а карта когда');
-        console.log('111111111111111111');
         yaMap = new ymaps.Map('map', {
             center: [53.905,27.562],
             zoom: 11,
             controls: ['zoomControl', 'typeSelector']
         });
-
-        newEventBus.trigger('прогрузиласьКарта');
-
         yaMap.events.add('actionend', ()=>{
-            console.log('view1');
+            console.log('координаты карты кто-то меняет');
+
+            newEventBus.trigger('координаты карты кто-то меняет', yaMap.getCenter()[0], yaMap.getCenter()[1]);
         });
+        newEventBus.on('показать_центер_карты', (lat, lng)=>{
+            setCenterMaps(lat,lng);
+        });
+
+        newEventBus.trigger('прогрузилась_карта');
 
         newEventBus.on('addInFavorites', ()=>{
             newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
@@ -36,25 +32,14 @@
         yaMap.events.add('dblclick', function (e) {
             newEventBus.trigger('getCentralYandexMap', e.get('coords') );
         });
-
-        newEventBus.on('showCity', (lat, lng)=>{
-            console.log("3333333333333333333333");
-            setCenterMaps(lat,lng);
-        });
-
-/*        newEventBus.on('t', (lat, lng)=>{
-            console.log("3333333333333333333333");
-            setCenterMaps(lat,lng);
-        });*/
     }
 
     function setCenterMaps(lat,lng) {
-        console.log('центр установлен');
         yaMap.setCenter([lat, lng]);
     }
 
     function showWeather (el) {
-        console.log('showWeather');
+        alert('1 раз');
         let temperature = '<p> Температура: ' + roundValue ( Math.round(( el.temperature - 32 ) / 1.8) ) + ' &#8451 </p>';
         let pressure = '<p> Давление: ' + roundValue ( el.pressure ) + ' гПа </p>';
         let humidity = '<p> Влажность: ' + roundValue ( el.humidity * 100 ) + ' % </p>';

@@ -14,7 +14,6 @@ let xhrAndFetchValue;
 // обработчик радиобаттонов
 [].forEach.call(request,(elem)=>{
     if( elem.getAttribute('checked') !== null ){
-        console.log('ннннннннннннннннннн');
         xhrAndFetchValue = elem.value;
     }
     elem.addEventListener('change',()=> {
@@ -36,59 +35,66 @@ if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
 }
 
 //при изменении hath
+
+let cityName;
+let latCity;
+let lngCity;
+
 newEventBus.on('init',() => {
-    let t = location.hash.split('/')[1];
-    console.log(t);
+    cityName = location.hash.split('/')[1];
+    cityName = cityName.split(',');
+    let lat = cityName[0];
+    let lng = cityName[1];
 
-    t = t.split(',');
-    let lat = t[0];
-    let lng = t[1];
-
-    if( parseInt(t) ){
-        newEventBus.trigger('showCity', lat, lng);
-        newEventBus.on('xhrAndFetch?', ()=>{
-            newEventBus.trigger('xhrAndFetch', xhrAndFetchValue);
-            newEventBus.off('xhrAndFetch?');
+    if( parseInt(cityName) ){
+      alert('2222');
+        newEventBus.on('прогрузилась_карта', ()=>{
+          newEventBus.trigger('показать_центер_карты', lat, lng);
         });
-
-        newEventBus.trigger('addWeather', lat, lng);
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
-
-        newEventBus.on('прогрузиласьКарта', ()=>{
-            console.log('рууууууйфвыаывмвым');
-            newEventBus.trigger('t', lat, lng);
-        });
+        newEventBus.trigger('Запросить_погоду_для_города', xhrAndFetchValue, lat, lng);
     } else {
-        newEventBus.trigger('addSpace', t);
-        newEventBus.on('xhrAndFetch?', ()=>{
-            newEventBus.trigger('xhrAndFetch', xhrAndFetchValue);
-            newEventBus.off('xhrAndFetch?');
-        });
-
-        newEventBus.on('getSpace', (lat, lng)=>{
-            newEventBus.on('прогрузиласьКарта', ()=>{
-                console.log('рууууууйфвыаывмвым');
-                newEventBus.trigger('t', lat, lng);
-            });
-
-            console.log(lat, lng);
-            newEventBus.trigger('showCity', lat, lng);
-            newEventBus.trigger('addWeather', lat, lng)
-        });
-        newEventBus.on('getWeather', (param)=>{
-            newEventBus.trigger('showWeatherCity', param);
-        });
+        newEventBus.trigger('Дать_данные', xhrAndFetchValue, cityName);
     }
+})
+
+
+newEventBus.on('Дать_координаты_с_гугла', (lat, lng)=>{
+  latCity = lat;
+  lngCity = lng;
+  newEventBus.trigger('показать_центер_карты', lat, lng);
+  newEventBus.trigger('Запросить_погоду_для_города', xhrAndFetchValue, lat, lng);
+});
+
+newEventBus.on('координаты карты кто-то меняет', (lat, lng)=>{
+  newEventBus.trigger('Запросить_погоду_для_города', xhrAndFetchValue, lat, lng);
+});
+
+//для загрузки стартовой страницы или при открытия ссылки
+if (location.hash !== '' && location.hash !== '#main' && location.hash !== '#about' && location.hash !== '#author' && location.hash !== '#' ) {
+  let t = location.hash.split('/')[1];
+  t = t.split(',');
+  let lat = t[0];
+  let lng = t[1];
+
+  if (!parseInt(t)) {
+    newEventBus.on('прогрузилась_карта', () => {
+      alert('2222222222222222222222222');
+      newEventBus.trigger('показать_центер_карты', latCity, lngCity);
+    });
+  }
+} else {
+  alert('11')
+}
+
+
+newEventBus.on('Погода_получена', (param)=>{
+  newEventBus.trigger('Отрисовать_погоду', param);
 });
 
 // для double click
 newEventBus.on('getCentralYandexMap', centralArr =>{
     t1(centralArr);
 });
-
-
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
