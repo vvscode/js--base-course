@@ -41,6 +41,7 @@ let latCity;
 let lngCity;
 
 newEventBus.on('init',() => {
+
     cityName = location.hash.split('/')[1];
     cityName = cityName.split(',');
     let lat = cityName[0];
@@ -58,15 +59,24 @@ newEventBus.on('init',() => {
     }
 })
 
-newEventBus.on('Дать_координаты_с_гугла', (lat, lng)=>{
-  latCity = lat;
-  lngCity = lng;
-  newEventBus.trigger('показать_центер_карты', lat, lng);
+newEventBus.on('main',() => {
+  newEventBus.trigger('Местоположение', xhrAndFetchValue);
 });
 
 
+newEventBus.on('Дать_координаты_с_гугла', (lat, lng)=>{
+  latCity = lat;
+  lngCity = lng;
+  alert('111111');
+  newEventBus.trigger('показать_центер_карты', lat, lng);
+});
 
-
+newEventBus.on('Координаты_Местоположения', (lat, lng)=>{
+  latCity = lat;
+  lngCity = lng;
+  alert('10101010');
+  newEventBus.trigger('показать_центер_карты', lat, lng);
+});
 
 
 //для загрузки стартовой страницы или при открытия ссылки
@@ -81,12 +91,11 @@ if (location.hash !== '' && location.hash !== '#main' && location.hash !== '#abo
       newEventBus.trigger('показать_центер_карты', latCity, lngCity);
     });
   }
-} else {
-  alert('Будет показывать погоду для базового города')
+} else if (location.hash === '#main') {
+  alert('?????');
+  alert(xhrAndFetchValue);
+  newEventBus.trigger('Местоположение', xhrAndFetchValue);
 }
-
-
-
 
 newEventBus.on('Погода_получена', (param)=>{
   newEventBus.trigger('Отрисовать_погоду', param);

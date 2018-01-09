@@ -63,8 +63,7 @@ let router = new Router({
         onBeforeEnter: () => {
         },
         onEnter: () => {
-            addClassInShowPage();
-            newEventBus.trigger('init');
+           delClassInPages ();
         },
         onLeave: () => {
 
@@ -84,14 +83,20 @@ let router = new Router({
         name: 'string',
         match: (text) => text ,
         onBeforeEnter: () => {
-            delClassInPages ()
+            delClassInPages ();
         },
         onEnter: () => {
-            addClassInShowPage()
-            newEventBus.trigger('init');
+            addClassInShowPage();
+            if(location.hash === '#main'){
+              newEventBus.trigger('main');
+            }
+
+
+
         },
         onLeave: () => {
-            delClassInPages ()
+            delClassInPages ();
+
         }
     }]
 });
@@ -99,7 +104,7 @@ let router = new Router({
 function addClassInShowPage() {
     let thisPageHash = location.hash.split('#').join('');
     let thisPage;
-    if(thisPageHash === 'about' || thisPageHash === 'author'){
+    if(thisPageHash === 'about' || thisPageHash === 'author' || thisPageHash === 'main'){
         thisPage = document.querySelector( '.' + location.hash.split('#')[1]);
     } else {
         thisPage = document.querySelector('.main');
