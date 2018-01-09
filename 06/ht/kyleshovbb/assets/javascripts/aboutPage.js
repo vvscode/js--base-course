@@ -1,3 +1,4 @@
+"use strict";
 function addAbout() {
     let about = document.querySelector("#aboutDiv");
     if (!about) {
@@ -14,3 +15,5 @@ function addAbout() {
         "<p>Нужный город можно найти введя название города в строку поиска.</p>" +
         "<p>При клике по названию города в блоке \"История поиска\" или \"Избранное\", выбранный город будет отображаться по центу карты.</p>"
 }
+
+export default addAbout;

@@ -1,11 +1,21 @@
-function Router(options = []) {
-    this.routes = options.routes;
-    window.addEventListener("hashchange", () => this.hashCheck(window.location.hash));
-    this.hashCheck(window.location.hash);
-}
+'use strict';
 
-Router.prototype = {
-    findNewRoute: function (hash) {
+import addAbout from "./aboutPage";
+import addAuthor from "./authorPage";
+import AddWeather from "./addWeather";
+import SearchCity from "./searchCity";
+import FavoritesCity from "./favoritesCity";
+import HistorySearchCity from "./historySearchCity";
+import {YandexMap} from "./yandexMap";
+import {getUserLocation} from "./workWithAPI";
+
+class Router {
+    constructor(options = []) {
+        this.routes = options.routes;
+        window.addEventListener("hashchange", () => this.hashCheck(window.location.hash));
+        this.hashCheck(window.location.hash);
+    }
+    findNewRoute(hash) {
         let route;
         let self = this;
         if (!this.routes) {
@@ -20,15 +30,17 @@ Router.prototype = {
             });
         }
         return route;
-    },
-    findRoute: function (hash, item) {
+    }
+
+    findRoute(hash, item){
         if (typeof item.match === 'string' && hash === item.match ||
             typeof item.match === 'function' && item.match(hash) ||
             item.match instanceof RegExp && hash.match(item.match)) {
             return item;
         }
-    },
-    hashCheck: function (hash) {
+    }
+
+    hashCheck(hash){
         hash = hash.slice(1);
         let preRoute = this.activeRoute;
         let newRoute = this.findNewRoute(hash);
@@ -65,8 +77,8 @@ Router.prototype = {
             })
             .catch(() => {
             });
-    },
-};
+    }
+}
 
 let router = new Router({
     routes: [{
@@ -85,10 +97,10 @@ let router = new Router({
                     let userLocation = getUserLocation();
                     userLocation
                         .then((location) => {
-                            drawYandexMap(event,[location.position.latitude,location.position.longitude]);
+                            new YandexMap(event,[location.position.latitude,location.position.longitude]);
                             window.location.hash = `/city/${location.city.name}/`;
-                            addCityToHistory();
-                            addCityToFavorite();
+                            new HistorySearchCity().addCityToHistory();
+                            new FavoritesCity().addCityToFavorite();
                         })
                 }
             }
@@ -100,14 +112,6 @@ let router = new Router({
     }, {
         name: 'About',
         match: 'About',
-        onBeforeEnter: () => {
-            let indexDiv = document.querySelector("#index");
-            indexDiv.style.display = "none";
-            let authorDiv = document.querySelector("#authorDiv");
-            if (authorDiv) {
-                authorDiv.style.display = "none";
-            }
-        },
         onEnter: () => {
             let aboutDiv = document.querySelector("#aboutDiv");
             if (!aboutDiv) {
@@ -123,14 +127,6 @@ let router = new Router({
     }, {
         name: 'Author',
         match: 'Author',
-        onBeforeEnter: () => {
-            let indexDiv = document.querySelector("#index");
-            indexDiv.style.display = "none";
-            let aboutDiv = document.querySelector("#aboutDiv");
-            if (aboutDiv) {
-                aboutDiv.style.display = "none";
-            }
-        },
         onEnter: () => {
             let authorDiv = document.querySelector("#authorDiv");
             if (!authorDiv) {
@@ -156,10 +152,14 @@ let router = new Router({
 
             function initDrawMap() {
                 if (!yandexMap.children.length) {
-                    searchCity(null, cityName.slice(0, -1));
-                    addCityToFavorite();
+                    new SearchCity().searchCity(null, cityName.slice(0, -1));
+                    new FavoritesCity().addCityToFavorite();
                 }
             }
+        },
+        onLeave: () => {
+            let indexDiv = document.querySelector("#index");
+            indexDiv.style.display = "none";
         }
     }, {
         name: 'location',
@@ -176,11 +176,15 @@ let router = new Router({
 
             function initDrawMap() {
                 if (!yandexMap.children.length) {
-                    drawYandexMap(event,arrCoords,locationMapArray[2]);
-                    addCityToHistory();
-                    addCityToFavorite();
+                    new YandexMap(event,arrCoords,locationMapArray[2]);
+                    new HistorySearchCity().addCityToHistory();
+                    new FavoritesCity().addCityToFavorite();
                 }
             }
+        },
+        onLeave: () => {
+            let indexDiv = document.querySelector("#index");
+            indexDiv.style.display = "none";
         }
     }
 ]
