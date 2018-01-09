@@ -59,45 +59,25 @@ Router.prototype = {
 let router = new Router({
     routes: [{
         name: 'index',
-        match: '',
-        onBeforeEnter: () => {
-        },
-        onEnter: () => {
-           delClassInPages ();
-        },
-        onLeave: () => {
-
-        }
+        match: ''
     },{
         name: 'city',
         match: /city(.+)/,
-        onBeforeEnter: () => {
-        },
         onEnter: () => {
             newEventBus.trigger('init');
             addClassInShowPage();
         },
-        onLeave: () => {
-        }
     },{
         name: 'string',
         match: (text) => text ,
-        onBeforeEnter: () => {
-            delClassInPages ();
-        },
+        onBeforeEnter: () => delClassInPages (),
         onEnter: () => {
             addClassInShowPage();
             if(location.hash === '#main'){
               newEventBus.trigger('main');
             }
-
-
-
         },
-        onLeave: () => {
-            delClassInPages ();
-
-        }
+        onLeave: () => delClassInPages ()
     }]
 });
 

@@ -1,26 +1,37 @@
 'use strict';
 let searchButton = document.querySelector('#search_button');
 let searchEnter = document.querySelector('#search_enter');
-let request = document.getElementsByName('request_type');
 let addInFavorites = document.querySelector('#add_to_favorites');
+let historyCity = document.querySelector('.history_city');
+let favoritesCity = document.querySelector('.favorites_city');
+let request = document.getElementsByName('request_type');
+let menu = document.querySelector('menu');
 let newEventBus = new EventBus();
 let arrCity = [];
 let arrWithFavoritesCity = [];
-let historyCity = document.querySelector('.history_city');
-let favoritesCity = document.querySelector('.favorites_city');
 let hashForCityPage = '#city/';
-let xhrAndFetchValue;
+let xhrOrFetchValue, cityName, latCity, lngCity ;
 
 // обработчик радиобаттонов
 [].forEach.call(request,(elem)=>{
     if( elem.getAttribute('checked') !== null ){
-        xhrAndFetchValue = elem.value;
+        xhrOrFetchValue = elem.value;
     }
     elem.addEventListener('change',()=> {
-        console.log('ККККККККККККККК');
-        xhrAndFetchValue = elem.value;
+        xhrOrFetchValue = elem.value;
     })
 });
+
+//обработчик меню
+menu.addEventListener('click', (event)=>{
+    let target = event.target
+
+    if(target.tagName !== 'A') return
+
+    if(target.innerHTML === 'Main'){
+        newEventBus.trigger('main');
+    }
+})
 
 //загрузка данных с локалсторедж для history
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
@@ -34,67 +45,73 @@ if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
     addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 }
 
-//при изменении hath
+/*//загрузка данных с локалсторедж для history
+if( localStorage.historyCity !== '' && localStorage.historyCity ){
+    getHistoryCity()
+        .then((result)=>{
+            return addArr (result, historyCity, addElemWithCityInHTML);
+        })
+}
 
-let cityName;
-let latCity;
-let lngCity;
+//загрузка данных с локалсторедж для favoritesCity
+if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
+    getFavoritesCity()
+        .then((result)=>{
+            alert(result);
+            return addArr (result, favoritesCity, addElemWithSpaceInHTML);
+        })
+}*/
 
 newEventBus.on('init',() => {
-
     cityName = location.hash.split('/')[1];
     cityName = cityName.split(',');
-    let lat = cityName[0];
-    let lng = cityName[1];
+    latCity = cityName[0];
+    lngCity = cityName[1];
 
     if( parseInt(cityName) ){
       newEventBus.on('прогрузилась_карта', ()=>{
-        newEventBus.trigger('показать_центер_карты', lat, lng);
+        newEventBus.trigger('показать_центер_карты', latCity, lngCity);
       });
-      newEventBus.trigger('показать_центер_карты', lat, lng);
-      newEventBus.trigger('Запросить_погоду_для_города', xhrAndFetchValue, lat, lng);
+      newEventBus.trigger('показать_центер_карты', latCity, lngCity);
+      newEventBus.trigger('Запросить_погоду_для_города', xhrOrFetchValue, latCity, lngCity);
 
     } else {
-        newEventBus.trigger('Дать_данные', xhrAndFetchValue, cityName);
+        newEventBus.trigger('Дать_данные', xhrOrFetchValue, cityName);
     }
-})
-
-newEventBus.on('main',() => {
-  newEventBus.trigger('Местоположение', xhrAndFetchValue);
 });
 
+newEventBus.on('main',() => {
+  newEventBus.trigger('Местоположение', xhrOrFetchValue);
+});
 
 newEventBus.on('Дать_координаты_с_гугла', (lat, lng)=>{
   latCity = lat;
   lngCity = lng;
-  alert('111111');
   newEventBus.trigger('показать_центер_карты', lat, lng);
 });
 
 newEventBus.on('Координаты_Местоположения', (lat, lng)=>{
   latCity = lat;
   lngCity = lng;
-  alert('10101010');
   newEventBus.trigger('показать_центер_карты', lat, lng);
 });
 
 
 //для загрузки стартовой страницы или при открытия ссылки
 if (location.hash !== '' && location.hash !== '#main' && location.hash !== '#about' && location.hash !== '#author' && location.hash !== '#' ) {
-  let t = location.hash.split('/')[1];
-  t = t.split(',');
-  let lat = t[0];
-  let lng = t[1];
+  let cityName = location.hash.split('/')[1];
+  cityName = cityName.split(',');
+  latCity = cityName[0];
+  lngCity = cityName[1];
 
-  if (!parseInt(t)) {
+
+  if (!parseInt(cityName)) {
     newEventBus.on('прогрузилась_карта', () => {
       newEventBus.trigger('показать_центер_карты', latCity, lngCity);
     });
   }
 } else if (location.hash === '#main') {
-  alert('?????');
-  alert(xhrAndFetchValue);
-  newEventBus.trigger('Местоположение', xhrAndFetchValue);
+  newEventBus.trigger('Местоположение', xhrOrFetchValue);
 }
 
 newEventBus.on('Погода_получена', (param)=>{
@@ -103,7 +120,7 @@ newEventBus.on('Погода_получена', (param)=>{
 
 // для double click
 newEventBus.on('getCentralYandexMap', centralArr =>{
-    t1(centralArr);
+    addSpaceInFavorite(centralArr);
 });
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
@@ -146,15 +163,15 @@ favoritesCity.addEventListener('click',(event)=>{
 });
 
 //обработчик для History
-historyCity.addEventListener('click',()=>{
+historyCity.addEventListener('click',(event)=>{
     let target = event.target;
     if( target.tagName === 'P' ) {
         location.hash  = hashForCityPage + target.innerHTML;
     }
 });
 
-function t1(p) {
-    let space = [addRoundNumber( p[0],1000 ), addRoundNumber( p[1],1000) ];
+function addSpaceInFavorite(coords) {
+    let space = [addRoundNumber( coords[0],1000 ), addRoundNumber( coords[1],1000) ];
     addArrCity(space, arrWithFavoritesCity);
     addArr(arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
     storeFavoritesCity();
