@@ -64,6 +64,7 @@ let router = new Router({
         },
         onEnter: () => {
             addClassInShowPage();
+            newEventBus.trigger('init');
         },
         onLeave: () => {
 
@@ -87,6 +88,7 @@ let router = new Router({
         },
         onEnter: () => {
             addClassInShowPage()
+            newEventBus.trigger('init');
         },
         onLeave: () => {
             delClassInPages ()
