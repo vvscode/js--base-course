@@ -1,8 +1,9 @@
 'use strict';
 // Модуль XHR запросов
 (function() {
-    let Key = '0ab145c90c84d13965489477a486e847';
+    let KEYDARCSKY = '0ab145c90c84d13965489477a486e847';
     let xhr = new XMLHttpRequest();
+
     // ожидаем наименование города для получения его координат и способ получения
     newEventBus.on('Дать_данные', (type, city)=>{
         addValueWithXhrOrFeth(type, addCoordinatesWithGoogleXHR, addCoordinatesWithGoogleFetch)(city);
@@ -21,7 +22,6 @@
     function getPersonLocationXML () {
         xhr.open('GET', `https://api.userinfo.io/userinfos` ,true);
         xhr.send();
-
         xhr.onreadystatechange = function () {
             if (xhr.readyState !== 4) return;
             if (xhr.status !== 200) {
@@ -41,13 +41,12 @@
             .then(function (response) {
                 return response.json()
             })
-        .then(function (user) {
-            let value = JSON.parse(xhr.responseText);
-            let lat = value.position.latitude;
-            let lng = value.position.longitude;
-            newEventBus.trigger('Координаты_Местоположения', lat, lng);
-        })
-        .catch(console.log)
+            .then( function (user) {
+                let lat = user.position.latitude;
+                let lng = user.position.longitude;
+                newEventBus.trigger('Координаты_Местоположения', lat, lng);
+            })
+            .catch(alert)
     }
 
     function addCoordinatesWithGoogleXHR (city) {
@@ -76,11 +75,10 @@
                 let lng = user.results[0].geometry.location.lng;
                 newEventBus.trigger('Дать_координаты_с_гугла', lat, lng);
             })
-            .catch(console.log)
+            .catch(alert)
     }
 
     function addWeatherWithDarkSkyXHR (lat, lng) {
-
         xhr.open('GET', addUrlInDarkSky (lat, lng) , true);
         xhr.send();
         xhr.onreadystatechange = function () {
@@ -101,10 +99,9 @@
                 return response.json()
             })
             .then(function (user) {
-                let weatherObj = JSON.parse(xhr.responseText);
-                newEventBus.trigger('Погода_получена', weatherObj.currently);
+                newEventBus.trigger('Погода_получена', user.currently);
             })
-            .catch(console.log)
+            .catch(alert)
     }
 
     function addValueWithXhrOrFeth(type, cbXHR, cbFetch) {
@@ -116,7 +113,7 @@
     }
 
     function addUrlInDarkSky (lat, lng){
-        return  `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${Key}/${lat},${lng}?lang=ru&units=si`;
+        return  `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${KEYDARCSKY}/${lat},${lng}?lang=ru&units=si`;
     }
     function addUrlInGoogle (city){
         return `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&sensor=false&language=ru`;

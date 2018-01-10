@@ -15,29 +15,26 @@
             controls: ['zoomControl', 'typeSelector']
         });
 
-        yaMap.events.add('actionend', ()=>{
-            yaMap.getCenter();
-            location.hash = '#city/' + yaMap.getCenter();
-        });
         newEventBus.on('показать_центер_карты', (lat, lng)=>{
             setCenterMaps(lat,lng);
         });
-
-        newEventBus.trigger('прогрузилась_карта');
 
         newEventBus.on('addInFavorites', ()=>{
             newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
         });
 
+        newEventBus.trigger('прогрузилась_карта');
+
+        yaMap.events.add('actionend', ()=>{
+            yaMap.getCenter();
+            location.hash = '#city/' + yaMap.getCenter();
+        });
+
         yaMap.events.add('dblclick', function (e) {
             newEventBus.trigger('getCentralYandexMap', e.get('coords') );
         });
-
     }
 
-    function setCenterMaps(lat,lng) {
-        yaMap.setCenter([lat, lng]);
-    }
     function showWeather (el) {
         let temperature = '<p> Температура: ' + roundValue ( Math.round(( el.apparentTemperature)) ) + ' &#8451 </p>';
         let pressure = '<p> Давление: ' + roundValue ( el.pressure ) + ' гПа </p>';
@@ -48,6 +45,9 @@
         let summary = '<p> Сводка: ' + el.summary + '</p>';
         let i = document.querySelector('.weather');
         i.innerHTML = summary + temperature + pressure + humidity + windSpeed + precipProbability + cloudCover;
+    }
+    function setCenterMaps(lat,lng) {
+        yaMap.setCenter([lat, lng]);
     }
     function roundValue (el) {
         return Math.round(el)

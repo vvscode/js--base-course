@@ -2,6 +2,19 @@
     margin: 0;
     padding: 0;
 }
+
+h1, h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 25px;
+}
+
+ol, ul, li, a {
+    font-size: 20px;
+}
+
+
 a {
     text-decoration: none;
 }
@@ -60,6 +73,9 @@ header li{
 }
 .page h3{
     text-align: center;
+}
+.page ol{
+    padding-left: 30px;
 }
 
 .page_show{

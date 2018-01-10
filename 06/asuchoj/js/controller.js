@@ -22,45 +22,34 @@ let xhrOrFetchValue, cityName, latCity, lngCity ;
     })
 });
 
-//обработчик меню
-menu.addEventListener('click', (event)=>{
-    let target = event.target
-
-    if(target.tagName !== 'A') return
-
-    if(target.innerHTML === 'Main'){
-        newEventBus.trigger('main');
-    }
-})
-
 //загрузка данных с локалсторедж для history
 if( localStorage.historyCity !== '' && localStorage.historyCity ){
-    arrCity = JSON.parse(localStorage.getItem('historyCity'));
-    addArr (arrCity, historyCity, addElemWithCityInHTML);
+  arrCity = JSON.parse(localStorage.getItem('historyCity'));
+  addArr (arrCity, historyCity, addElemWithCityInHTML);
 }
 
 //загрузка данных с локалсторедж для favoritesCity
 if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
-    arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
-    addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
+  arrWithFavoritesCity = JSON.parse(localStorage.getItem('favoritesCity'));
+  addArr (arrWithFavoritesCity, favoritesCity, addElemWithSpaceInHTML);
 }
 
 /*//загрузка данных с локалсторедж для history
-if( localStorage.historyCity !== '' && localStorage.historyCity ){
-    getHistoryCity()
-        .then((result)=>{
-            return addArr (result, historyCity, addElemWithCityInHTML);
-        })
-}
+ if( localStorage.historyCity !== '' && localStorage.historyCity ){
+ getHistoryCity()
+ .then((result)=>{
+ return addArr (result, historyCity, addElemWithCityInHTML);
+ })
+ }
 
-//загрузка данных с локалсторедж для favoritesCity
-if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
-    getFavoritesCity()
-        .then((result)=>{
-            alert(result);
-            return addArr (result, favoritesCity, addElemWithSpaceInHTML);
-        })
-}*/
+ //загрузка данных с локалсторедж для favoritesCity
+ if( localStorage.favoritesCity && localStorage.favoritesCity !== '' ){
+ getFavoritesCity()
+ .then((result)=>{
+ alert(result);
+ return addArr (result, favoritesCity, addElemWithSpaceInHTML);
+ })
+ }*/
 
 newEventBus.on('init',() => {
     cityName = location.hash.split('/')[1];
@@ -122,6 +111,16 @@ newEventBus.on('Погода_получена', (param)=>{
 newEventBus.on('getCentralYandexMap', centralArr =>{
     addSpaceInFavorite(centralArr);
 });
+
+//обработчик меню
+menu.addEventListener('click', (event)=>{
+    let target = event.target
+    if(target.tagName !== 'A') return
+
+    if(target.innerHTML === 'Main'){
+        newEventBus.trigger('main');
+    }
+})
 
 // Обработкик кнопки поиска (при нажатии ввода или кнопки)
 searchButton.addEventListener('click',(elem)=>{
