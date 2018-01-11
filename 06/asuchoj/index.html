@@ -4,8 +4,9 @@
     <title>прогноз погоды</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/search_button.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
@@ -84,8 +85,8 @@
                 <li> Поддерживаются ссылки с указанием города (например #city/Minsk )</li>
             </ul>
         </div>
-        <div class="main page">
-            <h1> Прогноз погоды </h1>
+        <div class="main page page_show">
+            <h1> Прогноз погоды  </h1>
             <div id="map" class="yandex_map" >
                 <div class="add_in_favorites_button">
                     <button id="add_to_favorites"> Add to Favorites </button>
@@ -109,16 +110,10 @@
         </div>
         <div class="author page">
             <h1> Об авторе </h1>
-            <p> я молодец </p></div>
+            <p> я молодец</p></div>
 
     </main>
-
-    <script src="js/eventBus.js"></script>
-    <script src="js/controller.js"></script>
-    <script src="js/XHR.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/router.js"></script>
-
+    <script src="js/myJs.js"></script>
 </div>
 </body>
 </html>
