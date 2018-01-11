@@ -6,17 +6,8 @@ var gulp = require("gulp"),
     browserSync = require('browser-sync'),
     del = require('del'),
     minifyCSS = require('gulp-minify-css'),
-    imagemin = require('gulp-imagemin');
-
-//npm install -g --save-dev gulp
-// npm install browser-sync --save-dev
-//npm install del --save-dev
-//npm install babel-preset-es2015 --save-dev
-//npm install --save-dev babel-core babel-loader babelify browserify gulp-connect vinyl-source-stream
-//npm install gulp-minify-css
-//npm install gulp-uglify --save-dev
-//npm install gulp-useref --save-dev
-//npm install gulp-imagemin --save-dev
+    imagemin = require('gulp-imagemin'),
+    sourcemaps  = require ( 'gulp-sourcemaps' ) ;
 
 
 
@@ -76,6 +67,7 @@ gulp.task("build", function(){
     }))
     .bundle()
     .pipe(source("bundle.js"))
+     .pipe ( sourcemaps.write( ) )
     .pipe(gulp.dest("./build/js"))
     ;
 });
