@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript">
+    </script>
+
+</head>
+
+<body>
+    <div class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Weather site</a>
+            <div class="btn-group">
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options_request" value='fetch' autocomplete="off" checked> Fetch
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options_request" value='xhr' autocomplete="off"> XHR
+                </label>
+            </div>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="#">About</a>
+                    <a class="nav-item nav-link" href="#">Main</a>
+                    <a class="nav-item nav-link" href="#">Author</a>
+                </div>
+            </div>
+            <div class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" id="searchInput" placeholder="City">
+                <button class="btn btn-outline-light" id="searchBtn">Search</button>
+            </div>
+        </nav>
+    </div>
+    <div class="main">
+        <div id='map'>
+
+        </div>
+        <div class="section-two">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg menu">
+                        <h4> History:</h4>
+                        <ul class="list-group list" id="history"></ul>
+                    </div>
+                    <div class="col-lg-6 menu" id="weather">
+                        <h4> Weather:</h4>
+                    </div>
+                    <div class="col-lg menu">
+                        <h4> Favorites:</h4>
+                        <ul class="list-group list" id="favorites">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

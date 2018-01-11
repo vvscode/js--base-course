@@ -1,0 +1,48 @@
+#map{
+    height: 65vh;
+    border-color: grey;
+    border-style: solid;
+    padding: 2px;
+}
+#weather{
+    padding: 5px;
+}
+.menu{
+    padding: 20px;
+    border-color: grey;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 5px;  
+    height: 230px;
+    overflow-y: auto;
+}
+.list{
+    margin-left: 20px;
+
+}
+.section-two{
+    bottom: 0;
+    width: 100%;
+
+}
+li .remove{
+    float: right;
+}
+
+.forecast_weather{
+   text-align: center;
+   width: 100%;
+}
+.forecast > td{
+    height: 50px;
+    width: 200px;
+    vertical-align: top;
+}
+
+tr,td,th{
+    text-align: center;
+    font-weight: normal;
+    height: auto;
+    width: auto;
+    font-size: medium;
+}
