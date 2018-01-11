@@ -43,4 +43,4 @@ EventBus.prototype.once = function(str, cb) {
     }
     this.on(str,tmp);
 } 
-var eb = new EventBus();
+export var eb = new EventBus();

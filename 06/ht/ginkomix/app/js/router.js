@@ -1,4 +1,4 @@
-var Router = function (options) {
+export var Router = function (options) {
     this.routes = options.routes || [];
     this.eventBus = options.eventBus;
     this.init();
@@ -44,47 +44,3 @@ Router.prototype = {
         });
     },
 };
-
-var router = new Router({
-    routes: [{
-        name: 'about',
-        match: '',
-        onBeforeEnter: function(){
-
-        },
-        onEnter: function() {
-            document.querySelector('#about').style.display = 'flex'; 
-        },
-        onLeave: function() {
-            document.querySelector('#about').style.display = 'none';
-        }
-    }, {
-        name: 'Main',
-        match: /main=(.+)/,
-        onBeforeEnter:  function(cord) {
-            
-            if(!map.createMapFlag){
-            var cord = map.sliceCord(cord);
-            map.createMap(cord);
-        } 
-        },
-        onEnter: function(cord) {
-            document.querySelector('#main').style.display = 'block'; 
-        },
-        onLeave: function(cord) {
-            document.querySelector('#main').style.display = 'none'; 
-        }
-    }, {
-        name: 'Author',
-        match: (text) => text === 'author',
-        onBeforeEnter: function(){
-
-        },
-        onEnter: function() {
-            document.querySelector('#author').style.display = 'flex'; 
-        },
-        onLeave: function() {
-            document.querySelector('#author').style.display = 'none'; 
-        }
-    }]
-});
