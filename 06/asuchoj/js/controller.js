@@ -25,12 +25,20 @@ let xhrOrFetchValue, cityName, latCity, lngCity ;
 });
 
 //загрузка данных с локалсторедж для history
- getHistoryCity()
-   .then( (result)=> addArr (result, historyCity, addElemWithCityInHTML) )
+if( localStorage.hasOwnProperty('historyCity') ){
+  getHistoryCity()
+    .then( (result)=> addArr (result, historyCity, addElemWithCityInHTML) )
+    .catch(console.log)
+}
+
 
  //загрузка данных с локалсторедж для favoritesCity
- getFavoritesCity()
-   .then((result)=> addArr (result, favoritesCity, addElemWithSpaceInHTML))
+if( localStorage.hasOwnProperty('favoritesCity') ){
+  getFavoritesCity()
+    .then((result)=> addArr (result, favoritesCity, addElemWithSpaceInHTML))
+    .catch(console.log)
+}
+
 
 newEventBus.on('init',() => {
     cityName = location.hash.split('/')[1];
