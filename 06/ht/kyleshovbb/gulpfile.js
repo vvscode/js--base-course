@@ -18,29 +18,6 @@ var gulp = require('gulp'),
     source = require("vinyl-source-stream"),
     reload = browserSync.reload;
 
-var path = {
-    build: {
-        html: 'public/',
-        js: 'public/js/',
-        css: 'public/css/',
-        img: 'public/img/'
-    },
-    src: {
-        html: 'assets/*.html',
-        js: 'assets/js/main.js',
-        style: 'assets/style/*.css',
-        img: 'assets/img/**/*.*'
-    },
-    watch: {
-        html: 'assets/**/*.html',
-        js: 'assets/js/**/*.js',
-        style: 'assets/style/**/*.css',
-        img: 'assets/img/**/*.*'
-    },
-    clean: './public'
-};
-
-
 gulp.task('default', ['build', 'watch']);
 
 gulp.task('html:build', function () {
