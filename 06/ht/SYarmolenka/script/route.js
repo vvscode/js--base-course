@@ -1,3 +1,14 @@
+import {
+  requestCoords,
+  requestWeather,
+  requestCityName
+} from "./request";
+import {
+  init,
+  refreshMap,
+  refreshCoords
+} from "./script";
+
 document.body.addEventListener(`click`, function (e) {
   if (!e.target.matches(`.route`)) return;
   e.preventDefault();
@@ -53,8 +64,7 @@ let route = {
     }
   }
 };
-let allHideElem =document.querySelectorAll(`.hide`);
-console.log(allHideElem);
+let allHideElem = document.querySelectorAll(`.hide`);
 let about = document.querySelector(`.about`);
 let author = document.querySelector(`.author`);
 route.routes = [
@@ -83,7 +93,7 @@ route.routes = [
     onEnter: function () {
       author.innerHTML = `
         <span>Автор: Сергей Ермоленко</span>
-        <img src="pics/ava.jpg" alt="">
+        <img src="other/ava.jpg" alt="">
         <ul>
           <li>
             <a href="https://github.com/SYarmolenka" class="gh"></a>

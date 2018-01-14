@@ -1,3 +1,6 @@
+import {newEb} from "./observer";
+import {refreshCoords} from "./script";
+import {addCityInHistory} from "./local";
 let inputs = document.querySelectorAll(`.http`);
 
 function defineRequest () {
@@ -18,7 +21,7 @@ function getThroughXhr (url, bell) {
   let str = url;
   xhr.open(`GET`, str, true);
   xhr.onload = function () {
-    eb.trigger(bell, this.responseText);
+    newEb.trigger(bell, this.responseText);
   };
   xhr.onerror = function () {alert(`Ошибка ${this.status}`)};
   xhr.send();
@@ -28,7 +31,7 @@ function getThroughFetch (url, bell) {
   fetch(url, {method: `GET`}).then(function (response) {
     return response.text();
   }, function (response) {alert(`Ошибка ${response.status}`)}).then(function (result) {
-    eb.trigger(bell, result);
+    newEb.trigger(bell, result);
   });
 }
 
@@ -42,7 +45,7 @@ function requestWeather () {
   // let url = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/0fbec31d64e8fba6637a108f151904ad/${stage.coords[0]},${stage.coords[1]}?lang=ru%26units=si`;
   doRequest(url, `weather`);
 }
-eb.on(`weather`, getWeather);
+newEb.on(`weather`, getWeather);
 
 function getWeather (respone) {
   let obj = JSON.parse(respone);
@@ -60,7 +63,7 @@ function requestCityName () {
   let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${stage.coords[0]+0.001},${stage.coords[1]+0.001}&result_type=locality&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
   doRequest(url, `city`);
 }
-eb.on(`city`, getCityName);
+newEb.on(`city`, getCityName);
 
 function getCityName (respone) {
   let obj = JSON.parse(respone);
@@ -71,9 +74,9 @@ function getCityName (respone) {
 
 function requestCoords (city) {
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
-  doRequest (url, `coords`);
+  doRequest(url, `coords`);
 }
-eb.on(`coords`, getCoords);
+newEb.on(`coords`, getCoords);
 
 function getCoords (respone) {
   let obj = JSON.parse(respone);
@@ -83,3 +86,9 @@ function getCoords (respone) {
   refreshCoords();
   addCityInHistory(stage.city);
 }
+
+export {
+  requestCoords,
+  requestWeather,
+  requestCityName
+};

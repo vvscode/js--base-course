@@ -1,3 +1,9 @@
+import {
+  requestWeather,
+  requestCityName,
+  requestCoords
+} from "./request";
+
 function init () {
   myMap = new ymaps.Map(`map`, {
     center: stage.coords,
@@ -18,7 +24,7 @@ function refreshMap () {
     requestCityName();
 }
 
-function refreshCoords() {
+function refreshCoords () {
   window.location.hash = `${stage.coords[0]},${stage.coords[1]}&zoom=${stage.zoom}`;
 }
 
@@ -39,3 +45,5 @@ document.body.addEventListener(`click`, function (e) {
   requestCoords (e.target.previousElementSibling.value);
   e.target.previousElementSibling.value = ``;
 });
+
+export {refreshMap, refreshCoords, init};

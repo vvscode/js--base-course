@@ -44,3 +44,4 @@ EventBus.prototype.once = function (str, cb) {
 };
 
 let eb = new EventBus();
+export {eb as newEb};

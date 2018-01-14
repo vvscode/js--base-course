@@ -1,8 +1,10 @@
-let history = document.querySelector(`#history`);
+import {requestCoords} from "./request";
+
+let historyCity = document.querySelector(`#history`);
 let favorite = document.querySelector(`#favorite`);
 let session = window.sessionStorage.getItem('history');
 let local = window.localStorage.getItem('favorite');
-history.innerHTML = (session !== null) ? session : `История поиска:`;
+historyCity.innerHTML = (session !== null) ? session : `История поиска:`;
 favorite.innerHTML = (local !== null) ? local : `Избранное:`;
 
 document.body.addEventListener(`click`, function (e) {
@@ -76,7 +78,8 @@ function addCityInHistory (city) {
   }
   div.classList.add(`history`);
   div.innerText = city;
-  history.insertBefore(div, history.firstElementChild);
+  historyCity.insertBefore(div, historyCity.firstElementChild);
   checkQuantity(document.querySelectorAll(`.history`));
-  window.sessionStorage.setItem('history', history.innerHTML);
+  window.sessionStorage.setItem('history', historyCity.innerHTML);
 };
+export {addCityInHistory}
