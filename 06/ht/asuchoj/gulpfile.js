@@ -23,24 +23,17 @@ gulp.task('connect', function() {
   });
 });
 
-//html для объединения в промежуточную папку test
+//html
 gulp.task('html', function () {
   return gulp.src('app/*.html')
     .pipe(connect.reload())
     .pipe(useref())
-    .pipe(gulp.dest('test/'));
-});
-
-//html для переноса
-gulp.task('htmlProduction', function () {
-    return gulp.src('test/*.html')
-        .pipe(connect.reload())
-        .pipe(gulp.dest('disc/'));
+    .pipe(gulp.dest('disc/'));
 });
 
 //js
 gulp.task('js', function (){
-  gulp.src('test/js/*.js')
+  gulp.src('app/js/*.js')
     .pipe(concatJS('myJs.js') )
     .pipe(
       babel({
@@ -53,7 +46,7 @@ gulp.task('js', function (){
 
 //css
 gulp.task('css', function () {
- return gulp.src('test/css/*.css')
+ return gulp.src('app/css/*.css')
    .pipe(concatCSS('style.css')) //путь к файлам для их конкатенации
    .pipe(autoPreFix('last 2 versions', '> 1%', 'ie 9'))
    .pipe(cleanCSS()) // минифицирует CSS
@@ -75,5 +68,5 @@ gulp.task('watch', function () {
   gulp.watch('app/js/*.js', ['js']); //при изменении файлов запускает задачу transformCSS
 });
 
-gulp.task('default',['connect', 'html', 'htmlProduction' ,'css', 'js', 'img', 'watch']);
+gulp.task('default',['connect', 'html', 'css', 'js', 'img', 'watch']);
 
