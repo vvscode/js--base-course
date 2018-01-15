@@ -77,3 +77,15 @@ menu ul{
 .main_menu{
     margin: 20px;
 }
+.main_menu_x,
+.main_menu_y {
+    float: right;
+    margin: 10px;
+}
+.main_menu_number{
+    width: 40px;
+}
+.main_menu_range{
+    width: 100%;
+    margin-top: 20px;
+}
