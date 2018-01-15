@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 25px;
+}
+
+ol, ul, li, a, p {
+    font-size: 20px;
+}
+a {
+    text-decoration: none;
+}
+html, body {
+    height: 100%;
+}
+header ul{
+    list-style-type: none;
+    margin: 0;
+}
+header li{
+    float: left;
+}
+
+.menu_link {
+    background-color: black;
+}
+
+.menu_link a {
+    color: white;
+    display: block;
+    padding: 10px 20px;
+}
+
+.box{
+    max-width: 700px;
+    margin: 0 auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+menu li{
+    margin: 5px 5px;
+}
+menu ul{
+    width: 385px;
+    height: 52px;
+    margin: 0 auto;
+}
+.menu_link{
+    margin: 5px;
+}
+.main_game_life{
+    width: 500px;
+    height: 300px;
+    background-color: gray;
+    margin: 0 auto;
+}
+.pre,
+.play,
+.next {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+.play{
+
+}
+.next{
+
+}
+.main_menu{
+    margin: 20px;
+}
