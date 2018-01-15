@@ -42,7 +42,7 @@
     width: 37px;
     height: 100%;
     cursor: pointer;
-    background: url(../img/sprite/go.png) 50% no-repeat;
+    background: url(../img/go.png) 50% no-repeat;
     opacity: 0.2;
 }
 .header__search .search .submit:hover {
