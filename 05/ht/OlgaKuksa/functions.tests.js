@@ -79,59 +79,110 @@ describe("EventBus", function () {
     it("EventBus.on не добавляет коллбэк в массив-реакцию на событие дважды", function () {
         eventBus.on('testevent', hohoho);
         eventBus.on('testevent');
-        assert.equal(eventBus.listeners['testevent'].filter(callback=>callback===hohoho).length,1);
+        assert.equal(eventBus.listeners['testevent'].filter(callback => callback === hohoho).length, 1);
     });
     it("EventBus.on не вызывает событие", function () {
-        var sum=0;
-        eventBus.on('myevent', function() {sum+=5});
-        assert.equal(sum,0);
+        var sum = 0;
+        eventBus.on('myevent', function () { sum += 5 });
+        assert.equal(sum, 0);
     });
-    it ("EventBus.off отписывает от события", function(){
+    it("EventBus.off отписывает от события", function () {
         eventBus.on('offevent', hohoho);
         eventBus.on('offevent', lalala);
         eventBus.off('offevent', hohoho);
         eventBus.off('offevent', lalala);
-        assert.isNotOk(eventBus.listeners['offevent'].includes(hohoho)&&eventBus.listeners['offevent'].includes(lalala));
+        assert.isNotOk(eventBus.listeners['offevent'].includes(hohoho) && eventBus.listeners['offevent'].includes(lalala));
     });
     it("EventBus.on не вызывает выполнения события", function () {
-        var sum=0;
-        eventBus.on('myevent', function sum() {s+=5});
+        var sum = 0;
+        eventBus.on('myevent', function sum() { s += 5 });
         eventBus.off('myevent', sum);
-        assert.equal(sum,0);
+        assert.equal(sum, 0);
     });
-    it("EventBus.trigger вызывает выполнение одной функции по event", function(){
-        var s=7;
-        function oneSum(sum){return s+=sum};
+    it("EventBus.trigger вызывает выполнение одной функции по event", function () {
+        var s = 7;
+        function oneSum(sum) { return s += sum };
         eventBus.on("sumEvent", oneSum);
         eventBus.trigger("sumEvent", 8);
-        assert.equal(s,15);
+        assert.equal(s, 15);
     });
-    it ("EventBus.trigger вызывает выполнение функций с нескольких аргументами по event", function(){
-        var s=8;
-        function twoSum(sum, mult) {return s=(sum+s)*mult};
+    it("EventBus.trigger вызывает выполнение функций с нескольких аргументами по event", function () {
+        var s = 8;
+        function twoSum(sum, mult) { return s = (sum + s) * mult };
         eventBus.on("multTest", twoSum);
-        eventBus.trigger("multTest", 2,4);
-        assert.equal(s,40);
+        eventBus.trigger("multTest", 2, 4);
+        assert.equal(s, 40);
     });
-    it ("EventBus.trigger не вызывает выполнение функций, подписанных на другое событие", function(){
-        var s=9;
-        function oneSum(sum){return s+=sum};
-        function oneMult(mult){return s*=mult};
+    it("EventBus.trigger не вызывает выполнение функций, подписанных на другое событие", function () {
+        var s = 9;
+        function oneSum(sum) { return s += sum };
+        function oneMult(mult) { return s *= mult };
         eventBus.on("noOddRun", oneMult);
         eventBus.on("whatARun", oneSum);
-        eventBus.trigger("noOddRun",8);
-        assert.equal(s,72);
+        eventBus.trigger("noOddRun", 8);
+        assert.equal(s, 72);
     });
-    it ("EventBus.once вызывает функцию и отписывается от нее, функция повторно не вызывается", function(){
-        var s=10;
-        function oneSum(sum){return s+=sum};
+    it("EventBus.once вызывает функцию и отписывается от нее, функция повторно не вызывается", function () {
+        var s = 10;
+        function oneSum(sum) { return s += sum };
         eventBus.once("oneTimeCall", oneSum);
         eventBus.trigger("oneTimeCall", 5);
-        assert.equal(s,15);
-        assert.isOk(eventBus.listeners['oneTimeCall'].length===0);
-        eventBus.trigger("oneTimeCall",5);
-        assert.equal(s,15);
+        assert.equal(s, 15);
+        assert.isOk(eventBus.listeners['oneTimeCall'].length === 0);
+        eventBus.trigger("oneTimeCall", 5);
+        assert.equal(s, 15);
     })
 });
 
+
+
+describe("Router", function () {
+var router=new Router({routes: [
+        {
+          name: 'index',
+          match: '',
+          onBeforeEnter: () => console.log('onBeforeEnter index'),
+          onEnter: () => console.log('onEnter index'),
+          onLeave: () => console.log('onLeave index')
+        },
+        {
+          name: 'city',
+          match: /city=(.+)/,
+          onBeforeEnter: (city) => console.log(`onBeforeEnter city:${city}`),
+          onEnter: (city) => console.log(`onEnter city:${city}`),
+          onLeave: (city) => console.log(`onLeave city:${city}`)
+        },
+        {
+          name: 'about',
+          match: (text) => text === 'about',
+          onBeforeEnter: () => console.log(`onBeforeEnter about`),
+          onEnter: () => console.log(`onEnter about`),
+          onLeave: () => console.log(`onLeave about`)
+        }
+      ]});
+    it("функция", function () {
+        assert.isOk(typeof Router === "function");
+    });
+    it("поддерживает match в виде string", function () {
+
+    });
+    it("поддерживает match в виде regexp", function () {
+
+    });
+    it("поддерживает match в виде function", function () {
+
+    });
+    it("выполняет только функцию onEnter при входе на соотв. url", function () {
+
+    });
+    it("выполняет только функцию onLeave при выходе с соотв. url", function () {
+
+    });
+    it("выполняет только функцию beforeEnter перед входом в url", function () {
+
+    });
+
+
+
+});
 mocha.run();
