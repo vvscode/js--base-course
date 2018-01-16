@@ -1,8 +1,5 @@
 <html>
     <head>
-        <script>
-            window.location.hash = ""; // NOTE: romove all hashes on load page
-        </script>
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
@@ -23,8 +20,8 @@
         var assert = chai.assert;
         var expect = chai.expect;
     </script>
-    <!-- <script src="eventBus.tests.js"></script> -->
-    <!-- <script src="template.tests.js"></script> -->
+    <script src="eventBus.tests.js"></script>
+    <script src="template.tests.js"></script>
     <script src="router.tests.js"></script>
     <script>
         mocha.run();

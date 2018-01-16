@@ -1,18 +1,23 @@
+//NOTE: support URL like: ...#page?data=value&nextData=nextValue
 var Router = function(routes) {
   this.routes = routes;
-  this.currentPage = this.getPage();
-  window.addEventListener('hashchange', this.handleURL.bind(this));
+  this.currentPage = null; 
+  this.currentPageParams = null;
+  this.loadPage();  
+  window.addEventListener('hashchange', this.loadPage.bind(this));
 };
 
-Router.prototype.handleURL = function() {
-  var page = this.getPage();
-  // if(page === this.currentPage) return;
-  this.loadPage(page);
-};
-
-Router.prototype.getPage = function() {
+Router.prototype.getHash = function() {
   return window.location.hash.split('#').pop();
 };
+
+Router.prototype.getHashParameters = function() {
+  var parameters = {};
+  window.location.hash.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) {
+    parameters[key] = value;
+  });
+  return parameters;
+}
 
 Router.prototype.findRoute = function(pageName) {
   if(!this.routes) return undefined;
@@ -27,25 +32,23 @@ Router.prototype.findRoute = function(pageName) {
   });
 };
 
-Router.prototype.loadPage = function(page) {
+Router.prototype.loadPage = function() {
+  var pageHash = this.getHash();
+  var pageParams = this.getHashParameters();
   var previousRoute = this.findRoute(this.currentPage);
-  var currentRoute = this.findRoute(page);
+  var currentRoute = this.findRoute(pageHash);
   return Promise.resolve()
     .then(() => currentRoute && previousRoute 
                   && previousRoute.onLeave && typeof previousRoute.onLeave === "function" 
-                  && previousRoute.onLeave())        
+                  && previousRoute.onLeave(this.currentPageParams))        
     .then(() => currentRoute && currentRoute.onBeforeEnter 
                   && typeof currentRoute.onBeforeEnter === "function" 
-                  && currentRoute.onBeforeEnter())    
+                  && currentRoute.onBeforeEnter(pageParams))    
     .then(() => currentRoute && currentRoute.onEnter
                   && typeof currentRoute.onEnter === "function" 
-                  && currentRoute.onEnter());
+                  && currentRoute.onEnter(pageParams))
+    .then(() => {
+      this.currentPage = pageHash;
+      this.currentPageParams = pageParams;
+    });
 };
-
-// Router.prototype.setRoute = function(route) {
-//
-// };
-
-// Router.prototype.removeRoute = function(match) {
-//
-// }

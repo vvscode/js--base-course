@@ -1,23 +1,79 @@
 describe("Router", () => {
-  //  getPage function
-  //  умеет определять ТЕКУЩИЙ роут
-  describe("getPage method", () => {
-    it("Router has getPage method", () => assert.isOk(typeof (new Router()).getPage === "function"));
-    it("Router getPage function returns current page", () => {
+   describe("getHash method", () => {
+    it("Router has getHash method", () => assert.isOk(typeof (new Router()).getHash === "function"));
+    it("returns empty string if hash does not exist", () => {
+      var router = new Router();      
+      assert.isOk(router.getHash() === "");
+    });
+    it("returns current route", () => {
+      window.location.hash = "#testPage";
       var router = new Router();
-      assert.isOk(router.getPage() === "");
-      document.getElementById("routePageButton").click();
-      assert.isOk(router.getPage() === "testPage");      
+      assert.isOk(router.getHash() === "testPage");     
+    });
+    it("returns current route if hash has params", () => {
+      window.location.hash = "#page?city=minsk";
+      var router = new Router();
+      assert.isOk(router.getHash() === "page?city=minsk");
     });
   });
 
+  describe("getHashParameters method", () => {
+    it("Router has getHashParameters method", () => assert.isOk(typeof (new Router()).getHashParameters === "function"));
+    it("'#route' -> empty object", () => {
+      window.location.hash = "#route";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);
+      assert.isEmpty(data);
+    });
+    it("'#route?' -> empty obj", () => {
+      window.location.hash = "#route?";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);
+      assert.isEmpty(data);
+    });
+    it("'#route?city=Minsk' -> {city: Minsk}", () => {
+      window.location.hash = "#route?city=Minsk";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);  
+      assert.deepEqual(data, {city: "Minsk"});
+    });
+    it("'#route?city=brest&count=123' -> {city: brest, count: 123}", () => {
+      window.location.hash = "#route?city=brest&count=123";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);      
+      assert.deepEqual(data, {city: "brest", count: "123"});
+    });
+    it("'#route=test' -> empty obj", () => {
+      window.location.hash = "#route=test";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);          
+      assert.isEmpty(data);
+    });
+    it("'#?route=test' -> {route: test}", () => {
+      window.location.hash = "#?route=test";
+      var router = new Router();
+      var data = router.getHashParameters();
+      assert.isObject(data);          
+      assert.deepEqual(data, {route: "test"});
+    });
+    it("'#page$test=page' -> empty obj", () => {
+      window.location.hash = "#page$test=page";
+      var router = new Router();
+      var data = router.getHashParameters();      
+      assert.isObject(data); 
+      assert.isEmpty(data);         
+    });
+  });
+  
+  //NOTE: creating
   describe("Router init", () => {
     it("is function", () => assert.isOk(typeof Router === "function"));
     it("Router takes 1 param", () => assert.isOk((Router).length === 1));
-    // it("Router init currentPage as empty string", () => {
-    //   assert.isOk(typeof (new Router()).currentPage === "string");
-    //   assert.isOk((new Router()).currentPage === "");      
-    // });
     it("Router initialize 'routes' from taked param", () => {
       var routes = [
         {
@@ -26,80 +82,92 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isOk(router.routes);
-      assert.isOk(router.routes.length === routes.length);
-      assert.isOk(router.routes === routes);
+      assert.deepEqual(router.routes, routes);
     });
-    it("Router puts current page to currentPage after init", () => {
-      document.getElementById("routeClearPageButton").click();        
-      var routerEmpty = new Router();
-      assert.isOk(routerEmpty.getPage() === "");        
-      assert.isOk(routerEmpty.currentPage === "");
-
-      document.getElementById("routePageButton").click();
-      var routerNotEmpty = new Router();
-      assert.isOk(routerNotEmpty.getPage() === "testPage");  
-      assert.isOk(routerNotEmpty.currentPage === "testPage");            
+    it("Router creats 'currentPage' and 'currentPageParams' after init", () => {  
+      window.location.hash = "";      
+      var router = new Router();      
+      assert.isNull(router.currentPage);
+      assert.isNull(router.currentPageParams);          
     });
-    it("Router init add 'hashchange' listener", (done) => {
-      document.getElementById("routeClearPageButton").click();  
-      var initNumber = 1;
-      var number = 5;
-      var routeList = [
-        {
-          name: "index",
-          match: "",
-          onLeave: () => initNumber++
-        },
-        {
-          name: "testPage",
-          match: /testPage/,
-          onBeforeEnter: () => number--
-        }
-      ];
-      var router = new Router(routeList);
-      document.getElementById("routePageButton").click(); 
-      //FIXME
-      done();
-      // setTimeout(() => {
-      //   assert.isOk(initNumber === 2);
-      //   assert.isOk(number === 4);
-      //   done();
-      // }, 0);           
+    it("Do not call onLeave in first load (create new Router)", done => {
+      window.location.hash = "";      
+      setTimeout(() => {
+        var initNumber = 1;
+        var routeList = [
+          {
+            name: "index",
+            match: "",
+            onLeave: () => {
+              initNumber++;
+            }
+          }
+        ];
+        var router = new Router(routeList);
+        setTimeout(() => {
+          assert.isOk(initNumber === 1);
+          done();
+        }, 0);   
+      }, 0);    
     });
-    it("Call onBeforeEnter and onEnter function in first load", () => {
-      document.getElementById("routeClearPageButton").click();   
-      var testString = "";     
-      var routerList = [
-        {
-          name: "init",
-          match: "",
-          onLeave: () => testString += "leave",
-          onBeforeEnter: () => testString += "before",
-          onEnter: () => testString += "enter"
-        },
-        {
-          name: "testPage",
-          match: "testPage",
-          onLeave: () => testString += "test leave",
-          onBeforeEnter: () => testString += "test before",
-          onEnter: () => testString += "test enter"
-        }
-      ];
-      var router = new Router();
+    it("Call onBeforeEnter and onEnter function in first load", done => {
+      window.location.hash = "";      
+      setTimeout(() => {
+        var testString = "";     
+        var routerList = [
+          {
+            name: "init",
+            match: "",
+            onLeave: () => testString += "leave",
+            onBeforeEnter: () => testString += "before",
+            onEnter: () => testString += "enter"
+          },
+          {
+            name: "testPage",
+            match: "testPage",
+            onLeave: () => testString += "test leave",
+            onBeforeEnter: () => testString += "test before",
+            onEnter: () => testString += "test enter"
+          }
+        ];
+        var router = new Router(routerList);
+        setTimeout(() => {          
+          assert.isOk(testString === "beforeenter");
+          done();
+        }, 0);
+      }, 0);
     });
-    it("Do not call onLeave in first load", () => {
-
+    it("Router init add 'hashchange' listener", done => {      
+      window.location.hash = "";      
+      setTimeout(() => {
+        var initNumber = 1;
+        var number = 5;
+        var routeList = [
+          {
+            name: "index",
+            match: "",
+            onLeave: () => {
+              initNumber++;
+            }
+          },
+          {
+            name: "testPage",
+            match: /testPage/,
+            onBeforeEnter: () => {
+              number--;            
+            }
+          }
+        ];
+        var router = new Router(routeList);
+        window.location.hash = "#testPage";
+        setTimeout(() => {
+          assert.isOk(initNumber === 2);
+          assert.isOk(number === 4);
+          done();
+        }, 0);   
+      }, 0);        
     });
   });
-    
-
-  //  can not test this!!!!!! - call handleURL function
-  // it("Router init create hashchange listener", () => {
-  //   assert.isOk(window.onhashchange === null);
-  //   var router = new Router();
-  //   assert.isOk(typeof window.onhashchange === "function");    
-  // });
 
   describe("findRoute method", () => {
     it("Router has findRoute method", () => assert.isOk(typeof (new Router()).findRoute === "function"));
@@ -112,7 +180,7 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isOk(router.findRoute("testPage") === routes[0]);
+      assert.deepEqual(router.findRoute("testPage"), routes[0]);
     });
     it("findRoute method can find route by function", () => {
       var routes = [
@@ -122,7 +190,7 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isOk(router.findRoute("testPage") === routes[0]);
+      assert.deepEqual(router.findRoute("testPage"), routes[0]);
     });
     it("findRoute method can find route by regular expression", () => {
       var routes = [
@@ -132,7 +200,7 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isOk(router.findRoute("testPage") === routes[0]);
+      assert.deepEqual(router.findRoute("testPage"), routes[0]);
     });
     it("findRoute returns first route by match", () => {
       var routeList = [
@@ -154,8 +222,8 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routeList);
-      assert.isOk(router.findRoute("page") === routeList[1]);
-      assert.isNotOk(router.findRoute("page") === routeList[3]);
+      assert.deepEqual(router.findRoute("page"), routeList[1]);
+      assert.notDeepEqual(router.findRoute("page"), routeList[3]);
     });
     it("findRoute returns 'undefined' if can not find route", () => {
       var routes = [
@@ -165,8 +233,8 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isNotOk(router.findRoute("page") === routes[0]);
-      assert.isOk(router.findRoute("page") === undefined);
+      assert.notDeepEqual(router.findRoute("page"), routes[0]);
+      assert.isUndefined(router.findRoute("page"));
     });
     it("findRoute returns 'undefined' if takes null or undefined values", () => {
       var routes = [
@@ -176,74 +244,106 @@ describe("Router", () => {
         }
       ];
       var router = new Router(routes);
-      assert.isOk(router.findRoute() === undefined);
-      assert.isOk(router.findRoute(null) === undefined);
-      assert.isOk(router.findRoute(undefined) === undefined);      
+      assert.isUndefined(router.findRoute());
+      assert.isUndefined(router.findRoute(null));
+      assert.isUndefined(router.findRoute(undefined));      
     });
     it("findRoute returns 'udefined' if routes is empty array", () => {
       var routes = [];
       var router = new Router(routes);
-      assert.isOk(router.findRoute("testPage") === undefined);
+      assert.isUndefined(router.findRoute("testPage"));
     });
     it("findRoute returns 'udefined' if routes is null or undefined", () => {
       var router1 = new Router();
-      assert.isOk(router1.findRoute("testPage") === undefined);
+      assert.isUndefined(router1.findRoute("testPage"));
       var router2 = new Router(null);
-      assert.isOk(router2.findRoute("testPage") === undefined);
+      assert.isUndefined(router2.findRoute("testPage"));
       var router3 = new Router(undefined);
-      assert.isOk(router3.findRoute("testPage") === undefined);
+      assert.isUndefined(router3.findRoute("testPage"));
     });
   });
 
   describe("loadPage", () => {
     it("Router has loadPage method", () => assert.isOk(typeof (new Router()).loadPage === "function"));
-    it("loadPage takes 1 param", () => assert.isOk((new Router()).loadPage.length === 1));
     it("nothig happend if loaded route does not exist", () => {
+      window.location.hash = "#testHash";
       var number = 2; 
       var routeList = [
         {
-          name: "page",
-          match: "page"
+          name: "testPage",
+          match: "testPage",
+          onEnter: () => number++
         }
       ];
       var router = new Router(routeList);
-      // debugger;
-      var result = router.loadPage("testPage");
-      
+      var result = router.loadPage();
       expect(result).to.be.a('promise');
       return result.then(() => assert.isOk(number === 2));
     });
+    it("loadPage set new currentPage and currentPageParam values", () => {
+      window.location.hash = "second?testKey=testVal&someKey=someVal";
+      var routeList = [
+        {
+          name: "test",
+          match: ""
+        },
+        {
+          name: "second",
+          match: /second?(.+)/
+        }
+      ];
+      var router = new Router(routeList);
+      router.currentPage = "";
+      var result = router.loadPage();
+      expect(result).to.be.a('promise');
+      return result.then(() => {
+        assert.deepEqual(router.currentPageParams, {testKey: "testVal", someKey: "someVal"});
+        assert.isOk(router.currentPage === "second?testKey=testVal&someKey=someVal");
+      });
+    });
+
     describe("onEnter", () => {
       it("loadPage call onEnter for current page", () => {
+        window.location.hash = "#testPage";
         var number = 2; 
+        var second = 4;
         var routeList = [
           {
             name: "testPage",
             match: "testPage",
             onEnter: () => number++
+          },
+          {
+            name: "test",
+            match: "test",
+            onEnter: () => second += 4
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        var result = router.loadPage();  
+        window.location.hash = "#test";   
+        var resultTest = router.loadPage();                   
         expect(result).to.be.a('promise');
-        return result.then(() => assert.isOk(number === 3));
+        expect(resultTest).to.be.a('promise');                               
+        return result.then(() => assert.isOk(number === 4)).then(() => assert.isOk(second === 8));
       });
       it("nothig happend if onEnter is not a function", () => {
+        window.location.hash = "#testPage";
         var number = 2; 
         var routeList = [
           {
             name: "testPage",
             match: "testPage",
-            onEnter: 2
+            onEnter: 123
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
+        var result = router.loadPage();  
         expect(result).to.be.a('promise');
         return result.then(() => assert.isOk(number === 2));
       });
       it("nothig happend if route does not have onEnter", () => {
+        window.location.hash = "#testPage";
         var number = 2; 
         var routeList = [
           {
@@ -252,78 +352,77 @@ describe("Router", () => {
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
-        expect(result).to.be.a('promise');
-        return result.then(() => assert.isOk(number === 2));
-      });
-    });    
-    describe("onBeforeEnter", () => {
-      it("loadPage call onBeforeEnter for current page", () => {
-        var number = 2; 
-        var routeList = [
-          {
-            name: "testPage",
-            match: "testPage",
-            onBeforeEnter: () => number++
-          }
-        ];
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        expect(result).to.be.a('promise');
-        return result.then(() => assert.isOk(number === 3));
-      });
-      it("nothig happend if onBeforeEnter is not a function", () => {
-        var number = 2; 
-        var routeList = [
-          {
-            name: "testPage",
-            match: "testPage",
-            onBeforeEnter: 2
-          }
-        ];
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
-        expect(result).to.be.a('promise');
-        return result.then(() => assert.isOk(number === 2));
-      });
-      it("nothig happend if route does not have onBeforeEnter", () => {
-        var number = 2; 
-        var routeList = [
-          {
-            name: "testPage",
-            match: "testPage"
-          }
-        ];
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
+        var result = router.loadPage();  
         expect(result).to.be.a('promise');
         return result.then(() => assert.isOk(number === 2));
       });
     });
+
+    describe("onBeforeEnter", () => {
+      it("loadPage call onBeforeEnter for current page", () => {
+        window.location.hash = "#hash";        
+        var number = 2; 
+        var routeList = [
+          {
+            name: "hash",
+            match: "hash",
+            onBeforeEnter: () => number++
+          }
+        ];
+        var router = new Router(routeList);
+        var result = router.loadPage();
+        expect(result).to.be.a('promise');
+        return result.then(() => assert.isOk(number === 4));
+      });
+      it("nothig happend if onBeforeEnter is not a function", () => {
+        window.location.hash = "#hash";                
+        var number = 2; 
+        var routeList = [
+          {
+            name: "hash",
+            match: "hash",
+            onBeforeEnter: 2
+          }
+        ];
+        var router = new Router(routeList);
+        var result = router.loadPage();
+        expect(result).to.be.a('promise');
+        return result.then(() => assert.isOk(number === 2));
+      });
+      it("nothig happend if route does not have onBeforeEnter", () => {
+        window.location.hash = "#hash";                        
+        var number = 2; 
+        var routeList = [
+          {
+            name: "hash",
+            match: "hash"
+          }
+        ];
+        var router = new Router(routeList);
+        var result = router.loadPage();
+        expect(result).to.be.a('promise');
+        return result.then(() => assert.isOk(number === 2));
+      });
+    });
+
     describe("onLeave", () => {
       it("pageLoad call onLeave for current page", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "";                        
         var number = 3;
         var routeList = [
           {
             name: "index",
             match: "",
             onLeave: () => number = number + 2
-          },
-          {
-            name: "testPage",
-            match: "testPage",
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";
+        var result = router.loadPage();
         return result.then(() => assert.isOk(number === 5));
       });
       it("nothig happend if previous route does not exist", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "";                        
         var number = 3;
         var routeList = [
           {
@@ -332,12 +431,12 @@ describe("Router", () => {
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
+        router.currentPage = "";        
+        var result = router.loadPage();
         return result.then(() => assert.isOk(number === 3));
       });
       it("nothig happend if onLeave is not a function", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "";                        
         var number = 3;
         var routeList = [
           {
@@ -347,12 +446,12 @@ describe("Router", () => {
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
+        router.currentPage = "";                
+        var result = router.loadPage();
         return result.then(() => assert.isOk(number === 3));
       });
       it("nothig happend if route does not have onLeave", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "";                        
         var number = 3;
         var routeList = [
           {
@@ -361,14 +460,15 @@ describe("Router", () => {
           }
         ];
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        
+        router.currentPage = "";                        
+        var result = router.loadPage();
         return result.then(() => assert.isOk(number === 3));
       });
     });
+
     describe("all", () => {
       it("loadPage call onLeave, onBeforeEnter, onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "testPage";                        
         var indexNumber = 4;
         var pageNumber = 7;
         var routeList = [
@@ -380,19 +480,21 @@ describe("Router", () => {
           {
             name: "testPage",
             match: "testPage",
+            onLeave: () => pageNumber--,
             onEnter: () => pageNumber++,
-            onBeforeEnter: () => pageNumber = pageNumber - 6
+            onBeforeEnter: () => pageNumber = pageNumber - 2
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";
+        var result = router.loadPage();
         return result.then(() => {
           assert.isOk(indexNumber === 3);
-          assert.isOk(pageNumber === 2);        
+          assert.isOk(pageNumber === 5);        
         });
       });
       it("loadPage call onBeforeEnter, onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "testPage";                        
         var indexNumber = 4;
         var pageNumber = 7;
         var routeList = [
@@ -403,89 +505,48 @@ describe("Router", () => {
           {
             name: "testPage",
             match: "testPage",
+            onLeave: () => pageNumber--,            
             onEnter: () => pageNumber++,
-            onBeforeEnter: () => pageNumber = pageNumber - 6
+            onBeforeEnter: () => pageNumber = pageNumber - 4
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";        
+        var result = router.loadPage();
         return result.then(() => {
           assert.isOk(indexNumber === 4);
-          assert.isOk(pageNumber === 2);        
-        });
-      });
-      it("loadPage call onLeave, onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
-        var indexNumber = 4;
-        var pageNumber = 7;
-        var routeList = [
-          {
-            name: "index",
-            match: "",
-            onLeave: () => indexNumber--
-          },
-          {
-            name: "testPage",
-            match: "testPage",
-            onEnter: () => pageNumber++
-          }
-        ];   
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        return result.then(() => {
-          assert.isOk(indexNumber === 3);
-          assert.isOk(pageNumber === 8);        
-        });
-      });
-      it("loadPage call onLeave, onBeforeEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
-        var indexNumber = 4;
-        var pageNumber = 7;
-        var routeList = [
-          {
-            name: "index",
-            match: "",
-            onLeave: () => indexNumber--
-          },
-          {
-            name: "testPage",
-            match: "testPage",
-            onBeforeEnter: () => pageNumber = pageNumber - 6
-          }
-        ];   
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        return result.then(() => {
-          assert.isOk(indexNumber === 3);
           assert.isOk(pageNumber === 1);        
         });
       });
-      it("loadPage call onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
+      it("loadPage call onLeave, onEnter", () => {
+        window.location.hash = "testPage";                        
         var indexNumber = 4;
         var pageNumber = 7;
         var routeList = [
           {
             name: "index",
             match: "",
+            onLeave: () => indexNumber--
           },
           {
             name: "testPage",
             match: "testPage",
+            onLeave: () => pageNumber--,            
             onEnter: () => pageNumber++
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";                
+        var result = router.loadPage();
         return result.then(() => {
-          assert.isOk(indexNumber === 4);
-          assert.isOk(pageNumber === 8);        
+          assert.isOk(indexNumber === 3);
+          assert.isOk(pageNumber === 9);        
         });
       });
-      it("loadPage call onLeave, onBeforeEnter(not function), onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
-        var indexNumber = 4;
-        var pageNumber = 7;
+      it("loadPage call onLeave, onBeforeEnter", () => {
+        window.location.hash = "testPage";                        
+        var indexNumber = 17;
+        var pageNumber = 34;
         var routeList = [
           {
             name: "index",
@@ -495,43 +556,20 @@ describe("Router", () => {
           {
             name: "testPage",
             match: "testPage",
-            onEnter: () => pageNumber++,
-            onBeforeEnter: 6
+            onLeave: () => pageNumber--,            
+            onBeforeEnter: () => pageNumber = pageNumber + 2
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";                        
+        var result = router.loadPage();
         return result.then(() => {
-          assert.isOk(indexNumber === 3);
-          assert.isOk(pageNumber === 8);        
-        });
-      });
-      it("loadPage call onLeave(not function), onBeforeEnter(not function), onEnter", () => {
-        document.getElementById("routeClearPageButton").click();        
-        var indexNumber = 4;
-        var pageNumber = 7;
-        var routeList = [
-          {
-            name: "index",
-            match: "",
-            onLeave: 2
-          },
-          {
-            name: "testPage",
-            match: "testPage",
-            onEnter: () => pageNumber++,
-            onBeforeEnter: 6
-          }
-        ];   
-        var router = new Router(routeList);
-        var result = router.loadPage("testPage");
-        return result.then(() => {
-          assert.isOk(indexNumber === 4);
-          assert.isOk(pageNumber === 8);        
+          assert.isOk(indexNumber === 16);
+          assert.isOk(pageNumber === 38);        
         });
       });
       it("loadPage has only previous route", () => {
-        document.getElementById("routeClearPageButton").click();        
+        window.location.hash = "testPage";
         var indexNumber = 4;
         var pageNumber = 7;
         var routeList = [
@@ -539,181 +577,128 @@ describe("Router", () => {
             name: "index",
             match: "",
             onLeave: () => indexNumber--
+          }, 
+          {
+            name: "index",
+            match: "testPage"
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";                        
+        var result = router.loadPage();
         return result.then(() => {
-          assert.isOk(indexNumber === 4);
+          assert.isOk(indexNumber === 3);
           assert.isOk(pageNumber === 7);        
         });
       });
       it("loadPage has only next route", () => {
-        document.getElementById("routeClearPageButton").click();        
-        var indexNumber = 4;
-        var pageNumber = 7;
+        window.location.hash = "#testPage";
+        var indexNumber = 24;
+        var pageNumber = 65;
         var routeList = [
           {
             name: "testPage",
             match: "testPage",
             onEnter: () => pageNumber++,
             onBeforeEnter: () => pageNumber = pageNumber - 6
+          },
+          {
+            name: "index",
+            match: ""
           }
         ];   
         var router = new Router(routeList);
-        var result = router.loadPage("testPage");
+        router.currentPage = "";        
+        var result = router.loadPage();
         return result.then(() => {
-          assert.isOk(indexNumber === 4);
-          assert.isOk(pageNumber === 2);        
+          assert.isOk(indexNumber === 24);          
+          assert.isOk(pageNumber === 55);        
+        });
+      });
+      it("onLeave takes previous params", () => {
+        window.location.hash = "#testPage";
+        var number = 18;
+        var routeList = [
+          {
+            name: "testPage",
+            match: "testPage"
+          },
+          {
+            name: "index",
+            match: "",
+            onLeave: obj => number += obj.nextNumber
+          }
+        ];   
+        var router = new Router(routeList);
+        router.currentPage = ""; 
+        router.currentPageParams = {nextNumber: 2};       
+        var result = router.loadPage();
+        return result.then(() => {
+          assert.isOk(number === 20);          
+        });
+      });
+      it("onEnter and onBeforeEnter takes params from URL", () => {
+        window.location.hash = "#testPage?test=value&second=some";
+        var initString = "";
+        var leaveString = "leave";
+        var routeList = [
+          {
+            name: "testPage",
+            match: /testPage?(.+)/,
+            onBeforeEnter: obj => initString = `test=${obj.test}, second=`,
+            onEnter: obj => initString = `test=${obj.test}, second=${obj.second}`
+          },
+          {
+            name: "index",
+            match: "",
+            onLeave: obj => {if(obj) leaveString += obj.test}
+          }
+        ];   
+        var router = new Router(routeList);
+        router.currentPage = ""; 
+        var result = router.loadPage();
+        return result.then(() => {          
+          assert.isOk(initString === "test=value, second=some");
+          assert.isOk(leaveString === "leave");          
         });
       });
     });
   });
-  
 
-  describe("handleURL method", () => {
-    it("Router has handleURL method", () => assert.isOk(typeof (new Router()).handleURL === "function"));
-    it("handleURL call load page for current page", (done) => {
-      document.getElementById("routeClearPageButton").click();  
-      var initNumber = 1;
-      var number = 5;
-      var routeList = [
-        {
-          name: "index",
-          match: "",
-          onLeave: () => initNumber++
-        },
-        {
-          name: "testPage",
-          match: /testPage/,
-          onEnter: () => number--
-        }
-      ];
-      var router = new Router(routeList);
-      document.getElementById("routePageButton").click(); 
-      setTimeout(() => {
-        console.log("handleURL call load page for current page");
-        console.log("initNumber", initNumber);
-        assert.isOk(initNumber === 2);
-        console.log("number", number);
-        assert.isOk(number === 4);
-        done();
-      }, 0); 
-    });
-    it("nothing heppend if call route again", (done) => {
-      document.getElementById("routePageButton").click();  
-      var initNumber = 1;
-      var number = 5;
-      var routeList = [
-        {
-          name: "index",
-          match: "",
-          onLeave: () => initNumber++
-        },
-        {
-          name: "testPage",
-          match: /testPage/,
-          onLeave: () => initNumber = initNumber + 4,          
-          onBeforeEnter: () => number--,
-          onEnter: () => number--
-        }
-      ];
-      var router = new Router(routeList);
-      // return Promise.resolve().then(() => document.getElementById("routePageButton").click())
-      // .then(() => assert.isOk(initNumber === 1)).then(() => assert.isOk(number === 5));
-      document.getElementById("routePageButton").click(); 
-       
-      // return Promise.resolve().then(() => assert.isOk(initNumber === 1)).then(() => assert.isOk(number === 5));
+  describe("complex", () => {
+    it("two routes. nothing happens if set the same hash", done => {
+      window.location.hash = "index?pageName=index";
+      var resultString = "";
       
       setTimeout(() => {
-        console.log("nothing heppend if call route again");
-        console.log("initNumber", initNumber);
-        assert.isOk(initNumber === 1);
-        console.log("number", number);
-        assert.isOk(number === 5);
-        done();
-      }, 10); 
+        var routeList = [
+          {
+            name: "index",
+            match: /index?(.+)/,
+            onBeforeEnter: obj => resultString += `${obj.pageName} before,`,
+            onEnter: obj => resultString += `${obj.pageName} enter,`,
+            onLeave: obj => resultString += `${obj.pageName} leave,`
+          },
+          {
+            name: "test",
+            match: /test?(.+)/,
+            onBeforeEnter: obj => resultString += `${obj.pageName} before,`,
+            onEnter: obj => resultString += `${obj.pageName} enter,`,
+            onLeave: obj => resultString += `${obj.pageName} leave,`
+          }
+        ];
+        var router = new Router(routeList);
+        window.location.hash = "test?pageName=test";
+
+        setTimeout(() => {
+          window.location.hash = "test?pageName=test";
+          
+          setTimeout(() => {            
+            assert.isOk(resultString === "index before,index enter,index leave,test before,test enter,");
+            done();
+          }, 0)
+        }, 0);
+      }, 0);
     });
-
-    // it("handleURL call load page for current page", () => {
-    //   document.getElementById("routeClearPageButton").click();  
-    //   var routeList = [
-    //     {
-    //       name: "index",
-    //       match: ""
-    //       onLeave: () => 
-    //     },
-    //     {
-    //       name: "testPage",
-    //       match: /testPage/
-    //     }
-    //   ];
-    //   var router = new Router(routeList);
-    //   document.getElementById("routePageButton").click();              
-      
-    // });
-
-    // it("handleUrl gets current page", () => {
-    //   document.getElementById("routeClearPageButton").click();  
-    //   var router = new Router();
-    //   document.getElementById("routePageButton").click();              
-    //   assert.isOk(router.handleURL() === "testPage");      
-    // });
-    // it("")
-
-    //first load
-    // it("call onEnter after first load", () => {
-      
-    // });
-
-
-  });
-    
-
-  //  умеет переходить на роут
-  // it("Router has setPage method", () => assert.isOk(typeof (new Router).setPage === "function"));
-  // it("Router setPage method takes 1 parameter", () => assert.isOk((new Router).setPage.length === 1));
-  // it("Router setPage method set new page to URL", () => {
-  //   var router = new Router();
-  //   router.setPage("newPage");
-  //   assert.isOk(router.getPage() === "newPage");
-  // });
-
-  //  роуты друг за другом
-  //  второй отрабатывает раньше первого
-
-  //  изменение на текущий роут: testPage -> testPage
-
-  //  отслеживает изменение URL
-
-  //  работает с функцией
-
-  //  работает с регуляркой
-
-  //  работает со строкой
-
-  //  вызывает onLeave()
-
-  //  вызывает onBeforeEnter()
-
-  //  вызывает onEnter()
-
-  //  умеет разбирать URL???
-
-  //  умеет определять роут с которого УХОДИМ
-
-  //  умеет определять роут на который СОБИРАЕМСЯ ПРИХОДИТЬ
-
-    
-
-  //  умеет добавлять роут
-
-  //  умеет удалять роут
-
-  //  умеет обновлять роут????
-
-
-  // it("Router constructor takes 1 param", () => assert.isOk((Router).length === 1));
-  // it("Router takes array as param", ())
-  // 
+  });    
 });
