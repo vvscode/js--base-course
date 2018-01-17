@@ -26,6 +26,13 @@ header ul{
 header li{
     float: left;
 }
+pre{
+    letter-spacing: 0;
+    font-size: 36px;
+    width: 400px;
+    line-height: 0.56em;
+    height: 400px;
+}
 
 .menu_link {
     background-color: black;
@@ -56,8 +63,8 @@ menu ul{
     margin: 5px;
 }
 .main_game_life{
-    width: 500px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     background-color: gray;
     margin: 0 auto;
 }

@@ -1,3 +1,4 @@
+/*
 'use strict';
 let newEventBus = new EventBus();
 let preBt = document.querySelector('#pre');
@@ -35,4 +36,4 @@ numberY.addEventListener('change',()=>{
 //обработчик на speed
 speed.addEventListener('change',()=>{
     alert('speed')
-});
+});*/
