@@ -137,52 +137,66 @@ describe("EventBus", function () {
 
 
 describe("Router", function () {
-var router=new Router({routes: [
-        {
-          name: 'index',
-          match: '',
-          onBeforeEnter: () => console.log('onBeforeEnter index'),
-          onEnter: () => console.log('onEnter index'),
-          onLeave: () => console.log('onLeave index')
-        },
-        {
-          name: 'city',
-          match: /city=(.+)/,
-          onBeforeEnter: (city) => console.log(`onBeforeEnter city:${city}`),
-          onEnter: (city) => console.log(`onEnter city:${city}`),
-          onLeave: (city) => console.log(`onLeave city:${city}`)
-        },
-        {
-          name: 'about',
-          match: (text) => text === 'about',
-          onBeforeEnter: () => console.log(`onBeforeEnter about`),
-          onEnter: () => console.log(`onEnter about`),
-          onLeave: () => console.log(`onLeave about`)
-        }
-      ]});
+    var onBeforeEnterMark = 0;
+    var onEnterMark = 0;
+    var onLeaveMark = 0;
+    var router = new Router({
+        routes: [
+            {
+                name: 'index',
+                match: '',
+                onBeforeEnter: () => onBeforeEnterMark = "str",
+                onEnter: () => onEnterMark = "str",
+                onLeave: () => onLeaveMark = "str"
+            },
+            {
+                name: 'city',
+                match: /city=(.+)/,
+                onBeforeEnter: (town) => onBeforeEnterMark = town[0],
+                onEnter: (town) => onEnterMark = town[0],
+                onLeave: (town) => onLeaveMark = town[0]
+            },
+            {
+                name: 'about',
+                match: (text) => text === 'about',
+                onBeforeEnter: () => onBeforeEnterMark = "about",
+                onEnter: () => onEnterMark = "about",
+                onLeave: () => onLeaveMark = "about"
+            }
+        ]
+    });
     it("функция", function () {
         assert.isOk(typeof Router === "function");
     });
-    it("поддерживает match в виде string", function () {
-
-    });
-    it("поддерживает match в виде regexp", function () {
-
-    });
-    it("поддерживает match в виде function", function () {
-
-    });
-    it("выполняет только функцию onEnter при входе на соотв. url", function () {
-
-    });
-    it("выполняет только функцию onLeave при выходе с соотв. url", function () {
-
-    });
-    it("выполняет только функцию beforeEnter перед входом в url", function () {
-
+    it("конструктор", function () {
+        assert.isOk(router instanceof Router);
+    })
+    it("поддерживает match в виде string", function (done) {
+        setTimeout(function () {
+            assert.isOk(onBeforeEnterMark == "str" && onEnterMark == "str" && onLeaveMark == 0);
+            done()
+        }, 0);
     });
 
+    it("поддерживает match в виде regexp", function (done) {
+        window.location.hash = "/city=Brest";
+        setTimeout(function () {
+            
+            assert.isOk(onBeforeEnterMark == "Brest" && onEnterMark == "Brest" && onLeaveMark == "str");
+            done();
+        }, 0)
+    });
 
+    it("поддерживает match в виде function", function (done) {
+        window.location.hash = "about";
+        setTimeout(function () {
+            
+            assert.isOk(onBeforeEnterMark == "about" && onEnterMark == "about" && onLeaveMark == "Brest")
+            done();
+        }, 0)
+
+
+    });
 
 });
 mocha.run();
