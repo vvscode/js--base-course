@@ -43,14 +43,12 @@ playBt.addEventListener('click',()=>{
 numberX.addEventListener('change',()=>{
     newEventBus.trigger('изменено поле по X', numberX.value);
     divWithGame.style.width = numberX.value + 'px';
-    console.log('x1 = ' + numberX.value);
 });
 
 //обработчик на number_y
 numberY.addEventListener('change',()=>{
     newEventBus.trigger('изменено поле по Y', numberY.value);
     divWithGame.style.height = numberY.value + 'px';
-    console.log('y1 = ' + numberY.value);
 });
 
 //обработчик на speed

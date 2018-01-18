@@ -1,33 +1,31 @@
 'use strict';
 let gamePlace = document.querySelector('#game_show');
-let xPlace = 400;
+let xPlace = 800;
 let yPlace = 400;
-let xArrPlace = Math.floor(xPlace / 40);
-let yArrPlace = Math.floor(yPlace / 40);
 let mas = [];
 let history = new Map();
 let showElemIsOne = 'Х';
-let showElemIsNull = '.'
+let showElemIsNull = '.';
 let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
-addStartArr(xArrPlace,yArrPlace);
-d (mas);
+addStartArr( xA(xPlace),xA(yPlace));
+showGameWithText (mas);
 
 gamePlace.addEventListener('click',(event)=>{
     let x = event.offsetX;
     let y = event.offsetY;
 
-    x = Math.floor( x * xArrPlace / xPlace);
-    y = Math.floor( y * yArrPlace / yPlace);
+    x = Math.floor( x * xA(xPlace) / xPlace);
+    y = Math.floor( y * xA(yPlace) / yPlace);
 
     if(mas[y][x] === 1){
         mas[y][x] = 0;
     } else {
         mas[y][x] = 1;
     }
-    gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+    gamePlace.innerHTML = `<pre>${addGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
 });
 
 // через EventBus
@@ -39,48 +37,53 @@ newEventBus.on('нажата play', ()=>{
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
   })
-})
+});
 
 newEventBus.on('вернуться на шаг назад', ()=>{
   --count;
-  console.log(count);
   saveStepsGame (history[count-1], count - 1);
   mas = history[count-1];
-})
+});
 
 newEventBus.on('вернуться на шаг вперед', ()=>{
   ++count;
-  console.log(count);
   saveStepsGame (history[count+1], count + 1);
   mas = history[count+1];
-})
-
+});
 
 newEventBus.on('изменено поле по speed', (secValue)=>{
   sec = secValue;
   clearInterval(setIntervalKEY);
-})
-
-
+});
 
 newEventBus.on('нажата stop', ()=>{
-  clearInterval(setIntervalKEY)
-})
+    clearInterval(setIntervalKEY)
+});
 
 newEventBus.on('изменено поле по Y', (numberY)=>{
-  addStartArr(xArrPlace,Math.floor(numberY / 40));
-  saveStepsGame (mas, count);
-})
+
+    yPlace = numberY;
+    addStartArr( xA(xPlace),xA(yPlace));
+    console.log(yPlace + ' -- это Y');
+    showGameWithText (mas);
+});
 
 newEventBus.on('изменено поле по X', (numberX)=>{
-  addStartArr(Math.floor(numberX / 40),yArrPlace);
-  saveStepsGame (mas, count);
-})
+
+    xPlace = numberX;
+    addStartArr( xA(xPlace),xA(yPlace));
+    console.log(xPlace + ' -- это X');
+    showGameWithText (mas);
+});
+
+function xA(value) {
+    return Math.floor(value / 40);
+}
 
 function a (sec) {
   return setInterval(()=>{
-    d (mas);
-    startLife(xArrPlace,yArrPlace);
+    showGameWithText (mas);
+    startLife(xA(xPlace),xA(yPlace));
     count++;
   }, sec);
 }
@@ -89,44 +92,42 @@ function saveStepsGame (arr, countV) {
 
   if(countV === -1) {
     alert('Истории нет!!!');
-    console.log('111tut');
-    d (mas);
+
+    showGameWithText (mas);
     arr = mas;
     return count = 1;
   }
 
   if(history[`${countV}`] === undefined){
     alert('Истории нет!!!');
-    console.log('tut1111111');
     return count--;
   }
 
   if(countV < count){
-    d (arr);
-    console.log('nen');
+    showGameWithText (arr);
   }
 
   if(countV > count){
-    d (arr);
-    console.log('tut');
+    showGameWithText (arr);
   }
 }
 
-function d (arr) {
-  gamePlace.innerHTML = `<pre>${showGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
+function showGameWithText (arr) {
+  gamePlace.innerHTML = `<pre>${addGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
   history[`${count}`] = arr;
 }
 
-function addStartArr(width, height) {
-    for(let i = 0; i < width; i++){
+function addStartArr( width, height) {
+    mas = [];
+    for( let i = 0; i < height; i++){
         mas[i] = [];
-        for (let j=0; j < height; j++){
+        for (let j=0; j < width; j++){
             mas[i][j] = 0;
         }
     }
 }
 
-function showGameWithText(arr, showElemIsOne, showElemIsNull ) {
+function addGameWithText(arr, showElemIsOne, showElemIsNull ) {
     let element = '';
 
     arr.forEach((yArr)=>{
@@ -152,9 +153,9 @@ function testDiagonalValue(num, param) {
 
 function startLife(width,height) {
   let mas2 = [];
-  for(let i = 0; i < width; i++){
+  for(let i = 0; i < height; i++){
     mas2[i] = [];
-    for (let j=0; j < height; j++){
+    for (let j=0; j < width; j++){
       let neighbors = 0;
 
 // ограничение поля
@@ -179,6 +180,6 @@ function startLife(width,height) {
     }
   }
   mas = mas2;
-  showGameWithText(mas, showElemIsOne, showElemIsNull);
+  addGameWithText(mas, showElemIsOne, showElemIsNull);
 }
 
