@@ -13,7 +13,6 @@ Calendar(calendarParams);
 //обработчик клика по ссылкам
 document.body.addEventListener('click', (ev) => {
     if (!ev.target.matches('a')) return;
-
     ev.preventDefault();
     let url = ev.target.getAttribute('href');
     window.location.hash = url;
@@ -139,7 +138,7 @@ function urlHandle(url) {
 
 
 function generateScript(param) {
-    return '<script src="calendar.script.js"></sc' + 'ript> \n\
+    return '<script src="https://cdn.rawgit.com/zenby/js--base-course/04/04/ht/EvgeniyDainovich/calendar.script.js"></sc' + 'ript> \n\
 <script> \n\t(function(){ \n\
 \t\tvar id = "' + getCalendarKey() + '"; \n\
 \t\tdocument.write("<div id= " + id + "></div>"); \n\
