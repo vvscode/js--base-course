@@ -29,13 +29,14 @@ darkSky.prototype.shortDate = function () {
         weekday: 'long',
     }
     return date.toLocaleString("ru", options);
-}
+};
 
 darkSky.prototype.getForecastByFetch = function (lat, lng) {
     return fetch(this.returnUrl(lat, lng))
         .then((req) => req.json())
-        .catch(console.log("errorFromDarkSky"));
+        .catch(err => console.log("errorFromDarkSky"));
 };
+
 darkSky.prototype.getForecastByXhr = function (lat, lng) {
     return new Promise((resolve) => {
         var xhr = new XMLHttpRequest();
@@ -49,6 +50,16 @@ darkSky.prototype.getForecastByXhr = function (lat, lng) {
         xhr.send();
     });
 }
+
+darkSky.prototype.getForecastBySelectedRequest = function (request, lat, lng) {
+    if (request === 'fetch') {
+        return this.getForecastByFetch(lat, lng)
+    }
+    else if (request === 'xhr') {
+        return this.getForecastByXhr(lat, lng)
+    }
+};
+
 
 
 export default darkSky;

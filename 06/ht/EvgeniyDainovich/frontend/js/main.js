@@ -2,6 +2,7 @@ import YandexFunction from './yandexMap';
 import GoogleFunction from './googleMap';
 import ListComponent from './listComponent';
 import DarkSky from './darkSky';
+import EventBus from './eventBus';
 
 let options = { request: "fetch" };
 
@@ -11,37 +12,49 @@ var searchInput = document.getElementById("searchInput");
 var searchBtn = document.getElementById("searchBtn");
 var weatherHtml = document.getElementById("weather");
 
-var yandexMap = new YandexFunction();
-var googleMap = new GoogleFunction();
-let historyList = new ListComponent(false, 5, "historyList", historyHtml);
-let favoritesList = new ListComponent(true, 100, "favoritesList", favoritesHtml);
+var eventBus = new EventBus();
+var yandexMap = new YandexFunction(eventBus, 'favoritesList');
+var googleMap = new GoogleFunction(eventBus);
+let historyList = new ListComponent(false, 5, "historyList", false, historyHtml);
+let favoritesList = new ListComponent(true, 100, "favoritesList", true, favoritesHtml, eventBus);
 let darkSky = new DarkSky(weatherHtml);
 
-
-
-handlerChangeRequest();
-
-historyHtml.addEventListener('click', function (ev) {
-    if (ev.target.matches('a')) {
-        var cords = historyList.findElement(ev.target.innerHTML);
-        yandexMap.moveToCity(cords[0], cords[1])
-        getForecastBySelectedRequest(options.request, cords[0], cords[1])
-            .then(response => darkSky.fillHtml(response));
+subscribeToChangeRequest();
+//перенести в ListComponent
+historyHtml.addEventListener('click', (ev) => onClickElementInList(historyList, ev));
+//перенести в listComponent
+favoritesHtml.addEventListener('click', (ev) => {
+    if (ev.target.matches('a') && ev.target.innerHTML === '[x]') {
+        var city = favoritesList.findElement(ev.target.parentNode.firstChild.innerHTML);
+        favoritesList.removeElement(city.name);
+        favoritesList.redraw();
+        yandexMap.removePlacemark(city);
     }
 });
+//перенести в ListComponent
+favoritesHtml.addEventListener('click', (ev) => onClickElementInList(favoritesList, ev));
+
+function onClickElementInList(list, ev) {
+    if (ev.target.matches('a') && ev.target.innerHTML !== '[x]') {
+        var city = list.findElement(ev.target.innerHTML);
+        yandexMap.moveToCity(city.lat, city.lng)
+        darkSky.getForecastBySelectedRequest(options.request, city.lat, city.lng)
+            .then(response => darkSky.fillHtml(response));
+    }
+};
+//создать элемент searchBtn и убрать туда все,
+// что касается поиска города, а затем ипортировать. 
+//Общаться через eventBus
 searchBtn.addEventListener("click", searchAction);
 searchInput.addEventListener("keydown", function (ev) {
     if (ev.keyCode === 13) {
         searchAction();
     }
 });
+
 function searchAction() {
     if (searchInput.value != "") {
-        let city = {
-            name: 'default',
-            lat: 0,
-            lng: 0
-        };
+        let city = { name: 'default', lat: 0, lng: 0 };
         googleMap.getCoordsByName(searchInput.value)
             .then(coords => {
                 city.name = searchInput.value;
@@ -50,9 +63,9 @@ function searchAction() {
                 searchInput.value = '';
                 yandexMap.moveToCity(city.lat, city.lng);
                 historyList.addElement(city);
-                historyList.draw();
+                historyList.redraw();
             })
-            .then(p => getForecastBySelectedRequest(options.request, city.lat, city.lng))
+            .then(p => darkSky.getForecastBySelectedRequest(options.request, city.lat, city.lng))
             .then(response => darkSky.fillHtml(response))
             .catch(err => function () {
                 alert('error city');
@@ -61,23 +74,11 @@ function searchAction() {
     }
 };
 
-function getForecastBySelectedRequest(request, lat, lng) {
-    if (request === 'fetch') {
-        return darkSky.getForecastByFetch(lat, lng)
-    }
-    else if (request === 'xhr') {
-        return darkSky.getForecastByXhr(lat, lng)
-    }
-}
-
-function handlerChangeRequest() {
+function subscribeToChangeRequest() {
     var button = document.querySelector('.btn-group');
     button.addEventListener('click', function (ev) {
         options.request = document.querySelector('input[name="options_request"]:checked').value;
     });
-
-
-
 }
 
 
