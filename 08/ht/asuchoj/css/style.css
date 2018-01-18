@@ -27,11 +27,10 @@ header li{
     float: left;
 }
 pre{
-    letter-spacing: 0;
-    font-size: 36px;
-    width: 400px;
-    line-height: 0.56em;
-    height: 400px;
+    position: relative;
+    letter-spacing: 0.629em;
+    font-size: 34px;
+    line-height: 1.18em;
 }
 
 .menu_link {
@@ -68,8 +67,10 @@ menu ul{
     background-color: gray;
     margin: 0 auto;
 }
+
 .pre,
 .play,
+.stop,
 .next {
     padding: 10px;
     border-radius: 20px;

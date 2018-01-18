@@ -1,4 +1,3 @@
-/*
 'use strict';
 let newEventBus = new EventBus();
 let preBt = document.querySelector('#pre');
@@ -8,6 +7,8 @@ let numberX = document.querySelector('#number_x');
 let numberY = document.querySelector('#number_y');
 let speed = document.querySelector('#range');
 
+let divWithGame = document.querySelector('.main_game_life');
+/*let spaceGame = document.querySelector('.main_game_life pre');*/
 //обработчик на pre
 preBt.addEventListener('click',()=>{
    alert('pre')
@@ -15,7 +16,21 @@ preBt.addEventListener('click',()=>{
 
 //обработчик на play
 playBt.addEventListener('click',()=>{
-    alert('play')
+    let a = playBt.getAttribute('class');
+    playBt.innerHTML = '&#9655;';
+
+    if(a === 'play'){
+      newEventBus.trigger('нажата play');
+      playBt.setAttribute('class', 'stop');
+      playBt.innerHTML = '&#8741;';
+    }
+
+    if(a === 'stop'){
+        playBt.setAttribute('class', 'play');
+        playBt.innerHTML = '&#9655;';
+        newEventBus.trigger('нажата stop');
+        newEventBus.off('изменено поле по speed в процессе работы');
+    }
 });
 
 //обработчик на play
@@ -25,15 +40,21 @@ nextBt.addEventListener('click',()=>{
 
 //обработчик на number_x
 numberX.addEventListener('change',()=>{
-    alert('number_x')
+    newEventBus.trigger('изменено поле по X', numberX.value);
+    divWithGame.style.width = numberX.value + 'px';
+    console.log('x1 = ' + numberX.value);
 });
 
 //обработчик на number_y
 numberY.addEventListener('change',()=>{
-    alert('number_y')
+    newEventBus.trigger('изменено поле по Y', numberY.value);
+    divWithGame.style.height = numberY.value + 'px';
+    console.log('y1 = ' + numberY.value);
 });
 
 //обработчик на speed
 speed.addEventListener('change',()=>{
-    alert('speed')
-});*/
+    alert('текущая скорочть - ' + Math.floor(speed.value * 50 + 100)/1000 + ' - сек');
+    newEventBus.trigger('изменено поле по speed', Math.floor(speed.value * 50 + 100));
+    newEventBus.trigger('изменено поле по speed в процессе работы', Math.floor(speed.value * 50 + 100));
+});

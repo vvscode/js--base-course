@@ -28,14 +28,14 @@
         <div>
             <div class="main_game_life" id="game_show"></div>
             <div class="main_menu">
-                <button class="pre" id="pre"> &#9194; </button>
-                <button class="play" id="play"> &#9655; </button>
-                <button class="next" id="next"> &#9193; </button>
+                <button class="pre" id="pre">&#9194;</button>
+                <button class="play" id="play">&#9655;</button>
+                <button class="next" id="next">&#9193;</button>
                 <label class="main_menu_y"> y
-                    <input class="main_menu_number" id="number_y" type="number" value="0">
+                    <input class="main_menu_number" id="number_y" type="number" value="400" step="40">
                 </label>
                 <label class="main_menu_x"> x
-                    <input class="main_menu_number" id="number_x" type="number" value="0">
+                    <input class="main_menu_number" id="number_x" type="number" value="400" step="40">
                 </label>
                 <label class="main_menu_speed"> Speed
                     <input class="main_menu_range" id="range" type="range" value="0">
@@ -50,11 +50,10 @@
 
 
     <!-- build:js js/MyJs.js -->
-    <script src="js/gameshow.js"></script>
     <script src="js/eventBus.js"></script>
     <script src="js/controller.js"></script>
     <script src="js/router.js"></script>
-
+    <script src="js/gameshow.js"></script>
     <!-- endbuild -->
 </div>
 </body>

@@ -1,32 +1,73 @@
 'use strict';
 let gamePlace = document.querySelector('#game_show');
-let widthPlace = 20;
-let heightPlace = 20;
+let xPlace = 400;
+let yPlace = 400;
+let xArrPlace = Math.floor(xPlace / 40);
+let yArrPlace = Math.floor(yPlace / 40);
 let mas = [];
 let showElemIsOne = '1';
-let showElemIsNull = '0';
+let showElemIsNull = '0'
 let count = 0;
+let setIntervalKEY = 0;
+let sec = 100;
 
-goLife(widthPlace,heightPlace);
-gamePlace.innerHTML = `<pre>${showGame(mas, showElemIsOne, showElemIsNull)}</pre>`;
+addStartArr(xArrPlace,yArrPlace);
+gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
 
 gamePlace.addEventListener('click',(event)=>{
     let x = event.offsetX;
     let y = event.offsetY;
-    x = Math.floor(x/20);
-    y = Math.floor(y/20);
+
+    x = Math.floor( x * xArrPlace / xPlace);
+    y = Math.floor( y * yArrPlace / yPlace);
 
     if(mas[y][x] === 1){
         mas[y][x] = 0;
     } else {
         mas[y][x] = 1;
     }
-    gamePlace.innerHTML = `<pre>${showGame(mas, showElemIsOne, showElemIsNull)}</pre>`;
+    gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
 });
 
+// через EventBus
+newEventBus.on('нажата play', ()=>{
+  clearInterval(setIntervalKEY);
+  setIntervalKEY = a (sec);
+  newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
+    sec = secValue;
+    clearInterval(setIntervalKEY);
+    setIntervalKEY = a (sec);
+  })
+})
 
+newEventBus.on('изменено поле по speed', (secValue)=>{
+  sec = secValue;
+  clearInterval(setIntervalKEY);
+})
 
-function goLife(width,height) {
+function a (sec) {
+  return setInterval(()=>{
+    startLife(xArrPlace,yArrPlace);
+    gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+  }, sec);
+}
+
+newEventBus.on('нажата stop', ()=>{
+  clearInterval(setIntervalKEY)
+})
+
+newEventBus.on('изменено поле по Y', (numberY)=>{
+
+  addStartArr(xArrPlace,Math.floor(numberY / 40));
+  gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+})
+
+newEventBus.on('изменено поле по X', (numberX)=>{
+  addStartArr(Math.floor(numberX / 40),yArrPlace);
+  gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+})
+
+function addStartArr(width, height) {
     for(let i = 0; i < width; i++){
         mas[i] = [];
         for (let j=0; j < height; j++){
@@ -35,7 +76,7 @@ function goLife(width,height) {
     }
 }
 
-function showGame(mas, showElemIsOne, showElemIsNull ) {
+function showGameWithText(mas, showElemIsOne, showElemIsNull ) {
     let element = '';
     mas.forEach((yArr)=>{
         yArr.forEach((xArr)=>{
@@ -49,81 +90,44 @@ function showGame(mas, showElemIsOne, showElemIsNull ) {
     });
     return element;
 }
+
+function testStraightValue(num) {
+  return num !== -1;
+}
+
+function testDiagonalValue(num, param) {
+  return num !== param;
+}
+
 function startLife(width,height) {
-    let mas2 = [];
-    for(let i = 0; i < width; i++){
-        mas2[i] = [];
-        for (let j=0; j < height; j++){
-            let neighbors = 0;
-            if(mas[a(i-1)][j] === 1) neighbors++; // up
-            if(mas[b(i+1, height)][j] === 1) neighbors++; // down
-            if(mas[i][a(j-1)] === 1) neighbors++; // left
-            if(mas[i][b(j+1, width)] === 1) neighbors++; // right
+  let mas2 = [];
+  for(let i = 0; i < width; i++){
+    mas2[i] = [];
+    for (let j=0; j < height; j++){
+      let neighbors = 0;
 
-            if(mas[a(i-1)][a(j-1)] === 1) neighbors++; // up/left
-            if(mas[a(i-1)][b(j+1, width)] === 1) neighbors++; // up/right
-            if(mas[b(i+1,height) ][a(j-1)] === 1) neighbors++; // down/left
-            if(mas[b(i+1, height)][b(j+1, width)] === 1) neighbors++; // down/right
+// ограничение поля
+      if( testStraightValue(i-1) && mas[i-1][j] === 1 ) neighbors++; // up
+      if( testDiagonalValue(i+1, height) && mas[i+1][j] === 1 ) neighbors++; // down
+      if( testStraightValue(j-1) && mas[i][j-1] === 1 ) neighbors++; // left
+      if( testDiagonalValue(j+1, width) && mas[i][j+1] === 1 ) neighbors++; // right
 
-            (neighbors === 2 || neighbors === 3) ? mas2[i][j] = 1 : mas[i][j] = 0;
-        }
+      if( ( testStraightValue(i-1) && testStraightValue(j-1) ) && mas[i-1][j-1] === 1 ) neighbors++; // up/left
+      if( ( testStraightValue(i-1) && testDiagonalValue(j+1, width) ) && mas[i-1][j+1] === 1 ) neighbors++; // up/right
+      if( ( testDiagonalValue(i+1,height) && testStraightValue(j-1) ) && mas[i+1 ][j-1] === 1 ) neighbors++; // down/left
+      if( ( testDiagonalValue(i+1, height) && testDiagonalValue(j+1, width) ) && mas[i+1][j+1] === 1 ) neighbors++; // down/right
+
+// проверка по правилам
+      if( mas[i][j] === 0 && neighbors === 3){
+        mas2[i][j] = 1
+      } else if ( mas[i][j] === 1 && neighbors === 2 || neighbors === 3){
+        mas2[i][j] = 1
+      } else {
+        mas2[i][j] = 0
+      }
     }
-    mas = mas2;
-    showGame(mas, showElemIsOne, showElemIsNull);
-    count++;
-
-
+  }
+  mas = mas2;
+  showGameWithText(mas, showElemIsOne, showElemIsNull);
+  count++;
 }
-
-
-function a(i) {
-    if(i === -1 ){
-        return 0;
-    }
-}
-
-function b(i, param) {
-    if ( i === param + 1 ){
-        return param;
-    }
-}
-
-
-
-let preBt = document.querySelector('#pre');
-let playBt = document.querySelector('#play');
-let nextBt = document.querySelector('#next');
-let numberX = document.querySelector('#number_x');
-let numberY = document.querySelector('#number_y');
-let speed = document.querySelector('#range');
-
-
-//обработчик на pre
-preBt.addEventListener('click',()=>{
-    alert('pre')
-});
-
-//обработчик на play
-playBt.addEventListener('click',()=>{
-    startLife(widthPlace,heightPlace);
-});
-
-//обработчик на play
-nextBt.addEventListener('click',()=>{
-    alert('next')
-});
-
-//обработчик на number_x
-numberX.addEventListener('change',()=>{
-    alert('number_x')
-});
-
-//обработчик на number_y
-numberY.addEventListener('change',()=>{
-    alert('number_y')
-});
-
-//обработчик на speed
-speed.addEventListener('change',()=>{
-    alert('speed')
-});
