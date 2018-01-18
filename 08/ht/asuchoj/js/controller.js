@@ -6,12 +6,18 @@ let nextBt = document.querySelector('#next');
 let numberX = document.querySelector('#number_x');
 let numberY = document.querySelector('#number_y');
 let speed = document.querySelector('#range');
-
 let divWithGame = document.querySelector('.main_game_life');
-/*let spaceGame = document.querySelector('.main_game_life pre');*/
+
 //обработчик на pre
 preBt.addEventListener('click',()=>{
-   alert('pre')
+/*    alert('pre');*/
+    newEventBus.trigger('вернуться на шаг назад');
+});
+
+//обработчик на next
+nextBt.addEventListener('click',()=>{
+/*  alert('next');*/
+  newEventBus.trigger('вернуться на шаг вперед');
 });
 
 //обработчик на play
@@ -31,11 +37,6 @@ playBt.addEventListener('click',()=>{
         newEventBus.trigger('нажата stop');
         newEventBus.off('изменено поле по speed в процессе работы');
     }
-});
-
-//обработчик на play
-nextBt.addEventListener('click',()=>{
-    alert('next')
 });
 
 //обработчик на number_x

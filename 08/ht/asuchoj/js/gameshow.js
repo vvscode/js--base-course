@@ -5,14 +5,15 @@ let yPlace = 400;
 let xArrPlace = Math.floor(xPlace / 40);
 let yArrPlace = Math.floor(yPlace / 40);
 let mas = [];
-let showElemIsOne = '1';
-let showElemIsNull = '0'
+let history = new Map();
+let showElemIsOne = 'Х';
+let showElemIsNull = '.'
 let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
 addStartArr(xArrPlace,yArrPlace);
-gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+d (mas);
 
 gamePlace.addEventListener('click',(event)=>{
     let x = event.offsetX;
@@ -40,32 +41,81 @@ newEventBus.on('нажата play', ()=>{
   })
 })
 
+newEventBus.on('вернуться на шаг назад', ()=>{
+  --count;
+  console.log(count);
+  saveStepsGame (history[count-1], count - 1);
+  mas = history[count-1];
+})
+
+newEventBus.on('вернуться на шаг вперед', ()=>{
+  ++count;
+  console.log(count);
+  saveStepsGame (history[count+1], count + 1);
+  mas = history[count+1];
+})
+
+
 newEventBus.on('изменено поле по speed', (secValue)=>{
   sec = secValue;
   clearInterval(setIntervalKEY);
 })
 
-function a (sec) {
-  return setInterval(()=>{
-    startLife(xArrPlace,yArrPlace);
-    gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
-  }, sec);
-}
+
 
 newEventBus.on('нажата stop', ()=>{
   clearInterval(setIntervalKEY)
 })
 
 newEventBus.on('изменено поле по Y', (numberY)=>{
-
   addStartArr(xArrPlace,Math.floor(numberY / 40));
-  gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+  saveStepsGame (mas, count);
 })
 
 newEventBus.on('изменено поле по X', (numberX)=>{
   addStartArr(Math.floor(numberX / 40),yArrPlace);
-  gamePlace.innerHTML = `<pre>${showGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+  saveStepsGame (mas, count);
 })
+
+function a (sec) {
+  return setInterval(()=>{
+    d (mas);
+    startLife(xArrPlace,yArrPlace);
+    count++;
+  }, sec);
+}
+
+function saveStepsGame (arr, countV) {
+
+  if(countV === -1) {
+    alert('Истории нет!!!');
+    console.log('111tut');
+    d (mas);
+    arr = mas;
+    return count = 1;
+  }
+
+  if(history[`${countV}`] === undefined){
+    alert('Истории нет!!!');
+    console.log('tut1111111');
+    return count--;
+  }
+
+  if(countV < count){
+    d (arr);
+    console.log('nen');
+  }
+
+  if(countV > count){
+    d (arr);
+    console.log('tut');
+  }
+}
+
+function d (arr) {
+  gamePlace.innerHTML = `<pre>${showGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
+  history[`${count}`] = arr;
+}
 
 function addStartArr(width, height) {
     for(let i = 0; i < width; i++){
@@ -76,9 +126,10 @@ function addStartArr(width, height) {
     }
 }
 
-function showGameWithText(mas, showElemIsOne, showElemIsNull ) {
+function showGameWithText(arr, showElemIsOne, showElemIsNull ) {
     let element = '';
-    mas.forEach((yArr)=>{
+
+    arr.forEach((yArr)=>{
         yArr.forEach((xArr)=>{
             if(xArr === 0){
                 element += '' + showElemIsNull;
@@ -129,5 +180,5 @@ function startLife(width,height) {
   }
   mas = mas2;
   showGameWithText(mas, showElemIsOne, showElemIsNull);
-  count++;
 }
+
