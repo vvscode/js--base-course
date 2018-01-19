@@ -35,29 +35,62 @@ Router.prototype = {
         let newRoute = this.findNewActiveRoute(url);
         let routeParams = this.getRouteParams(newRoute, url);
 
-        Promise.resolve()
-            .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(...this.currentRouteParams))
-            .then(() => newRoute && newRoute.onEnter && newRoute.onEnter(...routeParams))
-            .then(() => {
-                this.currentRoute = newRoute;
-                this.currentRouteParams = routeParams;
-            });
+      Promise.resolve()
+        .then(() => previousRoute && previousRoute.onLeave && previousRoute.onLeave(...this.currentRouteParams))
+        // После этого выполнить .onBeforeEnter для нового активного роута
+        .then(() => newRoute && newRoute.onBeforeEnter && newRoute.onBeforeEnter(...routeParams))
+        // После этого выполнить .onEnter для ногового активного роута ( только если с .onBeforeEnter все ок)
+        .then(() => newRoute && newRoute.onEnter && newRoute.onEnter(...routeParams))
+        .then(() => {
+          this.currentRoute = newRoute;
+          this.currentRouteParams = routeParams;
+        });
     },
 };
 
 let router = new Router({
-    routes: [{
-        name: 'index',
-        match: '',
-    },{
-        name: 'string',
-        match: (text) => text ,
-        onEnter: () => {
-          newEventBus.trigger(`начата отрисовка ${text}`, text);
-        },
-        onLeave: () => {
-          newEventBus.trigger(`завершить отрисовку с ${text}`, text);
-        }
-    }]
+  routes: [{
+      name: 'index',
+    match: '',
+    onEnter: () => {
+          addClassInShowPage();
+          },
+    onLeave: (value) => delClassInPages (value)
+  }, {
+      name: 'show',
+    match: /show=(.+)/,
+    onBeforeEnter: (value) => {
+          console.log('значение');
+    },
+    onEnter: (value) => {
+          addClassInShowPage();
+          newEventBus.trigger('текущая открытая страница', value);
+    },
+    onLeave: (value) => {
+          delClassInPages (value);
+          newEventBus.trigger('прошлая страница', value);
+      }
+  }]
 });
+
+
+function addClassInShowPage() {
+    let thisPageHash = location.hash.split('=').slice(1).join('');
+    let thisPage;
+    if(thisPageHash === 'text' || thisPageHash === 'canvas' || thisPageHash === 'svg'){
+        thisPage = document.querySelector( '.game');
+    } else if(thisPageHash === 'about'){
+        thisPage = document.querySelector( '.about');
+    } else {
+        thisPage = document.querySelector('.main');
+    }
+    thisPage.classList.add('page_show');
+}
+
+function delClassInPages () {
+    let allPages = document.querySelectorAll('.page');
+    [].forEach.call(allPages, (elem)=>{
+        elem.classList.remove('page_show')
+    });
+}
 

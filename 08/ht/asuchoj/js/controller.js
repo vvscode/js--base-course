@@ -8,7 +8,7 @@ let numberY = document.querySelector('#number_y');
 let speed = document.querySelector('#range');
 let divWithGame = document.querySelector('.main_game_life');
 let gamePlace = document.querySelector('#game_show');
-
+let show = 'text';
 
 //обработчик на pre
 preBt.addEventListener('click',()=>{
@@ -26,7 +26,8 @@ playBt.addEventListener('click',()=>{
     playBt.innerHTML = '&#9655;';
 
     if(a === 'play'){
-      newEventBus.trigger('нажата play');
+      let show = 'text';
+      newEventBus.trigger('нажата play', show);
       playBt.setAttribute('class', 'stop');
       playBt.innerHTML = '&#8741;';
     }
@@ -60,5 +61,30 @@ speed.addEventListener('change',()=>{
 
 //обработчик для отображения игры
 gamePlace.addEventListener('click',(event)=>{
-  newEventBus.trigger('начата расстановка начальных бигур', event);
+  newEventBus.trigger('начата расстановка начальных фигур', event);
 });
+
+
+newEventBus.on('текущая открытая страница', (page)=>{
+  console.log('текущая открытая страница');
+  newEventBus.trigger('старта');
+  newEventBus.on('для старта', (arr)=>{
+    newEventBus.trigger('рисуем', arr, page);
+  });
+});
+
+newEventBus.on('изменился массив для отображения', (arr)=>{
+  console.log('hbcetv yjdsv pyfxtybtv');
+  newEventBus.trigger('рисуем', arr, show);
+});
+
+
+
+
+
+
+
+
+
+
+

@@ -7,9 +7,12 @@ let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
-addStartArr( xA(xPlace),xA(yPlace));
+newEventBus.on('старт', ()=>{
+  addStartArr( xA(xPlace),xA(yPlace));
+  newEventBus.trigger('для старта', addStartArr( xA(xPlace),xA(yPlace)))
+});
 
-newEventBus.on('начата расстановка начальных бигур', (event)=>{
+newEventBus.on('начата расстановка начальных фигур', (event)=>{
   let x = event.offsetX;
   let y = event.offsetY;
 
@@ -23,8 +26,6 @@ newEventBus.on('начата расстановка начальных бигу�
   }
   showGameWithText (mas);
 });
-
-
 // через EventBus
 newEventBus.on('нажата play', ()=>{
   clearInterval(setIntervalKEY);
@@ -36,16 +37,21 @@ newEventBus.on('нажата play', ()=>{
   })
 });
 
+newEventBus.on('показать информацию страницы', ()=>{
+  addStartArr( xA(xPlace),xA(yPlace));
+  showGameWithText (mas);
+});
+
 newEventBus.on('вернуться на шаг назад', ()=>{
   --count;
-  saveStepsGame (history[count-1], count - 1);
   mas = history[count-1];
+  saveStepsGame (history[count-1], count - 1);
 });
 
 newEventBus.on('вернуться на шаг вперед', ()=>{
   ++count;
-  saveStepsGame (history[count+1], count + 1);
   mas = history[count+1];
+  saveStepsGame (history[count+1], count + 1);
 });
 
 newEventBus.on('изменено поле по speed', (secValue)=>{
@@ -75,14 +81,13 @@ function xA(value) {
 
 function a (sec) {
   return setInterval(()=>{
-    showGameWithText (mas);
     startLife(xA(xPlace),xA(yPlace));
+    showGameWithText (mas);
     count++;
   }, sec);
 }
 
 function saveStepsGame (arr, countV) {
-
   if(countV === -1) {
     alert('Истории нет!!!');
     showGameWithText (mas);
@@ -105,8 +110,9 @@ function saveStepsGame (arr, countV) {
 }
 
 function showGameWithText (arr) {
-  newEventBus.trigger('изменился массив для отображения', arr);
+  console.log('массив меняется');
   history[`${count}`] = arr;
+  newEventBus.trigger('изменился массив для отображения', arr);
 }
 
 function addStartArr( width, height) {
