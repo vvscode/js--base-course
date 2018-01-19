@@ -7,16 +7,16 @@ let numberX = document.querySelector('#number_x');
 let numberY = document.querySelector('#number_y');
 let speed = document.querySelector('#range');
 let divWithGame = document.querySelector('.main_game_life');
+let gamePlace = document.querySelector('#game_show');
+
 
 //обработчик на pre
 preBt.addEventListener('click',()=>{
-/*    alert('pre');*/
     newEventBus.trigger('вернуться на шаг назад');
 });
 
 //обработчик на next
 nextBt.addEventListener('click',()=>{
-/*  alert('next');*/
   newEventBus.trigger('вернуться на шаг вперед');
 });
 
@@ -56,4 +56,9 @@ speed.addEventListener('change',()=>{
     alert('текущая скорочть - ' + Math.floor(speed.value * 50 + 100)/1000 + ' - сек');
     newEventBus.trigger('изменено поле по speed', Math.floor(speed.value * 50 + 100));
     newEventBus.trigger('изменено поле по speed в процессе работы', Math.floor(speed.value * 50 + 100));
+});
+
+//обработчик для отображения игры
+gamePlace.addEventListener('click',(event)=>{
+  newEventBus.trigger('начата расстановка начальных бигур', event);
 });

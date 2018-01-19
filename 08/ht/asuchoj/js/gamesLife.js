@@ -1,32 +1,29 @@
 'use strict';
-let gamePlace = document.querySelector('#game_show');
 let xPlace = 800;
 let yPlace = 400;
 let mas = [];
 let history = new Map();
-let showElemIsOne = 'Х';
-let showElemIsNull = '.';
 let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
 addStartArr( xA(xPlace),xA(yPlace));
-showGameWithText (mas);
 
-gamePlace.addEventListener('click',(event)=>{
-    let x = event.offsetX;
-    let y = event.offsetY;
+newEventBus.on('начата расстановка начальных бигур', (event)=>{
+  let x = event.offsetX;
+  let y = event.offsetY;
 
-    x = Math.floor( x * xA(xPlace) / xPlace);
-    y = Math.floor( y * xA(yPlace) / yPlace);
+  x = Math.floor( x * xA(xPlace) / xPlace);
+  y = Math.floor( y * xA(yPlace) / yPlace);
 
-    if(mas[y][x] === 1){
-        mas[y][x] = 0;
-    } else {
-        mas[y][x] = 1;
-    }
-    gamePlace.innerHTML = `<pre>${addGameWithText(mas, showElemIsOne, showElemIsNull)}</pre>`;
+  if(mas[y][x] === 1){
+    mas[y][x] = 0;
+  } else {
+    mas[y][x] = 1;
+  }
+  showGameWithText (mas);
 });
+
 
 // через EventBus
 newEventBus.on('нажата play', ()=>{
@@ -61,18 +58,14 @@ newEventBus.on('нажата stop', ()=>{
 });
 
 newEventBus.on('изменено поле по Y', (numberY)=>{
-
     yPlace = numberY;
     addStartArr( xA(xPlace),xA(yPlace));
-    console.log(yPlace + ' -- это Y');
     showGameWithText (mas);
 });
 
 newEventBus.on('изменено поле по X', (numberX)=>{
-
     xPlace = numberX;
     addStartArr( xA(xPlace),xA(yPlace));
-    console.log(xPlace + ' -- это X');
     showGameWithText (mas);
 });
 
@@ -92,7 +85,6 @@ function saveStepsGame (arr, countV) {
 
   if(countV === -1) {
     alert('Истории нет!!!');
-
     showGameWithText (mas);
     arr = mas;
     return count = 1;
@@ -113,7 +105,7 @@ function saveStepsGame (arr, countV) {
 }
 
 function showGameWithText (arr) {
-  gamePlace.innerHTML = `<pre>${addGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
+  newEventBus.trigger('изменился массив для отображения', arr);
   history[`${count}`] = arr;
 }
 
@@ -125,22 +117,6 @@ function addStartArr( width, height) {
             mas[i][j] = 0;
         }
     }
-}
-
-function addGameWithText(arr, showElemIsOne, showElemIsNull ) {
-    let element = '';
-
-    arr.forEach((yArr)=>{
-        yArr.forEach((xArr)=>{
-            if(xArr === 0){
-                element += '' + showElemIsNull;
-            } else {
-                element += '' + showElemIsOne;
-            }
-        });
-        element += '\n';
-    });
-    return element;
 }
 
 function testStraightValue(num) {
@@ -180,6 +156,5 @@ function startLife(width,height) {
     }
   }
   mas = mas2;
-  addGameWithText(mas, showElemIsOne, showElemIsNull);
 }
 

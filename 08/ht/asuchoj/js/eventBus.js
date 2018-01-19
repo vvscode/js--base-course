@@ -46,7 +46,6 @@ EventBus.prototype.off = function(eventName, cb) {
     return this.listeners = {};
   }
 };
-
 EventBus.prototype.trigger = function(eventName, ...data) {
   (this.listeners[eventName] || []).forEach(cb => cb.apply(this, data))
 };
