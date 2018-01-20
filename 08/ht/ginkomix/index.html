@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/style.css">
+    </head>
+    <body>
+
+        <header>
+            <div class="menu">
+
+                <a href="#text">Text</a>
+                <a href="#canvas">Canvas</a>
+                <a href="#svg">Svg</a>
+                <a href="#">About</a>
+            </div>
+        </header>
+        <main>
+            <section id="text">
+                <div class="textGame">
+                    <pre id="pre"> </pre>
+                </div>
+            </section>
+            <section id ="canvas">
+                <div class="canvasGame">
+                    <canvas id="canvasGame"></canvas>
+                </div>
+            </section>
+            <section id="svg">
+                <div class="svgGame">
+                    <svg id="svgGame">
+                    </svg>
+                </div>
+            </section>
+            <section id="about">
+                <p>Игра жизнь</p>
+                <p>Сделал ginkomix</p>
+            </section>
+            <div id="controlProject">
+                <div id="control">
+                    <div class="button-controls">
+                        <div id="left">
+                            <img src="./img/left.png" alt=""></div>
+                        <div id="play">
+                            <img class="button-play" src="./img/play.png" alt="">
+                            <img class="button-pause" src="./img/pause.png" alt=""></div>
+                        <div id="right">
+                            <img src="./img/right.png" alt=""></div>
+                    </div>
+                    <div class="size-game">
+                        <span>x</span><input id="xSize" max="20" min="0" placeholder="x" value="10" type="number">
+                        <span>y</span><input id="ySize" placeholder="y" value="10" type="number">
+                    </div>
+
+                </div>
+
+                <div class="spead">
+                    <input id="speadInput" type="range" min="0" max="100" step="1" value="50">
+                </div>
+            </div>
+        </main>
+        <script src="./js/EventBus.js"></script>
+        <script src="./js/renderText.js"></script>
+        <script src="./js/renderCanvas.js"></script>
+        <script src="./js/renderSvg.js"></script>
+        <script src="./js/main.js"></script>
+        <script src="./js/router.js"></script>
+        
+    </body>
+</html>
