@@ -2,25 +2,32 @@
 let showElemIsOne = 'Х';
 let showElemIsNull = '.';
 let gameBox = document.querySelector('.main_game_life')
-
+let page2 = '';
 
 
 
 newEventBus.on('рисуем', (arr, page)=>{
-console.log('111111111111111111111');
+
+  if( page2 === 'about' && ( page === 'text' || page === 'canvas' || page === 'svg' )){
+    alert('нажата play');
+    newEventBus.trigger('нажата play')
+  }
+
   if(page === 'text'){
     gamePlace.innerHTML = `<pre>${addGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
   } else if( page === 'canvas'){
     gamePlace.innerHTML = '<canvas id="canvas"></canvas>';
     let canvas = document.querySelector('#canvas');
     var ctx = canvas.getContext('2d');
-    drawCanvas (arr, ctx)
+    drawCanvas (arr, ctx);
+
   } else if(page === 'svg'){
     gamePlace.innerHTML = `<svg id="svg">${drawSVG (arr)}</svg>`;
   } else if(page === 'about'){
-    alert('about')
+      page2 = page;
+      newEventBus.trigger('нажата stop');
+      alert('нажата stop');
   }
-
 });
 
 //функция для отображения игры text

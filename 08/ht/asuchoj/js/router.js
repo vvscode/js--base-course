@@ -51,26 +51,25 @@ Router.prototype = {
 let router = new Router({
   routes: [{
       name: 'index',
-    match: '',
-    onEnter: () => {
+      match: '',
+      onEnter: () => {
           addClassInShowPage();
-          },
-    onLeave: (value) => delClassInPages (value)
+      },
+      onLeave: (value) => delClassInPages (value)
   }, {
       name: 'imageMode',
-    match: /show=(.+)/,
-    onBeforeEnter: (value) => {},
-    onEnter: (value) => {
+      match: /show=(.+)/,
+      onBeforeEnter: (value) => {},
+      onEnter: (value) => {
           addClassInShowPage(value);
-    },
-    onLeave: (value) => {
+      },
+      onLeave: (value) => {
           delClassInPages (value);
       }
   }]
 });
 
 newEventBus.on('Старт узнаем страницу отрисовки',()=>{
-  alert('1');
   newEventBus.trigger('текущая открытая страница', value);
 });
 

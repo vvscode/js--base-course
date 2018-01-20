@@ -28,8 +28,7 @@ playBt.addEventListener('click',()=>{
     playBt.innerHTML = '&#9655;';
 
     if(a === 'play'){
-      let show = 'text';
-      newEventBus.trigger('нажата play', show);
+      newEventBus.trigger('нажата play');
       playBt.setAttribute('class', 'stop');
       playBt.innerHTML = '&#8741;';
     }
@@ -82,6 +81,22 @@ newEventBus.on('изменился массив для отображения', 
 });
 
 
+newEventBus.on('остановить/воспроизвести', ()=>{
+  let a = playBt.getAttribute('class');
+  playBt.innerHTML = '&#9655;';
 
+  if(a === 'play'){
+    newEventBus.trigger('нажата play');
+    playBt.setAttribute('class', 'stop');
+    playBt.innerHTML = '&#8741;';
+  }
+
+  if(a === 'stop'){
+    playBt.setAttribute('class', 'play');
+    playBt.innerHTML = '&#9655;';
+    newEventBus.trigger('нажата stop');
+    newEventBus.off('изменено поле по speed в процессе работы');
+  }
+})
 
 
