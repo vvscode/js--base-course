@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+	
+	 <a href = '#text'><div class = 'nav' id = 'text'>Text</div></a> 
+	 <a href = '#canvas'><div class = 'nav' id = 'canvas'>Canvas</div></a>
+	<a href = '#svg'><div class = 'nav' id = 'svg'>SVG</div></a>
+	<a href = '#about'><div class = 'nav' id = 'about'>About</div></a>
+	
+	<div id = "wrapp">
+		<div class = 'block' id = "tableDiv"> 
+            <div id = "image"></div>
+            <div id = "title" class="hidden">Conway's Game of Life </div>
+            <div id = "rules" class="hidden"><em>- Set the field's size and click "New game"<br /><br />
+                                - Press on cells to make them alive and click "Play"</em></div>
+		
+		<div class = 'block' id = 'canvasBlock'></div>
+		<div class = 'block' id = 'svgBlock'></div>
+	</div>
+		<div class = 'block' id = 'aboutBlock'>Andrew Kuzmich</div>
+	</div>
+		<div id = "form">
+			<button id = "back"><canvas id="prevBtn" width="22" height="15"></canvas></button> 
+    		<button id = "start"><canvas id="startBtn" width="20" height="20"></canvas></button> 
+    		<button id = "stop"><canvas id="pauseBtn" width="20" height="15"></button>
+    		<button id = "forward"><canvas id="forwardBtn" width="22" height="15"></canvas></button> 
+    		x<input id="numberX" type="number" style="width:30px">
+    		y<input id="numberY" type="number" style="width:30px">
+    		<button id = "make">New game</button>
+    	</div>	
+    	<p>Game speed</p> 
+    	<div id="slider" class="slider">
+    <div class="thumb"></div>
+  </div>
+ 
+  	<script src="jquery-3.2.1.min.js"></script>
+	<script src="underscore-min.js"></script>
+	<script src="backbone-min.js"></script>
+	<script src="life.js"></script>
+	<script src="eventListeners.js"></script>
+	<script src="router.js"></script>
+    <script src="slider.js"></script>
+    <script src="canvas.js"></script>
+</body>
+</html>
