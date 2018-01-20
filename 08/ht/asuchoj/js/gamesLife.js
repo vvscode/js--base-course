@@ -7,25 +7,29 @@ let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
-newEventBus.on('старт', ()=>{
-  addStartArr( xA(xPlace),xA(yPlace));
-  newEventBus.trigger('для старта', addStartArr( xA(xPlace),xA(yPlace)))
-});
+addStartArr( xA(xPlace),xA(yPlace));
 
 newEventBus.on('начата расстановка начальных фигур', (event)=>{
-  let x = event.offsetX;
-  let y = event.offsetY;
+  let x = '',
+      y = '';
 
-  x = Math.floor( x * xA(xPlace) / xPlace);
-  y = Math.floor( y * xA(yPlace) / yPlace);
+  if(event){
+    x = event.offsetX;
+    y = event.offsetY;
 
-  if(mas[y][x] === 1){
-    mas[y][x] = 0;
-  } else {
-    mas[y][x] = 1;
+    x = Math.floor( x * xA(xPlace) / xPlace);
+    y = Math.floor( y * xA(yPlace) / yPlace);
+
+    if(mas[y][x] === 1){
+      mas[y][x] = 0;
+    } else {
+      mas[y][x] = 1;
+    }
   }
+  
   showGameWithText (mas);
 });
+
 // через EventBus
 newEventBus.on('нажата play', ()=>{
   clearInterval(setIntervalKEY);

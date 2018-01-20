@@ -57,21 +57,34 @@ let router = new Router({
           },
     onLeave: (value) => delClassInPages (value)
   }, {
-      name: 'show',
+      name: 'imageMode',
     match: /show=(.+)/,
     onBeforeEnter: (value) => {
-          console.log('значение');
+        console.log(value);
     },
     onEnter: (value) => {
           addClassInShowPage();
+/*
+          if(value === 'text'){
+            gamePlace.innerHTML = `<pre></pre>`;
+          } else if( value === 'canvas'){
+            gamePlace.innerHTML = '<canvas id="canvas"></canvas>';
+          } else if(value === 'svg'){
+            gamePlace.innerHTML = `<svg id="svg"></svg>`;
+          } else if(page === 'about'){
+            alert('about')
+          }*/
+
           newEventBus.trigger('текущая открытая страница', value);
+      console.log(value);
     },
     onLeave: (value) => {
           delClassInPages (value);
-          newEventBus.trigger('прошлая страница', value);
+          console.log(value);
       }
   }]
 });
+
 
 
 function addClassInShowPage() {

@@ -8,7 +8,7 @@ let numberY = document.querySelector('#number_y');
 let speed = document.querySelector('#range');
 let divWithGame = document.querySelector('.main_game_life');
 let gamePlace = document.querySelector('#game_show');
-let show = 'text';
+let imageMode = '';
 
 //обработчик на pre
 preBt.addEventListener('click',()=>{
@@ -64,18 +64,16 @@ gamePlace.addEventListener('click',(event)=>{
   newEventBus.trigger('начата расстановка начальных фигур', event);
 });
 
-
-newEventBus.on('текущая открытая страница', (page)=>{
-  console.log('текущая открытая страница');
-  newEventBus.trigger('старта');
-  newEventBus.on('для старта', (arr)=>{
-    newEventBus.trigger('рисуем', arr, page);
-  });
+newEventBus.on('текущая открытая страница', (value)=>{
+  Promise.resolve(value)
+    .then((value)=>{
+      imageMode = value;
+      newEventBus.trigger('начата расстановка начальных фигур');
+    })
 });
 
 newEventBus.on('изменился массив для отображения', (arr)=>{
-  console.log('hbcetv yjdsv pyfxtybtv');
-  newEventBus.trigger('рисуем', arr, show);
+  newEventBus.trigger('рисуем', arr, imageMode);
 });
 
 
