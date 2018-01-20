@@ -5,19 +5,19 @@ let mas = [];
 let history = new Map();
 let count = 0;
 let setIntervalKEY = 0;
-let sec = 100;
+let sec = 1000;
+let x = '',
+    y = '';
 
 startPlace ();
 
 function startPlace () {
-  alert('запустилась');
   addStartArr( xA(xPlace),xA(yPlace));
   showGameWithText (mas);
 }
 
 newEventBus.on('начата расстановка начальных фигур', (event)=>{
-  let x = '',
-      y = '';
+
   if(!history['1']) {
     if(event){
       x = event.offsetX;
@@ -35,7 +35,7 @@ newEventBus.on('начата расстановка начальных фигу�
   }
   else {
     mas = history[count];
-    deleteHistoryArr (count, history)
+    deleteHistoryArr (count, history);
     if(event){
       x = event.offsetX;
       y = event.offsetY;
@@ -64,7 +64,7 @@ newEventBus.on('нажата play', ()=>{
     })
   } else {
     mas = history[count];
-    deleteHistoryArr (count, history)
+    deleteHistoryArr (count, history);
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
     newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
@@ -73,11 +73,6 @@ newEventBus.on('нажата play', ()=>{
       setIntervalKEY = a (sec);
     })
   }
-});
-
-newEventBus.on('показать информацию страницы', ()=>{
-  addStartArr( xA(xPlace),xA(yPlace));
-  showGameWithText (mas);
 });
 
 newEventBus.on('вернуться на шаг назад', ()=>{
@@ -105,12 +100,15 @@ newEventBus.on('изменено поле по Y', (numberY)=>{
     yPlace = numberY;
     addStartArr( xA(xPlace),xA(yPlace));
     showGameWithText (mas);
+    newEventBus.trigger('для canvas', xPlace, yPlace);
 });
 
 newEventBus.on('изменено поле по X', (numberX)=>{
     xPlace = numberX;
     addStartArr( xA(xPlace),xA(yPlace));
     showGameWithText (mas);
+    newEventBus.trigger('для canvas', xPlace, yPlace);
+
 });
 
 function deleteHistoryArr (count, history) {

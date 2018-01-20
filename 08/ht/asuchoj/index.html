@@ -28,18 +28,25 @@
         <div class="page game">
             <div class="main_game_life" id="game_show"></div>
             <div class="main_menu">
-                <button class="pre" id="pre">&#9194;</button>
-                <button class="play" id="play">&#9655;</button>
-                <button class="next" id="next">&#9193;</button>
+                <div class="main_menu_button">
+                    <button class="pre" id="pre">&#9194;</button>
+                    <button class="play" id="play">&#9655;</button>
+                    <button class="next" id="next">&#9193;</button>
+                </div>
+                <div class="main_menu_yxBox">
                 <label class="main_menu_y"> y
                     <input class="main_menu_number" id="number_y" type="number" value="400" step="40">
                 </label>
                 <label class="main_menu_x"> x
                     <input class="main_menu_number" id="number_x" type="number" value="800" step="40">
                 </label>
-                <label class="main_menu_speed"> Speed
-                    <input class="main_menu_range" id="range" type="range" value="0">
-                </label>
+                </div>
+                <div class="main_menu_speedBox">
+                    <label class="main_menu_speed"> Speed <span class="speed"></span>
+                        <input class="main_menu_range" id="range" type="range" value="18">
+                    </label>
+                </div>
+                <div class="spacer"></div>
             </div>
         </div>
         <div class="page about">

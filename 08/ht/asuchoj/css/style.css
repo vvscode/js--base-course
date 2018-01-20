@@ -27,10 +27,14 @@ header li{
     float: left;
 }
 pre{
-    position: relative;
+/*    position: relative;
     letter-spacing: 0.629em;
     font-size: 34px;
-    line-height: 1.18em;
+    line-height: 1.18em;*/
+    position: relative;
+    letter-spacing: 0.13em;
+    font-size: 59px;
+    line-height: 0.68em;
 }
 
 .menu_link {
@@ -61,36 +65,34 @@ menu ul{
     margin: 5px;
 }
 .main_game_life{
-
     width: 800px;
     height: 400px;
-    background-color: gray;
     margin: 0 auto;
+    border: 2px solid;
 }
 
 .pre,
 .play,
 .stop,
 .next {
-    padding: 10px;
+    padding: 15px;
+    width: 50px;
+    height: 50px;
     border-radius: 20px;
     border: none;
 }
-.play{
 
-}
 .next{
 
 }
 .main_menu{
     padding: 20px;
     border: 2px solid;
-    width: 281px;
+    width: 350px;
     margin: 20px auto;
 }
 .main_menu_x,
 .main_menu_y {
-    float: right;
     margin: 10px;
 }
 .main_menu_number{
@@ -98,7 +100,7 @@ menu ul{
 }
 .main_menu_range{
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 .page {
     display: none;
@@ -106,9 +108,17 @@ menu ul{
 .page_show{
     display: block;
 }
-#canvas{
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    border: 2px solid red;
+.main_menu_speedBox{
+    clear: both;
+}
+.main_menu_yxBox{
+    float: right;
+    padding:5px;
+}
+.main_menu_button{
+    float: left;
+    padding:5px;
+}
+.spacer{
+    clear: both;
 }
