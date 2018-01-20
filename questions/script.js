@@ -100,6 +100,26 @@ MVC
 requirejs
 `;
 
+const questions5 = `
+что такое stage0 ... stage1 ?
+чем "стрелочная" функция отличается от обычной?
+чем отличаются let / const / var ?
+что такое spread оператор?
+что такое rest параметр?
+что такое деструктуризация ?
+что такое super ?
+как сделать наследование классов?
+что такое генератор ?
+что такое Set и Map ?
+зачем нужен Symbol ?
+чем классы отличаются от работы с прототипами?
+что такое итератор?
+какие дополнения в объявлении объектов?
+как работать с ES6-imports ?
+this в стрелочной функции?
+как проверить поддерживается ли функция из ES6 каким-то браузером?
+`;
+
 const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
     let rand = Math.floor(Math.random() * list.length);
@@ -111,7 +131,7 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [questions1, questions2, questions3, questions4];
+let questionsStrings = [questions1, questions2, questions3, questions4, questions5];
 let roundQuestionsNumber = 0;
 let i = 0;
 

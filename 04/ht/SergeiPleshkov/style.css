@@ -1,0 +1,67 @@
+table {
+    border-collapse: collapse;
+  }
+
+  td, 
+  th {
+    border: 1px solid black;
+    padding: 3px;
+    text-align: center;
+  }
+
+  th {
+    font-weight: bold;
+    background-color: ivory;
+  }
+
+  .content {
+    position: fixed;
+    width: 95%;
+    height: 95%;
+  }
+
+  .fullScreen {
+    width: 100%;
+    height: 100%;
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  .formOptions {
+    height: 20%;
+    float: top;
+  }
+
+  .calendarScript {
+    float: left;
+    width: 50%;
+    font-size: 100%;
+    white-space: pre-line;
+  }
+
+  .calendarDemonstration {
+    float: left;
+    height: 70%;
+    width: 100%;
+  }
+
+  .calendar {
+    margin-top: 20px;
+    float: right;
+    width: 50%;
+    height: 95%;
+  }
+
+  pre {
+    margin-top: 20px;
+    border: 1px silver solid;
+    border-radius: 10px;
+  }
+  fieldset {
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }

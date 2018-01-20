@@ -1,0 +1,32 @@
+.mapContainer {
+    width: 600px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.history {
+    float: left;
+    min-width: 150;
+}
+
+.history ul{
+    list-style: none;
+}
+
+.forecast {
+    float: left;
+}
+
+.favorites {
+    float: left;
+    min-width: 150;
+}
+
+.favorites ul{
+    list-style: none;
+}
+
+.photo {
+    width: 500px;
+}
