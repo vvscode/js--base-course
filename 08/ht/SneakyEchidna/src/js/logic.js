@@ -4,16 +4,23 @@ class GameOfLife {
     this.width = width;
     this.step;
     this.history = [];
-    this.field = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]];
+    this.field = [
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 1, 0, 0],
+      [0, 0, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 0, 0, 0, 1, 1],
+    ];
   }
   nextStep() {
-    let nextField = this.createArray();
+    let nextField = JSON.parse(JSON.stringify(this.field));
     for (let y = 0; y < this.field.length; y++) {
       for (let x = 0; x < this.field[y].length; x++) {
-        console.log(this.field[y][x], this.findNeighbours(this.field, x, y));
         if (!this.field[y][x] && this.findNeighbours(this.field, x, y) === 3) {
           nextField[y][x] = 1;
-          continue;
         }
         if (
           this.field[y][x] &&
@@ -21,9 +28,7 @@ class GameOfLife {
             this.findNeighbours(this.field, x, y) > 3)
         ) {
           nextField[y][x] = 0;
-          continue;
         }
-        nextField[y][x] = 1;
       }
     }
     this.history.push(this.field);
@@ -40,15 +45,6 @@ class GameOfLife {
       }
     }
     return neighboursNumber;
-  }
-
-  createArray() {
-    let arr = [];
-    for (let i = 0; i < this.height; i++) {
-      arr[i] = [];
-    }
-    console.log(arr);
-    return arr;
   }
 }
 export { GameOfLife };

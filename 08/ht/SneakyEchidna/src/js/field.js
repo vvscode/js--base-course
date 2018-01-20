@@ -9,7 +9,7 @@ class Field {
     for (let y = 0; y < field.length; y++) {
       buffer += '\n';
       for (let x = 0; x < field[y].length; x++) {
-        if (field[x][y]) {
+        if (field[y][x]) {
           buffer += 'O';
         } else {
           buffer += 'X';
