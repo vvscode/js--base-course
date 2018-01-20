@@ -19,6 +19,8 @@ class YandexMap {
     this.setCenter(coordinates || null);
     this.ymaps.ready(() => this.drawMap());
     // console.log(this.map.getCenter());
+    setTimeout(console.log, 5000, this.map.getCenter());
+    // setTimeout(this.getCenter, 5000, [-56, 1], { duration: 2000 });
   }
   drawMap() {
     this.map = new this.ymaps.Map(this.elementId, {
