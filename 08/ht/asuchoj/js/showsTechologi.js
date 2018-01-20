@@ -3,8 +3,11 @@ let showElemIsOne = 'Х';
 let showElemIsNull = '.';
 let gameBox = document.querySelector('.main_game_life')
 
+
+
+
 newEventBus.on('рисуем', (arr, page)=>{
-console.log(page);
+console.log('111111111111111111111');
   if(page === 'text'){
     gamePlace.innerHTML = `<pre>${addGameWithText(arr, showElemIsOne, showElemIsNull)}</pre>`;
   } else if( page === 'canvas'){

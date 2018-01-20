@@ -59,35 +59,22 @@ let router = new Router({
   }, {
       name: 'imageMode',
     match: /show=(.+)/,
-    onBeforeEnter: (value) => {
-        console.log(value);
-    },
+    onBeforeEnter: (value) => {},
     onEnter: (value) => {
-          addClassInShowPage();
-/*
-          if(value === 'text'){
-            gamePlace.innerHTML = `<pre></pre>`;
-          } else if( value === 'canvas'){
-            gamePlace.innerHTML = '<canvas id="canvas"></canvas>';
-          } else if(value === 'svg'){
-            gamePlace.innerHTML = `<svg id="svg"></svg>`;
-          } else if(page === 'about'){
-            alert('about')
-          }*/
-
-          newEventBus.trigger('текущая открытая страница', value);
-      console.log(value);
+          addClassInShowPage(value);
     },
     onLeave: (value) => {
           delClassInPages (value);
-          console.log(value);
       }
   }]
 });
 
+newEventBus.on('Старт узнаем страницу отрисовки',()=>{
+  alert('1');
+  newEventBus.trigger('текущая открытая страница', value);
+});
 
-
-function addClassInShowPage() {
+function addClassInShowPage(value) {
     let thisPageHash = location.hash.split('=').slice(1).join('');
     let thisPage;
     if(thisPageHash === 'text' || thisPageHash === 'canvas' || thisPageHash === 'svg'){
@@ -98,6 +85,7 @@ function addClassInShowPage() {
         thisPage = document.querySelector('.main');
     }
     thisPage.classList.add('page_show');
+    newEventBus.trigger('текущая открытая страница', value);
 }
 
 function delClassInPages () {

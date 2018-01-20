@@ -10,6 +10,8 @@ let divWithGame = document.querySelector('.main_game_life');
 let gamePlace = document.querySelector('#game_show');
 let imageMode = '';
 
+newEventBus.trigger('Старт узнаем страницу отрисовки');
+newEventBus.trigger('начата расстановка начальных фигур');
 //обработчик на pre
 preBt.addEventListener('click',()=>{
     newEventBus.trigger('вернуться на шаг назад');
@@ -73,14 +75,11 @@ newEventBus.on('текущая открытая страница', (value)=>{
 });
 
 newEventBus.on('изменился массив для отображения', (arr)=>{
-  newEventBus.trigger('рисуем', arr, imageMode);
+  Promise.resolve(arr)
+    .then((arr)=>{
+      newEventBus.trigger('рисуем', arr, imageMode);
+    })
 });
-
-
-
-
-
-
 
 
 

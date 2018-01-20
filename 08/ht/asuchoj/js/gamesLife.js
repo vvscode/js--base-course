@@ -7,12 +7,17 @@ let count = 0;
 let setIntervalKEY = 0;
 let sec = 100;
 
-addStartArr( xA(xPlace),xA(yPlace));
+startPlace ();
+
+function startPlace () {
+  alert('запустилась');
+  addStartArr( xA(xPlace),xA(yPlace));
+  showGameWithText (mas);
+}
 
 newEventBus.on('начата расстановка начальных фигур', (event)=>{
   let x = '',
       y = '';
-
   if(!history['1']) {
     if(event){
       x = event.offsetX;
@@ -27,9 +32,10 @@ newEventBus.on('начата расстановка начальных фигу�
         mas[y][x] = 1;
       }
     }
-  } else {
+  }
+  else {
     mas = history[count];
-    deleteHistotyArr (count, history)
+    deleteHistoryArr (count, history)
     if(event){
       x = event.offsetX;
       y = event.offsetY;
@@ -44,7 +50,6 @@ newEventBus.on('начата расстановка начальных фигу�
       }
     }
   }
-
   showGameWithText (mas);
 });
 
@@ -59,7 +64,7 @@ newEventBus.on('нажата play', ()=>{
     })
   } else {
     mas = history[count];
-    deleteHistotyArr (count, history)
+    deleteHistoryArr (count, history)
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
     newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
@@ -69,32 +74,6 @@ newEventBus.on('нажата play', ()=>{
     })
   }
 });
-
-
-function deleteHistotyArr (count, history) {
-  for(var key in history){
-    if(key > count){
-      delete history[key]
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 newEventBus.on('показать информацию страницы', ()=>{
   addStartArr( xA(xPlace),xA(yPlace));
@@ -134,6 +113,14 @@ newEventBus.on('изменено поле по X', (numberX)=>{
     showGameWithText (mas);
 });
 
+function deleteHistoryArr (count, history) {
+  for(let key in history){
+    if(key > count && history.hasOwnProperty(key)){
+      delete history[key]
+    }
+  }
+}
+
 function xA(value) {
     return Math.floor(value / 40);
 }
@@ -164,8 +151,6 @@ function saveStepsGame (arr, countV) {
 
 // Массив готов к отрисовке
 function showGameWithText (arr) {
-  console.log('массив меняется');
-  console.log(count);
   history[`${count}`] = arr;
   newEventBus.trigger('изменился массив для отображения', arr);
 }
