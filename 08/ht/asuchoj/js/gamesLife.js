@@ -13,33 +13,88 @@ newEventBus.on('начата расстановка начальных фигу�
   let x = '',
       y = '';
 
-  if(event){
-    x = event.offsetX;
-    y = event.offsetY;
+  if(!history['1']) {
+    if(event){
+      x = event.offsetX;
+      y = event.offsetY;
 
-    x = Math.floor( x * xA(xPlace) / xPlace);
-    y = Math.floor( y * xA(yPlace) / yPlace);
+      x = Math.floor( x * xA(xPlace) / xPlace);
+      y = Math.floor( y * xA(yPlace) / yPlace);
 
-    if(mas[y][x] === 1){
-      mas[y][x] = 0;
-    } else {
-      mas[y][x] = 1;
+      if(mas[y][x] === 1){
+        mas[y][x] = 0;
+      } else {
+        mas[y][x] = 1;
+      }
+    }
+  } else {
+    mas = history[count];
+    deleteHistotyArr (count, history)
+    if(event){
+      x = event.offsetX;
+      y = event.offsetY;
+
+      x = Math.floor( x * xA(xPlace) / xPlace);
+      y = Math.floor( y * xA(yPlace) / yPlace);
+
+      if(mas[y][x] === 1){
+        mas[y][x] = 0;
+      } else {
+        mas[y][x] = 1;
+      }
     }
   }
-  
+
   showGameWithText (mas);
 });
 
-// через EventBus
 newEventBus.on('нажата play', ()=>{
-  clearInterval(setIntervalKEY);
-  setIntervalKEY = a (sec);
-  newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
-    sec = secValue;
+  if(!history['1']){
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
-  })
+    newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
+      sec = secValue;
+      clearInterval(setIntervalKEY);
+      setIntervalKEY = a (sec);
+    })
+  } else {
+    mas = history[count];
+    deleteHistotyArr (count, history)
+    clearInterval(setIntervalKEY);
+    setIntervalKEY = a (sec);
+    newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
+      sec = secValue;
+      clearInterval(setIntervalKEY);
+      setIntervalKEY = a (sec);
+    })
+  }
 });
+
+
+function deleteHistotyArr (count, history) {
+  for(var key in history){
+    if(key > count){
+      delete history[key]
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 newEventBus.on('показать информацию страницы', ()=>{
   addStartArr( xA(xPlace),xA(yPlace));
@@ -48,14 +103,14 @@ newEventBus.on('показать информацию страницы', ()=>{
 
 newEventBus.on('вернуться на шаг назад', ()=>{
   --count;
-  mas = history[count-1];
-  saveStepsGame (history[count-1], count - 1);
+  console.log(count);
+  saveStepsGame (history[count], count);
 });
 
 newEventBus.on('вернуться на шаг вперед', ()=>{
   ++count;
-  mas = history[count+1];
-  saveStepsGame (history[count+1], count + 1);
+  console.log(count);
+  saveStepsGame (history[count], count);
 });
 
 newEventBus.on('изменено поле по speed', (secValue)=>{
@@ -87,34 +142,30 @@ function a (sec) {
   return setInterval(()=>{
     startLife(xA(xPlace),xA(yPlace));
     showGameWithText (mas);
-    count++;
   }, sec);
 }
 
+// граничные проверки истории
 function saveStepsGame (arr, countV) {
   if(countV === -1) {
-    alert('Истории нет!!!');
-    showGameWithText (mas);
-    arr = mas;
-    return count = 1;
-  }
-
-  if(history[`${countV}`] === undefined){
-    alert('Истории нет!!!');
-    return count--;
-  }
-
-  if(countV < count){
+    alert('Истории сзади нет!!!');
+    count = 0;
+    arr = history[count];
     showGameWithText (arr);
   }
-
-  if(countV > count){
+  if(history[`${countV}`] === undefined && count > 0){
+    alert('Истории впереди нет!!!');
+    --count;
+    arr = history[count];
     showGameWithText (arr);
   }
+  showGameWithText (arr);
 }
 
+// Массив готов к отрисовке
 function showGameWithText (arr) {
   console.log('массив меняется');
+  console.log(count);
   history[`${count}`] = arr;
   newEventBus.trigger('изменился массив для отображения', arr);
 }
@@ -165,6 +216,7 @@ function startLife(width,height) {
       }
     }
   }
+  count++;
   mas = mas2;
 }
 

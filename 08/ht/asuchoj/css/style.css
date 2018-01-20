@@ -44,7 +44,6 @@ pre{
 }
 
 .box{
-    max-width: 700px;
     margin: 0 auto;
     min-height: 100%;
     display: flex;
@@ -84,7 +83,10 @@ menu ul{
 
 }
 .main_menu{
-    margin: 20px;
+    padding: 20px;
+    border: 2px solid;
+    width: 281px;
+    margin: 20px auto;
 }
 .main_menu_x,
 .main_menu_y {

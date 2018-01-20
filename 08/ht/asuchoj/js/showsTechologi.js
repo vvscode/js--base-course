@@ -23,7 +23,6 @@ console.log(page);
 //функция для отображения игры text
 function addGameWithText(arr, showElemIsOne, showElemIsNull ) {
   let element = '';
-
   arr.forEach((yArr)=>{
     yArr.forEach((xArr)=>{
       if(xArr === 0){
