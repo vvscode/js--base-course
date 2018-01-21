@@ -57,3 +57,9 @@
 * https://www.gitbook.com/book/maxfarseer/react-course-ru/details
 * https://abraxabra.ru/react.js/bystryy-start
 * http://thewebland.net/react-js/
+
+
+### *** Дополнительно
+
+* Оформить приложение с использованием [React Semantic UI](https://react.semantic-ui.com/)
+* Двойной клик по строке с задачей ( если она не завершена ) открывает модальное окно для редактирования (с формой как при добавлении - те редактировать можно все поля). Для завершенных задач форма открывается в режиме для чтения, без возможности редактировать поля.
