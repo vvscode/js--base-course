@@ -107,10 +107,10 @@ let session = (name, obj) => {
     });
   }
   if (name && !obj) {
-    return Promise.resolve().then(_ => {
-      if (window.sessionStorage.getItem(name) === null) return false;
-      let arr = JSON.parse(window.sessionStorage.getItem(name));
-      return arr;
+    return Promise.resolve(name).then(name => {
+      if (window.sessionStorage.getItem(name) !== null) {
+        return JSON.parse(window.sessionStorage.getItem(name));
+      }
     });
   };
 };

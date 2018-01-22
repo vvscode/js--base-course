@@ -12,7 +12,7 @@ class Svg {
       <svg id="svg" version="1.1" baseProfile="full" width="${this.x}" height="${this.y}" xmlns="http://www.w3.org/2000/svg">
       </svg>`;
     this.svg = this.elem.querySelector(`#svg`);
-  }
+  };
   render (arr) {
     let square = (i, j) => {
       let x = j * this.cell;
@@ -27,14 +27,14 @@ class Svg {
         }
       });
     });
-  }
+  };
   clear () {
     this.elem.innerHTML = ``;
-  }
-  refresh() {
+  };
+  refresh () {
     this.clear();
     this.create();
-  }
-}
+  };
+};
 
 export {Svg};

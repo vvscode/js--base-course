@@ -1,9 +1,13 @@
-import {lifeGame} from "./router";
+import {lifeGame, eb} from "./router";
 import {output} from "./main";
 
 class Control {
   constructor (where) {
     this.elem = where;
+    this.createButtons();
+    this.insertButtons(lifeGame.run);
+    let insertButtons = this.insertButtons.bind(this);
+    eb.on(`play`, insertButtons);
   };
   createButtons () {
     let prev = `
@@ -38,6 +42,7 @@ class Control {
       return button;
     };
     [this.prev, this.play, this.pause, this.next] = [createButton(`prev`, prev), createButton(`play`, play), createButton(`pause`, pause), createButton(`next`, next)];
+    this.events();
   };
   insertButtons (bool) {
     this.elem.innerHTML = ``;
@@ -45,23 +50,24 @@ class Control {
     bool ? this.elem.appendChild(this.pause) : this.elem.appendChild(this.play);
     this.elem.appendChild(this.next);
   };
-}
-
-document.body.addEventListener(`click`, function (e) {
-  if (!(e.target.closest(`#play`) || (e.target.closest(`#pause`)))) return;
-  lifeGame.run ? lifeGame.stop() : lifeGame.start();
-});
-document.body.addEventListener(`click`, function (e) {
-  if (!e.target.closest(`#prev`) || lifeGame.run) return;
-  if (!lifeGame.history || lifeGame.history.length < 1) return;
-  lifeGame.currentArr = lifeGame.history[lifeGame.history.length - 1];
-  output();
-  lifeGame.history.splice(-1, 1);
-});
-document.body.addEventListener(`click`, function (e) {
-  if (!e.target.closest(`#next`) || lifeGame.run) return;
-  if (!lifeGame.currentArr) return;
-  lifeGame.stepGame();
-});
+  events () {
+    this.elem.addEventListener(`click`, function (e) {
+      if (!(e.target.closest(`#play`) || (e.target.closest(`#pause`)))) return;
+      lifeGame.run ? lifeGame.stop() : lifeGame.start();
+    });
+    this.elem.addEventListener(`click`, function (e) {
+      if (!e.target.closest(`#prev`) || lifeGame.run) return;
+      if (!lifeGame.history || lifeGame.history.length < 1) return;
+      lifeGame.currentArr = lifeGame.history[lifeGame.history.length - 1];
+      output();
+      lifeGame.history.splice(-1, 1);
+    });
+    this.elem.addEventListener(`click`, function (e) {
+      if (!e.target.closest(`#next`) || lifeGame.run) return;
+      if (!lifeGame.currentArr) return;
+      lifeGame.stepGame();
+    });
+  };
+};
 
 export {Control}

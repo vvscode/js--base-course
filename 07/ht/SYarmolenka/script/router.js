@@ -10,18 +10,12 @@ let lifeGame = new Life();
 let eb = new EventBus();
 export {lifeGame, eb};
 
-let header = new Header();
-header.create();
+new Header();
 let main = document.createElement(`main`);
 main.id = `field`;
 document.body.appendChild(main);
 let controlPanel = new ControlPanel(document.querySelector(`footer`));
 
-document.body.addEventListener(`click`, function (e) {
-  if (!e.target.matches(`.route`)) return;
-  e.preventDefault();
-  window.location.hash = e.target.innerText;
-});
 let route = {
   routes: [],
   interpret: function (hash) {
@@ -82,13 +76,13 @@ let readStorage = (cb) => {
     cb(lifeGame.currentArr);
     return;
   };
-  session(`lastArray`).then(arr => {
-    if (arr) lifeGame.currentArr = arr;
-    session(`field`).then(field => {
-      lifeGame.x = +field[0];
-      lifeGame.y = +field[1];
-      cb(arr);
-    });
+  Promise.all([session(`lastArray`), session(`field`)]).then(arr => {
+    if (arr[0] !== undefined && arr[1] !== undefined) {
+      lifeGame.currentArr = arr[0];
+      lifeGame.x = +arr[1][0];
+      lifeGame.y = +arr[1][1];
+      cb(lifeGame.currentArr);
+    };
   });
 };
 

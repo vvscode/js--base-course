@@ -31,7 +31,7 @@ class Canvas {
   clear () {
     this.elem.innerHTML = ``;
   };
-  refresh() {
+  refresh () {
     this.clear();
     this.create();
   }

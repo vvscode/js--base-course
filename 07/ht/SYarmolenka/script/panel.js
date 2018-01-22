@@ -16,18 +16,11 @@ class ControlPanel {
       this.elem.appendChild(div);
       return div;
     };
-    let control = new Control(createBlock());
-    control.createButtons();
-    control.insertButtons(lifeGame.run);
-    let insertButtons = control.insertButtons.bind(control);
-    eb.on(`play`, insertButtons);
 
-    let slider = new Slider(createBlock());
-    slider.create();
+    new Control(createBlock());
+    new Slider(createBlock());
+    new Input(createBlock());
 
-    let input = new Input(createBlock());
-    input.create();
-    
     document.body.appendChild(this.elem);
   };
   delete () {

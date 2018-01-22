@@ -9,17 +9,10 @@ class Text {
   render (arr) {
     if (!arr) return;
     let str = ``;
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].length; j++) {
-        if (+arr[i][j] === 1) {
-          str += `X`;
-        } else {
-          str += ` `;
-          // str += `\u263A`;
-        }
-      }
+    arr.map((elem) => {
+      elem.map(num => {str+= +num ? `X` : ` `});
       str += `\n`;
-    }
+    });
     this.pre.innerText = str;
   };
   clear () {
