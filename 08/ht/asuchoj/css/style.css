@@ -3,11 +3,19 @@
     padding: 0;
 }
 
+h4 {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 50px;
+}
+
 h1, h2 {
     font-size: 30px;
+    margin: 20px;
 }
 h3 {
     font-size: 25px;
+    margin: 20px;
 }
 
 ol, ul, li, a, p {
@@ -121,4 +129,17 @@ menu ul{
 }
 .spacer{
     clear: both;
+}
+.main{
+    width: 800px;
+    margin: 0 auto;
+
+}
+.main p {
+    margin: 20px;
+
+}
+.main ul{
+    margin: 20px 0;
+    padding-left: 40px;
 }

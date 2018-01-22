@@ -17,7 +17,6 @@ function startPlace () {
 }
 
 newEventBus.on('начата расстановка начальных фигур', (event)=>{
-
   if(!history['1']) {
     if(event){
       x = event.offsetX;
