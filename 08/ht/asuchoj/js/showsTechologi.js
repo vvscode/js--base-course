@@ -15,8 +15,9 @@ newEventBus.on('рисуем', (arr, page)=>{
 
 // для остановки игры при переходе на about
   if( page2 === 'about' && ( page === 'text' || page === 'canvas' || page === 'svg' )){
-    alert('нажата play');
-    newEventBus.trigger('нажата play')
+    if(document.querySelector('#play').hasAttribute('game')){
+      newEventBus.trigger('нажата play')
+    }
   }
 
 // когда выбран text
@@ -39,13 +40,15 @@ newEventBus.on('рисуем', (arr, page)=>{
 
 // когда выбран svg
   if(page === 'svg'){
-    gamePlace.innerHTML = `<svg id="svg">${drawSVG (arr)}</svg>`;
+    console.log( width + ' ' + height)
+    gamePlace.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width=${width} height=${height} id="svg" >${drawSVG (arr, sqSize)}</svg>`;
+    let svg = document.querySelector('#svg');
+    svg.fill = 'yellow';
   }
 
   if(page === 'about'){
       page2 = page;
       newEventBus.trigger('нажата stop');
-      alert('нажата stop');
   }
 });
 
@@ -66,11 +69,11 @@ function addGameWithText(arr, showElemIsOne, showElemIsNull ) {
 }
 
 //функции для отображения игры canvas
-newEventBus.on('для canvas', (val1, val2)=>{
+newEventBus.on('для canvas', (valueWidth, valueHeight)=>{
   Promise.resolve()
       .then(()=>{
-          width = val1;
-          height = val2;
+          width = valueWidth;
+          height = valueHeight;
       });
 });
 
@@ -92,22 +95,20 @@ function getColor () {
     ].join('');
 }
 
-
-
 //функция для отображения игры svg
-function drawSVG (arr, x,y) {
-  console.log('svg');
-/*  let element = '';
-
-  arr.forEach((yArr)=>{
-    yArr.forEach((xArr)=>{
-      if(xArr === 1){
-        element += '<rect width="30" height="30" class="svg-square"></rect>' ;
+function drawSVG (arr, sqSize) {
+  let element = '';
+  for(let i = 0; i < arr.length; i++ ){
+    for(let j = 0; j < arr[i].length; j++ ){
+      if(arr[i][j] === 1){
+        let x = j * sqSize;
+        let y = i * sqSize;
+        element += `<rect x = ${x}  y = ${y} width='40' height='40' class="svg-square" fill = 'yellow'></rect>` ;
       }
-    });
+    }
     element += '\n';
-  });
-  return element;*/
+  }
+  return element;
 }
 
 

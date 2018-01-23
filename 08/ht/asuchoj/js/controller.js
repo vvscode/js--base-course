@@ -27,18 +27,22 @@ nextBt.addEventListener('click',()=>{
 //обработчик на play
 playBt.addEventListener('click',()=>{
     let a = playBt.getAttribute('class');
-    playBt.innerHTML = '&#9655;';
+    playBt.innerHTML = '||';
+
+
 
     if(a === 'play'){
       newEventBus.trigger('нажата play');
       playBt.setAttribute('class', 'stop');
-      playBt.innerHTML = '&#8741;';
+      playBt.innerHTML = '||';
+      playBt.setAttribute('game', true);
     }
 
     if(a === 'stop'){
         playBt.setAttribute('class', 'play');
-        playBt.innerHTML = '&#9655;';
+        playBt.innerHTML = '>';
         newEventBus.trigger('нажата stop');
+        playBt.removeAttribute('game');
         newEventBus.off('изменено поле по speed в процессе работы');
     }
 });
@@ -57,11 +61,6 @@ numberY.addEventListener('change',()=>{
 
 //обработчик на speed
 speed.addEventListener('input',()=>{
-/*
-    let speed = document.querySelector('.speed');
-    speed.innerHTML = Math.floor(speed.value * 50 + 100)/1000 + ' - сек';*/
-
-
     spanSpeed.innerHTML = ` = ${(speed.value * SPEEDCONSTFORTIME + 100) / 1000}сек`;
     newEventBus.trigger('изменено поле по speed', Math.floor(speed.value * SPEEDCONSTFORTIME + 100));
     newEventBus.trigger('изменено поле по speed в процессе работы', Math.floor(speed.value * 50 + 100));
