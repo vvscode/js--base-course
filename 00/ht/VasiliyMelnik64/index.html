@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Тестовое задание</title>
+	<link rel='stylesheet' href='styles/style.css'>
+	<script src="scripts/script.js"></script>
+</head>
+<body>
+<div class='mainBlock'>
+	<div class='mainBlock__greetingBlock greetingBlock greetingBlock-decor'>
+		<div class='greetingBlock__close'>&times </div>
+		<h1 class='greetingBlock__text'>Здравствуйте!</h1>
+		<p class='greetingBlock__hidden greetingBlock__hidden-decor'>Разрешен ввод непустой строки, состоящей только из букв русского или анлийского алфавитов для имени и чисел для возраста</p>
+		<form class='greetingBlock__form' name='modalForm'>
+		  <table class='greetingBlock__table'>
+			<tr>
+			  <td class='greetingBlock__tableCell greetingBlock__tableCell-decor'><label for="formName">Введите Ваше имя: </label></td>
+			  <td class='greetingBlock__tableCell'><input type='text' id='formName'></td>
+			</tr>
+			<tr>
+			  <td class='greetingBlock__tableCell greetingBlock__tableCell-decor'><label for="formAge">Введите Ваш возраст: </label></td>
+			  <td class='greetingBlock__tableCell'><input type='text' id='formAge'></td>
+			</tr>
+			<tr>
+			  <td></td>
+			  <td class='greetingBlock__tableCell greetingBlock__tableCell-decor'>
+			<button  class='greetingBlock__button greetingBlock__button-decor'>Принять</button></td>
+			</tr>
+		  </table>
+			</form>
+	</div>
+</div>
+</body>
+</html>
