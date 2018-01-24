@@ -1,8 +1,8 @@
 ﻿window.onload = init;
 function init () {
   const VELCOMINGBLOCK = document.getElementsByClassName("mainBlock")[0],
-  	      FORMNAME = document.getElementById('formName'),
-              FORMAGE  = document.getElementById('formAge'),
+	      FORMNAME = document.getElementById('formName'),
+               FORMAGE = document.getElementById('formAge'),
        CLOSING_ELEMENT = document.getElementsByClassName("greetingBlock__close")[0],
                   BODY = document.body,
                 BUTTON = document.getElementsByClassName("greetingBlock__button")[0];
@@ -32,9 +32,8 @@ function init () {
     }
 
     let phrase = FORMAGE.value < 18 ? 'Здарова, ' + beautyName(FORMNAME.value) + 
-                 '! Как ' + countYears(FORMAGE.value, false) + '?' : 'Приветствую, '
-                 + beautyName(FORMNAME.value) + '. Уж ' + FORMAGE.value + 
-                 countYears(FORMAGE.value, true) + '!';
+      '! Как ' + countYears(FORMAGE.value, false) + '?' : 'Приветствую, ' + beautyName(FORMNAME.value)
+      + '. Уж ' + FORMAGE.value + countYears(FORMAGE.value, true) + '!';
 
     deleteModal();
     createMessage(phrase);
@@ -51,15 +50,13 @@ function init () {
     }
 
     function wrongABC (word) {
-      
       const UPPERCASE_ENGLISH_FIRSTLETTER_UNICODE = 65;
       const UPPERCASE_ENGLISH_LASTLETTER_UNICODE = 90;
-
       const LOWERCASE_ENGLISH_FIRSTLETTER_UNICODE = 97;
       const LOWERCASE_ENGLISH_LASTLETTER_UNICODE = 122;
       const UPPERCASE_RUSSIAN_FIRSTLETTER_UNICODE = 1040;
-
       const LAST_LETTER_UNICODE = 1105; // юникод буквы ё
+
       for (let i = 0; i < word.length; i++) {
         let letter = word.charCodeAt(i);
           if(letter > LAST_LETTER_UNICODE ||
