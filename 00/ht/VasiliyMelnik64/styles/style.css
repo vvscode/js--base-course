@@ -9,14 +9,15 @@
     background-color: rgba(135, 138, 226, .5);
 }
 .mainBlock__greetingBlock {
-	margin: 10% auto;
+	margin: 10% 30%;
 	z-index: 2;
 }
 .greetingBlock {
 	background-color: white;
-	width: 50%;
+	width: 40%;
 	padding: 1%;
 	opacity: 1;
+	text-align: center;
 }
 .greetingBlock-decor {
 	text-align: center;
@@ -43,35 +44,31 @@
 }
 .greetingBlock__hidden {
 	position: relative;
-	top: -10px;
+	top: -20px;
 	visibility: hidden;
 }
 .greetingBlock__hidden-decor {
+	text-align: justify;
 	color: #ff3349;
-	font-size: 1.3vw;
+	font-size: 1.05vw;
 	font-weight: bold;
 	font-family: Roboto, sans-serif;
 }
-.greetingBlock__form {
-	margin-top: -10px;
+.form {
+	margin-top: -20px;
+	width: 100%;
 }
-.greetingBlock__table {
-	margin: 0 auto;
+.form__item {
+    display: block;
+	width: 83%;
+	padding: 2%;
+	margin: 5% auto;
 }
-.greetingBlock__tableCell {
-	padding: 1% 0;
-}
-.greetingBlock__tableCell-decor {
-	text-align: right;
-}
-.greetingBlock__button {
-	padding: 3% 10%;
+.form__item-decor {
 	font-size: 1.5vw;
 	color:rgb(32, 32, 65);
-}
-.greetingBlock__button-decor {
-	font-size: 1.5vw;
-	color:rgb(32, 32, 65);
+	width: 50%;
+	margin-left: 44%;
 }
 .outputText {
 	width: 50%;
