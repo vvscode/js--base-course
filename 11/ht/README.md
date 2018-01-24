@@ -57,7 +57,10 @@
 ## Ссылки:
 
 Redux:
-https://github.com/vvscode/js--redux-info
+
+ * https://www.gitbook.com/book/rajdee/redux-in-russian
+ * https://github.com/vvscode/js--redux-info
+ * https://www.gitbook.com/@maxfarseer/
 
 Firebase:
 
