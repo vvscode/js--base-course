@@ -16,22 +16,22 @@ document.body.addEventListener(`change`, function (e) {
   defineRequest();
 });
 
-function getThroughXhr (url, bell) {
+function getThroughXhr (url, name) {
   let xhr = new XMLHttpRequest();
   let str = url;
   xhr.open(`GET`, str, true);
   xhr.onload = function () {
-    newEb.trigger(bell, this.responseText);
+    cameRespone(name, this.responseText);
   };
   xhr.onerror = function () {alert(`Ошибка ${this.status}`)};
   xhr.send();
 }
 
-function getThroughFetch (url, bell) {
+function getThroughFetch (url, name) {
   fetch(url, {method: `GET`}).then(function (response) {
     return response.text();
   }, function (response) {alert(`Ошибка ${response.status}`)}).then(function (result) {
-    newEb.trigger(bell, result);
+    cameRespone(name, result);
   });
 }
 
@@ -40,12 +40,17 @@ function doRequest () {
   if (stage.request === `fetch`) getThroughFetch.apply(this, arguments);
 }
 
+let cameRespone = (name, respone) => {
+  if (name === `weather`) getWeather(respone);
+  if (name === `city`) getCityName(respone);
+  if (name === `coords`) getCoords(respone);
+}
+
 function requestWeather () {
   let url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0fbec31d64e8fba6637a108f151904ad/${stage.coords[0]},${stage.coords[1]}?lang=ru&units=si`;
   // let url = `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/0fbec31d64e8fba6637a108f151904ad/${stage.coords[0]},${stage.coords[1]}?lang=ru%26units=si`;
   doRequest(url, `weather`);
 }
-newEb.on(`weather`, getWeather);
 
 function getWeather (respone) {
   let obj = JSON.parse(respone);
@@ -63,7 +68,6 @@ function requestCityName () {
   let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${stage.coords[0]+0.001},${stage.coords[1]+0.001}&result_type=locality&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
   doRequest(url, `city`);
 }
-newEb.on(`city`, getCityName);
 
 function getCityName (respone) {
   let obj = JSON.parse(respone);
@@ -76,7 +80,6 @@ function requestCoords (city) {
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyBFl2Chh3nLWZ-bVlsSPiH_Q1o7f1x6cpg`;
   doRequest(url, `coords`);
 }
-newEb.on(`coords`, getCoords);
 
 function getCoords (respone) {
   let obj = JSON.parse(respone);

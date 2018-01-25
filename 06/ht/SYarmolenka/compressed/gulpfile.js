@@ -69,20 +69,6 @@ gulp.task(`script`, () => {
     .pipe(gulp.dest(`complete`));
 });
 
-// gulp.task(`script`, () => {
-//   return gulp.src(script, {base: src})
-//     .pipe(sourcemaps.init())
-//     .pipe(babel({presets: ['env']}))
-//     .on(`error`, function (err) {
-//       notify(new Error(err));
-//       this.end();
-//     })
-//     // .pipe(uglify())
-//     .pipe(concat(`all.js`))
-//     .pipe(sourcemaps.write())
-//     .pipe(gulp.dest(`complete`));
-// });
-
 gulp.task(`clean`, () => del(`complete`));
 
 gulp.task(`render`, gulp.series(`clean`, gulp.parallel(`html`, `copy`, `style`, `script`)));
