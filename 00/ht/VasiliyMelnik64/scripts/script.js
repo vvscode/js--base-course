@@ -19,7 +19,7 @@ function init () {
   }
 
   function getAnswer() {
-    if (failValidate(FORMNAME, FORMAGE)) {
+    if (failValidate(FORMNAME.value, FORMAGE.value)) {
       clearForm();
       showMistake();
       return false;
@@ -42,32 +42,12 @@ function init () {
 }
 
 function failValidate(name, age) {
-  return name.value == "" ||
-    name.value.indexOf(" ") !== -1 ||
-    age.value == "" ||
-    age.value.indexOf(" ") !== -1 ||
-    isNaN(+age.value) ||
-    age.value > 122 ||  //приблизительный максимальный возраст человека
-    age.value <= 0 ||
-    wrongABC(name.value);
-}
-
-function wrongABC (word) {
-  const UPPERCASE_ENGLISH_FIRSTLETTER_UNICODE = 65;
-  const UPPERCASE_ENGLISH_LASTLETTER_UNICODE = 90;
-  const LOWERCASE_ENGLISH_FIRSTLETTER_UNICODE = 97;
-  const LOWERCASE_ENGLISH_LASTLETTER_UNICODE = 122;
-  const UPPERCASE_RUSSIAN_FIRSTLETTER_UNICODE = 1040;
-  const LAST_LETTER_UNICODE = 1105; // юникод буквы ё
-
-  for (let i = 0; i < word.length; i++) {
-    let letter = word.charCodeAt(i);
-      if(letter > LAST_LETTER_UNICODE ||
-	 letter < UPPERCASE_ENGLISH_FIRSTLETTER_UNICODE || 
-	 letter > LOWERCASE_ENGLISH_LASTLETTER_UNICODE && letter < UPPERCASE_RUSSIAN_FIRSTLETTER_UNICODE || 
-	 letter > UPPERCASE_ENGLISH_LASTLETTER_UNICODE && letter < LOWERCASE_ENGLISH_FIRSTLETTER_UNICODE) return true; 
-  }
-  return false;
+  const   NAME_TEMPLATE = /[^а-яёa-z]/gi;
+  const   MIN_AGE = 0;
+  const   MAX_AGE = 122;
+  const   WRONG_NAME = !!( name.match(NAME_TEMPLATE) || !name);
+  const   WRONG_AGE = isNaN(age) || +age <= MIN_AGE || +age > MAX_AGE;
+  return  WRONG_NAME || WRONG_AGE;
 }
 
 function beautyName(name) {
