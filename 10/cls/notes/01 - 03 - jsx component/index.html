@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <h1>
+       Basic React element via JSX
+    </h1>
+    <div id="container">
+    </div>
+    <script  type="text/babel">
+      class Card1 extends React.Component{
+        render() {
+          return (<div>
+            <h4>Agent Bob 1</h4>
+            <p className="description">Few words about Bob</p>
+            <button data-role="submit">Greet Bob</button>
+          </div>)
+        }
+      }
+      
+      
+      /*
+      https://reactjs.org/blog/2017/04/07/react-v15.5.0.html
+      
+      const Card2 = React.createClass({
+        render() {
+          return (<div>
+            <h4>Agent Bob 2</h4>
+            <p className="description">Few words about Bob</p>
+            <button data-role="submit">Greet Bob</button>
+          </div>)
+        }
+      })
+      */
+      
+      const Card3 = () => (<div>
+            <h4>Agent Bob 3</h4>
+            <p className="description">Few words about Bob</p>
+            <button data-role="submit">Greet Bob</button>
+          </div>);
+
+      ReactDOM.render(
+        <div>
+          <Card1 />
+          {/* <Card2 /> */}
+          <Card3 />
+        </div>,
+        document.getElementById('container')
+      );
+    </script>
+  </body>
+</html>

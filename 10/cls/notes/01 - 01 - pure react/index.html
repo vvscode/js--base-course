@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+  </head>
+  <body>
+    <h1>
+       Basic React element
+    </h1>
+    <div id="container">
+    </div>
+    <script>
+var card = React.createElement(
+  "div",
+  null,
+  React.createElement(
+    "h4",
+    null,
+    "Agent Bob"
+  ),
+  React.createElement(
+    "p",
+    { className: "description" },
+    "Few words about Bob"
+  ),
+  React.createElement(
+    "button",
+    { "data-role": "submit" },
+    "Greet Bob"
+  )
+);
+      
+ReactDOM.render(
+  card,
+  document.getElementById('container')
+);
+    </script>
+  </body>
+</html>
