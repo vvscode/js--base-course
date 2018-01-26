@@ -15,21 +15,15 @@ let SPEEDCONSTFORTIME = 50;
 spanSpeed.innerHTML = ` = ${(speed.value * SPEEDCONSTFORTIME + 100) / 1000}сек`;
 
 //обработчик на pre
-preBt.addEventListener('click',()=>{
-    newEventBus.trigger('вернуться на шаг назад');
-});
+preBt.addEventListener('click',()=>newEventBus.trigger('вернуться на шаг назад'));
 
 //обработчик на next
-nextBt.addEventListener('click',()=>{
-  newEventBus.trigger('вернуться на шаг вперед');
-});
+nextBt.addEventListener('click',()=>newEventBus.trigger('вернуться на шаг вперед'));
 
 //обработчик на play
 playBt.addEventListener('click',()=>{
     let a = playBt.getAttribute('class');
     playBt.innerHTML = '||';
-
-
 
     if(a === 'play'){
       newEventBus.trigger('нажата play');
@@ -67,9 +61,7 @@ speed.addEventListener('input',()=>{
 });
 
 //обработчик для отображения игры
-gamePlace.addEventListener('click',(event)=>{
-  newEventBus.trigger('начата расстановка начальных фигур', event);
-});
+gamePlace.addEventListener('click',(event)=> newEventBus.trigger('начата расстановка начальных фигур', event));
 
 newEventBus.on('текущая открытая страница', (value)=>{
   Promise.resolve(value)
@@ -81,9 +73,7 @@ newEventBus.on('текущая открытая страница', (value)=>{
 
 newEventBus.on('изменился массив для отображения', (arr)=>{
   Promise.resolve(arr)
-    .then((arr)=>{
-      newEventBus.trigger('рисуем', arr, imageMode);
-    })
+    .then((arr)=> newEventBus.trigger('рисуем', arr, imageMode))
 });
 
 newEventBus.on('остановить/воспроизвести', ()=>{

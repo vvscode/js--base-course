@@ -91,9 +91,7 @@ newEventBus.on('изменено поле по speed', (secValue)=>{
   clearInterval(setIntervalKEY);
 });
 
-newEventBus.on('нажата stop', ()=>{
-    clearInterval(setIntervalKEY)
-});
+newEventBus.on('нажата stop', ()=> clearInterval(setIntervalKEY));
 
 newEventBus.on('изменено поле по Y', (numberY)=>{
     yPlace = numberY;
