@@ -23,17 +23,17 @@
     }
 
     // ожидаем наименование города для получения его координат и способ получения
-    newEventBus.on('Дать_данные', (type, city)=>{
+    newEventBus.on('getCoordinatesCity', (type, city)=>{
         addValueWithXhrOrFeth(type, addCoordinatesWithGoogleXHR, addCoordinatesWithGoogleFetch)(city);
     });
 
     // ожидание координат для получения погоды
-    newEventBus.on('Запросить_погоду_для_города', (type, lat, lng)=>{
+    newEventBus.on('getWeatherForCity', (type, lat, lng)=>{
         addValueWithXhrOrFeth( type, addWeatherWithDarkSkyXHR, addWeatherWithDarkSkyFetch )(lat, lng);
     });
 
     //получение местоположения при клике на main
-    newEventBus.on('Местоположение', (type)=>{
+    newEventBus.on('currentUserLocation', (type)=>{
         addValueWithXhrOrFeth(type, getPersonLocationXML, getPersonLocationFetch)();
     });
 
@@ -48,7 +48,7 @@
                 let value = JSON.parse(xhr.responseText);
                 let lat = value.position.latitude;
                 let lng = value.position.longitude;
-                newEventBus.trigger('Координаты_Местоположения', lat, lng);
+                newEventBus.trigger('getCoordinatesWithGoogle', lat, lng);
             }
         }
     }
@@ -61,9 +61,11 @@
             .then( function (user) {
                 let lat = user.position.latitude;
                 let lng = user.position.longitude;
-                newEventBus.trigger('Координаты_Местоположения', lat, lng);
+                newEventBus.trigger('getCoordinatesWithGoogle', lat, lng);
             })
-            .catch(alert)
+            .catch((error)=>{
+                console.log(error);
+            })
     }
 
     function addCoordinatesWithGoogleXHR (city) {
@@ -77,7 +79,7 @@
                 let value = JSON.parse(xhr.responseText);
                 let lat = value.results[0].geometry.location.lat;
                 let lng = value.results[0].geometry.location.lng;
-                newEventBus.trigger('Дать_координаты_с_гугла', lat, lng);
+                newEventBus.trigger('getCoordinatesWithGoogle', lat, lng);
             }
         }
     }
@@ -90,9 +92,11 @@
             .then(function (user) {
                 let lat = user.results[0].geometry.location.lat;
                 let lng = user.results[0].geometry.location.lng;
-                newEventBus.trigger('Дать_координаты_с_гугла', lat, lng);
+                newEventBus.trigger('getCoordinatesWithGoogle', lat, lng);
             })
-            .catch(alert)
+            .catch((error)=>{
+                console.log(error);
+            })
     }
 
     function addWeatherWithDarkSkyXHR (lat, lng) {
@@ -104,7 +108,7 @@
                 alert(xhr.status + ': ' + xhr.statusText);
             } else {
                 let weatherObj = JSON.parse(xhr.responseText);
-                newEventBus.trigger('Погода_получена', weatherObj.currently);
+                newEventBus.trigger('GiveWeather', weatherObj.currently);
             }
         }
     }
@@ -115,9 +119,13 @@
                 return response.json()
             })
             .then(function (user) {
-                newEventBus.trigger('Погода_получена', user.currently);
+                newEventBus.trigger('GiveWeather', user.currently);
             })
-            .catch(alert)
+            .catch((error)=>{
+                console.log(error);
+            })
+
+
     }
 })();
 

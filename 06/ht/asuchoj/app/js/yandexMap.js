@@ -3,7 +3,7 @@
     let yaMap;
     ymaps.ready(init);
 
-    newEventBus.on('Отрисовать_погоду', (el)=>{
+    newEventBus.on('showWeather', (el)=>{
         showWeather (el)
     });
 
@@ -14,15 +14,16 @@
             controls: ['zoomControl', 'typeSelector']
         });
 
-        newEventBus.on('показать_центер_карты', (lat, lng)=>{
+        newEventBus.on('showCenterMap', (lat, lng)=>{
             setCenterMaps(lat,lng);
         });
 
         newEventBus.on('addInFavorites', ()=>{
+            console.log(yaMap.getCenter());
             newEventBus.trigger('getCentralYandexMap', yaMap.getCenter());
         });
 
-        newEventBus.trigger('прогрузилась_карта');
+        newEventBus.trigger('mapUploaded');
 
         yaMap.events.add('actionend', ()=>{
             yaMap.getCenter();
@@ -30,6 +31,7 @@
         });
 
         yaMap.events.add('dblclick', function (e) {
+            console.log(e.get('coords'));
             newEventBus.trigger('getCentralYandexMap', e.get('coords') );
         });
     }

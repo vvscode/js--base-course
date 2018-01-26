@@ -13,7 +13,7 @@ let hashForCityPage = '#city/';
 let xhrOrFetchValue, cityName, latCity, lngCity ;
 
 // обработчик радиобаттонов
-[].forEach.call(request,(elem)=>{
+[...request].forEach.call(request,(elem)=>{
 
     if( !elem.getAttribute('checked') ){
         xhrOrFetchValue = elem.value;
@@ -49,26 +49,26 @@ newEventBus.on('init',() => {
     lngCity = cityName[1];
 
     if( parseInt(cityName) ){
-      newEventBus.on('прогрузилась_карта', ()=> newEventBus.trigger('показать_центер_карты', latCity, lngCity));
-      newEventBus.trigger('показать_центер_карты', latCity, lngCity);
-      newEventBus.trigger('Запросить_погоду_для_города', xhrOrFetchValue, latCity, lngCity);
+      newEventBus.on('mapUploaded', ()=> newEventBus.trigger('showCenterMap', latCity, lngCity));
+      newEventBus.trigger('showCenterMap', latCity, lngCity);
+      newEventBus.trigger('getWeatherForCity', xhrOrFetchValue, latCity, lngCity);
     } else {
-        newEventBus.trigger('Дать_данные', xhrOrFetchValue, cityName);
+        newEventBus.trigger('getCoordinatesCity', xhrOrFetchValue, cityName);
     }
 });
 
-newEventBus.on('main',() => newEventBus.trigger('Местоположение', xhrOrFetchValue));
+newEventBus.on('main',() => newEventBus.trigger('currentUserLocation', xhrOrFetchValue));
 
-newEventBus.on('Дать_координаты_с_гугла', (lat, lng)=>{
+newEventBus.on('getCoordinatesWithGoogle', (lat, lng)=>{
   latCity = lat;
   lngCity = lng;
-  newEventBus.trigger('показать_центер_карты', lat, lng);
+  newEventBus.trigger('showCenterMap', lat, lng);
 });
 
-newEventBus.on('Координаты_Местоположения', (lat, lng)=>{
+newEventBus.on('getCoordinatesWithGoogle', (lat, lng)=>{
   latCity = lat;
   lngCity = lng;
-  newEventBus.trigger('показать_центер_карты', lat, lng);
+  newEventBus.trigger('showCenterMap', lat, lng);
 });
 
 //для загрузки стартовой страницы или при открытия ссылки
@@ -84,16 +84,13 @@ if (location.hash !== ''
   lngCity = cityName[1];
 
   if (!parseInt(cityName)) {
-    newEventBus.on('прогрузилась_карта', () => {
-      newEventBus.trigger('показать_центер_карты', latCity, lngCity);
+    newEventBus.on('mapUploaded', () => {
+      newEventBus.trigger('showCenterMap', latCity, lngCity);
     });
   }
-
-} else if (location.hash === '#main') {
-  newEventBus.trigger('Местоположение', xhrOrFetchValue);
 }
 
-newEventBus.on('Погода_получена', (param)=> newEventBus.trigger('Отрисовать_погоду', param));
+newEventBus.on('GiveWeather', (param)=> newEventBus.trigger('showWeather', param));
 
 // для double click
 newEventBus.on('getCentralYandexMap', centralArr => addSpaceInFavorite(centralArr));
