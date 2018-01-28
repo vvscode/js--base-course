@@ -8,7 +8,7 @@ var calendarParams = {
     year: (new Date()).getFullYear(),
     month: (new Date()).getMonth() + 1
 };
-Calendar(calendarParams);
+CalendarModule(calendarParams);
 
 //обработчик клика по ссылкам
 document.body.addEventListener('click', (ev) => {
@@ -51,23 +51,23 @@ function drawCreationWindow(htmlElement) {
     //Добавление месяцев
     var selectMonth = document.createElement('select');
     selectMonth.className = "form-form-control selectMonth";
-    for (var index = 1; index <= 12; index++) {
+    for (var month = 1; month <= 12; month++) {
         var elementOption = document.createElement('option');
-        if (index == currentDate.getMonth() + 1) {
+        if (month == currentDate.getMonth() + 1) {
             elementOption.selected = "selected";
         }
-        elementOption.innerHTML = index;
+        elementOption.innerHTML = month;
         selectMonth.appendChild(elementOption);
     }
     divDate.appendChild(selectMonth);
     var selectYear = document.createElement('select');
     selectYear.className = "form-form-control selectYear";
-    for (var index = 1900; index <= 2050; index++) {
+    for (var year = 1900; year <= 2050; year++) {
         var elementOption = document.createElement('option');
-        if (index == currentDate.getFullYear()) {
+        if (year === currentDate.getFullYear()) {
             elementOption.selected = "selected";
         }
-        elementOption.innerHTML = index;
+        elementOption.innerHTML = year;
         selectYear.appendChild(elementOption);
     }
     divDate.appendChild(selectYear);
@@ -93,7 +93,7 @@ function urlHandle(url) {
                 calendarParams.year = event.target.value;
             }
 
-            Calendar(calendarParams);
+            CalendarModule(calendarParams);
             var codeCalendar = document.querySelector(".codeCalendar");
             codeCalendar.value = generateScript(calendarParams);
 
@@ -122,7 +122,7 @@ function urlHandle(url) {
 
         //поместить сгенерированный календарь в превью
         calendarParams.element = "calendarPreview";
-        Calendar(calendarParams);
+        CalendarModule(calendarParams);
 
         //поместить сгенерированный код в textarea
         var codeCalendar = document.querySelector(".codeCalendar");
@@ -132,7 +132,7 @@ function urlHandle(url) {
         window.document.title = "Calendar" + calendarParams.month + "/" + calendarParams.year;
         document.querySelector('.settings').innerHTML = "";
         calendarParams.element = 'maincalendar';
-        Calendar(calendarParams);
+        CalendarModule(calendarParams);
     }
 };
 
