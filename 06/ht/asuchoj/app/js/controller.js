@@ -65,12 +65,6 @@ newEventBus.on('getCoordinatesWithGoogle', (lat, lng)=>{
   newEventBus.trigger('showCenterMap', lat, lng);
 });
 
-newEventBus.on('getCoordinatesWithGoogle', (lat, lng)=>{
-  latCity = lat;
-  lngCity = lng;
-  newEventBus.trigger('showCenterMap', lat, lng);
-});
-
 //для загрузки стартовой страницы или при открытия ссылки
 if (location.hash !== ''
   && location.hash !== '#main'
@@ -118,7 +112,7 @@ searchButton.addEventListener('click',(elem)=>{
 });
 
 // Обработкик кнопки добавить в избранное
-addInFavorites.addEventListener('click',()=> newEventBus.trigger('addInFavorites')) //добавь центр карты
+addInFavorites.addEventListener('click',()=> newEventBus.trigger('addInFavorites')); //добавь центр карты
 
 // Обработкик для favorites
 favoritesCity.addEventListener('click',(event)=>{
