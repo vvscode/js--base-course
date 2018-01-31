@@ -24,13 +24,34 @@
         let lng = user.position.longitude;
         newEventBus.trigger('getCoordinatesWithGoogle', lat, lng);
     }
+    function getWeather (user) {
+        newEventBus.trigger('GiveWeather', user.currently);
+    }
 
     // ожидаем наименование города для получения его координат и способ получения
     newEventBus.on('getCoordinatesCity', (type, city)=>{
-        type === 'XHR' ? addCoordinatesWithGoogleXHR (city) : addCoordinatesWithGoogleFetch(city)
+        (type === 'XHR' ? addCoordinatesWithGoogleXHR (city) : addCoordinatesWithGoogleFetch(city))
             .then((user) => getCoordinates (user))
-            .catch(console.log)
+            .catch((error)=>{
+                console.log(error);
+            })
+    });
 
+    newEventBus.on('currentUserLocation', (type)=>{
+        (type === 'XHR' ? getPersonLocationXML () : getPersonLocationFetch ())
+            .then((user) => getCoordinatesNow (user))
+            .catch((error)=>{
+                console.log(error);
+            })
+    });
+
+    // ожидание координат для получения погоды
+    newEventBus.on('getWeatherForCity', (type, lat, lng)=>{
+        (type === 'XHR' ? addWeatherWithDarkSkyXHR (lat, lng) : addWeatherWithDarkSkyFetch (lat, lng))
+            .then((user) => getWeather (user))
+            .catch((error)=>{
+                console.log(error);
+            })
     });
 
     function addCoordinatesWithGoogleXHR (city) {
@@ -62,16 +83,8 @@
             })
     }
 
-    newEventBus.on('currentUserLocation', (type)=>{
-        type === 'XHR' ? getPersonLocationXML () : getPersonLocationFetch ()
-            .then((user) => getCoordinatesNow (user))
-            .catch(console.log)
-    });
-
-
 //получение местоположения при клике на main
     function getPersonLocationXML () {
-
         let value =  new Promise(function (resolve, reject) {
             xhr.open('GET', urlPersonLocation ,true);
             xhr.onload = function () {
@@ -87,6 +100,7 @@
             };
             xhr.send();
         });
+        return value.then((user) => JSON.parse(user))
     }
 
     function getPersonLocationFetch () {
@@ -97,48 +111,35 @@
             .catch((error) => {
                 console.log(error);
             })
-
-
-        /* // ожидание координат для получения погоды
-         newEventBus.on('getWeatherForCity', (type, lat, lng)=>{
-             addValueWithXhrOrFeth( type, addWeatherWithDarkSkyXHR, addWeatherWithDarkSkyFetch )(lat, lng);
-         });
-     */
-        /*
-         ;*/
-
-        /**/
-
-        /*
-        }*/
-
-
-        /*  function addWeatherWithDarkSkyXHR (lat, lng) {
-              xhr.open('GET', addUrlInDarkSky (lat, lng) , true);
-              xhr.send();
-              xhr.onreadystatechange = function () {
-                  if (xhr.readyState !== 4) return;
-                  if (xhr.status !== 200) {
-                      alert(xhr.status + ': ' + xhr.statusText);
-                  } else {
-                      let weatherObj = JSON.parse(xhr.responseText);
-                      newEventBus.trigger('GiveWeather', weatherObj.currently);
-                  }
-              }
-          }
-
-          function addWeatherWithDarkSkyFetch (lat, lng){
-              fetch( addUrlInDarkSky (lat, lng) )
-                  .then(function (response) {
-                      return response.json()
-                  })
-                  .then(function (user) {
-                      newEventBus.trigger('GiveWeather', user.currently);
-                  })
-                  .catch((error)=>{
-                      console.log(error);
-                  })
-          }*/
     }
+    function addWeatherWithDarkSkyXHR (lat, lng) {
+        let value =  new Promise(function (resolve, reject) {
+            xhr.open('GET', addUrlInDarkSky (lat, lng) ,true);
+            xhr.onload = function () {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status !== 200) {
+                    alert( xhr.status + ': ' + xhr.statusText );
+                } else {
+                    resolve(this.response)
+                }
+            };
+            xhr.onerror = function() {
+                reject(new Error("Network Error"));
+            };
+            xhr.send();
+        });
+        return value.then((user) => JSON.parse(user));
+    }
+
+    function addWeatherWithDarkSkyFetch (lat, lng){
+       return fetch( addUrlInDarkSky (lat, lng) )
+            .then(function (response) {
+                return response.json()
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+    }
+
 })();
 

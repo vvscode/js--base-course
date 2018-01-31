@@ -15,14 +15,17 @@ let xhrOrFetchValue, cityName, latCity, lngCity ;
 // обработчик радиобаттонов
 [...request].forEach.call(request,(elem)=>{
 
-    if( !elem.getAttribute('checked') ){
+    if( elem.hasAttribute('checked') ){
         xhrOrFetchValue = elem.value;
     }
 
     elem.addEventListener('change',()=> {
         xhrOrFetchValue = elem.value;
-    })
+    });
+
 });
+
+
 
 //загрузка данных с локалсторедж для history
 if( localStorage.hasOwnProperty('historyCity')  ){
