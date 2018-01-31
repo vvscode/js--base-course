@@ -69,10 +69,6 @@ let router = new Router({
   }]
 });
 
-newEventBus.on('Старт узнаем страницу отрисовки',()=>{
-  newEventBus.trigger('текущая открытая страница', value);
-});
-
 function addClassInShowPage(value) {
     let thisPageHash = location.hash.split('=').slice(1).join('');
     let thisPage;
@@ -84,7 +80,7 @@ function addClassInShowPage(value) {
         thisPage = document.querySelector('.main');
     }
     thisPage.classList.add('page_show');
-    newEventBus.trigger('текущая открытая страница', value);
+    newEventBus.trigger('currentOpenPage', value);
 }
 
 function delClassInPages () {

@@ -16,7 +16,7 @@ function startPlace () {
   showGameWithText (mas);
 }
 
-newEventBus.on('начата расстановка начальных фигур', (event)=>{
+newEventBus.on('setUpTheInitialFigures', (event)=>{
   if(!history['1']) {
     if(event){
       x = event.offsetX;
@@ -52,11 +52,11 @@ newEventBus.on('начата расстановка начальных фигу�
   showGameWithText (mas);
 });
 
-newEventBus.on('нажата play', ()=>{
+newEventBus.on('pressedPlay', ()=>{
   if(!history['1']){
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
-    newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
+    newEventBus.on('theSpeedFieldIsChangedDuringOperation', (secValue)=>{
       sec = secValue;
       clearInterval(setIntervalKEY);
       setIntervalKEY = a (sec);
@@ -66,7 +66,7 @@ newEventBus.on('нажата play', ()=>{
     deleteHistoryArr (count, history);
     clearInterval(setIntervalKEY);
     setIntervalKEY = a (sec);
-    newEventBus.on('изменено поле по speed в процессе работы', (secValue)=>{
+    newEventBus.on('theSpeedFieldIsChangedDuringOperation', (secValue)=>{
       sec = secValue;
       clearInterval(setIntervalKEY);
       setIntervalKEY = a (sec);
@@ -74,37 +74,35 @@ newEventBus.on('нажата play', ()=>{
   }
 });
 
-newEventBus.on('вернуться на шаг назад', ()=>{
+newEventBus.on('goBackOneStep', ()=>{
   --count;
-  console.log(count);
   saveStepsGame (history[count], count);
 });
 
-newEventBus.on('вернуться на шаг вперед', ()=>{
+newEventBus.on('goOneStepFurther', ()=>{
   ++count;
-  console.log(count);
   saveStepsGame (history[count], count);
 });
 
-newEventBus.on('изменено поле по speed', (secValue)=>{
+newEventBus.on('changedFieldBySpeed', (secValue)=>{
   sec = secValue;
   clearInterval(setIntervalKEY);
 });
 
-newEventBus.on('нажата stop', ()=> clearInterval(setIntervalKEY));
+newEventBus.on('pressedStop', ()=> clearInterval(setIntervalKEY));
 
-newEventBus.on('изменено поле по Y', (numberY)=>{
+newEventBus.on('y_fieldChanged', (numberY)=>{
     yPlace = numberY;
     addStartArr( xA(xPlace),xA(yPlace));
     showGameWithText (mas);
-    newEventBus.trigger('для canvas', xPlace, yPlace);
+    newEventBus.trigger('forCanvas', xPlace, yPlace);
 });
 
-newEventBus.on('изменено поле по X', (numberX)=>{
+newEventBus.on('x_fieldChanged', (numberX)=>{
     xPlace = numberX;
     addStartArr( xA(xPlace),xA(yPlace));
     showGameWithText (mas);
-    newEventBus.trigger('для canvas', xPlace, yPlace);
+    newEventBus.trigger('forCanvas', xPlace, yPlace);
 
 });
 
@@ -147,7 +145,7 @@ function saveStepsGame (arr, countV) {
 // Массив готов к отрисовке
 function showGameWithText (arr) {
   history[`${count}`] = arr;
-  newEventBus.trigger('изменился массив для отображения', arr);
+  newEventBus.trigger('changedArrayToDisplay', arr);
 }
 
 function addStartArr( width, height) {

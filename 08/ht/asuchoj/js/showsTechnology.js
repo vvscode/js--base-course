@@ -11,12 +11,12 @@ let height = 400;
 let page2 = '';
 
 //отрисовка
-newEventBus.on('рисуем', (arr, page)=>{
+newEventBus.on('draw', (arr, page)=>{
 
 // для остановки игры при переходе на about
   if( page2 === 'about' && ( page === 'text' || page === 'canvas' || page === 'svg' )){
     if(document.querySelector('#play').hasAttribute('game')){
-      newEventBus.trigger('нажата play')
+      newEventBus.trigger('pressedPlay')
     }
   }
 
@@ -40,7 +40,6 @@ newEventBus.on('рисуем', (arr, page)=>{
 
 // когда выбран svg
   if(page === 'svg'){
-    console.log( width + ' ' + height)
     gamePlace.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" width=${width} height=${height} id="svg" >${drawSVG (arr, sqSize)}</svg>`;
     let svg = document.querySelector('#svg');
     svg.fill = 'yellow';
@@ -48,7 +47,7 @@ newEventBus.on('рисуем', (arr, page)=>{
 
   if(page === 'about'){
       page2 = page;
-      newEventBus.trigger('нажата stop');
+      newEventBus.trigger('pressedStop');
   }
 });
 
@@ -69,7 +68,7 @@ function addGameWithText(arr, showElemIsOne, showElemIsNull ) {
 }
 
 //функции для отображения игры canvas
-newEventBus.on('для canvas', (valueWidth, valueHeight)=>{
+newEventBus.on('forCanvas', (valueWidth, valueHeight)=>{
   Promise.resolve()
       .then(()=>{
           width = valueWidth;

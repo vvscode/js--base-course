@@ -15,10 +15,10 @@ let SPEEDCONSTFORTIME = 50;
 spanSpeed.innerHTML = ` = ${(speed.value * SPEEDCONSTFORTIME + 100) / 1000}сек`;
 
 //обработчик на pre
-preBt.addEventListener('click',()=>newEventBus.trigger('вернуться на шаг назад'));
+preBt.addEventListener('click',()=>newEventBus.trigger('goBackOneStep'));
 
 //обработчик на next
-nextBt.addEventListener('click',()=>newEventBus.trigger('вернуться на шаг вперед'));
+nextBt.addEventListener('click',()=>newEventBus.trigger('goOneStepFurther'));
 
 //обработчик на play
 playBt.addEventListener('click',()=>{
@@ -26,7 +26,7 @@ playBt.addEventListener('click',()=>{
     playBt.innerHTML = '||';
 
     if(a === 'play'){
-      newEventBus.trigger('нажата play');
+      newEventBus.trigger('pressedPlay');
       playBt.setAttribute('class', 'stop');
       playBt.innerHTML = '||';
       playBt.setAttribute('game', true);
@@ -35,53 +35,53 @@ playBt.addEventListener('click',()=>{
     if(a === 'stop'){
         playBt.setAttribute('class', 'play');
         playBt.innerHTML = '>';
-        newEventBus.trigger('нажата stop');
+        newEventBus.trigger('pressedStop');
         playBt.removeAttribute('game');
-        newEventBus.off('изменено поле по speed в процессе работы');
+        newEventBus.off('theSpeedFieldIsChangedDuringOperation');
     }
 });
 
 //обработчик на number_x
 numberX.addEventListener('change',()=>{
-    newEventBus.trigger('изменено поле по X', numberX.value);
+    newEventBus.trigger('x_fieldChanged', numberX.value);
     divWithGame.style.width = numberX.value + 'px';
 });
 
 //обработчик на number_y
 numberY.addEventListener('change',()=>{
-    newEventBus.trigger('изменено поле по Y', numberY.value);
+    newEventBus.trigger('y_fieldChanged', numberY.value);
     divWithGame.style.height = numberY.value + 'px';
 });
 
 //обработчик на speed
 speed.addEventListener('input',()=>{
     spanSpeed.innerHTML = ` = ${(speed.value * SPEEDCONSTFORTIME + 100) / 1000}сек`;
-    newEventBus.trigger('изменено поле по speed', Math.floor(speed.value * SPEEDCONSTFORTIME + 100));
-    newEventBus.trigger('изменено поле по speed в процессе работы', Math.floor(speed.value * 50 + 100));
+    newEventBus.trigger('changedFieldBySpeed', Math.floor(speed.value * SPEEDCONSTFORTIME + 100));
+    newEventBus.trigger('theSpeedFieldIsChangedDuringOperation', Math.floor(speed.value * 50 + 100));
 });
 
 //обработчик для отображения игры
-gamePlace.addEventListener('click',(event)=> newEventBus.trigger('начата расстановка начальных фигур', event));
+gamePlace.addEventListener('click',(event)=> newEventBus.trigger('setUpTheInitialFigures', event));
 
-newEventBus.on('текущая открытая страница', (value)=>{
+newEventBus.on('currentOpenPage', (value)=>{
   Promise.resolve(value)
     .then((value)=>{
       imageMode = value;
-      newEventBus.trigger('начата расстановка начальных фигур');
+      newEventBus.trigger('setUpTheInitialFigures');
     })
 });
 
-newEventBus.on('изменился массив для отображения', (arr)=>{
+newEventBus.on('changedArrayToDisplay', (arr)=>{
   Promise.resolve(arr)
-    .then((arr)=> newEventBus.trigger('рисуем', arr, imageMode))
+    .then((arr)=> newEventBus.trigger('draw', arr, imageMode))
 });
 
-newEventBus.on('остановить/воспроизвести', ()=>{
+newEventBus.on('stop/play', ()=>{
   let a = playBt.getAttribute('class');
   playBt.innerHTML = '&#9655;';
 
   if(a === 'play'){
-    newEventBus.trigger('нажата play');
+    newEventBus.trigger('pressedPlay');
     playBt.setAttribute('class', 'stop');
     playBt.innerHTML = '&#8741;';
   }
@@ -89,7 +89,7 @@ newEventBus.on('остановить/воспроизвести', ()=>{
   if(a === 'stop'){
     playBt.setAttribute('class', 'play');
     playBt.innerHTML = '&#9655;';
-    newEventBus.trigger('нажата stop');
-    newEventBus.off('изменено поле по speed в процессе работы');
+    newEventBus.trigger('pressedStop');
+    newEventBus.off('theSpeedFieldIsChangedDuringOperation');
   }
 });
