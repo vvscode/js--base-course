@@ -17,6 +17,11 @@ describe('template', () => {
     template(el, { name: 'Bob', age: 33 });
     assert.isOk(el.innerHTML === 'Bob is 33 years old');
   });
+  it('может быть вызвана больше одного раза', () => {
+    template(el, { name: 'Bob', age: 33 });
+    template(el, { name: 'John', age: 33 });
+    assert.isOk(el.innerHTML === 'John is 33 years old');
+  });
 });
 
 describe('EventBus', () => {

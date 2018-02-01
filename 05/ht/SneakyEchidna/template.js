@@ -7,13 +7,14 @@
 // let template = compileTemplate(tpl);
 // template(el, { name: 'Bob', age: 33 });
 // el.innerHTML; // 'Bob is 33 years old
-/*
-*
-*/
+/**
+ *  @param {string} tpl
+ *  @return {function}
+ */
 function compileTemplate(tpl) {
   let regexp = /{{(\w+)}}/g;
-  let str = tpl;
   return function(el, data) {
+    let str = tpl;
     let match;
     while ((match = regexp.exec(tpl)) !== null) {
       str = str.replace(match[0], data[match[1]]);
