@@ -18,7 +18,7 @@ var gulp = require('gulp'),
     source = require("vinyl-source-stream"),
     reload = browserSync.reload;
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch', 'webserver']);
 
 gulp.task('html:build', function () {
     gulp.src('assets/*.html')
@@ -71,3 +71,17 @@ gulp.task('watch', function () {
 	gulp.watch('./assets/javascripts/**/*.js', ['js:build']);
 	gulp.watch('./assets/images/**/*', ['images:build']);
 });
+
+gulp.task('webserver', function () {
+    browserSync(config);
+});
+
+var config = {
+    server: {
+        baseDir: "./public"
+    },
+    tunnel: true,
+    host: 'localhost',
+    port: 9000,
+    logPrefix: "Frontend"
+};

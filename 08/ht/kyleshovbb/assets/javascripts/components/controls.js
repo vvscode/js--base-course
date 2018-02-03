@@ -17,7 +17,7 @@ class Controls extends CalculatingGameLife {
     subscribeToClickButton() {
         this.wrapperClickOnControlsButton = this.clickOnControlsButton.bind(this);
         this.buttons.addEventListener("click", this.wrapperClickOnControlsButton);
-        this.repiatGame();
+        this.repeatGame();
     }
 
     clickOnControlsButton(ev) {
@@ -39,7 +39,7 @@ class Controls extends CalculatingGameLife {
             } else if (target.value === "Play") {
                 target.value = "Stop";
                 this.playState = true;
-                this.repiatGame();
+                this.repeatGame();
             }
         }
     }

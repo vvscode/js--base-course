@@ -1,7 +1,5 @@
 'use strict';
 
-import lifeGame from "./routs";
-
 class CalculatingGameLife {
     constructor(line, column) {
         this.gameLineNumbew = line || 40;
@@ -109,12 +107,12 @@ class CalculatingGameLife {
         return count;
     }
 
-    repiatGame() {
+    repeatGame() {
         setTimeout(() => {
             if (this.playState) {
                 this.startCalculate(this.stageHistory);
                 this.eventBus.trigger('view', this);
-                this.repiatGame();
+                this.repeatGame();
             } else if (!this.playState) {
                 clearTimeout();
             }

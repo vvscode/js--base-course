@@ -124,7 +124,7 @@ let router = new Router({
             if (lifeGame) {
                 lifeGame.playState = true;
                 let playButton = document.querySelector("#play");
-                if (playButton.value === "Stop") lifeGame.repiatGame();
+                if (playButton.value === "Stop") lifeGame.repeatGame();
             }
         }
     },
