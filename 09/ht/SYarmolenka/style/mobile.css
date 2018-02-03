@@ -1,0 +1,6 @@
+.mobile {
+  position: absolute;
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+}

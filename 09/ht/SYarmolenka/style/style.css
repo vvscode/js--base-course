@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: url("./other/background.jpg");
+  background-size: 100%;
+}
+#field {
+  display: flex;
+  /* display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 100%; */
+}
+.z2 {
+  z-index: 2;
+}

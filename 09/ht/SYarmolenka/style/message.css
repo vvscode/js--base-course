@@ -1,0 +1,51 @@
+#cover {
+  position: absolute;
+  background: rgba(255,255,255,0.5);
+}
+#message {
+  position: absolute;
+  padding: 20px;
+  display: flex;
+  width: 300px;
+  border: 1px solid #000;
+  flex-direction: column;
+  border: 1px solid #095891;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+#username {
+  height: 40px;
+  font: 25px Arial;
+  margin-bottom: 20px;
+  border: 1px solid #095891;
+  border-radius: 5px;
+  outline: none;
+}
+#message>div {
+  display: flex;
+  justify-content: space-around;
+}
+#message button {
+  width: 100px;
+  height: 40px;
+  font: 25px Arial;
+  color: #fff;
+  background: #2098D1;
+  border: 1px solid #095891;
+  border-radius: 5px;
+  outline: none;
+}
+#message button:hover {
+  transition-duration: 1s;
+  color: #FF00AE;
+}
+#message button:active {
+  transition-duration: 0.3s;
+  background: #095891;
+}
+#time {
+  height: 40px;
+  font: 25px Arial;
+  text-align: center;
+  margin: 0;
+}
