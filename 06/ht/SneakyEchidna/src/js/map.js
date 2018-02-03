@@ -35,11 +35,10 @@ class YandexMap {
       debounce((e) => {
         this.eventBus.trigger('map:centerChange', e.get('newCenter'));
         changeHashByMapState(e.get('newCenter'));
-      }, 2000)
+      }, 400)
     );
     this.eventBus.on('map:centerMoved', (coordinates) => {
       this.moveCenter(coordinates);
-      // changeHashByMapState(coordinates);
     });
   }
   setCenter(coordinates) {
