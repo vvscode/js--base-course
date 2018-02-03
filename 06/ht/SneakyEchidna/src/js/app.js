@@ -2,24 +2,32 @@ import {
   getCoordinatesByName,
   getForecastByLatLng,
   getForecastByName,
-  getUserCoordinates,
+  getInitialCoordinates,
 } from './services';
 import { EventBus } from './eventBus';
 import { WeatherComponent } from './weatherComponent';
 import { YandexMap } from './map';
+import { HistoryComponent } from './historyComponent';
+import { Search } from './searchComponent';
+let m;
 let eventBus = new EventBus();
 let root = document.getElementById('content');
+let mapContainer = document.createElement('div');
 let map = document.createElement('div');
-let infoWrapper = document.createElement('div');
-root.appendChild(infoWrapper);
 map.id = 'map';
-root.appendChild(map);
-let m = new YandexMap('map', ymaps, { lat: 1, lng: 2 }, eventBus);
-// let m = new YandexMap('map', ymaps);
-// setTimeout(eventBus.trigger, 10000, 'changeCenter', [33, 11]);
-// setTimeout(m.returnCenter, 5000);
-// setTimeout(m.panTo, 5000, [22, 7], { duration: 2000 });
-let forecast = new WeatherComponent(infoWrapper);
-// console.log(m.map.getCenter());
-forecast.drawWeatherReport(m.center);
+mapContainer.className = 'mapContainer';
+let header = document.createElement('div');
+let searchbox = new Search(header, eventBus);
+let infoContainer = document.createElement('div');
+infoContainer.className = 'infoContainer';
+root.appendChild(infoContainer);
+root.appendChild(mapContainer);
+root.appendChild(header);
+mapContainer.appendChild(map);
+let forecast = new WeatherComponent(infoContainer, eventBus);
+let history = new HistoryComponent(infoContainer, eventBus);
+getInitialCoordinates().then(
+  (coordinates) => (m = new YandexMap('map', ymaps, eventBus, coordinates))
+);
+eventBus.trigger('search:success', 'Minsk');
 export { m };

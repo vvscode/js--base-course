@@ -6,17 +6,24 @@
 
 let getCoordinatesByName = (address) =>
   fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY`
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY&language=EN`
   )
     .then((req) => req.json())
     .then((data) => {
-      return data.results[0].geometry.location;
+      return [
+        data.results[0].geometry.location.lat,
+        data.results[0].geometry.location.lng,
+        data.results[0].formatted_address,
+        data.status,
+      ];
     })
     .catch(() => console.log("Can't get coordinates"));
 
-let getForecastByLatLng = ({ lat, lng }) =>
+let getForecastByLatLng = (coordinates) =>
   fetch(
-    `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/${lat},${lng}?lang=ru&units=auto`
+    `http://cors-proxy.htmldriven.com/?url=https://api.darksky.net/forecast/d113af5f82393ef553f48314ae9f42e8/${
+      coordinates[0]
+    },${coordinates[1]}?lang=en%26units=si`
   )
     .then((req) => req.json())
     .then((data) => {
@@ -26,7 +33,7 @@ let getForecastByLatLng = ({ lat, lng }) =>
         temperature: forecast.currently.temperature,
         humidity: forecast.currently.humidity,
         pressure: forecast.currently.pressure,
-        windSpeed: forecast.currently.windSpeed,
+        'wind speed': forecast.currently.windSpeed,
       };
     })
     .catch(() => console.log("Can't get forecast"));
@@ -36,17 +43,31 @@ let getForecastByName = (address) =>
     getForecastByLatLng(coordinates)
   );
 
+let getInitialCoordinates = () => {
+  return new Promise((resolve, reject) => {
+    let regExp = /#center=(-?\d*[.]?\d+),(-?\d*[.]?\d+)/;
+    let coordinates = window.location.hash.match(regExp);
+    let center;
+    if (coordinates) {
+      center = [coordinates[1], coordinates[2]];
+      resolve(center);
+    } else resolve(getUserCoordinates().then((center) => center));
+  });
+};
+
 let getUserCoordinates = () =>
   fetch('https://api.userinfo.io/userinfos')
     .then((req) => req.json())
-    .then((data) => ({
-      lat: data.position.latitude,
-      lng: data.position.longitude,
-    }));
+    .then((data) => [data.position.latitude, data.position.longitude]);
+
+function changeHashByMapState(center) {
+  window.location.hash = `center=${center}`;
+}
 
 export {
   getCoordinatesByName,
   getForecastByLatLng,
   getForecastByName,
-  getUserCoordinates,
+  getInitialCoordinates,
+  changeHashByMapState,
 };

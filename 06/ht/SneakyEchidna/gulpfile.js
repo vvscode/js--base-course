@@ -67,13 +67,16 @@ gulp.task('js:build', function() {
     .transform(
       babelify.configure({
         presets: ['env'],
+        sourceMaps: true,
       })
     )
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
-    .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(path.build.js))
     .pipe(reload({ stream: true })); //И перезагрузим сервер
 });

@@ -1,4 +1,5 @@
-import { getUserCoordinates } from './services';
+import { getUserCoordinates, changeHashByMapState } from './services';
+import { debounce } from './utils';
 /**
  *
  */
@@ -10,34 +11,42 @@ class YandexMap {
    * @argument {number} lng
    * @argument {lat, lng} coordinates
    */
-  constructor(elementId, ymaps, coordinates, eventBus) {
+  constructor(elementId, ymaps, eventBus, coordinates) {
     this.ymaps = ymaps;
-    // this.map;
     this.eventBus = eventBus;
     this.elementId = elementId;
-    this.center = {};
-    this.setCenter(coordinates || null);
+    this.center = [];
+    this.coordinates = coordinates;
+    this.setCenter(this.coordinates);
     this.ymaps.ready(() => this.drawMap());
-    // console.log(this.map.getCenter());
-    setTimeout(console.log, 5000, this.map.getCenter());
-    // setTimeout(this.getCenter, 5000, [-56, 1], { duration: 2000 });
   }
   drawMap() {
     this.map = new this.ymaps.Map(this.elementId, {
-      center: [this.center.lat, this.center.lng],
+      center: this.center,
       zoom: 7,
     });
-    console.log(this.map.getCenter());
-    this.eventBus.on('changeCenter', (center) => this.map.panTo(center));
+    this.eventBus.trigger('map:loaded');
+    this.eventBus.trigger('map:centerChange', this.coordinates);
+    this.addHanders();
+  }
+  addHanders() {
+    this.map.events.add(
+      'boundschange',
+      debounce((e) => {
+        this.eventBus.trigger('map:centerChange', e.get('newCenter'));
+        changeHashByMapState(e.get('newCenter'));
+      }, 2000)
+    );
+    this.eventBus.on('map:centerMoved', (coordinates) => {
+      this.moveCenter(coordinates);
+      // changeHashByMapState(coordinates);
+    });
   }
   setCenter(coordinates) {
-    if (!coordinates) {
-      getUserCoordinates().then((a) => {
-        this.center = a;
-      });
-    } else {
-      this.center = coordinates;
-    }
+    this.center = coordinates;
+  }
+  moveCenter(coordinates) {
+    this.map.panTo(coordinates, { flying: 'true' });
   }
   returnCenter() {
     return this.map.getCenter();
