@@ -264,6 +264,7 @@ input[type=range]:focus::-ms-fill-upper {
     width: 40vw;
     top: 1px;
     margin-left: 20px;
+    transform: rotate(180deg);
 }
 
 #aboutDiv {
@@ -299,8 +300,6 @@ input[type=range]:focus::-ms-fill-upper {
     background-position-y: 68%;
     opacity: 0.25;
 }
-
-
 
 #moveLeft {
     bottom: 11vw;

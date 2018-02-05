@@ -1,6 +1,6 @@
 'use strict';
 
-var gulp = require('gulp'),
+let gulp = require('gulp'),
     csso = require('gulp-csso'),
     watch = require('gulp-watch'),
     babelify = require('babelify'),
@@ -18,16 +18,16 @@ var gulp = require('gulp'),
     source = require("vinyl-source-stream"),
     reload = browserSync.reload;
 
-gulp.task('default', ['build', 'watch', 'webserver']);
+gulp.task('default', ['build','webserver','watch']);
 
 gulp.task('html:build', function () {
-    gulp.src('assets/*.html')
+    gulp.src('src/*.html')
         .pipe(gulp.dest('./public/'))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('style:build', function () {
-	gulp.src('./assets/styles/*.css')
+	gulp.src('./src/styles/*.css')
         .pipe(concat('style.css'))
 		.pipe(csso())
 		.pipe(gulp.dest('./public/css/'))
@@ -36,7 +36,7 @@ gulp.task('style:build', function () {
 
 gulp.task('js:build', function() {
     return browserify({
-        entries: ['./assets/javascripts/components/main.js'],
+        entries: ['./src/javascripts/components/main.js'],
         debug: true
     })
         .transform(babelify.configure({
@@ -53,7 +53,7 @@ gulp.task('js:build', function() {
 });
 
 gulp.task('images:build', function() {
-    gulp.src('./assets/images/**/*')
+    gulp.src('./src/images/**/*')
         .pipe(imagemin())
         .pipe(gulp.dest('./public/images/'))
 });
@@ -66,17 +66,17 @@ gulp.task('build', [
 ]);
 
 gulp.task('watch', function () {
-    gulp.watch('./assets/*.html', ['html:build']);
-	gulp.watch('./assets/styles/**/*.css', ['style:build']);
-	gulp.watch('./assets/javascripts/**/*.js', ['js:build']);
-	gulp.watch('./assets/images/**/*', ['images:build']);
+    gulp.watch('./src/*.html', ['html:build']);
+	gulp.watch('./src/styles/**/*.css', ['style:build']);
+	gulp.watch('./src/javascripts/**/*.js', ['js:build']);
+	gulp.watch('./src/images/**/*', ['images:build']);
 });
 
 gulp.task('webserver', function () {
     browserSync(config);
 });
 
-var config = {
+let config = {
     server: {
         baseDir: "./public"
     },

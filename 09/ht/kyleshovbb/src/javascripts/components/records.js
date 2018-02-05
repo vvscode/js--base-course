@@ -1,7 +1,7 @@
 "use strict";
 class Records {
-    constructor() {
-        this.tableContain = document.querySelector("#tableContain");
+    constructor(tableContain) {
+        this.tableContain = tableContain;
         this.createTableTemplate();
     }
 

@@ -1,18 +1,18 @@
 "use strict";
-import Person from "./person";
+import Human from "./characters/Human";
+import Hunt1 from "./characters/Hunt1";
+import Hunt2 from "./characters/Hunt2";
+import Mushroom from "./characters/Mushroom";
+import EventBus from '../utilities/eventBus';
 
 class GameArea {
     constructor(contain, personage) {
         this.contain = contain;
-        this.arcadeGameContainer = document.createElement("canvas");
-        this.arcadeGameContainer.setAttribute("id", "game");
-        this.arcadeGameContainer.height = document.documentElement.clientHeight;
-        this.arcadeGameContainer.width = document.documentElement.clientWidth;
         this.playingGame = true;
         this.gameStage = 1;
-
+        this.eventBus = new EventBus();
         if (!personage) {
-            this.human = new Person("human");
+            this.human = new Human(this.eventBus);
             this.timeToStart = new Date();
             this.personage = [this.human];
             this.historyStage = [];
@@ -29,6 +29,14 @@ class GameArea {
     }
 
     createCanvasArea() {
+        this.arcadeGameContainer = document.createElement("canvas");
+        this.arcadeGameContainer.setAttribute("id", "game");
+        this.arcadeGameContainer.height = document.documentElement.clientHeight;
+        this.arcadeGameContainer.width = document.documentElement.clientWidth;
+        this.drawCanvasArea();
+    }
+
+    drawCanvasArea() {
         let ctx = this.arcadeGameContainer.getContext('2d');
         ctx.clearRect(0, 0, this.arcadeGameContainer.width, this.arcadeGameContainer.height);
         this.drawGameBoard(ctx);
@@ -53,10 +61,7 @@ class GameArea {
         let sy = 0;
 
         if (personage.sx >= 0) sx = personage.sx;
-        else if (personage.updateSprites.sx >= 0) sx = personage.updateSprites.sx;
-
         if (personage.sy >= 0) sy = personage.sy;
-        else if (personage.updateSprites.sy >= 0) sy = personage.updateSprites.sy;
 
         let sWidth, sHeight, sprite;
         let SUBJECT_SIZE = personage.SUBJECT_SIZE || this.arcadeGameContainer.height / 15;
@@ -105,32 +110,30 @@ class GameArea {
     }
 
     createCharacterDataForExport() {
-        let arr = [];
-        this.personage.forEach((personage) => {
+        let arr = this.personage.map((personage) => {
             let obj = {
                 x: personage.x,
                 y: personage.y,
-                sx: personage.updateSprites.sx,
-                sy: personage.updateSprites.sy,
-                t: personage.type,
-                d: personage.direction
+                sx: personage.sx,
+                sy: personage.sy,
+                t: personage.type
             };
-            arr.push(obj);
+            return obj;
         });
         return arr;
     }
 
     addNewHunter() {
-        if (this.gameStage % 5 === 0) this.personage.push(new Person("hunt2", this.human));
-        else this.personage.push(new Person("hunt1", this.human));
-        if (this.gameStage % 10 === 0) this.personage.push(new Person("mushroom", this.human));
+        if (this.gameStage % 5 === 0) this.personage.push(new Hunt2(this.human,this.eventBus));
+        else this.personage.push(new Hunt1(this.human,this.eventBus));
+        if (this.gameStage % 10 === 0) this.personage.push(new Mushroom(this.human,this.eventBus));
     }
 
     updateArea() {
         let timer = setInterval(() => {
             if (this.human.humanLife) {
                 this.removeDeadCharacters();
-                this.createCanvasArea();
+                this.drawCanvasArea();
                 this.checkMushroomTimer();
             } else if (!this.human.humanLife) {
                 clearInterval(timer);
@@ -152,12 +155,12 @@ class GameArea {
         })
     }
 
-    checkMushroomTimer(){
+    checkMushroomTimer() {
         if (this.human.mushroomTimer > 0) {
             let mushroomTimer = document.querySelector("#mushroomTimer");
             if (!mushroomTimer) {
                 mushroomTimer = document.createElement("p");
-                mushroomTimer.setAttribute("id","mushroomTimer");
+                mushroomTimer.setAttribute("id", "mushroomTimer");
                 document.body.appendChild(mushroomTimer);
             }
             mushroomTimer.innerHTML = `Время действия волшебного гриба: ${this.human.mushroomTimer} секунд`;

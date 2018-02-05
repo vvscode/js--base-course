@@ -1,10 +1,12 @@
 'use strict';
-
 import Router from "../utilities/router";
 import addAbout from "./aboutPage";
 import GameArea from "./gameArea";
 import Records from "./records";
 import RecordPlayback from "./recordPlayback";
+import EventBus from '../utilities/eventBus';
+
+let eventBus = new EventBus();
 
 window.onload = () => {
     let router = new Router({
@@ -18,6 +20,13 @@ window.onload = () => {
         },{
             name: 'Game',
             match: /Game/,
+            onBeforeEnter: () => {
+                let containerWidth = document.documentElement.clientWidth;
+                if (containerWidth < 1024) {
+                    let mobileControls = document.querySelector(".mobileControls");
+                    mobileControls.style.display = "block";
+                }
+            },
             onEnter: () => {
                 let mainText = document.querySelector("#main_text");
                 let nav = document.querySelector("nav");
@@ -64,7 +73,8 @@ window.onload = () => {
                 mainText.style.display = "none";
             },
             onEnter: () => {
-                new Records();
+                let tableContain = document.querySelector("#tableContain");
+                new Records(tableContain);
             },
             onLeave: () => {
                 document.querySelector("#tableContain").innerHTML = "";
@@ -112,3 +122,5 @@ window.onload = () => {
         ]
     });
 };
+
+export default eventBus;

@@ -70,12 +70,11 @@ class RecordPlayback {
         if (target.closest("#rewindController")) {
             this.playback.gameStage = +target.value;
             this.playback.getCurrentPersonageArray(this.playbackArray);
-            this.playback.createCanvasArea();
+            this.playback.drawCanvasArea();
         } else if (target.closest("#speedController") && this.playbackArray.length - 1 !== this.playback.gameStage) {
             this.stopPlaybackGameArea();
             this.updatePlaybackGameArea();
         }
-
     }
 
     clickOnPlayButton(ev){
@@ -107,13 +106,13 @@ class RecordPlayback {
                 this.rewindController.value = this.playback.gameStage;
             }
             this.playback.getCurrentPersonageArray(this.playbackArray);
-            this.playback.createCanvasArea();
+            this.playback.drawCanvasArea();
             if (this.playbackArray.length - 1 === this.playback.gameStage) {
                 this.playButton.value = "play";
                 this.playButton.style.backgroundPositionX = "0";
                 this.stopPlaybackGameArea();
             }
-        }, this.speedController.value)
+        }, this.speedController.value);
     }
 
     stopPlaybackGameArea(){
