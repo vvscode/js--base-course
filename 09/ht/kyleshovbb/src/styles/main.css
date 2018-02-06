@@ -1,0 +1,325 @@
+body {
+    background: url(../images/main_background.jpg) no-repeat;
+    font-family: 'Stalinist One', cursive;
+    background-size: 100%;
+    margin: 0;
+    width: 100%;
+}
+
+nav {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+}
+
+nav > ul {
+    padding: 0;
+}
+
+nav > .navig > li  {
+    display: inline-block;
+    background: url(../images/buttons.png) no-repeat;
+    background-size: 923%;
+    margin: 0 10px;
+    width: 50px;
+    height: 50px;
+}
+
+#recordsLink {
+    background-position-x: 50.5%;
+    background-position-y: 100%;
+}
+
+#author {
+    background-position-x: 33.5%;
+    background-position-y: 34.4%;
+}
+
+nav > .navig > li a  {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+}
+
+canvas {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+#paybackGame{
+    z-index: -999;
+}
+
+#main_text, #finalTime{
+    position: absolute;
+    display: block;
+    width: 40%;
+    margin: 13% 27%;
+    text-align: center;
+    text-shadow: 3px 2px 7px black;
+    color: #c87d63;
+}
+
+#mushroomTimer {
+    position: absolute;
+    display: block;
+    width: 480px;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+    font-size: 14px;
+    text-shadow: 3px 2px 7px black;
+    color: #c87d63;
+}
+
+#tableContain {
+    position: relative;
+    display: block;
+    top: 25px;
+    text-align: center;
+    font-size: 14px;
+    text-shadow: 2px 1px 3px black;
+    color: #c87d63;
+}
+
+#records {
+    border-style: solid;
+    border-width: 5px;
+    border-color: #cd7d49;
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 480px;
+    box-shadow: 1px 1px 6px 2px #c87d63;
+}
+
+#records td {
+    border: 2px solid #c87d63;
+    min-width: 20vw;
+}
+
+.playRecordedGame {
+    -moz-box-shadow:inset 0 1px 0 0 #fff6af;
+    -webkit-box-shadow:inset 0 1px 0 0 #fff6af;
+    box-shadow:inset 0 1px 0 0 #fff6af;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23));
+    background:-moz-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+    background:-webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+    background:-o-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+    background:-ms-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+    background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23',GradientType=0);
+    background-color:#ffec64;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #ffaa22;
+    display:inline-block;
+    cursor:pointer;
+    color:#c87d63;
+    font-size:15px;
+    font-weight:bold;
+    padding: 2px 10px;
+    margin: 2px;
+    text-decoration:none;
+    text-shadow:0 1px 0 #ffee66;
+}
+.playRecordedGame:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64));
+    background:-moz-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+    background:-webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+    background:-o-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+    background:-ms-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+    background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffec64',GradientType=0);
+    background-color:#ffab23;
+}
+.playRecordedGame:active {
+    position:relative;
+    top:1px;
+}
+
+#playButton {
+    position: absolute;
+    bottom: 5px;
+    left:5px;
+    width: 3vw;
+    height: 3vw;
+    background: url(../images/buttons.png) no-repeat;
+    background-size: 923%;
+    border: none;
+    font-size: 0;
+    outline: 0;
+    cursor: pointer;
+    background-position-x: 17%;
+    background-position-y: 0;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 8.5px 0;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 14px;
+    cursor: pointer;
+    box-shadow: 1.6px 1.6px 3px #000000, 0px 0px 1.6px #0d0d0d;
+    background: #ffc600;
+    border-radius: 0px;
+    border: 2.4px solid #ffffff;
+}
+input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 3px solid #ffffff;
+    height: 31px;
+    width: 30px;
+    border-radius: 50px;
+    background: #ffbd00;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -10.9px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ffc600;
+}
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 14px;
+    cursor: pointer;
+    box-shadow: 1.6px 1.6px 3px #000000, 0px 0px 1.6px #0d0d0d;
+    background: #ffc600;
+    border-radius: 0px;
+    border: 2.4px solid #ffffff;
+}
+input[type=range]::-moz-range-thumb {
+    box-shadow: 0 0 0 #000000, 0 0 0 #0d0d0d;
+    border: 3px solid #ffffff;
+    height: 31px;
+    width: 30px;
+    border-radius: 50px;
+    background: #ffbd00;
+    cursor: pointer;
+}
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 14px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    background: #ffc600;
+    border: 2.4px solid #ffffff;
+    border-radius: 0px;
+    box-shadow: 1.6px 1.6px 3px #000000, 0 0 1.6px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ffc600;
+    border: 2.4px solid #ffffff;
+    border-radius: 0px;
+    box-shadow: 1.6px 1.6px 3px #000000, 0 0 1.6px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+    box-shadow: 0px 0px 0px #000000, 0 0 0 #0d0d0d;
+    border: 3px solid #ffffff;
+    width: 30px;
+    border-radius: 50px;
+    background: #ffbd00;
+    cursor: pointer;
+    height: 14px;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #ffc600;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ffffff;
+}
+
+#rewindController{
+    position: absolute;
+    width: 95vw;
+    right: 1vw;
+    bottom: 1vw;
+}
+
+#speedControllerLabel {
+    position: absolute;
+    margin: 5px;
+    bottom: 5vw;
+    right: 1vw;
+    text-shadow: 2px 1px 3px black;
+    color: #c87d63;
+}
+
+#speedController {
+    position: relative;
+    width: 40vw;
+    top: 1px;
+    margin-left: 20px;
+    transform: rotate(180deg);
+}
+
+#aboutDiv {
+    display: inline;
+    position: relative;
+    margin: 0 auto;
+    text-shadow: 2px 1px 3px black;
+    color: #c87d63;
+    text-align: center;
+}
+
+.mobileControls {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .mobileControls {
+        display: block;
+    }
+}
+
+.mobileControls input {
+    position: absolute;
+    width: 10vw;
+    height: 10vw;
+    background: url(../images/buttons.png) no-repeat;
+    background-size: 923%;
+    border: none;
+    font-size: 0;
+    outline: 0;
+    cursor: pointer;
+    background-position-x: 68%;
+    background-position-y: 68%;
+    opacity: 0.25;
+}
+
+#moveLeft {
+    bottom: 11vw;
+    right: 21vw;
+    transform: rotate(180deg);
+}
+
+#moveRight {
+    bottom: 11vw;
+    right: 1vw;
+}
+
+#moveUp {
+    bottom: 21vw;
+    right: 11vw;
+    transform: rotate(-90deg);
+}
+
+#backward {
+    bottom: 1vw;
+    right: 11vw;
+    transform: rotate(90deg);
+}
