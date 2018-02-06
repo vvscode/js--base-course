@@ -1,8 +1,10 @@
 'use strict';
 class Person {
-    constructor() {
+    constructor(eventBus) {
         this.containerWidth = document.documentElement.clientWidth;
         this.containerHeight = document.documentElement.clientHeight;
+        this.eventBus = eventBus;
+        this.die = false;
         this.sx = 0;
         this.sy = 0;
     }
@@ -26,7 +28,7 @@ class Person {
 
     moveCharacterOnMobile(ev) {
         let target = ev.target;
-        this.direction = +target.value;
+        this.direction = target.value;
     }
 
     movePerson(event) {
