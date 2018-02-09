@@ -1,0 +1,33 @@
+.slider {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+#slider {
+  -webkit-appearance: none;
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+}
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #095891;
+  height: 30px;
+  width: 15px;
+  border-radius: 3px;
+  background: #2098D1;
+  cursor: pointer;
+  margin-top: -14px;
+}
+#slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  background: #095891;
+}
+#slider:focus {
+  outline: none;
+}

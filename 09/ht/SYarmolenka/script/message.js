@@ -1,11 +1,11 @@
-import {leaders} from "./route";
+import {result} from "./script"
 
 export class Message {
   constructor (time) {
     this.width = document.documentElement.clientWidth;
     this.height = document.documentElement.clientHeight;
     this.time = time;
-    Promise.resolve().then(this.create.bind(this));
+    this.create();
   }
   create () {
     this.div = document.createElement(`div`);
@@ -38,18 +38,15 @@ export class Message {
       if (!e.target.matches(`button`)) return;
       if (e.target.innerText === `OK`) {
         if (this.input.value === ``) return;
-        leaders.newResult({name: this.input.value, time: this.time});
-        this.delete();
-      }
-      if (e.target.innerText === `Cancel`) {
-        this.delete();
-        window.location.hash = `history`;
+        result.newResult({name: this.input.value, time: this.time});
       };
+      if (e.target.innerText === `Cancel`) window.location.hash = `history`;
+      this.delete();
     });
-    this.input.addEventListener(`keydown`, e => {
+    this.input.addEventListener(`keypress`, e => {
       if (e.keyCode !== 13 || this.input.value === ``) return;
       if (this.input.value === ``) return;
-      leaders.newResult({name: this.input.value, time: this.time});
+      result.newResult({name: this.input.value, time: this.time});
       this.delete();
     });
   };

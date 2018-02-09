@@ -1,0 +1,24 @@
+#winners {
+  padding-left: 45px;
+  margin: auto;
+  margin-top: 50px;
+}
+td,th {
+  margin: 2px auto;
+  padding: 2px 10px;
+  width: 150px;
+  text-align: center;
+  background: #2098D1;
+  font: 25px Arial;
+  color: #fff;
+  border: 1px solid #095891;
+  border-radius: 5px;
+}
+#click {
+  cursor: pointer;
+  width: 30px;
+}
+#click:hover {
+  background: #fff;
+  color: #2098D1;
+}
