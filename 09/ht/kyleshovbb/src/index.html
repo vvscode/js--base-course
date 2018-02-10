@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Arcade</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Stalinist+One" rel="stylesheet">
+    <script src="js/min.js" defer></script>
+</head>
+<body>
+
+<nav>
+    <ul id="navigation" class="navig text-center fixed-width">
+        <li id="gameLink"><a class="navig" title="Game" href="#Game">Game</a></li>
+        <li id="recordsLink"><a class="navig" title="Records" href="#Records">Records</a></li>
+        <li id="author"><a title="Author" href="#Author">Author</a></li>
+    </ul>
+</nav>
+
+<h1 id="main_text">Что бы начать игру, нажмите на кнопку Play</h1>
+
+<div id="contain"></div>
+<div id="tableContain"></div>
+<div class="sprite-wrapper" style="left: -3000px; top: -3000px; position: absolute;">
+    <img src="images/rider.png" id="person-img">
+    <img src="images/golem.png" id="hunter1-img">
+    <img src="images/dragon.png" id="hunter2-img">
+    <img src="images/background.jpg" id="background">
+    <img src="images/tinyshroommen.png" id="tinyshroommen-img">
+</div>
+<div class="mobileControls">
+    <input type="button" id="moveLeft" value="moveLeft">
+    <input type="button" id="moveRight" value="moveRight">
+    <input type="button" id="moveUp" value="moveForward">
+    <input type="button" id="backward" value="backward">
+</div>
+
+</body>
+</html>

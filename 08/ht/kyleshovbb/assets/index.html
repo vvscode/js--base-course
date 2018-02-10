@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Life</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/min.js" defer></script>
+</head>
+<body>
+
+<nav>
+    <ul id="navigation" class="navig text-center fixed-width">
+        <li><a id="textGame" class="navig" title="About" href="#Text">Text</a></li>
+        <li><a id="ConvasGame" class="navig" title="Main" href="#Canvas">Canvas</a></li>
+        <li><a id="SVGGame" title="Author" href="#SVG">SVG</a></li>
+        <li><a id="about" title="Author" href="#About">About</a></li>
+    </ul>
+</nav>
+
+<div id="contain"></div>
+<div id="controls">
+    <form id="form-controls">
+        <label for="selectColumn">
+            Количество столбцов:
+            <input id="selectColumn" name="column" type="number" min="3" max="150" value="40">
+        </label>
+
+        <label for="selectLine">
+            Количество строк:
+            <input id="selectLine" name="line" type="number" min="3" max="150" value="40">
+        </label>
+    </form>
+
+    <label for="rangeGameSpeed" class="rangeLabel">
+        Скорость игры:
+        <input type="range" id="rangeGameSpeed" min="1" max="20" value="5">
+    </label>
+
+    <div id="buttons">
+        <input type="button" class="btn-class" id="back" value="⯇⯇">
+        <input type="button" class="btn-class" id="play" value="Stop">
+        <input type="button" class="btn-class" id="forward" value="⯈⯈">
+    </div>
+</div>
+</body>
+</html>

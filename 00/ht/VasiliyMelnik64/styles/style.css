@@ -1,0 +1,148 @@
+.mainBlock {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.mainBlock-decor {
+  background-color: rgba(135, 138, 226, .5);
+}
+.mainBlock__greetingBlock {
+  margin: 10% 30%;
+  z-index: 2;
+}
+.greetingBlock {
+  background-color: white;
+  width: 40%;
+  padding: 1%;
+  text-align: center;
+}
+.greetingBlock-decor {
+  border: 3px solid rgb(32, 32, 65);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -o-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  color:rgb(32, 32, 65);
+  font-size: 1.75vw;
+  font-family: Roboto, Helvetica, Colibri, sans-serif;
+  -webkit-animation: popup ease-out .5s forwards;
+  -o-animation: popup ease-out .5s forwards;
+  animation: popup ease-out .5s forwards;
+  -webkit-transition: transform ease-out .1s forwards;
+  -moz-transition: transform ease-out .1s forwards;
+  -ms-transition: transform ease-out .1s forwards;
+  -o-transition: transform ease-out .1s forwards;
+  transition: transform ease-out .1s forwards;
+}
+.greetingBlock__close {
+  position: absolute;
+  right: 1.5%;
+  top:1%;
+}
+.greetingBlock__close-decor {
+  cursor: pointer;
+  color: rgb(32, 32, 65);
+}
+.greetingBlock__hidden {
+  position: relative;
+  top: -10px;
+  visibility: hidden;
+}
+.greetingBlock__hidden-decor {
+  text-align: justify;
+  color: #ff3349;
+  font-size: 1.05vw;
+  font-weight: bold;
+  font-family: Roboto, sans-serif;
+}
+.form {
+  margin-top: -20px;
+  width: 100%;
+}
+.form__item {
+  display: block;
+  width: 83%;
+  padding: 2%;
+  margin: 5% auto;
+}
+.form__item-decor {
+  font-size: 1.5vw;
+  color:rgb(32, 32, 65);
+  width: 50%;
+  margin-left: 44%;
+}
+.outputText {
+  width: 50%;
+  margin:50px auto;
+  padding: 3% 0;
+  text-align: center;
+}
+.outputText-decor {
+  background-color: rgba(135, 138, 226, .5);
+  border: 3px solid rgb(32, 32, 65);
+  border-radius: 10px;
+  color:rgb(32, 32, 65);
+  font-size: 1.75vw;
+  font-family: Roboto, Helvetica, Colibri, sans-serif;
+  font-weight: bold;
+}
+@-khtml-keyframes popup {
+  from {
+    transform: translateY(-500px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+@-moz-keyframes popup {
+  from {
+    transform: translateY(-500px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+@-ms-keyframes popup {
+  from {
+    transform: translateY(-500px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+@-o-keyframes popup {
+  from {
+    transform: translateY(-500px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+@-webkit-keyframes popup {
+  from {
+    transform: translateY(-500px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}

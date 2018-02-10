@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HT 02</title>
+    <style>
+        button{margin:10px;}
+        td {text-align: center;}
+        table{border: 1px solid black;
+            cursor:pointer;}
+    </style>
+</head>
+<body>
+<div align="center" id="calendar">
+    <span align="center" id=""></span>
+</div>
+<div>
+    <a href="FormPage.html" target="_blank">Проверить работу формы через UI (скрипт в html)</a></div>
+<div id="mocha"></div>
+<pre id="log"></pre>
+<script src="script.js"></script>
+<script>
+    drawInteractiveCalendar(document.getElementById("calendar"));
+</script>
+<script src="script.tests.js"></script>
+</body>
+</html>
