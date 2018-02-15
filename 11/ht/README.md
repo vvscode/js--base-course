@@ -69,6 +69,7 @@ Firebase:
 * https://www.youtube.com/watch?v=GnORwtq1_1A
 * https://codelabs.developers.google.com/codelabs/firebase-web-ru/index.html?index=..%2F..%2Flang-ru#0
 * https://firebase-info.com/category/firebase/
+* Репозиторий с примерами https://github.com/firebase/quickstart-js
 
 ## Процесс разработки
 
