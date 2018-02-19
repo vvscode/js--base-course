@@ -1,0 +1,45 @@
+var myButton = document.querySelector('button');
+var myHeading = document.querySelector('h1');
+function setUserNameAndAge() {
+  var myName = prompt('Пожалуйста, введите Ваше имя.');
+  while (myName == '') {
+  	alert('Вы не указали свое имя!');
+  	var myName = prompt('Пожалуйста, введите Ваше имя.');
+  }
+
+  localStorage.setItem('name', myName);
+   var myAge = prompt('Пожалуйста, введите Ваш возраст.');
+   while ((myAge == '')||(isNaN(myAge))) {
+     alert('Вы неправильно указали свой возраст!');
+     var myAge = prompt('Пожалуйста, введите Ваш возраст.');
+     }
+
+  localStorage.setItem('age', myAge);
+  if(myAge<18){
+  	 myHeading.innerHTML  = 'Здарова, ' + myName + '. Как твои ' + myAge + '?';
+  } else{
+  	 myHeading.innerHTML  = 'Приветствую, ' + myName + '. Уж лет ' + myAge + ' прошло';
+  }
+
+
+}
+
+if(!localStorage.getItem('name','age')) {
+  setUserNameAndAge();
+} else {
+  var storedName = localStorage.getItem('name');
+  var storedAge = localStorage.getItem('age');
+   if(storedAge<18){
+  	 myHeading.innerHTML  = 'Здарова, ' + storedName + '. Как твои ' + storedAge + '?';
+  } else{
+  	 myHeading.innerHTML  = 'Приветствую, ' + storedName + '. Уж лет ' + storedAge + ' прошло';
+  }
+
+}
+
+
+
+myButton.onclick = function() {
+  setUserNameAndAge();
+}
+
