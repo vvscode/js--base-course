@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    </head>
+    <body>
+        <div id="mocha"></div>
+        <pre id="log"></pre>
+        <a id="routePageButton" href="#testPage" style="display: none;"></a>  <!-- NOTE: for Route tests -->   
+        <a id="routeClearPageButton" href="#" style="display: none;"></a>     
+    </body>
+    <script src="eventBus.js"></script>
+    <script src="template.js"></script>
+    <script src="router.js"></script>
+    <script>
+        mocha.setup("bdd");
+        var assert = chai.assert;
+        var expect = chai.expect;
+    </script>
+    <script src="eventBus.tests.js"></script>
+    <script src="template.tests.js"></script>
+    <script src="router.tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</html>
