@@ -1,0 +1,117 @@
+/*навигация*/
+nav{
+	margin-left: 42%;
+}    
+a{
+	color:rgb(2, 11, 61);
+	font-size: 20px;
+	text-decoration: none;
+}
+a:active{
+	color:rgb(202, 5, 15);
+}
+a:not(:last-child):after {
+	content: ' | ';
+  }
+
+/*блоки*/
+.block1{
+	position: absolute;
+	left: 28%;
+	top:15%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	height: 200px;
+	width: 600px;
+	
+
+}
+.block2{
+	position: absolute;
+	top:50%;
+	left: 5%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	height: 280px;
+	width: 600px;
+	padding-left: 5px;
+	
+	
+}
+.block3{
+	position: absolute;
+	float: left;
+	left: 51%;
+	top:50%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	height: 280px;
+	width: 600px;
+	
+	
+}
+.main{
+	position: absolute;
+	top: 15%;
+	left: 5%;
+	border-width: 1px;
+	height: 500px;
+	width: 1240px;
+	
+}
+.about{
+	padding-left: 40%;
+	padding-top: 10%;
+	color: rgb(20, 1, 41);
+	font-size: 60px;
+}
+.inputs{
+	margin: 5% 35%;
+}
+input{
+	margin-top: 3%;
+}
+/*календарь*/
+table{
+	width: 100%; 
+    cellspacing: 0;
+    border-spacing: 0;
+}
+
+tr:not(:first-child){
+	height: 2.3em;
+}
+
+td, th{
+	border: 1px solid;
+    vertical-align: text-top;
+	width: 14%;
+	
+}
+
+/*задания*/
+.delete{
+	display: none;
+}
+
+.newTask{
+	border-style: solid;
+	border-width: 1px;
+	margin-top: 1px;
+	padding-bottom: 3px;
+}
+#remove{
+	position: relative;
+	float: right;
+	background-color: rgb(161, 5, 5);
+	border-radius: 15px; 
+	color: white;
+	
+}
+
+.hide{
+	visibility: hidden;
+}
