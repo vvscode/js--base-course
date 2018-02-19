@@ -1,5 +1,42 @@
 /* eslint max-len: ["warn", { "ignoreStrings": true }]*/
 
+const questions0 = `Что такое git?
+Какие есть системы контроля версий?
+как создать ветку в git?
+что такое HTML?
+что такое CSS?
+как зовут создателя JavaScript?
+в каком году был создан JavasScript?
+Какая текущая версия Javacript?
+Какая прошлая версия Javascript?
+Какого номера версии Javascript не было?
+Как называется комитет, занимающийся развитием JavaScript?
+Для чего нужен файл .gitignore?
+Как добавить в git пустую папку?
+Что такое "линтер"?
+Для чего нужен "prettier"?
+Как открыть DevTools в браузере?
+Как можно добавить javascript на страницу?
+Сколько будет 0.2 + 0.1?
+Что такое breakpoint?
+Какие методы есть у объекта console?
+На странице два элемента с id="awesomeId". Как из javascript найти второй?
+Что такое falsy (ложное) значение? Сколько их?
+Назовите 4 javascript фреймворка
+Назовите 3 javascript библиотеки
+Что такое cookies?
+Что происходит между вводом в адресной строке адреса страницы и появлением страницы на экране?
+Зачем нужен DNS сервер?
+Что такое HTTP?
+Назовите 3 программы-веб сервера
+Назовите 5 программ-браузеров
+Полное название Javascript?
+Что такое "транспиляция" в контексте разработки на Javascript?
+Как в Slack оформить многострочный код?
+Как в Slack оформить однострочный код?
+Что такое "императивное программирование"?
+Что такое ООП?`;
+
 const questions1 = `
 Что такое переменная?
 как объявить переменную? как инициализировать переменную?
@@ -37,7 +74,6 @@ const questions1 = `
 Почему 1 + '2' ? и 1 - '2' ?
 Как и когда работает преобразование типов?
 Что такое HTTP ? 
-Из чего состоит HTTP протокол?
 Какие есть методы HTTP запросов? Для чего каждый?
 Что такое REST ? RPC ?
 Что такое "линтер" (linter) ? Зачем они нужны? Какие линтеры есть для javascript?
@@ -131,22 +167,33 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [questions1, questions2, questions3, questions4, questions5];
+let questionsStrings = [
+  questions0,
+  questions1,
+  questions2,
+  questions3,
+  questions4,
+  questions5,
+];
 let roundQuestionsNumber = 0;
 let i = 0;
 
 let getQuestions = (() => {
   let questions = [];
   let generateQuestions = () => {
-    let level = +$$('#levelSelector').value;
+    [...document.querySelectorAll('fieldset input[type=checkbox]')].forEach(
+      (el, index) => {
+        if (el.checked) {
+          questions = [
+            ...questions,
+            ...(questionsStrings[index] || '').trim().split('\n'),
+          ];
+        }
+      }
+    );
 
-    questions = questionsStrings
-      .filter((_, index) => index < level)
-      .join('\n')
-      .trim()
-      .split('\n')
-      .map((i) => i.trim())
-      .filter(Boolean);
+    questions = questions.map((i) => i.trim()).filter(Boolean);
+
     shuffleList(questions);
     shuffleList(questions);
     roundQuestionsNumber = questions.length;
@@ -165,7 +212,9 @@ const drawNextQuestion = () => {
   let questions = getQuestions();
   i++;
   let question = questions.pop();
-  $$('.question').innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
+  $$(
+    '.question'
+  ).innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
 };
 
 $$('.question').addEventListener('click', drawNextQuestion);
