@@ -1,0 +1,67 @@
+.calendar table button {
+    margin:7px;
+}
+.calendar table{
+    border-collapse: separate;
+    border-spacing: 3px 7px;
+}
+.calendar table td {
+     border: 1px solid grey;
+     border-radius:12%;
+     vertical-align: top;
+     width: 90px;
+     height:30px;
+ }
+.calendar table td span{
+    padding: 1px 3px 1px 3px;
+    background-color: lightsteelblue;
+    border-radius:40%;
+}
+
+.calendar table div {
+    margin:5px;
+}
+
+.calendar.addedTask{
+    margin:2px;
+}
+
+.calendar{
+    margin:30px 100px 20px 50px;
+}
+
+.calendar table td div .delIcon{
+    padding: 0px 3px 2px 4px;
+    background-color:lightsalmon;
+    border-radius:50%;
+    margin:3px;
+}
+
+#defYear, #defMonth{
+    width: 5em;
+    margin: 5px;
+}
+
+
+#CalScript {
+    border: 1px solid black;
+}
+
+#settingsBar fieldset{
+    width: 250px;
+}
+
+
+textarea{
+    float:left;
+    width:300px;
+    height:220px;
+    margin-right: 100px;
+    margin-top: 30px;
+}
+
+
+#scriptArea, #settingsBar {
+    margin:30px 100px 20px 50px;
+}
+
