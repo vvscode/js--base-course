@@ -28,17 +28,40 @@
       top: 0;
       left: 50%;
     }
+
+    .top-legend {
+      position: fixed;
+      top: 0;
+    }
+
   </style>
 </head>
 
 <body>
-  <select name="level" id="levelSelector">
-    <option value="1" selected>L1</option>
-    <option value="2">L2</option>
-    <option value="3">L3</option>
-    <option value="4">L4</option>
-    <option value="5">L5</option>
-  </select>
+  <fieldset class="top-legend">
+    <legend>Lessons</legend>
+    <label for="l0">0
+      <input id="l0" name="l0" type="checkbox">
+    </label>
+    <label for="l1">1
+      <input id="l1" name="l1" type="checkbox">
+    </label>
+    <label for="l2">2
+      <input id="l2" name="l2" type="checkbox">
+    </label>
+    <label for="l3">3
+      <input id="l3" name="l3" type="checkbox">
+    </label>
+    <label for="l4">4
+      <input id="l4" name="l4" type="checkbox">
+    </label>
+    <label for="l5">5
+      <input id="l5" name="l5" type="checkbox">
+    </label>
+    <label for="l6">6
+      <input id="l6" name="l6" type="checkbox">
+    </label>
+  </fieldset>
   <h1 class="question">Go</h1>
   <script src="./script.js"></script>
 </body>
