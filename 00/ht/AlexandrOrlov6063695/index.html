@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FD2, 29 6063695, Орлов</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div>
+        <script>
+            var name = '';
+            var age = '';
+            var check = false;
+            while (check === false) {
+                name = prompt('Введите ваше имя', "");
+                if (name !== '') {
+                    check = true;
+                }
+                if (name === null) {
+                    check = false;
+                };
+            }
+            check = false;
+            while (check === false) {
+                age = prompt('Введите ваш возраст', "");
+                if (age > 0) {
+                    check = true;
+                }
+                if (age > 1000) {
+                    check = false;
+                }
+            }
+            if (age < 18) {
+                alert('Здарова, ' + name + '. Как твои ' + age + '?')
+            } else {
+                alert('Приветствую, ' + name + '. Уж ' + age + ' лет прошло')
+            };
+        </script>
+    </div>
+</body>
+</html>
