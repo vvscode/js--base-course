@@ -2,9 +2,7 @@
 
 while (true) {
   var name = prompt("Enter your name: ", "");
-  if (isNaN(name) && name != "null") {
-    break;
-  }
+  if (name != 0 && name != "null") break;
 }
 
 while (true) {
