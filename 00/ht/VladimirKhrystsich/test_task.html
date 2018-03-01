@@ -1,0 +1,53 @@
+<meta charset="utf-8">
+<script>
+var i=false
+do
+{
+	var name=prompt ("Введите Ваше имя:")
+	if (name=="")
+		{
+			alert ("Пожалуйста, введите имя!")
+		}
+	else if (name==null)
+		{
+			alert ("Пожалуйста, введите имя!")
+		}
+	else if (name)
+		{
+			i=true
+		}
+}
+while (i==false);
+
+i=false
+do
+{
+	var age=prompt ("Укажите свой возраст")
+    if (isNaN (age))
+        {
+            alert ("Пожалуйста, Укажите свой возраст!")
+        }
+    else if (age==null)
+    	{
+            alert ("Пожалуйста, Укажите свой возраст!")
+        }
+    else if (age=="")
+    	{
+            alert ("Пожалуйста, Укажите свой возраст!")
+        }
+    else if (age)
+    	{
+    		i=true;
+    	}
+}
+while (i==false);  
+ if (age>=18)
+    {
+        alert ("Привествую, " + name + ". Уж " + age + " лет прошло")
+            
+    }
+else if (age<18)
+    {
+        alert ("Здарова, " + name +". Как твои " + age + "?")
+    }  
+</script>
