@@ -7,21 +7,21 @@
 
 <body>
     <script type="text/javascript">
-        var name=prompt("Введите ваш имя");
-        while (name == 'null' || name=='') {
-            name=prompt("Введите ваш имя");
+        var name = prompt("Введите ваш имя");
+        while (name == 'null' || name == '') {
+            name = prompt("Введите ваш имя");
         }
         do {
-        var age= parseInt(prompt("Введите ваш возраст"));
+            var age = parseInt(prompt("Введите ваш возраст"));
         }
-        while ( isNaN(age) || age == '' );
-        if (age<18) {
-            alert('Здарова, ' +name + '. Как твои ' + age + ' ?')
+        while (isNaN(age) || age == '');
+        if (age < 18) {
+            alert('Здарова, ' + name + '. Как твои ' + age + ' ?')
         }
         else {
             alert('Привествую, ' + name + ' . Уж ' + age + ' лет прошло')
         }
-    </script> 
+    </script>
 </body>
 
 
