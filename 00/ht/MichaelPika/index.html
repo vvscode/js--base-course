@@ -14,15 +14,13 @@
     do {
         userName = prompt("Ваше имя?", '');
         userAge = prompt("Ваш возраст?", '');
-    } while ( userName === '' || userAge === '');
+    } while( userName === '' || userAge === '' || userName === null || userAge === null);
 
-    if (userAge >= 18){
-        var message = ('Приветствую, ' + userName + '. Уж ' +  userAge + ' лет прошло');
+    if( userAge >= 18){
+        alert ( 'Приветствую, ' + userName + '. Уж ' +  userAge + ' лет прошло');
     }   else {
-        message = ('Здарова, ' + userName + '. Как твои ' +  userAge + ' ?');
+        alert( 'Здарова, ' + userName + '. Как твои ' +  userAge + ' ?');
     }
-    alert( message );
-
 </script>
 </body>
 </html>
