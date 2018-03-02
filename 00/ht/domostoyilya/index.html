@@ -6,13 +6,13 @@
 </head>
 <body>
 	<script>
-		var Name=prompt("Введите Ваше имя");
+		var Name=""; 
+		    Age="";
 		while (isNaN(Name)==false) {
-			Name=prompt("Введите имя корректно");
+			Name=prompt("Введите имя");
 		}
-		var Age=prompt("Введите Ваш возраст в годах");
 		while ((isNaN(Age)==true) || (Age<=0) || (Age>150)) {
-			Age=prompt("Введите возраст корректно");
+			Age=prompt("Введите возраст");
 		}
 		if (Age<18) {
 			alert ("Здарова, "+Name+". Как твои "+Age+"?");
