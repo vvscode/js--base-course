@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--  Meta  -->
+    <meta charset="UTF-8" />
+    <title>My task</title>
+</head>
+<body>
+<!-- Scripts -->
+<script>
+    var userName;
+    var userAge;
+    do {
+        userName = prompt("Ваше имя?", '');
+        userAge = prompt("Ваш возраст?", '');
+    } while( userName === '' || userAge === '' || userName === null || userAge === null);
+
+    if( userAge >= 18){
+        alert ( 'Приветствую, ' + userName + '. Уж ' +  userAge + ' лет прошло');
+    }   else {
+        alert( 'Здарова, ' + userName + '. Как твои ' +  userAge + ' ?');
+    }
+</script>
+</body>
+</html>
