@@ -12,7 +12,7 @@ function checkName(x) {
     if (isNaN(x) == false) return false;
 
     return true;
-}
+};
 
 ageUser = prompt("Укажите Ваш возраст", "");
 
