@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<script>
+    var i = false
+    do {
+        var user_name = prompt("Введите Ваше имя:")
+        if (user_name == "" || user_name == null) {
+            alert("Пожалуйста, введите имя!")
+        } else {
+            i = true
+        }
+    }
+    while (i == false);
+    var i = false
+    do {
+        var user_age = prompt("Укажите свой возраст")
+        if (isNaN(user_age)) {
+            alert("Пожалуйста, укажите свой возраст!")
+        } else if (user_age) {
+            i = true
+        }
+    }
+    while (i == false);
+    if (user_age >= 18) {
+        alert("Привествую, " + user_name + ". Уж " + user_age + " лет прошло.")
+
+    } else if (user_age < 18) {
+        alert("Здарова, " + user_name + ". Как твои " + user_age + "?")
+    }
+</script>
