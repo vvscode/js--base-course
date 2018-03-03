@@ -3,18 +3,18 @@ function profile() {
 
     while (name == undefined) {
         let validName;
+        let RegExp = /^[А-Яа-яЁё]+$/;
         while (!validName) {
             name = prompt('Введите ваше имя');
-            let RegExp = /^[А-Яа-яЁё]+$/;
             validName = RegExp.exec(name);
         }
     }
 
     while (age <= 0 || age == undefined || age > 100) {
         let validAge;
+        let RegExp = /^[0-9]+$/;
         while (!validAge){
             age = prompt('Введите ваш возраст');
-            let RegExp = /^[0-9]+$/;
             validAge = RegExp.exec(age);
         }
     }
