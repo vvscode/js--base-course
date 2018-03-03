@@ -4,7 +4,7 @@ var ageUser;
 nameUser= prompt("Ваше имя?", "");
 
 while (!checkName(nameUser)) {
-    nameUser = prompt("Имя не введено либо введено не верно. " +
+    nameUser = prompt("Имя не введено либо введено неверно. " +
         "Повторно введите свое имя", "");
 };
 
@@ -17,7 +17,7 @@ function checkName(x) {
 ageUser = prompt("Укажите Ваш возраст", "");
 
 while (!checkAge(ageUser)) {
-     ageUser = prompt("Данные возраста не введены либо введены не верно. " +
+     ageUser = prompt("Данные возраста не введены либо введены неверно. " +
                       "Повторно введите данные", "");
 };
 
