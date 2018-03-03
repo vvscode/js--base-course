@@ -1,0 +1,48 @@
+.body-style {
+    background: #07fa24;
+    padding: 0;
+    margin: 0;
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width: 340px;
+    max-width: 1140px;
+    margin: auto;
+}
+.font-title {
+    font-family: 'Arial', 'Verdana', sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+}
+.say-content {
+    font-family: 'Arial', 'Verdana', sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: #000;
+    text-align: center;
+}
+p span {
+    text-transform: capitalize;
+}
+.button {
+    border: 2px solid #000;
+    border-radius: 2px;
+    background-color: #07fa50;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    outline: none;
+    line-height: 2;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-family: 'Arial', 'Verdana', sans-serif;
+    font-weight: bold;
+    color: #000;
+}
