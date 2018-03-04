@@ -9,9 +9,7 @@ while (!checkName(nameUser)) {
 };
 
 function checkName(x) {
-    if (isNaN(x) == false) return false;
-
-    return true;
+    return isNaN(x);
 };
 
 ageUser = prompt("Укажите Ваш возраст", "");
@@ -22,9 +20,7 @@ while (!checkAge(ageUser)) {
 };
 
 function checkAge(x) {
-    if (isNaN(x) == true || x <= 0 || x > 120) return false;
-
-    return true;
+    return !isNaN(x) && x > 0 && x < 120;
 };
 
 if (ageUser < 18) {
@@ -32,34 +28,3 @@ if (ageUser < 18) {
 } else {
     alert("Приветствую, " + nameUser + "." + " Уж " + ageUser + " лет прошло.");
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
