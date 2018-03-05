@@ -1,0 +1,153 @@
+* { margin:0; padding:0; } 
+
+html, body { 
+	width:100%; 
+	height:100%;
+	overflow: hidden;
+}
+body{
+	background-image: url("pic/back1.jpg");
+}
+canvas{
+	background-image: url("pic/back2.jpg");
+}
+#player{
+	display:inline-block;
+	background: #fc0; 
+
+}
+
+
+div{
+	width: 100%;
+}
+canvas { 
+	display:block; 
+}
+#start{
+	display: inline-block;
+	border-radius: 6px;
+	background-color: #f4511e;
+	border: none;
+	color: #FFFFFF;
+	font-size: 28px;
+	padding: 15px;
+	width: 230px;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin-top:80px;
+}
+#start span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+  }
+#start span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+  }
+#start:hover span {
+	padding-right: 25px;
+  }
+  
+#start:hover span:after {
+	opacity: 1;
+	right: 0;
+	}
+	
+	
+
+#scores{	
+	width: 1100px;
+	height: 540px;
+	overflow: auto;
+	color: #f8f8f8;
+	background-image: url("pic/back.png");
+	background-repeat: no-repeat;
+	text-align: center;	
+	font-size: 25px;
+	margin-left: 10%;
+	padding: 0;
+	
+
+}
+#scoresList{
+	float: left;
+	color: #0e0d0d;	
+	font-size: 20px;
+	text-align: left;	
+	margin-left: 20%;
+	color: white;
+}
+.history{		
+	position: relative;
+	top: -5px;
+	padding: 5px;
+	margin-right: 10%;
+	float: right;
+	background-color: #b40404;
+	border: none;
+	color: #FFFFFF;
+	border-radius: 4px;
+	cursor: pointer;
+}
+#rules{
+	font-size: 22px;
+	text-align: center;	
+	margin-top: 20px;
+}
+li{
+	display: inline;
+	
+}
+a{
+	color: #0e0d0d;	
+	font-size: 20px;
+	text-decoration: none;
+	
+}
+li:first-child{
+	margin-left: 44%;
+}
+.nav{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: -3px;
+	padding-top: 5px;
+	display: inline-block;
+	border: 1px solid black;
+	width: 80px;
+	height: 30px;
+	text-align: center;	
+	background-color: #2802b3;
+	border: none;
+	color: #FFFFFF;
+	box-shadow: 1px 3px 9px 1px #400040
+}
+.nav:hover{
+	border-bottom:3px solid  #f4511e;
+	margin-bottom: 0;
+}
+b{
+	color: aquamarine;
+}
+#gameOver{
+	width: 400px;
+	height: 400px;
+	border: 1px solid grey;
+	background: #f8f8f8;
+	margin-left: 35%;
+	margin-top: 15%;
+
+}
+#endBtn{
+	padding: 5px;
+	background: #f4511e;
+	color: #f8f8f8;
+	border-radius: 3px;
+}
