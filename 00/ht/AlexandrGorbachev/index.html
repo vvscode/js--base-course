@@ -16,7 +16,7 @@
 
               do {
                   userAge = +prompt("введите свой возраст", 0);
-              } while (!userAge || userAge <= 0 || !(!isNaN(parseFloat(userAge)) && isFinite(userAge)));
+              } while (!userAge || userAge <= 0 || !isFinite(userAge));
 
               if (userAge < targetUserAge) {
                   alert("Здарова, " + userName + ". Как твои " + userAge + " ?");
