@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <script>
+        do {
+            var name = prompt('Введите, пожалуйста, Ваше имя');
+            var numberName = parseFloat(name);
+        }
+        while (isNaN(name) == false || isNaN(numberName) == false);
+        var resultName = name;
+        console.log(name)
+        var age = prompt('Введите Ваш возраст');
+        while (age <= 0 || age > 100 || isNaN(age) == true) {
+            alert('Уверены? Давайте еще раз!')
+            age = prompt('Введите Ваш верный возраст');
+        }
+        if (age >= 18) {
+            var resultAge = 'Вы уже совершеннолетний';
+            alert('Приветствую, ' + resultName + '. Уж ' + age + ' лет прошло... ');
+        } else {
+            alert('Здарова, ' + resultName + '. Как твои ' + age + '?');
+        }
+
+    </script>
+</body>
+
+</html>
