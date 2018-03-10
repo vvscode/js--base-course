@@ -22,10 +22,33 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
+    var arrayFizzBuzz = [];
+    for(var i = 1; i <= 100; i++) {
+        while(i % 3 != 0) {
+            while(i % 5!= 0) {
+                arrayFizzBuzz.push(i);
+                break;
+            }
+            while(i % 5 == 0) {
+                arrayFizzBuzz.push('Buzz');
+                break;
+            }
+            break;
+        }
+        while(i % 3 == 0) {
+            while(i % 5 == 0) {
+                arrayFizzBuzz.push('FizzBuzz');
+                break;
+            }
+            while(i % 5 != 0) {
+                arrayFizzBuzz.push('Fizz');
+                break;
+            }
+            break;
+        }
+    }
+    arrayFizzBuzz.forEach(log);
 }
-
-
 /**
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
@@ -34,11 +57,12 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
+    var l = textString.length, i = 0;
+    while (i < l) {
+        while(textString[i] !== textString[l - 1 - i++]) return false;
+    }
+    return true;    
 }
-
-
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
