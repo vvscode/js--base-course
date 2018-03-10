@@ -22,7 +22,32 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
+    var arrayFizzBuzz = [];
+    for(var i = 1; i <= 100; i++) {
+        while(i % 3 != 0) {
+            while(i % 5!= 0) {
+                arrayFizzBuzz.push(i);
+                break;
+            }
+            while(i % 5 == 0) {
+                arrayFizzBuzz.push('Buzz');
+                break;
+            }
+            break;
+        }
+        while(i % 3 == 0) {
+            while(i % 5 == 0) {
+                arrayFizzBuzz.push('FizzBuzz');
+                break;
+            }
+            while(i % 5 != 0) {
+                arrayFizzBuzz.push('Fizz');
+                break;
+            }
+            break;
+        }
+    }
+    arrayFizzBuzz.forEach(log);
 }
 
 
