@@ -63,6 +63,7 @@ function isPolindrom(textString) {
     }
     return true;    
 }
+var isPalindrom = (str) => str == str.split('').reverse().join('');
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
