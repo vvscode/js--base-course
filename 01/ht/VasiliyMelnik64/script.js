@@ -72,8 +72,8 @@ var isPalindrom = (str) => str == str.split('').reverse().join('');
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+function drawCalendar (year, month, htmlEl) {
+    
 }
 
 
@@ -86,6 +86,25 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+    function eqObj(objA, objB) {
+        if (objA === objB) return true;
+        if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+        for (var prop in objA) {
+            if (!isDeepEqual(objA[prop], objB[prop])) return false;
+        }
+        return true;
+    }
+    if (objA == objB) return true;
+    if (typeof objA !== typeof objB) return false;
+    if (typeof objA === 'number' && typeof objB === 'number') {
+        if (isNaN(objA) && isNaN(objB)) return true;
+        return objA === objB;
+    }
+    if ((typeof objA === 'string' && typeof objB === 'string') ||
+        (Array.isArray(objA) && Array.isArray(objB))) {
+        if (objA.length !== objB.length) return false;
+        for (var i = 0; i < objB.length; i++) if (objA[i] !== objB[i]) return false;
+    }
+    return eqObj(objA, objB);
+    
 }
