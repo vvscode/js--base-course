@@ -4,7 +4,7 @@ describe("spiral", function() {
       return assert.isOk(typeof spiral === "function");
     });
     it("возвращает массив", function() {
-      return assert.isOk(Array.isArray(spiral([])) === true);
+      return assert.isOk(Array.isArray(spiral([])));
     });
     it("[[4, 5], [6, 7]] по спирали - [4,5,7,6]", function() {
       return assert.isOk(spiral([[4, 5], [6, 7]]).toString() === [4,5,7,6].toString());
@@ -27,7 +27,7 @@ describe("quadraticEquation", function() {
       return assert.isOk(typeof quadraticEquation === "function");
     });
     it("возвращает массив", function() {
-        return assert.isOk(Array.isArray(quadraticEquation(1, 2, 3)) === true);
+        return assert.isOk(Array.isArray(quadraticEquation(1, 2, 3)));
     });
     it("квадратное уравнение x^2 - 8*x + 72 корней не имеет", function() {
       return assert.isOk(quadraticEquation(1, -8, 72).length === 0);
