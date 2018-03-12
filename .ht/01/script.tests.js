@@ -55,6 +55,9 @@ describe("isPolindrom", function() {
   it("asdsb - не полиндром", function() {
     return assert.isOk(isPolindrom("asdsb") === false);
   });
+  it("'1231' - не полиндром", function() {
+    return assert.isOk(isPolindrom("1231") === false);
+  });
 });
 
 describe("drawCalendar", function() {
