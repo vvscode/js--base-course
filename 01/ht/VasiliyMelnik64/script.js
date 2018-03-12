@@ -59,7 +59,9 @@ function fizzBuzz() {
 function isPolindrom(textString) {
     var l = textString.length, i = 0;
     while (i < l) {
-        while(textString[i] !== textString[l - 1 - i++]) return false;
+        while (textString[i] !== textString[l - 1 - i++]) {
+            return false;
+        }
     }
     return true;    
 }
@@ -76,7 +78,9 @@ function drawCalendar (year, month, htmlEl) {
     var date = new Date(year, month-1);
     function defineDayOfTheWeek(date) { 
         var dayOfTheWeek = date.getDay();
-        if (dayOfTheWeek == 0) dayOfTheWeek = 7;
+        if (dayOfTheWeek == 0) {
+            dayOfTheWeek = 7;
+        }
         return dayOfTheWeek - 1;
     }
     var table = '<table style="border: 1px solid black;border-collapse:collapse"><tr style="border: 1px solid black;border-collapse:collapse;"><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
@@ -109,23 +113,41 @@ function drawCalendar (year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
     function eqObj(objA, objB) {
-        if (objA === objB) return true;
-        if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+        if (objA === objB) {
+            return true;
+        }
+        if (Object.keys(objA).length !== Object.keys(objB).length) {
+            return false;
+        }
         for (var prop in objA) {
-            if (!isDeepEqual(objA[prop], objB[prop])) return false;
+            if (!isDeepEqual(objA[prop], objB[prop])) {
+                return false;
+            }
         }
         return true;
     }
-    if (objA == objB) return true;
-    if (typeof objA !== typeof objB) return false;
+    if (objA == objB) {
+        return true;
+    }
+    if (typeof objA !== typeof objB) {
+        return false;
+    }
     if (typeof objA === 'number' && typeof objB === 'number') {
-        if (isNaN(objA) && isNaN(objB)) return true;
+        if (isNaN(objA) && isNaN(objB)) {
+            return true;
+        }
         return objA === objB;
     }
     if ((typeof objA === 'string' && typeof objB === 'string') ||
         (Array.isArray(objA) && Array.isArray(objB))) {
-        if (objA.length !== objB.length) return false;
-        for (var i = 0; i < objB.length; i++) if (objA[i] !== objB[i]) return false;
+        if (objA.length !== objB.length) {
+            return false;
+        }
+        for (var i = 0; i < objB.length; i++) {
+            if (objA[i] !== objB[i]) {
+                return false;
+            }
+        }
     }
     return eqObj(objA, objB);
 }
@@ -141,8 +163,12 @@ function spiral (arr) {
       return arr == undefined || arr.length == 0;
     }
     function horisonatalSplicing(arr, parentArr, method) {
-      while(!isEmpty(arr)) answer.push(arr[method]()); 
-      if(isEmpty(arr)) parentArr.splice(parentArr.indexOf(arr), 1);
+        while (!isEmpty(arr)) {
+            answer.push(arr[method]());
+        }
+        if (isEmpty(arr)) {
+            parentArr.splice(parentArr.indexOf(arr), 1);
+        }
     }
     while(!isEmpty(arr)) {
       horisonatalSplicing(arr[0], arr, 'shift');
@@ -150,7 +176,9 @@ function spiral (arr) {
         answer.push(elem.pop());
       });
       horisonatalSplicing(arr[arr.length - 1], arr, 'pop');
-      for(var i = arr.length-1; i >= 0; i--) answer.push(arr[i].shift());
+        for (var i = arr.length - 1; i >= 0; i--) {
+            answer.push(arr[i].shift());
+        }
     }
     return  answer;
 }
@@ -167,10 +195,18 @@ function quadraticEquation(a, b, c) {
         return parseFloat((-b + sign * 1 * Math.sqrt(discriminant)) / (2 * a))
     }
     var answers = [];
-    if (a === 0) return answers;
+    if (a === 0) {
+        return answers;
+    }
     var discriminant = b * b - 4 * a * c;
-    if (discriminant < 0) return answers;
-    if (discriminant == 0) answers.push(parseFloat(-b / (2 * a)));
-    else answers.push(getAnswer(1), getAnswer(-1));
+    if (discriminant < 0) {
+        return answers;
+    }
+    if (discriminant == 0) {
+        answers.push(parseFloat(-b / (2 * a)));
+    }
+    else {
+        answers.push(getAnswer(1), getAnswer(-1));
+    }
     return answers;
 }
