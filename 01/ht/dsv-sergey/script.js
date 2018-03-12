@@ -50,8 +50,13 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
+    var testString = '',
+        i = 0;
+    while (i < textString.length) {
+        testString = testString + textString[textString.length - 1 - i];
+        i++;
+    }
+    return testString === textString;
 }
 
 
@@ -64,8 +69,10 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+    var Calendar = Date();
+    Calendar.
 }
+
 
 
 /**
