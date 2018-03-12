@@ -132,7 +132,7 @@ function isDeepEqual(objA, objB) {
     }
     return eqObj(objA, objB);
 }
-   /**
+/**
  * Реализовать фукнцию `spiral` , которая принимает  на вход двумерный массив 
  * и возвращает одномерный массив с элементами расположенными по спирали. 
  * Матрица не обязательно имеет одинаковые размеры по обеим сторонам.  
@@ -149,11 +149,31 @@ function spiral (arr) {
     }
     while(!isEmpty(arr)) {
       horisonatalSplicing(arr[0], arr, 'shift');
-      arr.forEach(function(elem) {
+      arr.forEach(function (elem) {
         answer.push(elem.pop());
       });
       horisonatalSplicing(arr[arr.length - 1], arr, 'pop');
       for(var i = arr.length-1; i >= 0; i--) answer.push(arr[i].shift());
     }
     return  answer;
-  }
+}
+/**
+ * Написать тесты и саму функцию `quadraticEquation`, которая на вход
+ * принимает коэффициенты квадратного уравнения, а возвращает массив с
+ * вещественными корнями этого уравнения (если они есть).
+ * @param {number} a - коэффициент
+ * @param {number} b - коэффициент
+ * @param {number} c - коэффициент
+ */
+function quadraticEquation(a, b, c) { 
+    var answers = [];
+    if (a === 0) return answers;
+    var discriminant = b * b - 4 * a * c;
+    if (discriminant < 0) return answers;
+    if (discriminant == 0) answers.push(parseFloat(-b / (2 * a)));
+    else {
+        answers.push(parseFloat((-b + Math.sqrt(discriminant)) / (2 * a)));
+        answers.push(parseFloat((-b - Math.sqrt(discriminant)) / (2 * a)));
+    }
+    return answers;
+}
