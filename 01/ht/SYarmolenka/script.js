@@ -130,5 +130,61 @@ function isDeepEqual(objA, objB) {
       return equalObject(objA, objB);
     };
     return false;
-       return undefined;
-  }
+    return undefined;
+};
+
+let spiral = (arr) => {
+let newArr = [];
+if (Array.isArray(arr)) {
+    if (!Array.isArray(arr[0])) return arr;
+    let buffArr = JSON.parse(JSON.stringify(arr));
+    let up;
+    let cycle = () => {
+    for (let i = 0; i < buffArr.length; i++) {
+        if (i === 0) {
+        buffArr[i].forEach(elem => {
+            newArr.push(elem);
+        });
+        buffArr.shift();
+        };
+        if (i < buffArr.length - 1) {
+        buffArr[i].forEach((elem, i, arr) => {
+            if (i === arr.length - 1) newArr.push(elem);
+        });
+        buffArr[i].pop();
+        };
+        if (i === buffArr.length - 1) {
+        for (let j = buffArr[i].length - 1; j >= 0; j--) {
+            newArr.push(buffArr[i][j]);
+        };
+        up = 1;
+        buffArr.pop();
+        };
+        if (up) {
+        for (let i = buffArr.length - 1; i >= 0; i--) {
+            newArr.push(buffArr[i][0]);
+            buffArr[i].shift();
+        }
+        up = 0;
+        };
+    };
+    if (buffArr.length > 0) cycle();
+    };
+    cycle();
+};
+return newArr;
+};
+
+let quadraticEquation = (a, b, c) => {
+    const arr = [];
+    if (!a || !b || !c) return arr;
+    const descr = b * b - 4 * a * c;
+    if (descr > 0) {
+        arr.push((- b + Math.sqrt(descr)) / 2 * a);
+        arr.push((- b - Math.sqrt(descr)) / 2 * a);
+    }
+    if (descr === 0) {
+        arr.push(-b / 2 * a);
+    };
+    return arr;
+};
