@@ -45,7 +45,7 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-  const str = textString.replace(` `, ``);
+  const str = textString.replace(/ /g, ``);
   for (let i = 0; i < str.length / 2; i++) {
     if (str[i] !== str[str.length - 1 - i]) return false;
   };
@@ -70,7 +70,7 @@ function drawCalendar(year, month, htmlEl) {
     if (new Date(year, month - 1, i + 1).getMonth() === month - 1) return `<td>${i + 1}</td>`;
   }).filter(elem => elem);
   let calendar = [...emptyBefore, ...insertDays];
-  while (calendar.length < Math.ceil(calendar.length / 7) * 7) calendar.push(`<td></td>`);
+  while (calendar.length < Math.ceil(calendar.length / 7) * 7) {calendar.push(`<td></td>`)};
   calendar = calendar.map((e, i, arr) => {
     if (i === 0 || i % 7 === 0) return `<tr>${e}`;
     if (i % 7 === 0 || i === arr.length - 1) return `${e}</tr>`;
