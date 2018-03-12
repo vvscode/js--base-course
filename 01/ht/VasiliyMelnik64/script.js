@@ -163,14 +163,14 @@ function spiral (arr) {
  * @param {number} c - коэффициент
  */
 function quadraticEquation(a, b, c) { 
+    function getAnswer(sign) { 
+        return parseFloat((-b + sign * 1 * Math.sqrt(discriminant)) / (2 * a))
+    }
     var answers = [];
     if (a === 0) return answers;
     var discriminant = b * b - 4 * a * c;
     if (discriminant < 0) return answers;
     if (discriminant == 0) answers.push(parseFloat(-b / (2 * a)));
-    else {
-        answers.push(parseFloat((-b + Math.sqrt(discriminant)) / (2 * a)));
-        answers.push(parseFloat((-b - Math.sqrt(discriminant)) / (2 * a)));
-    }
+    else answers.push(getAnswer(1), getAnswer(-1));
     return answers;
 }
