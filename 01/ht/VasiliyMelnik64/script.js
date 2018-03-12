@@ -64,7 +64,7 @@ function isPolindrom(textString) {
     return true;    
 }
 var isPalindrom = (str) => str == str.split('').reverse().join('');
-/**
+/**80296737128
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
  * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
@@ -73,9 +73,34 @@ var isPalindrom = (str) => str == str.split('').reverse().join('');
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar (year, month, htmlEl) {
-    
-}
+    var date = new Date(year, month-1);
+    function defineDayOfTheWeek(date) { 
+        var dayOfTheWeek = date.getDay();
+        if (dayOfTheWeek == 0) dayOfTheWeek = 7;
+        return dayOfTheWeek - 1;
+    }
+    var table = '<table style="border: 1px solid black;border-collapse:collapse"><tr style="border: 1px solid black;border-collapse:collapse;"><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
 
+    for (var i = 0; i < defineDayOfTheWeek(date); i++) {
+      table += '<td></td>';
+    }
+    while (date.getMonth() == month - 1) {
+      table += '<td>' + date.getDate() + '</td>';
+      if (defineDayOfTheWeek(date) % 7 == 6) {
+        table += '</tr><tr>';
+      }
+      date.setDate(date.getDate() + 1);
+    }
+
+    if (defineDayOfTheWeek(date) != 0) {
+      for (i = defineDayOfTheWeek(date); i < 7; i++) {
+        table += '<td></td>';
+      }
+    }
+    table += '</td></table>';
+    htmlEl.innerHTML = '';
+    htmlEl.innerHTML = table;
+  }
 
 /**
  * Написать функцию `isDeepEqual`
@@ -106,5 +131,29 @@ function isDeepEqual(objA, objB) {
         for (var i = 0; i < objB.length; i++) if (objA[i] !== objB[i]) return false;
     }
     return eqObj(objA, objB);
-    
 }
+   /**
+ * Реализовать фукнцию `spiral` , которая принимает  на вход двумерный массив 
+ * и возвращает одномерный массив с элементами расположенными по спирали. 
+ * Матрица не обязательно имеет одинаковые размеры по обеим сторонам.  
+ * @param {object} arr - двумерный массив
+ */
+function spiral (arr) {
+    var answer = [];
+    function isEmpty(arr) {
+      return arr == undefined || arr.length == 0;
+    }
+    function horisonatalSplicing(arr, parentArr, method) {
+      while(!isEmpty(arr)) answer.push(arr[method]()); 
+      if(isEmpty(arr)) parentArr.splice(parentArr.indexOf(arr), 1);
+    }
+    while(!isEmpty(arr)) {
+      horisonatalSplicing(arr[0], arr, 'shift');
+      arr.forEach(function(elem) {
+        answer.push(elem.pop());
+      });
+      horisonatalSplicing(arr[arr.length - 1], arr, 'pop');
+      for(var i = arr.length-1; i >= 0; i--) answer.push(arr[i].shift());
+    }
+    return  answer;
+  }
