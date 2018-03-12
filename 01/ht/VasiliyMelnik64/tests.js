@@ -21,3 +21,21 @@ describe("spiral", function() {
           ]).toString() === [1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12].toString());
     });
 });
+  
+describe("quadraticEquation", function() {
+    it("функция", function() {
+      return assert.isOk(typeof quadraticEquation === "function");
+    });
+    it("возвращает массив", function() {
+        return assert.isOk(Array.isArray(quadraticEquation(1, 2, 3)) === true);
+    });
+    it("квадратное уравнение x^2 - 8*x + 72 корней не имеет", function() {
+      return assert.isOk(quadraticEquation(1, -8, 72).length === 0);
+    });
+    it("корень квадратного уравнения x^2 + 12*x + 36 единственный и равен -6", function() {
+        return assert.isOk(quadraticEquation(1, 12, 36)[0] === -6);
+    });
+    it("корни квадратного уравнения 1*x^2 + 6*x + 1 равны -0.1715728752538097 и -5.82842712474619", function() {
+        return assert.isOk(quadraticEquation(1, 6, 1)[0] === -0.1715728752538097 && quadraticEquation(1, 6, 1)[1] === -5.82842712474619);
+      });
+  });
