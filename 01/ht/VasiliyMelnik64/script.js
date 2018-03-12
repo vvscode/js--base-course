@@ -80,7 +80,6 @@ function drawCalendar (year, month, htmlEl) {
         return dayOfTheWeek - 1;
     }
     var table = '<table style="border: 1px solid black;border-collapse:collapse"><tr style="border: 1px solid black;border-collapse:collapse;"><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
-
     for (var i = 0; i < defineDayOfTheWeek(date); i++) {
       table += '<td></td>';
     }
@@ -91,7 +90,6 @@ function drawCalendar (year, month, htmlEl) {
       }
       date.setDate(date.getDate() + 1);
     }
-
     if (defineDayOfTheWeek(date) != 0) {
       for (i = defineDayOfTheWeek(date); i < 7; i++) {
         table += '<td></td>';
@@ -101,7 +99,6 @@ function drawCalendar (year, month, htmlEl) {
     htmlEl.innerHTML = '';
     htmlEl.innerHTML = table;
   }
-
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
