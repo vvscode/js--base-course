@@ -46,7 +46,7 @@ function fizzBuzz() {
  */
 function isPolindrom(textString) {
   const str = textString.replace(` `, ``);
-  for (let i = 0; i <= str.length / 2; i++) {
+  for (let i = 0; i < str.length / 2; i++) {
     if (str[i] !== str[str.length - 1 - i]) return false;
   };
   return true;
@@ -151,10 +151,8 @@ const spiral = (arr) => {
 };
 
 const quadraticEquation = (a, b, c) => {
-  if (c !== undefined) {
-    const des = b * b - 4 * a * c;
-    if (des > 0) return [(-b + Math.sqrt(des)) / 2 * a, (-b - Math.sqrt(des)) / 2 * a];
-    if (des === 0) return [-b / 2 * a];
-  };
+  const des = b * b - 4 * a * c;
+  if (des > 0) return [(-b + Math.sqrt(des)) / 2 * a, (-b - Math.sqrt(des)) / 2 * a];
+  if (des === 0) return [-b / 2 * a];
   return [];
 };
