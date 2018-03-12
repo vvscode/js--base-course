@@ -33,6 +33,7 @@ describe(`Check a quadraticEquation function`, () => {
   it(`Return array`, () => {
     assert.equal(Array.isArray(quadraticEquation()), true);
     assert.equal(Array.isArray(quadraticEquation(1, 2, 3)), true);
+    assert.equal(Array.isArray(quadraticEquation(0, 0, 0)), true);
   });
   it(`Work correctly`, () => {
     assert.equal(quadraticEquation(1, -8, 72).join(), ``);
