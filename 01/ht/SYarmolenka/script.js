@@ -176,15 +176,10 @@ return newArr;
 };
 
 let quadraticEquation = (a, b, c) => {
-    const arr = [];
-    if (!a || !b || !c) return arr;
-    const descr = b * b - 4 * a * c;
-    if (descr > 0) {
-        arr.push((- b + Math.sqrt(descr)) / 2 * a);
-        arr.push((- b - Math.sqrt(descr)) / 2 * a);
-    }
-    if (descr === 0) {
-        arr.push(-b / 2 * a);
+    if (a && b && c) {
+        const descr = b * b - 4 * a * c;
+        if (descr > 0) return [(- b + Math.sqrt(descr)) / 2 * a,(- b - Math.sqrt(descr)) / 2 * a];
+        if (descr === 0) return [-b / 2 * a];
     };
-    return arr;
+    return [];
 };
