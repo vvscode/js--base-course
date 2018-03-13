@@ -64,10 +64,6 @@ describe('drawCalendar', function() {
     beforeEach(function() {
         return el = document.createElement('div');
     });
-
-    it('функция', function() {
-        return assert.isOk(typeof isPolindrom === 'function');
-    });
     it('заполняет innerHTML у элемента (третий аргумент)', function() {
         drawCalendar(2017, 9, el);
         assert.isOk(el.innerHTML.trim() !== '');
