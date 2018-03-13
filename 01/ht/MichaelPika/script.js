@@ -22,8 +22,23 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
- /* Ваше решение */
+    /* Ваше решение */
+    for (var i = 1; i < 100; i++) {
+        var a = i;
+        while (a % 3 === 0 && a % 5 === 0) {
+            a = `FizzBuzz`;
+        }
+        while (a % 3 === 0) {
+            a = `Fizz`;
+        }
+        while (a % 5 === 0) {
+            a = `Buzz`;
+        }
+        log(a);
+    }
 }
+//fizzBuzz();
+
 
 
 /**
