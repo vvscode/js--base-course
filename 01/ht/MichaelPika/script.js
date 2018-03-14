@@ -23,7 +23,7 @@ function log(a) {
  */
 function fizzBuzz() {
     /* Ваше решение */
-    for (var i = 1; i < 100; i++) {
+    for (var i = 1; i < 101; i++) {
         var a = i;
         while (a % 3 === 0 && a % 5 === 0) {
             a = `FizzBuzz`;
@@ -37,10 +37,6 @@ function fizzBuzz() {
         log(a);
     }
 }
-//fizzBuzz();
-
-
-
 /**
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
@@ -48,12 +44,13 @@ function fizzBuzz() {
  * @param {string} textString 
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
-function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
+function isPolindrom(textString){
+    /* Ваше решение */
+    if (textString[0] === textString[ textString.length - 1]) {
+        return textString.length <= 1 ? true : isPolindrom(textString.slice(1, -1))
+    }
+    return false;
 }
-
-
 /**
  * Реализовать фукнцию `drawCalendar` , 
  * которая принимает три аргумента - год, месяц, htmlElement 
