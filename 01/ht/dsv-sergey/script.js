@@ -70,7 +70,7 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
     var date = new Date(year,month-1), //Приведение месяца к нумерации с 0
-        firstDay = date.getDay(), //Определения дня недели 1-го числа
+        firstDay = (date.getDay() == 0) ? 7 : date.getDay(), //Определения дня недели 1-го числа
         monthRU = {0:'Январь',1:'Февраль',2:'Март',3:'Апрель',4:'Май',5:'Июнь',6:'Июль',7:'Август',8:'Сентябрь',9:'Октябрь', 10:'Ноябрь',11:'Декабрь'},
         dayRU = {0:'Вс',1:'Пн',2:'Вт',3:'Ср',4:'Чт',5:'Пт',6:'Сб'},
         calendar = '<table><caption>monthRU[date.getMonth()-1] + " " + date.getFullYear()</caption>' +
@@ -95,7 +95,6 @@ function drawCalendar(year, month, htmlEl) {
 }
 
 
-
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -105,6 +104,6 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+
+ return objA === objB;
 }
