@@ -106,7 +106,9 @@ function drawCalendar(year, month, htmlEl) {
 function isDeepEqual(objA, objB) {
     if (Array.isArray(objA) && Array.isArray(objB)) {
         return objA.toString() === objB.toString();
-    } else
+    } else if (typeof objA == 'object' && typeof objB == 'object') {
+                
+    }
 
  return objA === objB;
 }
