@@ -104,6 +104,9 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        return objA.toString() === objB.toString();
+    } else
 
  return objA === objB;
 }
