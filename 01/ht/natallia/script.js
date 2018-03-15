@@ -26,8 +26,8 @@ function fizzBuzz() {
  for (var i = 1; i <= 100; i++) {
  	a = i;
 	 (i % 3 === 0) && (a = 'Fizz');
-	 (i % 5 === 0) && (a = 'Bizz');
-	 (i % 3 === 0) && (i % 5 === 0) && (a = 'FizzBizz');
+	 (i % 5 === 0) && (a = 'Buzz');
+	 (i % 3 === 0) && (i % 5 === 0) && (a = 'FizzBuzz');
  	log(a);
  }
 }
@@ -72,64 +72,100 @@ function fizzBuzz() {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl 
  */
-// function drawCalendar(year, month, htmlEl) {
-// 	var d = new Date(year, month);
-// 	var topRow = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-// 	var rows = [topRow];
-// 	var mon = d.getMonth() || new Date().getMonth();
-// 	var year = d.getFullYear() || new Date().getFullYear();
-// 	var row = [];
-// 	var numDaysOfMonth = 0;
-// 	var i = 0;
-//
-// 	rows.push(row);
-//
-// 	while (i < getDay(d)) {
-// 		row.push(null);
-// 		i++;
-// 	}
-//
-// 	while (i < 7) {
-// 		row.push(d.getDate());
-// 		d.setDate(d.getDate() + 1);
-// 		i++;
-// 		numDaysOfMonth++;
-// 	}
-//
-// 	while (mon == d.getMonth()) {
-// 		i = 0;
-//
-// 		if (i % 7 === 0) {
-// 			var nextRow = [];
-// 			rows.push(nextRow);
-//
-// 			while (i < 7 && mon == d.getMonth()) {
-// 				d.setDate(d.getDate() + 1);
-// 				numDaysOfMonth++;
-// 				nextRow.push(numDaysOfMonth);
-// 				i++;
-// 			}
-//
-// 			while (i < 7) {
-// 				nextRow.push(null);
-// 				i++;
-// 			}
-// 		}
-// 	}
-// 	console.log(rows);
-// 	return rows;
-// }
-//
-// function getDay(date) {
-// 	var day = date.getDay();
-//
-// 	if (day === 0) {
-// 		day = 7;
-// 		return day - 1;
-// 	}
-// }
-//
-// drawCalendar();
+
+var rows = [];
+var calendar = document.querySelector('#calendar');
+
+function drawCalendar(year, month, htmlEl) {
+	var result;
+	var count = 0;
+	createCalendar(year, month);
+	result = '<table id="table" class="calendar__table"><tr class="calendar__row calendar__row--header">';
+
+	rows.forEach(function(elem) {
+		if (count === 0) {
+			elem.forEach(function(el) {
+				result += '<th class="calendar__cell calendar__cell--header">' + el + '</th>';
+			});
+			result += '</tr>';
+
+		} else {
+			result += '<tr class="calendar__row">';
+			elem.forEach(function(el) {
+				if (!el) {
+					result += '<td class="calendar__cell"></td>';
+				} else {
+					result += '<td class="calendar__cell">' + el + '</td>';
+				}
+			});
+			result += '</tr>';
+		}
+		count++;
+	});
+
+	result += '</tr>';
+
+	result += '</table>';
+	htmlEl.innerHTML = result;
+}
+
+function createCalendar(year, month) {
+	--month;
+	var d = new Date(year, month);
+	var topRow = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+			rows = [topRow];
+	var mon = d.getMonth();
+	var row = [];
+	var numDaysOfMonth = 0;
+	var i = 0;
+
+	rows.push(row);
+
+	while (i < getDay(d)) {
+		row.push(null);
+		i++;
+	}
+
+	while (i < 7) {
+		row.push(d.getDate());
+		d.setDate(d.getDate() + 1);
+		i++;
+		numDaysOfMonth++;
+	}
+
+	while (mon == d.getMonth()) {
+		i = 0;
+
+		if (i % 7 === 0) {
+			var nextRow = [];
+			rows.push(nextRow);
+
+			while (i < 7 && mon == d.getMonth()) {
+				d.setDate(d.getDate() + 1);
+				numDaysOfMonth++;
+				nextRow.push(numDaysOfMonth);
+				i++;
+			}
+
+			while (i < 7) {
+				nextRow.push(null);
+				i++;
+			}
+		}
+	}
+	return rows;
+}
+
+function getDay(date) {
+	var day = date.getDay();
+
+	if (day === 0) {
+		day = 7;
+		return day - 1;
+	}
+}
+
+drawCalendar(2017, 9, calendar);
 
 /**
  * Написать функцию `isDeepEqual`
@@ -140,6 +176,87 @@ function fizzBuzz() {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+ if (typeof objA === typeof objB) {
+ 	if (typeof objA === 'object' && typeof objB === 'object') {
+ 		if (!( objA.length === objB.length)) {
+			return false;
+		} else {
+
+			for (var key in objA) {
+				if (!isDeepEqual(objA[key], objB[key])) return false;
+			}
+			return true;
+		}
+	}
+	return (objA === objB);
+ }
+}
+
+function spiral(arr) {
+	var newArr = [];
+
+	while (arr.length > 0) {
+		var res = getSpiral(arr);
+		res.forEach(function(el) {
+			newArr.push(el);
+		});
+	}
+	return newArr;
+}
+
+function getSpiral(arr) {
+	var count = 0;
+	var result = [];
+
+	if (arr.length !== 1) {
+		arr.forEach(function(elem) {
+			var len = elem.length;
+
+			if (count === 0 && len !== 0) {
+				elem.forEach(function(el) {
+					result.push(el);
+				});
+				count++;
+			}
+			else if (count < arr.length - 1 && len !== 0) {
+				result.push(elem[len - 1]);
+				count++;
+				var a = elem.pop();
+			} else if (count === arr.length - 1 && len !== 0) {
+				var reverse = elem.reverse();
+				reverse.forEach(function(el) {
+					result.push(el);
+				});
+				count--;
+
+				while (count > 0) {
+					result.push(arr[count][0]);
+					var b = arr[count].shift();
+					count--;
+				}
+				arr.pop();
+				arr.shift();
+			}
+		});
+	} else {
+		result.push(arr[0]);
+		arr.pop();
+	}
+	return result;
+}
+
+function quadraticEquation(a, b, c) {
+	var arr = [];
+	var d = Math.pow(b, 2) - 4 * a * c;
+
+	if (d > 0) {
+		var x1 = (-(b) + Math.sqrt(d)) / 2 * a;
+		var x2 = (-(b) - Math.sqrt(d)) / 2 * a;
+		arr.push(x1);
+		arr.push(x2);
+	} else if (d === 0) {
+		var x1 = (-(b)) / 2 * a;
+		arr.push(x1);
+	}
+	return arr;
 }

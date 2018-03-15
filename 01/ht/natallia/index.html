@@ -9,11 +9,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HT 01</title>
+		<style>
+			.calendar__table {
+				margin: 0 auto;
+
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+
+			.calendar__row {
+				font-size: 18px;
+			}
+
+			.calendar__cell {
+				padding: 10px 20px;
+
+				border: 1px solid grey;
+			}
+
+			.calendar__cell--header {
+				background-color: lightgreen;
+			}
+		</style>
 </head>
 
 <body>
     <div id="mocha"></div>
     <pre id="log"></pre>
+		<div id="calendar"></div>
     <script>
         mocha.setup('bdd');
         var assert = chai.assert;
