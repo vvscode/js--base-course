@@ -53,7 +53,9 @@
             <li class="fragment">Нагрузочное тестирование</li>
             <li class="fragment">Стресс тестирование</li>
             <li class="fragment">Юзабилити</li>
-            <li class="fragment">Безопасность<sup>*</sup></li>
+            <li class="fragment">Безопасность
+              <sup>*</sup>
+            </li>
           </ul>
         </section>
         <section>
@@ -68,16 +70,25 @@
       <section>
         <h4>Тестирование без выполнения - статический анализ</h4>
         <ul>
-          <li class="fragment">Типизация: <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> / <a href="https://flow.org/"
-              target="_blank">Flow</a> / <a href="http://usejsdoc.org/" target="_blank">JSDoc</a></li>
-          <li class="fragment">Анализ AST: <a href="http://jshint.com/" target="_blank">JSHint</a>, <a href="http://www.jslint.com/" target="_blank">JSLint</a>,
-            <a href="http://eslint.org/" target="_blank">ESLint</a></li>
-          <li class="fragment">Комплексные инструменты: <a href="https://www.sonarqube.org/" target="_blank">SonarQube</a></li>
+          <li class="fragment">Типизация:
+            <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> /
+            <a href="https://flow.org/" target="_blank">Flow</a> /
+            <a href="http://usejsdoc.org/" target="_blank">JSDoc</a>
+          </li>
+          <li class="fragment">Анализ AST:
+            <a href="http://jshint.com/" target="_blank">JSHint</a>,
+            <a href="http://www.jslint.com/" target="_blank">JSLint</a>,
+            <a href="http://eslint.org/" target="_blank">ESLint</a>
+          </li>
+          <li class="fragment">Комплексные инструменты:
+            <a href="https://www.sonarqube.org/" target="_blank">SonarQube</a>
+          </li>
         </ul>
       </section>
       <section>
         <h4>Ручное тестирование</h4>
-        <p><strong>Важно!</strong> Иметь сценарии использования, чтобы тестировать методически.</p>
+        <p>
+          <strong>Важно!</strong> Иметь сценарии использования, чтобы тестировать методически.</p>
         <p>Хаотичное тестирование - метод свободного поиска.</p>
       </section>
       </section>
@@ -93,12 +104,13 @@
           </ul>
         </section>
         <section>
-          <p><strong>Общий подход:</strong> Выполнить код и проверить результат его работы</p>
+          <p>
+            <strong>Общий подход:</strong> Выполнить код и проверить результат его работы</p>
         </section>
       </section>
       <section>
         <h4>Модульное тестирование</h4>
-                <section>
+        <section>
           Особенности:
           <ul>
             <li class="fragment">Тестирует реализацию</li>
@@ -109,10 +121,18 @@
         </section>
         <section>
           <ul>
-            <li class="fragment"><a href="https://mochajs.org/" target="_blank">Mocha</a></li>
-            <li class="fragment"><a href="https://facebook.github.io/jest/" target="_blank">Jest</a></li>
-            <li class="fragment"><a href="https://jasmine.github.io/" target="_blank">Jasmine</a></li>
-            <li class="fragment"><a href="https://qunitjs.com/" target="_blank">QUnit</a></li>
+            <li class="fragment">
+              <a href="https://mochajs.org/" target="_blank">Mocha</a>
+            </li>
+            <li class="fragment">
+              <a href="https://facebook.github.io/jest/" target="_blank">Jest</a>
+            </li>
+            <li class="fragment">
+              <a href="https://jasmine.github.io/" target="_blank">Jasmine</a>
+            </li>
+            <li class="fragment">
+              <a href="https://qunitjs.com/" target="_blank">QUnit</a>
+            </li>
           </ul>
         </section>
         <section>
@@ -128,10 +148,10 @@ describe('Array', function() {
             </code></pre>
         </section>
         <section>
-          <img src="https://mochajs.org/images/reporter-spec-duration.png" alt="Success tests" style="border:none;">
+          <img src="https://mochajs.org/static/reporter-spec-duration.resize920,9999.f3601d937d.png" alt="Success tests" style="border:none;">
         </section>
         <section>
-          <img src="https://mochajs.org/images/reporter-string-diffs.png" alt="Failed tests" style="border:none;">
+          <img src="https://mochajs.org/static/reporter-string-diffs.resize920,9999.7b631dd246.png" alt="Failed tests" style="border:none;">
         </section>
         <section>
           <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;max-height: 550px;">
@@ -158,10 +178,32 @@ describe('Connection', function() {
             </code></pre>
         </section>
         <section>
-        <p><a target="_blank" src="https://habrahabr.ru/post/116372/">Вспомогательные объекты/методы</a></p>
-        <p style="font-size:smaller;"><strong>test stub (заглушка)</strong>, используется для получения данных из внешней зависимости, подменяя её.</p>
-        <p style="font-size:smaller;"><strong>test spy (тестовый шпион)</strong>, используется для тестов взаимодействия, основной функцией является запись данных и вызовов, поступающих из тестируемого объекта для последующей проверки </p>
-        <p style="font-size:smaller;"><strong>mock object (мок-объект)</strong>, очень похож на тестовый шпион, однако не записывает последовательность вызовов с переданными параметрами для последующей проверки</p>
+          <h3>Почему его не достаточно?</h3>
+        </section>
+        <section>
+          <img src="http://ilkinulas.github.io/assets/integration_tests/no_integration_test.gif" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://i.imgur.com/HkWPc1u.gif" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="http://james-willett.com/wp-content/uploads/2016/05/2toilets.jpg" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://pbs.twimg.com/media/C2oAur4UcAE-QaF.jpg" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <p>
+            <a target="_blank" src="https://habrahabr.ru/post/116372/">Вспомогательные объекты/методы</a>
+          </p>
+          <p style="font-size:smaller;">
+            <strong>test stub (заглушка)</strong>, используется для получения данных из внешней зависимости, подменяя её.</p>
+          <p style="font-size:smaller;">
+            <strong>test spy (тестовый шпион)</strong>, используется для тестов взаимодействия, основной функцией является запись
+            данных и вызовов, поступающих из тестируемого объекта для последующей проверки </p>
+          <p style="font-size:smaller;">
+            <strong>mock object (мок-объект)</strong>, очень похож на тестовый шпион, однако не записывает последовательность вызовов
+            с переданными параметрами для последующей проверки</p>
         </section>
       </section>
       <section>
@@ -175,15 +217,29 @@ describe('Connection', function() {
             <li class="fragment">Нет привязки к средствам реализации</li>
             <li class="fragment">"Черный" ящик</li>
             <li class="fragment">"Простое" создание тестов</li>
-            <li class="fragment">Медленные <sup>*</sup></li>
+            <li class="fragment">Медленные
+              <sup>*</sup>
+            </li>
           </ul>
         </section>
         <section>
+          <img src="https://camo.githubusercontent.com/9c73b0edee5cea08d22cff8e2a7966a01b18846d/68747470733a2f2f63646e322e68756273706f742e6e65742f68756266732f3130303030362f696d616765732f73625f64656d6f2e676966"
+            alt="Selenium tests" style="border:none;">
+        </section>
+        <section>
           <ul>
-            <li class="fragment"><a href="http://casperjs.org/" target="_blank">CasperJS</a></li>
-            <li class="fragment"><a href="http://nightwatchjs.org/" target="_blank">NightWatch.js</a></li>
-            <li class="fragment"><a href="http://nightwatchjs.org/" target="_blank">Zombie.js</a></li>
-            <li class="fragment"><a href="http://webdriver.io/" target="_blank">WebdriverIO </a></li>
+            <li class="fragment">
+              <a href="http://casperjs.org/" target="_blank">CasperJS</a>
+            </li>
+            <li class="fragment">
+              <a href="http://nightwatchjs.org/" target="_blank">NightWatch.js</a>
+            </li>
+            <li class="fragment">
+              <a href="http://nightwatchjs.org/" target="_blank">Zombie.js</a>
+            </li>
+            <li class="fragment">
+              <a href="http://webdriver.io/" target="_blank">WebdriverIO </a>
+            </li>
             <li class="fragment">...</li>
           </ul>
         </section>
