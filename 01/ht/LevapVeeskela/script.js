@@ -66,6 +66,8 @@ function isPolindrom(textString) {
        polindrom = result + polindrom;
     });
     return !!(polindrom == textString);
+    // return textString.split('').reverse().join(''); // или
+
 }
 
 
