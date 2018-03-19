@@ -106,9 +106,16 @@ function drawCalendar(year, month, htmlEl) {
 function isDeepEqual(objA, objB) {
     if (Array.isArray(objA) && Array.isArray(objB)) {
         return objA.toString() === objB.toString();
-    } else if (typeof objA == 'object' && typeof objB == 'object') {
-                
+    } else if (typeof objA === 'object' && typeof objB === 'object') {
+            if (objA.length !== objB.length) return false;
+            else if (JSON.stringify(objA) === JSON.stringify(objB)) return true;
+                else {
+                    for (var key in objA) {
+                        if (!isDeepEqual(objA[key], objB[key])) return false;
+                    }
+                    return true;
+                }
+    } else {
+        return objA === objB;
     }
-
- return objA === objB;
 }

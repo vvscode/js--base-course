@@ -151,4 +151,41 @@ describe('isDeepEqual', function() {
     });
 });
 
+describe('spiral', function() {
+    it('функция', function() {
+        return assert.isOk(typeof spiral === 'function');
+    });
+
+    it('спираль 2х2', function() {
+        return assert.deepEqual(spiral([[4, 5], [6, 7]]), [4,5,7,6]);
+    });
+    it('спираль 3x3', function() {
+        return assert.deepEqual(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), [1,2,3,6,9,8,7,4,5]);
+    });
+    it('спираль 5x4', function() {
+        return assert.deepEqual(spiral([
+            [1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10],
+            [11, 12, 13, 14, 15],
+            [16, 17, 18, 19, 20]]),
+            [1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12]);
+    });
+});
+
+describe('quadraticEquation', function() {
+    it('функция', function() {
+        return assert.isOk(typeof quadraticEquation === 'function');
+    });
+
+    it('x^2 - 8*x + 72 -> []', function() {
+        return assert.deepEqual(quadraticEquation(1, -8, 72), []);
+    });
+    it('x^2 + 12*x + 36 -> [-6]', function() {
+        return assert.deepEqual(quadraticEquation(1, 12, 36), [-6]);
+    });
+    it('1*x^2 + 6*x + 1 -> [-0.1715728752538097, -5.82842712474619]', function() {
+        return assert.deepEqual(quadraticEquation(1, 6, 1), [-0.1715728752538097, -5.82842712474619]);
+    });
+});
+
 mocha.run();
