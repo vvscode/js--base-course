@@ -53,6 +53,9 @@ function isPolindrom(textString) {
     var testString = '',
         i = 0;
     while (i < textString.length) {
+        if (i == testString.length / 2 + 1) {
+            return textString.substr(0,testString.length) === testString;
+        }
         testString = testString + textString[textString.length - 1 - i];
         i++;
     }
