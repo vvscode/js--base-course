@@ -3,9 +3,6 @@
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
-mocha.setup("bdd");
-var assert = chai.assert;
-
 describe("isDeepEqual", function() {
   it("фунция", function() {
     return assert.isOk(typeof isDeepEqual === "function");
@@ -334,5 +331,3 @@ describe("curry", function() {
     assert.isOk(false === true);
   });
 });
-
-mocha.run();

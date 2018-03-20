@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Task</title>
+</head>
+<body>
+	<script type="text/javascript">
+      do{
+        var name = prompt('Введите имя:');
+      }
+      while(name == '' || name == 'null');      
+      do{
+ 		var age = parseInt(prompt('Введите возраст:'));
+      }
+      while(age == '' || isNaN(age) || age < 0);
+      if (age < 18){alert('Здарова, ' + name + '. Как твои ' + age + '?');}
+      else {alert('Привествую, ' + name + '. Уж ' + age + ' лет прошло.');}
+
+	</script>
+</body>
+</html>
