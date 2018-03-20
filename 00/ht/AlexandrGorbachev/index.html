@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entry Test</title>
+</head>
+<body>
+    <script>
+       var targetUserAge = 18,
+           userName,
+           userAge;
+           function sayHi() {
+              do {
+                  userName = prompt("введите ваше имя", "");
+              } while (!userName);
+
+              do {
+                  userAge = +prompt("введите свой возраст", 0);
+              } while (!userAge || userAge <= 0 || !isFinite(userAge));
+
+              if (userAge < targetUserAge) {
+                  alert("Здарова, " + userName + ". Как твои " + userAge + " ?");
+                  return;
+              }
+              alert("Привествую, " + userName + ". Уж " + userAge + " лет прошло");
+          }
+           sayHi();
+    </script>
+</body>
+</html>

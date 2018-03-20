@@ -1,12 +1,15 @@
 function profile() {
-    let name, age, sayHallo = document.getElementById('sayHallo');
+    let name,
+        age,
+        sayHallo = document.getElementById('sayHallo'),
+        RegExpName = /^[А-Яа-яЁё]+$/,
+        RegExpAge = /^[0-9]+$/;
 
     while (name == undefined) {
         let validName;
         while (!validName) {
             name = prompt('Введите ваше имя');
-            let RegExp = /^[А-Яа-яЁё]+$/;
-            validName = RegExp.exec(name);
+            validName = RegExpName.exec(name);
         }
     }
 
@@ -14,8 +17,7 @@ function profile() {
         let validAge;
         while (!validAge){
             age = prompt('Введите ваш возраст');
-            let RegExp = /^[0-9]+$/;
-            validAge = RegExp.exec(age);
+            validAge = RegExpAge.exec(age);
         }
     }
 
