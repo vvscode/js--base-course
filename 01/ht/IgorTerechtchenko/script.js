@@ -23,21 +23,22 @@ function log(a) {
  */
 function fizzBuzz() {
   var showed = false;
-  for (var i = 1; i <= 100; i++) {
+  var i;
+  for (i = 1; i <= 100; i++) {
     showed = false;
-    while (i % 3 == 0 && i % 5 == 0) {
+    while (i % 3 === 0 && i % 5 === 0) {
       log('FizzBuzz');
       showed = true;
       break;
     }
 
-    while (!showed && i % 3 == 0) {
+    while (!showed && i % 3 === 0) {
       log('Fizz');
       showed = true;
       break;
     }
 
-    while (!showed && i % 5 == 0) {
+    while (!showed && i % 5 === 0) {
       log('Buzz');
       showed = true;
       break;
@@ -58,7 +59,7 @@ function fizzBuzz() {
  */
 function isPolindrom(textString) {
   return (
-    textString ==
+    textString ===
     textString
       .split('')
       .reverse()
@@ -74,9 +75,7 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl
  */
-function drawCalendar(year, month, htmlEl) {
-  /* Ваше решение */
-}
+function drawCalendar(year, month, htmlEl) {}
 
 /**
  * Написать функцию `isDeepEqual`
@@ -87,17 +86,33 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-   if (objA.length !== objB.length) {
-       return false
-   } 
+  if (objA.length !== objB.length) {
+    return false;
+  }
 
-   for(i = 0; i <= objA.length; i++) {
-      for(j = 0; i <= objB.length; j++) {
-        if(objA[i] !== objB[i]) {
-            return false
-        } 
-      }
+  if (typeof objA !== 'object') {
+    //checking if objects are iterable
+    console.log('comparing ' + objA + ' to ' + objB);
+    return objA === objB;
+  }
+
+
+  if (Object.keys(objA).length !== Object.keys(objB).length) {
+    return false;
+  }
+
+  for (var i in objA) {
+    console.log(i);
+    console.log('comparing ' + objA[i] + ' to ' + objB[i]);
+    if (!isDeepEqual(objA[i], objB[i])) {
+      return false;
     }
-
+  }
   return true;
 }
+
+console.log('==================');
+a = {one: 1, two: 2};
+b = {one: 1, two: 4};
+console.log(isDeepEqual(a, b));
+console.log('==================');
