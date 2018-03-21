@@ -92,7 +92,6 @@ function isDeepEqual(objA, objB) {
 
   if (typeof objA !== 'object') {
     //checking if objects are iterable
-    console.log('comparing ' + objA + ' to ' + objB);
     return objA === objB;
   }
 
@@ -102,8 +101,6 @@ function isDeepEqual(objA, objB) {
   }
 
   for (var i in objA) {
-    console.log(i);
-    console.log('comparing ' + objA[i] + ' to ' + objB[i]);
     if (!isDeepEqual(objA[i], objB[i])) {
       return false;
     }
@@ -111,8 +108,3 @@ function isDeepEqual(objA, objB) {
   return true;
 }
 
-console.log('==================');
-a = {one: 1, two: 2};
-b = {one: 1, two: 4};
-console.log(isDeepEqual(a, b));
-console.log('==================');
