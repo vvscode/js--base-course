@@ -122,3 +122,72 @@ function isDeepEqual(objA, objB) {
         return objA === objB;
     }
 }
+
+
+/**
+ * Написать тесты и саму функцию 'spiral'
+ * которая принимает на вход двумерный массив
+ * и возвращает одномерный массив с элементами расположенными по спирали
+ * Матрица не обязательно имеет одинаковые размеры по обеим сторонам
+ * @param [Array] arrayIn
+ * @param [Array] arrayOut
+ * @return {String} 'возвращает одномерный массив по спирали'
+ */
+function spiral(arrayIn, arrayOut) {
+    var arr = new Array (),
+        w = 0,
+        h = 0,
+        wBegin = 0,
+        hBegin = 0,
+        wEnd = (arrayIn[0].length - 1),
+        hEnd = (arrayIn.length - 1),
+        count = (arrayIn.length * arrayIn[0].length);
+
+    if (Array.isArray(arrayIn)) {
+        while (count > 0) {
+            for (w; w <= wEnd; ++w) {
+                count--;
+                arr = arr + arrayIn[h][w] + ',';
+            }
+            hBegin += 1;
+            h = hBegin;
+            w = wEnd;
+            for (h; h <= hEnd; ++h) {
+                count--;
+                arr = arr + arrayIn[h][w] + ',';
+            }
+            h = hEnd;
+            w -= 1;
+            for (w; w >= wBegin; --w) {
+                count--;
+                arr = arr + arrayIn[h][w] + ',';
+            }
+            w = wBegin;
+            h = hEnd-1;
+            for (h; h >= hBegin; --h) {
+                count--;
+                arr = arr + arrayIn[h][w] + ',';
+            }
+            h = hBegin;
+            wBegin += 1;
+            w += 1;
+        }
+
+        arr;
+        console.log(arr);
+        return [arr];
+    }
+
+
+}
+
+function quadraticEquation(a, b, c) {
+    let discr = b * b - 4 * a * c;
+    if (discr < 0) {
+        return [];
+    } else if (discr === 0) {
+        return [- b / 2 * a];
+    } else {
+        return [(-b + Math.sqrt(discr)) / 2 * a, (-b - Math.sqrt(discr)) / 2 * a];
+    }
+}
