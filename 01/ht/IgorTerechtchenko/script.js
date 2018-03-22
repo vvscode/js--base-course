@@ -79,10 +79,8 @@ function drawCalendar(year, month, htmlEl) {
   var calendar = new Date(year, month);
   var weekday=["Mo","Tu","We","Th","Fr","Sa", "Su"];
   var months=["Jan", "Feb","Mar","Apr","May","Jun","Jul", "Aug","Sep","Oct","Nov","Dec"];
-  
-
-
-  console.log(calendar);
+  month = month - 1
+  date.getDay
 
 }
 
@@ -143,12 +141,26 @@ function spiral(array) {
   }
   //getting inner matrix for recursive call
   for(var i = 1; i < array.length - 1; i++) {
-    tmp_array.push(array[i].slice(1,array[i].length-1)) 
+    tmp_array.push(array[i].slice(1,array[i].length-1))
   }
 
   result =result.concat(spiral(tmp_array))
-  console.log(typeof(result))
   return result
 }
 
-//console.log(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]])); // [1,2,3,6,7,8,7,4,5]
+function quadraticEquation(a, b, c) {
+  var roots = []
+  var discriminant = b * b - 4*a*c
+  console.log(discriminant)
+  if(discriminant < 0) {
+    return roots
+  }
+  if(discriminant === 0) {
+    roots.push(-1 * b / 2 * a)
+    return roots
+  } else {
+    roots.push((-1 * b + Math.sqrt(discriminant)) / 2 * a)
+    roots.push((-1 * b - Math.sqrt(discriminant)) / 2 * a)
+  }
+  return roots
+}
