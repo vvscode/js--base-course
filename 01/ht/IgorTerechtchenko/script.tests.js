@@ -155,4 +155,24 @@ describe('isDeepEqual', function() {
     });
 });
 
+describe('spiral', function() {
+    var bigtest = [
+      [1, 2, 3, 4, 5],
+      [6, 7, 8, 9, 10],
+      [11, 12, 13, 14, 15],
+      [16, 17, 18, 19, 20]]
+    var bigtest_result = [1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12]
+    it('функция', function() {
+        return assert.isOk(typeof spiral === 'function');
+    });
+    it('[[1,2], [3,4]]', function() {
+      return assert.isOk(isDeepEqual(spiral([[1,2],[3,4]]),[1,2,4,3]))
+    });
+    it('[[1,2,3], [4,5,6], [7,8,9]]', function() {
+      return assert.isOk(isDeepEqual(spiral([[1,2,3],[4,5,6],[7,8,9]]),[1,2,3,6,9,8,7,4,5]))
+    });
+    it('bigtest', function() {
+      return assert.isOk(isDeepEqual(spiral(bigtest), bigtest_result))
+    });
+})
 mocha.run();

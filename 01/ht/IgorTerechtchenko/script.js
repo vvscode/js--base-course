@@ -75,7 +75,16 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl
  */
-function drawCalendar(year, month, htmlEl) {}
+function drawCalendar(year, month, htmlEl) {
+  var calendar = new Date(year, month);
+  var weekday=["Mo","Tu","We","Th","Fr","Sa", "Su"];
+  var months=["Jan", "Feb","Mar","Apr","May","Jun","Jul", "Aug","Sep","Oct","Nov","Dec"];
+  
+
+
+  console.log(calendar);
+
+}
 
 /**
  * Написать функцию `isDeepEqual`
@@ -91,10 +100,8 @@ function isDeepEqual(objA, objB) {
   }
 
   if (typeof objA !== 'object') {
-    //checking if objects are iterable
     return objA === objB;
   }
-
 
   if (Object.keys(objA).length !== Object.keys(objB).length) {
     return false;
@@ -108,3 +115,40 @@ function isDeepEqual(objA, objB) {
   return true;
 }
 
+function spiral(array) {
+  if(array.length === 1) {
+    return array[0]
+  }
+  var result = []
+  var array_element_count = 0
+  var tmp_array = []
+  for(var i in array) {array_element_count += array[i].length;}
+
+  result = result.concat(array[0])
+
+  //last element of every row, except first
+  for(var i = 1; i <= array.length - 2; i++) {
+    result = result.concat(array[i][array[i].length - 1])
+  }
+  result = result.concat(array[array.length-1].reverse())
+
+  //checking if done
+  if (result.length === array_element_count) {
+    return result
+  }
+
+  //first element of every row, starting from last
+  for(var i = array.length - 2; i > 0; i --) {
+    result = result.concat(array[i][0])
+  }
+  //getting inner matrix for recursive call
+  for(var i = 1; i < array.length - 1; i++) {
+    tmp_array.push(array[i].slice(1,array[i].length-1)) 
+  }
+
+  result =result.concat(spiral(tmp_array))
+  console.log(typeof(result))
+  return result
+}
+
+//console.log(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]])); // [1,2,3,6,7,8,7,4,5]
