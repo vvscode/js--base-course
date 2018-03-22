@@ -6,7 +6,7 @@
 
 describe("fizzBuzz", function() {
   it("функция", function() {
-    return assert.isOk(typeof isPolindrom === "function");
+    return assert.isOk(typeof fizzBuzz === "function");
   });
 
   var result =
