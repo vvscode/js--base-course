@@ -56,7 +56,7 @@ function isPolindrom(textString) {
   var textStr = textString.toLowerCase();
   var halfLength = textStr.length / 2;
   for (var i = 0; i < halfLength; i++) {
-    if (!(textStr[i] === textStr[textStr.length - 1 - i])) {
+    if (textStr[i] !== textStr[textStr.length - 1 - i]) {
       return false;
     }
   }
@@ -72,44 +72,10 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl
  */
 
-var rows = [];
 var calendar = document.querySelector('#calendar');
 
-function drawCalendar(year, month, htmlEl) {
-  var result;
-  var count = 0;
-  createCalendar(year, month);
-  result =
-    '<table id="table" class="calendar__table"><tr class="calendar__row calendar__row--header">';
-
-  rows.forEach(function(elem) {
-    if (count === 0) {
-      elem.forEach(function(el) {
-        result +=
-          '<th class="calendar__cell calendar__cell--header">' + el + '</th>';
-      });
-      result += '</tr>';
-    } else {
-      result += '<tr class="calendar__row">';
-      elem.forEach(function(el) {
-        if (!el) {
-          result += '<td class="calendar__cell"></td>';
-        } else {
-          result += '<td class="calendar__cell">' + el + '</td>';
-        }
-      });
-      result += '</tr>';
-    }
-    count++;
-  });
-
-  result += '</tr>';
-
-  result += '</table>';
-  htmlEl.innerHTML = result;
-}
-
 function createCalendar(year, month) {
+  var rows = [];
   --month;
   var d = new Date(year, month);
   var topRow = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
@@ -154,6 +120,40 @@ function createCalendar(year, month) {
     }
   }
   return rows;
+}
+
+function drawCalendar(year, month, htmlEl) {
+  var result;
+  var count = 0;
+  var rows = createCalendar(year, month);
+  result =
+    '<table id="table" class="calendar__table"><tr class="calendar__row calendar__row--header">';
+
+  rows.forEach(function(elem) {
+    if (count === 0) {
+      elem.forEach(function(el) {
+        result +=
+          '<th class="calendar__cell calendar__cell--header">' + el + '</th>';
+      });
+      result += '</tr>';
+    } else {
+      result += '<tr class="calendar__row">';
+      elem.forEach(function(el) {
+        if (!el) {
+          result += '<td class="calendar__cell"></td>';
+        } else {
+          result += '<td class="calendar__cell">' + el + '</td>';
+        }
+      });
+      result += '</tr>';
+    }
+    count++;
+  });
+
+  result += '</tr>';
+
+  result += '</table>';
+  htmlEl.innerHTML = result;
 }
 
 function getDay(date) {
@@ -204,44 +204,65 @@ function spiral(arr) {
 }
 
 function getSpiral(arr) {
-  var count = 0;
   var result = [];
-
-  if (arr.length !== 1) {
+  var a = [];
+  result = result.concat(arr[0]);
+  var del = arr.shift();
+  if (arr.length > 0) {
     arr.forEach(function(elem) {
-      var len = elem.length;
-
-      if (count === 0 && len !== 0) {
-        elem.forEach(function(el) {
-          result.push(el);
-        });
-        count++;
-      } else if (count < arr.length - 1 && len !== 0) {
-        result.push(elem[len - 1]);
-        count++;
-        var a = elem.pop();
-      } else if (count === arr.length - 1 && len !== 0) {
-        var reverse = elem.reverse();
-        reverse.forEach(function(el) {
-          result.push(el);
-        });
-        count--;
-
-        while (count > 0) {
-          result.push(arr[count][0]);
-          var b = arr[count].shift();
-          count--;
-        }
-        arr.pop();
-        arr.shift();
+      if (elem !== arr[arr.length - 1] && elem.length > 0) {
+        result.push(elem[elem.length - 1]);
+        elem.length = elem.length - 1;
+        a = a.concat(elem.splice(0, 1));
+      }
+      if (elem === arr[arr.length - 1] && arr.length > 0) {
+        arr[arr.length - 1].reverse();
+        result = result.concat(elem);
+        arr.length = arr.length - 1;
       }
     });
-  } else {
-    result.push(arr[0]);
-    arr.pop();
+    result = result.concat(a.reverse());
   }
   return result;
 }
+
+// function getSpiral(arr) {
+//   var count = 0;
+//   var result = [];
+//
+//   arr.forEach(function(elem) {
+//     var len = elem.length;
+//
+//     if (count === 0 && len !== 0 && arr.length !== 1) {
+//       elem.forEach(function(el) {
+//         result.push(el);
+//       });
+//       count++;
+//     } else if (count < arr.length - 1 && len !== 0) {
+//       result.push(elem[len - 1]);
+//       count++;
+//       var a = elem.pop();
+//     } else if (count === arr.length - 1 && len !== 0) {
+//       var reverse = elem.reverse();
+//       reverse.forEach(function(el) {
+//         result.push(el);
+//       });
+//       count--;
+//
+//       while (count > 0) {
+//         result.push(arr[count][0]);
+//         var b = arr[count].shift();
+//         count--;
+//       }
+//       arr.pop();
+//       arr.shift();
+//     } else {
+//       result.push(arr[0]);
+//       arr.pop();
+//     }
+//   });
+//   return result;
+// }
 
 function quadraticEquation(a, b, c) {
   var arr = [];
