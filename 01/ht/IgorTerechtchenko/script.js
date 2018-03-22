@@ -75,13 +75,40 @@ function isPolindrom(textString) {
  * @param {number} month - номер месяца, начиная с 1
  * @param {external:HTMLElement} htmlEl
  */
-function drawCalendar(year, month, htmlEl) {
-  var calendar = new Date(year, month);
-  var weekday=["Mo","Tu","We","Th","Fr","Sa", "Su"];
-  var months=["Jan", "Feb","Mar","Apr","May","Jun","Jul", "Aug","Sep","Oct","Nov","Dec"];
-  month = month - 1
-  date.getDay
 
+function drawCalendar(year, month, htmlEl) {
+    //using linux 'cal' as an example
+    var table = '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
+    
+    var date = new Date(year, month - 1);
+
+    //filling in extra weekdays, if not starting with monday
+    if (date.getDay() != 1) {
+        table += '<tr>';
+        for (var i = 1; i < date.getDay(); i++) {
+            table += '<td></td>';
+        }
+    }
+
+    while (date.getMonth() == month - 1) {
+    //starting a row before monday
+        if (date.getDay() == 1) {
+            table += '<tr>';  
+        }
+        table += '<td>' + date.getDate() + '</td>';
+    //closing a row after sunday 
+        if (date.getDay() == 0) {
+            table += '</tr>'; //
+        }
+        date.setDate(date.getDate() + 1);
+    }
+
+    //closing last row if last day wasn't monday
+    if (date.getDay() != 1) {
+        table += '</tr>';
+    }
+
+    htmlEl.innerHTML = table + '</table>';
 }
 
 /**
@@ -151,7 +178,6 @@ function spiral(array) {
 function quadraticEquation(a, b, c) {
   var roots = []
   var discriminant = b * b - 4*a*c
-  console.log(discriminant)
   if(discriminant < 0) {
     return roots
   }
