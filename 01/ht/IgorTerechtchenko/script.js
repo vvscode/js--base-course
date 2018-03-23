@@ -57,14 +57,23 @@ function fizzBuzz() {
  * @param {string} textString
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
+//function isPolindrom(textString) {
+  //return (
+    //textString ===
+    //textString
+      //.split('')
+      //.reverse()
+      //.join('')
+  //);
+//}
+
+//palindrome for O(n)
 function isPolindrom(textString) {
-  return (
-    textString ===
-    textString
-      .split('')
-      .reverse()
-      .join('')
-  );
+  var polindrom = true
+  for(i in textString) {
+    if (textString[i] !== textString[textString.length - i - 1]) { return false; }
+  }
+  return true
 }
 
 /**
@@ -171,7 +180,7 @@ function spiral(array) {
     tmp_array.push(array[i].slice(1,array[i].length-1))
   }
 
-  result =result.concat(spiral(tmp_array))
+  result = result.concat(spiral(tmp_array))
   return result
 }
 
