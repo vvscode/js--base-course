@@ -65,11 +65,12 @@ function drawCalendar(year, month, htmlEl) {
 
     var theDesiredMonth = month - 1;
     var theDesiredDate = new Date(year, theDesiredMonth);
-    var table = "<table><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr>";
+    var table =
+        "<table><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr>";
 
     function getDayNumber(date) {
         var day = date.getDay();
-        if (day == 0){
+        if (day == 0) {
             day = 7;
         }
         return day - 1;
@@ -92,7 +93,6 @@ function drawCalendar(year, month, htmlEl) {
     table = table + "</tr></table>";
     htmlEl.innerHTML = table;
 }
-//
  //   document.write('<table id="fc" style="position:absolute;border-collapse:collapse;background:#FFFFFF;border:1px solid #FFD088;display:none;-moz-user-select:none;-khtml-user-select:none;user-select:none;" cellpadding="2">');
  //   document.write('<tr style="font:bold 13px Arial" onselectstart="return false"><td style="cursor:pointer;font-size:15px" onclick="upmonth(-1)">&laquo;</td><td colspan="5" id="mns" align="center"></td><td align="right" style="cursor:pointer;font-size:15px" onclick="upmonth(1)">&raquo;</td></tr>');
   //  document.write('<tr style="background:#FF9900;font:12px Arial;color:#FFFFFF"><td align=center>П</td><td align=center>В</td><td align=center>С</td><td align=center>Ч</td><td align=center>П</td><td align=center>С</td><td align=center>В</td></tr>');
@@ -106,54 +106,57 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
     /* Ваше решение */
-    var keys1 = Object.keys(objA),
-        i = 0,
-        prop1,
-        value1;
-    var keys2 = Object.keys(objB),
-        prop2,
-        value2;
-
     if (typeof objA === "number" && typeof objB === "number") {
         if (objA !== objB) {
             return false;
+        } else {
+            return true;
         }
     }
-    if (keys1.length !== keys2.length) {
-        return false;
-    } else {
-        while (i < keys1.length) {
-            prop1 = keys1[i];
-            prop2 = keys2[i];
-            if (prop1 !== prop2) {
+    if (typeof objA === "string" && typeof objB === "string") {
+        if (objA.length !== objB.length) {
+            return false;
+        }
+        for (var j = 0; j < objA.length; j++) {
+            if (objA.charAt(j) !== objB.charAt(j)) {
                 return false;
             }
-            value1 = objA[prop1]; // {x: 5}  a = {a: 1, b: {x: 5}, c: 2};
-            value2 = objB[prop2];
-            if (value1 !== value2) {
-                return false;
-            }
-            /**else if (typeof value1 === "object" && typeof value2 === "object") {
-                var keysValue1 = Object.keys(value1); //=x
-                var keysValue2 = Object.keys(value2); //=x
-                if (keysValue1.length === keysValue2.length) {
-                    return true;
-                } else {
-                    var j = 0;
-                    while (j < keysValue1.length) {
-                        if (keysValue1[j] !== keysValue2[j]) {
-                            return false;
-                        }
-                        if (prop1[value1] !== prop2[value2]) {
-                            return false;
-                        }
-                        j++;
-                    }
+        }
+    }
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        if (objA.length !== objB.length) {
+            return false;
+        } else {
+            for (var k = 0; k < objA.length; k++) {
+                if (objA[k] !== objB[k]) {
+                    return false;
                 }
             }
-             */
-            i++;
+            return true;
         }
+    }
+    if (typeof objA === "object" && typeof objB === "object") {
+        if (Object.keys(objA).length !== Object.keys(objB).length) {
+            return false;
+        }
+        function checkingObjects(objA, objB) {
+            for (var key in objA) {
+                if (objA.hasOwnProperty(key)) {
+                    if (objB.hasOwnProperty(key)) {
+                        if (typeof objA[key] === "object") {
+                            if (!checkingObjects(objA[key], objB[key])) {
+                                return false;
+                            }
+                        } else if (objA[key] !== objB[key]) {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     return true;
 }
@@ -162,16 +165,6 @@ function isDeepEqual(objA, objB) {
  * которая принимает на вход двумерный массив
  * а возвращает одномерный массив с элементами расположенными по спирали.
  * Матрица не обязательно имеет одинаковые размеры по обеим сторонам.
- * Например
- * spiral([[4, 5], [6, 7]]); // [4,5,7,6]
- * spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]]); // [1,2,3,6,7,8,7,4,5]
- * spiral([
- * [1, 2, 3, 4, 5],
- * [6, 7, 8, 9, 10],
- * [11, 12, 13, 14, 15],
- * [16, 17, 18, 19, 20]
- * ]); // [1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12]
- *
  */
 function spiral(arr) {
     var resultArr = [];
