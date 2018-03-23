@@ -145,37 +145,39 @@ function spiral(arrayIn, arrayOut) {
 
     if (Array.isArray(arrayIn)) {
         while (count > 0) {
-            for (w; w <= wEnd; ++w) {
+            for (w; w <= wEnd && count > 0; ++w) {
                 count--;
-                arr = arr + arrayIn[h][w] + ',';
+                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
             }
             hBegin += 1;
             h = hBegin;
             w = wEnd;
-            for (h; h <= hEnd; ++h) {
+            for (h; h <= hEnd && count > 0; ++h) {
                 count--;
-                arr = arr + arrayIn[h][w] + ',';
+                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
             }
             h = hEnd;
             w -= 1;
-            for (w; w >= wBegin; --w) {
+            for (w; w >= wBegin && count > 0; --w) {
                 count--;
-                arr = arr + arrayIn[h][w] + ',';
+                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
             }
             w = wBegin;
             h = hEnd-1;
-            for (h; h >= hBegin; --h) {
+            for (h; h >= hBegin && count > 0; --h) {
                 count--;
-                arr = arr + arrayIn[h][w] + ',';
+                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
             }
             h = hBegin;
+            wEnd -= 1;
+            hEnd -= 1;
             wBegin += 1;
             w += 1;
         }
-
-        arr;
+        var str = JSON.stringify(arr);
+        console.log(str);
         console.log(arr);
-        return [arr];
+        return arr;
     }
 
 

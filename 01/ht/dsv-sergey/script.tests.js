@@ -168,7 +168,7 @@ describe('spiral', function() {
     });
     it('спираль 5x4', function() {
         let arrayIn = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20]],
-            arrayOut = [1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12];
+            arrayOut = [1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12];
         return assert.deepEqual(spiral(arrayIn), arrayOut);
     });
 });
