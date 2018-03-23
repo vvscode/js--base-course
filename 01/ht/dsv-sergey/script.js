@@ -174,8 +174,6 @@ function spiral(arrayIn, arrayOut) {
             wBegin += 1;
             w += 1;
         }
-        var str = JSON.stringify(arr);
-        console.log(str);
         console.log(arr);
         return arr;
     }
