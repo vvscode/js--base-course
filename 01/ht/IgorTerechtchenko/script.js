@@ -22,31 +22,8 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-  var showed = false;
-  var i;
-  for (i = 1; i <= 100; i++) {
-    showed = false;
-    while (i % 3 === 0 && i % 5 === 0) {
-      log('FizzBuzz');
-      showed = true;
-      break;
-    }
-
-    while (!showed && i % 3 === 0) {
-      log('Fizz');
-      showed = true;
-      break;
-    }
-
-    while (!showed && i % 5 === 0) {
-      log('Buzz');
-      showed = true;
-      break;
-    }
-    while (!showed) {
-      log(i);
-      break;
-    }
+  for (var i=1;i<=100;i++) {
+    log(!(i%15)&&'FizzBuzz'||!(i%5)&&'Buzz'||!(i%3)&&'Fizz'||i);
   }
 }
 
@@ -57,15 +34,6 @@ function fizzBuzz() {
  * @param {string} textString
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
-//function isPolindrom(textString) {
-  //return (
-    //textString ===
-    //textString
-      //.split('')
-      //.reverse()
-      //.join('')
-  //);
-//}
 
 //palindrome for O(n)
 function isPolindrom(textString) {
