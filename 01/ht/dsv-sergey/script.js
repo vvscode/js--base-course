@@ -147,26 +147,26 @@ function spiral(arrayIn, arrayOut) {
         while (count > 0) {
             for (w; w <= wEnd && count > 0; ++w) {
                 count--;
-                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
+                arr.push(arrayIn[h][w]);
             }
             hBegin += 1;
             h = hBegin;
             w = wEnd;
             for (h; h <= hEnd && count > 0; ++h) {
                 count--;
-                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
+                arr.push(arrayIn[h][w]);
             }
             h = hEnd;
             w -= 1;
             for (w; w >= wBegin && count > 0; --w) {
                 count--;
-                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
+                arr.push(arrayIn[h][w]);
             }
             w = wBegin;
             h = hEnd-1;
             for (h; h >= hBegin && count > 0; --h) {
                 count--;
-                arr = arr + arrayIn[h][w] + (count >= 1 ? ', ' : '');
+                arr.push(arrayIn[h][w]);
             }
             h = hBegin;
             wEnd -= 1;
@@ -174,11 +174,8 @@ function spiral(arrayIn, arrayOut) {
             wBegin += 1;
             w += 1;
         }
-        console.log(arr);
         return arr;
     }
-
-
 }
 
 function quadraticEquation(a, b, c) {
