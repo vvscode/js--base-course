@@ -50,16 +50,15 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    var testString = '',
+    var testString1 = "",
+        testString2 = "",
         i = 0;
-    while (i < textString.length) {
-        if (i == testString.length / 2 + 1) {
-            return textString.substr(0,testString.length) === testString;
-        }
-        testString = testString + textString[textString.length - 1 - i];
+    do {
+        testString1 = testString1 + textString[textString.length - 1 - i];
+        testString2 = testString2 + textString[i];
         i++;
-    }
-    return testString === textString;
+    } while (testString1 === testString2 && i <= textString.length / 2);
+    return testString1 === testString2;
 }
 
 
