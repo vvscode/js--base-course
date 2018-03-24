@@ -11,8 +11,40 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
-  return undefined;
+  function eqObj(objA, objB) {
+      if (objA === objB) {
+        return true;
+      }
+      if (Object.keys(objA).length !== Object.keys(objB).length) {
+        return false;
+      }
+        
+      return true;
+  }
+  /*if (objA == objB) {
+      return true;
+  }*/
+  if (typeof objA !== typeof objB) {
+      return false;
+  }
+  if (typeof objA === 'number' && typeof objB === 'number') {
+      if (isNaN(objA) && isNaN(objB)) {
+          return true;
+      }
+      return objA === objB;
+  }
+  if ((typeof objA === 'string' && typeof objB === 'string') ||
+      (Array.isArray(objA) && Array.isArray(objB))) {
+      if (objA.length !== objB.length) {
+          return false;
+      }
+      for (var i = 0; i < objB.length; i++) {
+          if (objA[i] !== objB[i]) {
+              return false;
+          }
+      }
+  }
+  return eqObj(objA, objB);
 }
 
 /**
@@ -22,7 +54,9 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return undefined;
+  return function () {
+    return func.apply(context, arguments);
+  };
 }
 
 /**
@@ -30,6 +64,12 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
+Function.prototype.myBind = function (context) {
+  var functionContext = this;
+  return function () {
+    return functionContext.apply(context, arguments);
+  };
+};
 
 /**
 * Создать объект o так, чтобы каждый раз когда в коде написано 
@@ -59,7 +99,7 @@ function calculate() {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
+
 }
 
 /**
