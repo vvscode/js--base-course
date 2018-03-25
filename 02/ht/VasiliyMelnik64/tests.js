@@ -16,18 +16,18 @@ describe("Hedgehog", function() {
         return assert.isOk(typeof new Hedgehog().showAgeInConsole().showNameInAlert() === 'object');
     });
 });
-describe("curring", function() {
+describe("curry", function() {
     it("добавить тесты", function() {
         assert.isOk(true === true);
     });
     it("функция", function() {
-        return assert.isOk(typeof curring === "function");
+        return assert.isOk(typeof curry === "function");
     });
-    it("curring(target1)(1)(2)(3)(4) возвращает 10 ", function() {
-        return assert.isOk(curring(target1)(1)(2)(3)(4) === 10);
+    it("curry(target1)(1)(2)(3)(4) возвращает 10 ", function() {
+        return assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
     });
-    it("curring(target2)(5)(8) возвращает 13", function() {
-        return assert.isOk(curring(target2)(5)(8) === 13);
+    it("curry(target2)(5)(8) возвращает 13", function() {
+        return assert.isOk(curry(target2)(5)(8) === 13);
     });
 });
 describe("chainOfInheritance", function() {
