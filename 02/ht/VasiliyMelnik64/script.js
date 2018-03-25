@@ -90,6 +90,24 @@ console.log(o.magicProperty); // 8
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+function Hedgehog() { }
+Hedgehog.prototype.construtor = Hedgehog;
+Hedgehog.prototype.askName = function () { 
+  this.name = prompt('What is your name?', 'name');
+  return this;
+};
+Hedgehog.prototype.askAge = function () { 
+  this.age = prompt('How old are you?', 'age');
+  return this;
+};
+Hedgehog.prototype.showAgeInConsole = function () { 
+  console.log(this.age);
+  return this;
+};
+Hedgehog.prototype.showNameInAlert = function () { 
+  alert(this.name);
+  return this;
+};
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
