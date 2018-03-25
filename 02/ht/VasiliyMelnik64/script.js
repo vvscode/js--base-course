@@ -52,6 +52,7 @@ function bind(func, context) {
  * Реализовать метод .myBind для всех функций, 
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
+ * @param {*} context значение для this
  */
 Function.prototype.myBind = function (context) {
   var functionContext = this;
@@ -68,7 +69,21 @@ Function.prototype.myBind = function (context) {
 * console.log(o.magicProperty); // 7
 * console.log(o.magicProperty); // 8
 */
-
+var o = { };
+Object.defineProperty(o, 'magicProperty', {
+  set: function (val) { 
+    this.value = val;
+    console.log(new Date() + ' ' + '--' + val);
+  },
+  get: function () { 
+    return ++this.value;
+  }
+});
+o.magicProperty = 5;
+o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+console.log(o.magicProperty); // 6
+console.log(o.magicProperty); // 7
+console.log(o.magicProperty); // 8
 /**
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
