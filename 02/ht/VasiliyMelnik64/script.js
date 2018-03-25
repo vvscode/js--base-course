@@ -206,12 +206,12 @@ function log(x) {
  * @param {*} func 
  * 
  */
-function curring(func) {
+function curry(func) {
 
 }
 function target1(a, b, c, d) { return a + b + c + d; }
 function target2(a, b) { return a + b; }
-//console.log(curring(target1)(1)(2));
+
 
 /**
  * Написать код, который для объекта созданного с помощью
@@ -230,11 +230,6 @@ User.prototype = Object.create(PreUser.prototype);
 User.prototype.constructor = User;
 
 var u = new User();
-
-// User === PreUser; // false
-// u instanceof User; // true
-// u instanceof Array; // true
-// u instanceof PreUser; // true
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
