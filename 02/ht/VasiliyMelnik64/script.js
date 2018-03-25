@@ -79,11 +79,6 @@ Object.defineProperty(o, 'magicProperty', {
     return ++this.value;
   }
 });
-o.magicProperty = 5;
-o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
-console.log(o.magicProperty); // 6
-console.log(o.magicProperty); // 7
-console.log(o.magicProperty); // 8
 /**
 * Создать конструктор с методами, так, 
 * чтобы следующий код работал и делал соответствующие вещи
@@ -209,14 +204,32 @@ function log(x) {
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
+ * 
  */
-function curry(func) {}
+function curring(func) {
 
-/*
-Написать код, который для объекта созданного с помощью конструктора будет показывать, 
-что объект является экземпляром двух классов
-*/
-/* Тут ваш код */
+}
+function target1(a, b, c, d) { return a + b + c + d; }
+function target2(a, b) { return a + b; }
+//console.log(curring(target1)(1)(2));
+
+/**
+ * Написать код, который для объекта созданного с помощью
+ * конструктора будет показывать,  что объект является
+ * экземпляром двух классов
+ *  @constructor PreUser
+ *  @constructor User
+ */
+
+function PreUser() { }
+PreUser.prototype = Object.create(Array.prototype);
+PreUser.prototype.constructor = PreUser;
+
+function User() { }
+User.prototype = Object.create(PreUser.prototype);
+User.prototype.constructor = User;
+
+var u = new User();
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
