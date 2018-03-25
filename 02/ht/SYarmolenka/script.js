@@ -234,3 +234,41 @@ User.prototype.constructor = PreUser;
 Добавть на страницу index.html вызов календаря
 */
 function drawInteractiveCalendar(el) {}
+
+const sleep = (add) => {
+  const realDate = Date;
+  Date = function () {
+    return new realDate(realDate.now() + add * 1000);
+  };
+};
+
+let getCounter = (value) => {
+  getCounter.valueOf = () => {
+    return value;
+  };
+  getCounter.log = () => {
+    console.log(+getCounter);
+    return getCounter;
+  };
+  getCounter.add = (value) => {
+    const result = value + getCounter;
+    getCounter.valueOf = () => {
+      return result;
+    };
+    return getCounter;
+  };
+  getCounter.reset = () => {
+    getCounter.valueOf = () => 0;
+    return getCounter;
+  };
+  return getCounter;
+};
+
+const debounce = (fun, delay) => {
+  let timer;
+  return function (...args) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(fun, delay, ...args);
+  };
+};
+
