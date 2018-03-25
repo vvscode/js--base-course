@@ -230,6 +230,7 @@ User.prototype = Object.create(PreUser.prototype);
 User.prototype.constructor = User;
 
 var u = new User();
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
