@@ -11,40 +11,29 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  function eqObj(objA, objB) {
-      if (objA === objB) {
-        return true;
-      }
-      if (Object.keys(objA).length !== Object.keys(objB).length) {
-        return false;
-      }
-        
-      return true;
+  if (objA === objB) {
+    return true;
   }
-  /*if (objA == objB) {
-      return true;
-  }*/
-  if (typeof objA !== typeof objB) {
+  if (typeof objA == 'object' && typeof objB == 'object') {
+    var aKeys = Object.keys(objA);
+    var bKeys = Object.keys(objB);
+    if (aKeys.length !== bKeys.length) {
       return false;
-  }
-  if (typeof objA === 'number' && typeof objB === 'number') {
-      if (isNaN(objA) && isNaN(objB)) {
-          return true;
-      }
-      return objA === objB;
-  }
-  if ((typeof objA === 'string' && typeof objB === 'string') ||
-      (Array.isArray(objA) && Array.isArray(objB))) {
-      if (objA.length !== objB.length) {
+    }
+    for (var prop in objA) {
+      if (!(objA[prop] === objA && objB[prop] === objB)) {
+        if (!isDeepEqual(objA[prop], objB[prop])) {
           return false;
+        }
       }
-      for (var i = 0; i < objB.length; i++) {
-          if (objA[i] !== objB[i]) {
-              return false;
-          }
-      }
+    }
   }
-  return eqObj(objA, objB);
+  else if (typeof (objA) === "number" && typeof (objB) === "number") {
+    return isNaN(objA) && isNaN(objB);
+  } else {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -70,11 +59,14 @@ Function.prototype.myBind = function (context) {
     return functionContext.apply(context, arguments);
   };
 };
-
 /**
-* Создать объект o так, чтобы каждый раз когда в коде написано 
-* o.magicProperty = 3 // (любое значение) 
-* в консоль выводилось значение, которое присваивается и текущее время
+* создать объект с волшебным свойством, 
+* чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. 
+* А при чтении всегда выводилось число на 1 больше предыдущего
+* o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+* console.log(o.magicProperty); // 6
+* console.log(o.magicProperty); // 7
+* console.log(o.magicProperty); // 8
 */
 
 /**
@@ -91,16 +83,44 @@ Function.prototype.myBind = function (context) {
  * Допустимые операции : + - * /
  */
 function calculate() {
-  /* put your code here */
+  var actions = {
+    '+': function (a) { 
+      return function (b) {
+        return a + b;
+      };
+    },
+    '-': function (a) { 
+      return function (b) {
+        return a - b;
+      };
+    },
+    '*': function (a) { 
+      return function (b) {
+        return a * b;
+      };
+    },
+    '/': function (a) { 
+      return function (b) {
+        return a / b;
+      };
+    }
+  };
+  return actions[arguments[0]];
 }
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-
-}
+var Singleton = (function () { 
+  var obj = null;
+  return function() {
+    if (!obj) {
+      obj = this;
+    }
+    return obj;
+  };
+})();
 
 /**
   * Создайте функцию ForceConstructor
@@ -108,8 +128,13 @@ function Singleton() {
   * вызвана она с new или без
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
-function ForceContructor(a, b, c) {
-  throw "undefined";
+ function ForceContructor(a, b, c) { 
+  if (this instanceof ForceContructor) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  }
+  else return new ForceContructor(a, b, c);
 }
 
 /**
@@ -122,7 +147,14 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw "undefined";
+  var firstArg = arguments[0] || 0;
+  function finalSum(a) { 
+    return sum(firstArg + (a || 0));
+  }
+  finalSum.toString = function () { 
+    return firstArg;
+  };
+  return finalSum; 
 }
 
 function log(x) {
