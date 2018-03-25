@@ -207,11 +207,21 @@ function log(x) {
  * 
  */
 function curry(func) {
-
+  var count = func.length;
+  var args = [];
+  return function f (arg) {
+    args.push(arg);
+    count--;
+    if (count === 0) { 
+      return func.apply(null, args);
+    }
+    return f.bind(null);
+  };  
 }
 function target1(a, b, c, d) { return a + b + c + d; }
 function target2(a, b) { return a + b; }
-
+console.log(curry(target2)(1)(2));
+console.log(curry(target1)(1)(2)(3)(4));
 
 /**
  * Написать код, который для объекта созданного с помощью
