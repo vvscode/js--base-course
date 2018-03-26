@@ -41,11 +41,19 @@ function clearForm(user) {
     }
     clearRadios();
 }
+function reset(user) { 
+    alert('Заполните все поля!');
+    clearForm(user);
+}
 function createUserDescription(user) { 
     var userBlock = document.getElementById('userBlock');
     var block = '<div class="userBlock">';
     for (var prop in user) { 
         if (prop === 'Пол') {
+            if (!user[prop].male.checked && !user[prop].female.checked) { 
+                reset(user);
+                return false;
+            }
             block += '<p><div class="div">' + prop + '</div> : ' + user[prop] + '</p>';
         }
         else if (prop === 'Водительское удостоверение') {
@@ -53,7 +61,8 @@ function createUserDescription(user) {
         }
         else {
             if (user[prop].value == '') { 
-                block += '<p><div class="div">' + prop + '</div> : [значение не введено] </p>';
+                reset(user);
+                return false;
             }
             else {
                 block += '<p><div class="div">' + prop + '</div> : ' + user[prop].value + '</p>';
