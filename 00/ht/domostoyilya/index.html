@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JS</title>
+</head>
+<body>
+	<script>
+		var Name=""; 
+		    Age="";
+		while (isNaN(Name)==false) {
+			Name=prompt("Введите имя");
+		}
+		while ((isNaN(Age)==true) || (Age<=0) || (Age>150)) {
+			Age=prompt("Введите возраст");
+		}
+		if (Age<18) {
+			alert ("Здарова, "+Name+". Как твои "+Age+"?");
+		} else alert ("Привествую, "+Name+". Уж "+Age+" лет прошло.");
+	</script>
+</body>
+</html>

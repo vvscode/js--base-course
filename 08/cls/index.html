@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Js Base Course - Занятие 8</title>
+  <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/theme/white.css" id="theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h1>Вопросы</h1>
+      </section>
+      <section>
+        <h1>Занятие 8</h1>
+      </section>
+      <section>
+        <h2>Тестирование</h2>
+        <section>
+          <h4>Цели (c точки зрения разработчика):</h4>
+          <ul>
+            <li class="fragment">Проверка соответствия ожиданиям</li>
+            <li class="fragment">Проверка состояния системы (регрессия)</li>
+            <li class="fragment">Документирование кода</li>
+            <li class="fragment">Примеры использования</li>
+            <li class="fragment">Поиск / проверка на ошибки</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h4>Уровни тестирования</h4>
+          <ul>
+            <li class="fragment">Модульное ( функция / класс )</li>
+            <li class="fragment">Интеграционное (межмодульное)</li>
+            <li class="fragment">UI ( системное )</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Пирамида тестирования</h4>
+          <image style="border:none; " src="http://automated-testing.info/uploads/default/original/2X/6/672a2f04330b4112cce36e0912277b5ceebc5176.png"
+          />
+        </section>
+        <section>
+          <h4>Пирамида тестирования</h4>
+          <image style="border:none; " src="http://rutlib2.com/book/14778/p/_11.png" />
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h4>По объекту тестирования</h4>
+          <ul>
+            <li class="fragment">Функционал</li>
+            <li class="fragment">Кроссбраузерность</li>
+            <li class="fragment">Нагрузочное тестирование</li>
+            <li class="fragment">Стресс тестирование</li>
+            <li class="fragment">Юзабилити</li>
+            <li class="fragment">Безопасность
+              <sup>*</sup>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h4>Относительно выполнения кода:</h4>
+          <ul>
+            <li class="fragment">Без выполнения кода</li>
+            <li class="fragment">С частичным выполнением кода</li>
+            <li class="fragment">С выполнением кода</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <h4>Тестирование без выполнения - статический анализ</h4>
+        <ul>
+          <li class="fragment">Типизация:
+            <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> /
+            <a href="https://flow.org/" target="_blank">Flow</a> /
+            <a href="http://usejsdoc.org/" target="_blank">JSDoc</a>
+          </li>
+          <li class="fragment">Анализ AST:
+            <a href="http://jshint.com/" target="_blank">JSHint</a>,
+            <a href="http://www.jslint.com/" target="_blank">JSLint</a>,
+            <a href="http://eslint.org/" target="_blank">ESLint</a>
+          </li>
+          <li class="fragment">Комплексные инструменты:
+            <a href="https://www.sonarqube.org/" target="_blank">SonarQube</a>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h4>Ручное тестирование</h4>
+        <p>
+          <strong>Важно!</strong> Иметь сценарии использования, чтобы тестировать методически.</p>
+        <p>Хаотичное тестирование - метод свободного поиска.</p>
+      </section>
+      </section>
+      <section>
+        <h4>Автоматизированное тестирование</h4>
+        <section>
+          <p>По уровню:</p>
+          <ul>
+            <li class="fragment" title="Фунция, класс">Модуль</li>
+            <li class="fragment" title="Несколько классов, несколько объктов">Взаимодествие компонентов</li>
+            <li class="fragment" title="Использование моков*">Интеграционное тестирование</li>
+            <li class="fragment" title="В связке с внешними системами">Системное</li>
+          </ul>
+        </section>
+        <section>
+          <p>
+            <strong>Общий подход:</strong> Выполнить код и проверить результат его работы</p>
+        </section>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h4>Модульное тестирование</h4>
+        <section>
+          Особенности:
+          <ul>
+            <li class="fragment">Тестирует реализацию</li>
+            <li class="fragment">Скорость работы и точность выявления ошибок</li>
+            <li class="fragment">"Белый" ящик</li>
+            <li class="fragment">Влияют на устройство кода "внутри"</li>
+          </ul>
+        </section>
+        <section>
+          <ul>
+            <li class="fragment">
+              <a href="https://mochajs.org/" target="_blank">Mocha</a>
+            </li>
+            <li class="fragment">
+              <a href="https://facebook.github.io/jest/" target="_blank">Jest</a>
+            </li>
+            <li class="fragment">
+              <a href="https://jasmine.github.io/" target="_blank">Jasmine</a>
+            </li>
+            <li class="fragment">
+              <a href="https://qunitjs.com/" target="_blank">QUnit</a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers">
+describe('Array', function() {
+  describe('#indexOf()', function() {
+    it('should return -1 when the value is not present', function() {
+      [1,2,3].indexOf(5).should.equal(-1);
+      [1,2,3].indexOf(0).should.equal(-1);
+    });
+  });
+});
+            </code></pre>
+        </section>
+        <section>
+          <img src="https://mochajs.org/static/reporter-spec-duration.resize920,9999.f3601d937d.png" alt="Success tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://mochajs.org/static/reporter-string-diffs.resize920,9999.7b631dd246.png" alt="Failed tests" style="border:none;">
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;max-height: 550px;">
+describe('Connection', function() {
+  var db = new Connection,
+    tobi = new User('tobi');
+
+  beforeEach(function(done) {
+    db.clear((err) => {
+      return (err) ? done(err): db.save([tobi, loki, jane], done);
+    });
+  });
+
+  describe('#find()', () => {
+    it('respond with matching records', (done) => {
+      db.find({type: 'User'}, (err, res) => {
+        if (err) return done(err);
+        res.should.have.length(3);
+        done();
+      });
+    });
+  });
+});
+            </code></pre>
+        </section>
+        <section>
+          <h1>Вопросы?</h1>
+        </section>
+        <section>
+          <h3>Почему его не достаточно?</h3>
+        </section>
+        <section>
+          <img src="http://ilkinulas.github.io/assets/integration_tests/no_integration_test.gif" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://i.imgur.com/HkWPc1u.gif" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="http://james-willett.com/wp-content/uploads/2016/05/2toilets.jpg" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <img src="https://pbs.twimg.com/media/C2oAur4UcAE-QaF.jpg" alt="No integration tests" style="border:none;">
+        </section>
+        <section>
+          <p>
+            <a target="_blank" src="https://habrahabr.ru/post/116372/">Вспомогательные объекты/методы</a>
+          </p>
+          <p style="font-size:smaller;">
+            <strong>test stub (заглушка)</strong>, используется для получения данных из внешней зависимости, подменяя её.</p>
+          <p style="font-size:smaller;">
+            <strong>test spy (тестовый шпион)</strong>, используется для тестов взаимодействия, основной функцией является запись
+            данных и вызовов, поступающих из тестируемого объекта для последующей проверки </p>
+          <p style="font-size:smaller;">
+            <strong>mock object (мок-объект)</strong>, очень похож на тестовый шпион, однако не записывает последовательность вызовов
+            с переданными параметрами для последующей проверки</p>
+        </section>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <h4>UI тестирование</h4>
+        <section>
+          Особенности:
+          <ul>
+            <li class="fragment">Тестирует функционал, а не код</li>
+            <li class="fragment">Сценарии со стороны пользователя</li>
+            <li class="fragment">Кроссбраузерность</li>
+            <li class="fragment">Нет привязки к средствам реализации</li>
+            <li class="fragment">"Черный" ящик</li>
+            <li class="fragment">"Простое" создание тестов</li>
+            <li class="fragment">Медленные
+              <sup>*</sup>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <img src="https://camo.githubusercontent.com/9c73b0edee5cea08d22cff8e2a7966a01b18846d/68747470733a2f2f63646e322e68756273706f742e6e65742f68756266732f3130303030362f696d616765732f73625f64656d6f2e676966"
+            alt="Selenium tests" style="border:none; height: 500px;">
+        </section>
+        <section>
+          <ul>
+            <li class="fragment">
+              <a href="http://casperjs.org/" target="_blank">CasperJS</a>
+            </li>
+            <li class="fragment">
+              <a href="http://nightwatchjs.org/" target="_blank">NightWatch.js</a>
+            </li>
+            <li class="fragment">
+              <a href="http://nightwatchjs.org/" target="_blank">Zombie.js</a>
+            </li>
+            <li class="fragment">
+              <a href="http://webdriver.io/" target="_blank">WebdriverIO </a>
+            </li>
+            <li class="fragment">...</li>
+          </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;max-height: 550px;">
+var webdriverio = require('webdriverio');
+var options = { desiredCapabilities: { browserName: 'chrome' } };
+var client = webdriverio.remote(options);
+client
+    .init()
+    .url('https://duckduckgo.com/')
+    .setValue('#search_form_input_homepage', 'WebdriverIO')
+    .click('#search_button_homepage')
+    .getTitle().then(function(title) {
+        console.log('Title is: ' + title);
+        // outputs:
+        // "Title is: WebdriverIO (Software) at DuckDuckGo"
+    })
+    .end();
+            </code></pre>
+        </section>
+      </section>
+      <section>
+        <a href="https://codepen.io/vvscode/pen/weEdPK?editors=1010" target="_blank">Разбор примера тестов</a>
+      </section>
+      <section>
+        <h1>Вопросы?</h1>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
+  <script>
+    Reveal.addEventListener('slidechanged', function (event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      if (event.currentSlide.querySelector('.fragment')) {
+        document.body.classList.add('has-fragments');
+      } else {
+        document.body.classList.remove('has-fragments');
+      }
+    });
+    Reveal.initialize({
+      // Display controls in the bottom right corner
+      controls: true,
+      // Display a presentation progress bar
+      progress: true,
+      // Set default timing of 2 minutes per slide
+      defaultTiming: 120,
+      // Display the page number of the current slide
+      slideNumber: true,
+      // Push each slide change to the browser history
+      history: true,
+      // Enable keyboard shortcuts for navigation
+      keyboard: true,
+      // Enable the slide overview mode
+      overview: true,
+      // Vertical centering of slides
+      center: true,
+      // Enables touch navigation on devices with touch input
+      touch: true,
+      // Loop the presentation
+      loop: false,
+      // Change the presentation direction to be RTL
+      rtl: false,
+      // Randomizes the order of slides each time the presentation loads
+      shuffle: false,
+      // Turns fragments on and off globally
+      fragments: true,
+      // Flags if the presentation is running in an embedded mode,
+      // i.e. contained within a limited portion of the screen
+      embedded: false,
+      // Flags if we should show a help overlay when the questionmark
+      // key is pressed
+      help: true,
+      // Flags if speaker notes should be visible to all viewers
+      showNotes: true,
+      // Global override for autolaying embedded media (video/audio/iframe)
+      // - null: Media will only autoplay if data-autoplay is present
+      // - true: All media will autoplay, regardless of individual setting
+      // - false: No media will autoplay, regardless of individual setting
+      autoPlayMedia: null,
+      // Number of milliseconds between automatically proceeding to the
+      // next slide, disabled when set to 0, this value can be overwritten
+      // by using a data-autoslide attribute on your slides
+      autoSlide: 0,
+      // Stop auto-sliding after user input
+      autoSlideStoppable: true,
+      // Use this method for navigation when auto-sliding
+      autoSlideMethod: Reveal.navigateNext,
+      // Enable slide navigation via mouse wheel
+      mouseWheel: false,
+      // Hides the address bar on mobile devices
+      hideAddressBar: true,
+      // Opens links in an iframe preview overlay
+      previewLinks: true,
+      // Transition style
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // Transition speed
+      transitionSpeed: 'default', // default/fast/slow
+      // Transition style for full page slide backgrounds
+      backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+      // Number of slides away from the current that are visible
+      viewDistance: 3,
+      // Parallax background image
+      parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+      // Parallax background size
+      parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
+      // Number of pixels to move the parallax background per slide
+      // - Calculated automatically unless specified
+      // - Set to 0 to disable movement along an axis
+      parallaxBackgroundHorizontal: null,
+      parallaxBackgroundVertical: null,
+      // The display mode that will be used to show slides
+      display: 'block',
+
+      dependencies: [
+        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
+          condition: function () {
+            return !document.body.classList;
+          }
+        },
+
+        // Interpret Markdown in <section> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
+          condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+
+        // Syntax highlight for <code> elements
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function () {
+            hljs.initHighlightingOnLoad();
+          }
+        },
+
+        // Zoom in and out with Alt+click
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/zoom-js/zoom.js',
+          async: true
+        },
+
+        // Speaker notes
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/notes/notes.js',
+          async: true
+        },
+
+        // MathJax
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/math/math.js',
+          async: true
+        },
+        {
+          src: 'https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.js'
+        },
+      ]
+    });
+    Reveal.configure({
+      slideNumber: 'c/t'
+    });
+  </script>
+</body>
+
+</html>
