@@ -1,17 +1,28 @@
 module.exports = {
-  extends: 'google',
-  parserOptions: {
-    ecmaVersion: 6
-  },
-  rules: {
-    'no-tabs': 'off',
-    'max-len': [
-      'error',
-      {
-        ignoreStrings: true,
-        code: 120,
-        tabWidth: 4
-      }
-    ]
-  }
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
 };

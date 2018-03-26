@@ -25,17 +25,10 @@ function fizzBuzz() {
     /* Ваше решение */
     for (var i = 1; i < 101; i++) {
         var a = i;
-        while (a % 3 === 0 && a % 5 === 0) {
-            a = `FizzBuzz`;
+        ((a % 3 === 0) && (a % 5 === 0) && (a = "FizzBuzz")) ||
+        ((a % 3 === 0) && (a = "Fizz")) || ((a % 5 === 0) && (a = "Buzz")) || (a = i);
+            log(a);
         }
-        while (a % 3 === 0) {
-            a = `Fizz`;
-        }
-        while (a % 5 === 0) {
-            a = `Buzz`;
-        }
-        log(a);
-    }
 }
 /**
  * реализовать фукнцию  `isPolindrom`, 
