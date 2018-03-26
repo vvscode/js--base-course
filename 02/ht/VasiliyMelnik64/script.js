@@ -316,12 +316,14 @@ function getCounter(num) {
  * работать аналогично системному .call и покрыть реализацию тестами
  */
 Function.prototype.myCall = function (context) { 
-  context = context || window;
-  var c = this;
-  var obj = context;
+  context = (typeof(context) === 'object') ? context : window;
+  var func = this;
+  var obj = {};
   obj.method = c;
   var args = arguments;
-  return obj.method(args[1]);
+  with (context) {
+    return obj.method(args[1]);
+  }
 };
 /**
  * Создать синхронную функцию sleep(seconds) так, чтобы работал код
@@ -338,8 +340,3 @@ function sleep(num) {
     
   }
 }
-console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
-sleep(3);
-console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
-
-
