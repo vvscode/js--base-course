@@ -14,10 +14,6 @@ describe("EmptyConstructor", function() {
     });
 });
 
-
-
-
-
 describe("Hedgehog", function() {
     it("функция", function() {
         return assert.isOk(typeof Hedgehog === "function");
@@ -30,6 +26,7 @@ describe("Hedgehog", function() {
         return assert.isOk(typeof new Hedgehog().showAgeInConsole().showNameInAlert() === 'object');
     });
 });
+
 describe("curry", function() {
     it("добавить тесты", function() {
         assert.isOk(true === true);
@@ -44,6 +41,7 @@ describe("curry", function() {
         return assert.isOk(curry(target2)(5)(8) === 13);
     });
 });
+
 describe("chainOfInheritance", function() {
     it("User и PreUser - разные конструкторы", function() {
         return assert.isOk(User !== PreUser);
