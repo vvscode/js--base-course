@@ -1,6 +1,4 @@
-var form = document.getElementById('form');
 var button = document.getElementById('button');
-var userBlock = document.getElementById('userBlock');
 var radios = document.querySelectorAll('input[type="radio"]');
 var inputs = document.getElementsByTagName('input');
 
@@ -44,6 +42,7 @@ function clearForm(user) {
     clearRadios();
 }
 function createUserDescription(user) { 
+    var userBlock = document.getElementById('userBlock');
     var block = '<div class="userBlock">';
     for (var prop in user) { 
         if (prop === 'Пол') {
