@@ -4,8 +4,22 @@
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
+describe("EmptyConstructor", function() {
+    it("функция", function() {
+        return assert.isOk(typeof EmptyConstructor === "function");
+    });
+    it("не является конструкторои", function() {
+        assert.isOk(new EmptyConstructor() instanceof EmptyConstructor === false);
+        assert.isOk(EmptyConstructor() instanceof EmptyConstructor === false);
+    });
+});
+
+
+
+
+
 describe("Hedgehog", function() {
-    it("фунция", function() {
+    it("функция", function() {
         return assert.isOk(typeof Hedgehog === "function");
     });
     it("конструктор", function() {

@@ -156,7 +156,7 @@ var Singleton = (function () {
   * вызвана она с new или без
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
- function ForceContructor(a, b, c) { 
+function ForceContructor(a, b, c) { 
   if (this instanceof ForceContructor) {
     this.a = a;
     this.b = b;
@@ -260,4 +260,18 @@ function solutionOfTaskAboutForm() {
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(el) { }
+
+/**
+ * создать функцию, которая не может работать как конструктор 
+ * (работать с new, и покрыть ее тестами) 
+ * */
+function EmptyConstructor(a, b, c) { 
+  this.a = a;
+  this.b = b;
+  this.c = c;
+  if (this instanceof EmptyConstructor) {
+      return {};
+  }
+  return null;
+}
