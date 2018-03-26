@@ -57,5 +57,71 @@ describe("chainOfInheritance", function() {
     });
 });
 
+describe(".myCall", function() {
+    it(".myCall - функция", function() {
+        return assert.isOk(typeof Function.prototype.myCall === 'function');
+    });
+    it(".myCall работает так же, как и call (c аргументами)", function () {
+        function count(a, b) {
+            return a + b;
+        }
+        return assert.isOk(typeof count.myCall(null, 1, 2) === 3);
+    });
+    it(".myCall работает так же, как и call (без аргументов)", function () {
+        var num = 7;
+        return assert.isOk(typeof Object.prototype.toString.myCall(num) === 'string');
+    });
+    it(".myCall работает так же, как и call (с заданным контекстом)", function () {
+        var str = "Строка";
+        return assert.isOk(Array.prototype.myCall.reduce(str, function (rest, elem) { 
+            return rest += elem;
+        })) === "Строка";
+    });
+    it(".myCall обрабатывает массив, как единственный аргумент", function () {
+        function func(a, b) { 
+            return a - b; 
+        }
+        return assert.isOk(isNaN(func.myCall(null, [1,2])));
+    });
+});
 
+describe("getCounter", function() {
+    it("getCounter - функция", function() {
+        return assert.isOk(typeof getCounter === 'function');
+    });
+    it("поддерживает цепочку вызовов", function () {
+        var c = getCounter(5);
+        var result = c
+        .log()
+        .add(4)
+        .log() 
+        .add(3)
+        .log() 
+        .reset()
+        .log() 
+        .add(8)
+        .log(); 
+        assert.isOk(+result === 8);
+    });
+});
+
+
+
+
+
+
+
+
+
+/*var c = getCounter(5);
+c
+  .log() // 5
+  .add(4)
+  .log() // 9
+  .add(3)
+  .log() // 12
+  .reset()
+  .log() // 0
+  .add(8)
+  .log(); // 8*/
 

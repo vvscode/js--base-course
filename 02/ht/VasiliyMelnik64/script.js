@@ -149,7 +149,6 @@ var Singleton = (function () {
     return obj;
   };
 })();
-
 /**
   * Создайте функцию ForceConstructor
   * которая работает как конструктор независимо от того,
@@ -220,8 +219,6 @@ function curry(func) {
 }
 function target1(a, b, c, d) { return a + b + c + d; }
 function target2(a, b) { return a + b; }
-console.log(curry(target2)(1)(2));
-console.log(curry(target1)(1)(2)(3)(4));
 
 /**
  * Написать код, который для объекта созданного с помощью
@@ -264,7 +261,7 @@ function drawInteractiveCalendar(el) { }
 
 /**
  * создать функцию, которая не может работать как конструктор 
- * (работать с new, и покрыть ее тестами) 
+ *  
  * */
 function EmptyConstructor(a, b, c) { 
   this.a = a;
@@ -275,3 +272,74 @@ function EmptyConstructor(a, b, c) {
   }
   return null;
 }
+
+/**
+ * Написать функцию getCounter и покрыть ее тестами, так, 
+ * чтобы работал следующий код
+ * var c = getCounter(5);
+ * c
+ * .log() // 5
+ * .add(4)
+ * .log() // 9
+ * .add(3)
+ * .log() // 12
+ * .reset()
+ * .log() // 0
+ * .add(8)
+ * .log(); // 8
+ * 
+ * @param {number} num 
+ */
+function getCounter(num) { 
+  var sum = num;
+  return {
+    log: function() { 
+      console.log(sum);
+      return this;
+    },
+    add: function (n) { 
+      sum += n;
+      return this;
+    },
+    reset: function () { 
+      sum = 0;
+      return this;
+    },
+    toString: function () { 
+      return sum;
+    }
+  };
+}
+
+/**
+ * Написать реализацию метода .myCall, который будет 
+ * работать аналогично системному .call и покрыть реализацию тестами
+ */
+Function.prototype.myCall = function (context) { 
+  context = context || window;
+  var c = this;
+  var obj = context;
+  obj.method = c;
+  var args = arguments;
+  return obj.method(args[1]);
+};
+/**
+ * Создать синхронную функцию sleep(seconds) так, чтобы работал код
+ * console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+ * sleep(9);
+ * console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+ * 
+ * @param {number} num 
+ */
+
+function sleep(num) { 
+  var date = new Date();
+  while (new Date() <= +date + num * 1000) { 
+    
+  }
+}
+console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+sleep(3);
+console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+
+
