@@ -56,14 +56,20 @@ Function.prototype.myBind = function (context) {
 * в консоль выводилось значение, которое присваивается и текущее время
 */
 
-var o = {
-    x : function (arg) {
-        console.log(new Date(), ' -- ', arg);
-        },
-    magicProperty : function (arg) {
-        console.log(arg, ': ', day);
-        }
+let o = {
+  set x(value) {
+    count = value;
+    return console.log(new Date() + ' -- ' + value);
+  },
+  get x() {
+    count++;
+    return count;
+  }
 };
+o.x  =  5 ;
+console.log(o.x);
+console.log(o.x);
+console.log(o.x);
 
 /**
 * Создать конструктор с методами, так, 
@@ -72,7 +78,7 @@ var o = {
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
-var u = {
+let u = {
     askName : function() {
         this.name = prompt('Введите имя');
         return this;
@@ -98,9 +104,42 @@ u.askName().askAge().showAgeInConsole().showNameInAlert();
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+
+function calculate(operation) {
+  var solution = 0;
+    switch (operation) {
+      case '+':
+        return function (a) {
+          return function (b) {
+              solution = a + b;
+              return console.log(solution);
+          }
+        };
+    case '-':
+        return function (a) {
+            return function (b) {
+                solution = a - b;
+                return console.log(solution);
+            }
+        };
+    case '*':
+        return function (a) {
+            return function (b) {
+                solution = a * b;
+                return console.log(solution);
+            }
+        };
+    case '/':
+        return function (a) {
+            return function (b) {
+                solution = a / b;
+                return console.log(solution);
+            }
+        };
+    }
 }
+calculate('+')(1)(2);
+calculate('*')(2)(3);
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
@@ -129,10 +168,15 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw "undefined";
+function sum() { //Не закончено
+    var sol = 0;
+    return function (a) {
+        return sum() + a;
+        }
+    }
+    throw "undefined"
 }
-
+x = sum()
 function log(x) {
   console.log(+x);
 }
