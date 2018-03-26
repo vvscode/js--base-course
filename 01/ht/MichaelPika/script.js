@@ -63,22 +63,22 @@ function drawCalendar(year, month, htmlEl) {
 
     function getDayNumber(date) {
         var day = date.getDay();
-        if (day == 0) {
+        if (day === 0) {
             day = 7;
         }
         return day - 1;
     }
-    for (var i = 0; i < getDayNumber(theDesiredDate); i++) {
+    for (var j = 0; j < getDayNumber(theDesiredDate); j++) {
         table = table + "<td></td>";
     }
-    while (theDesiredDate.getMonth() == theDesiredMonth) {
+    while (theDesiredDate.getMonth() === theDesiredMonth) {
         table = table + "<td>" + theDesiredDate.getDate() + "</td>";
-        if (getDayNumber(theDesiredDate) % 7 == 6) {
+        if (getDayNumber(theDesiredDate) % 7 === 6) {
             table = table + "</tr><tr>";
         }
         theDesiredDate.setDate(theDesiredDate.getDate() + 1);
     }
-    if (getDayNumber(theDesiredDate) != 0) {
+    if (getDayNumber(theDesiredDate) !== 0) {
         for (var i = getDayNumber(theDesiredDate); i < 7; i++) {
             table = table + "<td></td>";
         }
@@ -143,16 +143,17 @@ function isDeepEqual(objA, objB) {
                         } else if (objA[key] !== objB[key]) {
                             return false;
                         }
+                    } else if (objA.hasOwnProperty(key) !== objB.hasOwnProperty(key)) {
+                        // эта проверка должна распознавать разные объекты, но этого не происходит
+                        return false;
                     }
-                } else {
-                    return false;
                 }
             }
         }
-        return true;
     }
     return true;
 }
+
 /**
  * Написать функцию `spiral`
  * которая принимает на вход двумерный массив
@@ -161,8 +162,8 @@ function isDeepEqual(objA, objB) {
  */
 function spiral(arr) {
     var resultArr = [];
-    var arrLength = arr[0];
-    for (var j = 0; j < arr.length / 2; j++) {
+    var arrLength = arr[0], j = 0;
+    while(j < arr.length / 2){
         for (var valRight = j; valRight < arrLength.length - j; valRight++) {
             resultArr.push(arr[j][valRight]);
         }
@@ -172,11 +173,10 @@ function spiral(arr) {
         for (var valLeft = arrLength.length - 1 - j; valLeft !== j; valLeft--) {
             resultArr.push(arr[arr.length - 1 - j][valLeft - 1]);
         }
-        if (arr.length - 1 - j - 1 !== j) {
-            for (var valUp = arr.length - 1 - j - 1; valUp > 0; valUp--) {
-                resultArr.push(arr[valUp][j]);
-            }
+        for (var valUp = arr.length - 1 - j - 1; valUp > 0; valUp--) {
+            resultArr.push(arr[valUp][j]);
         }
+        j++;
     }
     return resultArr;
 }
