@@ -1,0 +1,31 @@
+form {
+    width: 350px;
+    margin: 0 auto;
+    padding: 4%;
+    border: 3px solid gray;
+    border-radius: 4px;
+    text-align: right;
+}
+input[type="text"], input[type="textArea"] {
+    width: 95%;
+    margin:5px 0 10px;
+}
+select {
+    width: 96.5%;
+    margin:10px 0;
+}
+.userBlock {
+    width: 350px;
+    margin: 10px auto;
+    padding: 1% 4%;
+    border: 3px solid gray;
+    border-radius: 4px;
+    text-align: left;
+}
+div.div {
+    display: inline-block;
+    width: 110px;
+    text-align: right;
+    text-decoration: underline;
+    font-weight: bold;
+}
