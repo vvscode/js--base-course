@@ -16,7 +16,7 @@
 
     while (true) {
         var userAge = prompt('Ваш возраст?', '');
-        if ((userAge && Number(userAge > 0)) || userAge == null) break;
+        if ((userAge && userAge > 0) || userAge == null) break;
     }
 
     userAge < 18 ? alert('Здарова, ' + userName + '.' + ' Как твои ' + userAge + '?')
