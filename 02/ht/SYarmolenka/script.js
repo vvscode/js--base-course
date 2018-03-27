@@ -75,8 +75,8 @@ const o = {
     this.magic = value;
     console.log(value, new Date());
   },
-  get magicProperty () {
-    return this.magic + 1;
+  get magicProperty () { 
+    return ++this.magic;
   }
 };
  
@@ -272,3 +272,152 @@ const debounce = (fun, delay) => {
   };
 };
 
+const throttle = (fun, delay) => {
+  let timer, args;
+  return function (...arr) {
+    args = arr;
+    if (timer) return;
+    fun(...args);
+    args = false;
+    timer = setInterval(_ => {
+      if (!args) {
+        clearInterval(timer);
+        timer = 0;
+      } else {
+        fun(...args);
+        args = false;
+      };
+    }, delay);
+  };
+};
+
+function notConstructor () {
+  if (this !== window && this !== undefined) {throw new Error(`You have called the function with 'new'!
+  There are not allow to call this function with 'new'!`)};
+};
+
+Function.prototype.myCall = function(context, ...args) {
+  if (!context) { context = window };
+  const secret = Symbol();
+  context[secret] = this;
+  return context[secret](...args);
+};
+
+// show: https://react-nf8lyk.stackblitz.io
+// develop: https://stackblitz.com/edit/react-nf8lyk
+
+function drawCalendar(year, month, htmlEl) {
+  if (htmlEl.querySelector(`.Calendar`)) {htmlEl.removeChild(htmlEl.querySelector(`.Calendar`))};
+  const weekdays = new Array(7).fill(1).map((e, i) => (`<th>${new Date(2018, 2, 12 + i).toLocaleString('ru', {weekday: 'short'}).toUpperCase()}</th>`));
+  let firstDay = new Date(year, month - 1).getDay() - 1;
+  firstDay = firstDay < 0 ? 6 : firstDay;
+  const emptyBefore = new Array(firstDay).fill(`<td></td>`);
+  const insertDays = new Array(31).fill(1).map((e, i) => {
+    if (new Date(year, month - 1, i + 1).getMonth() === month - 1) return `<td>${i + 1}</td>`;
+  }).filter(elem => elem);
+  let calendar = [...emptyBefore, ...insertDays];
+  while (calendar.length < Math.ceil(calendar.length / 7) * 7) {calendar.push(`<td></td>`)};
+  calendar = calendar.map((e, i, arr) => {
+    if (i === 0 || i % 7 === 0) return `<tr>${e}`;
+    if (i % 7 === 0 || i === arr.length - 1) return `${e}</tr>`;
+    return e;
+  });
+  const table = document.createElement('table');
+  table.className = `Calendar`;
+  table.innerHTML = `<thead><tr>${weekdays.join(``)}</tr></thead><tbody>${calendar.join(``)}</tbody>`;
+  htmlEl.appendChild(table);
+};
+
+class Calendar {
+  constructor (htmlEl) {
+    this.number = document.body.querySelectorAll('.Calendar').length || 0;
+    this.elem = document.createElement('div');
+    this.elem.classList.add(`calendar${Math.round(Math.random() * 10000000000)}`);
+    this.message = document.createElement('div');
+    this.message.id = 'message';
+    htmlEl.appendChild(this.elem);
+    htmlEl.appendChild(this.message);
+    this.year = new Date().getFullYear();
+    this.month = new Date().getMonth() + 1;
+    this.refreshCalendar();
+  };
+  refreshCalendar () {
+    this.elem.innerHTML = '';
+    this.drawCalendar();
+    this.addHead();
+    this.addButton();
+  };
+  drawCalendar () {
+    drawCalendar(this.year, this.month, this.elem);
+    this.table = this.elem.querySelector('.Calendar');
+  };
+  addHead () {
+    const monthName = new Date(this.year, this.month - 1).toLocaleString(`ru`, {month: 'long'}).toUpperCase();
+    this.table.querySelector('thead').innerHTML = `<th class='prev'>&#8656</th><th colspan='5'>${monthName}</th><th class='next'>&#8658</th>${this.table.querySelector('thead').innerHTML}`;
+    this.table.addEventListener('click', e => this.clickEvents(e.target));
+  };
+  addButton () {
+    const button = document.createElement('button');
+    button.innerText = 'Показать список';
+    button.onclick = _ => this.showList();
+    this.elem.appendChild(button);
+  };
+  clickEvents (elem) {
+    if (elem.matches('.prev')) {
+      this.month--;
+      if (this.month < 1) {
+        this.year--;
+        this.month = 12;
+      };
+      this.refreshCalendar();
+    };
+    if (elem.matches('.next')) {
+      this.month++;
+      if (this.month > 12) {
+        this.year++;
+        this.month = 1;
+      };
+      this.refreshCalendar();
+    };
+    if (elem.closest('tbody') && elem.innerText) {
+      const data = window.prompt('Добавить заметку');
+      if (data) this.handlerData(elem.innerText, data);
+    };
+  };
+  handlerData (day, data) {
+    const date = new Date(this.year, this.month - 1, +day).toLocaleString(`ru`, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+    this.local({[`${date}`]: data});
+    this.message.innerText = date+': '+data+'\n';
+  };
+  local (data) {
+    const getData = () => {
+      return new Promise((resolve, reject) => {
+        let data = window.localStorage.getItem(`calendar${this.number}`) || '{}';
+        data = JSON.parse(data);
+        resolve(data);
+      });
+    };
+    const setData = (newData) => {
+      getData().then(data => {
+        data = Object.assign(data, newData);
+        window.localStorage.setItem(`calendar${this.number}`, JSON.stringify(data));
+        return 'Ready!';
+      }).then(console.log);
+    };
+    if (!data) {
+      return getData();
+    } else {
+      setData(data);
+    };
+  };
+  showList () {
+    this.local().then(data => {
+      let str = '';
+      for (let key in data) {
+        str +=
+        `${key}: ${data[key]}\n`;
+      };
+      window.alert(str);
+    });
+  };
+};
