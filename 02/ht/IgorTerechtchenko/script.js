@@ -11,12 +11,17 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
+  if (objA !== objA && objB !== objB) {
+    return true
+  }
   if (objA.length !== objB.length) {
     return false;
   }
 
   if (typeof objA !== 'object') {
-    return objA === objB;
+    console.log(objA + ' === ' + objB)
+    console.log(objA ===  objB)
+    return (objA === objB)
   }
 
   if (Object.keys(objA).length !== Object.keys(objB).length) {
