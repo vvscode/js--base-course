@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HT 01</title>
+		<style>
+			.calendar__table {
+				margin: 0 auto;
+
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+
+			.calendar__row {
+				font-size: 18px;
+			}
+
+			.calendar__cell {
+				padding: 10px 20px;
+
+				border: 1px solid grey;
+			}
+
+			.calendar__cell--header {
+				background-color: lightgreen;
+			}
+		</style>
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+		<div id="calendar"></div>
+    <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+    </script>
+    <script src="script.js"></script>
+    <script src="tests.js"></script>
+    <script src="https://rawgit.com/vvscode/js--base-course/master/.ht/01/script.tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</body>
+
+</html>

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Js Base Course - Занятие 1</title>
+  <title>Js Base Course - Занятие 2</title>
   <link rel="stylesheet" href="https://rawgit.com/mikemiles86/reveal-line-numbers/master/line-numbers.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/vs.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/css/reveal.css">
@@ -14,11 +14,11 @@
   <div class="reveal">
     <div class="slides">
       <section>
+        <h1>Вопросы?</h1>
+      </section>
+      <section>
         <section>
           <h1>Занятие 2</h1>
-        </section>
-        <section>
-          <h1>Вопросы?</h1>
         </section>
         <section>
           <h1>
@@ -33,8 +33,6 @@
           <li class="fragment">Что такое переменная?</li>
           <li class="fragment">Передача по ссылке</li>
           <li class="fragment">Передача по значению</li>
-          <li class="fragment">Константы</li>
-          <li class="fragment">Изменение значений примитивных типов</li>
         </ul>
       </section>
       <section>
@@ -104,6 +102,20 @@ o[propName] = 4;
       </section>
       <section>
         <h1>Вопросы?</h1>
+      </section>
+      <section>
+        <pre class="fragment"><code data-trim class="javascript line-numbers">
+var o = {
+  x: 1
+};
+console.log(o.x); // ?
+var a = 'x';
+o.a = 2;
+console.log(o.x); // ?
+var b = 'x';
+o['b'] = 3;
+console.log(o.x); // ?
+                        </code></pre>
       </section>
       <section>
         <section>
@@ -499,11 +511,11 @@ o.someStrangeFunctionInObject();
         </section>
         <section>
           <pre><code data-trim class="javascript line-numbers">
-function ssF() { console.log('this for someStrangeFunction', this); }
+function someStrangeFunction() { console.log('this for someStrangeFunction', this); }
 var o = { prop1: 1 };
 someStrangeFunction(); // ?
-o.ssf = ssF;
-o.ssf(); // ?
+o.someStrangeFunction = someStrangeFunction;
+o.someStrangeFunction(); // ?
           </code></pre> </section>
         <section>
           <pre><code data-trim class="javascript line-numbers">
@@ -539,6 +551,10 @@ var o = {
 }
 document.body.addEventListener('click', o.greet);
           </code></pre>
+          <pre class="fragment"><code data-trim class="javascript line-numbers">
+var x = o.greet;
+document.body.addEventListener('click', x); // x()
+</code></pre>
         </section>
         <section>
           <h5>Изменение контекста функции</h5>
@@ -580,7 +596,7 @@ f.bind(o)('user 4'); // bind возвращает функцию для вызо
         <h6>new</h6>
         <section>
           <h6>Еще один способ изменить
-            <span class="fragment">this</span>
+            <code>this</code>
           </h6>
           <pre><code data-trim class="javascript line-numbers">
 var f = function(name) { console.log(this); };
@@ -592,14 +608,14 @@ console.log(new f('Bob')); // ?
           <ul>
             <li class="fragment">
               <code>new</code> с любой функцией создает новый объект</li>
-            <li class="fragment">Новый объект становится возвращаемым значением
-              <strong>по-умолчанию</strong>
-            </li>
             <li class="fragment">Новый объект получает значение в
               <code>__proto__</code>
             </li>
             <li class="fragment">туда записывается
               <code>f.prototype</code>
+            </li>
+            <li class="fragment">Новый объект становится возвращаемым значением
+              <strong>по-умолчанию</strong>
             </li>
             <li class="fragment">Функции предназначенные для вызова с
               <code>new</code> - конструкторы </li>

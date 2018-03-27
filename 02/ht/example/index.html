@@ -14,8 +14,16 @@
 <body>
     <div id="mocha"></div>
     <pre id="log"></pre>
+    <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+    </script>
     <script src="script.js"></script>
-    <script src="script.tests.js"></script>
+    <script src="tests.js"></script>
+    <script src="https://rawgit.com/vvscode/js--base-course/master/.ht/02/script.tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
 </body>
 
 </html>

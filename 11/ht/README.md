@@ -32,6 +32,8 @@
 
 Отображает задачи на календаре, позволяет фильтровать задачи по флагу выполнения (показывать или скрывать выполненные задачи)
 
+** С помощью DranNDrop позволяет изменять даты для задач
+
 ## Работа с задачами
 
 Страницы для работы с задачами имеют в шапке форму добавления задач.
@@ -69,6 +71,7 @@ Firebase:
 * https://www.youtube.com/watch?v=GnORwtq1_1A
 * https://codelabs.developers.google.com/codelabs/firebase-web-ru/index.html?index=..%2F..%2Flang-ru#0
 * https://firebase-info.com/category/firebase/
+* Репозиторий с примерами https://github.com/firebase/quickstart-js
 
 ## Процесс разработки
 
