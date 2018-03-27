@@ -112,41 +112,46 @@ function calculate(operation) {
         return function (a) {
           return function (b) {
               solution = a + b;
-              return console.log(solution);
+              return solution;
           }
         };
     case '-':
         return function (a) {
             return function (b) {
                 solution = a - b;
-                return console.log(solution);
+                return solution;
             }
         };
     case '*':
         return function (a) {
             return function (b) {
                 solution = a * b;
-                return console.log(solution);
+                return solution;
             }
         };
     case '/':
         return function (a) {
             return function (b) {
                 solution = a / b;
-                return console.log(solution);
+                return solution;
             }
         };
     }
 }
-calculate('+')(1)(2);
-calculate('*')(2)(3);
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  throw "undefined";
+var Singleton = new function () {
+    var instance;
+    function Singleton() {
+        if (!instance) {
+            instance = this;
+        }
+        return instance;
+    }
+    return Singleton;
 }
 
 /**
@@ -156,7 +161,13 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+    if (this instanceof ForceContructor) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    } else {
+        return new ForceContructor(a, b, c);
+    }
 }
 
 /**
@@ -167,7 +178,7 @@ function ForceContructor(a, b, c) {
  * log(s(1)(2)); //3
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
- */
+ *//*
 function sum() { //Не закончено
     var sol = 0;
     return function (a) {
@@ -180,7 +191,7 @@ x = sum()
 function log(x) {
   console.log(+x);
 }
-
+*/
 /**
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
@@ -203,7 +214,12 @@ function curry(func) {}
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
-/* Тут ваш код */
+function User() {}
+function PreUser() {}
+User.prototype = new PreUser();
+PreUser.prototype = new Array();
+
+
 // User === PreUser; // false
 // u instanceof User; // true
 // u instanceof Array; // true
