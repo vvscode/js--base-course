@@ -316,27 +316,7 @@ function getCounter(num) {
  * работать аналогично системному .call и покрыть реализацию тестами
  */
 Function.prototype.myCall = function (context) {
-  switch (typeof context) { 
-    case 'number': context = new Number(context);
-      break;
-    case 'string': context = new String(context);
-      break;
-    case 'boolean': context = new Boolean(context);
-      break;
-    case 'object': {
-      if (context == null) {
-        context = window;
-      }
-    }
-      break;
-    default: context = window;
-      break;  
-  }
-  var obj = {};
-  obj.func = this;
-  context.func = obj.func;
-  var f = context.func.bind(context);
-
+  var f = this.bind(context);
   for (var i = 1; i <= arguments.length; i++) { 
     f = f.bind(window, arguments[i]);
   }
