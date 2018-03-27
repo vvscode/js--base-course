@@ -5,15 +5,17 @@ describe("spiral", function () {
         assert.isFunction(spiral);
     });
 
-    it("возвращает массив", function () {
-        var a = [4, 5];
-        var b = [6, 7];
-        assert.isOk(Array.isArray(spiral([a, b])) === true);
+    it("возвращает одномерный массив из 2x2 массива", function () {
+        assert.deepEqual(spiral([[4, 5], [6, 7]]), [ 4, 5, 7, 6 ]);
     });
 
-    it("возвращает одномерный массив из 2x2 массивов", function () {
-        var a = [[4, 5], [6, 7]];
-        assert.deepEqual(spiral(a), [ 4, 5, 7, 6 ]);
+    it("принимает на вход трёхмерный массив и возвращает одномерный массив с элементами", function () {
+        assert.deepEqual(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), [ 1,2,3,6,9,8,7,4,5 ]);
+    });
+
+    it("принимает на вход массив 5х4 и возвращает одномерный массив с элементами", function () {
+        assert.deepEqual(spiral([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20]]),
+            [ 1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12 ]);
     });
 });
 describe("quadraticEquation", function(){

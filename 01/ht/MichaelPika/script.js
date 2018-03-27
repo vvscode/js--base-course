@@ -86,9 +86,6 @@ function drawCalendar(year, month, htmlEl) {
     table = table + "</tr></table>";
     htmlEl.innerHTML = table;
 }
- //   document.write('<table id="fc" style="position:absolute;border-collapse:collapse;background:#FFFFFF;border:1px solid #FFD088;display:none;-moz-user-select:none;-khtml-user-select:none;user-select:none;" cellpadding="2">');
- //   document.write('<tr style="font:bold 13px Arial" onselectstart="return false"><td style="cursor:pointer;font-size:15px" onclick="upmonth(-1)">&laquo;</td><td colspan="5" id="mns" align="center"></td><td align="right" style="cursor:pointer;font-size:15px" onclick="upmonth(1)">&raquo;</td></tr>');
-  //  document.write('<tr style="background:#FF9900;font:12px Arial;color:#FFFFFF"><td align=center>П</td><td align=center>В</td><td align=center>С</td><td align=center>Ч</td><td align=center>П</td><td align=center>С</td><td align=center>В</td></tr>');
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -136,15 +133,17 @@ function isDeepEqual(objA, objB) {
             for (var key in objA) {
                 if (objA.hasOwnProperty(key)) {
                     if (objB.hasOwnProperty(key)) {
+// проверка на распознание разных объектов не работает var a = { a: 1, b: 3, c: 2 }; var b = { a: 1, b: 4, c: 2 };
+                        if (objA[key] !== objB[key]) {
+                            return false;
+                        }
                         if (typeof objA[key] === "object") {
                             if (!checkingObjects(objA[key], objB[key])) {
                                 return false;
                             }
-                        } else if (objA[key] !== objB[key]) {
-                            return false;
                         }
-                    } else if (objA.hasOwnProperty(key) !== objB.hasOwnProperty(key)) {
-                        // эта проверка должна распознавать разные объекты, но этого не происходит
+                    }
+                    else if (objB.hasOwnProperty(key) === false){
                         return false;
                     }
                 }
@@ -163,22 +162,27 @@ function isDeepEqual(objA, objB) {
 function spiral(arr) {
     var resultArr = [];
     var arrLength = arr[0], j = 0;
+    var counter = arrLength.length * arr[arr.length ];
     while(j < arr.length / 2){
-        for (var valRight = j; valRight < arrLength.length - j; valRight++) {
+        for (var valRight = j; valRight < arrLength.length - j && counter !== 0; valRight++) {
             resultArr.push(arr[j][valRight]);
+            counter--;
         }
-        for (var valDown = j + 1; valDown <= arr.length - 1 - j; valDown++) {
+        for (var valDown = j + 1; valDown <= arr.length - 1 - j && counter !== 0; valDown++) {
             resultArr.push(arr[valDown][arrLength.length - 1 - j]);
+            counter--;
         }
-        for (var valLeft = arrLength.length - 1 - j; valLeft !== j; valLeft--) {
+        for (var valLeft = arrLength.length - 1 - j; valLeft !== j && counter !== 0; valLeft--) {
             resultArr.push(arr[arr.length - 1 - j][valLeft - 1]);
+            counter--;
         }
-        for (var valUp = arr.length - 1 - j - 1; valUp > 0; valUp--) {
+        for (var valUp = arr.length - 1 - j - 1; valUp > 2 * j && counter !== 1; valUp--) {
             resultArr.push(arr[valUp][j]);
+            counter--;
         }
         j++;
     }
-    return resultArr;
+        return resultArr;
 }
 /**
  * Написать функцию `quadraticEquation`
