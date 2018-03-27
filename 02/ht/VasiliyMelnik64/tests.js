@@ -104,24 +104,3 @@ describe("getCounter", function() {
         assert.isOk(+result === 8);
     });
 });
-
-
-
-
-
-
-
-
-
-/*var c = getCounter(5);
-c
-  .log() // 5
-  .add(4)
-  .log() // 9
-  .add(3)
-  .log() // 12
-  .reset()
-  .log() // 0
-  .add(8)
-  .log(); // 8*/
-
