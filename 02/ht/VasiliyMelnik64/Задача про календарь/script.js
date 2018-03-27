@@ -7,7 +7,7 @@ function drawCalendar(year, month, el) {
         }
         return dayOfTheWeek - 1;
     }
-    var table = '<table style="border: 1px solid black;border-collapse:collapse"><tr style="border: 1px solid black;border-collapse:collapse;"><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
+    var table = '<table><tr><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
     for (var i = 0; i < defineDayOfTheWeek(date); i++) {
         table += '<td></td>';
     }

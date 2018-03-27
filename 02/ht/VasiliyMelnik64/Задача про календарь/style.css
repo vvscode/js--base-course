@@ -1,19 +1,21 @@
 #calendar-block {
-    width: 50%;
-    margin: 5% auto;
+    width: 545px;
+    margin: 25px auto;
     text-align: center;
     position: relative;
 }
 #calendar, #date {
-    width: 80%;
+    width: 545px;
     margin: 0 auto;
 }
 table {
-    width: 100%;
+    width: 545px;
+    border: 1px solid black;
+    border-collapse:collapse;
 }
 th, td {
     border: 1px solid black;
-    padding: 3%;
+    padding: 15px;
 }
 td:hover, button:hover {
     background-color: orangered;
@@ -21,29 +23,40 @@ td:hover, button:hover {
     cursor: pointer;
 }
 button {
-    width: 7%;
-    padding: 1% 2%;
+    width: 50px;
+    padding: 10px 20px;
     position: absolute;
-    top: 45%;
-    right: 0;
+    top: 0;
     text-align: center;
     border: 1px solid black;
-    font-size: 1.5vw;
+    font-size: 1em;
     font-weight: bold;
     background-color: white;
-}
-#date {
-    padding: 1% 0;
-    border: 1px solid black;
-    box-sizing: border-box;
-    border-bottom: none;
 }
 #button1 {
     left: 0;
 }
+#button2 {
+    right: 0;
+}
+#date {
+    padding: 10px 0;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-bottom: none;
+}
 #clearStorage {
     position: relative;
     display: block;
-    width: 20%;
-    margin: 5% 75%;;
+    width: 200px;
+    margin: 25px 0 25px 345px;
+}
+#tasks {
+    width: 545px;
+    padding: 0 3px;
+}
+#tasks p {
+    border-bottom: 2px solid black;
+    padding: 1px 5px;
+    text-align: left;
 }
