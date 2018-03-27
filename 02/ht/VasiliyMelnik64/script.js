@@ -314,6 +314,7 @@ function getCounter(num) {
 /**
  * Написать реализацию метода .myCall, который будет 
  * работать аналогично системному .call и покрыть реализацию тестами
+ * @param {*} context
  */
 Function.prototype.myCall = function (context) {
   var f = this.bind(context);
