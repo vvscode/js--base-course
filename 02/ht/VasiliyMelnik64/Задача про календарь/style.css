@@ -1,0 +1,49 @@
+#calendar-block {
+    width: 50%;
+    margin: 5% auto;
+    text-align: center;
+    position: relative;
+}
+#calendar, #date {
+    width: 80%;
+    margin: 0 auto;
+}
+table {
+    width: 100%;
+}
+th, td {
+    border: 1px solid black;
+    padding: 3%;
+}
+td:hover, button:hover {
+    background-color: orangered;
+    color: white;
+    cursor: pointer;
+}
+button {
+    width: 7%;
+    padding: 1% 2%;
+    position: absolute;
+    top: 45%;
+    right: 0;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 1.5vw;
+    font-weight: bold;
+    background-color: white;
+}
+#date {
+    padding: 1% 0;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-bottom: none;
+}
+#button1 {
+    left: 0;
+}
+#clearStorage {
+    position: relative;
+    display: block;
+    width: 20%;
+    margin: 5% 75%;;
+}

@@ -257,7 +257,9 @@ function solutionOfTaskAboutForm() {
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) { }
+function drawInteractiveCalendar(el) { 
+  //Решение в папке "задача про календарь"
+}
 
 /**
  * создать функцию, которая не может работать как конструктор 
