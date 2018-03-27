@@ -233,7 +233,7 @@ User.prototype.constructor = PreUser;
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+
 
 const sleep = (add) => {
   const realDate = Date;
@@ -421,3 +421,10 @@ class Calendar {
     });
   };
 };
+
+function drawInteractiveCalendar(el) {
+  new Calendar(el);
+};
+
+drawInteractiveCalendar(document.body);
+drawInteractiveCalendar(document.body)
