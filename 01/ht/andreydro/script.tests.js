@@ -9,7 +9,7 @@ var assert = chai.assert;
 
 describe('fizzBuzz', function() {
     it('функция', function() {
-        return assert.isOk(typeof isPolindrom === 'function');
+        return assert.isOk(typeof fizzBuzz === 'function');
     });
 
     var result = '\n1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz\nFizz\n22\n23\nFizz\nBuzz\n26\nFizz\n28\n29\nFizzBuzz\n31\n32\nFizz\n34\nBuzz\nFizz\n37\n38\nFizz\nBuzz\n41\nFizz\n43\n44\nFizzBuzz\n46\n47\nFizz\n49\nBuzz\nFizz\n52\n53\nFizz\nBuzz\n56\nFizz\n58\n59\nFizzBuzz\n61\n62\nFizz\n64\nBuzz\nFizz\n67\n68\nFizz\nBuzz\n71\nFizz\n73\n74\nFizzBuzz\n76\n77\nFizz\n79\nBuzz\nFizz\n82\n83\nFizz\nBuzz\n86\nFizz\n88\n89\nFizzBuzz\n91\n92\nFizz\n94\nBuzz\nFizz\n97\n98\nFizz\nBuzz';
@@ -152,6 +152,36 @@ describe('isDeepEqual', function() {
         let a = 1;
         let b = 2;
         return assert.isOk(isDeepEqual(a, b) === false);
+    });
+});
+
+describe('spiral', function() {
+    it('функция', function() {
+        return assert.isOk(typeof spiral === 'function');
+    });
+    it('работает с двухмерным массивом(2 элемента)', function() {
+        return assert.isOk(isDeepEqual(spiral([[4,5], [6,7]]),[4,5,7,6]));
+    });
+    it('работает с двухмерным массивом(3 элемента)', function() {
+        return assert.isOk(isDeepEqual(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), [1, 2, 3, 6, 9, 8, 7, 4, 5]));
+    });
+    it('работает с двухмерным массивом(4 элемента)', function() {
+        return assert.isOk(isDeepEqual(spiral([[1, 2, 3, 4, 5],[6, 7, 8, 9, 10],[11, 12, 13, 14, 15],[16, 17, 18, 19, 20]]),[1,2,3,4,5,10,15,20,19,18,17,16,11,6,7,8,9,14,13,12]));
+    });
+});
+
+describe('quadraticEquation', function() {
+    it('функция', function() {
+        return assert.isOk(typeof quadraticEquation === 'function');
+    });
+    it('пример 1 с вещественным корнем', function() {
+        return assert.isOk(isDeepEqual(quadraticEquation(1, 12, 36),[-6]));
+    });
+    it('пример 2 с вещественными корнями', function() {
+        return assert.isOk(isDeepEqual(quadraticEquation(1, 6, 1), [-0.1715728752538097, -5.82842712474619]));
+    });
+    it('пример 3 без вещественных корней', function() {
+        return assert.isOk(isDeepEqual(quadraticEquation(1, -8, 72),[]));
     });
 });
 
