@@ -315,16 +315,34 @@ function getCounter(num) {
  * Написать реализацию метода .myCall, который будет 
  * работать аналогично системному .call и покрыть реализацию тестами
  */
-Function.prototype.myCall = function (context) { 
-  context = (typeof(context) === 'object') ? context : window;
-  var func = this;
-  var obj = {};
-  obj.method = c;
-  var args = arguments;
-  with (context) {
-    return obj.method(args[1]);
+Function.prototype.myCall = function (context) {
+  switch (typeof context) { 
+    case 'number': context = new Number(context);
+      break;
+    case 'string': context = new String(context);
+      break;
+    case 'boolean': context = new Boolean(context);
+      break;
+    case 'object': {
+      if (context == null) {
+        context = window;
+      }
+    }
+      break;
+    default: context = window;
+      break;  
   }
+  var obj = {};
+  obj.func = this;
+  context.func = obj.func;
+  var f = context.func.bind(context);
+
+  for (var i = 1; i <= arguments.length; i++) { 
+    f = f.bind(window, arguments[i]);
+  }
+  return f();
 };
+
 /**
  * Создать синхронную функцию sleep(seconds) так, чтобы работал код
  * console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
@@ -337,6 +355,6 @@ Function.prototype.myCall = function (context) {
 function sleep(num) { 
   var date = new Date();
   while (new Date() <= +date + num * 1000) { 
-    
+
   }
 }
