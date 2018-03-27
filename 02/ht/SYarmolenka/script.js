@@ -56,12 +56,10 @@ function bind(func, context) {
 
 Function.prototype.myBind = function() {
   const func = this;
-  arguments.slice = [].slice;
-  const args = arguments.slice();
-  const context = args.pop();
+  const args = [].slice.call(arguments);
+  const context = args.shift();
   return function () {
-    arguments.slice = [].slice;
-    return func.apply(context, args.concat(arguments.slice()));
+    return func.apply(context, args.concat([].slice.call(arguments)));
   }
 };
 
@@ -234,11 +232,10 @@ User.prototype.constructor = PreUser;
 Добавть на страницу index.html вызов календаря
 */
 
-
 const sleep = (add) => {
-  const realDate = Date;
-  Date = function () {
-    return new realDate(realDate.now() + add * 1000);
+  const date = Date.now();
+  while (Date.now() < date + add * 1000) {
+    1 === 1;
   };
 };
 
