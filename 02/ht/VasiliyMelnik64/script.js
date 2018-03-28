@@ -335,11 +335,14 @@ Function.prototype.myCall = function (context) {
  */
 
 function sleep(num) { 
-  var date = new Date();
-  while (new Date() <= +date + num * 1000) { 
+  var date = +new Date() + num * 1000;
+  while (new Date() <= date) { 
 
   }
 }
+console.log('one');
+sleep(5);
+console.log('one');
 /**
  * Написать реализацию функций debounce и throttle и покрыть 
  * реализации тестами. Функции должны с сигнатурой debounce(fun, 
