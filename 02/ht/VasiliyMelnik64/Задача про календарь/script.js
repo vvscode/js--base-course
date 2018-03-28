@@ -35,7 +35,7 @@ function drawInteractiveCalendar(el) {
     var calendarBlock = document.getElementById('calendar-block');
     var tasks = document.getElementById('tasks');
     var clear = document.getElementById('clearStorage');
-
+ 
     if (addEventListener) {
         calendarBlock.addEventListener('click', addActivity, false);
         clear.addEventListener('click', clearStorage);

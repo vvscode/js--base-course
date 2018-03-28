@@ -37,15 +37,15 @@ button {
     font-weight: bold;
     background-color: white;
 }
-#button1 {
+#leftButton {
     left: 0;
     box-shadow: 2px 2px 2px gray;
 }
-#button2 {
+#rightButton {
     right: 0;
     box-shadow: -2px 2px 2px gray;
 }
-#button1:active, #button2:active {
+#leftButton:active, #rightButton:active {
     box-shadow: none;
 }
 #date {
