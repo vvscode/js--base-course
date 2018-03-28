@@ -6,13 +6,67 @@
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
  * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
+ * @param {*} objA
+ * @param {*} objB
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
   /* Ваше решение */
-  return undefined;
+    if (typeof objA === "number" && typeof objB === "number") {
+        if (objA !== objB) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    if (typeof objA === "string" && typeof objB === "string") {
+        if (objA.length !== objB.length) {
+            return false;
+        }
+        for (var j = 0; j < objA.length; j++) {
+            if (objA.charAt(j) !== objB.charAt(j)) {
+                return false;
+            }
+        }
+    }
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        if (objA.length !== objB.length) {
+            return false;
+        } else {
+            for (var k = 0; k < objA.length; k++) {
+                if (objA[k] !== objB[k]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    if (typeof objA === "object" && typeof objB === "object") {
+        if (Object.keys(objA).length !== Object.keys(objB).length) {
+            return false;
+        }
+        function checkingObjects(objA, objB) {
+            for (var key in objA) {
+                if (objA.hasOwnProperty(key)) {
+                    if (objB.hasOwnProperty(key)) {
+// проверка на распознание разных объектов не работает var a = { a: 1, b: 3, c: 2 }; var b = { a: 1, b: 4, c: 2 };
+                        if (objA[key] !== objB[key]) {
+                            return false;
+                        }
+                        if (typeof objA[key] === "object") {
+                            if (!checkingObjects(objA[key], objB[key])) {
+                                return false;
+                            }
+                        }
+                    }
+                    else if (objB.hasOwnProperty(key) === false){
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }
 
 /**
@@ -21,32 +75,33 @@ function isDeepEqual(objA, objB) {
  * @param {*} context значение для this
  * @return {function} функция с зафиксированным контекстом
  */
-function bind(func, context) {
-  return undefined;
-}
-
+var bind = function(func, context) {
+    return function func(){
+        return (this);
+    }
+};
 /**
- * Реализовать метод .myBind для всех функций, 
+ * Реализовать метод .myBind для всех функций,
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
 
 /**
-* создать объект с волшебным свойством, 
-* чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. 
-* А при чтении всегда выводилось число на 1 больше предыдущего
-* o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
-* console.log(o.magicProperty); // 6
-* console.log(o.magicProperty); // 7
-* console.log(o.magicProperty); // 8
-*/
+ * создать объект с волшебным свойством,
+ * чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем.
+ * А при чтении всегда выводилось число на 1 больше предыдущего
+ * o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+ * console.log(o.magicProperty); // 6
+ * console.log(o.magicProperty); // 7
+ * console.log(o.magicProperty); // 8
+ */
 
 /**
-* Создать конструктор с методами, так, 
-* чтобы следующий код работал и делал соответствующие вещи
-* те запуск кода ниже должен делать то, что говорят методы
-* u.askName().askAge().showAgeInConsole().showNameInAlert();
-*/
+ * Создать конструктор с методами, так,
+ * чтобы следующий код работал и делал соответствующие вещи
+ * те запуск кода ниже должен делать то, что говорят методы
+ * u.askName().askAge().showAgeInConsole().showNameInAlert();
+ */
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -56,28 +111,58 @@ function bind(func, context) {
  */
 function calculate() {
   /* put your code here */
-}
+    function operator(a){
+        if (a === '+'){
+            return function(b){
+                return function(c){
+                    b + c;
+                }
+            }
+        }
+        if (a === '-'){
+            return function(b){
+                return function(c){
+                    b - c;
+                }
+            }
+        }
+        if (a === '*'){
+            return function(b){
+                return function(c){
+                    b * c;
+                }
+            }
+        }
+        if (a === '/'){
+            return function(b){
+                return function(c){
+                    b / c;
+                }
+            }
+        }
+    }
 
+}
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
 function Singleton() {
-  throw "undefined";
+    throw "undefined";
 }
 
 /**
-  * Создайте функцию ForceConstructor
-  * которая работает как конструктор независимо от того,
-  * вызвана она с new или без
-  * и сохраняет параметры в создаваемый объект с именами параметров
-  */
+ * Создайте функцию ForceConstructor
+ * которая работает как конструктор независимо от того,
+ * вызвана она с new или без
+ * и сохраняет параметры в создаваемый объект с именами параметров
+ */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+    throw "undefined";
 }
 
 /**
- * Написать фукнцию сумматор, которая будет работать 
+ * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
  * log(s); // 0
  * log(s(1)); // 1
@@ -86,35 +171,35 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum() {
-  throw "undefined";
+    throw "undefined";
 }
 
 function log(x) {
-  console.log(+x);
+    console.log(+x);
 }
 
 /**
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
  * пример работы  функции
- * 
+ *
  * function target1(a,b,c,d) { return a + b + c + d }
  * function target2(a,b) { return a + b }
  * curry(target1)(1)(2)(3)(4) // 10
  * curry(target2)(5)(8) // 13
- * 
+ *
  * Примеры тестов смотреть в файле тестов
- * 
+ *
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
- * @param {*} func 
+ * @param {*} func
  */
 function curry(func) {}
 
 /*
-Написать код, который для объекта созданного с помощью конструктора будет показывать, 
-что объект является экземпляром двух классов
-*/
+ Написать код, который для объекта созданного с помощью конструктора будет показывать,
+ что объект является экземпляром двух классов
+ */
 /* Тут ваш код */
 // User === PreUser; // false
 // u instanceof User; // true
@@ -122,20 +207,20 @@ function curry(func) {}
 // u instanceof PreUser; // true
 
 /*
-Создать веб страницу. Добавить на нее форму с полями 
-- имя (строкое поле), 
-- родной город (Выпадающий список), 
-- Комментарий (многострочное поле), пол (radiobutton). 
-При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
-после чего поля очистить.
-*/
+ Создать веб страницу. Добавить на нее форму с полями
+ - имя (строкое поле),
+ - родной город (Выпадающий список),
+ - Комментарий (многострочное поле), пол (radiobutton).
+ При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
+ после чего поля очистить.
+ */
 
 /* 
-Используя функцию drawCalendar из прошлого урока
-создать функцию drawInteractiveCalendar(el)
-Которая выводит календарь, в шапке которого отображается
-[<] месяц / год [>]
-При клике по кнопкам [<] / [>] нужно реализовать листание календаря
-Добавть на страницу index.html вызов календаря
-*/
+ Используя функцию drawCalendar из прошлого урока
+ создать функцию drawInteractiveCalendar(el)
+ Которая выводит календарь, в шапке которого отображается
+ [<] месяц / год [>]
+ При клике по кнопкам [<] / [>] нужно реализовать листание календаря
+ Добавть на страницу index.html вызов календаря
+ */
 function drawInteractiveCalendar(el) {}
