@@ -11,12 +11,13 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-  /* Ваше решение */
+    /* Ваше решение */
     if (typeof objA === "number" && typeof objB === "number") {
-        if (objA !== objB) {
-            return false;
-        } else {
+        if(isNaN(objA) && isNaN(objB)) {
             return true;
+        }
+        else if (objA !== objB) {
+            return false;
         }
     }
     if (typeof objA === "string" && typeof objB === "string") {
@@ -45,47 +46,74 @@ function isDeepEqual(objA, objB) {
         if (Object.keys(objA).length !== Object.keys(objB).length) {
             return false;
         }
-        function checkingObjects(objA, objB) {
-            for (var key in objA) {
-                if (objA.hasOwnProperty(key)) {
-                    if (objB.hasOwnProperty(key)) {
-// проверка на распознание разных объектов не работает var a = { a: 1, b: 3, c: 2 }; var b = { a: 1, b: 4, c: 2 };
-                        if (objA[key] !== objB[key]) {
+        for (var key in objA) {
+            if (objA.hasOwnProperty(key)) {
+                if (objB.hasOwnProperty(key)) {
+                    if (objA === objA[key] && objB === objB[key]){
+                        return true;
+                    }
+                    else if (typeof objA[key] === "object") {
+                        if (!isDeepEqual(objA[key], objB[key])) {
                             return false;
                         }
-                        if (typeof objA[key] === "object") {
-                            if (!checkingObjects(objA[key], objB[key])) {
-                                return false;
-                            }
-                        }
                     }
-                    else if (objB.hasOwnProperty(key) === false){
+                    else if(isNaN(key) && isNaN(objA[key])){
+                        return true;
+                    }
+                    else if (objA[key] !== objB[key]) {
                         return false;
                     }
                 }
             }
         }
+
     }
     return true;
 }
-
 /**
  * Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
  * @param {*} context значение для this
  * @return {function} функция с зафиксированным контекстом
  */
-var bind = function(func, context) {
-    return function func(){
-        return (this);
+function bind(func, context) {
+    var arg1, arg2;
+    return function (){
+        return func.call(context, arg1, arg2);
+
     }
-};
+}
+/**
+ it("Пробрасывает параметры контекстом", function() {
+ bind(function() {
+ assert.isOk(arguments.length === 0);
+ }, {})();
+ bind(function() {
+ assert.isOk(arguments.length === 1);
+ assert.isOk(arguments[0] === 1);
+ }, {})(1);
+ bind(function() {
+ assert.isOk(arguments.length === 3);
+ assert.isOk(arguments[0] === 1);
+ assert.isOk(arguments[1] === 2);
+ assert.isOk(arguments[2] === "три");
+ }, {})(1, 2, "три");
+ });
+ });
+ */
+
 /**
  * Реализовать метод .myBind для всех функций,
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
-
+var allFunction = {
+    myBind: function(){
+        return function(){
+         return func.call(context, arg1)
+        }
+    }
+};
 /**
  * создать объект с волшебным свойством,
  * чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем.
@@ -95,14 +123,32 @@ var bind = function(func, context) {
  * console.log(o.magicProperty); // 7
  * console.log(o.magicProperty); // 8
  */
-
+var o = {
+    magicProperty: function(){
+        console.log(new Data);
+    }
+};
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
-
+/**
+var u = {
+    askName: function(){
+        this.name = prompt("Вaше имя?", "Bob");
+    }
+    askAge: function(){
+        this.age = prompt("Ваш возраст?", "0");
+    }
+    showAgeInConsole: function(){
+        console.log(this.age);
+    }
+    showNameInAlert: function(){
+        console.log(this.name);
+    }
+};
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -111,32 +157,33 @@ var bind = function(func, context) {
  */
 function calculate() {
   /* put your code here */
+    operator();
     function operator(a){
-        if (a === '+'){
+        if (this.a === '+'){
             return function(b){
                 return function(c){
-                    b + c;
+                    return (b + c);
                 }
             }
         }
-        if (a === '-'){
+        if (this.a === '-'){
             return function(b){
                 return function(c){
-                    b - c;
+                    return(b - c);
                 }
             }
         }
-        if (a === '*'){
+        if (this.a === '*'){
             return function(b){
                 return function(c){
-                    b * c;
+                    return(b * c);
                 }
             }
         }
-        if (a === '/'){
+        if (this.a === '/'){
             return function(b){
                 return function(c){
-                    b / c;
+                    return(b / c);
                 }
             }
         }
