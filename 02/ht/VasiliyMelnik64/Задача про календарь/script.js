@@ -44,7 +44,7 @@ function drawInteractiveCalendar(el) {
     else if (attachEvent) {
         calendarBlock.attachEvent('onclick', addActivity);
         clear.attachEvent('onclick', clearStorage);
-        window.attachEven('onload', fillTasks);
+        window.attachEvent('onload', fillTasks);
     }
     else {
         calendarBlock.onclick = addActivity;
