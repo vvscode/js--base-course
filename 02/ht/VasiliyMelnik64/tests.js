@@ -90,10 +90,18 @@ describe(".myCall", function() {
     });
 });
 
-describe("getCounter", function() {
-    it("getCounter - функция", function() {
-        return assert.isOk(typeof getCounter === 'function');
-    });
+describe("getCounter", function () {
+    var methods = ['log', 'add', 'reset'];
+    var simpleObject = getCounter();
+    for (var i = 0; i < methods.length; i++) {
+        var method = methods[i];
+        it(methods[i] + " - функция", function() {
+            return assert.isOk(typeof simpleObject[method] === 'function');
+        });
+        it(methods[i] + " возвращает ссылку на объект", function () {
+            return assert.isOk(simpleObject === simpleObject[method]());
+        });
+    }
     it("поддерживает цепочку вызовов", function () {
         var c = getCounter(5);
         var result = c
@@ -109,6 +117,7 @@ describe("getCounter", function() {
         assert.isOk(+result === 8);
     });
 });
+
 describe("drawInteractiveCalendar", function () {
     it("drawInteractiveCalendar - функция", function() {
         return assert.isOk(typeof drawInteractiveCalendar === 'function');
