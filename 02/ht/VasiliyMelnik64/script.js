@@ -270,9 +270,8 @@ function EmptyConstructor(a, b, c) {
   this.b = b;
   this.c = c;
   if (this instanceof EmptyConstructor) {
-      return {};
+      throw new Error('Функция не может быть конструктором');
   }
-  return null;
 }
 
 /**

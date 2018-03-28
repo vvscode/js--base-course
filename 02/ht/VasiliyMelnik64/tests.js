@@ -8,9 +8,14 @@ describe("EmptyConstructor", function() {
     it("функция", function() {
         return assert.isOk(typeof EmptyConstructor === "function");
     });
-    it("не является конструкторои", function() {
-        assert.isOk(new EmptyConstructor() instanceof EmptyConstructor === false);
-        assert.isOk(EmptyConstructor() instanceof EmptyConstructor === false);
+    it("не является конструктором", function () {
+        try {
+            new EmptyConstructor(1, 2, 3);
+        } catch (e) { 
+            var name = e.name;
+            var message = e.message;
+        }
+        return assert.isOk(name === "Error" && message === "Функция не может быть конструктором");
     });
 });
 
