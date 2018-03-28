@@ -25,31 +25,26 @@ function log(a) {
 function fizzBuzz() {
     var array = [];
     for (var a = 1; a <= 100; a++) {
-        while (a % 3 != 0) {
-            while (a % 5 != 0) {
-                array.push(a);
-                break;
-            }
-            while (a % 5 == 0) {
-                array.push('Buzz');
-                break;
-            }
+        while (a % 5 != 0 && a % 3 != 0) {
+            array.push(a);
             break;
         }
-        while (a % 3 == 0) {
-            while (a % 5 == 0) {
-                array.push('FizzBuzz');
-                break;
-            }
-            while (a % 5 != 0) {
-                array.push('Fizz');
-                break;
-            }
+        while (a % 5 == 0 && a % 3 != 0) {
+            array.push('Buzz');
+            break;
+        }
+        while (a % 5 == 0 && a % 3 == 0) {
+            array.push('FizzBuzz');
+            break;
+        }
+        while (a % 5 != 0 && a % 3 == 0) {
+            array.push('Fizz');
             break;
         }
     }
     array.forEach(log);
 }
+
 
 /**
  * реализовать фукнцию  `isPolindrom`, 
@@ -59,7 +54,7 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    if (textString[0] == textString[textString.length - 1]) {
+    if (textString[0] == textString[textString.length - 1] && textString[1] == textString[textString.length - 2]) {
         return true;
     } else if (textString === "") {
         return true;
@@ -77,7 +72,34 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+    var date = new Date(year, month - 1);
+
+    function checkWeekDay(date) {
+        var WeekDay = date.getDay();
+        if (WeekDay == 0) {
+            WeekDay = 7;
+        }
+        return WeekDay - 1;
+    }
+    var table = '<table style="border: 1px solid black;border-collapse:collapse"><tr style="border: 1px solid black;border-collapse:collapse;"><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th><th>ПТ</th><th>СБ</th><th>ВС</th></tr><tr>';
+    for (var i = 0; i < checkWeekDay(date); i++) {
+        table += '<td></td>';
+    }
+    while (date.getMonth() == month - 1) {
+        table += '<td>' + date.getDate() + '</td>';
+        if (checkWeekDay(date) % 7 == 6) {
+            table += '</tr><tr>';
+        }
+        date.setDate(date.getDate() + 1);
+    }
+    if (checkWeekDay(date) != 0) {
+        for (i = checkWeekDay(date); i < 7; i++) {
+            table += '<td></td>';
+        }
+    }
+    table += '</td></table>';
+    htmlEl.innerHTML = '';
+    htmlEl.innerHTML = table;
 }
 
 /**
@@ -88,6 +110,7 @@ function drawCalendar(year, month, htmlEl) {
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+ 
 function isDeepEqual(objA, objB) {
     if (objA == objB) {
         return true;
