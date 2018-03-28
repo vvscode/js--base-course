@@ -99,8 +99,6 @@ function isDeepEqual(objA, objB) {
     if (typeof objA === "number" && typeof objB === "number") {
         if (objA !== objB) {
             return false;
-        } else {
-            return true;
         }
     }
     if (typeof objA === "string" && typeof objB === "string") {
@@ -129,21 +127,15 @@ function isDeepEqual(objA, objB) {
         if (Object.keys(objA).length !== Object.keys(objB).length) {
             return false;
         }
-        function checkingObjects(objA, objB) {
-            for (var key in objA) {
-                if (objA.hasOwnProperty(key)) {
-                    if (objB.hasOwnProperty(key)) {
-// проверка на распознание разных объектов не работает var a = { a: 1, b: 3, c: 2 }; var b = { a: 1, b: 4, c: 2 };
-                        if (objA[key] !== objB[key]) {
+        for (var key in objA) {
+            if (objA.hasOwnProperty(key)) {
+                if (objB.hasOwnProperty(key)) {
+                    if (typeof objA[key] === "object") {
+                        if (!isDeepEqual(objA[key], objB[key])) {
                             return false;
                         }
-                        if (typeof objA[key] === "object") {
-                            if (!checkingObjects(objA[key], objB[key])) {
-                                return false;
-                            }
-                        }
                     }
-                    else if (objB.hasOwnProperty(key) === false){
+                    else if (objA[key] !== objB[key]) {
                         return false;
                     }
                 }
@@ -152,7 +144,6 @@ function isDeepEqual(objA, objB) {
     }
     return true;
 }
-
 /**
  * Написать функцию `spiral`
  * которая принимает на вход двумерный массив
@@ -197,14 +188,18 @@ function spiral(arr) {
 function quadraticEquation(a, b, c) {
     var discriminant = b * b - 4 * a * c;
     var x1, x2;
+    var result = [];
     if (discriminant < 0) {
-        return [];
+        return result;
     } else if (discriminant > 0) {
         x1 = (-b + Math.sqrt(discriminant)) / 2 * a;
         x2 = (-b - Math.sqrt(discriminant)) / 2 * a;
-        return [x1, x2];
+        result.push(x1);
+        result.push(x2);
+        return result;
     } else if (discriminant === 0) {
         x1 = -b / 2 * a;
-        return [x1];
+        result.push(x1);
+        return result;
     }
 }
