@@ -147,4 +147,47 @@ describe('debounce', function() {
         }, 350);
         setTimeout(done, 350);
     });
-  });
+});
+  
+describe('throttle', function() {
+    it('Функция вызывается через определенный промежуток времени', function(temp) {
+        var test = 0;
+        var f = throttle(function (a) {
+            test = a;
+        }, 100);
+
+        assert.equal(test, 0, 'проверка начального состояния');
+        f(1);
+        assert.equal(test, 1, 'отработал первый вызов');
+        setTimeout(function () {
+            f(2);
+        }, 150);
+        setTimeout(function () {
+            assert.equal(test, 2, 'сработал второй вызов (после истечения таймера)');
+        }, 160);
+        setTimeout(temp, 200);
+    });
+    it('Не возникает ошибок при повторых вызовах', function (temp) {
+        var test = 0;
+        var f = throttle(function (a) {
+            test = a;
+        }, 100);
+
+        assert.equal(test, 0, 'проверка начального состояния');
+        f(1);
+        assert.equal(test, 1, 'отработал первый вызов');
+        setTimeout(function () {
+            f(2);
+        }, 50);
+        setTimeout(function () {
+            assert.equal(test, 1, 'преждевременный вызов не изменил значение');
+        }, 60);
+        setTimeout(function () {
+            f(3);
+        }, 150);
+        setTimeout(function () {
+            assert.equal(test, 3, 'второй вызов отработал после истечения таймера');
+        }, 160);
+        setTimeout(temp, 200);
+    });
+});       
