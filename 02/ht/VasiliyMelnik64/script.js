@@ -178,7 +178,7 @@ function sum() {
   function finalSum(a) { 
     return sum(firstArg + (a || 0));
   }
-  finalSum.toString = function () { 
+  finalSum.valueOf = function () { 
     return firstArg;
   };
   return finalSum; 
