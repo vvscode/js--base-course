@@ -12,6 +12,7 @@ table {
     width: 545px;
     border: 1px solid black;
     border-collapse:collapse;
+    box-shadow: 2px 2px 2px gray;
 }
 th, td {
     border: 1px solid black;
@@ -22,9 +23,12 @@ td:hover, button:hover {
     color: white;
     cursor: pointer;
 }
+td:active {
+    box-shadow: inset 3px 3px 3px black;
+}
 button {
     width: 50px;
-    padding: 10px 20px;
+    padding: 9px 19px;
     position: absolute;
     top: 0;
     text-align: center;
@@ -35,9 +39,14 @@ button {
 }
 #button1 {
     left: 0;
+    box-shadow: 2px 2px 2px gray;
 }
 #button2 {
     right: 0;
+    box-shadow: -2px 2px 2px gray;
+}
+#button1:active, #button2:active {
+    box-shadow: none;
 }
 #date {
     padding: 10px 0;
@@ -50,6 +59,10 @@ button {
     display: block;
     width: 200px;
     margin: 25px 0 25px 345px;
+    box-shadow: 2px 2px 2px gray;
+}
+#clearStorage:active {
+    box-shadow: none;
 }
 #tasks {
     width: 545px;

@@ -23,7 +23,7 @@ describe("Hedgehog", function() {
         assert.isOk(new Hedgehog() instanceof Hedgehog === true);
     });
     it("работает вызов методов по цепочке", function() {
-        return assert.isOk(typeof new Hedgehog().showAgeInConsole().showNameInAlert() === 'object');
+        return assert.isOk(typeof new Hedgehog().showNameInAlert().showAgeInConsole() === 'object');
     });
 });
 
@@ -104,3 +104,47 @@ describe("getCounter", function() {
         assert.isOk(+result === 8);
     });
 });
+describe("drawInteractiveCalendar", function () {
+    it("drawInteractiveCalendar - функция", function() {
+        return assert.isOk(typeof drawInteractiveCalendar === 'function');
+    });
+    it("drawCalendar - функция", function() {
+        return assert.isOk(typeof drawCalendar === 'function');
+    });
+});
+
+describe('debounce', function() {
+    it('Срабатывает через  определнный период времени', function(done) {
+        var temp= 0;
+        var f = debounce(function (arg) {
+            temp = arg;
+        }, 100);
+      f(1);
+      assert.equal(temp, 0, 'проверка начального состояния');
+        setTimeout(function () {
+            assert.equal(temp, 0, 'значение неизменно до окончания таймера');
+        }, 50);
+        setTimeout(function () {
+            assert.equal(temp, 1, 'значение изменено после таймера');
+        }, 120);
+        setTimeout(done, 150);
+    });
+    it('Правильно работает при повторых вызовах', function(done) {
+        var temp = 0;
+        var f = debounce(function (arg) {
+            temp = arg;
+        }, 200);
+        f(1);
+        assert.equal(temp, 0, 'проверка начального состояния');
+        setTimeout(function () {
+            f(2);
+        }, 100);
+        setTimeout(function () {
+            assert.equal(temp, 0, 'значение не изменилось после второго вызова');
+        }, 250);
+        setTimeout(function () {
+            assert.equal(temp, 2, 'значение изменено после истечения таймера');
+        }, 350);
+        setTimeout(done, 350);
+    });
+  });

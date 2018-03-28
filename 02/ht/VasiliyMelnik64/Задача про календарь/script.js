@@ -78,7 +78,6 @@ function drawInteractiveCalendar(el) {
         drawCalendar(year, month, el);
     }
 
-    
     function fillTasks() {
         var keys = Object.keys(localStorage);
         keys.forEach(function (elem, i, arr) { 
@@ -113,7 +112,5 @@ function drawInteractiveCalendar(el) {
     }
     drawCalendar(year, month, el);
 }
-
-
 var el = document.getElementById('calendar');
 drawInteractiveCalendar(el);

@@ -100,7 +100,7 @@ Hedgehog.prototype.showAgeInConsole = function () {
   return this;
 };
 Hedgehog.prototype.showNameInAlert = function () { 
-  alert(this.name);
+  //alert(this.name);
   return this;
 };
 
@@ -340,4 +340,22 @@ function sleep(num) {
   while (new Date() <= +date + num * 1000) { 
 
   }
+}
+/**
+ * Написать реализацию функций debounce и throttle и покрыть 
+ * реализации тестами. Функции должны с сигнатурой debounce(fun, 
+ * delay) / throttle(fun, delay)
+ */
+function debounce(fun, delay) {
+  var count = null;
+  return function () {
+      var args = arguments;
+      if(count) {
+          clearTimeout(count);
+      }
+      count = setTimeout(function() {
+          fun.apply(null, args);
+          count = null;
+      }, delay);
+  }; 
 }
