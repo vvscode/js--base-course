@@ -233,8 +233,8 @@ User.prototype.constructor = PreUser;
 */
 
 const sleep = (add) => {
-  const date = Date.now();
-  while (Date.now() < date + add * 1000) {
+  const date = Date.now() + add * 1000;
+  while (Date.now() < date) {
     1 === 1;
   };
 };
