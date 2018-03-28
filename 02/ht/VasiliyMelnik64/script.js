@@ -111,29 +111,26 @@ Hedgehog.prototype.showNameInAlert = function () {
  * Допустимые операции : + - * /
  */
 function calculate() {
+  var args = arguments;
   var actions = {
-    '+': function (a) { 
-      return function (b) {
-        return a + b;
-      };
+    '+': function (a, b) {
+      return a + b;
     },
-    '-': function (a) { 
-      return function (b) {
-        return a - b;
-      };
+    '-': function (a, b) {
+      return a - b;
     },
-    '*': function (a) { 
-      return function (b) {
-        return a * b;
-      };
+    '*': function (a, b) {
+      return a * b;
     },
-    '/': function (a) { 
-      return function (b) {
-        return a / b;
-      };
+    '/': function (a, b) {
+      return a / b;
     }
   };
-  return actions[arguments[0]];
+  return function (a) { 
+    return function (b) {
+      return actions[args[0]](a, b);
+    };
+  };
 }
 
 /**
