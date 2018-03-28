@@ -340,9 +340,6 @@ function sleep(num) {
 
   }
 }
-console.log('one');
-sleep(5);
-console.log('one');
 /**
  * Написать реализацию функций debounce и throttle и покрыть 
  * реализации тестами. Функции должны с сигнатурой debounce(fun, 
@@ -354,9 +351,7 @@ function debounce(fun, delay) {
   var count = null;
   return function () {
       var args = arguments;
-      if(count) {
-          clearTimeout(count);
-      }
+      clearTimeout(count);
       count = setTimeout(function() {
           fun.apply(null, args);
           count = null;
