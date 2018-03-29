@@ -194,12 +194,21 @@ function quadraticEquation(a, b, c) {
     } else if (discriminant > 0) {
         x1 = (-b + Math.sqrt(discriminant)) / 2 * a;
         x2 = (-b - Math.sqrt(discriminant)) / 2 * a;
+<<<<<<< HEAD
         result.push (x1);
         result.push (x2);
         return result;
     } else if (discriminant === 0) {
         x1 = -b / 2 * a;
         result.push (x1);
+=======
+        result.push(x1);
+        result.push(x2);
+        return result;
+    } else if (discriminant === 0) {
+        x1 = -b / 2 * a;
+        result.push(x1);
+>>>>>>> b085b860e865330e3ed776550f34edbb93c6211e
         return result;
     }
 }
