@@ -79,6 +79,17 @@ describe(".myCall", function() {
     it(".myCall - функция", function() {
         return assert.isOk(typeof Function.prototype.myCall === 'function');
     });
+
+
+    it ('Проверка вызова оригинальной функции', function() {
+        var temp;
+        function func() { 
+            return 'origin';
+        }
+        temp = func.myCall(this);
+        assert.equal(temp, 'origin');
+    });
+    
     it(".myCall работает так же, как и call (без аргументов)", function () {
         var num = 7;
         return assert.isOk(typeof Object.prototype.toString.myCall(num) === 'string');
