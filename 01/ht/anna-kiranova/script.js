@@ -23,29 +23,12 @@ function log(a) {
  */
 function fizzBuzz() {
     for (var i = 1; i <= 100; i++) {
-        var x = true;
-        while ((i % 3) == 0 && (i % 5) == 0) {
-            log('FizzBuzz');
-            x = false;
-            break;
-        }
-        while (x && (i % 3) == 0) {
-            log('Fizz');
-            x = false;
-            break;
-        }
-        while (x && (i % 5) == 0) {
-            log('Buzz');
-            x = false;
-            break;
-        }
-        while (x) {
-            log(i);
-            break;
-        }
+        ((i % 3) == 0 && (i % 5) == 0 && log('FizzBuzz')) ||
+        ((i % 3) == 0 && log('Fizz')) ||
+        ((i % 5) == 0 && log('Buzz')) ||
+        log(i);
     }
 }
-
 
 /**
  * реализовать фукнцию  `isPolindrom`,
