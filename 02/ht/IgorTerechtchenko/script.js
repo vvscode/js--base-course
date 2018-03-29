@@ -10,7 +10,16 @@
  * @param {*} objB 
  * @return {boolean} идентичны ли параметры по содержимому
  */
+
 function isDeepEqual(objA, objB) {
+  var argsPair = '' + arguments[0] + arguments[1]
+  if (argsPair in isDeepEqual) {
+    isDeepEqual[argsPair] += 1
+  } else {
+    isDeepEqual[argsPair] = 1
+  }
+  console.log(objA)
+  console.log(objB)
   if (objA !== objA && objB !== objB) {
     return true
   }
@@ -19,16 +28,19 @@ function isDeepEqual(objA, objB) {
   }
 
   if (typeof objA !== 'object') {
-    console.log(objA + ' === ' + objB)
-    console.log(objA ===  objB)
     return (objA === objB)
   }
 
   if (Object.keys(objA).length !== Object.keys(objB).length) {
     return false;
   }
-
+  
   for (var i in objA) {
+    console.log(argsPair)
+    if (isDeepEqual[argsPair] > 10) {
+      isDeepEqual[argsPair] = 0
+      break
+    }
     if (!isDeepEqual(objA[i], objB[i])) {
       return false;
     }
