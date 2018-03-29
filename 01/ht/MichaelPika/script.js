@@ -4,7 +4,7 @@
 
 /**
  * Функция вывода строк для работы в fizzBuzz
- * @param {*} a 
+ * @param {*} a
  */
 function log(a) {
     console.log(a);
@@ -13,12 +13,12 @@ function log(a) {
 /* Раместите ваш код ниже */
 
 /**
- * реализовать фукнцию `fizzBuzz` 
- * которая выводит числа от 1 до 100. 
- * Если число кратно 3 - вместо числа вывести `Fizz`. 
- * Если кратно 5 - вывести вместо числа `Buzz`. 
- * Если число кратно и 3 и 5 - вывести вместо числа `FizzBuzz`. 
- * Для вывода использовать фукнцию `log` (аналогично заданию в классе). 
+ * реализовать фукнцию `fizzBuzz`
+ * которая выводит числа от 1 до 100.
+ * Если число кратно 3 - вместо числа вывести `Fizz`.
+ * Если кратно 5 - вывести вместо числа `Buzz`.
+ * Если число кратно и 3 и 5 - вывести вместо числа `FizzBuzz`.
+ * Для вывода использовать фукнцию `log` (аналогично заданию в классе).
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
@@ -27,14 +27,14 @@ function fizzBuzz() {
         var a = i;
         ((a % 3 === 0) && (a % 5 === 0) && (a = "FizzBuzz")) ||
         ((a % 3 === 0) && (a = "Fizz")) || ((a % 5 === 0) && (a = "Buzz")) || (a = i);
-            log(a);
-        }
+        log(a);
+    }
 }
 /**
- * реализовать фукнцию  `isPolindrom`, 
+ * реализовать фукнцию  `isPolindrom`,
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
  * является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
- * @param {string} textString 
+ * @param {string} textString
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
@@ -45,12 +45,12 @@ function isPolindrom(textString) {
     return false;
 }
 /**
- * Реализовать фукнцию `drawCalendar` , 
- * которая принимает три аргумента - год, месяц, htmlElement 
- * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).  
- * @param {number} year 
+ * Реализовать фукнцию `drawCalendar` ,
+ * которая принимает три аргумента - год, месяц, htmlElement
+ * и выводит в этот элемент календарь на месяц (дни недели начинаются с понедельника ).
+ * @param {number} year
  * @param {number} month - номер месяца, начиная с 1
- * @param {external:HTMLElement} htmlEl 
+ * @param {external:HTMLElement} htmlEl
  */
 
 function drawCalendar(year, month, htmlEl) {
@@ -68,7 +68,7 @@ function drawCalendar(year, month, htmlEl) {
         }
         return day - 1;
     }
-    for (var j = 0; j < getDayNumber(theDesiredDate); j++) {
+    for (var k = 0; k < getDayNumber(theDesiredDate); k++) {
         table = table + "<td></td>";
     }
     while (theDesiredDate.getMonth() === theDesiredMonth) {
@@ -90,8 +90,8 @@ function drawCalendar(year, month, htmlEl) {
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
  * и проверяет идентичны ли они по содержимому. Например
- * @param {*} objA 
- * @param {*} objB 
+ * @param {*} objA
+ * @param {*} objB
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
@@ -99,8 +99,6 @@ function isDeepEqual(objA, objB) {
     if (typeof objA === "number" && typeof objB === "number") {
         if (objA !== objB) {
             return false;
-        } else {
-            return true;
         }
     }
     if (typeof objA === "string" && typeof objB === "string") {
@@ -129,21 +127,15 @@ function isDeepEqual(objA, objB) {
         if (Object.keys(objA).length !== Object.keys(objB).length) {
             return false;
         }
-        function checkingObjects(objA, objB) {
-            for (var key in objA) {
-                if (objA.hasOwnProperty(key)) {
-                    if (objB.hasOwnProperty(key)) {
-// проверка на распознание разных объектов не работает var a = { a: 1, b: 3, c: 2 }; var b = { a: 1, b: 4, c: 2 };
-                        if (objA[key] !== objB[key]) {
+        for (var key in objA) {
+            if (objA.hasOwnProperty(key)) {
+                if (objB.hasOwnProperty(key)) {
+                    if (typeof objA[key] === "object") {
+                        if (!isDeepEqual(objA[key], objB[key])) {
                             return false;
                         }
-                        if (typeof objA[key] === "object") {
-                            if (!checkingObjects(objA[key], objB[key])) {
-                                return false;
-                            }
-                        }
                     }
-                    else if (objB.hasOwnProperty(key) === false){
+                    else if (objA[key] !== objB[key]) {
                         return false;
                     }
                 }
@@ -152,7 +144,6 @@ function isDeepEqual(objA, objB) {
     }
     return true;
 }
-
 /**
  * Написать функцию `spiral`
  * которая принимает на вход двумерный массив
@@ -172,7 +163,7 @@ function spiral(arr) {
             resultArr.push(arr[valDown][arrLength.length - 1 - j]);
             counter--;
         }
-        for (var valLeft = arrLength.length - 1 - j; valLeft !== j && counter !== 0; valLeft--) {
+        for (var valLeft = arrLength.length - 1 - j; valLeft !== j && counter !== 0; valLeft--){
             resultArr.push(arr[arr.length - 1 - j][valLeft - 1]);
             counter--;
         }
@@ -182,7 +173,7 @@ function spiral(arr) {
         }
         j++;
     }
-        return resultArr;
+    return resultArr;
 }
 /**
  * Написать функцию `quadraticEquation`
@@ -197,14 +188,18 @@ function spiral(arr) {
 function quadraticEquation(a, b, c) {
     var discriminant = b * b - 4 * a * c;
     var x1, x2;
+    var result = [];
     if (discriminant < 0) {
-        return [];
+        return result;
     } else if (discriminant > 0) {
         x1 = (-b + Math.sqrt(discriminant)) / 2 * a;
         x2 = (-b - Math.sqrt(discriminant)) / 2 * a;
-        return [x1, x2];
+        result.push (x1);
+        result.push (x2);
+        return result;
     } else if (discriminant === 0) {
         x1 = -b / 2 * a;
-        return [x1];
+        result.push (x1);
+        return result;
     }
 }
