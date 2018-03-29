@@ -23,27 +23,16 @@ function log(a) {
  */
 
 function fizzBuzz() {
-    var array = [];
     for (var a = 1; a <= 100; a++) {
-        while (a % 5 != 0 && a % 3 != 0) {
-            array.push(a);
-            break;
-        }
-        while (a % 5 == 0 && a % 3 != 0) {
-            array.push('Buzz');
-            break;
-        }
-        while (a % 5 == 0 && a % 3 == 0) {
-            array.push('FizzBuzz');
-            break;
-        }
-        while (a % 5 != 0 && a % 3 == 0) {
-            array.push('Fizz');
-            break;
-        }
+        log(
+            (!(a % 15) && 'FizzBuzz') ||
+            (!(a % 5) && 'Buzz') ||
+            (!(a % 3) && 'Fizz') ||
+            a
+        );
     }
-    array.forEach(log);
 }
+
 
 
 /**
@@ -56,11 +45,8 @@ function fizzBuzz() {
 function isPolindrom(textString) {
     if (textString == textString.split("").reverse().join("")) {
         return true;
-    } else if (textString === "") {
-        return true;
-    } else {
-        return false;
-    }
+    } 
+    return false;
 }
 
 /**
