@@ -112,5 +112,3 @@ function drawInteractiveCalendar(el) {
     }
     drawCalendar(year, month, el);
 }
-var el = document.getElementById('calendar');
-drawInteractiveCalendar(el);

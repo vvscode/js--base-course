@@ -12,7 +12,7 @@ describe("drawInteractiveCalendar", function () {
         var rightButton = document.getElementById('rightButton');
         var leftButton = document.getElementById('leftButton');
         var table = document.getElementsByTagName('table')[0];
-        var calendar = document.getElementById('alendar');
+        var calendar = document.getElementById('calendar');
     });
     it("drawInteractiveCalendar - функция", function () {
         return assert.isOk(typeof drawInteractiveCalendar == 'function');
@@ -21,58 +21,49 @@ describe("drawInteractiveCalendar", function () {
         return assert.isOk(typeof drawCalendar == 'function');
     });
     it("элемент календарь создан на странице", function () {
+        drawInteractiveCalendar(calendar);
         return assert.isOk(calendar.firstElementChild !== null);
     });
     it("корректно выводит дату", function () {
-        return assert.isOk(document.getElementById('date').innerHTML === 'Март 2018');
+        drawInteractiveCalendar(calendar);
+
+        var date = document.getElementById('date').innerHTML;
+        var monthes = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        var monthIndex = +new Date().getMonth();
+        var year = +new Date().getFullYear();
+
+        assert.isOk(~date.indexOf(monthes[monthIndex]));
+        assert.isOk(~date.indexOf(year));
     });
     it("корректно выводит дату при клике на кнопку 'Назад'", function () {
+        drawInteractiveCalendar(calendar);
         leftButton.click();
-        return assert.isOk(document.getElementById('date').innerHTML === 'Февраль 2018');
+     
+        var date = document.getElementById('date').innerHTML;
+        var monthes = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        var monthIndex = +new Date().getMonth() - 1;
+        var year = +new Date().getFullYear();
+
+        assert.isOk(~date.indexOf(monthes[monthIndex]));
+        assert.isOk(~date.indexOf(year));
     });
     it("корректно выводит дату при клике на кнопку 'Вперед'", function () {
-        rightButton.click();
-        return assert.isOk(document.getElementById('date').innerHTML === 'Март 2018');
-    });
-    it("корректно меняет года вперед", function () {
-        for (var i = 0; i < 10; i++) { 
+        drawInteractiveCalendar(calendar);
+        for (var i = 0; i < 5; i++) {
             rightButton.click();
         }
-        return assert.isOk(document.getElementById('date').innerHTML === 'Январь 2019');
-    });
-    it("корректно меняет года назад", function () {
-        for (var i = 0; i < 15; i++) { 
-            leftButton.click();
-        }
-        return assert.isOk(document.getElementById('date').innerHTML === 'Октябрь 2017');
-    });
-    it("корректно вычисляет високосный год", function () {
-        for (var i = 0; i < 20; i++) { 
-            leftButton.click();
-        }
-        var tableContent = document.getElementsByTagName('table')[0].innerHTML;
-        return assert.isOk(~tableContent.indexOf('29'));
-    });
-    it("корректно выводит любые даты", function () {
-        for (var i = 0; i < 33; i++) { 
-            rightButton.click();
-        }
-        assert.isOk(document.getElementById('date').innerHTML === 'Ноябрь 2018');
-        for (i = 0; i < 100; i++) { 
-            leftButton.click();
-        }
-        assert.isOk(document.getElementById('date').innerHTML === 'Июль 2010');
-        for (i = 0; i < 56; i++) { 
-            rightButton.click();
-        }
-        assert.isOk(document.getElementById('date').innerHTML === 'Март 2015');
-        for (i = 0; i < 36; i++) { 
-            rightButton.click();
-        }
-        assert.isOk(document.getElementById('date').innerHTML === 'Март 2018');
-    });
-    it("генерирует разный html для разных месяцев", function() {
+        var date = document.getElementById('date').innerHTML;
+        var monthes = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        var monthIndex = +new Date().getMonth() + i;
+        var year = +new Date().getFullYear();
+        
 
+        assert.isOk(~date.indexOf(monthes[monthIndex]));
+        assert.isOk(~date.indexOf(year));
+    });
+
+    it("генерирует разный html для разных месяцев", function() {
+        drawInteractiveCalendar(calendar);
         var html1 = calendar.innerHTML;
         rightButton.click();
         var html2 = calendar.innerHTML;
