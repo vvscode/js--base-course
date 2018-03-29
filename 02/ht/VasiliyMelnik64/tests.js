@@ -79,8 +79,6 @@ describe(".myCall", function() {
     it(".myCall - функция", function() {
         return assert.isOk(typeof Function.prototype.myCall === 'function');
     });
-
-
     it ('Проверка вызова оригинальной функции', function() {
         var temp;
         function func() { 
@@ -89,7 +87,6 @@ describe(".myCall", function() {
         temp = func.myCall(this);
         assert.equal(temp, 'origin');
     });
-    
     it(".myCall работает так же, как и call (без аргументов)", function () {
         var num = 7;
         return assert.isOk(typeof Object.prototype.toString.myCall(num) === 'string');
@@ -126,6 +123,35 @@ describe("getCounter", function () {
             return assert.isOk(simpleObject === simpleObject[method]());
         });
     }
+    it("reset сбрасывает результат вычислений до 0, ничего больше не делая", function () {
+        return assert.equal(+simpleObject.reset(), 0);
+    });
+    it("log выводит значение в консоль и возвращает значение, ничего больше не делая", function () {
+        var firstVal = simpleObject.log();
+        var secondtVal = simpleObject.log();
+        var thirdVal = simpleObject.log();
+        return assert.equal(firstVal, thirdVal);
+    });
+    it("log работает корректно", function () {
+        simpleObject.reset();
+        var temp = console.log;
+        var str = '';
+        console.log = function (a) {
+            str += a;
+            temp(a);
+        };
+        simpleObject.log().log().log();
+        console.log = temp;
+        return assert.equal(str, '000');
+    });
+    it("add добавляет указанное число к значению и возвращает значение, ничего больше не делая", function () {
+        var count = 1;
+        simpleObject.reset();
+        var firstVal = +simpleObject.log();
+        var secondVal = +simpleObject.add(count);
+        var thirdVal = +simpleObject.log();
+        return assert.equal(firstVal + count, secondVal);
+    });
     it("поддерживает цепочку вызовов", function () {
         var c = getCounter(5);
         var result = c

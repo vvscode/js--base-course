@@ -300,7 +300,7 @@ function getCounter(num) {
       sum = 0;
       return this;
     },
-    toString: function () { 
+    valueOf: function () { 
       return sum;
     }
   };
