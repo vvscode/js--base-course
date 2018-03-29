@@ -1,6 +1,7 @@
 var button = document.getElementById('button');
 var radios = document.querySelectorAll('input[type="radio"]');
 var inputs = document.getElementsByTagName('input');
+var form = document.getElementById('form');
 
 var user = {
     "Имя": inputs[0],
@@ -32,18 +33,12 @@ function clearRadios(e) {
 function showData(e) { 
     e.preventDefault();
     createUserDescription(user);
-    clearForm(user);
+    form.reset();
 }
-function clearForm(user) { 
-    for (var prop in user) { 
-        user[prop].value = '';
-        user[prop].checked = false;
-    }
-    clearRadios();
-}
-function reset(user) { 
+
+function reset() { 
     alert('Заполните все поля!');
-    clearForm(user);
+    form.reset();
 }
 function createUserDescription(user) { 
     var userBlock = document.getElementById('userBlock');
@@ -51,7 +46,7 @@ function createUserDescription(user) {
     for (var prop in user) { 
         if (prop === 'Пол') {
             if (!user[prop].male.checked && !user[prop].female.checked) { 
-                reset(user);
+                reset();
                 return false;
             }
             block += '<p><div class="div">' + prop + '</div> : ' + user[prop] + '</p>';
@@ -61,7 +56,7 @@ function createUserDescription(user) {
         }
         else {
             if (user[prop].value == '') { 
-                reset(user);
+                reset();
                 return false;
             }
             else {
