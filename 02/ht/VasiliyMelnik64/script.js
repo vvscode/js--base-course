@@ -214,9 +214,6 @@ function curry(func) {
     return f.bind(null);
   };  
 }
-function target1(a, b, c, d) { return a + b + c + d; }
-function target2(a, b) { return a + b; }
-
 /**
  * Написать код, который для объекта созданного с помощью
  * конструктора будет показывать,  что объект является

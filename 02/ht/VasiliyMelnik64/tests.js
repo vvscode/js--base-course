@@ -32,18 +32,31 @@ describe("Hedgehog", function() {
     });
 });
 
-describe("curry", function() {
+describe("curry", function () {
+    var target1, target2, target3, target4;
+    beforeEach(function () {
+        target4 = function (a, b, c, d) { return a + b + c + d; }
+        target3 = function (a, b, c) { return a + b + c; }
+        target2 = function (a, b) { return a + b; }
+        target1 = function (a) { return a; }
+    });
     it("добавить тесты", function() {
         assert.isOk(true === true);
     });
     it("функция", function() {
         return assert.isOk(typeof curry === "function");
     });
-    it("curry(target1)(1)(2)(3)(4) возвращает 10 ", function() {
-        return assert.isOk(curry(target1)(1)(2)(3)(4) === 10);
+    it("curry(target1)(1) возвращает 1 (работает с 2 параметрами)", function() {
+        return assert.equal(curry(target1)(1), 1);
     });
-    it("curry(target2)(5)(8) возвращает 13", function() {
-        return assert.isOk(curry(target2)(5)(8) === 13);
+    it("curry(target2)(1)(2) возвращает 3 (работает с 3 параметрами)", function() {
+        return assert.equal(curry(target2)(1)(2), 3);
+    });
+    it("curry(target3)(1)(2)(3) возвращает 6 (работает с 4 параметрами)", function() {
+        return assert.equal(curry(target3)(1)(2)(3), 6);
+    });
+    it("curry(target4)(1)(2)(3)(4) возвращает 10 (работает с 5 параметрами)", function() {
+        return assert.equal(curry(target4)(1)(2)(3)(4), 10);
     });
 });
 
