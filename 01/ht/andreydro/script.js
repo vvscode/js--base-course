@@ -51,8 +51,8 @@ function isPolindrom(textString) {
 }
 */
 function isPolindrom(textString) {
-    var string = (textString == textString.split("").reverse().join("")) ? true : false;
-    return string;
+    var string = (textString == textString.split("").reverse().join(""));
+    return !!string;
 }
 
 /**
