@@ -27,29 +27,29 @@ function fizzBuzz() {
     var stringNameFrizzBuzz = 'FizzBuzz';
     var startInicializetion = 1;
     (function processing() {
-    for(startInicializetion; startInicializetion <= 100; startInicializetion++){
+        for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
             var a = !!((startInicializetion % 3) === 0);
             var b = !!((startInicializetion % 5) === 0);
             var c = !!(a && b);
-            while(a && !b){
+            while (a && !b) {
                 log(stringNameFizz);
                 break;
             }
-            while(b && !a){
+            while (b && !a) {
                 log(stringNameBuzz);
                 break;
             }
-            while(c){
+            while (c) {
                 log(stringNameFrizzBuzz);
                 break;
             }
-            while(!a && !b){
+            while (!a && !b) {
                 log(startInicializetion);
                 break;
             }
         }
     })();
-   
+
 }
 
 
@@ -61,9 +61,9 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    var polindrom = ''; 
-    textString.split('').forEach(result => {
-       polindrom = result + polindrom;
+    var polindrom = '';
+    textString.split('').forEach((result) => {
+        polindrom = result + polindrom;
     });
     return !!(polindrom == textString);
     // return textString.split('').reverse().join(''); // или
@@ -93,6 +93,36 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+    var stringObject = "object";
+    // /* Ваше решение */
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        return (Array(objA).join('') === Array(objB).join('')) ? true : false;
+    }
+    else if (typeof(objA) === stringObject && typeof (objB) === stringObject) {
+        return (JSON.stringify(objA) === JSON.stringify(objB)) || compareObjects(objA, objB);
+    }
+    else {
+        return (objA === objB) ? true : false;
+    }
+}
+
+function compareObjects(objA, objB) {
+    var resultArray = [];
+    var firstArrayKeys = Object.keys(objA);
+    var secondArrayKeys = Object.keys(objB);
+    var firstArrayValues = Object.values(objA);
+    var secondArrayValues = Object.values(objB);
+    if(firstArrayKeys.length === secondArrayKeys.length){
+        for(var i = 0; i < firstArrayKeys.length ; i++){
+            if(secondArrayKeys.some(elem => elem === firstArrayKeys[i])){
+                resultArray.push(isDeepEqual(firstArrayValues[i], secondArrayValues[secondArrayKeys.indexOf(firstArrayKeys[i])]))   
+            } else {
+                resultArray.push(false);
+            }
+            resultArray.push(secondArrayKeys.some(elem => elem === firstArrayKeys[i]));
+        }
+      return resultArray.every(elem => elem === true);   
+    } else {
+        return false;
+    }
 }
