@@ -98,7 +98,7 @@ function isDeepEqual(objA, objB) {
     if (Array.isArray(objA) && Array.isArray(objB)) {
         return Array(objA).join('') === Array(objB).join('');
     }
-    else if (typeof(objA) === stringObject && typeof (objB) === stringObject) {
+    else if (typeof (objA) === stringObject && typeof (objB) === stringObject) {
         return (JSON.stringify(objA) === JSON.stringify(objB)) || compareObjects(objA, objB);
     }
     else {
@@ -112,27 +112,51 @@ function compareObjects(objA, objB) {
     var secondArrayKeys = Object.keys(objB);
     var firstArrayValues = Object.values(objA);
     var secondArrayValues = Object.values(objB);
-    if(firstArrayKeys.length === secondArrayKeys.length){
-        for(var i = 0; i < firstArrayKeys.length ; i++){
-            if(secondArrayKeys.some(elem => elem === firstArrayKeys[i])){
-                resultArray.push(isDeepEqual(firstArrayValues[i], secondArrayValues[secondArrayKeys.indexOf(firstArrayKeys[i])]))   
+    if (firstArrayKeys.length === secondArrayKeys.length) {
+        for (var i = 0; i < firstArrayKeys.length; i++) {
+            if (secondArrayKeys.some(elem => elem === firstArrayKeys[i])) {
+                resultArray.push(isDeepEqual(firstArrayValues[i], secondArrayValues[secondArrayKeys.indexOf(firstArrayKeys[i])]))
             } else {
                 resultArray.push(false);
             }
         }
-      return resultArray.every(elem => elem === true);   
+        return resultArray.every(elem => elem === true);
     } else {
         return false;
     }
 }
 
-
-function spiral(array){
-    console(array);
-    return fibo(array.chain().join().value());
+function spiral(array) {
+    var newArray = flatten(array);
+    return getSpiralArray(newArray.sort((a, b) => {
+        return a - b;
+    }));
 }
 
-function fibo(arraySort) {
-    console.log(arraySort);
-   //  return fibs = lazy([0, 1])(_ => fibs[_ - 1] + fibs[_ - 2]);
+function getSpiralArray(array, spin) {
+    var countAllValues = array.length;
+    var arraySpiral = [];
+    var spinValueDefoult = 3;
+    var countSpin = Math.floor(array.length / ((spin) ? spin : spinValueDefoult)); // количество витков(min 3)
+    for (var i = 0; i < countAllValues; i++) {
+        if (i % spinValueDefoult === 0) {
+            arraySpiral.push(array.pop());
+        } else {
+            arraySpiral.push(array.shift());
+        }
+    }
+    return arraySpiral;
+}
+
+//метод преобразующий через рекурсию массив любой глубины в одномерный массив
+function flatten(array) {
+    var arrayFlatten = [];
+    for (var i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) {
+            arrayFlatten = arrayFlatten.concat(flatten(array[i]));
+        } else {
+            arrayFlatten.push(array[i]);
+        }
+    }
+    return arrayFlatten;
 }
