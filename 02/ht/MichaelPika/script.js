@@ -77,40 +77,20 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-    var arg1, arg2;
     return function (){
-        return func.call(context, arg1, arg2);
+        return func.apply(context, arguments);
 
     }
 }
-/**
- it("Пробрасывает параметры контекстом", function() {
- bind(function() {
- assert.isOk(arguments.length === 0);
- }, {})();
- bind(function() {
- assert.isOk(arguments.length === 1);
- assert.isOk(arguments[0] === 1);
- }, {})(1);
- bind(function() {
- assert.isOk(arguments.length === 3);
- assert.isOk(arguments[0] === 1);
- assert.isOk(arguments[1] === 2);
- assert.isOk(arguments[2] === "три");
- }, {})(1, 2, "три");
- });
- });
- */
-
-/**
+ /**
  * Реализовать метод .myBind для всех функций,
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
-var allFunction = {
+/**var allFunction = {
     myBind: function(){
         return function(){
-         return func.call(context, arg1)
+         return func.apply(context, arg1)
         }
     }
 };
@@ -123,11 +103,25 @@ var allFunction = {
  * console.log(o.magicProperty); // 7
  * console.log(o.magicProperty); // 8
  */
+/**
+var original = {
+    this.magicProperty = function () {
+        var currentCount = this.magicProperty;
+        return function() {
+            return currentCount++;
+        }
+    };
+}
+o.__proto__ = original;
+
 var o = {
-    magicProperty: function(){
-        console.log(new Data);
-    }
-};
+    this.magicProperty = function (i) {
+        var date = new Date();
+        console.log(date + 'i');
+        original.magicProperty = i;
+        delete o.magicProperty;
+    };
+}
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
@@ -135,60 +129,46 @@ var o = {
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 /**
-var u = {
-    askName: function(){
+function U(){
+    this.askName = function() {
         this.name = prompt("Вaше имя?", "Bob");
-    }
-    askAge: function(){
+    };
+    this.askAge = function(){
         this.age = prompt("Ваш возраст?", "0");
-    }
-    showAgeInConsole: function(){
+    };
+    this.showAgeInConsole = function(){
         console.log(this.age);
-    }
-    showNameInAlert: function(){
+    };
+    this.showNameInAlert = function(){
         console.log(this.name);
-    }
-};
+    };
+    var u = new U();
+}
+ */
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
-    operator();
-    function operator(a){
-        if (this.a === '+'){
-            return function(b){
-                return function(c){
-                    return (b + c);
-                }
+function calculate(a) {
+    /* put your code here */
+    return function (b) {
+        return function (c) {
+            if (a === '+') {
+                return (b + c);
             }
-        }
-        if (this.a === '-'){
-            return function(b){
-                return function(c){
-                    return(b - c);
-                }
+            else if (a === '-') {
+                return (b - c);
             }
-        }
-        if (this.a === '*'){
-            return function(b){
-                return function(c){
-                    return(b * c);
-                }
+            else if (a === '*') {
+                return (b * c);
             }
-        }
-        if (this.a === '/'){
-            return function(b){
-                return function(c){
-                    return(b / c);
-                }
+            else if (a === '/') {
+                return (b / c);
             }
         }
     }
-
 }
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
@@ -241,8 +221,14 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-function curry(func) {}
-
+/**function curry(func) {
+    var parameters = Array.prototype.slice.call(arguments, 1);
+    return function() {
+        return func.apply(this, parameters.concat(
+            Array.prototype.slice.call(arguments, 0)
+        ));
+    };
+}
 /*
  Написать код, который для объекта созданного с помощью конструктора будет показывать,
  что объект является экземпляром двух классов
