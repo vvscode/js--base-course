@@ -49,7 +49,6 @@ function fizzBuzz() {
             }
         }
     })();
-
 }
 
 
@@ -165,18 +164,14 @@ function flatten(array) {
 function quadraticEquation(a, b, c) {
     var result = [];
     var d = Math.pow(b, 2) - 4 * a * c;
-    console.log(d);
-
     if (d > 0) {
         result.push((-b + Math.pow(d, 0.5)) / (2 * a));
         result.push((-b - Math.pow(d, 0.5)) / (2 * a));
     }
     else if(d === 0){
         result.push((-b + Math.pow(d, 0.5)) / (2 * a));
-
     } else {
         console.error('mistake of input, please, check arguments')
     }
-    console.log(result);
     return result;
 }
