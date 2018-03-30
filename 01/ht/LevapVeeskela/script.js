@@ -119,7 +119,6 @@ function compareObjects(objA, objB) {
             } else {
                 resultArray.push(false);
             }
-            resultArray.push(secondArrayKeys.some(elem => elem === firstArrayKeys[i]));
         }
       return resultArray.every(elem => elem === true);   
     } else {
