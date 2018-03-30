@@ -96,13 +96,13 @@ function isDeepEqual(objA, objB) {
     var stringObject = "object";
     // /* Ваше решение */
     if (Array.isArray(objA) && Array.isArray(objB)) {
-        return (Array(objA).join('') === Array(objB).join('')) ? true : false;
+        return Array(objA).join('') === Array(objB).join('');
     }
     else if (typeof(objA) === stringObject && typeof (objB) === stringObject) {
         return (JSON.stringify(objA) === JSON.stringify(objB)) || compareObjects(objA, objB);
     }
     else {
-        return (objA === objB) ? true : false;
+        return objA === objB;
     }
 }
 
@@ -124,4 +124,15 @@ function compareObjects(objA, objB) {
     } else {
         return false;
     }
+}
+
+
+function spiral(array){
+    console(array);
+    return fibo(array.chain().join().value());
+}
+
+function fibo(arraySort) {
+    console.log(arraySort);
+   //  return fibs = lazy([0, 1])(_ => fibs[_ - 1] + fibs[_ - 2]);
 }
