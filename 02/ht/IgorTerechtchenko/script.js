@@ -83,7 +83,30 @@ function bind(func, context) {
 * те запуск кода ниже должен делать то, что говорят методы
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
+function User() {
+  var age
+  var name
 
+  this.askName = function() {
+    this.name = window.prompt('enter your name'); 
+    return this
+  }
+
+  this.askAge = function() {
+    this.age = window.prompt('enter your age');
+    return this
+  }
+
+  this.showAgeInConsole = function() {
+    console.log(this.age)
+    return this
+  }
+
+  this.showNameInAlert = function() {
+    window.alert(this.name)
+    return this
+  }
+}
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -128,8 +151,7 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw "undefined";
+function sum(arg) {
 }
 
 function log(x) {
