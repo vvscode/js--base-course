@@ -138,7 +138,7 @@ function getSpiralArray(array, spin) {
     var arraySpiral = [];
     var spinValueDefoult = 3;
     var countSpin = Math.floor(array.length / ((spin) ? spin : spinValueDefoult)); // количество витков(min 3)
-    for (var i = 0; i < countAllValues; i++) {
+    for (var i = 1; i < countAllValues + 1; i++) {
         if (i % spinValueDefoult === 0) {
             arraySpiral.push(array.pop());
         } else {
@@ -159,4 +159,24 @@ function flatten(array) {
         }
     }
     return arrayFlatten;
+}
+
+
+function quadraticEquation(a, b, c) {
+    var result = [];
+    var d = Math.pow(b, 2) - 4 * a * c;
+    console.log(d);
+
+    if (d > 0) {
+        result.push((-b + Math.pow(d, 0.5)) / (2 * a));
+        result.push((-b - Math.pow(d, 0.5)) / (2 * a));
+    }
+    else if(d === 0){
+        result.push((-b + Math.pow(d, 0.5)) / (2 * a));
+
+    } else {
+        console.error('mistake of input, please, check arguments')
+    }
+    console.log(result);
+    return result;
 }
