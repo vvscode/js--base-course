@@ -184,10 +184,8 @@ function quadraticEquation(a, b, c) {
     var discr = b * b - 4 * a * c;
     if (discr < 0) {
         return roots;
-    }
-    if (discr === 0) {
+    } else if (discr === 0) {
         roots.push(-1 * b / 2 * a);
-        return roots;
     } else {
         roots.push((-1 * b + Math.sqrt(discr)) / 2 * a);
         roots.push((-1 * b - Math.sqrt(discr)) / 2 * a);
