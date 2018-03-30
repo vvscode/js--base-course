@@ -214,9 +214,7 @@ function quadraticEquation(a, b, c) {
     if (d > 0) {
         result.push((-b - Math.sqrt(d)) / 2 * a);
         result.push((-b + Math.sqrt(d)) / 2 * a);
-    }
-    // отрицательный - 1 корень
-    if (d == 0) {
+    } else if (d == 0) {
         result.push(-b / 2 * a);
     }
     return result;
