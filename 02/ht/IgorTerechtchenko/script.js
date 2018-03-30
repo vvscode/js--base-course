@@ -18,8 +18,6 @@ function isDeepEqual(objA, objB) {
   } else {
     isDeepEqual[argsPair] = 1
   }
-  console.log(objA)
-  console.log(objB)
   if (objA !== objA && objB !== objB) {
     return true
   }
@@ -36,7 +34,6 @@ function isDeepEqual(objA, objB) {
   }
   
   for (var i in objA) {
-    console.log(argsPair)
     if (isDeepEqual[argsPair] > 10) {
       isDeepEqual[argsPair] = 0
       break
@@ -55,7 +52,13 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return undefined;
+  if (context) {
+    console.log(context)
+    context.f = func
+    return context.f
+  } else {
+    return func
+  }
 }
 
 /**
@@ -87,8 +90,15 @@ function bind(func, context) {
  * calculate('*')(2)(3); // 6
  * Допустимые операции : + - * /
  */
-function calculate() {
-  /* put your code here */
+function calculate(sign) {
+  this.sign = sign
+  var arg1
+  return function(arg) {
+    this.arg1 = arg 
+    return function(arg) {
+      return eval(this.arg1 + this.sign + arg)
+    }
+  }
 }
 
 /**
