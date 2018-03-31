@@ -143,14 +143,20 @@ function log(a) { console.log(a); }
 а вместо чисел, кратных пяти — слово «Buzz». 
 Если число кратно и 3, и 5, то программа должна выводить слово «FizzBuzz»
 */
+log(1);
+log(2);
+log('Fizz');
+log(4);
+log('Buzz');
         </code></pre>
         </section>
         <section>
-
           <a href="http://bit.ly/jsFizzBuzz" target="blank">http://bit.ly/jsFizzBuzz</a>
         </section>
         <section>
-          <h3><a href="https://habrahabr.ru/post/298134/">Это задача с собеседований!</a></h3>
+          <h3>
+            <a href="https://habrahabr.ru/post/298134/">Это задача с собеседований!</a>
+          </h3>
         </section>
         <section>
           <h3>Представление о тестировании</h3>
@@ -170,7 +176,6 @@ console.log('0+0', sum(0, ) === 0);
           Вопросы?
         </section>
       </section>
-
       <section>
         <h4>Что нужно для учебы</h4>
         <section>
@@ -223,7 +228,7 @@ console.log('0+0', sum(0, ) === 0);
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/js/reveal.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/languages/javascript.min.js"></script>
   <script>
-    Reveal.addEventListener('slidechanged', function(event) {
+    Reveal.addEventListener('slidechanged', function (event) {
       // event.previousSlide, event.currentSlide, event.indexh, event.indexv
       if (event.currentSlide.querySelector('.fragment')) {
         document.body.classList.add('has-fragments');
@@ -308,20 +313,20 @@ console.log('0+0', sum(0, ) === 0);
         // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
         {
           src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/lib/js/classList.js',
-          condition: function() {
+          condition: function () {
             return !document.body.classList;
           }
         },
         // Interpret Markdown in <section> elements
         {
           src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/marked.js',
-          condition: function() {
+          condition: function () {
             return !!document.querySelector('[data-markdown]');
           }
         },
         {
           src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/markdown/markdown.js',
-          condition: function() {
+          condition: function () {
             return !!document.querySelector('[data-markdown]');
           }
         },
@@ -329,7 +334,7 @@ console.log('0+0', sum(0, ) === 0);
         {
           src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.5.0/plugin/highlight/highlight.js',
           async: true,
-          callback: function() {
+          callback: function () {
             hljs.initHighlightingOnLoad();
           }
         },
