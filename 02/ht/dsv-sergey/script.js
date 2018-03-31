@@ -78,7 +78,7 @@ console.log(o.x);
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
-let u = {
+let us = {
     askName : function() {
         this.name = prompt('Введите имя');
         return this;
@@ -96,7 +96,7 @@ let u = {
         return this;
     }
 };
-u.askName().askAge().showAgeInConsole().showNameInAlert();
+us.askName().askAge().showAgeInConsole().showNameInAlert();
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -178,20 +178,28 @@ function ForceContructor(a, b, c) {
  * log(s(1)(2)); //3
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
- *//*
-function sum() { //Не закончено
-    var sol = 0;
-    return function (a) {
-        return sum() + a;
-        }
+ */
+function sum(a) {
+    var currentSum;
+    if (a === undefined) {
+        a = 0;
     }
-    throw "undefined"
+    currentSum =+ a;
+    function sumFunc(b) {
+        if (b === undefined) {
+            b = 0;
+            }
+        currentSum += b;
+        return sumFunc;
+    }
+    sumFunc.valueOf = function () {
+        return currentSum;
+    };
+    return sumFunc;
 }
-x = sum()
-function log(x) {
-  console.log(+x);
-}
-*/
+
+
+
 /**
  * Написать каррирующую функцию и покрыть ее тестами
  * Функция должна поддерживать каррирование функций с 2,3,4,5 параметрами
@@ -216,9 +224,11 @@ function curry(func) {}
 */
 function User() {}
 function PreUser() {}
-User.prototype = new PreUser();
-PreUser.prototype = new Array();
-
+User.prototype = new Array;
+PreUser.prototype = new Array;
+Array.prototype = new PreUser;
+User.prototype = new PreUser;
+var u = new User();
 
 // User === PreUser; // false
 // u instanceof User; // true
