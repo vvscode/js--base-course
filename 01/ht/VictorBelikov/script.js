@@ -21,8 +21,31 @@ function log(a) {
  * Для вывода использовать фукнцию `log` (аналогично заданию в классе). 
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
+
+// Решение 1
+// function fizzBuzz() {
+//     for (var i = 1; i <= 100; i++) {
+//         if (i % 3 === 0 && i % 5 === 0) {
+//             console.log("FizzBuzz");
+//         } else if (i % 5 === 0) {
+//             console.log("Buzz");
+//         } else if (i % 3 === 0) {
+//             console.log("Fizz");
+//         } else {
+//             log(i);
+//         }
+//     }
+// }
+
 function fizzBuzz() {
- /* Ваше решение */
+    var a;
+    for (var i = 1; i <= 100; i++) {
+        a = i;
+        !(i % 3) && (a = 'Fizz');
+        !(i % 5) && (a = 'Buzz');
+        (!(i % 3) && !(i % 5)) && (a = "FizzBuzz");
+        log(a);
+    }
 }
 
 
@@ -34,8 +57,8 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
- /* Ваше решение */
- return undefined;
+    /* Ваше решение */
+    return undefined;
 }
 
 
@@ -61,6 +84,6 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
- /* Ваше решение */
- return undefined;
+    /* Ваше решение */
+    return undefined;
 }
