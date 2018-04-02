@@ -79,7 +79,6 @@ function isDeepEqual(objA, objB) {
 function bind(func, context) {
     return function (){
         return func.apply(context, arguments);
-
     }
 }
  /**
@@ -87,13 +86,9 @@ function bind(func, context) {
  * который работает так же как оригинальный .bind но не использует его внутри
  * (можно использовать фукнцию выше)
  */
-/**var allFunction = {
-    myBind: function(){
-        return function(){
-         return func.apply(context, arg1)
-        }
-    }
-};
+ Function.prototype.myBind = function(context){
+     return bind(this, context);
+ };
 /**
  * создать объект с волшебным свойством,
  * чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем.
@@ -103,33 +98,31 @@ function bind(func, context) {
  * console.log(o.magicProperty); // 7
  * console.log(o.magicProperty); // 8
  */
-/**
-var original = {
+var original = function(){
     this.magicProperty = function () {
         var currentCount = this.magicProperty;
         return function() {
             return currentCount++;
         }
     };
-}
+};
 o.__proto__ = original;
 
-var o = {
+var o = function() {
     this.magicProperty = function (i) {
         var date = new Date();
         console.log(date + 'i');
         original.magicProperty = i;
         delete o.magicProperty;
     };
-}
+};
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
-/**
-function U(){
+var U = function(){
     this.askName = function() {
         this.name = prompt("Вaше имя?", "Bob");
     };
@@ -143,8 +136,7 @@ function U(){
         console.log(this.name);
     };
     var u = new U();
-}
- */
+};
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -185,9 +177,15 @@ function Singleton() {
  * и сохраняет параметры в создаваемый объект с именами параметров
  */
 function ForceContructor(a, b, c) {
-    throw "undefined";
+    if (this instanceof ForceContructor){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    else{
+        return new ForceContructor(a, b, c);
+    }
 }
-
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -221,12 +219,19 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-/**function curry(func) {
-    var parameters = Array.prototype.slice.call(arguments, 1);
-    return function() {
-        return func.apply(this, parameters.concat(
-            Array.prototype.slice.call(arguments, 0)
-        ));
+function curry(func) {
+    var parameters = Array.prototype.slice.call(arguments, 0);
+    return function back() {
+        if (parameters.length >= func.length) {
+            return func.apply(this, parameters);
+        } else {
+            return function() {
+                return back.apply(
+                    this,
+                    parameters.concat(Array.prototype.slice.call(arguments, 0))
+                );
+            };
+        }
     };
 }
 /*
@@ -239,16 +244,23 @@ function log(x) {
 // u instanceof Array; // true
 // u instanceof PreUser; // true
 
+var User = function() {};
+var PreUser = function() {};
+PreUser.prototype = Object.create(Array.prototype);
+User.prototype = new PreUser();
+var u = new User();
+
 /*
- Создать веб страницу. Добавить на нее форму с полями
- - имя (строкое поле),
- - родной город (Выпадающий список),
- - Комментарий (многострочное поле), пол (radiobutton).
- При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
- после чего поля очистить.
+ Cоздать форму и ее обработчик.
+ На форме поля ввода - Имя пользователя( строка ), возраст (выпадающий список), пол - radio-button,
+ есть ли водительские права - чекбокс, о себе - многострочное поле. Все поля обязательные.
+ При отправке формы, если все заполнено - под формой вывести информацию собранную от пользователя.
  */
 
-/* 
+/*
+ Cоздать генератор листаемого календаря и покрыть его тестами. В
+ шапку календаря из прошлго ДЗ добавить кнопки для листания вправо/влево,
+ которые позволяют изменыть отображаемый месяц. Тесты должны проверять весь функционал
  Используя функцию drawCalendar из прошлого урока
  создать функцию drawInteractiveCalendar(el)
  Которая выводит календарь, в шапке которого отображается
@@ -257,3 +269,76 @@ function log(x) {
  Добавть на страницу index.html вызов календаря
  */
 function drawInteractiveCalendar(el) {}
+
+/*
+ Написать реализацию метода .myCall, который будет работать аналогично системному .call и покрыть реализацию тестами
+ */
+Function.prototype.myCall = function(context){
+    return function (){
+        return this.call(context, arg1, arg2)
+    }
+};
+/*
+ Написать реализацию функций debounce и throttle и покрыть реализации тестами
+ ( Если ваше имя начинается с гласной - debounce, иначе - throttle. А лучше - обе ).
+  Функции должны с сигнатурой debounce(fun, delay) / throttle(fun, delay)
+ */
+function debounce(fun, delay{
+
+}
+function throttle(fun, delay){
+
+}
+/*
+К генератору листаемого календаря добавить функционал: под календарем добавить блок.
+При клике на ячейку даты ( но не на пустую ячейку календаря ) в блоке должна добавляться запись о том,
+по какой ячейке кликнули. Можно добавить запрос описания даты от пользователя
+( с помощью функции prompt и выводить это описание там же).
+История дат и список, по которым пользоатель кликал, должны сохраняться между перезагрузками страницы.
+Для сохранения использовать LocalStorage.
+Интерфейс работы с данными (чтение/запись) лучше сделать асинхронным
+ */
+/*
+ Создать синхронную функцию sleep(seconds) так, чтобы работал код
+ console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+ sleep(9);
+ console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+ */
+function sleep(seconds){
+    var date = new Date();
+    var dateSec = date.getSeconds();
+    while(dateSec < dateSec + seconds * 1000){
+        date = new Date();
+        dateSec = date.getSeconds();
+    }
+}
+/*
+ Написать функцию getCounter и покрыть ее тестами, так, чтобы работал следующий код
+ var c = getCounter(5);
+ c
+ .log() // 5
+ .add(4)
+ .log() // 9
+ .add(3)
+ .log() // 12
+ .reset()
+ .log() // 0
+ .add(8)
+ .log(); // 8
+ */
+
+function getCounter(number) {
+    var value = number;
+    return function () {
+        function log() {
+            return value;
+        }
+        function add(addNumber) {
+            return (value = value + addNumber);
+        }
+        function reset() {
+            return (value = 0);
+        }
+    }
+}
+
