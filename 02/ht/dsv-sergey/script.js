@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc,no-array-constructor,valid-jsdoc,no-extend-native,prefer-rest-params,semi,space-before-function-paren */
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
@@ -17,12 +18,14 @@ function isDeepEqual(objA, objB) {
         if (objA.length !== objB.length) return false;
         else if (JSON.stringify(objA) === JSON.stringify(objB)) {
           return true;
-        } else {for (var key in objA) {
-            if (!isDeepEqual(objA[key], objB[key])) return false;}
-            return  JSON.stringify(objA) === JSON.stringify(objB);
+        } else {
+for (var key in objA) {
+            if (!isDeepEqual(objA[key], objB[key])) return false;
+}
+            return JSON.stringify(objA) === JSON.stringify(objB);
         }
     } else if (typeof objA === 'number' && typeof objB === 'number' && Number.isNaN(objA) === Number.isNaN(objB)) {
-        return true
+        return true;
     } else {
         return objA === objB;
     }
@@ -35,8 +38,8 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return function () {
-      return func.apply(context,arguments);
+  return function() {
+      return func.apply(context, arguments);
   };
 }
 
@@ -46,7 +49,7 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
-Function.prototype.myBind = function (context) {
+Function.prototype.myBind = function(context) {
     return bind(this, context);
 };
 
@@ -64,9 +67,9 @@ let o = {
   get x() {
     count++;
     return count;
-  }
+  },
 };
-o.x  =  5 ;
+o.x = 5;
 console.log(o.x);
 console.log(o.x);
 console.log(o.x);
@@ -79,22 +82,22 @@ console.log(o.x);
 */
 
 let us = {
-    askName : function() {
+    askName: function() {
         this.name = prompt('Введите имя');
         return this;
     },
-    askAge : function () {
+    askAge: function() {
         this.age = prompt('Введите возраст');
         return this;
     },
-    showAgeInConsole : function () {
+    showAgeInConsole: function() {
         console.log('Ваш возраст: ' + this.age);
         return this;
     },
-    showNameInAlert : function () {
+    showNameInAlert: function() {
         alert('Вас зовут ' + this.name);
         return this;
-    }
+    },
 };
 us.askName().askAge().showAgeInConsole().showNameInAlert();
 
@@ -109,32 +112,32 @@ function calculate(operation) {
   var solution = 0;
     switch (operation) {
       case '+':
-        return function (a) {
-          return function (b) {
+        return function(a) {
+          return function(b) {
               solution = a + b;
               return solution;
-          }
+          };
         };
     case '-':
-        return function (a) {
-            return function (b) {
+        return function(a) {
+            return function(b) {
                 solution = a - b;
                 return solution;
-            }
+            };
         };
     case '*':
-        return function (a) {
-            return function (b) {
+        return function(a) {
+            return function(b) {
                 solution = a * b;
                 return solution;
-            }
+            };
         };
     case '/':
-        return function (a) {
-            return function (b) {
+        return function(a) {
+            return function(b) {
                 solution = a / b;
                 return solution;
-            }
+            };
         };
     }
 }
@@ -143,7 +146,7 @@ function calculate(operation) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-var Singleton = new function () {
+var Singleton = new function() {
     var instance;
     function Singleton() {
         if (!instance) {
@@ -152,7 +155,7 @@ var Singleton = new function () {
         return instance;
     }
     return Singleton;
-}
+};
 
 /**
   * Создайте функцию ForceConstructor
@@ -192,12 +195,11 @@ function sum(a) {
         currentSum += b;
         return sumFunc;
     }
-    sumFunc.valueOf = function () {
+    sumFunc.valueOf = function() {
         return currentSum;
     };
     return sumFunc;
 }
-
 
 
 /**
@@ -216,8 +218,22 @@ function sum(a) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
-
+var curry = function (func) {
+    var addFunc = function (arg) {
+        return curry(parseInt(arg + '', 10) == arg ? func + arg : func);
+    };
+    addFunc.valueOf = function () {
+        return func;
+    };
+    return addFunc();
+};
+function target1(a, b, c, d) {
+ return a + b + c + d;
+}
+function target2(a, b) {
+ return a + b
+}
+curry(target1)(1)(2)(3)(4)
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
@@ -253,3 +269,5 @@ var u = new User();
 Добавть на страницу index.html вызов календаря
 */
 function drawInteractiveCalendar(el) {}
+
+
