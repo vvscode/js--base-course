@@ -33,8 +33,6 @@ function fizzBuzz() {
     }
 }
 
-
-
 /**
  * реализовать фукнцию  `isPolindrom`, 
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
@@ -44,12 +42,14 @@ function fizzBuzz() {
  */
 
 function isPolindrom(textString) {
-    var reversedString = "";
-    for (var s = textString.length - 1; s >= 0; s--) {
-        reversedString += textString.charAt(s);
+    for (var a = 0, s = textString.length - 1; a < s; a++, s--) {
+        if (textString[a] != textString[s]) {
+            return false;
+        }
     }
-    return textString == reversedString;
+    return true;
 }
+
 
 /**
  * Реализовать фукнцию `drawCalendar` , 
