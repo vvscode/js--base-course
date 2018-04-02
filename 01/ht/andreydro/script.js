@@ -50,8 +50,17 @@ function isPolindrom(textString) {
     return false;
 }
 */
+/*
 function isPolindrom(textString) {
     return textString == textString.toString().split("").reverse().join("");
+}
+*/
+function isPolindrom(textString) {
+    var reversedString = "";
+    for (var s = textString.length - 1; s >= 0; s--) {
+        reversedString += textString.charAt(s);
+    }
+    return textString == reversedString;
 }
 
 /**
