@@ -51,7 +51,7 @@ function isPolindrom(textString) {
 }
 */
 function isPolindrom(textString) {
-    return (textString == textString.split("").reverse().join(""));
+    return textString == textString.toString().split("").reverse().join("");
 }
 
 /**
