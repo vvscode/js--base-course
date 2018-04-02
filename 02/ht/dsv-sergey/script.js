@@ -240,11 +240,10 @@ curry(target1)(1)(2)(3)(4)
 */
 function User() {}
 function PreUser() {}
-User.prototype = new Array;
-PreUser.prototype = new Array;
-Array.prototype = new PreUser;
-User.prototype = new PreUser;
-var u = new User();
+User.prototype = Object.create(Array.prototype);
+PreUser.prototype = Object.create(Array.prototype);
+User.prototype = Object.create(PreUser.prototype);
+let u = new User();
 
 // User === PreUser; // false
 // u instanceof User; // true
