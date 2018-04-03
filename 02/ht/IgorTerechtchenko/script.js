@@ -34,7 +34,7 @@ function isDeepEqual(objA, objB) {
   }
   
   for (var i in objA) {
-    if (isDeepEqual[argsPair] > 10) {
+    if (isDeepEqual[argsPair] > 1) {
       isDeepEqual[argsPair] = 0
       break
     }
@@ -128,8 +128,13 @@ function calculate(sign) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
+
 function Singleton() {
-  throw "undefined";
+  if (Singleton.instance) {
+    return Singleton.instance
+  } else { 
+    Singleton.instance = this
+  }
 }
 
 /**
@@ -139,7 +144,13 @@ function Singleton() {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+  if (!new.target) {
+    //why doesn't work without return?
+    return new ForceContructor(a, b, c) 
+  }
+  this.a = a
+  this.b = b
+  this.c = c
 }
 
 /**
