@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Test Work</title>
+</head>
+
+<body>
+<script>
+
+    while (true) {
+        var userName = prompt('Как Ваше имя?', '');
+        if (userName || userName == null) break;
+    }
+
+    while (true) {
+        var userAge = prompt('Ваш возраст?', '');
+        if ((userAge && userAge > 0) || userAge == null) break;
+    }
+
+    userAge < 18 ? alert('Здарова, ' + userName + '.' + ' Как твои ' + userAge + '?')
+        : alert('Приветствую, ' + userName + '.' + ' Уж ' + userAge + ' лет прошло.');
+
+</script>
+</body>
+
+</html>
