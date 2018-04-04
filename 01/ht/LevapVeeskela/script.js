@@ -31,12 +31,12 @@ function fizzBuzz() {
             var a = !!((startInicializetion % 3) === 0);
             var b = !!((startInicializetion % 5) === 0);
             var c = a && b;
-            (a && !b) && log(stringNameFizz);    
+            (a && !b) && log(stringNameFizz);
             (b && !a) && log(stringNameBuzz);
             c && log(stringNameFrizzBuzz);
             (!a && !b) && log(startInicializetion);
-            }
         }
+    }
     )();
 }
 
@@ -49,13 +49,29 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
+    /** one version
+
     var polindrom = '';
     textString.split('').forEach((result) => {
-        polindrom = result + polindrom;
-    });
+         polindrom = result + polindrom;
+     });
     return polindrom == textString;
-    // return textString.split('').reverse().join(''); // или
+    */
 
+    /** two version
+       return textString.split('').reverse().join('');
+    */
+
+    /** three version  */
+    var stringLinght = textString.length;
+    for (var i = 0; i < stringLinght; i++) {
+        if (!(textString[i] === textString[stringLinght - 1])){
+            return false;
+        } else {
+            stringLinght--;
+        }
+    }
+    return true;
 }
 
 
@@ -69,54 +85,54 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
     /* Ваше решение */
-    var arrayWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var arrayDaysMonth = Array.apply(null, { length: daysInMonth(year, month) }).map(Function.call, Number);
-    var tempArrayMonth = [];
-    arrayDaysMonth.forEach(day => {
-        tempArrayMonth.push({day , getDayWeek(day)});
-    });
-    var table = '<table border="1", cellpadding="0", cellspacing="0", width="500px">';
-    table +='<tr>' + arrayWeekDays.map(day => { return "<td>" + day + "</td>"; }).join("") + '</tr>';
-    for(var i = 0; i < tempArrayMonth.length; i++){
-        if(getDayWeek(i) === arrayWeekDays[6]){
-            table += '<tr>'+'</tr>'
-        } else {
+    // var arrayWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    // var arrayDaysMonth = Array.apply(null, { length: daysInMonth(year, month) }).map(Function.call, Number);
+    // var tempArrayMonth = [];
+    // arrayDaysMonth.forEach(day => {
+    //     tempArrayMonth.push({ day, getDayWeek(day) });
+    // });
+    // var table = '<table border="1", cellpadding="0", cellspacing="0", width="500px">';
+    // table += '<tr>' + arrayWeekDays.map(day => { return "<td>" + day + "</td>"; }).join("") + '</tr>';
+    // for (var i = 0; i < tempArrayMonth.length; i++) {
+    //     if (getDayWeek(i) === arrayWeekDays[6]) {
+    //         table += '<tr>' + '</tr>'
+    //     } else {
 
-        }
+    //     }
 
-    }
+    // }
 
-   // new Date(2018,2, i).getDay()
+    // // new Date(2018,2, i).getDay()
 
-    table +='</table>';
-    function daysInMonth(year, month) {
-        return 33 - new Date(year, month - 1, 33).getDate();
-    }
-    function getDayWeek(day) {
-        switch (day) {
-            case 0:
-                return "Monday";
-                break;
-            case 1:
-                return "Tuesday";
-                break;
-            case 2:
-                return "Wednesday";
-                break;
-            case 3:
-                return "Thursday";
-                break;
-            case 4:
-                return "Friday";
-                break;
-            case 5:
-                return "Saturday";
-                break;
-            case 6:
-                return "Sunday";
-                break;
-        }
-    }
+    // table += '</table>';
+    // function daysInMonth(year, month) {
+    //     return 33 - new Date(year, month - 1, 33).getDate();
+    // }
+    // function getDayWeek(day) {
+    //     switch (day) {
+    //         case 0:
+    //             return "Monday";
+    //             break;
+    //         case 1:
+    //             return "Tuesday";
+    //             break;
+    //         case 2:
+    //             return "Wednesday";
+    //             break;
+    //         case 3:
+    //             return "Thursday";
+    //             break;
+    //         case 4:
+    //             return "Friday";
+    //             break;
+    //         case 5:
+    //             return "Saturday";
+    //             break;
+    //         case 6:
+    //             return "Sunday";
+    //             break;
+    //     }
+    // }
 }
 
 
