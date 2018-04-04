@@ -31,24 +31,13 @@ function fizzBuzz() {
             var a = !!((startInicializetion % 3) === 0);
             var b = !!((startInicializetion % 5) === 0);
             var c = a && b;
-            while (a && !b) {
-                log(stringNameFizz);
-                break;
-            }
-            while (b && !a) {
-                log(stringNameBuzz);
-                break;
-            }
-            while (c) {
-                log(stringNameFrizzBuzz);
-                break;
-            }
-            while (!a && !b) {
-                log(startInicializetion);
-                break;
+            (a && !b) && log(stringNameFizz);    
+            (b && !a) && log(stringNameBuzz);
+            c && log(stringNameFrizzBuzz);
+            (!a && !b) && log(startInicializetion);
             }
         }
-    })();
+    )();
 }
 
 
@@ -97,7 +86,7 @@ function drawCalendar(year, month, htmlEl) {
 
     }
 
-    //    // new Date(2018,2, i).getDay()
+   // new Date(2018,2, i).getDay()
 
     table +='</table>';
     function daysInMonth(year, month) {
