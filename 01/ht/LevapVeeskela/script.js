@@ -30,7 +30,7 @@ function fizzBuzz() {
         for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
             var a = !!((startInicializetion % 3) === 0);
             var b = !!((startInicializetion % 5) === 0);
-            var c = !!(a && b);
+            var c = a && b;
             while (a && !b) {
                 log(stringNameFizz);
                 break;
@@ -64,7 +64,7 @@ function isPolindrom(textString) {
     textString.split('').forEach((result) => {
         polindrom = result + polindrom;
     });
-    return !!(polindrom == textString);
+    return polindrom == textString;
     // return textString.split('').reverse().join(''); // или
 
 }
@@ -80,7 +80,57 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
     /* Ваше решение */
+    var arrayWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var arrayDaysMonth = Array.apply(null, { length: daysInMonth(year, month) }).map(Function.call, Number);
+    var tempArrayMonth = [];
+    arrayDaysMonth.forEach(day => {
+        tempArrayMonth.push({day , getDayWeek(day)});
+    });
+    var table = '<table border="1", cellpadding="0", cellspacing="0", width="500px">';
+    table +='<tr>' + arrayWeekDays.map(day => { return "<td>" + day + "</td>"; }).join("") + '</tr>';
+    for(var i = 0; i < tempArrayMonth.length; i++){
+        if(getDayWeek(i) === arrayWeekDays[6]){
+            table += '<tr>'+'</tr>'
+        } else {
+
+        }
+
+    }
+
+    //    // new Date(2018,2, i).getDay()
+
+    table +='</table>';
+    function daysInMonth(year, month) {
+        return 33 - new Date(year, month - 1, 33).getDate();
+    }
+    function getDayWeek(day) {
+        switch (day) {
+            case 0:
+                return "Monday";
+                break;
+            case 1:
+                return "Tuesday";
+                break;
+            case 2:
+                return "Wednesday";
+                break;
+            case 3:
+                return "Thursday";
+                break;
+            case 4:
+                return "Friday";
+                break;
+            case 5:
+                return "Saturday";
+                break;
+            case 6:
+                return "Sunday";
+                break;
+        }
+    }
 }
+
+
 
 
 /**
@@ -164,14 +214,16 @@ function flatten(array) {
 function quadraticEquation(a, b, c) {
     var result = [];
     var d = Math.pow(b, 2) - 4 * a * c;
-    if (d > 0) {
-        result.push((-b + Math.pow(d, 0.5)) / (2 * a));
-        result.push((-b - Math.pow(d, 0.5)) / (2 * a));
-    }
-    else if(d === 0){
-        result.push((-b + Math.pow(d, 0.5)) / (2 * a));
-    } else {
-        console.error('mistake of input, please, check arguments')
+    try {
+        if (d > 0) {
+            result.push((-b + Math.pow(d, 0.5)) / (2 * a));
+            result.push((-b - Math.pow(d, 0.5)) / (2 * a));
+        }
+        else if (d === 0) {
+            result.push((-b + Math.pow(d, 0.5)) / (2 * a));
+        }
+    } catch (ex) {
+        throw "mistake of input, please, check arguments... text error: ${ex}";
     }
     return result;
 }
