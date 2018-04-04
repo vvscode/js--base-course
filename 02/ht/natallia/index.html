@@ -81,6 +81,14 @@
 		.calendar__cell--header {
 			background-color: lightgreen;
 		}
+
+		.result {
+			margin: 0 auto;
+			width: 45%;
+
+			font-size: 20px;
+			font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+		}
 	</style>
 </head>
 
@@ -89,7 +97,7 @@
     <pre id="log"></pre>
 		<div id="calendar-header" class="calendar-header"></div>
 		<div id="calendar" class="calendar"></div>
-		<div id="result"></div>
+		<div id="result" class="result"></div>
     <script>
         mocha.setup('bdd');
         var assert = chai.assert;

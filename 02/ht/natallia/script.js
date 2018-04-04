@@ -290,17 +290,44 @@ console.log(new Date());
 sleep(9);
 console.log(new Date());
 
-function throttle(fun, delay) {
-  var throg = false;
-  function wrap() {
-    return throg;
-  }
-  func.apply(this, arguments);
-
-  throp = true;
-
-  setTimeout(function() {
-    throg = false;
-  }, delay);
-  return wrap;
+/**создать функцию, которая не может работать как конструктор (работать с `new`, и покрыть ее тестами*/
+function isConsructor() {
+  if (new.target)
+    throw new TypeError('function isConstructor is not a constructor');
 }
+
+/**написать функцию throttle*/
+
+function throttle(func, delay) {
+  var isThroggled;
+  return function() {
+    if (isThroggled) {
+      return;
+    }
+    var args = Array.prototype.slice.call(arguments, 0);
+    func.apply(this, args);
+    isThroggled = true;
+    setTimeout(function() {
+      isThroggled = false;
+    }, delay);
+  };
+}
+
+/**Написать функцию `getCounter`*/
+function getCounter(num) {
+  this.num = num;
+  this.result = this.num;
+}
+
+getCounter.prototype.log = function() {
+  console.log(this.result);
+  return this.result;
+};
+
+getCounter.prototype.add = function(addNum) {
+  this.result = this.result + addNum;
+};
+
+getCounter.prototype.reset = function() {
+  this.result = this.num;
+};

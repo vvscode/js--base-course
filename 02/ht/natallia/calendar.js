@@ -2,11 +2,12 @@ var calendar = document.querySelector('#calendar');
 var calendarHeader = document.querySelector('#calendar-header');
 var res = document.querySelector('#result');
 var date = new Date();
-var currentMonth = date.getMonth();
+var currentMonth = date.getMonth() + 1;
 var currentYear = date.getFullYear();
 res.innerHTML = localStorage.getItem('saveValue');
 
 function createCalendar(year, month) {
+  --month;
   var rows = [];
   var d = new Date(year, month);
   var topRow = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
@@ -96,20 +97,21 @@ function getDay(date) {
   return day - 1;
 }
 
-function writeMonthAndYear(year, month, el) {
+function writeMonthAndYear(year, month, htmlElHeader) {
+  --month;
   date = new Date(year, month);
   var writeMonth = date.toLocaleString('ru', { month: 'long' });
   var writeYear = date.toLocaleString('ru', { year: 'numeric' });
-  el.innerHTML =
-    '<button id="prev" class="btn calendar-header__btn  calendar-header__btn--prev"><img src="img/prev.png" alt="previous"></button><span class="calendar-header__span">' +
+  htmlElHeader.innerHTML =
+    '<button data-btn="prev" class="btn calendar-header__btn  calendar-header__btn--prev"><img src="img/prev.png" alt="previous"></button><span class="calendar-header__span">' +
     writeMonth +
     ' ' +
     writeYear +
-    '</span><button id="next" class="btn calendar-header__btn calendar-header__btn--next"><img src="img/next.png" alt="next"></button>';
+    '</span><button data-btn="next" class="btn calendar-header__btn calendar-header__btn--next"><img src="img/next.png" alt="next"></button>';
 }
 
-function getPrevMonth(htmlEl, month, year) {
-  var prev = document.querySelector('#prev');
+function getPrevMonth(htmlEl, month, year, htmlElHeader) {
+  var prev = htmlElHeader.querySelector('button[data-btn="prev"]');
   prev.addEventListener('click', function() {
     --month;
     if (month < 0) {
@@ -117,13 +119,13 @@ function getPrevMonth(htmlEl, month, year) {
       year -= 1;
     }
     date = new Date(year, month);
-    drawInteractiveCalendar(htmlEl, year, month);
+    drawInteractiveCalendar(htmlEl, year, month, htmlElHeader);
     return date;
   });
 }
 
-function getNextMonth(htmlEl, month, year) {
-  var next = document.querySelector('#next');
+function getNextMonth(htmlEl, month, year, htmlElHeader) {
+  var next = htmlElHeader.querySelector('button[data-btn="next"]');
   next.addEventListener('click', function() {
     ++month;
     if (month > 11) {
@@ -131,21 +133,21 @@ function getNextMonth(htmlEl, month, year) {
       year += 1;
     }
     date = new Date(year, month);
-    drawInteractiveCalendar(htmlEl, year, month);
+    drawInteractiveCalendar(htmlEl, year, month, htmlElHeader);
     return date;
   });
 }
 
-function drawInteractiveCalendar(htmlEl, year, month) {
+function drawInteractiveCalendar(htmlEl, year, month, htmlElHeader) {
   drawCalendar(year, month, htmlEl);
-  writeMonthAndYear(year, month, calendarHeader);
-  getPrevMonth(htmlEl, month, year);
-  getNextMonth(htmlEl, month, year);
+  writeMonthAndYear(year, month, htmlElHeader);
+  getPrevMonth(htmlEl, month, year, htmlElHeader);
+  getNextMonth(htmlEl, month, year, htmlElHeader);
 }
 
-drawInteractiveCalendar(calendar, currentYear, currentMonth);
+drawInteractiveCalendar(calendar, currentYear, currentMonth, calendarHeader);
 
-calendar.onclick = function(e) {
+calendar.addEventListener('click', function(e) {
   var target = e.target;
   if (target.tagName === 'TD' && target.innerHTML !== '') {
     var selectMonth = date.toLocaleString('ru', { month: 'long' });
@@ -169,4 +171,4 @@ calendar.onclick = function(e) {
       }
     }
   }
-};
+});
