@@ -28,8 +28,8 @@ function fizzBuzz() {
     var startInicializetion = 1;
     (function processing() {
         for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
-            var a = !!((startInicializetion % 3) === 0);
-            var b = !!((startInicializetion % 5) === 0);
+            var a =(startInicializetion % 3) === 0;
+            var b = (startInicializetion % 5) === 0;
             var c = a && b;
             (a && !b) && log(stringNameFizz);
             (b && !a) && log(stringNameBuzz);
@@ -63,12 +63,12 @@ function isPolindrom(textString) {
     */
 
     /** three version  */
-    var stringLinght = textString.length;
-    for (var i = 0; i < stringLinght; i++) {
-        if (!(textString[i] === textString[stringLinght - 1])){
+    var linght = textString.length;
+    for (var i = 0; i < linght; i++) {
+        if (!(textString[i] === textString[linght - 1])){
             return false;
         } else {
-            stringLinght--;
+            linght--;
         }
     }
     return true;
