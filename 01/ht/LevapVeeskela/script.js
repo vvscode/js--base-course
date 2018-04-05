@@ -28,7 +28,7 @@ function fizzBuzz() {
     var startInicializetion = 1;
     (function processing() {
         for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
-            var a =(startInicializetion % 3) === 0;
+            var a = (startInicializetion % 3) === 0;
             var b = (startInicializetion % 5) === 0;
             var c = a && b;
             (a && !b) && log(stringNameFizz);
@@ -65,7 +65,7 @@ function isPolindrom(textString) {
     /** three version  */
     var linght = textString.length;
     for (var i = 0; i < linght; i++) {
-        if (!(textString[i] === textString[linght - 1])){
+        if (!(textString[i] === textString[linght - 1])) {
             return false;
         } else {
             linght--;
@@ -85,57 +85,35 @@ function isPolindrom(textString) {
  */
 function drawCalendar(year, month, htmlEl) {
     /* Ваше решение */
-    // var arrayWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    // var arrayDaysMonth = Array.apply(null, { length: daysInMonth(year, month) }).map(Function.call, Number);
-    // var tempArrayMonth = [];
-    // arrayDaysMonth.forEach(day => {
-    //     tempArrayMonth.push({ day, getDayWeek(day) });
-    // });
-    // var table = '<table border="1", cellpadding="0", cellspacing="0", width="500px">';
-    // table += '<tr>' + arrayWeekDays.map(day => { return "<td>" + day + "</td>"; }).join("") + '</tr>';
-    // for (var i = 0; i < tempArrayMonth.length; i++) {
-    //     if (getDayWeek(i) === arrayWeekDays[6]) {
-    //         table += '<tr>' + '</tr>'
-    //     } else {
-
-    //     }
-
-    // }
-
-    // // new Date(2018,2, i).getDay()
-
-    // table += '</table>';
-    // function daysInMonth(year, month) {
-    //     return 33 - new Date(year, month - 1, 33).getDate();
-    // }
-    // function getDayWeek(day) {
-    //     switch (day) {
-    //         case 0:
-    //             return "Monday";
-    //             break;
-    //         case 1:
-    //             return "Tuesday";
-    //             break;
-    //         case 2:
-    //             return "Wednesday";
-    //             break;
-    //         case 3:
-    //             return "Thursday";
-    //             break;
-    //         case 4:
-    //             return "Friday";
-    //             break;
-    //         case 5:
-    //             return "Saturday";
-    //             break;
-    //         case 6:
-    //             return "Sunday";
-    //             break;
-    //     }
-    // }
+    var arrayDaysMonth = Array.apply(null, { length: daysInMonth(year, month) }).map(Function.call, Number);
+    var tempArrayMonth = new Array("<tr><td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td></tr>");
+    var newArrayMonth = [];
+    for (var i = 0; i < arrayDaysMonth.length; i++) {
+        var numberArrayDay = new Date(year, month - 1, i).getDay();
+        if (numberArrayDay === 0) {
+            tempArrayMonth[numberArrayDay] = ("<tr><td>" + (i + 1) + "</td>");
+        }
+        else if (numberArrayDay === 6) {
+            tempArrayMonth[numberArrayDay] = ("<td>" + (i + 1) + "</td></tr>");
+            newArrayMonth.push(tempArrayMonth);
+            tempArrayMonth = new Array("<tr><td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td>", "<td></td></tr>");
+        } else {
+            i === arrayDaysMonth.length - 1 ? (() => {
+                tempArrayMonth[numberArrayDay] = ("<td>" + (i + 1) + "</td>");
+                newArrayMonth.push(tempArrayMonth);
+            })() : tempArrayMonth[numberArrayDay] = ("<td>" + (i + 1) + "</td>");
+        }
+    }
+    var arrayWeekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var table = '<table border="1", cellpadding="0", cellspacing="0", width="500px">';
+    table += '<tr>' + arrayWeekDays.map(day => { return "<td>" + day + "</td>"; }).join("") + '</tr>';
+    table += flatten(newArrayMonth).join("");
+    table += '</table>';
+    htmlEl.innerHTML = table;
+    function daysInMonth(year, month) {
+        return 32 - new Date(year, month - 1, 32).getDate();
+    }
 }
-
-
 
 
 /**
@@ -178,29 +156,62 @@ function compareObjects(objA, objB) {
     } else {
         return false;
     }
-}
+} 
+
+
+
 
 function spiral(array) {
-    var newArray = flatten(array);
-    return getSpiralArray(newArray.sort((a, b) => {
-        return a - b;
-    }));
+
+    return  flatten(getSpiralArray(array));
 }
 
-function getSpiralArray(array, spin) {
-    var countAllValues = array.length;
-    var arraySpiral = [];
-    var spinValueDefoult = 3;
-    var countSpin = Math.floor(array.length / ((spin) ? spin : spinValueDefoult)); // количество витков(min 3)
-    for (var i = 1; i < countAllValues + 1; i++) {
-        if (i % spinValueDefoult === 0) {
-            arraySpiral.push(array.pop());
-        } else {
-            arraySpiral.push(array.shift());
-        }
+function getSpiralArray(array) {
+    var newArray = []
+    for(var i = 0; i < array.length; i++){
+       i === 0 ? newArray.push(array[i]): (() => {
+            i === array.length - 1 ? newArray.push(array[i]) : 
+       })() ;
+        // if (i % 2 === 0) {
+        //     arraySpiral[i] = new Array(arraySpiral[i]).reverse();
+        // } else{
+
+        // }
     }
+    
+    // for(var i = 0; i < flatten(array).length; i++ ){
+
+        
+    // }
+    // for (var i = 0; i < arraySpiral.length; i++) {
+    //     if (i % 2 === 0) {
+    //         arraySpiral[i] = new Array(arraySpiral[i]).reverse();
+    //     }
+    // }
     return arraySpiral;
 }
+
+// function spiral(array) {
+//     var newArray = flatten(array);
+//     return getSpiralArray(newArray.sort((a, b) => {
+//         return a - b;
+//     }));
+// }
+
+// function getSpiralArray(array, spin) {
+//     var countAllValues = array.length;
+//     var arraySpiral = [];
+//     var spinValueDefoult = 3;
+//     var countSpin = Math.floor(array.length / ((spin) ? spin : spinValueDefoult)); // количество витков(min 3)
+//     for (var i = 1; i < countAllValues + 1; i++) {
+//         if (i % spinValueDefoult === 0) {
+//             arraySpiral.push(array.pop());
+//         } else {
+//             arraySpiral.push(array.shift());
+//         }
+//     }
+//     return arraySpiral;
+// }
 
 //метод преобразующий через рекурсию массив любой глубины в одномерный массив
 function flatten(array) {
@@ -228,7 +239,7 @@ function quadraticEquation(a, b, c) {
             result.push((-b + Math.pow(d, 0.5)) / (2 * a));
         }
     } catch (ex) {
-        throw "mistake of input, please, check arguments... text error: ${ex}";
+        throw "mistake of input, please, check arguments... text error:" + ex;
     }
     return result;
 }
