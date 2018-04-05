@@ -163,7 +163,19 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum(arg) {
-  return function(sum) {} 
+  var innerArg = arguments[0] || 0
+  innerSum.valueOf = function() {
+    return innerArg
+  }
+  function innerSum(a) {
+    return sum((a || 0) + innerArg)
+  }
+ return innerSum
+}
+
+
+sum.valueOf = function() {
+  return sum.innerSum
 }
 
 function log(x) {
