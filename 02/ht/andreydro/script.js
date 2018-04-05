@@ -23,6 +23,7 @@ function isDeepEqual(objA, objB) {
         }
         return objA == objB;
     }
+
     if ((typeof objA === 'string' && typeof objB === 'string') || (Array.isArray(objA) && Array.isArray(objB))) {
         if (objA.length !== objB.length) {
             return false;
@@ -33,13 +34,16 @@ function isDeepEqual(objA, objB) {
             }
         }
     }
-    
+
     function equalObject(objA, objB) {
         if (objA === objB) {
             return true;
         }
         if (Object.keys(objA).length !== Object.keys(objB).length) {
             return false;
+        }
+        for (var key in objA) {
+            if (objA[key] === objA || objB[key] === objB) return true;
         }
         for (var property in objA) {
             if (!isDeepEqual(objA[property], objB[property])) {
@@ -58,9 +62,9 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
-  return function() {
-    return func.apply(context, arguments)
-  };
+    return function() {
+        return func.apply(context, arguments)
+    };
 }
 
 /**
@@ -69,29 +73,58 @@ function bind(func, context) {
  * (можно использовать фукнцию выше)
  */
 
- Function.prototype.myBind = function (someContext) {
-  var thisIsSomeContext = this;
-  return function () {
-    return thisIsSomeContext.apply(someContext, arguments);
-  }
- }
+Function.prototype.myBind = function(someContext) {
+    var thisIsSomeContext = this;
+    return function() {
+        return thisIsSomeContext.apply(someContext, arguments);
+    }
+}
 
 /**
-* создать объект с волшебным свойством, 
-* чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. 
-* А при чтении всегда выводилось число на 1 больше предыдущего
-* o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
-* console.log(o.magicProperty); // 6
-* console.log(o.magicProperty); // 7
-* console.log(o.magicProperty); // 8
-*/
+ * создать объект с волшебным свойством, 
+ * чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. 
+ * А при чтении всегда выводилось число на 1 больше предыдущего
+ * o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+ * console.log(o.magicProperty); // 6
+ * console.log(o.magicProperty); // 7
+ * console.log(o.magicProperty); // 8
+ */
+
+var object = {};
+Object.defineProperty(object, "magicalProp", {
+    set: function(meaning) {
+        this.value = meaning;
+        console.log(new Date() + " " + "--" + meaning);
+    },
+    get: function() {
+        return ++this.meaning;
+    }
+});
 
 /**
-* Создать конструктор с методами, так, 
-* чтобы следующий код работал и делал соответствующие вещи
-* те запуск кода ниже должен делать то, что говорят методы
-* u.askName().askAge().showAgeInConsole().showNameInAlert();
-*/
+ * Создать конструктор с методами, так, 
+ * чтобы следующий код работал и делал соответствующие вещи
+ * те запуск кода ниже должен делать то, что говорят методы
+ * u.askName().askAge().showAgeInConsole().showNameInAlert();
+ */
+
+function ShowYourInfo() {};
+ShowYourInfo.prototype.askName = function() {
+    this.name = prompt("Please, tell me your name", "");
+    return this;
+};
+ShowYourInfo.prototype.askAge = function() {
+    this.age = prompt("Please, tell me how old are you?", "");
+    return this;
+};
+ShowYourInfo.prototype.showAgeInConsole = function() {
+    console.log(this.age);
+    return this;
+};
+ShowYourInfo.prototype.showNameInAlert = function() {
+    alert(this.name);
+};
+var letsAsk = new ShowYourInfo();
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -100,44 +133,54 @@ function bind(func, context) {
  * Допустимые операции : + - * /
  */
 function calculate() {
-  var methods = {
-    "-": function(x, y) {
-      return x - y;
-    },
-    "+": function(x,y) {
-      return x + y;
-    },
-    "*": function(x, y) {
-      return x * y;
-    },
-    "/": function(x, y) {
-      return x / y;
-    }
-  };
-  var options = arguments;
-  return function (x) {
-    return function (y) {
-      return methods[options[0]](x,y);
+    var methods = {
+        "-": function(x, y) {
+            return x - y;
+        },
+        "+": function(x, y) {
+            return x + y;
+        },
+        "*": function(x, y) {
+            return x * y;
+        },
+        "/": function(x, y) {
+            return x / y;
+        }
     };
-  };
+    var options = arguments;
+    return function(x) {
+        return function(y) {
+            return methods[options[0]](x, y);
+        };
+    };
 }
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  throw "undefined";
-}
+var Singleton = (function() {
+    var someObject = null;
+    return function() {
+        if (!someObject) {
+            someObject = this;
+        }
+        return someObject;
+    };
+})();
 
 /**
-  * Создайте функцию ForceConstructor
-  * которая работает как конструктор независимо от того,
-  * вызвана она с new или без
-  * и сохраняет параметры в создаваемый объект с именами параметров
-  */
+ * Создайте функцию ForceConstructor
+ * которая работает как конструктор независимо от того,
+ * вызвана она с new или без
+ * и сохраняет параметры в создаваемый объект с именами параметров
+ */
 function ForceContructor(a, b, c) {
-  throw "undefined";
+    if (this instanceof ForceContructor) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    } else return new ForceContructor(a, b, c);
 }
 
 /**
@@ -149,12 +192,21 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-function sum() {
-  throw "undefined";
+function sum(total) {
+    if (!total) total = 0;
+
+    function summarize(argument) {
+        if (!argument) argument = 0;
+        return sum(total + argument);
+    };
+    summarize.valueOf = function() {
+        return total;
+    };
+    return summarize;
 }
 
 function log(x) {
-  console.log(+x);
+    console.log(+x);
 }
 
 /**
@@ -173,7 +225,18 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-function curry(func) {}
+function curry(func) {
+    var counter = func.length;
+    var variables = [];
+    return function rice(variable) {
+        variables.push(variable);
+        counter--;
+        if (counter === 0) {
+            return func.apply(null, variables);
+        }
+        return rice.bind(null);
+    };
+}
 
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -184,6 +247,14 @@ function curry(func) {}
 // u instanceof User; // true
 // u instanceof Array; // true
 // u instanceof PreUser; // true
+
+function User() {};
+
+function PreUser() {};
+PreUser.prototype = Object.create(Array.prototype);
+PreUser.prototype.constructor = Array;
+User.prototype = Object.create(PreUser.prototype);
+User.prototype.constructor = PreUser;
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
