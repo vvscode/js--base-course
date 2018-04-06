@@ -294,4 +294,95 @@ console.log(u instanceof PreUser);
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
+//function drawInteractiveCalendar(el) {}
+
+/**создать функцию, которая не может работать как конструктор
+ *  (работать с new, и покрыть ее тестами)
+ */
+
+function ForbiddenContructor(a, b, c) {
+    if (this instanceof ForbiddenContructor) {
+        throw "forbidden";
+    }
+}
+
+//var abc = new ForbiddenContructor(1, 2, 3);
+
+/**Написать реализацию метода .myCall, 
+ * который будет работать аналогично системному .call 
+ * и покрыть реализацию тестами
+ */
+Function.prototype.myCall = function(context) {
+    var args = Array.from(arguments);
+    args.shift();
+    return this.apply(context, args);
+}
+
+/**
+ * Написать реализацию функции debounce и throttle и покрыть реализации тестами
+ * Если ваше имя начинается с гласной - debounce. 
+ * Функция должна быть с сигнатурой debounce(fun, delay)
+ */
+function debounce(fun, delay) {
+    var timer = null;
+
+    return function (...args) {
+        var t = this;
+        function onComplete() {
+            fun.apply(t, args);
+            timer = null;
+        }
+
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(onComplete, delay);
+    };
+}
+
+
+/** 
+ * Создать синхронную функцию sleep(seconds)
+ */
+function sleep(sec) {
+    var ms = sec * 1000;
+    var time = new Date().getTime();
+    while (new Date() < time + ms){}
+}
+//console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+//sleep(9);
+//console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+
+/**
+ * Написать функцию getCounter и покрыть ее тестами, так, чтобы работал следующий код
+ * var c = getCounter(5);
+ * c
+ * .log() // 5
+ * 1.add(4)
+ * .log() // 9
+ * .add(3)
+ * .log() // 12
+ * .reset()
+ * .log() // 0
+ * .add(8)
+ * .log(); // 8
+ */
+
+function getCounter(num) {
+    var o = {};
+    o.log = function() {
+        return console.log(num);
+    };
+    o.add = function(num2) {
+        return console.log(num += num2);
+    };
+    o.reset = function() {
+        return console.log(num = 0);
+    }
+    return o;
+}
+ 
+ var c = getCounter(5);
+ c.log();
+ c.add(4);
+ c.reset();
