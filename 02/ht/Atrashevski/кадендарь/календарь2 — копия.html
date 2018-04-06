@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	</head>
+	<body>
+		<input id="elemMore" type="button" value="<" />
+		<input id="elemLess" type="button" value=">" />
+		<p id = "result"></p>
+		<table id ="calendar" border="2" align="center" width="50%"  height="100%" valign="middle" >
+		</table>
+		<h2></h2>
+	<script>
+		
+		
+		var month = 3;
+		var year = 2018;
+		
+		
+		function drawInteractiveCalendar(month, year){
+			var date1 = new Date(year, month, 0);
+			var amountOfdays = date1.getDate();
+			var date2 = new Date(year,(month-1), 1);
+			var dayOftheWeek = date2.getDay()
+			function ConstuctorCalendar (month,amountOfdays){
+				this.nameofthemonth = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь","Декабрь"];
+				this.HTMLcalendar = '<tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
+			};
+			ConstuctorCalendar.prototype.getTheNameOfTheMonth  =  function (){
+				return this.nameofthemonth[month-1];
+			};
+			ConstuctorCalendar.prototype.getHTMLcalendar  =  function (){
+				function checkSunday (){
+					if (dayOftheWeek == 0){
+						return 7;
+					}
+					return dayOftheWeek;
+				}
+				var number = 1;
+				while (checkSunday()>number) {
+					this.HTMLcalendar +='<td></td>';
+  					number++;
+				}
+				number = 1;
+				while ((amountOfdays)>=number) {
+					if((number+checkSunday() - 2)%7==0){
+						this.HTMLcalendar +='<tr></tr>';
+					}
+					this.HTMLcalendar +='<td>'+number+'</td>';
+  					number++;
+				}
+				this.HTMLcalendar +='</tr>';
+				document.getElementById('result').innerHTML = this.getTheNameOfTheMonth()+' / '+year;
+				return (this.HTMLcalendar);
+			};
+			var calendar = new ConstuctorCalendar(month, amountOfdays, dayOftheWeek);
+
+			document.getElementById('calendar').innerHTML = calendar.getHTMLcalendar(); 
+			};
+			drawInteractiveCalendar(month, year);
+			elemMore.addEventListener("click", changeMore);
+			elemLess.addEventListener("click", changeLess);
+			function changeMore(){
+	  		month++;
+			if(month==13){month-=12; year++;}
+			drawInteractiveCalendar(month, year);
+			}
+			function changeLess(){
+			month--;
+			if(month==0){month+=12; year--;}
+			drawInteractiveCalendar(month, year);
+			}
+			var ul = document.getElementById('calendar');
+  			ul.addEventListener('click', showText);
+  			function showText(event){
+  				if (!isNaN(Number(event.target.innerHTML))&&Number(event.target.innerHTML)){
+  					var сomment = prompt('Чем запомнился этот день?');
+  				
+  				if (!сomment) {
+				сomment = "Ничем";
+				}
+				var obj = {};
+				if(localStorage.getItem("myKey")==null){
+					obj.name = '<br>'+event.target.innerHTML+' '+document.getElementById('result').innerHTML+' '+сomment;
+				}
+				else{
+				obj.name = localStorage.getItem("myKey")+' <br>'+event.target.innerHTML+' '+document.getElementById('result').innerHTML+' '+сomment;
+				}
+				localStorage.setItem("myKey", obj.name);
+				document.querySelector('h2').innerHTML = obj.name;
+				}
+				
+				};
+
+	</script>
+</body>
+</html>
