@@ -84,25 +84,26 @@ console.log(o.x);
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 
-function GetPersonInfo() {
-  this.name = name;
-  this.age = age;
-}
+function GetPersonInfo() {}
 
 GetPersonInfo.prototype.askName = function() {
-  return (this.name = prompt('Ваше имя?', ''));
+  this.name = prompt('Ваше имя?', '');
+  return this;
 };
 
 GetPersonInfo.prototype.askAge = function() {
-  return (this.age = prompt('Ваш возраст?', ''));
+  this.age = prompt('Ваш возраст?', '');
+  return this;
 };
 
 GetPersonInfo.prototype.showAgeInConsole = function() {
   console.log('Ваш возраст ' + this.age);
+  return this;
 };
 
-GetPersonInfo.prototype.ShowNameInAlert = function() {
+GetPersonInfo.prototype.showNameInAlert = function() {
   alert('Ваше имя ' + this.name);
+  return this;
 };
 
 /**
@@ -203,7 +204,7 @@ function sum(a) {
     }
     return sum(result + b);
   }
-  calcSum.toString = function() {
+  calcSum.valueOf = function() {
     return result;
   };
   return calcSum;
