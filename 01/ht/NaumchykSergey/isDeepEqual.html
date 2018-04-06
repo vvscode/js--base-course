@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    var a = {prop1: 1, list: [1, 2, 3], o: {x: 2}};
+    var b = {list: [1, 2, 3], o: {x: 2}};
+    console.log(isDeepEqual(a, b)); // false
+    b.prop1 = 1;
+    console.log(isDeepEqual(a, b)); // true
+
+
+    function isDeepEqual(a, b) {
+        return isDeepEqualOne(a, b) && isDeepEqualOne(b, a);
+    }
+
+    function isDeepEqualOne(a, b) {
+        switch (typeof(a)) {
+            case "undefined":
+                return typeof(b) === 'undefined';
+            case "boolean":
+                return a === b;
+            case "number":
+                return a === b;
+            case "string":
+                return a === b;
+            case "object":
+
+                if (a === null && b !== null)
+                    return false;
+                for (var key in a)
+                    if (!isDeepEqualOne(a[key], b[key]))
+                        return false;
+
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
