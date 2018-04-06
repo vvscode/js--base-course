@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <!-- подключаем стили Mocha, для отображения результатов -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+  <!-- подключаем библиотеку Mocha -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+  <!-- настраиваем Mocha: предстоит BDD-тестирование -->
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <!-- подключаем chai -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+  <!-- в chai есть много всего, выносим assert в глобальную область -->
+  <script>
+    var assert = chai.assert;
+  </script>
+</head>
+
+<body>
+	<script>
+	
+	
+			function spiral (arr){
+			var difference = arr.length - arr[0].length;	
+			var result = [];
+ 			for (var bias = 0; ; bias++){
+ 			for (var i = bias; i < arr[bias].length - bias; i ++){
+ 				result.push(arr[bias][i]);
+ 				
+ 			}
+ 			for (var i = 1 + bias; i < arr.length - bias; i ++){
+ 			result.push(arr[i][arr[i].length-1-bias]);
+ 			
+ 			}
+ 			for (var i = arr[arr.length-1 - bias].length -2 - bias; i >-1 + bias; i --){
+ 			result.push(arr[arr.length-1 - bias][i]);
+ 			
+ 			}
+ 			for (var i = arr.length-2 - bias; i > 0 + bias; i --){
+ 				result.push(arr[i][0 + bias]);
+ 				
+			}
+			if (difference != 0){
+			if ((arr.length-3)==bias){
+				return result;
+			}}
+			else{
+				if ((arr.length-2)==bias){
+				return result;
+			}}
+			}
+			
+ 			}
+ 			
+ 			var a1 = [
+ 						 [1, 2, 3, 4, 5],
+  						 [6, 7, 8, 9, 10],
+  						 [11, 12, 13, 14, 15],
+ 						 [16, 17, 18, 19, 20]
+ 					 ];
+           console.log(typeof(spiral(a1)));
+  			var a2 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+  			var a3 = [[4, 5], [6, 7]];
+  			var b1 = [1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12];
+  			var b2 = [1,2,3,6,9,8,7,4,5];
+  			var b3 = [4,5,6,7];
+  			describe("spiral", function() {
+                it("при массиве  [1, 2, 3, 4, 5], [6, 7, 8, 9, 10],[11, 12, 13, 14, 15],[16, 17, 18, 19, 20] length совпадает", function() {
+                    assert.equal(b1.length, 20);
+                });
+            });
+            for(i = 0; i < 20; i++){
+            	describe("spiral", function() {
+                it("при массиве  [1, 2, 3, 4, 5], [6, 7, 8, 9, 10],[11, 12, 13, 14, 15],[16, 17, 18, 19, 20] "+ i+" елемент совпадает", function() {
+                    assert.equal(a1[i], b1[i]);
+                });
+            });
+            }
+
+            describe("spiral", function() {
+                it("при массиве  [[1, 2, 3], [4, 5, 6], [7, 8, 9]] length совпадает", function() {
+                    assert.equal(b2.length, 9);
+                });
+            });
+            for(e = 0; e < 9; e++){
+            	describe("spiral", function() {
+               it("при массиве [[1, 2, 3], [4, 5, 6], [7, 8, 9]] "+ e+" елемент совпадает", function() {
+                  assert.equal(a2[e], b2[e]);
+              });
+           });
+           }
+           describe("spiral", function() {
+                it("при массиве  [[4, 5], [6, 7]] length совпадает", function() {
+                    assert.equal(b3.length, 4);
+                });
+            }); 
+           for(y = 0; y < 4; y++){
+            	describe("spiral", function() {
+               it("при массиве  [[4, 5], [6, 7]] "+ y+" елемент совпадает", function() {
+                  assert.equal(a3[y], b3[y]);
+              });
+           });
+           }
+ </script>
+
+  <!-- в этом скрипте находятся спеки -->
+  <script src="test.js"></script>
+
+  <!-- в элементе с id="mocha" будут результаты тестов -->
+  <div id="mocha"></div>
+
+  <!-- запустить тесты! -->
+  <script>
+    mocha.run();
+
+	</script>
+	</body>
+
+<html>
