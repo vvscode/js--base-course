@@ -98,45 +98,46 @@ function bind(func, context) {
  * console.log(o.magicProperty); // 7
  * console.log(o.magicProperty); // 8
  */
-var original = function(){
-    this.magicProperty = function () {
-        var currentCount = this.magicProperty;
-        return function() {
-            return currentCount++;
-        }
-    };
-};
-o.__proto__ = original;
-
-var o = function() {
-    this.magicProperty = function (i) {
+var o = {};
+Object.defineProperty(o, 'magicProperty', {
+    get: function (i) {
+        var newValue = this.i + 1;
+        this.i = newValue;
+        console.log(newValue);
+    },
+    set: function (i) {
+        this.i = i;
         var date = new Date();
-        console.log(date + 'i');
-        original.magicProperty = i;
-        delete o.magicProperty;
-    };
-};
+        console.log(date + '--' + i);
+    }
+});
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
-var U = function(){
-    this.askName = function() {
+
+var methods = {
+    askName: function() {
         this.name = prompt("Вaше имя?", "Bob");
-    };
-    this.askAge = function(){
+        return this.name;
+    },
+    askAge: function() {
         this.age = prompt("Ваш возраст?", "0");
-    };
-    this.showAgeInConsole = function(){
+        return this.age;
+    },
+    showAgeInConsole: function() {
         console.log(this.age);
-    };
-    this.showNameInAlert = function(){
+    },
+    showNameInAlert: function() {
         console.log(this.name);
-    };
-    var u = new U();
+    }
 };
+var Constr = function() {};
+Constr.prototype = methods;
+var h = new Constr();
+
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
  * calculate('+')(1)(2); // 3
@@ -167,9 +168,17 @@ function calculate(a) {
  * new Singleton() === new Singleton
  */
 function Singleton() {
-    throw "undefined";
-}
-
+    var result;
+    return function getSingletone() {
+        if (result) {
+            return result;
+        }
+        if (this && this.constructor === getSingletone) {
+            result = this;
+        } else {
+            return new getSingletone();
+        }
+    };
 /**
  * Создайте функцию ForceConstructor
  * которая работает как конструктор независимо от того,
@@ -195,8 +204,25 @@ function ForceContructor(a, b, c) {
  * log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
+//это можно не смотреть, буду спрашивать на занятии
 function sum() {
-    throw "undefined";
+    var parameters = Array.prototype.slice.call(arguments, 0);
+    return function result() {
+        if (parameters = 0) {
+            return 0;
+        } else {
+            return function () {
+                return uncurried.apply(this, parameters.concat(
+                    Array.prototype.slice.call(arguments, 0)
+                ));
+            };
+        }
+    }
+    var result = 0;
+    for(var i = 0; i <= parameters.length; i++){
+        result = result + parameters[i];
+    }
+    return result;
 }
 
 function log(x) {
@@ -273,21 +299,28 @@ function drawInteractiveCalendar(el) {}
 /*
  Написать реализацию метода .myCall, который будет работать аналогично системному .call и покрыть реализацию тестами
  */
-Function.prototype.myCall = function(context){
-    return function (){
-        return this.call(context, arg1, arg2)
-    }
+Function.prototype.myCall = function (context) {
+    var a = this.bind(context);
+    //и как-то передать аргументы
+    return a();
 };
 /*
  Написать реализацию функций debounce и throttle и покрыть реализации тестами
  ( Если ваше имя начинается с гласной - debounce, иначе - throttle. А лучше - обе ).
   Функции должны с сигнатурой debounce(fun, delay) / throttle(fun, delay)
  */
-function debounce(fun, delay{
-
+function debounce(fun, delay) {
 }
 function throttle(fun, delay){
-
+    var b = true;
+    return function(){
+        if (!b) {
+            return;
+        }
+        fun.apply(this,arguments);
+        b = false;
+        setTimeout(function(){b = true;},delay)
+    }
 }
 /*
 К генератору листаемого календаря добавить функционал: под календарем добавить блок.
@@ -305,11 +338,10 @@ function throttle(fun, delay){
  console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
  */
 function sleep(seconds){
-    var date = new Date();
-    var dateSec = date.getSeconds();
-    while(dateSec < dateSec + seconds * 1000){
-        date = new Date();
-        dateSec = date.getSeconds();
+    var dateStart = +new Date();
+    var dateEnd = 0;
+    while(dateEnd <= dateStart + seconds * 1000){
+        dateEnd = +new Date();
     }
 }
 /*
@@ -326,19 +358,21 @@ function sleep(seconds){
  .add(8)
  .log(); // 8
  */
-
 function getCounter(number) {
     var value = number;
-    return function () {
-        function log() {
-            return value;
+    var obj;
+    obj = {
+        log: function() {
+            console.log(value);
+            return this.value;
+        },
+        add: function(addNumber) {
+            return (this.value = value + addNumber);
+        },
+        reset: function() {
+            return (this.value = 0);
         }
-        function add(addNumber) {
-            return (value = value + addNumber);
-        }
-        function reset() {
-            return (value = 0);
-        }
-    }
+    };
+    return obj;
 }
 
