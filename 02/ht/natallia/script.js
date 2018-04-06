@@ -37,7 +37,6 @@ function isDeepEqual(objA, objB) {
  */
 function bind(func, context) {
   return function() {
-    var arguments = Object.create(arguments);
     return func.apply(context, arguments);
   };
 }
@@ -152,13 +151,18 @@ function calculate(calc) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-function Singleton() {
-  if (Singleton.instanceOf) {
-    return Singleton.instanceOf;
-  } else {
-    Singleton.instanceOf = this;
+
+var Singleton = (function() {
+  var instance;
+  function Singleton() {
+    if (instance) {
+      return instance;
+    } else {
+      return (instance = this);
+    }
   }
-}
+  return Singleton;
+})();
 
 /**
  * Создайте функцию ForceConstructor
@@ -321,7 +325,6 @@ function getCounter(num) {
 
 getCounter.prototype.log = function() {
   console.log(this.result);
-  return this.result;
 };
 
 getCounter.prototype.add = function(addNum) {

@@ -74,18 +74,25 @@ describe('getCounter', function() {
     assert.isOk(typeof getCounter.prototype.reset === 'function');
   });
   it('цепочка методов, вызванная друг за другом, работает корректно', function() {
-    var count = [];
+    var log = console.log;
+    var logValue = [];
+
+    console.log = function() {
+      logValue.push.apply(logValue, arguments);
+      log.apply(console, arguments);
+    };
+
     var c = new getCounter(5);
-    count.push(c.log());
+    c.log();
     c.add(4);
-    count.push(c.log());
+    c.log();
     c.add(3);
-    count.push(c.log());
+    c.log();
     c.reset();
-    count.push(c.log());
+    c.log();
     c.add(8);
-    count.push(c.log());
-    assert.isOk(count.join() === '5,9,12,5,13');
+    c.log();
+    assert.equal(logValue.join(), '5,9,12,5,13');
   });
 });
 
@@ -123,13 +130,10 @@ describe('throttle(func, delay)', function() {
 
 describe('drawInteractiveCalendar', function() {
   var monthAdjustment = -1;
-  var el;
+  var el, elHeader;
   beforeEach(function() {
-    return (el = document.createElement('div'));
-  });
-  var elHeader;
-  beforeEach(function() {
-    return (elHeader = document.createElement('div'));
+    el = document.createElement('div');
+    elHeader = document.createElement('div');
   });
   it('функция', function() {
     assert.isOk(typeof drawInteractiveCalendar === 'function');
