@@ -83,9 +83,6 @@ Function.prototype.myBind = function(context) {
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 function User() {
-  var age;
-  var name;
-
 }
 
 User.prototype.askName = function() {
@@ -170,7 +167,7 @@ function sum(arg) {
   function innerSum(a) {
     return sum((a || 0) + innerArg)
   }
- return innerSum
+  return innerSum
 }
 
 
@@ -198,8 +195,20 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-function curry(func) {}
 
+function curry(target) {
+  var counter = target.length
+  var innerArguments = []
+  return function innerFunction(arg) {
+    innerArguments.push(arg)
+    counter--
+    if(counter === 0) {
+      return target.apply(this, innerArguments)
+    } else {
+      return innerFunction.bind(this)
+    }
+  }
+}
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
@@ -229,4 +238,73 @@ User.prototype = Object.create(PreUser.prototype)
 При клике по кнопкам [<] / [>] нужно реализовать листание календаря
 Добавть на страницу index.html вызов календаря
 */
+
+function drawCalendar(year, month, htmlEl) {
+    //using linux 'cal' as an example
+    var table = '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
+    
+    var date = new Date(year, month - 1);
+
+    //filling in extra weekdays, if not starting with monday
+    if (date.getDay() != 1) {
+        table += '<tr>';
+        for (var i = 1; i < date.getDay(); i++) {
+            table += '<td></td>';
+        }
+    }
+
+    while (date.getMonth() == month - 1) {
+    //starting a row before monday
+        if (date.getDay() == 1) {
+            table += '<tr>';  
+        }
+        table += '<td>' + date.getDate() + '</td>';
+    //closing a row after sunday 
+        if (date.getDay() == 0) {
+            table += '</tr>'; //
+        }
+        date.setDate(date.getDate() + 1);
+    }
+
+    //closing last row if last day wasn't monday
+    if (date.getDay() != 1) {
+        table += '</tr>';
+    }
+
+    htmlEl.innerHTML = table + '</table>';
+  //using linux 'cal' as an example
+  var table =
+    '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
+
+  var date = new Date(year, month - 1);
+
+  //filling in extra weekdays, if not starting with monday
+  if (date.getDay() != 1) {
+    table += '<tr>';
+    for (var i = 1; i < date.getDay(); i++) {
+      table += '<td></td>';
+    }
+  }
+
+  while (date.getMonth() == month - 1) {
+    //starting a row before monday
+    if (date.getDay() == 1) {
+      table += '<tr>';
+    }
+    table += '<td>' + date.getDate() + '</td>';
+    //closing a row after sunday
+    if (date.getDay() == 0) {
+      table += '</tr>'; //
+    }
+    date.setDate(date.getDate() + 1);
+  }
+
+  //closing last row if last day wasn't monday
+  if (date.getDay() != 1) {
+    table += '</tr>';
+  }
+
+  htmlEl.innerHTML = table + '</table>';
+}
+
 function drawInteractiveCalendar(el) {}
