@@ -26,18 +26,15 @@ function fizzBuzz() {
     var stringNameBuzz = 'Buzz';
     var stringNameFrizzBuzz = 'FizzBuzz';
     var startInicializetion = 1;
-    (function processing() {
-        for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
-            var a = (startInicializetion % 3) === 0;
-            var b = (startInicializetion % 5) === 0;
-            var c = a && b;
-            (a && !b) && log(stringNameFizz);
-            (b && !a) && log(stringNameBuzz);
-            c && log(stringNameFrizzBuzz);
-            (!a && !b) && log(startInicializetion);
-        }
+    for (startInicializetion; startInicializetion <= 100; startInicializetion++) {
+        var a = (startInicializetion % 3) === 0;
+        var b = (startInicializetion % 5) === 0;
+        var c = a && b;
+        (a && !b) && log(stringNameFizz);
+        (b && !a) && log(stringNameBuzz);
+        c && log(stringNameFrizzBuzz);
+        (!a && !b) && log(startInicializetion);
     }
-    )();
 }
 
 
