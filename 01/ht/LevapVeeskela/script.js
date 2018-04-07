@@ -171,29 +171,27 @@ function spiral(array) {
         var newArray = [];
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < m; j++) {
-                if (i === 0 ) {
+                if (i === 0) {
                     newArray.push(arrayCurrent[i].shift() || arrayCurrent.shift());
                     console.log("up");
                 }
                 if ((j === arrayCurrent[i].length - 1 && i !== 0 && i !== n - 1 && arrayCurrent[i].length != 1)) {
                     newArray.push(arrayCurrent[i][j] || arrayCurrent[i]);
                     arrayCurrent[i].splice(j, 1);
-                    if(newArray[i].length === 0){
-                        arrayCurrent.splice(i,1);
+                    if (newArray[i].length === 0) {
+                        arrayCurrent.splice(i, 1);
                     }
                     console.log("right");
                 }
                 if (i === arrayCurrent.length - 1 && arrayCurrent[i].length > 0) {
                     console.log("down");
                     newArray.push(arrayCurrent[i].pop() || arrayCurrent.pop());
-    
-                    if(arrayCurrent[i].length === 0){
-                        if(arrayCurrent[i - 1].length > 0){
-                            console.log("arrayCurrent  " + arrayCurrent);
+
+                    if (arrayCurrent[i].length === 0) {
+                        if (arrayCurrent[i - 1].length > 0) {
                             newArray.push(getSpiralArray(arrayCurrent));
                         }
                         arrayCurrent.splice(i, 1);
-                      
                     }
                 }
             }
@@ -201,8 +199,6 @@ function spiral(array) {
         return newArray;
     }
 }
-
-
 
 //метод преобразующий через рекурсию массив любой глубины в одномерный массив
 function flatten(array) {
