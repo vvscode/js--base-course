@@ -1,4 +1,4 @@
-/* eslint-disable require-jsdoc,no-array-constructor,valid-jsdoc,no-extend-native,prefer-rest-params,semi,space-before-function-paren */
+/* eslint-disable require-jsdoc,no-array-constructor,valid-jsdoc,no-extend-native,prefer-rest-params,semi,space-before-function-paren,space-before-blocks */
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
@@ -12,23 +12,35 @@
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    if (Array.isArray(objA) && Array.isArray(objB)) {
-        return objA.toString() === objB.toString();
-    } else if (typeof objA === 'object' && typeof objB === 'object') {
-        if (objA.length !== objB.length) return false;
-        else if (JSON.stringify(objA) === JSON.stringify(objB)) {
-          return true;
-        } else {
-for (var key in objA) {
-            if (!isDeepEqual(objA[key], objB[key])) return false;
-}
-            return JSON.stringify(objA) === JSON.stringify(objB);
-        }
-    } else if (typeof objA === 'number' && typeof objB === 'number' && Number.isNaN(objA) === Number.isNaN(objB)) {
-        return true;
-    } else {
+    if (typeof objA === 'string' && typeof objB === 'string') {
         return objA === objB;
     }
+    if (Array.isArray(objA) && Array.isArray(objB)) {
+        return objA.toString() === objB.toString();
+    }
+    if (typeof objA === 'number' && typeof objB === 'number' && !Number.isNaN(objA)) {
+        return objA === objB;
+    }
+    if (typeof objA === 'number' && typeof objB === 'number' && Number.isNaN(objA) === Number.isNaN(objB)){
+        return true;
+    }
+    if (typeof objA === 'object' && typeof objB === 'object') {
+        if (JSON.stringify(objA) === JSON.stringify(objB)) {
+            return true;
+        } else {
+            for (let i in objA) {
+                if (!(i in objB) || !isDeepEqual(objA[i], objB[i])) {
+                    return false;
+                }
+            }
+        }
+        for (let i in objA) {
+            if (objA.hasOwnProperty(i) !== objB.hasOwnProperty(i)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /**
@@ -192,15 +204,13 @@ function sum(a) {
         if (b === undefined) {
             b = 0;
             }
-        currentSum += b;
-        return sumFunc;
+        return sum(currentSum + b);
     }
     sumFunc.valueOf = function() {
         return currentSum;
     };
     return sumFunc;
 }
-
 
 /**
  * Написать каррирующую функцию и покрыть ее тестами
@@ -227,23 +237,14 @@ var curry = function (func) {
     };
     return addFunc();
 };
-function target1(a, b, c, d) {
- return a + b + c + d;
-}
-function target2(a, b) {
- return a + b
-}
-curry(target1)(1)(2)(3)(4)
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
 */
 function User() {}
 function PreUser() {}
-User.prototype = Object.create(Array.prototype);
 PreUser.prototype = Object.create(Array.prototype);
 User.prototype = Object.create(PreUser.prototype);
-let u = new User();
 
 // User === PreUser; // false
 // u instanceof User; // true
@@ -269,4 +270,14 @@ let u = new User();
 */
 function drawInteractiveCalendar(el) {}
 
+
+/* создать функцию, которая не может работать как конструктор (работать с `new`, и покрыть ее тестами
+NotContructor
+
+ */
+function NotContructor() {
+    if (this instanceof NotContructor) {
+        throw new TypeError('"NotContructor" is not a constructor.');
+    }
+}
 

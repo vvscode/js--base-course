@@ -6,25 +6,71 @@
 </head>
 <body>
     <h1 style="text-align: center">Домашнее задание 2</h1>
-    <h2 style="text-align: center">Календарь</h2>
-    <div style="display: flex; flex-direction: row; justify-content: space-around; align-content: center">
-        <div><button id="leftBt"></button></div>
-        <div id="calendar" style="align-content: center; text-align: center"></div>
-        <div><button id="rightBt"></button></div>
-    </div>
     <h2 style="text-align: center">Форма</h2>
     <form action="URL">
         <div style="display: flex; justify-content: center">
             <div style="width: 600px; display: flex; flex-direction: column; justify-content: space-around; align-content: center">
-                <input type="text" value="Имя">
-                <input type="list">
-                <textarea name="comment"></textarea>
-                <input type="radio" name="sex" value="male">Мужчина
-                <input type="radio" name="sex" value="femail">Женщина
+                <input type="text" id="name" name="name" placeholder="Имя пользователя" pattern="^[А-Я]{1}[а-я]{1,19}" required>
+                <br>
+                <fieldset><legend>Возраст *</legend>
+                <select name="age" id="age" required>
+                </select>
+                </fieldset>
+                <fieldset><legend>Ваш пол?</legend>
+                    <label><input type="radio" name="gender" value="male" checked>Мужской</label>
+                    <br>
+                    <label><input type="radio" name="gender" value="female">Женский</label>
+                </fieldset>
+                <label><input type="checkbox" id="drive">Имеются водительские права права</label><br>
+                <input type="textarea" id="comment" name="comment" placeholder="О себе">
+                <br>
+                <input type="button" value="Готово!" onclick="printForm()">
             </div>
         </div>
     </form>
-    <script src="Calendar.js"></script>
+    <div id="outputForm"></div>
+
+    <script>
+        var select = '';
+        for (i=1;i<=100;i++){
+            select += '<option val=' + i + '>' + i + '</option>';
+        }
+        var ageSelect = document.getElementById("age");
+        ageSelect.innerHTML = select;
+    </script>
+    <script>
+        function printForm () {
+            var outputForm = document.getElementById('outputForm'),
+                form = '',
+                name = document.getElementById('name').value,
+                age = document.getElementById('age').value,
+                gender = document.getElementsByName('gender'),
+                genderChecked = (function (gender) {
+                    for (var m = 0; m < gender.length; m++) {
+                        if (gender[m].getAttribute('checked') && gender[m].value('male')) {
+                            return 'Мужской'
+                        } else {return 'Женский'}
+                    }
+                })(),
+                drive = (document.getElementById('drive').checked) ? "Да" : "Нет",
+                comment = document.getElementById('comment').value;
+            form = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderChecked + '</p>' +
+                '<p>Водитель: ' + drive + '</p><p>О себе: ' + comment + '</p>';
+            outputForm.innerHTML = form;
+            function clear() {
+                document.getElementById('name').innerHTML += '';
+                document.getElementById('age').innerHTML += '';
+                document.getElementById('drive').removeAttribute('checked');
+                document.getElementById('comment').innerHTML += '';
+                nameClear.innerHTML = '';
+                ageClear.innerHTML = '';
+                genderClear.innerHTML = '';
+                driveClear.checked = false;
+                commentClear.innerHTML = '';
+            }
+            clear();
+        }
+    </script>
 </body>
 </html>
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,eol-last */
 'use strict';
 /* добавить тесты */
 describe('curry', function() {
@@ -14,3 +14,11 @@ describe('curry', function() {
     });
 });
 
+describe('NotContructor', function() {
+    it('это функция', function() {
+        assert.isOk(NotContructor instanceof Function);
+    });
+    it('Не конструктор', function() {
+        assert.isOk(TypeError);
+    });
+});
