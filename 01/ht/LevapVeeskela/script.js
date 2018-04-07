@@ -156,62 +156,53 @@ function compareObjects(objA, objB) {
     } else {
         return false;
     }
-} 
+}
 
 
 
 
 function spiral(array) {
-
-    return  flatten(getSpiralArray(array));
-}
-
-function getSpiralArray(array) {
-    var newArray = []
-    for(var i = 0; i < array.length; i++){
-       i === 0 ? newArray.push(array[i]): (() => {
-            i === array.length - 1 ? newArray.push(array[i]) : 
-       })() ;
-        // if (i % 2 === 0) {
-        //     arraySpiral[i] = new Array(arraySpiral[i]).reverse();
-        // } else{
-
-        // }
-    }
+    var countValues = flatten(array).length;
+    return flatten(getSpiralArray(array));
+    function getSpiralArray(arrayCurrent) {
+        console.log("-------------------------");
+        var n = arrayCurrent.length;
+        var m = arrayCurrent[0].length;
+        var newArray = [];
+        for (var i = 0; i < n; i++) {
+            for (var j = 0; j < m; j++) {
+                if (i === 0 ) {
+                    newArray.push(arrayCurrent[i].shift() || arrayCurrent.shift());
+                    console.log("up");
+                }
+                if ((j === arrayCurrent[i].length - 1 && i !== 0 && i !== n - 1 && arrayCurrent[i].length != 1)) {
+                    newArray.push(arrayCurrent[i][j] || arrayCurrent[i]);
+                    arrayCurrent[i].splice(j, 1);
+                    if(newArray[i].length === 0){
+                        arrayCurrent.splice(i,1);
+                    }
+                    console.log("right");
+                }
+                if (i === arrayCurrent.length - 1 && arrayCurrent[i].length > 0) {
+                    console.log("down");
+                    newArray.push(arrayCurrent[i].pop() || arrayCurrent.pop());
     
-    // for(var i = 0; i < flatten(array).length; i++ ){
-
-        
-    // }
-    // for (var i = 0; i < arraySpiral.length; i++) {
-    //     if (i % 2 === 0) {
-    //         arraySpiral[i] = new Array(arraySpiral[i]).reverse();
-    //     }
-    // }
-    return arraySpiral;
+                    if(arrayCurrent[i].length === 0){
+                        if(arrayCurrent[i - 1].length > 0){
+                            console.log("arrayCurrent  " + arrayCurrent);
+                            newArray.push(getSpiralArray(arrayCurrent));
+                        }
+                        arrayCurrent.splice(i, 1);
+                      
+                    }
+                }
+            }
+        }
+        return newArray;
+    }
 }
 
-// function spiral(array) {
-//     var newArray = flatten(array);
-//     return getSpiralArray(newArray.sort((a, b) => {
-//         return a - b;
-//     }));
-// }
 
-// function getSpiralArray(array, spin) {
-//     var countAllValues = array.length;
-//     var arraySpiral = [];
-//     var spinValueDefoult = 3;
-//     var countSpin = Math.floor(array.length / ((spin) ? spin : spinValueDefoult)); // количество витков(min 3)
-//     for (var i = 1; i < countAllValues + 1; i++) {
-//         if (i % spinValueDefoult === 0) {
-//             arraySpiral.push(array.pop());
-//         } else {
-//             arraySpiral.push(array.shift());
-//         }
-//     }
-//     return arraySpiral;
-// }
 
 //метод преобразующий через рекурсию массив любой глубины в одномерный массив
 function flatten(array) {
@@ -239,7 +230,7 @@ function quadraticEquation(a, b, c) {
             result.push((-b + Math.pow(d, 0.5)) / (2 * a));
         }
     } catch (ex) {
-        throw "mistake of input, please, check arguments... text error:" + ex;
+        throw ("mistake of input, please, check arguments... text error: " + ex);
     }
     return result;
 }

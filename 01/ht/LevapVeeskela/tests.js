@@ -24,10 +24,10 @@ describe("spiral", () => {
   
 describe("quadraticEquation", () => {
   it("isFunction", () => {
-        assert.isOk(typeof spiral === "function");
+        assert.isOk(typeof quadraticEquation === "function");
   });
   it("back array", function() {
-       assert.isOk(Array.isArray(spiral([])));
+       assert.isOk(Array.isArray(quadraticEquation([])));
   });
   it("correctly", () => {
     assert.isOk(quadraticEquation(1, -8, 72).length === 0);
