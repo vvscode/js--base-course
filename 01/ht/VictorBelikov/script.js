@@ -87,8 +87,52 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+    var tempDate = new Date(year, month + 1, 0),
+        lastDay = tempDate.getDate(),
+        endMonth = false,
+        currDate = new Date(year, month, 1),
+        weekDay = currDate.getDay() - 1, // чтобы начинались с Пн.
+        daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+    for (var j = 0; j < daysOfWeek.length; j++) {
+        var th = document.createElement('th');
+        th.innerHTML = daysOfWeek[j];
+        htmlEl.appendChild(th);
+    }
+
+    if (weekDay < 0) weekDay = 6;
+
+    while (currDate.getMonth() === month) {
+        var tr = document.createElement('tr'),
+            i = 0;
+
+        while (i < 7) {
+            var td = document.createElement('td');
+
+            if (i < weekDay) {
+                td.innerHTML = '';
+            } else {
+
+                if (endMonth) {
+                    td.innerHTML = '';
+                } else {
+                    td.innerHTML = currDate.getDate();
+                }
+
+                if (currDate.getDate() === lastDay) endMonth = true;
+                currDate.setDate(currDate.getDate() + 1);
+            }
+            tr.appendChild(td);
+            i++;
+        }
+
+        weekDay = 0;
+        htmlEl.appendChild(tr);
+    }
+    document.getElementById('calendar-wrap').appendChild(htmlEl);
 }
+
+drawCalendar(2018, 1, document.createElement('table'));
 
 
 /**
@@ -100,6 +144,16 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    /* Ваше решение */
-    return undefined;
+    if (typeof objA === typeof objB) {
+        if (typeof objA === 'object' && typeof objB === 'object') {
+
+            if (!(objA.length === objB.length)) return false;
+
+            for (var key in objA) {
+                if (!isDeepEqual(objA[key], objB[key])) return false;
+            }
+            return true;
+        }
+        return objA === objB;
+    }
 }
