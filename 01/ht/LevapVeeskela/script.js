@@ -63,12 +63,12 @@ function isPolindrom(textString) {
     */
 
     /** three version  */
-    var linght = textString.length;
-    for (var i = 0; i < linght; i++) {
-        if (!(textString[i] === textString[linght - 1])) {
+    var lingth = textString.length;
+    for (var i = 1; i < lingth; i++) {
+        if (!(textString[i - 1] === textString[lingth - 1])) {
             return false;
         } else {
-            linght--;
+            lingth--;
         }
     }
     return true;
