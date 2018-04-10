@@ -117,33 +117,35 @@ function calculate(sign) {
   return function(arg) {
     this.arg1 = arg;
     return function(arg) {
-      switch(this.sign) {
+      switch (this.sign) {
         case '+':
-          return (this.arg1 + arg)
+          return this.arg1 + arg;
         case '*':
-          return (this.arg1 * arg)
+          return this.arg1 * arg;
         case '-':
-          return (this.arg1 - arg)
+          return this.arg1 - arg;
         case '/':
-          return (this.arg1 / arg)
+          return this.arg1 / arg;
       }
-    }
+    };
   };
-};
+}
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
 
-function Singleton() {
-  if (Singleton.instance) {
-    return Singleton.instance;
-  } else {
-    Singleton.instance = this;
-  }
-}
-
+var Singleton = (function() {
+  var SingletonInstance;
+  return (function() {
+    if (!SingletonInstance) {
+      console.log(1)
+      SingletonInstance = this;
+    }
+    return SingletonInstance;
+  });
+})()
 /**
  * Создайте функцию ForceConstructor
  * которая работает как конструктор независимо от того,
@@ -169,14 +171,14 @@ function ForceContructor(a, b, c) {
  * Число вызовов может быть неограниченым
  */
 function sum(arg) {
-  var innerArg = arguments[0] || 0
+  var innerArg = arguments[0] || 0;
   innerSum.valueOf = function() {
-    return innerArg
-  }
+    return innerArg;
+  };
   function innerSum(a) {
-    return sum((a || 0) + innerSum)
+    return sum((a || 0) + innerSum);
   }
-  return innerSum
+  return innerSum;
 }
 
 function log(x) {
@@ -201,17 +203,17 @@ function log(x) {
  */
 
 function curry(target) {
-  var counter = target.length
-  var args = []
+  var counter = target.length;
+  var args = [];
   return function innerFunction(a) {
-    args.push(a)
-    counter--
-    console.log(args)
-    if(counter === 0) {
-      return target.apply(this, args)
+    args.push(a);
+    counter--;
+    console.log(args);
+    if (counter === 0) {
+      return target.apply(this, args);
     }
-    return innerFunction.bind(this)
-  }
+    return innerFunction.bind(this);
+  };
 }
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
@@ -248,8 +250,8 @@ function drawCalendar(year, month, htmlEl) {
   var table =
     '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
 
-  var date = new Date(year, month-1);
-  
+  var date = new Date(year, month - 1);
+
   if (date.getDay() !== 1 && date.getDay()) {
     table += '<tr>';
     for (var i = 1; i < date.getDay(); i++) {
@@ -285,48 +287,62 @@ function drawCalendar(year, month, htmlEl) {
 }
 
 function drawInteractiveCalendar(year, month, el) {
-  var currentMonth = month
-  var currentDate = new Date(year, month)
-  var innerEl = document.createElement('div')
-  var header = document.createElement('h')
-  var d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ')
-  header.appendChild(d)
-  
+  var currentMonth = month;
+  var currentDate = new Date(year, month);
+  var innerEl = document.createElement('div');
+  var header = document.createElement('h');
+  var d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ');
+  header.appendChild(d);
+
   //creating buttons
-  var leftButton = document.createElement('button')
-  var rightButton = document.createElement('button');       
-  var r = document.createTextNode('>');       
-  var l = document.createTextNode('<');       
-  rightButton.appendChild(r);  
+  var leftButton = document.createElement('button');
+  var rightButton = document.createElement('button');
+  var r = document.createTextNode('>');
+  var l = document.createTextNode('<');
+  rightButton.appendChild(r);
   leftButton.appendChild(l);
-  rightButton.addEventListener('click', function(){redrawCalendar('+');})
-  leftButton.addEventListener('click',  function(){redrawCalendar('-');})
-  el.appendChild(leftButton)
-  el.appendChild(header)
-  el.appendChild(rightButton)
-  
-  drawCalendar(currentDate.getFullYear(), currentDate.getMonth(), innerEl)
-  el.appendChild(innerEl)
-   
+  rightButton.addEventListener('click', function() {
+    redrawCalendar('+');
+  });
+  leftButton.addEventListener('click', function() {
+    redrawCalendar('-');
+  });
+  el.appendChild(leftButton);
+  el.appendChild(header);
+  el.appendChild(rightButton);
+
+  drawCalendar(currentDate.getFullYear(), currentDate.getMonth(), innerEl);
+  el.appendChild(innerEl);
+
   function changeDate(direction) {
-    if(direction === '+') {
-      currentMonth++
-      currentDate.setMonth(currentMonth)
-      currentMonth = currentDate.getMonth()
+    if (direction === '+') {
+      currentMonth++;
+      currentDate.setMonth(currentMonth);
+      currentMonth = currentDate.getMonth();
     }
-    if(direction === '-') {
-      currentMonth--
-      currentDate.setMonth(currentMonth)
-      currentMonth = currentDate.getMonth()
+    if (direction === '-') {
+      currentMonth--;
+      currentDate.setMonth(currentMonth);
+      currentMonth = currentDate.getMonth();
     }
   }
-  
+
   function redrawCalendar(direction) {
-    changeDate(direction)
-    drawCalendar(currentDate.getFullYear(), currentDate.getMonth()+1, innerEl)
-    header.removeChild(header.firstChild)
+    changeDate(direction);
+    drawCalendar(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      innerEl
+    );
+    header.removeChild(header.firstChild);
     //adding 1 to month because now working with js date representation
-    d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ')
-    header.appendChild(d)
+    d = document.createTextNode(
+      ' ' +
+        currentDate.getFullYear() +
+        ', ' +
+        (currentDate.getMonth() + 1) +
+        ' '
+    );
+    header.appendChild(d);
   }
 }
