@@ -242,7 +242,6 @@ function drawCalendar(year, month, htmlEl) {
   var date = new Date(year, month-1);
   
   if (date.getDay() !== 1 && date.getDay()) {
-    console.log('lupa')
     table += '<tr>';
     for (var i = 1; i < date.getDay(); i++) {
       table += '<td></td>';
@@ -253,8 +252,6 @@ function drawCalendar(year, month, htmlEl) {
     for (var i = 6; i > date.getDay(); i--) {
       table += '<td></td>';
     }
-    console.log(date.getDay())
-    
   }
 
   while (date.getMonth() == month - 1) {
