@@ -113,14 +113,23 @@ User.prototype.showNameInAlert = function() {
  */
 function calculate(sign) {
   this.sign = sign;
-  var arg1;
+  this.arg1;
   return function(arg) {
     this.arg1 = arg;
     return function(arg) {
-      return eval(this.arg1 + this.sign + arg);
-    };
+      switch(this.sign) {
+        case '+':
+          return (this.arg1 + arg)
+        case '*':
+          return (this.arg1 * arg)
+        case '-':
+          return (this.arg1 - arg)
+        case '/':
+          return (this.arg1 / arg)
+      }
+    }
   };
-}
+};
 
 /**
  * Создайте конструктор-синглтон? Что такое синглтон?
