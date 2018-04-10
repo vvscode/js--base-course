@@ -240,46 +240,21 @@ function drawCalendar(year, month, htmlEl) {
     '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
 
   var date = new Date(year, month-1);
-
-  //filling in extra weekdays, if not starting with monday
-  if (date.getDay() !== 1) {
+  
+  if (date.getDay() !== 1 && date.getDay()) {
+    console.log('lupa')
     table += '<tr>';
     for (var i = 1; i < date.getDay(); i++) {
       table += '<td></td>';
     }
   }
-
-  while (date.getMonth() == month - 1) {
-    //starting a row before monday
-    if (date.getDay() == 1) {
-      table += '<tr>';
-    }
-    table += '<td>' + date.getDate() + '</td>';
-    //closing a row after sunday
-    if (date.getDay() === 0) {
-      table += '</tr>'; //
-    }
-    date.setDate(date.getDate() + 1);
-  }
-
-  //closing last row if last day wasn't monday
-  if (date.getDay() != 1) {
-    table += '</tr>';
-  }
-
-  htmlEl.innerHTML = table + '</table>';
-  //using linux 'cal' as an example
-  table =
-    '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
-
-  date = new Date(year, month - 1);
-
-  //filling in extra weekdays, if not starting with monday
-  if (date.getDay() != 1) {
+  if (date.getDay() === 0) {
     table += '<tr>';
-    for (var i = 1; i < date.getDay(); i++) {
+    for (var i = 6; i > date.getDay(); i--) {
       table += '<td></td>';
     }
+    console.log(date.getDay())
+    
   }
 
   while (date.getMonth() == month - 1) {
@@ -347,10 +322,5 @@ function drawInteractiveCalendar(year, month, el) {
     //adding 1 to month because now working with js date representation
     d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ')
     header.appendChild(d)
-
   }
 }
-
-var el = document.createElement('div')
-drawInteractiveCalendar(2012, 1, el); 
-document.body.appendChild(el)
