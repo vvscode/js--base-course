@@ -18,7 +18,8 @@ function isDeepEqual(objA, objB) {
   } else {
     isDeepEqual[argsPair] = 1;
   }
-  if (objA !== objA && objB !== objB) { //comparing NaN
+  if (objA !== objA && objB !== objB) {
+    //comparing NaN
     return true;
   }
   if (objA.length !== objB.length) {
@@ -82,12 +83,11 @@ Function.prototype.myBind = function(context) {
  * те запуск кода ниже должен делать то, что говорят методы
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
-function User() {
-}
+function User() {}
 
 User.prototype.askName = function() {
-    this.name = window.prompt('enter your name');
-    return this;
+  this.name = window.prompt('enter your name');
+  return this;
 };
 
 User.prototype.askAge = function() {
@@ -165,14 +165,9 @@ function sum(arg) {
     return innerArg
   }
   function innerSum(a) {
-    return sum((a || 0) + innerArg)
+    return sum((a || 0) + innerSum)
   }
   return innerSum
-}
-
-
-sum.valueOf = function() {
-  return sum.innerSum
 }
 
 function log(x) {
@@ -198,15 +193,15 @@ function log(x) {
 
 function curry(target) {
   var counter = target.length
-  var innerArguments = []
-  return function innerFunction(arg) {
-    innerArguments.push(arg)
+  var args = []
+  return function innerFunction(a) {
+    args.push(a)
     counter--
+    console.log(args)
     if(counter === 0) {
-      return target.apply(this, innerArguments)
-    } else {
-      return innerFunction.bind(this)
+      return target.apply(this, args)
     }
+    return innerFunction.bind(this)
   }
 }
 /*
@@ -219,8 +214,8 @@ function curry(target) {
 // u instanceof PreUser; // true
 
 function PreUser() {}
-PreUser.prototype = Object.create(Array.prototype)
-User.prototype = Object.create(PreUser.prototype)
+PreUser.prototype = Object.create(Array.prototype);
+User.prototype = Object.create(PreUser.prototype);
 /*
 Создать веб страницу. Добавить на нее форму с полями 
 - имя (строкое поле), 
@@ -240,43 +235,44 @@ User.prototype = Object.create(PreUser.prototype)
 */
 
 function drawCalendar(year, month, htmlEl) {
-    //using linux 'cal' as an example
-    var table = '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
-    
-    var date = new Date(year, month - 1);
-
-    //filling in extra weekdays, if not starting with monday
-    if (date.getDay() != 1) {
-        table += '<tr>';
-        for (var i = 1; i < date.getDay(); i++) {
-            table += '<td></td>';
-        }
-    }
-
-    while (date.getMonth() == month - 1) {
-    //starting a row before monday
-        if (date.getDay() == 1) {
-            table += '<tr>';  
-        }
-        table += '<td>' + date.getDate() + '</td>';
-    //closing a row after sunday 
-        if (date.getDay() == 0) {
-            table += '</tr>'; //
-        }
-        date.setDate(date.getDate() + 1);
-    }
-
-    //closing last row if last day wasn't monday
-    if (date.getDay() != 1) {
-        table += '</tr>';
-    }
-
-    htmlEl.innerHTML = table + '</table>';
   //using linux 'cal' as an example
   var table =
     '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
 
-  var date = new Date(year, month - 1);
+  var date = new Date(year, month-1);
+
+  //filling in extra weekdays, if not starting with monday
+  if (date.getDay() !== 1) {
+    table += '<tr>';
+    for (var i = 1; i < date.getDay(); i++) {
+      table += '<td></td>';
+    }
+  }
+
+  while (date.getMonth() == month - 1) {
+    //starting a row before monday
+    if (date.getDay() == 1) {
+      table += '<tr>';
+    }
+    table += '<td>' + date.getDate() + '</td>';
+    //closing a row after sunday
+    if (date.getDay() === 0) {
+      table += '</tr>'; //
+    }
+    date.setDate(date.getDate() + 1);
+  }
+
+  //closing last row if last day wasn't monday
+  if (date.getDay() != 1) {
+    table += '</tr>';
+  }
+
+  htmlEl.innerHTML = table + '</table>';
+  //using linux 'cal' as an example
+  table =
+    '<table><tr><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th></tr>';
+
+  date = new Date(year, month - 1);
 
   //filling in extra weekdays, if not starting with monday
   if (date.getDay() != 1) {
@@ -293,7 +289,7 @@ function drawCalendar(year, month, htmlEl) {
     }
     table += '<td>' + date.getDate() + '</td>';
     //closing a row after sunday
-    if (date.getDay() == 0) {
+    if (date.getDay() === 0) {
       table += '</tr>'; //
     }
     date.setDate(date.getDate() + 1);
@@ -307,4 +303,54 @@ function drawCalendar(year, month, htmlEl) {
   htmlEl.innerHTML = table + '</table>';
 }
 
-function drawInteractiveCalendar(el) {}
+function drawInteractiveCalendar(year, month, el) {
+  var currentMonth = month
+  var currentDate = new Date(year, month)
+  var innerEl = document.createElement('div')
+  var header = document.createElement('h')
+  var d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ')
+  header.appendChild(d)
+  
+  //creating buttons
+  var leftButton = document.createElement('button')
+  var rightButton = document.createElement('button');       
+  var r = document.createTextNode('>');       
+  var l = document.createTextNode('<');       
+  rightButton.appendChild(r);  
+  leftButton.appendChild(l);
+  rightButton.addEventListener('click', function(){redrawCalendar('+');})
+  leftButton.addEventListener('click',  function(){redrawCalendar('-');})
+  el.appendChild(leftButton)
+  el.appendChild(header)
+  el.appendChild(rightButton)
+  
+  drawCalendar(currentDate.getFullYear(), currentDate.getMonth(), innerEl)
+  el.appendChild(innerEl)
+   
+  function changeDate(direction) {
+    if(direction === '+') {
+      currentMonth++
+      currentDate.setMonth(currentMonth)
+      currentMonth = currentDate.getMonth()
+    }
+    if(direction === '-') {
+      currentMonth--
+      currentDate.setMonth(currentMonth)
+      currentMonth = currentDate.getMonth()
+    }
+  }
+  
+  function redrawCalendar(direction) {
+    changeDate(direction)
+    drawCalendar(currentDate.getFullYear(), currentDate.getMonth()+1, innerEl)
+    header.removeChild(header.firstChild)
+    //adding 1 to month because now working with js date representation
+    d = document.createTextNode(' ' + currentDate.getFullYear() + ', ' + (currentDate.getMonth() + 1) + ' ')
+    header.appendChild(d)
+
+  }
+}
+
+var el = document.createElement('div')
+drawInteractiveCalendar(2012, 1, el); 
+document.body.appendChild(el)
