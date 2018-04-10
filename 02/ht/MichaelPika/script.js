@@ -119,21 +119,21 @@ Object.defineProperty(o, 'magicProperty', {
  */
 
 var methods = {
-    askName: function() {
+    this.askName: function() {
         this.name = prompt("Вaше имя?", "Bob");
         return this.name;
-    },
-    askAge: function() {
+    };
+    this.askAge:  function() {
         this.age = prompt("Ваш возраст?", "0");
         return this.age;
-    },
-    showAgeInConsole: function() {
+    };
+    this.showAgeInConsole:  function() {
         console.log(this.age);
-    },
-    showNameInAlert: function() {
+    };
+    this.showNameInAlert:  function() {
         console.log(this.name);
-    }
-};
+    };
+}
 var Constr = function() {};
 Constr.prototype = methods;
 var h = new Constr();

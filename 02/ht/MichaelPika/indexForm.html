@@ -114,11 +114,6 @@
         </table>
     </form>
     <div id="out">
-        <span id="name"></span>
-        <span id="age"></span>
-        <span id="gender"></span>
-        <span id="message"></span>
-        <span id="driver"></span>
     </div>
 </div>
 <script>
@@ -144,10 +139,9 @@
                 formDriverValue = "Not a driver";
             }
         }
-        var htmlResult = "Имя:" + formNameValue + ";" + " Возраст:" + formAgeValue + ";" +
+        document.getElementById('out').innerHTML = "Имя:" + formNameValue + ";" + " Возраст:" + formAgeValue + ";" +
             " Пол:" + formGenderValue + ";" + " Сообщение:" + formMessageValue + ";" +
             " Наличие водительских прав:" + formDriverValue;
-        document.getElementById('out').innerHTML = htmlResult;
     }
     document.getElementById('btn').addEventListener('click', validate);
 </script>
