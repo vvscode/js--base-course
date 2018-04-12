@@ -7,7 +7,7 @@
 <body>
     <h1 style="text-align: center">Домашнее задание 2</h1>
     <h2 style="text-align: center">Форма</h2>
-    <form action="URL">
+    <form action="" name="reg">
         <div style="display: flex; justify-content: center">
             <div style="width: 600px; display: flex; flex-direction: column; justify-content: space-around; align-content: center">
                 <input type="text" id="name" name="name" placeholder="Имя пользователя" pattern="^[А-Я]{1}[а-я]{1,19}" required>
@@ -24,7 +24,7 @@
                 <label><input type="checkbox" id="drive">Имеются водительские права права</label><br>
                 <input type="textarea" id="comment" name="comment" placeholder="О себе">
                 <br>
-                <input type="button" value="Готово!" onclick="printForm()">
+                <input type="submit" id="submit" value="Готово!" style="width: 120px; height: 25px">
             </div>
         </div>
     </form>
@@ -39,37 +39,32 @@
         ageSelect.innerHTML = select;
     </script>
     <script>
-        function printForm () {
+        function printForm (ev) {
+            ev.preventDefault();
             var outputForm = document.getElementById('outputForm'),
-                form = '',
+                formText = '',
+                form = document.forms.reg;
                 name = document.getElementById('name').value,
                 age = document.getElementById('age').value,
-                gender = document.getElementsByName('gender'),
-                genderChecked = (function (gender) {
-                    for (var m = 0; m < gender.length; m++) {
-                        if (gender[m].getAttribute('checked') && gender[m].value('male')) {
-                            return 'Мужской'
-                        } else {return 'Женский'}
-                    }
-                })(),
+                gender = document.querySelectorAll("input [name = gender]").checked,
                 drive = (document.getElementById('drive').checked) ? "Да" : "Нет",
                 comment = document.getElementById('comment').value;
-            form = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderChecked + '</p>' +
+            var genderOk = function (gender) {
+                for (var i = 0; i < gender.length; i++) {
+                    if (gender[i].checked) {
+                        return toString(gender[i].value === 'male' ? 'Мужчина' : 'Женщина');
+                    }
+                }
+            };
+            formText = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderOk + '</p>' +
                 '<p>Водитель: ' + drive + '</p><p>О себе: ' + comment + '</p>';
-            outputForm.innerHTML = form;
+            outputForm.innerHTML = formText;
             function clear() {
-                document.getElementById('name').innerHTML += '';
-                document.getElementById('age').innerHTML += '';
-                document.getElementById('drive').removeAttribute('checked');
-                document.getElementById('comment').innerHTML += '';
-                nameClear.innerHTML = '';
-                ageClear.innerHTML = '';
-                genderClear.innerHTML = '';
-                driveClear.checked = false;
-                commentClear.innerHTML = '';
+                form.reset();
             }
-            clear();
+           clear();
         }
+        document.getElementById('submit').addEventListener('click', printForm);
     </script>
 </body>
 </html>
