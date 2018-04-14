@@ -171,9 +171,7 @@ function Singleton() {
     if (instance) {
         return instance;
     } else {
-        instance = {
-            __proto__: Singleton.prototype
-        };
+        instance = this;
         return instance;
     }
 }
