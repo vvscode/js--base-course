@@ -36,8 +36,10 @@ function isDeepEqual(objA, objB) {
  * @return {function} функция с зафиксированным контекстом
  */
 function bind(func, context) {
+  var arg = [].slice.call(arguments, 2);
   return function() {
-    return func.apply(context, arguments);
+    var allArg = [].slice.call(arguments);
+    return func.apply(context, arg.concat(allArg));
   };
 }
 
@@ -284,16 +286,16 @@ var u = new User();
 
 /** Создать синхронную функцию `sleep(seconds)`*/
 
-function sleep(sec) {
-  var date = new Date();
-  var date2;
-  do {
-    date2 = new Date();
-  } while (date2 - date < sec * 1000);
-}
-console.log(new Date());
-sleep(9);
-console.log(new Date());
+// function sleep(sec) {
+//   var date = new Date();
+//   var date2;
+//   do {
+//     date2 = new Date();
+//   } while (date2 - date < sec * 1000);
+// }
+// console.log(new Date());
+// sleep(9);
+// console.log(new Date());
 
 /**создать функцию, которая не может работать как конструктор (работать с `new`, и покрыть ее тестами*/
 function isConsructor() {
@@ -320,18 +322,32 @@ function throttle(func, delay) {
 
 /**Написать функцию `getCounter`*/
 function getCounter(num) {
-  this.num = num;
-  this.result = this.num;
+  var initNum = num;
+  var result = num;
+  return {
+    log: function() {
+      console.log(result);
+      return this;
+    },
+    add: function(addNum) {
+      result += addNum;
+      return this;
+    },
+    reset: function() {
+      result = initNum;
+      return this;
+    }
+  };
 }
 
-getCounter.prototype.log = function() {
-  console.log(this.result);
-};
-
-getCounter.prototype.add = function(addNum) {
-  this.result = this.result + addNum;
-};
-
-getCounter.prototype.reset = function() {
-  this.result = this.num;
-};
+var c = getCounter(5);
+c
+  .log() // 5
+  .add(4)
+  .log() // 9
+  .add(3)
+  .log() // 12
+  .reset()
+  .log() // 0
+  .add(8)
+  .log(); // 8

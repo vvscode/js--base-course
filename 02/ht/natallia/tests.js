@@ -69,9 +69,9 @@ describe('getCounter', function() {
     assert.isOk(typeof getCounter === 'function');
   });
   it('методы являются функциями', function() {
-    assert.isOk(typeof getCounter.prototype.log === 'function');
-    assert.isOk(typeof getCounter.prototype.add === 'function');
-    assert.isOk(typeof getCounter.prototype.reset === 'function');
+    assert.isOk(typeof getCounter(5).log === 'function');
+    assert.isOk(typeof getCounter(5).add === 'function');
+    assert.isOk(typeof getCounter(5).reset === 'function');
   });
   it('цепочка методов, вызванная друг за другом, работает корректно', function() {
     var log = console.log;
@@ -82,7 +82,7 @@ describe('getCounter', function() {
       log.apply(console, arguments);
     };
 
-    var c = new getCounter(5);
+    var c = getCounter(5);
     c.log();
     c.add(4);
     c.log();
