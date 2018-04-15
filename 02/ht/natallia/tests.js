@@ -73,6 +73,27 @@ describe('getCounter', function() {
     assert.isOk(typeof getCounter(5).add === 'function');
     assert.isOk(typeof getCounter(5).reset === 'function');
   });
+  it('методы работают корректно', function() {
+    var log = console.log;
+    var logValue = [];
+
+    console.log = function() {
+      logValue.push.apply(logValue, arguments);
+      log.apply(console, arguments);
+    };
+
+    var s = getCounter(4);
+    s.log();
+    assert.equal(logValue.join(), '4', 'правильно отрабатывает .log');
+
+    logValue = [];
+    s.add(3).log();
+    assert.equal(logValue.join(), '7', 'правильно отрабатывает .add');
+
+    logValue = [];
+    s.reset().log();
+    assert.equal(logValue.join(), '4', 'правильно отрабатывает .reset');
+  });
   it('цепочка методов, вызванная друг за другом, работает корректно', function() {
     var log = console.log;
     var logValue = [];
@@ -83,15 +104,16 @@ describe('getCounter', function() {
     };
 
     var c = getCounter(5);
-    c.log();
-    c.add(4);
-    c.log();
-    c.add(3);
-    c.log();
-    c.reset();
-    c.log();
-    c.add(8);
-    c.log();
+    c
+      .log()
+      .add(4)
+      .log()
+      .add(3)
+      .log()
+      .reset()
+      .log()
+      .add(8)
+      .log();
     assert.equal(logValue.join(), '5,9,12,5,13');
   });
 });
