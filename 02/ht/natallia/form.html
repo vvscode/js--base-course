@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Персональная страничка</title>
+	<link rel="stylesheet" href="form.css">
+</head>
+<body>
+	<form class="form" id="form">
+		<fieldset class="form__fieldset">
+			<legend class="form__legend">Персональная информация</legend>
+				<label class="form__label">
+					<span>Ваше имя</span>
+					<input id="name" type="text" class="form__input" placeholder="Введите Ваше имя" required>
+				</label>
+			<label class="form__label">
+				<span>Ваш возраст</span>
+				<select name="age" id="age" class="form__select">
+					<option value="20" selected>20</option>
+					<option value="25">25</option>
+					<option value="30">30</option>
+					<option value="35">35</option>
+					<option value="40">40</option>
+					<option value="45">45</option>
+					<option value="50">50</option>
+				</select>
+			</label>
+		</fieldset>
+		<fieldset class="form__fieldset">
+			<legend class="form__legend">Ваш пол:</legend>
+			<label class="form__label">
+				<span>Мужской</span>
+				<input type="radio" value="мужской" name="sex" checked>
+			</label>
+			<label class="form__label">
+				<span>Женский</span>
+				<input type="radio" value="женский" name="sex">
+			</label>
+		</fieldset>
+		<fieldset class="form__fieldset">
+			<label class="form__label">
+				<span>Есть ли у Вас водительские права?</span>
+				<input type="checkbox">
+			</label>
+		</fieldset>
+		<fieldset class="form__fieldset">
+			<legend class="form__legend">Расскажите о себе:</legend>
+			<textarea id="about" name="about" cols="30" rows="10" class="form__textarea" placeholder="Расскажите о себе" required></textarea>
+		</fieldset>
+	</form>
+	<button id="button" class="btn form__button">Отправить</button>
+	<div id="result" class="result"></div>
+	<script src="form.js"></script>
+</body>
+</html>
