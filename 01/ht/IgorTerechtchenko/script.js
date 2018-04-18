@@ -44,7 +44,6 @@ function fizzBuzz() {
 
 //palindrome for O(n)
 function isPolindrom(textString) {
-  var polindrom = true
   for(var i=0; i<textString.length; i++) {
     if (textString[i] !== textString[textString.length - i - 1]) { return false; }
   }
