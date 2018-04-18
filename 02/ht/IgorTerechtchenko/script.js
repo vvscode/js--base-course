@@ -140,7 +140,6 @@ var Singleton = (function() {
   var SingletonInstance;
   return (function() {
     if (!SingletonInstance) {
-      console.log(1)
       SingletonInstance = this;
     }
     return SingletonInstance;
