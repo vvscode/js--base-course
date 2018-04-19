@@ -35,7 +35,7 @@ function fizzBuzz() {
  * которая принимает на вход строку и возвращает результат проверки (`true`/ `false` ),
  * является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  * @param {string} textString 
- * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
+ * @return {boolean} Является строка полндромом (одинаково читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(str) {
     var isEqual = str.split('').reverse().join('');
@@ -142,4 +142,74 @@ function isDeepEqual(objA, objB) {
         return objA === objB;
     }
 
+}
+
+/**
+* Написать тесты и саму функцию spiral, которая принимает на вход двумерный массив
+* и возвращает одномерный массив с элементами расположенными по спирали.
+* Матрица не обязательно имеет одинаковые размеры по обеим сторонам. 
+*/
+
+function spiral(arr) {
+
+	var width = arr[0].length;
+	var height = arr.length;
+
+	var resultArray = [];
+	var index = 0;
+
+	while (true)
+	{
+	    // слева направо
+	    for (var i = 0; i < width; i++) {
+	        resultArray[index++] = arr[0][i];
+	    }
+	    arr.splice(0,1);
+	    if (!--height) { break; }
+
+		// сверху вниз
+	    for (var i = 0; i < height; i++) {
+	        resultArray[index++] = arr[i][width - 1];
+	        arr[i].splice(width - 1, 1);
+	    }
+	    if (!--width) { break; }
+
+	    // справа налево
+	    for (var i = 0; i < width; i++) {
+	        resultArray[index++] = arr[height - 1][width - (i + 1)];
+	    }
+	    arr.splice(height - 1, 1);
+	    if (!--height) { break; }
+
+	    // снизу вверх
+	    for (var i = 0; i < height; i++) {
+	        resultArray[index++] = arr[height - (i + 1)][0];
+	        arr[height - (i + 1)].splice(0, 1);
+	    }
+	    if (!--width) { break; }
+	}
+
+	return resultArray;
+}
+
+
+/**
+* Написать тесты и саму функцию quadraticEquation, которая на вход принимает коэффициенты
+* квадратного уравнения, а возвращает массив с вещественными корнями этого уравнения (если они есть).
+*/
+
+function quadraticEquation(a, b, c) {
+    var result = [];
+	var d = Math.pow(b, 2) - 4 * a * c;
+
+	if (d < 0) {
+	    return result;
+	} else if (d === 0) {
+        result[0] = (-b + Math.sqrt(d)) / 2 * a;
+	} else {
+	    result[0] = (-b + Math.sqrt(d)) / 2 * a;
+	    result[1] = (-b - Math.sqrt(d)) / 2 * a;
+	}
+
+	return result;
 }
