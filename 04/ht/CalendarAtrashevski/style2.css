@@ -1,0 +1,17 @@
+
+table {
+  position: fixed;
+        top: 15%;
+        left: 15%
+}
+th {
+  font-weight: normal;
+  color: rgb(250, 11, 23);
+  padding: 12px 65px;
+}
+td {
+  color: rgb(12, 12, 87);
+  padding: 25px 35px;
+  transition: .3s linear;
+}
+
