@@ -140,7 +140,6 @@ var Singleton = (function() {
   var SingletonInstance;
   return (function() {
     if (!SingletonInstance) {
-      console.log(1)
       SingletonInstance = this;
     }
     return SingletonInstance;
@@ -208,7 +207,6 @@ function curry(target) {
   return function innerFunction(a) {
     args.push(a);
     counter--;
-    console.log(args);
     if (counter === 0) {
       return target.apply(this, args);
     }
@@ -337,12 +335,24 @@ function drawInteractiveCalendar(year, month, el) {
     header.removeChild(header.firstChild);
     //adding 1 to month because now working with js date representation
     d = document.createTextNode(
-      ' ' +
+        ' ' +
         currentDate.getFullYear() +
         ', ' +
         (currentDate.getMonth() + 1) +
         ' '
     );
     header.appendChild(d);
+  }
+}
+
+function debounce(func, delay) {
+  var counter = null; 
+  return function() {
+    var args = arguments;
+    clearTimeout(counter);
+    count = setTimeout(function() {
+      func.apply(null, args);
+      count = null;
+    }, delay)
   }
 }

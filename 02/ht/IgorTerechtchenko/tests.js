@@ -341,5 +341,14 @@ describe("curry", function() {
   it('works with 4 argument function correctly', function() {
     assert.isOk(curry(target1)(1)(2)(3)(4) === 10)
   });
+});
 
+describe('debounce', function() {
+  function target() {console.log('hi')}
+  it('is a function', function() {
+    assert.isOk(typeof debounce === 'function')
+  });
+  it('returns a function', function() {
+    assert.isOk(typeof debounce(target, 100) === 'function')
+  });
 });
