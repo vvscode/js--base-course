@@ -13,58 +13,73 @@
                 <input type="text" id="name" name="name" placeholder="Имя пользователя" pattern="^[А-Я]{1}[а-я]{1,19}" required>
                 <br>
                 <fieldset><legend>Возраст *</legend>
-                <select name="age" id="age" required>
+                <select name="age" id="age">
                 </select>
                 </fieldset>
                 <fieldset><legend>Ваш пол?</legend>
-                    <label><input type="radio" name="gender" value="male" checked>Мужской</label>
+                    <input type="radio" name="gender" id="genderMail" value="male" checked><label for="genderMail">Мужской</label>
                     <br>
-                    <label><input type="radio" name="gender" value="female">Женский</label>
+                    <input type="radio" name="gender" id="genderFemale" value="female"><label for="genderFemale">Женский</label>
                 </fieldset>
-                <label><input type="checkbox" id="drive">Имеются водительские права права</label><br>
+                <br>
+                <label><input type="checkbox" id="drive">Имеются водительские права</label>
+                <br>
                 <input type="textarea" id="comment" name="comment" placeholder="О себе">
                 <br>
-                <input type="submit" id="submit" value="Готово!" style="width: 120px; height: 25px">
+                <button type="submit" id="submit" style="width: 120px; height: 25px" onclick="printForm()">Готово!</button>
             </div>
         </div>
     </form>
-    <div id="outputForm"></div>
-
+    <div style="display: flex; justify-content: center">
+        <div id="outputForm" style="flex-direction: column;"></div>
+    </div>
     <script>
         var select = '';
-        for (i=1;i<=100;i++){
+        for (var i = 1 ;i <= 100; i++){
             select += '<option val=' + i + '>' + i + '</option>';
         }
         var ageSelect = document.getElementById("age");
         ageSelect.innerHTML = select;
     </script>
     <script>
+
         function printForm (ev) {
-            ev.preventDefault();
             var outputForm = document.getElementById('outputForm'),
                 formText = '',
                 form = document.forms.reg;
-                name = document.getElementById('name').value,
-                age = document.getElementById('age').value,
-                gender = document.querySelectorAll("input [name = gender]").checked,
-                drive = (document.getElementById('drive').checked) ? "Да" : "Нет",
-                comment = document.getElementById('comment').value;
-            var genderOk = function (gender) {
+                name = form.elements.name.value,
+                age = form.elements.age.value,
+                gender = form.elements.namedItem('gender'),
+                genderChec = '',
+                drive = form.elements.drive.checked ? "Да" : "Нет",
+                comment = form.elements.comment.value;
+
+            function genderCheck(gender) {
                 for (var i = 0; i < gender.length; i++) {
                     if (gender[i].checked) {
-                        return toString(gender[i].value === 'male' ? 'Мужчина' : 'Женщина');
-                    }
-                }
+                        if (gender[i].value === 'male') {
+                            return genderChec = 'Мужчина';
+                        } else return genderChec = 'Женщина';
+                    };
+                };
             };
-            formText = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderOk + '</p>' +
-                '<p>Водитель: ' + drive + '</p><p>О себе: ' + comment + '</p>';
-            outputForm.innerHTML = formText;
-            function clear() {
-                form.reset();
-            }
-           clear();
-        }
-        document.getElementById('submit').addEventListener('click', printForm);
+
+            genderCheck(gender);
+
+            if (name !== "") {
+                formText = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderChec + '</p>' +
+                    '<p>Водитель: ' + drive + '</p><p>О себе: ' + comment + '</p>';
+                outputForm.innerHTML = formText;
+                function clear() {
+                    form.reset();
+                };
+                clear();
+            } else {
+                outputForm.innerHTML = '<h1>Заполните все поля!!!</h1>';
+            };
+            ev.preventDefault();
+        };
+
     </script>
 </body>
 </html>
