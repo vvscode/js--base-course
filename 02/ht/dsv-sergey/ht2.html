@@ -50,7 +50,7 @@
                 name = form.elements.name.value,
                 age = form.elements.age.value,
                 gender = form.elements.namedItem('gender'),
-                genderChec = '',
+                genderOutput = '',
                 drive = form.elements.drive.checked ? "Да" : "Нет",
                 comment = form.elements.comment.value;
 
@@ -58,8 +58,8 @@
                 for (var i = 0; i < gender.length; i++) {
                     if (gender[i].checked) {
                         if (gender[i].value === 'male') {
-                            return genderChec = 'Мужчина';
-                        } else return genderChec = 'Женщина';
+                            return genderOutput = 'Мужчина';
+                        } else return genderOutput = 'Женщина';
                     };
                 };
             };
@@ -67,7 +67,7 @@
             genderCheck(gender);
 
             if (name !== "") {
-                formText = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderChec + '</p>' +
+                formText = '<h1>Ваши данные</h1><p>Имя: ' + name + '</p><p>Возраст: ' + age + '</p><p>Пол: ' + genderOutput + '</p>' +
                     '<p>Водитель: ' + drive + '</p><p>О себе: ' + comment + '</p>';
                 outputForm.innerHTML = formText;
                 function clear() {
