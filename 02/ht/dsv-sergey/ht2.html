@@ -33,6 +33,7 @@
     <div style="display: flex; justify-content: center">
         <div id="outputForm" style="flex-direction: column;"></div>
     </div>
+
     <script>
         var select = '';
         for (var i = 1 ;i <= 100; i++){
@@ -41,12 +42,12 @@
         var ageSelect = document.getElementById("age");
         ageSelect.innerHTML = select;
     </script>
-    <script>
 
+    <script>
         function printForm (ev) {
             var outputForm = document.getElementById('outputForm'),
                 formText = '',
-                form = document.forms.reg;
+                form = document.forms.reg,
                 name = form.elements.name.value,
                 age = form.elements.age.value,
                 gender = form.elements.namedItem('gender'),
