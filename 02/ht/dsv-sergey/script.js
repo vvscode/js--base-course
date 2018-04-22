@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc,no-array-constructor,valid-jsdoc,no-extend-native,prefer-rest-params,semi,space-before-function-paren,space-before-blocks */
 /* eslint no-var: "off" */
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
@@ -21,20 +20,20 @@ function isDeepEqual(objA, objB) {
     if (typeof objA === 'number' && typeof objB === 'number' && !Number.isNaN(objA)) {
         return objA === objB;
     }
-    if (typeof objA === 'number' && typeof objB === 'number' && Number.isNaN(objA) === Number.isNaN(objB)){
+    if (typeof objA === 'number' && typeof objB === 'number' && Number.isNaN(objA) === Number.isNaN(objB)) {
         return true;
     }
     if (typeof objA === 'object' && typeof objB === 'object') {
         if (JSON.stringify(objA) === JSON.stringify(objB)) {
             return true;
         } else {
-            for (let i in objA) {
+            for (var i in objA) {
                 if (!(i in objB) || !isDeepEqual(objA[i], objB[i])) {
                     return false;
                 }
             }
         }
-        for (let i in objA) {
+        for (var i in objA) {
             if (objA.hasOwnProperty(i) !== objB.hasOwnProperty(i)) {
                 return false;
             }
@@ -71,16 +70,20 @@ Function.prototype.myBind = function(context) {
 * в консоль выводилось значение, которое присваивается и текущее время
 */
 
-let o = {
-  set x(value) {
-    count = value;
-    return console.log(new Date() + ' -- ' + value);
-  },
-  get x() {
-    count++;
-    return count;
-  },
-};
+function magicProperty() {
+    return {
+        set x(value) {
+            count = value;
+            return console.log(new Date() + ' -- ' + value);
+        },
+        get x() {
+            count++;
+            return count;
+        }
+    };
+}
+
+var o = magicProperty();
 o.x = 5;
 console.log(o.x);
 console.log(o.x);
@@ -93,7 +96,7 @@ console.log(o.x);
 * u.askName().askAge().showAgeInConsole().showNameInAlert();
 */
 
-let us = {
+var us = {
     askName: function() {
         this.name = prompt('Введите имя');
         return this;
@@ -228,15 +231,25 @@ function sum(a) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func 
  */
-var curry = function (func) {
-    var addFunc = function (arg) {
-        return curry(parseInt(arg + '', 10) == arg ? func + arg : func);
+function curry(func) {
+    var arr = [],
+        counter = func.length;
+    return function fn() {
+        if (arguments.length > 1) {
+            for (var n = 0; n < arguments.length; n++) {
+                arr = arr.concat(arguments[n]);
+            }
+        } else {
+            arr.push(arguments[0]);
+        }
+        if (counter == arr.length) {
+            return func.apply(null, arr);
+        } else {
+            return fn;
+        }
     };
-    addFunc.valueOf = function () {
-        return func;
-    };
-    return addFunc();
-};
+}
+
 /*
 Написать код, который для объекта созданного с помощью конструктора будет показывать, 
 что объект является экземпляром двух классов
@@ -280,4 +293,92 @@ function NotContructor() {
         throw new TypeError('"NotContructor" is not a constructor.');
     }
 }
+/*
+    Написать реализацию метода `.myCall`, который будет работать аналогично системному `.call` и
+покрыть реализацию тестами
+*/
 
+function myCall(context, ) {
+    this.context = context;
+    return {
+
+    }
+}
+
+/*
+    Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) и [throttle]
+(http://underscorejs.ru/#throttle) и покрыть реализации тестами ( Если ваше имя начинается
+ с гласной - `debounce`, иначе - `throttle`. А лучше - обе ). Функции должны с сигнатурой
+ `debounce(fun, delay)` / `throttle(fun, delay)`
+
+ */
+
+function throttle(fn, time) {
+    var throttled = false,
+        args,
+        context;
+    function wrapper() {
+        if (throttled) {
+            args = arguments;
+            context = this;
+            return;
+        }
+        fn.apply(this,arguments);
+
+        setTimeout(wrapper,time)
+    }
+}
+
+/*
+К генератору листаемого календаря добавить функционал: под календарем добавить блок.
+ При клике на ячейку даты ( но не на пустую ячейку календаря ) в блоке должна добавляться запись о том,
+  по какой ячейке кликнули. Можно добавить запрос описания даты от пользователя
+   ( с помощью функции `prompt` и выводить это описание там же). История дат и список,
+   по которым пользоатель кликал, должны сохраняться между перезагрузками страницы.
+   Для сохранения использовать [LocalStorage]
+   (https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+   Интерфейс работы с данными (чтение/запись) лучше сделать асинхронным
+ */
+//Calendar.js
+/*
+Создать синхронную функцию `sleep(seconds)` так, чтобы работал код
+
+```javascript
+console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+sleep(9);
+console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+```
+ */
+
+function sleep(seconds) {
+    return;
+}
+
+/*
+Написать функцию `getCounter` и покрыть ее тестами, так, чтобы работал следующий код
+
+```javascript
+var c = getCounter(5);
+c
+  .log() // 5
+  .add(4)
+  .log() // 9
+  .add(3)
+  .log() // 12
+  .reset()
+  .log() // 0
+  .add(8)
+  .log(); // 8
+```
+ */
+
+function getCounter() {
+    return {
+        log: function () {
+
+        },
+        add: function () {
+
+        };
+    }
+}
