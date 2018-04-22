@@ -39,10 +39,7 @@ function fizzBuzz() {
  */
 function isPolindrom(str) {
     var isEqual = str.split('').reverse().join('');
-    if (isEqual === str) {
-        return true;
-    }
-    return false;
+    return isEqual === str;
 }
 
 
