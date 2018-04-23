@@ -40,9 +40,7 @@ function fizzBuzz() {
 function isPolindrom(str) {
 
   for (var i = 0; i < str.length / 2; i++) {
-    if (str[i] === str[str.length - (i + 1)]) {
-      continue;
-    } else {
+    if (str[i] !== str[str.length - (i + 1)]) {
       return false;
     }
   }
