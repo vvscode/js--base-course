@@ -57,10 +57,10 @@ function drawCalendar(year, month, htmlEl) {
     countDay = 1;
   monthIn = date.getMonth();
   yearIn = date.getFullYear();
-  for (let i = 1; i <= 6; i++) {
+  for (var i = 1; i <= 6; i++) {
     // Цикл по неделям
     calendar = calendar + "<tr>";
-    for (let k = 1; k <= 7; k++) {
+    for (var k = 1; k <= 7; k++) {
       // Цикл по дням недели
       if (i === 1 && k !== firstDay && countDay === 1) {
         calendar = calendar + "<td></td>";
