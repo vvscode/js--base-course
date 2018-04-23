@@ -378,7 +378,7 @@ describe('throttle', function() {
     throttled();
     throttled();
     assert.isOk(a === 1);
-    //setTimeout(function(){assert.isOk(a === 2)}, 2010)
-    //setTimeout(function(){assert.isOk(a === 3)}, 3010)
+    setTimeout(function(){assert.isOk(a === 2)}, 2010)
+    setTimeout(function(){assert.isOk(a === 3)}, 3010)
   });
 });

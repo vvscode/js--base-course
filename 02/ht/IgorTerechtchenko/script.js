@@ -357,16 +357,15 @@ function debounce(func, delay) {
   }
 }
 
-function throttle(func, delay) {
+function throttle(func, delay, options) {
   var queued = 0;
   var innerDelay = delay
   return function() {
     var args = arguments;
-    if(queued === 0) {
+    if(queued === 0 && !((!!options) && ('leading' in Object.keys(options) && options.leading === false))) {
       func.apply(null, args);
       queued++
     } else {
-      console.log(innerDelay)
       setTimeout(function() {
         func.apply(null, args);
       }, innerDelay)
