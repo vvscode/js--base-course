@@ -142,34 +142,29 @@ us
  */
 
 function calculate(operation) {
-  var solution = 0;
   switch (operation) {
     case "+":
       return function(a) {
         return function(b) {
-          solution = a + b;
-          return solution;
+          return a + b;
         };
       };
     case "-":
       return function(a) {
         return function(b) {
-          solution = a - b;
-          return solution;
+          return a - b;
         };
       };
     case "*":
       return function(a) {
         return function(b) {
-          solution = a * b;
-          return solution;
+          return a * b;
         };
       };
     case "/":
       return function(a) {
         return function(b) {
-          solution = a / b;
-          return solution;
+          return a / b;
         };
       };
   }
