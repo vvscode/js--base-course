@@ -361,7 +361,11 @@ console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
  */
 
 function sleep(seconds) {
-  return;
+    var time = new Date().getSeconds() + seconds,
+        newTime = 0;
+    while (time > newTime) {
+        newTime = new Date().getSeconds();
+    };
 }
 
 /*
