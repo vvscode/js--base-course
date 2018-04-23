@@ -344,7 +344,7 @@ describe("curry", function() {
 });
 
 describe('debounce', function() {
-  function target(a) {a.push(0)}
+  function target(a) {a++}
   it('is a function', function() {
     assert.isOk(typeof debounce === 'function')
   });
@@ -357,7 +357,28 @@ describe('debounce', function() {
     var debounced = debounce(innerTarget, 1000)
     debounced()
     assert.isOk(a === 0)
-    setTimeout(function(){}, 1000)
-    assert.isOk(a === 1)
+    setTimeout(function(){assert.isOk(a === 1)}, 2000)
+  });
+});
+
+
+describe('throttle', function() {
+  function target(a) {a++}
+  it('is a function', function() {
+    assert.isOk(typeof throttle === 'function')
+  });
+  it('returns a function', function() {
+    assert.isOk(typeof throttle(target, 100) === 'function')
+  });
+  it('works as expected', function() {
+    function target() {a++}
+    var a = 0;
+    var throttled = throttle(target, 1000)
+    throttled();
+    throttled();
+    throttled();
+    assert.isOk(a === 1);
+    //setTimeout(function(){assert.isOk(a === 2)}, 2010)
+    //setTimeout(function(){assert.isOk(a === 3)}, 3010)
   });
 });

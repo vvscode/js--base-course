@@ -356,3 +356,21 @@ function debounce(func, delay) {
     }, delay)
   }
 }
+
+function throttle(func, delay) {
+  var queued = 0;
+  var innerDelay = delay
+  return function() {
+    var args = arguments;
+    if(queued === 0) {
+      func.apply(null, args);
+      queued++
+    } else {
+      console.log(innerDelay)
+      setTimeout(function() {
+        func.apply(null, args);
+      }, innerDelay)
+      innerDelay += delay
+    }
+  }
+}
