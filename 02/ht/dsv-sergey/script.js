@@ -256,7 +256,7 @@ function curry(func) {
       arr.push(arguments[0]);
     }
     if (counter == arr.length) {
-      return func(...arr);
+      return func.apply(null, arr);
     } else {
       return fn;
     }
