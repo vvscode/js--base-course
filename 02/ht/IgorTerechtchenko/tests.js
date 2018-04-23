@@ -344,11 +344,20 @@ describe("curry", function() {
 });
 
 describe('debounce', function() {
-  function target() {console.log('hi')}
+  function target(a) {a.push(0)}
   it('is a function', function() {
     assert.isOk(typeof debounce === 'function')
   });
   it('returns a function', function() {
     assert.isOk(typeof debounce(target, 100) === 'function')
+  });
+  it('executes function after timeout', function() {
+    function innerTarget() {a++}
+    var a = 0
+    var debounced = debounce(innerTarget, 1000)
+    debounced()
+    assert.isOk(a === 0)
+    setTimeout(function(){}, 1000)
+    assert.isOk(a === 1)
   });
 });

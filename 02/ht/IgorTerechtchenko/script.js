@@ -350,9 +350,9 @@ function debounce(func, delay) {
   return function() {
     var args = arguments;
     clearTimeout(counter);
-    count = setTimeout(function() {
+    counter = setTimeout(function() {
       func.apply(null, args);
-      count = null;
+      counter = null;
     }, delay)
   }
 }
