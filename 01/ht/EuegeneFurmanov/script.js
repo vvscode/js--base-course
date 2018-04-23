@@ -38,8 +38,17 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинаково читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(str) {
-    var isEqual = str.split('').reverse().join('');
-    return isEqual === str;
+
+  for (var i = 0; i < str.length / 2; i++) {
+    if (str[i] === str[str.length - (i + 1)]) {
+      continue;
+    } else {
+      return false;
+    }
+  }
+  return true;
+
+  // return str === str.split('').reverse().join('');
 }
 
 
