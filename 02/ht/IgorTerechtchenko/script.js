@@ -359,6 +359,7 @@ function debounce(func, delay) {
 
 function throttle(func, delay, options) {
   var firstCall = true
+  var secondCall = true
   var queued = 0;
   var innerDelay = delay
   return function() {
@@ -367,17 +368,26 @@ function throttle(func, delay, options) {
     var trailing;
     if(!!options) {
       leading = options.leading;
+      trailing = options.trailing;
     }
-    queued++;
-    if(firstCall === true && !leading) {
-      func.apply(null, args);
+    if(firstCall === true && leading) {
+      console.log('leading')
       firstCall = false
-    } else {
-      setTimeout(function() {
-        func.apply(null, args);
-        queued--;
-      }, innerDelay)
-      innerDelay += delay
+      return
     }
+     
+    queued++;
+    console.log('queue number ' + queued)
+    setTimeout(function() {
+      if(trailing && queued === 1 && secondCall===false) {
+        console.log('trailing');
+        return;
+      }
+      func.apply(null, args);
+      queued--;
+    }, innerDelay)
+    innerDelay += delay;
+    console.log('second call in regular ' + secondCall)
+    secondCall = false;
   }
 }

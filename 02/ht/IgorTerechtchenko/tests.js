@@ -389,7 +389,7 @@ describe('throttle', function() {
     var throttled = throttle(target, 1000);
     throttled();
     throttled();
-    assert.isOk(a === 1);
+    assert.isOk(a === 0);
     setTimeout(function() {assert.isOk(a === 2);}, 2010);
   });
 
@@ -401,11 +401,7 @@ describe('throttle', function() {
     var throttledA = throttle(targetA, 1000, {leading: true});
     throttledA();
     throttledA();
-    throttledA();
-    assert.isOk(a === 0);
-    setTimeout(function() {assert.isOk(a === 1);}, 1010);
-    setTimeout(function() {assert.isOk(a === 2);}, 2010);
-    setTimeout(function() {assert.isOk(a === 3);}, 3010);
+    setTimeout(function() {assert.isOk(a === 1);}, 2010);
   });
 
   it('processes trailing option', function() {
@@ -416,6 +412,6 @@ describe('throttle', function() {
     var throttledA = throttle(targetA, 1000, {trailing: true});
     throttledA();
     throttledA();
-    assert.isOk(a === 2);
+    setTimeout(function() {assert.isOk(a === 1);}, 2010);
   });
 });
