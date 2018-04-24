@@ -445,3 +445,24 @@ describe('drawInteractiveCalendar', function() {
     assert.isOk(html1 !== html2);
   });
 });
+
+describe('getCounter', function() {
+  it('is a function', function() {
+    assert.isOk(typeof getCounter === 'function');
+  });
+  it('returns object', function() {
+    assert.isOk(typeof getCounter(0) === 'object');
+  });
+  it('works as expected', function() {
+    var c = getCounter(5);
+    assert.isOk(c.valueOf() === 5);
+    c.add(4);
+    assert.isOk(c.valueOf() === 9);
+    c.add(3);
+    assert.isOk(c.valueOf() === 12);
+    c.reset()
+    assert.isOk(c.valueOf() === 0);
+    c.add(8);
+    assert.isOk(c.valueOf() === 8);
+  });
+});

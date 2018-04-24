@@ -412,3 +412,23 @@ function notConstructor() {
     throw new Error('this function is not a constructor');
   }
 }
+
+function getCounter(count) {
+  return {
+    log: function() {
+      console.log(count)
+      return this;
+    },
+    add: function(sum) {
+      count += sum;
+      return this;
+    },
+    reset: function() {
+      count = 0;
+      return this;
+    },
+    valueOf: function() {
+      return count;
+    }
+  }
+}
