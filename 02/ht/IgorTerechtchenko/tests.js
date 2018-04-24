@@ -424,3 +424,24 @@ describe('notConstructor', function() {
     assert.throws(function() {new notConstructor();}, Error, 'this function is not a constructor');
   });
 });
+
+describe('drawInteractiveCalendar', function() {
+  var el;
+  beforeEach(function() {
+      return el = document.createElement('div');
+  });
+  it('is a function', function() {
+    assert.isOk(typeof drawInteractiveCalendar === 'function');
+  });
+  it('fills elements innerHtml', function() {
+    drawCalendar(2017, 9, el);
+    assert.isOk(el.innerHTML.trim() !== '');
+  });
+  it('generates separate calendar for different dates', function() {
+    drawCalendar(2018, 6, el);
+    var html1 = el.innerHTML;
+    drawCalendar(2018, 7, el);
+    var html2 = el.innerHTML;
+    assert.isOk(html1 !== html2);
+  });
+});
