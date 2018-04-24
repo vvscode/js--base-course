@@ -77,6 +77,19 @@ Function.prototype.myBind = function(context) {
  * console.log(o.magicProperty); // 8
  */
 
+var objectWithMagicProperty = {
+  magicProp: undefined,
+  get magicProperty() {
+    this.magicProp++;
+    return this.magicProp;
+  },
+  
+  set magicProperty(value) {
+    this.magicProp = value;
+    console.log(new Date() + ' ' + '-- ' + value);
+  }
+}
+
 /**
  * Создать конструктор с методами, так,
  * чтобы следующий код работал и делал соответствующие вещи
