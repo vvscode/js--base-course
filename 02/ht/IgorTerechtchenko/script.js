@@ -406,3 +406,9 @@ function sleep(time) {
   while(new Date() <= wakeUpTime) {}
 
 }
+
+function notConstructor() {
+  if(new.target) {
+    throw new Error('this function is not a constructor');
+  }
+}

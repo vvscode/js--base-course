@@ -415,3 +415,12 @@ describe('throttle', function() {
     setTimeout(function() {assert.isOk(a === 1);}, 2010);
   });
 });
+
+describe('notConstructor', function() {
+  it('is a function', function() {
+    assert.isOk(typeof notConstructor === 'function');
+  });
+  it('is not a constructor', function() {
+    assert.throws(function() {new notConstructor();}, Error, 'this function is not a constructor');
+  });
+});
