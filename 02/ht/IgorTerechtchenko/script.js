@@ -384,23 +384,25 @@ function throttle(func, delay, options) {
       trailing = options.trailing;
     }
     if(firstCall === true && leading) {
-      console.log('leading')
       firstCall = false
       return
     }
      
     queued++;
-    console.log('queue number ' + queued)
     setTimeout(function() {
       if(trailing && queued === 1 && secondCall===false) {
-        console.log('trailing');
         return;
       }
       func.apply(null, args);
       queued--;
     }, innerDelay)
     innerDelay += delay;
-    console.log('second call in regular ' + secondCall)
     secondCall = false;
   }
+}
+
+function sleep(time) {
+  var wakeUpTime = new Date().getTime() + time * 1000;
+  while(new Date() <= wakeUpTime) {}
+
 }
