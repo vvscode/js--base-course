@@ -7,9 +7,9 @@
 
 <body>
     <fieldset>
-        <form>
+        <form id='form'>
             <div> Name: </div> <br>
-            <input type='text'></input> <br><br>
+            <input type='text' required></input> <br><br>
             <div> Gender: </div>
             <input type="radio" name="gender" value="male" checked> Male <br>
             <input type="radio" name="gender" value="female"> Female <br><br>
@@ -20,7 +20,7 @@
             </select> <br> <br>
             <div> Driving License: <input type="checkbox"> </div> <br>   
             <div> Bio: </div>
-            <textarea name='comment' rows='10' cols='30'></textarea><br>          
+            <textarea name='comment' rows='10' cols='30' required></textarea><br>          
             <button id='button'> Submit </button> <br>
         </form>
     </fieldset>
