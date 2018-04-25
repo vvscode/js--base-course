@@ -475,4 +475,9 @@ describe('getCounter', function() {
     c.add(8);
     assert.isOk(c.valueOf() === 8);
   });
+  it('emplements chain of responsibility pattern', function() {
+    var c = getCounter(5);
+    c.add(4).add(3).add(7).add(1);
+    assert.isOk(c.valueOf() === 20);
+  });
 });

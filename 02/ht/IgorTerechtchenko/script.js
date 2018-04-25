@@ -365,7 +365,6 @@ function debounce(func, delay) {
     clearTimeout(counter);
     counter = setTimeout(function() {
       func.apply(null, args);
-      counter = null;
     }, delay)
   }
 }
@@ -383,14 +382,14 @@ function throttle(func, delay, options) {
       leading = options.leading;
       trailing = options.trailing;
     }
-    if(firstCall === true && leading) {
+    if(firstCall && leading) {
       firstCall = false
       return
     }
      
     queued++;
     setTimeout(function() {
-      if(trailing && queued === 1 && secondCall===false) {
+      if(trailing && queued === 1 && !secondCall) {
         return;
       }
       func.apply(null, args);
@@ -404,7 +403,6 @@ function throttle(func, delay, options) {
 function sleep(time) {
   var wakeUpTime = new Date().getTime() + time * 1000;
   while(new Date() <= wakeUpTime) {}
-
 }
 
 function notConstructor() {
