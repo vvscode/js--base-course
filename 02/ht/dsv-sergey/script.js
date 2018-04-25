@@ -310,10 +310,12 @@ function NotContructor() {
 покрыть реализацию тестами
 */
 
-function myCall(context) {
-  this.context = context;
-  return {};
-}
+Function.prototype.myCall = function(context, arg) {
+    this.context = context;
+    return function () {
+        
+    };
+};
 
 /*
     Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) и [throttle]
@@ -323,20 +325,27 @@ function myCall(context) {
 
  */
 
-function throttle(fn, time) {
-  var throttled = false,
-    args,
-    context;
-  function wrapper() {
-    if (throttled) {
-      args = arguments;
-      context = this;
-      return;
+function throttle(fun, delay) {
+    var throttled = false,
+        args,
+        context;
+    function wrapper() {
+        if (throttled) {
+            args = arguments;
+            context = this;
+            return;
+        }
+        fun.apply(this, arguments);
+        throttled = true;
+        setTimeout(function() {
+            throttled = false;
+            if (args) {
+                fun.apply(context, args);
+                context = args = null;
+            }
+        }, delay);
     }
-    fn.apply(this, arguments);
-
-    setTimeout(wrapper, time);
-  }
+    return wrapper;
 }
 
 /*
