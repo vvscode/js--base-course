@@ -444,6 +444,16 @@ describe('drawInteractiveCalendar', function() {
     var html2 = el.innerHTML;
     assert.isOk(html1 !== html2);
   });
+  it('responds to button clicks correctly', function() {
+    drawCalendar(2011, 12, el);
+    var html1 = el.innerHTML;
+    document.getElementsByTagName('button')[0].click();
+    assert.isOk(html1 === el.innerHTML);
+    document.getElementsByTagName('button')[1].click();
+    drawCalendar(2012, 2, el);
+    html1 = el.innerHTML;
+    assert.isOk(html1 === el.innerHTML);
+  });
 });
 
 describe('getCounter', function() {
