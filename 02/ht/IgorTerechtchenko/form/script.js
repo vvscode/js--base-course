@@ -13,7 +13,6 @@ function getUser() {
 }
 
 function displayUser(el) {
-  el.preventDefault();
   var userInfoArea = document.getElementById('out');
   var user = getUser();
   var text = '<div> name: ' + user.name + ' <br>' +
@@ -23,6 +22,8 @@ function displayUser(el) {
       'bio : ' + user.bio + 
       '</div>';
   userInfoArea.innerHTML = text;
+  return false;
 }
 
 form.addEventListener('submit', displayUser, false);
+form.addEventListener('submit', function(el) {el.preventDefault();})
