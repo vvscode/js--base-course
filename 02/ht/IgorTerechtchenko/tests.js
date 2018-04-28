@@ -457,26 +457,27 @@ describe('drawInteractiveCalendar', function() {
 });
 
 describe('getCounter', function() {
-  it('is a function', function() {
-    assert.isOk(typeof getCounter === 'function');
-  });
-  it('returns object', function() {
-    assert.isOk(typeof getCounter(0) === 'object');
-  });
-  it('emplements chain of responsibility pattern', function() {
-    var logList = []
+  var logList = []
+  beforeEach(function() { 
     function mockLog(arg) {
       logList.push(arg);
     }
     var log = console.log;
     console.log = mockLog;
-
+  });
+  afterEach(function() {
+    console.log = log;
+  });
+  it('is a function', function() {
+    assert.isOk(typeof getCounter === 'function');
+  }); it('returns object', function() {
+    assert.isOk(typeof getCounter(0) === 'object');
+  });
+  it('implements chain of responsibility pattern', function() {
     var c = getCounter(5);
     c.add(4).add(3).add(7).add(1).reset().add(5);
     assert.isOk(c.valueOf() === 5);
     c.log();
     assert.isOk(logList[0] === 5);
-
-    console.log = log;
   });
 });
