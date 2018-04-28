@@ -425,36 +425,36 @@ describe('notConstructor', function() {
   });
 });
 
-//describe('drawInteractiveCalendar', function() {
-  //var el;
-  //beforeEach(function() {
-      //return el = document.createElement('div');
-  //});
-  //it('is a function', function() {
-    //assert.isOk(typeof drawInteractiveCalendar === 'function');
-  //});
-  //it('fills elements innerHtml', function() {
-    //drawCalendar(2017, 9, el);
-    //assert.isOk(el.innerHTML.trim() !== '');
-  //});
-  //it('generates separate calendar for different dates', function() {
-    //drawCalendar(2018, 6, el);
-    //var html1 = el.innerHTML;
-    //drawCalendar(2018, 7, el);
-    //var html2 = el.innerHTML;
-    //assert.isOk(html1 !== html2);
-  //});
-  //it('responds to button clicks correctly', function() {
-    //drawCalendar(2011, 12, el);
-    //var html1 = el.innerHTML;
-    //document.getElementsByTagName('button')[0].click();
-    //assert.isOk(html1 === el.innerHTML);
-    //document.getElementsByTagName('button')[1].click();
-    //drawCalendar(2012, 2, el);
-    //html1 = el.innerHTML;
-    //assert.isOk(html1 === el.innerHTML);
-  //});
-//});
+describe('drawInteractiveCalendar', function() {
+  var el;
+  beforeEach(function() {
+      return el = document.createElement('div');
+  });
+  it('is a function', function() {
+    assert.isOk(typeof drawInteractiveCalendar === 'function');
+  });
+  it('fills elements innerHtml', function() {
+    drawCalendar(2017, 9, el);
+    assert.isOk(el.innerHTML.trim() !== '');
+  });
+  it('generates separate calendar for different dates', function() {
+    drawCalendar(2018, 6, el);
+    var html1 = el.innerHTML;
+    drawCalendar(2018, 7, el);
+    var html2 = el.innerHTML;
+    assert.isOk(html1 !== html2);
+  });
+  it('responds to button clicks correctly', function() {
+    drawCalendar(2011, 12, el);
+    var html1 = el.innerHTML;
+    document.getElementsByTagName('button')[0].click();
+    assert.isOk(html1 === el.innerHTML);
+    document.getElementsByTagName('button')[1].click();
+    drawCalendar(2012, 2, el);
+    html1 = el.innerHTML;
+    assert.isOk(html1 === el.innerHTML);
+  });
+});
 
 describe('getCounter', function() {
   it('is a function', function() {
@@ -464,8 +464,19 @@ describe('getCounter', function() {
     assert.isOk(typeof getCounter(0) === 'object');
   });
   it('emplements chain of responsibility pattern', function() {
+    var logList = []
+    function mockLog(arg) {
+      logList.push(arg);
+    }
+    var log = console.log;
+    console.log = mockLog;
+
     var c = getCounter(5);
-    c.add(4).add(3).add(7).add(1);
-    assert.isOk(c.valueOf() === 20);
+    c.add(4).add(3).add(7).add(1).reset().add(5);
+    assert.isOk(c.valueOf() === 5);
+    c.log();
+    assert.isOk(logList[0] === 5);
+
+    console.log = log;
   });
 });
