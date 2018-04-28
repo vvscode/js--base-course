@@ -22,7 +22,6 @@ function displayUser(el) {
       'bio : ' + user.bio + 
       '</div>';
   userInfoArea.innerHTML = text;
-  return false;
 }
 
 form.addEventListener('submit', displayUser, false);
