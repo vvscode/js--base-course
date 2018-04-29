@@ -54,7 +54,6 @@ function isPolindrom(textString) {
       return false;
     }
   }
-  return true;
 }
 
 /**

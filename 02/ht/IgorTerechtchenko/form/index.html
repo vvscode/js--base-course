@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <fieldset>
+        <form id='form'>
+            <div> Name: </div> <br>
+            <input type='text' required></input> <br><br>
+            <div> Gender: </div>
+            <input type="radio" name="gender" value="male" checked> Male <br>
+            <input type="radio" name="gender" value="female"> Female <br><br>
+            <select id='age' name='age'>  
+                <option value='1'> 1 </option>
+                <option value='2'> 2 </option>
+                <option value='3'> 3 </option>
+            </select> <br> <br>
+            <div> Driving License: <input type="checkbox"> </div> <br>   
+            <div> Bio: </div>
+            <textarea name='comment' rows='10' cols='30' required></textarea><br>          
+            <button id='button'> Submit </button> <br>
+        </form>
+    </fieldset>
+  <div id='out'></div>
+  <script src="script.js"></script>
+</body>
+
+</html>
