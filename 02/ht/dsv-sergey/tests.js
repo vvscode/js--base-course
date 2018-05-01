@@ -36,58 +36,62 @@ describe("NotContructor", function() {
     assert.isOk(NotContructor instanceof Function);
   });
   it("Не конструктор", function() {
-      try {
-          var newNotContructor = new NotContructor();
-      } catch (e) {
-          assert.isOk(e instanceof TypeError);
-          assert.isOk(e.message === '"NotContructor" is not a constructor.');
-      }
+    try {
+      var newNotContructor = new NotContructor();
+    } catch (e) {
+      assert.isOk(e instanceof TypeError);
+      assert.isOk(e.message === '"NotContructor" is not a constructor.');
+    }
   });
 });
-describe('.myCall', function() {
-    var Test = function() {
-        return this;
-    };
-    Test.prototype.myCall = function() {};
-    var testMyCall = new Test();
-    it('.myCall является методом', function() {
-        assert.isOk('myCall' in testMyCall == true);
-    });
+describe(".myCall", function() {
+  var Test = function() {
+    return this;
+  };
+  Test.prototype.myCall = function() {};
+  var testMyCall = new Test();
+  it(".myCall является методом", function() {
+    assert.isOk("myCall" in testMyCall == true);
+  });
 });
-describe('throttle', function() {
-    var log = [];
+describe("throttle", function() {
+  var log = [];
 
-    function f(a) {
-        log.push(a);
-    }
+  function f(a) {
+    log.push(a);
+  }
 
-    var testThrottle = throttle(f, 1000);
-    it('функция', function() {
-        assert.isOk(typeof throttle === 'function');
-    });
-    it('первый вызов сработает сразу', function() {
-        testThrottle(1);
-        assert.deepEqual(log, [1], 'log == [1]');
-    });
-    it('второй вызов тормозит после первого 1000 мс', function() {
-        testThrottle(2);
-        assert.deepEqual(log, [1], 'log == [1]');
-    });
-    it('трейтий вызов тормозит после первого 1000 мс', function() {
-        testThrottle(3);
-        assert.deepEqual(log, [1], 'log == [1]');
-    });
-    it('через 1000 мс сработает только трейтий вызов', function() {
-        setTimeout(function() {
-            assert.deepEqual(log, [1, 3], 'сработал второй вызов (после истечения таймера)');
-        }, 1000);
-    });
-    it('четвертый вызов тормозит после срабатывания третьего 1000 мс', function() {
-        setTimeout(function() {
-            testThrottle(4);
-            assert.deepEqual(log, [1, 3], 'log == [1, 3]');
-        }, 0);
-    });
+  var testThrottle = throttle(f, 1000);
+  it("функция", function() {
+    assert.isOk(typeof throttle === "function");
+  });
+  it("первый вызов сработает сразу", function() {
+    testThrottle(1);
+    assert.deepEqual(log, [1], "log == [1]");
+  });
+  it("второй вызов тормозит после первого 1000 мс", function() {
+    testThrottle(2);
+    assert.deepEqual(log, [1], "log == [1]");
+  });
+  it("трейтий вызов тормозит после первого 1000 мс", function() {
+    testThrottle(3);
+    assert.deepEqual(log, [1], "log == [1]");
+  });
+  it("через 1000 мс сработает только трейтий вызов", function() {
+    setTimeout(function() {
+      assert.deepEqual(
+        log,
+        [1, 3],
+        "сработал второй вызов (после истечения таймера)"
+      );
+    }, 1000);
+  });
+  it("четвертый вызов тормозит после срабатывания третьего 1000 мс", function() {
+    setTimeout(function() {
+      testThrottle(4);
+      assert.deepEqual(log, [1, 3], "log == [1, 3]");
+    }, 0);
+  });
 });
 describe("getCounter", function() {
   var log;
@@ -136,8 +140,8 @@ describe("getCounter", function() {
     assert.deepEqual(logList, [5, 9, 12, 0, 8]);
   });
 });
-describe('календарь', function() {
-    it ('строит календарь', function() {
-        assert.isOk();
-    });
+describe("календарь", function() {
+  it("строит календарь", function() {
+    assert.isOk();
+  });
 });

@@ -28,13 +28,15 @@ function isDeepEqual(objA, objB) {
     return true;
   }
   if (typeof objA === "object" && typeof objB === "object") {
-    if (JSON.stringify(objA) === JSON.stringify(objB)) {
-      return true;
-    } else {
-      for (var i in objA) {
-        if (!(i in objB) || !isDeepEqual(objA[i], objB[i])) {
-          return false;
-        }
+    for (var i in objA) {
+      if (
+        !(i in objB) ||
+        !isDeepEqual(
+          objA[i],
+          objB[i] || objA.hasOwnProperty(i) !== objB.hasOwnProperty(i)
+        )
+      ) {
+        return false;
       }
     }
     for (var i in objA) {
@@ -118,7 +120,7 @@ function UserBot() {
     showNameInAlert: function() {
       alert("Вас зовут " + this.name);
       return this;
-    },
+    }
   };
 }
 
@@ -297,9 +299,9 @@ NotContructor
 
  */
 function NotContructor() {
-    if (this instanceof NotContructor) {
-        throw new TypeError('"NotContructor" is not a constructor.');
-    }
+  if (this instanceof NotContructor) {
+    throw new TypeError('"NotContructor" is not a constructor.');
+  }
 }
 /*
     Написать реализацию метода `.myCall`, который будет работать аналогично системному `.call` и
@@ -307,9 +309,8 @@ function NotContructor() {
 */
 
 Function.prototype.myCall = function(context, arg) {
-    this.context = context;
-    return function() {
-    };
+  this.context = context;
+  return function() {};
 };
 
 /*
@@ -321,26 +322,26 @@ Function.prototype.myCall = function(context, arg) {
  */
 
 function throttle(fun, delay) {
-    var throttled = false,
-        args,
-        context;
-    function wrapper() {
-        if (throttled) {
-            args = arguments;
-            context = this;
-            return;
-        }
-        fun.apply(this, arguments);
-        throttled = true;
-        setTimeout(function() {
-            throttled = false;
-            if (args) {
-                fun.apply(context, args);
-                context = args = null;
-            }
-        }, delay);
+  var throttled = false,
+    args,
+    context;
+  function wrapper() {
+    if (throttled) {
+      args = arguments;
+      context = this;
+      return;
     }
-    return wrapper;
+    fun.apply(this, arguments);
+    throttled = true;
+    setTimeout(function() {
+      throttled = false;
+      if (args) {
+        fun.apply(context, args);
+        context = args = null;
+      }
+    }, delay);
+  }
+  return wrapper;
 }
 
 /*
@@ -365,11 +366,11 @@ console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
  */
 
 function sleep(seconds) {
-    var time = new Date().getSeconds() + seconds,
-        newTime = 0;
-    while (time > newTime) {
-        newTime = new Date().getSeconds();
-    };
+  var time = new Date().getSeconds() + seconds,
+    newTime = 0;
+  while (time > newTime) {
+    newTime = new Date().getSeconds();
+  }
 }
 
 /*
@@ -391,22 +392,22 @@ c
  */
 
 var getCounter = function(arr) {
-    var counter = 0;
-    if (arr != 'undefined') {
-        counter = arr;
-    };
-    return {
-        log: function() {
-            console.log(counter);
-            return this;
-        },
-        add: function(a) {
-            counter += a;
-            return this;
-        },
-        reset: function() {
-            counter =0;
-            return this;
-        },
-    };
+  var counter = 0;
+  if (arr != "undefined") {
+    counter = arr;
+  }
+  return {
+    log: function() {
+      console.log(counter);
+      return this;
+    },
+    add: function(a) {
+      counter += a;
+      return this;
+    },
+    reset: function() {
+      counter = 0;
+      return this;
+    }
+  };
 };
