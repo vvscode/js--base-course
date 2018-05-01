@@ -2,49 +2,6 @@
 /* eslint no-unused-vars: "off" */
 /* eslint max-len: "off" */
 
-/** Написать тесты к функции isDeepEqual */
-
-var assert = require("assert");
-describe("isDeepEqual", function() {
-  it("function", function() {
-    return assert(typeof isDeepEqual === "function", true);
-  });
-  it("return true/false", function() {
-    return assert(typeof isDeepEqual("", "") === "boolean", true);
-  });
-  it("recognize same strings", function() {
-    return assert(isDeepEqual("hello", "hello") === true, true);
-  });
-  it("recognize different strings", function() {
-    return assert(isDeepEqual("hi", "hello") === false, true);
-  });
-  it("recognize different arrays", function() {
-    return assert(isDeepEqual([1, 4, 2], [1, 2, 4]) === false, true);
-  });
-  it("recognize same arrays", function() {
-    return assert(isDeepEqual([1, 2, 4, 3], [1, 2, 4, 3]) === true, true);
-  });
-  var a = { prop1: 1, list: [1, 2, 3], o: { x: 2 } };
-  var b = { list: [1, 2, 3], o: { x: 2 } };
-  it("recognize different objects", function() {
-    return assert(isDeepEqual(a, b) === false, true);
-  });
-  it("recognize same objects", function() {
-    b.prop1 = 1;
-    return assert(isDeepEqual(a, b) === true, true);
-  });
-  it("recognize same numbers", function() {
-    var a = 1;
-    var b = 1.0;
-    return assert(isDeepEqual(a, b) === true, true);
-  });
-  it("recognize different numbers", function() {
-    let a = 1;
-    let b = 2;
-    return assert(isDeepEqual(a, b) === false, true);
-  });
-});
-
 /** Функция фиксации контекста
  * @param {*} func Функция для которой нужно зафиксировать контекст
  * @param {*} context значение для this
@@ -98,23 +55,23 @@ var o = {
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 
-function User() {
-  this.askName = function() {
-    this.name = prompt("what is your name?");
-    return this;
-  };
-  this.askAge = function() {
-    this.age = prompt("what is your age?");
-    return this;
-  };
-  this.showAgeInConsole = function() {
-    console.log("your age is " + this.age);
-    return this;
-  };
-  this.showNameInAlert = function() {
-    alert("your name is " + this.name);
-  };
-}
+function User() {}
+
+User.prototype.askName = function() {
+  this.name = prompt("what is your name?");
+  return this;
+};
+User.prototype.askAge = function() {
+  this.age = prompt("what is your age?");
+  return this;
+};
+User.prototype.showAgeInConsole = function() {
+  console.log("your age is " + this.age);
+  return this;
+};
+User.prototype.showNameInAlert = function() {
+  alert("your name is " + this.name);
+};
 
 /**
  * Написать фукнцию-калькулятор, которая работает следующим образом
@@ -126,13 +83,16 @@ function User() {
 function calculate(operator) {
   return function(operand1) {
     return function(operand2) {
-      var op = {
-        "+": operand1 + operand2,
-        "-": operand1 - operand2,
-        "*": operand1 * operand2,
-        "/": operand1 / operand2
-      };
-      return operator in op ? op[operator] : false;
+      switch(operator) {
+        case '+':
+          return operand1 + operand2;
+        case '-':
+          return operand1 - operand2;
+        case '*':
+          return operand1 * operand2;
+        case '/':
+          return operand1 / operand2;
+      }
     };
   };
 }
@@ -145,11 +105,8 @@ function calculate(operator) {
 var Singleton = (function() {
   var instance;
   function Singleton() {
-    if (!instance) {
+    if (instance) return instance;
       instance = this;
-    } else {
-      return instance;
-    }
   }
   return Singleton;
 })();
@@ -213,11 +170,20 @@ function log(x) {
  * @param {*} func
  */
 
-// not ready
+function curry(targetFunction) {
+  var numOfArgs = targetFunction.length;
+  return function fn() {
+    if (arguments.length < numOfArgs) {
+      return fn.bind(null, ...arguments);
+    } else {
+      return targetFunction.apply(null, arguments);
+    }
+  };
+}
 
 /**
-Написать код, который для объекта созданного с помощью конструктора будет показывать,
-что объект является экземпляром двух классов
+* Написать код, который для объекта созданного с помощью конструктора будет показывать,
+* что объект является экземпляром двух классов
 */
 
 function PreUser() {}
@@ -229,24 +195,37 @@ User.prototype = Object.create(PreUser.prototype);
 User.prototype.constructor = User;
 
 /**
-Создать веб страницу. Добавить на нее форму с полями
-- имя (строкое поле),
-- родной город (Выпадающий список),
-- Комментарий (многострочное поле), пол (radiobutton).
-При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
-после чего поля очистить.
+* Создать веб страницу. Добавить на нее форму с полями
+* - имя (строкое поле),
+* - родной город (выпадающий список),
+* - комментарий (многострочное поле),
+* - пол (radiobutton).
+* При нажатии на кнопку - нужно собрать данные, введенные в поля и вывести их в блоке под формой,
+* после чего поля очистить.
 */
 
 /* решение задачи представлено в файле form.html */
 
-/*
-Используя функцию drawCalendar из прошлого урока
-создать функцию drawInteractiveCalendar(el)
-Которая выводит календарь, в шапке которого отображается
-[<] месяц / год [>]
-При клике по кнопкам [<] / [>] нужно реализовать листание календаря
-Добавть на страницу index.html вызов календаря
+/**
+* Используя функцию drawCalendar из прошлого урока
+* создать функцию drawInteractiveCalendar(el)
+* Которая выводит календарь, в шапке которого отображается
+* [<] месяц / год [>]
+* При клике по кнопкам [<] / [>] нужно реализовать листание календаря
+* Добавить на страницу index.html вызов календаря
 */
-function drawInteractiveCalendar(el) {}
 
-// not ready
+/* решение задачи представлено в файле calendar.html */
+
+
+/**
+ * создать функцию, которая не может работать как конструктор
+ * (работать с new), и покрыть ее тестами
+ */
+
+function isConstructor() {
+  if (new.target) {
+    throw new TypeError("function can not be a constructor");
+  }
+  console.log("function is not constructor");
+}

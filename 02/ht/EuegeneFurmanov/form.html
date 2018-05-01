@@ -101,31 +101,31 @@
       <form id="form">
         <div class="feedback-form-group">
           <label for="name">name</label>
-          <input type="text" name="name" id="name">
+          <input type="text" name="name" id="name" required>
         </div>
         <div class="feedback-form-group">
           <label for="hometown">hometown</label>
           <select name="hometown" id="hometown">
-            <option value="0">sankt-petersburg</option>
-            <option value="1">moscow</option>
-            <option value="2">minsk</option>
+            <option value="sankt-petersburg">sankt-petersburg</option>
+            <option value="moscow">moscow</option>
+            <option value="minsk">minsk</option>
           </select>
         </div>
         <div class="feedback-form-group">
           <label for="comment">comment</label>
-          <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+          <textarea name="comment" id="comment" cols="30" rows="10" required></textarea>
         </div>
         <div class="feedback-form-group">
           <label>
             male
-            <input type="radio" name="sex" value="0" checked>
+            <input type="radio" name="sex" value="male" checked>
           </label>
           <label>
             female
-            <input type="radio" name="sex" value="1">
+            <input type="radio" name="sex" value="female">
           </label>
         </div>
-        <input type="button" id="btn" value="send">
+        <button id="btn">send</button>
       </form>
     </div>
   </div>
@@ -133,33 +133,33 @@
     <ul class="output"></ul>
   </div>
   <script>
-    var cities = ["sankt-petersburg", "moscow", "minsk"];
-    var gender = ["male", "female"];
-    var btn = document.querySelector("#btn");
-    var list = document.querySelector(".output");
+    var form = document.querySelector("#form");
+	var list = document.querySelector(".output");
 
-    btn.addEventListener("click", function() {
-      var name = document.querySelector("#name").value;
-      var hometown = cities[document.querySelector("#hometown").value];
-      var comment = document.querySelector("#comment").value;
-      var sex =
-        gender[document.querySelector('input[type = "radio"]:checked').value];
+	function showUserData() {
+	  var name = document.querySelector("#name").value;
+	  var hometown = document.querySelector("#hometown").value;
+	  var comment = document.querySelector("#comment").value;
+	  var sex = document.querySelector('input[type="radio"]').checked
+	    ? "male"
+	    : "female";
 
-      addElement(name);
-      addElement(hometown);
-      addElement(comment);
-      addElement(sex);
+	  addElement(name);
+	  addElement(hometown);
+	  addElement(comment);
+	  addElement(sex);
+	}
 
-      setTimeout(function() {
-        document.querySelector("#form").reset();
-      }, 5000);
-    });
+	function addElement(text) {
+	  var listElement = document.createElement("li");
+	  listElement.innerText = text;
+	  list.appendChild(listElement);
+	}
 
-    function addElement(text) {
-      var listElement = document.createElement("li");
-      listElement.innerText = text;
-      list.appendChild(listElement);
-    }
+	form.addEventListener("submit", showUserData, false);
+	form.addEventListener("submit", function(el) {
+	  el.preventDefault();
+	});
   </script>
 </body>
 </html>

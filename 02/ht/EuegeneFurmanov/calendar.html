@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .btn {
+      font-size: 20px;
+      outline: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    span {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <button class="btn btn-left">[<]</button>
+  <span class="month"></span>
+  <span>/</span>
+  <span class="year"></span>
+  <button class="btn btn-right">[>]</button>
+  <div class="calendar"></div>
+  <script>
+    function drawCalendar(year, month, htmlEl) {
+      var countOfDaysInMonth = {
+        0: 31,
+        1: 28,
+        2: 31,
+        3: 30,
+        4: 31,
+        5: 30,
+        6: 31,
+        7: 31,
+        8: 30,
+        9: 31,
+        10: 30,
+        11: 31
+      };
+
+      var calendar =
+        "<table>" +
+        "<tr>" +
+        "<td>пн</td>" +
+        "<td>вт</td>" +
+        "<td>ср</td>" +
+        "<td>чт</td>" +
+        "<td>пт</td>" +
+        "<td>сб</td>" +
+        "<td>вс</td>" +
+        "</tr>";
+
+      var date = new Date(year, month);
+      var daysInMonth;
+
+      var isLeapYear =
+        (date.getFullYear() % 4 == 0 && date.getFullYear() % 100 != 0) ||
+        date.getFullYear() % 400 == 0
+          ? true
+          : false;
+
+      for (var key in countOfDaysInMonth) {
+        if (key == date.getMonth()) {
+          daysInMonth = countOfDaysInMonth[key];
+          break;
+        }
+      }
+
+      if (date.getMonth() == 2 && isLeapYear) {
+        daysInMonth++;
+      }
+
+      calendar += "<tr>";
+      for (var i = 1; i <= daysInMonth; i++) {
+        calendar += "<td>" + i + "</td>";
+
+        if (i % 7 == 0) {
+          calendar += "</tr><tr>";
+        }
+      }
+
+      return (htmlEl.innerHTML = calendar + "</table>");
+    }
+
+    function drawInteractiveCalendar(el) {
+      var now = new Date();
+      var monthNow = now.getMonth();
+      var yearNow = now.getFullYear();
+      var month = document.querySelector(".month");
+      var year = document.querySelector(".year");
+      var calendar = document.querySelector(".calendar");
+      var buttonLeft = document.querySelector(".btn-left");
+      var buttonRight = document.querySelector(".btn-right");
+      month.innerHTML = (monthNow + 1).toString();
+      year.innerHTML = yearNow.toString();
+      drawCalendar(yearNow, monthNow, calendar);
+
+      buttonLeft.onclick = function() {
+        drawCalendar(yearNow, --monthNow, calendar);
+        if (monthNow < 0) {
+          monthNow = 11;
+          yearNow--;
+        }
+        if (monthNow > 11) {
+          monthNow = 0;
+          yearNow++;
+        }
+        month.innerHTML = (monthNow + 1).toString();
+        year.innerHTML = yearNow.toString();
+      };
+
+      buttonRight.onclick = function() {
+        drawCalendar(yearNow, ++monthNow, calendar);
+        if (monthNow < 0) {
+          monthNow = 11;
+          yearNow--;
+        }
+        if (monthNow > 11) {
+          monthNow = 0;
+          yearNow++;
+        }
+        month.innerHTML = (monthNow + 1).toString();
+        year.innerHTML = yearNow.toString();
+      };
+    }
+
+    drawInteractiveCalendar();
+  </script>
+</body>
+</html>
