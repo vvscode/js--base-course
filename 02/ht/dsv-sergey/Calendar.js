@@ -1,5 +1,3 @@
-/* eslint-disable require-jsdoc,no-unused-vars,one-var,max-len */
-
 var htmlEl = document.getElementById("calendar"),
   earlyMonth = document.getElementById("leftBt"),
   nextMonth = document.getElementById("rightBt"),

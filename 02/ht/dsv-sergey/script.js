@@ -1,7 +1,3 @@
-/* eslint no-var: "off" */
-/* eslint no-unused-vars: "off" */
-/* eslint max-len: "off" */
-
 /**
  * Написать функцию `isDeepEqual`
  * которая принимает на вход двe переменных
@@ -264,7 +260,7 @@ function curry(func) {
 }
 
 /*
-Написать код, который для объекта созданного с помощью конструктора будет показывать, 
+Написать код, который для объекта созданного с помощью конструктора будет показывать,
 что объект является экземпляром двух классов
 */
 function User() {}
@@ -278,15 +274,15 @@ User.prototype = Object.create(PreUser.prototype);
 // u instanceof PreUser; // true
 
 /*
-Создать веб страницу. Добавить на нее форму с полями 
-- имя (строкое поле), 
-- родной город (Выпадающий список), 
-- Комментарий (многострочное поле), пол (radiobutton). 
-При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой, 
+Создать веб страницу. Добавить на нее форму с полями
+- имя (строкое поле),
+- родной город (Выпадающий список),
+- Комментарий (многострочное поле), пол (radiobutton).
+При нажатии на кнопку - нужно собрать данные введенные в поля и вывести их в блоке под формой,
 после чего поля очистить.
 */
 
-/* 
+/*
 Используя функцию drawCalendar из прошлого урока
 создать функцию drawInteractiveCalendar(el)
 Которая выводит календарь, в шапке которого отображается
@@ -301,9 +297,9 @@ NotContructor
 
  */
 function NotContructor() {
-  if (this instanceof NotContructor) {
-    throw new TypeError('"NotContructor" is not a constructor.');
-  }
+    if (this instanceof NotContructor) {
+        throw new TypeError('"NotContructor" is not a constructor.');
+    }
 }
 /*
     Написать реализацию метода `.myCall`, который будет работать аналогично системному `.call` и
@@ -312,8 +308,7 @@ function NotContructor() {
 
 Function.prototype.myCall = function(context, arg) {
     this.context = context;
-    return function () {
-        
+    return function() {
     };
 };
 
