@@ -51,9 +51,7 @@ var storage = {
    * clear localStorage
    */
   clearAll: function() {
-    for (var prop in localStorage) {
-      localStorage.removeItem(prop);
-    }
+    localStorage.clear();
   },
 
   /**
