@@ -112,7 +112,7 @@ Calendar.prototype = {
     input.setAttribute("type", "text");
     el.appendChild(input);
     el.style.padding = 0;
-    goingEvent(input, "blur", this.changeValue);
+    runEvent(input, "blur", this.changeValue);
   },
 
   /**

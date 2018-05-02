@@ -7,7 +7,7 @@
  * add eventListeners for different versions of web-browsers
  */
 
-function goingEvent(elem, event, cb) {
+function runEvent(elem, event, cb) {
   if (addEventListener) {
     elem.addEventListener(event, cb, false);
   } else if (attachEvent) {
@@ -20,8 +20,8 @@ function goingEvent(elem, event, cb) {
 /**
  * adding eventlisteners
  */
-goingEvent(document.body, "click", activateLink);
-goingEvent(window, "hashchange", chooseCathegory);
-goingEvent(window, "load", createCalendar);
-goingEvent(base.getCalendarElement(), "click", addActivity);
-goingEvent(base.getForm(), "change", activateInputs);
+runEvent(document.body, "click", activateLink);
+runEvent(window, "hashchange", chooseCathegory);
+runEvent(window, "load", createCalendar);
+runEvent(base.getCalendarElement(), "click", addActivity);
+runEvent(base.getForm(), "change", activateInputs);
