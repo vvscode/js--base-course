@@ -77,7 +77,7 @@ Calendar.prototype = {
     var elem = document.querySelector(el);
     elem.innerHTML = "";
     elem.innerHTML = table;
-    storage.renderBase(elem, this.date);
+    storage.updateStorage(elem, this.date);
   },
 
   /**

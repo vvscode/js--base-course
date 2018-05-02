@@ -64,7 +64,7 @@ var storage = {
    *
    * push data into database (in property of object, named as number of date of the day and contaons array of notes)
    */
-  renderBase: function(elem, date) {
+  updateStorage: function(elem, date) {
     var baseDate = storage.getItem("base");
     if (!baseDate) {
       return;
