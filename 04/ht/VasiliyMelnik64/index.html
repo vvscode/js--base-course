@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles/style.css">
     <title>HT 02</title>
 </head>
+
 <body>
     <header>
         <ul>
-            <li><a href="#1" name='Calendar_0'>Calendar</a></li>
-            <li><a href="#2" name='Calendar_1'>Create</a></li>
-            <li><a href="#3" name='About'>About</a></li>
+            <li>
+                <a href="#1" name='Calendar_0'>Calendar</a>
+            </li>
+            <li>
+                <a href="#2" name='Calendar_1'>Create</a>
+            </li>
+            <li>
+                <a href="#3" name='About'>About</a>
+            </li>
         </ul>
     </header>
     <fieldset class='hide'>
@@ -18,7 +26,7 @@
         <form id="form">
             <p>
                 <input type="checkbox" id='button' data-change="_allowChange">
-                <label for="button" >Allow change month</label>
+                <label for="button">Allow change month</label>
             </p>
             <p>
                 <input type="checkbox" id='td' data-change="_allowAdd">
@@ -34,14 +42,18 @@
             </p>
             <select name="month" id="selectMonth"></select>
             <select name="year" id="selectYear"></select>
-            <p><textarea>Add some note...</textarea></p>
+            <p>
+                <textarea>Add some note...</textarea>
+            </p>
         </form>
     </fieldset>
     <div id="workingBlock">
         <div id='code' class='hide'></div>
         <div id="calendar"></div>
         <div id="about">
-            <div><img src="img/ava.png"></div>
+            <div>
+                <img src="img/ava.png">
+            </div>
             <p>Hello! My name is Vasiliy Melnik. I am a beginning front end developer.</p>
         </div>
     </div>
@@ -53,4 +65,5 @@
     <script src="scripts/drawSelects.js"></script>
     <script src="scripts/script.js"></script>
 </body>
+
 </html>
