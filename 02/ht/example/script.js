@@ -107,6 +107,7 @@ function log(x) {
  * 
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
+ * https://github.com/MostlyAdequate/mostly-adequate-guide-ru/blob/master/ch4-ru.md
  * @param {*} func 
  */
 function curry(func) {}
