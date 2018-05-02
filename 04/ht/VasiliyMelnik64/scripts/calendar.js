@@ -13,6 +13,20 @@ Calendar.prototype = {
 
   /**
    * @function
+   * @param {number} date
+   * @return {number}
+   * define a number of the of the week in format from 1 to 7
+   */
+  defineDayOfTheWeek: function(date) {
+    var dayOfTheWeek = date.getDay();
+    if (dayOfTheWeek == 0) {
+      dayOfTheWeek = 7;
+    }
+    return dayOfTheWeek - 1;
+  },
+
+  /**
+   * @function
    * @param {number} year
    * @param {number} month
    * @param {string} el - DOM-element`s id
@@ -25,20 +39,6 @@ Calendar.prototype = {
       return;
     }
     var date = new Date(year, month - 1);
-
-    /**
-     * @function
-     * @param {number} date
-     * @return {number}
-     * define a number of the of the week in format from 1 to 7
-     */
-    function defineDayOfTheWeek(date) {
-      var dayOfTheWeek = date.getDay();
-      if (dayOfTheWeek == 0) {
-        dayOfTheWeek = 7;
-      }
-      return dayOfTheWeek - 1;
-    }
     var showMonthValue = this.showMonth ? "" : "hidden";
     var allowChangeValue = this.allowChange ? "" : "hidden";
     var table =
@@ -55,7 +55,7 @@ Calendar.prototype = {
       this.date[0] +
       "</span>" +
       "</th></tr><tr><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th> <th>ПТ</th><th>СБ</th><th>ВС</th> </tr><tr>";
-    for (var i = 0; i < defineDayOfTheWeek(date); i++) {
+    for (var i = 0; i < this.defineDayOfTheWeek(date); i++) {
       table += '<td><span class="corner"></span></td>';
     }
     while (date.getMonth() == month - 1) {
@@ -63,13 +63,13 @@ Calendar.prototype = {
         '<td><span class="corner">' +
         date.getDate() +
         '</span><div class="cellContent"></div></td>';
-      if (defineDayOfTheWeek(date) % 7 == 6) {
+      if (this.defineDayOfTheWeek(date) % 7 == 6) {
         table += "</tr><tr>";
       }
       date.setDate(date.getDate() + 1);
     }
-    if (defineDayOfTheWeek(date) != 0) {
-      for (i = defineDayOfTheWeek(date); i < 7; i++) {
+    if (this.defineDayOfTheWeek(date) != 0) {
+      for (i = this.defineDayOfTheWeek(date); i < 7; i++) {
         table += "<td></td>";
       }
     }
