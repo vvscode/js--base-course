@@ -9,8 +9,6 @@ function Calendar(props) {
   this.drawCalendar(+this.date[0], +this.date[1], this.el);
 }
 Calendar.prototype = {
-  constructor: Calendar,
-
   /**
    * @function
    * @param {number} date
