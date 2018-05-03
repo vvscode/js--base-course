@@ -36,7 +36,7 @@ function addActivity(e) {
     actions.calendar.addData(e.target);
     return;
   }
-  if (e.target.classList.contains("close") && actions.calendar.allowRemove) {
+  if (e.target.classList.contains("tableItem__close") && actions.calendar.allowRemove) {
     var agree = confirm(
       "Вы, действительно хотите удалить запись " +
         e.target.previousSibling.textContent +

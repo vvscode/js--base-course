@@ -40,9 +40,9 @@ Calendar.prototype = {
     var showMonthValue = this.showMonth ? "" : "hidden";
     var allowChangeValue = this.allowChange ? "" : "hidden";
     var table =
-      '<table><tr><th colspan="7"><button id="leftButton" style="visibility:' +
+      '<table class="table"><tr><th colspan="7" class="table__item tableHead"><button id="leftButton" class="tableHead__button tableHead__button--left" style="visibility:' +
       allowChangeValue +
-      '">&#9664</button><button id="rightButton" style="visibility:' +
+      '">&#9664</button><button id="rightButton" class="tableHead__button tableHead__button--right" style="visibility:' +
       allowChangeValue +
       '">&#9654</button>' +
       '<span style="visibility:' +
@@ -52,15 +52,16 @@ Calendar.prototype = {
       " " +
       this.date[0] +
       "</span>" +
-      "</th></tr><tr><th>ПН</th><th>ВТ</th><th>СР</th><th>ЧТ</th> <th>ПТ</th><th>СБ</th><th>ВС</th> </tr><tr>";
+      "</th></tr><tr><th class='table__item'>ПН</th><th class='table__item'>ВТ</th><th class='table__item'>СР</th><th class='table__item'>ЧТ</th> <th class='table__item'>ПТ</th><th class='table__item'>СБ</th><th class='table__item'>ВС</th> </tr><tr>";
     for (var i = 0; i < this.defineDayOfTheWeek(date); i++) {
-      table += '<td><span class="corner"></span></td>';
+      table +=
+        '<td class="table__item table__item--hover"><span class="corner"></span></td>';
     }
     while (date.getMonth() == month - 1) {
       table +=
-        '<td><span class="corner">' +
+        '<td class="table__item  table__item--hover tableItem"><span class="tableItem__corner">' +
         date.getDate() +
-        '</span><div class="cellContent"></div></td>';
+        '</span><div class="tableItem__cellContent"></div></td>';
       if (this.defineDayOfTheWeek(date) % 7 == 6) {
         table += "</tr><tr>";
       }
@@ -68,11 +69,12 @@ Calendar.prototype = {
     }
     if (this.defineDayOfTheWeek(date) != 0) {
       for (i = this.defineDayOfTheWeek(date); i < 7; i++) {
-        table += "<td></td>";
+        table += "<td class='table__item table__item--hover'></td>";
       }
     }
     table += "</td></table>";
     var elem = document.querySelector(el);
+    elem.classList.add("calendar__item");
     elem.innerHTML = "";
     elem.innerHTML = table;
     storage.updateStorage(elem, this.date);
@@ -108,6 +110,7 @@ Calendar.prototype = {
     }
     var input = document.createElement("input");
     input.setAttribute("type", "text");
+    input.classList.add("g-textInput");
     el.appendChild(input);
     el.style.padding = 0;
     runEvent(input, "blur", this.changeValue);
@@ -123,8 +126,8 @@ Calendar.prototype = {
     var date = actions.calendar.date;
     var val = this.value;
     var span = document.createElement("span");
-    span.innerHTML = "<br />" + val + '<span class="close">&times</span><br />';
-    var cellContent = this.parentNode.getElementsByClassName("cellContent")[0];
+    span.innerHTML = "<br />" + val + '<span class="tableItem__close">&times</span><br />';
+    var cellContent = this.parentNode.getElementsByClassName("tableItem__cellContent")[0];
     cellContent.appendChild(span);
     this.parentNode.style.paddingBottom = "15px";
     this.parentNode.style.paddingTop = "15px";

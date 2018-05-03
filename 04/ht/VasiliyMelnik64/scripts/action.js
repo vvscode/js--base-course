@@ -50,10 +50,10 @@ var actions = {
       base.getAbout()
     ];
     elems.forEach(function(elem) {
-      elem.classList.remove("hide");
+      elem.classList.remove("g-hide");
     });
     args.forEach(function(el) {
-      el.classList.add("hide");
+      el.classList.add("g-hide");
     });
   }
 };
