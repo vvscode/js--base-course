@@ -36,7 +36,10 @@ function addActivity(e) {
     actions.calendar.addData(e.target);
     return;
   }
-  if (e.target.classList.contains("tableItem__close") && actions.calendar.allowRemove) {
+  if (
+    e.target.classList.contains("tableItem__close") &&
+    actions.calendar.allowRemove
+  ) {
     var agree = confirm(
       "Вы, действительно хотите удалить запись " +
         e.target.previousSibling.textContent +
@@ -48,7 +51,7 @@ function addActivity(e) {
       );
       var index = childrenArray.indexOf(e.target.parentElement);
       var date = actions.calendar.date;
-
+      
       var td =
         e.target.parentElement.parentElement.tagName === "TD"
           ? e.target.parentElement.parentElement
@@ -70,6 +73,7 @@ function addActivity(e) {
  * reset the form,
  * update localStorage base,
  */
+
 function createCalendar() {
   location.hash = "#Calendar_0";
   actions.calendar = new Calendar({
