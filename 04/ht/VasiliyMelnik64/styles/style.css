@@ -1,113 +1,142 @@
 @font-face {
-  font-family: "Kolegraphy"; 
-  src: url("../fonts/Kolegraphy.ttf"); 
+  font-family: "Kolegraphy";
+  src: url("../fonts/Kolegraphy.ttf");
 }
 
-body {
+.g-colors {
   background: #ffffff;
-  font: bold 1.35em "Kolegraphy";
   color: rgb(5, 22, 70);
 }
-pre {
+
+.g-font {
   font: bold 1.35em "Kolegraphy";
 }
-a {
-  display: block;
-  padding: 7px 0;
-  text-decoration: none;
-  color: white;
-  border: 3px solid rgb(12, 40, 118);
-  background: linear-gradient(to bottom,  rgb(38, 89, 228)  0%, rgb(38, 89, 228) 50%, rgb(21, 67, 192) 50%, rgb(21, 67, 192) 100%);
-  font: bold 1.5rem "Kolegraphy";
-}
-a:active {
-  background: linear-gradient(to bottom, rgb(21, 67, 192) 0%,rgb(21, 67, 192)50%, rgb(38, 89, 228)  50%, rgb(38, 89, 228) 100%);
-  box-shadow: none;
+
+.g-input {
+  font: bold .8em "Kolegraphy";
+  color: rgb(2, 19, 66);
+  border: 1px solid rgb(2, 19, 66);
 }
 
-header, ul {
-  width: 90%;
-  margin:0 auto;
+.g-textInput {
+  position: absolute;
+  width: 90% !important;
+  height: 88% !important;
+  top: 0;
+  left: 0;
+  background-color: aqua;
 }
-ul {
+
+.g-hide {
+  display: none !important;
+}
+
+.header {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.header__list {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   padding: 1.5% 0;
   text-align: center;
 }
-li {
+
+.list__item {
   flex: 1 1 30%;
   list-style-type: none;
   text-align: center;
 }
-fieldset {
+
+.item__link {
+  display: block;
+  padding: 7px 0;
+  border: 3px solid rgb(12, 40, 118);
+  background: linear-gradient(to bottom, rgb(38, 89, 228) 0%, rgb(38, 89, 228) 50%, rgb(21, 67, 192) 50%, rgb(21, 67, 192) 100%);
+  text-decoration: none;
+  color: white;
+  font: bold 1.5rem "Kolegraphy";
+}
+
+.item__link:active {
+  background: linear-gradient(to bottom, rgb(21, 67, 192) 0%, rgb(21, 67, 192)50%, rgb(38, 89, 228) 50%, rgb(38, 89, 228) 100%);
+  box-shadow: none;
+  outline: none;
+}
+
+.settingsForm {
   width: 50%;
   margin: 0 25%;
-}
-fieldset {
   border: 2px solid rgb(12, 40, 118);
   border-radius: 5px;
   color: rgb(2, 19, 66);
 }
-legend {
-  margin-left: 38%;
-  font: bold 1.4em "Kolegraphy";
-}
-.about{
-  font: 2em Verdana;
-  text-align: center;
-  color: black;
-}
-form p {
+
+.form__item {
   margin-top: 3px;
   margin-bottom: 3px;
 }
-#workingBlock {
+
+.legend {
+  margin-left: 38%;
+  font: bold 1.4em "Kolegraphy";
+}
+
+.workingBlock {
   display: flex;
   width: 81%;
   margin: 0 9.5%;
 }
-div[id^="calendar"] {
+
+.code {
+  flex: 1 1 35%;
+  height: 80%;
+  margin: 10px 10px 0 0;
+  padding: 30px 50px 30px 20px;
+  overflow: auto;
+  border: 2px solid rgb(12, 40, 118);
+  border-radius: 5px;
+  font-size: 2.2vw;
+}
+
+.calendar__item {
   flex: 1 1 62%;
   width: 80%;
   margin: 10px auto;
   border-radius: 5px;
 }
-#code  {
-  flex: 1 1 35%;
-  margin: 10px 10px 0 0;
-  padding: 0;
-  overflow: auto;
-  border: 2px solid rgb(12, 40, 118);
-  border-radius: 5px;
-  font-size: 1.65vw;
-}
 
-
-
-#calendar, #date {
-  width: 30%;
-}
-table {
+.table {
   width: 100%;
   position: relative;
   margin-top: 10px;
-  border-collapse:collapse;
+  border-collapse: collapse;
   border-radius: 5px !important;
   font-size: .8em;
 }
-th, td {
-  border: 2px solid rgb(12, 40, 118);
+
+.table__item {
+  position: relative;
+  width: 20px;
+  height: 20px;
   padding: 15px;
+  overflow: auto;
+  border: 2px solid rgb(12, 40, 118);
   text-align: center;
-}
-td:hover {
-  background-color: rgb(38, 89, 228);
-  color: white;
+  font-size: 1.2em;
   cursor: pointer;
 }
-button {
+
+.table__item--hover:hover {
+  background-color: rgb(38, 89, 228);
+  color: white;
+}
+
+.tableHead__button {
   width: 50px;
   padding: 0 13px;
   position: absolute;
@@ -122,97 +151,60 @@ button {
   cursor: pointer;
   outline: none;
 }
-#leftButton {
+
+.tableHead__button--left {
   left: 0;
 }
-#rightButton {
+
+.tableHead__button--right {
   right: 0;
 }
 
-#date {
-  padding: 10px 0;
-  border: 1px solid black;
-  box-sizing: border-box;
-  border-bottom: none;
-}
-#clearStorage {
-  position: relative;
-  display: block;
-  width: 200px;
-  margin: 25px 0 25px 345px;
-  box-shadow: 2px 2px 2px gray;
-}
-#clearStorage:active {
-  box-shadow: none;
-}
-#tasks {
-  width: 545px;
-  padding: 0 3px;
-}
-#tasks p {
-  border-bottom: 2px solid black;
-  padding: 1px 5px;
-  text-align: left;
-}
-#about {
+.about {
   display: flex;
 }
-#about div {
+
+.about__item {
   margin: 0 1%;
-  padding: 5px;
+}
+
+.aboutMePhoto {
   flex: 1 1 35%;
+  padding: 5px;
   border: 2px solid rgb(4, 26, 85);
   border-radius: 5px;
 }
-#about img {
+
+.about__img {
   width: 100%;
 }
-#about p {
-  margin: 0 1%;
+
+.aboutMeText {
   flex: 1 1 65%;
   font-size: 1.35rem;
   font-family: "Kolegraphy";
   text-decoration: underline;
   color: rgb(5, 22, 70);
 }
-.hide {
-  display: none !important;
-}
-td, th {
-  position: relative;
-  overflow: auto;
-  width: 20px;
-  height: 20px;
-  font-size: 1.2em;
-}
-.cellContent {
+
+.tableItem__cellContent {
   font-size: .8em;
   text-align: left;
-  margin-top: -10px;
+  margin-top: -30px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  margin-left: 10px;
 }
-input, select, textarea {
-  font: bold .8em "Kolegraphy";
-  color: rgb(2, 19, 66);
-  border: 1px solid rgb(2, 19, 66);
-}
-input[type="text"] {
-  position: absolute;
-  width: 90% !important;
-  height: 88% !important;
-  top:0;
-  left:0;
-  background-color: aqua;
-}
-.corner {
+
+.tableItem__corner {
   position: absolute;
   top: 0;
   right: 1px;
 }
-.close {
-  margin-left: 5px;
-  padding: 0 4px;
-  background-color: red;
-  border: 1px solid red;
-  color: white;
-  font: .5em;
+
+.tableItem__close {
+  margin-left: 10px;
+  color: red;
+  font-size: 1.5em;
+  font-weight: bold;
 }
