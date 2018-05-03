@@ -80,7 +80,7 @@ function createCalendar() {
     allowRemove: false,
     date: [new Date().getFullYear(), new Date().getMonth() + 1],
     toString: function() {
-      var str = "<pre>    (function () {<br />";
+      var str = "<pre class='code g-font'>    (function () {<br />";
       for (var prop in this) {
         if (typeof this[prop] !== "function") {
           str += "       " + prop + " : " + this[prop] + ";<br />";
