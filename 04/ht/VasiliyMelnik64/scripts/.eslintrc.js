@@ -4,7 +4,7 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: ["google", "prettier"],
+  extends: ["starndard", "prettier"],
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
