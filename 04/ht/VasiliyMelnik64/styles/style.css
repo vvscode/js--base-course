@@ -4,7 +4,7 @@
 }
 
 .g-colors {
-  background: #ffffff;
+  background: #f0f0fc;
   color: rgb(5, 22, 70);
 }
 
@@ -30,7 +30,17 @@
 .g-hide {
   display: none !important;
 }
+.preloader {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  z-index: 1;
+  background: url(https://thumbs.gfycat.com/JointRevolvingAntelopegroundsquirrel-size_restricted.gif) center center no-repeat; 
+}
 
+.wrapper {
+  display: none;
+}
 .header {
   width: 90%;
   margin: 0 auto;
