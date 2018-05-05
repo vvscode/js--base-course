@@ -73,8 +73,12 @@ function addActivity(e) {
  * reset the form,
  * update localStorage base,
  */
-
+function hidePreloader() { 
+  base.getWrapper().style.display = 'block';
+  base.getPreloader().style.display = 'none';
+}
 function createCalendar() {
+  hidePreloader();
   location.hash = "#Calendar_1";
   actions.calendar = new Calendar({
     el: "#calendar",

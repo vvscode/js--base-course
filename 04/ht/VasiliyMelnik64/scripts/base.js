@@ -26,6 +26,9 @@ var base = (function () {
     "November",
     "December"
   ];
+  var wrapper = document.querySelector('.wrapper');
+  var preloader = document.querySelector('.preloader');
+
   return {
     getFieldset: function () {
       return fieldset;
@@ -47,6 +50,12 @@ var base = (function () {
     },
     getMonthes: function () {
       return monthes;
+    },
+    getPreloader: function () {
+      return preloader;
+    },
+    getWrapper: function () {
+      return wrapper;
     }
   };
 })();
