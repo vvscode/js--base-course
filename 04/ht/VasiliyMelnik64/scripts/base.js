@@ -5,7 +5,7 @@
  * @returns {getFieldset, getCode, getCalendarElement, getForm,  getAbout, getSelects, getMonthes}
  */
 
-var base = (function() {
+var base = (function () {
   var fieldset = document.getElementsByTagName("fieldset")[0];
   var code = document.getElementById("code");
   var calendarElement = document.getElementById("calendar");
@@ -27,25 +27,25 @@ var base = (function() {
     "December"
   ];
   return {
-    getFieldset: function() {
+    getFieldset: function () {
       return fieldset;
     },
-    getCode: function() {
+    getCode: function () {
       return code;
     },
-    getCalendarElement: function() {
+    getCalendarElement: function () {
       return calendarElement;
     },
-    getForm: function() {
+    getForm: function () {
       return form;
     },
-    getAbout: function() {
+    getAbout: function () {
       return about;
     },
-    getSelects: function() {
+    getSelects: function () {
       return selects;
     },
-    getMonthes: function() {
+    getMonthes: function () {
       return monthes;
     }
   };
