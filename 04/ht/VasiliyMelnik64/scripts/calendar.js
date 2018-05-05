@@ -15,7 +15,7 @@ Calendar.prototype = {
    * @return {number}
    * define a number of the of the week in format from 1 to 7
    */
-  defineDayOfTheWeek: function(date) {
+  defineDayOfTheWeek: function (date) {
     var dayOfTheWeek = date.getDay();
     if (dayOfTheWeek == 0) {
       dayOfTheWeek = 7;
@@ -32,7 +32,7 @@ Calendar.prototype = {
    * renders calendar in the html-element on the web-page
    * update the base of the localStorage
    */
-  drawCalendar: function(year, month, el) {
+  drawCalendar: function (year, month, el) {
     if (!~el.indexOf("calendar")) {
       return;
     }
@@ -77,7 +77,7 @@ Calendar.prototype = {
     elem.classList.add("calendar__item");
     elem.innerHTML = "";
     elem.innerHTML = table;
-    storage.updateStorage(elem, this.date);
+    actions.renderTasks(elem, this.date);
   },
 
   /**
@@ -85,7 +85,7 @@ Calendar.prototype = {
    * @param {Object} elem - DOM-element/list of DOM-elements
    * update the viewing of the calendar and the block with js-code on the web-page, based on clicking on the buttons
    */
-  addListing: function(elem) {
+  addListing: function (elem) {
     elem.id == "rightButton" ? this.date[1]++ : this.date[1]--;
     if (this.date[1] > 12) {
       this.date[1] = 1;
@@ -104,7 +104,7 @@ Calendar.prototype = {
    * @param {Object} elem - DOM-element/list of DOM-elements
    * create temporary input in the ative cell of the table and add notes in it
    */
-  addData: function(el) {
+  addData: function (el) {
     if (!el.children[0].innerHTML || !this.allowAdd) {
       return;
     }
@@ -122,7 +122,7 @@ Calendar.prototype = {
    * update the viewing of the calendar and the block with js-code on the web-page, based on clicking on the buttons;
    * push data in the localStorage
    */
-  changeValue: function(e) {
+  changeValue: function (e) {
     var date = actions.calendar.date;
     var val = this.value;
     var span = document.createElement("span");

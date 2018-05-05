@@ -6,7 +6,7 @@ var actions = {
   /**
    * contains a link on the exemplar of calendar
    */
-  calendar: storage.getItem(calendar) || null,
+  calendar: null,
 
   /**
    * @function
@@ -15,7 +15,7 @@ var actions = {
    * of the blocks of application (single calendar,
    * calendar with options, about me)
    */
-  drawCalendar: function(action) {
+  drawCalendar: function (action) {
     if (+action) {
       this.hideElements(base.getAbout());
     } else {
@@ -28,7 +28,7 @@ var actions = {
    * shows block with information about author
    * and hide othe blocks
    */
-  drawAbout: function() {
+  drawAbout: function () {
     this.hideElements(
       base.getFieldset(),
       base.getCode(),
@@ -41,7 +41,7 @@ var actions = {
    * @argument {Object} - DOM-element/list of DOM-elements
    * hide temporary  unnecessary elements
    */
-  hideElements: function() {
+  hideElements: function () {
     var args = [].slice.call(arguments);
     var elems = [
       base.getFieldset(),
@@ -49,10 +49,10 @@ var actions = {
       base.getCode(),
       base.getAbout()
     ];
-    elems.forEach(function(elem) {
+    elems.forEach(function (elem) {
       elem.classList.remove("g-hide");
     });
-    args.forEach(function(el) {
+    args.forEach(function (el) {
       el.classList.add("g-hide");
     });
   },
@@ -64,28 +64,43 @@ var actions = {
    *
    * renders tasks on Calendar
    */
-  renderTasks: function (elem, currentMonth) { 
-    var allChildren = [].slice.call(elem.children[0].children[0].children);
-    for (var i = 2; i < allChildren.length; i++) {
-      var line = allChildren[i].cells;
 
-      for (var j = 0; j < line.length; j++) {
-        var dateNumber = line[j].firstElementChild;
 
-        if (
-          !dateNumber ||
-          !dateNumber.innerHTML ||
-          !currentMonth[dateNumber.innerHTML]
-        ) {
-          continue;
-        }
-        var div = line[j].getElementsByTagName("div")[0];
-        var dateContent = currentMonth[dateNumber.innerHTML];
+  /**
+   * @function
+   * @param {elem} - element with calendar
+   * @param {date} - current date from Calendar
+   * @var {allChildren} - array with rows of cells of the table (trs)
+   *
+   * renders tasks on the calendar with data from database
+   */
+  renderTasks: function (elem, date) {
+    storage.getItem("base").then((base) => {
+      var baseDate = base;
+      if (baseDate && baseDate[date]) {
+        var currentMonth = baseDate[date];
+        var allChildren = [].slice.call(elem.children[0].children[0].children);
+        for (var i = 2; i < allChildren.length; i++) {
+          var line = allChildren[i].cells;
 
-        for (var k = 0; k < dateContent.length; k++) {
-          div.innerHTML += dateContent[k];
+          for (var j = 0; j < line.length; j++) {
+            var dateNumber = line[j].firstElementChild;
+
+            if (!dateNumber ||
+              !dateNumber.innerHTML ||
+              !currentMonth[dateNumber.innerHTML]
+            ) {
+              continue;
+            }
+            var div = line[j].getElementsByTagName("div")[0];
+            var dateContent = currentMonth[dateNumber.innerHTML];
+
+            for (var k = 0; k < dateContent.length; k++) {
+              div.innerHTML += dateContent[k];
+            }
+          }
         }
       }
-    }
+    });
   }
 };

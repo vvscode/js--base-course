@@ -42,8 +42,8 @@ function addActivity(e) {
   ) {
     var agree = confirm(
       "Вы, действительно хотите удалить запись " +
-        e.target.previousSibling.textContent +
-        "?"
+      e.target.previousSibling.textContent +
+      "?"
     );
     if (agree) {
       var childrenArray = [].slice.call(
@@ -51,11 +51,11 @@ function addActivity(e) {
       );
       var index = childrenArray.indexOf(e.target.parentElement);
       var date = actions.calendar.date;
-      
+
       var td =
-        e.target.parentElement.parentElement.tagName === "TD"
-          ? e.target.parentElement.parentElement
-          : e.target.parentElement.parentElement.parentElement;
+        e.target.parentElement.parentElement.tagName === "TD" ?
+        e.target.parentElement.parentElement :
+        e.target.parentElement.parentElement.parentElement;
 
       storage.removeItem(date, td, index);
       e.target.parentNode.removeChild(e.target.previousSibling);
@@ -75,7 +75,7 @@ function addActivity(e) {
  */
 
 function createCalendar() {
-  location.hash = "#Calendar_0";
+  location.hash = "#Calendar_1";
   actions.calendar = new Calendar({
     el: "#calendar",
     showMonth: false,
@@ -83,7 +83,7 @@ function createCalendar() {
     allowAdd: false,
     allowRemove: false,
     date: [new Date().getFullYear(), new Date().getMonth() + 1],
-    toString: function() {
+    toString: function () {
       var str = "<pre class='code g-font'>    (function () {<br />";
       for (var prop in this) {
         if (typeof this[prop] !== "function") {
@@ -94,8 +94,7 @@ function createCalendar() {
       return str;
     }
   });
-  storage.pushItem("calendar", actions.calendar);
-  actions.hideElements(base.getFieldset(), base.getCode(), about);
+  actions.hideElements(base.getAbout());
   base.getForm().reset();
   base.getCode().innerHTML = actions.calendar;
 }
@@ -119,9 +118,7 @@ function activateInputs(e) {
           base.getSelects()[1].value,
           base.getMonthes().indexOf(base.getSelects()[0].value) + 1
         ];
-        actions.calendar.drawCalendar(
-          +actions.calendar.date[0],
-          +actions.calendar.date[1],
+        actions.calendar.drawCalendar(+actions.calendar.date[0], +actions.calendar.date[1],
           actions.calendar.el
         );
         base.getCode().innerHTML = actions.calendar;
@@ -134,9 +131,7 @@ function activateInputs(e) {
           .slice(1)
           .toString();
         actions.calendar[data] = e.target.checked;
-        actions.calendar.drawCalendar(
-          +actions.calendar.date[0],
-          +actions.calendar.date[1],
+        actions.calendar.drawCalendar(+actions.calendar.date[0], +actions.calendar.date[1],
           actions.calendar.el
         );
         base.getCode().innerHTML = actions.calendar;
