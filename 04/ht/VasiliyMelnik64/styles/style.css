@@ -16,6 +16,7 @@
   font: bold .8em "Kolegraphy";
   color: rgb(2, 19, 66);
   border: 1px solid rgb(2, 19, 66);
+  background-color: #f0f0fc;
 }
 
 .g-textInput {
@@ -156,7 +157,7 @@
   font-size: 1.8em;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
-  background-color: white;
+  background-color: #f0f0fc;
   color: rgb(2, 19, 66);
   cursor: pointer;
   outline: none;
