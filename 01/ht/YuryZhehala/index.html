@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+    <title>ht 01</title>
+</head>
+
+<body>
+<div id="mocha"></div>
+<pre id="log"></pre>
+<script>
+    mocha.setup('bdd');
+    var assert = chai.assert;
+</script>
+<script src="script.js"></script>
+<script src="tests.js"></script>
+<script src="https://rawgit.com/vvscode/js--base-course/master/.ht/01/script.tests.js"></script>
+<script>
+    mocha.run();
+</script>
+</body>
+
+</html>
