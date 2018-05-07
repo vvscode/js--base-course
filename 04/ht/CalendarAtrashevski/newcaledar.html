@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+		<meta charset="utf-8">
+		   <link rel="stylesheet" href="style1.css"> 
+		</head>	
+		<input id="clearMemory" type="button" value="clear" />
+		<input id="clearMemoryState" type="button" value="clearState" />
+		<a href = 'newcalendarFullView.html' id = "link1">FullView</a>
+		<form>
+			<fieldset id = "state">
+			 <legend>Configure Calendar</legend><br>
+			 <input type="checkbox" id="showmonth">
+			 <label for="showmonth">show month</label><br><br>
+			 <input type="checkbox" id="allowadd">
+			 <label for="allowadd">allow add</label><br><br>
+			 <input type="checkbox" id="allowremove">
+			 <label for="allowremove">allow remove</label><br><br>
+			 <input type="checkbox" id="allowchangemonth">
+			 <label for="allowchangemonth">allow change month</label><br><br>
+			 <input type="number" id = "changeyearinpage" value="2018" step="1">
+			 <input type="number" id = 'changemontsinpage' value="1" min="1" max="12" step="1" >
+			 <p id = "result1"></p>
+			</fieldset>
+		  </form> 
+		  <fieldset id = "conclusion">
+		  <p id  = "stateconclusion"></p>
+		  </fieldset>
+		<table id ="calendar" border="2"></table>
+		<body>
+		<script src = "js1.js"></script>
+		<script src = "js2.js"></script>
+	</body>
+</html>
