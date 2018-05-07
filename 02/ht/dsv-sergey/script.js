@@ -104,24 +104,22 @@ console.log(o.x);
  */
 
 function UserBot() {
-  return {
-    askName: function() {
+    this.askName = function() {
       this.name = prompt("Введите имя");
       return this;
-    },
-    askAge: function() {
+    };
+    this.askAge = function() {
       this.age = prompt("Введите возраст");
       return this;
-    },
-    showAgeInConsole: function() {
+    };
+    this.showAgeInConsole = function() {
       console.log("Ваш возраст: " + this.age);
       return this;
-    },
-    showNameInAlert: function() {
+    };
+    this.showNameInAlert = function() {
       alert("Вас зовут " + this.name);
       return this;
-    }
-  };
+    };
 }
 
 var us = new UserBot();
