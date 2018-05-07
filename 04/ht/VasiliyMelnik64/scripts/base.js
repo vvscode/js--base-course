@@ -53,7 +53,8 @@ var base = (function (
         return wrapper;
       }
     };
-})(document.getElementsByTagName("fieldset")[0],
+})(
+  document.getElementsByTagName("fieldset")[0],
   document.getElementById("code"),
   document.getElementById("calendar"),
   document.forms[0], document.getElementById("about"),
