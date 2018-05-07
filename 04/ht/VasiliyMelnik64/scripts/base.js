@@ -1,18 +1,63 @@
 /**
- * Module, which return an object with
- * links on the DOM-elements
+ * Module, which return an object with links on the DOM-elements
+ * 
  * @module base
+ * @param  {HTMLFieldSetElement} fieldset
+ * @param  {HTMLDivElement} code
+ * @param  {HTMLDivElement} calendarElement
+ * @param  {HTMLFormElement} form
+ * @param  {HTMLDivElement} about
+ * @param  {NodeList} selects (HTMLSelectElements)
+ * @param  {Array} monthes
+ * @param  {HTMLDivElement} wrapper
+ * @param  {HTMLDivElement} preloader
+ * 
  * @returns {getFieldset, getCode, getCalendarElement, getForm,  getAbout, getSelects, getMonthes}
  */
-
-var base = (function () {
-  var fieldset = document.getElementsByTagName("fieldset")[0];
-  var code = document.getElementById("code");
-  var calendarElement = document.getElementById("calendar");
-  var form = document.forms[0];
-  var about = document.getElementById("about");
-  var selects = document.querySelectorAll("select");
-  var monthes = [
+var base = (function (
+  fieldset,
+  code,
+  calendarElement,
+  form,
+  about,
+  selects,
+  monthes,
+  wrapper,
+  preloader) {
+    return {
+      getFieldset: function () {
+        return fieldset;
+      },
+      getCode: function () {
+        return code;
+      },
+      getCalendarElement: function () {
+        return calendarElement;
+      },
+      getForm: function () {
+        return form;
+      },
+      getAbout: function () {
+        return about;
+      },
+      getSelects: function () {
+        return selects;
+      },
+      getMonthes: function () {
+        return monthes;
+      },
+      getPreloader: function () {
+        return preloader;
+      },
+      getWrapper: function () {
+        return wrapper;
+      }
+    };
+})(document.getElementsByTagName("fieldset")[0],
+  document.getElementById("code"),
+  document.getElementById("calendar"),
+  document.forms[0], document.getElementById("about"),
+  document.querySelectorAll("select"), [
     "January",
     "February",
     "March",
@@ -25,37 +70,6 @@ var base = (function () {
     "October",
     "November",
     "December"
-  ];
-  var wrapper = document.querySelector('.wrapper');
-  var preloader = document.querySelector('.preloader');
-
-  return {
-    getFieldset: function () {
-      return fieldset;
-    },
-    getCode: function () {
-      return code;
-    },
-    getCalendarElement: function () {
-      return calendarElement;
-    },
-    getForm: function () {
-      return form;
-    },
-    getAbout: function () {
-      return about;
-    },
-    getSelects: function () {
-      return selects;
-    },
-    getMonthes: function () {
-      return monthes;
-    },
-    getPreloader: function () {
-      return preloader;
-    },
-    getWrapper: function () {
-      return wrapper;
-    }
-  };
-})();
+  ],
+  document.querySelector('.wrapper'),
+  document.querySelector('.preloader'));
