@@ -140,32 +140,20 @@ us
  */
 
 function calculate(operation) {
-  switch (operation) {
-    case "+":
-      return function(a) {
-        return function(b) {
+  return function(a) {
+    return function(b) {
+      switch (operation) {
+        case "+":
           return a + b;
-        };
-      };
-    case "-":
-      return function(a) {
-        return function(b) {
+        case "-":
           return a - b;
-        };
-      };
-    case "*":
-      return function(a) {
-        return function(b) {
+        case "*":
           return a * b;
-        };
-      };
-    case "/":
-      return function(a) {
-        return function(b) {
+        case "/":
           return a / b;
-        };
-      };
-  }
+      }
+    };
+  };
 }
 
 /**

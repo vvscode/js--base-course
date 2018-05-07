@@ -42,10 +42,10 @@
 * создать объект с волшебным свойством, чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. А при чтении всегда выводилось число на 1 больше предыдущего
 
 ```javascript
-o.x = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
-console.log(o.x); // 6
-console.log(o.x); // 7
-console.log(o.x); // 8
+o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+console.log(o.magicProperty); // 6
+console.log(o.magicProperty); // 7
+console.log(o.magicProperty); // 8
 ```
 
 * создать конструктор для работы с цепочками вызовов
@@ -120,4 +120,3 @@ c
 
 * [https://www.youtube.com/watch?v=8cV4ZvHXQL4](https://www.youtube.com/watch?v=8cV4ZvHXQL4)
 * [https://learn.javascript.ru/screencast/gulp](https://learn.javascript.ru/screencast/gulp)
-

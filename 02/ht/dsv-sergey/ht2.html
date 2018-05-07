@@ -44,6 +44,16 @@
     </script>
 
     <script>
+        function genderCheck(gender) {
+            for (var i = 0; i < gender.length; i++) {
+                if (gender[i].checked) {
+                    if (gender[i].value === 'male') {
+                        return genderOutput = 'Мужчина';
+                    } else return genderOutput = 'Женщина';
+                };
+            };
+        };
+
         function printForm (ev) {
             var outputForm = document.getElementById('outputForm'),
                 formText = '',
@@ -54,16 +64,6 @@
                 genderOutput = '',
                 drive = form.elements.drive.checked ? "Да" : "Нет",
                 comment = form.elements.comment.value;
-
-            function genderCheck(gender) {
-                for (var i = 0; i < gender.length; i++) {
-                    if (gender[i].checked) {
-                        if (gender[i].value === 'male') {
-                            return genderOutput = 'Мужчина';
-                        } else return genderOutput = 'Женщина';
-                    };
-                };
-            };
 
             genderCheck(gender);
 

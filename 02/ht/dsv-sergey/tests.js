@@ -140,7 +140,10 @@ describe("getCounter", function() {
     assert.deepEqual(logList, [5, 9, 12, 0, 8]);
   });
 });
-describe("календарь", function() {
+describe("drawInteractiveCalendar", function() {
+    it("drawInteractiveCalendar функция", function() {
+        assert.isOk(drawInteractiveCalendar instanceof Function, 'функция');
+    });
   it("строит календарь", function() {
     assert.isOk();
   });
