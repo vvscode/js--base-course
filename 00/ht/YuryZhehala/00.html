@@ -8,10 +8,10 @@
 <script>
     var name = prompt("Как тебя зовут?");
     var age = prompt("Сколько тебе лет?");
-    while(name == 'null' || name == '') {
+    while(name == null || name == '') {
         name = prompt("Как тебя зовут?");
     }
-    while(age == 'null' || age == '') {
+    while(age == null || age == '') {
         age = prompt("Сколько тебе лет?");
     }
     var message = (age < 18) ? 'Здарова, '+name+'. Как твои '+age+'?': 'Привествую, '+name+'. Уж '+age+' лет прошло';
