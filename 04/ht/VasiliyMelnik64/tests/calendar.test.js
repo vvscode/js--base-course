@@ -26,29 +26,113 @@
     }
 };
 
-"@test"["testing form"] = {
+"@test"["testing interaction between the form and the blocks with the object with the code and with the calendar"] = {
     '1.Change the checkbox "Allow change month"': function () {
         act.click("[data-change='_allowChange']");
     },
     "2.Assert": function() {
         ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowChange : true;'));
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('button'));
+        ok(document.getElementsByClassName('table')[0].getElementsByTagName('BUTTON'.length === 2));
     },
-    '3.Change the checkbox "Allow add tasks"': function () {
-        act.click("[data-change='_allowAdd']");
-    },
-    "4.Assert": function() {
-        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowAdd : true;'));
-    },
-    '5.Change the checkbox "Allow remove tasks"': function () {
-        act.click("[data-change='_allowRemove']");
-    },
-    "6.Assert": function() {
-        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowRemove : true;'));
-    },
-    '7.Change the checkbox "Show month / year"': function () {
+    '3.Change the checkbox "Show month / year"': function () {
         act.click("[data-change='_showMonth']");
     },
-    "8.Assert": function() {
+    "4.Assert": function() {
         ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('showMonth : true;'));
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('May 2018'));
+    },
+    '5.Change monthes forward': function () {
+        act.click("button[id='rightButton']");
+    },
+    "6.Assert": function() {
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('June 2018'));
+        ok(!~document.querySelector('.table').innerHTML.indexOf('31'));
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,6;'));
+    },
+    '7.Change monthes back': function () {
+        act.click("button[id='leftButton']");
+    },
+    "8.Assert": function() {
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('May 2018'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,5;'));
+    },
+    '9.Change a select with monthes': function () {
+        act.click("select[name='month']");
+    },
+    "10.Assert": function() {
+        ok(~document.getElementsByTagName('select')[0].innerHTML.indexOf('January'));
+    },
+    '11.Change a select with year': function () {
+        act.click("option[value='January']");
+    },
+    "12.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,1;'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+    },
+    '13.Change the checkbox "Show month / year (month)"': function () {
+        act.click("select[name='month']");
+    },
+    "14.Assert": function() {
+        ok(~document.getElementsByTagName('select')[0].innerHTML.indexOf('August'));
+    },
+    '15.Change the checkbox "Show month / year (month)"': function () {
+        act.click("option[value='August']");
+    },
+    "16.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,8;'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+    },
+    '17.Change the checkbox "Show month / year (year)"': function () {
+        act.click("select[name='year']");
+    },
+    "18.Assert": function() {
+        ok(~document.getElementsByTagName('select')[1].innerHTML.indexOf('2050'));
+    },
+    '19.Change the checkbox "Show month / year (year)"': function () {
+        act.click("option[value='2050']");
+    },
+    "20.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2050,8;'));
+    },
+    '21.Change the checkbox "Show month / year (year)"': function () {
+        act.click("select[name='year']");
+    },
+    "22.Assert": function() {
+        ok(~document.getElementsByTagName('select')[1].innerHTML.indexOf('2035'));
+    },
+    '23.Change the checkbox "Show month / year (year)"': function () {
+        act.click("option[value='2035']");
+    },
+    "24.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2035,8;'));
     }
 };
+
+"@test"["testing process of adding notes in the localStorage"] = {
+    '1.Change the checkbox "Allow add tasks"': function () {
+        act.click("[data-change='_allowAdd']");
+    },
+    "2.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowAdd : true;'));
+    },
+    '3.Change the checkbox "Allow remove tasks"': function () {
+        act.click("[data-change='_allowRemove']");
+    },
+    "4.Assert": function() {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowRemove : true;'));
+    },
+    /**
+     * добавление
+     * тесты - что, куда, тэги, атрибуты, значения, стили
+     * листаание
+     * тесты
+     * релоад
+     * тесты
+     * удаление
+     * тесты
+     */
+};
+
+
