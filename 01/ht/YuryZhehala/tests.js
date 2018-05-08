@@ -194,10 +194,10 @@ describe('quadraticEquation', function() {
         assert.equal(quadraticEquation(1,4,1).join(), [-0.2679491924311228,
             -3.732050807568877].join());
     });
-    it('Возвращает значения при d=0 (a=1, b=2, c=1)', function() {
-        assert.equal(quadraticEquation(1,2,1).join(), [-1, -1].join());
+    it('Возвращает значение при d=0 (a=1, b=2, c=1)', function() {
+        assert.equal(quadraticEquation(1,2,1).join(), [-1].join());
     });
-    it('Выводит сообщение \'Нет корней\' при d=0 (a=1, b=1, c=1)', function() {
-        assert.equal(quadraticEquation(1,1,1).join(), ['Нет корней'].join());
+    it('Возвращает пустой массив при d<0 (a=1, b=1, c=1)', function() {
+        assert.equal(quadraticEquation(1,1,1).join(), [].join());
     });
 });
