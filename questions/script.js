@@ -1,4 +1,4 @@
-/* eslint max-len: ["warn", { "ignoreStrings": true }]*/
+/* eslint-disable max-len */
 
 const questions0 = `Что такое git?
 Какие есть системы контроля версий?
@@ -167,30 +167,18 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [
-  questions0,
-  questions1,
-  questions2,
-  questions3,
-  questions4,
-  questions5,
-];
+let questionsStrings = [questions0, questions1, questions2, questions3, questions4, questions5];
 let roundQuestionsNumber = 0;
 let i = 0;
 
 let getQuestions = (() => {
   let questions = [];
   let generateQuestions = () => {
-    [...document.querySelectorAll('fieldset input[type=checkbox]')].forEach(
-      (el, index) => {
-        if (el.checked) {
-          questions = [
-            ...questions,
-            ...(questionsStrings[index] || '').trim().split('\n'),
-          ];
-        }
+    [...document.querySelectorAll('fieldset input[type=checkbox]')].forEach((el, index) => {
+      if (el.checked) {
+        questions = [...questions, ...(questionsStrings[index] || '').trim().split('\n')];
       }
-    );
+    });
 
     questions = questions.map((i) => i.trim()).filter(Boolean);
 
@@ -212,9 +200,7 @@ const drawNextQuestion = () => {
   let questions = getQuestions();
   i++;
   let question = questions.pop();
-  $$(
-    '.question'
-  ).innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
+  $$('.question').innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
 };
 
 $$('.question').addEventListener('click', drawNextQuestion);
