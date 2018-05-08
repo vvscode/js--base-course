@@ -57,9 +57,10 @@ Calendar.prototype = {
       table +=
         '<td class="table__item table__item--hover"><span class="corner"></span></td>';
     }
+    var testingValue = 1;
     while (date.getMonth() == month - 1) {
       table +=
-        '<td class="table__item  table__item--hover tableItem"><span class="tableItem__corner">' +
+        '<td class="table__item  table__item--hover tableItem" data-test="'+ testingValue++ +'"><span class="tableItem__corner">' +
         date.getDate() +
         '</span><div class="tableItem__cellContent"></div></td>';
       if (this.defineDayOfTheWeek(date) % 7 == 6) {
