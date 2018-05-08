@@ -4,7 +4,7 @@
   "description": "Base javascript course",
   "main": "README.md",
   "scripts": {
-    "test": "yarn lint",
+    "test": "echo \"Warning: no test specified\" && exit 0",
     "lint": "eslint **/*.js"
   },
   "repository": {
