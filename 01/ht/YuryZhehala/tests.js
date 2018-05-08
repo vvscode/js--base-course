@@ -3,30 +3,38 @@
 */
 
 describe('fizzBuzz', function() {
-    it('Функция существует', function() {
-        assert.isFunction(fizzBuzz);
-    });
-    it('Вместо 99 выводит `Fizz`', function() {
-        assert.equal(arr[99], 'Fizz');
-    });
-    it('Вместо 100 выводит `Buzz`', function() {
-        assert.equal(arr[100], 'Buzz');
-    });
-    it('Вместо 90 выводит `Buzz`', function() {
-        assert.equal(arr[90], 'FizzBuzz');
-    });
-    it('Не использует `if`', function() {
-        return assert.isTrue(('' + fizzBuzz).indexOf('if') < 0);
-    });
-    it('Не использует `else`', function() {
-        return assert.isTrue(('' + fizzBuzz).indexOf('else') < 0);
-    });
-    it('Не использует `switch`', function() {
-        return assert.isTrue(('' + fizzBuzz).indexOf('switch') < 0);
-    });
-    it('Не использует `? :`', function() {
-        return assert.isTrue(('' + fizzBuzz).indexOf('?') < 0);
-    });
+  it('функция', function() {
+    return assert.isTrue(typeof fizzBuzz === 'function');
+  });
+  var result =
+    '\n1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\
+n16\n17\nFizz\n19\nBuzz\nFizz\n22\n23\nFizz\nBuzz\n26\nFizz\n28\n29\nFizzBuzz\n31\
+n32\nFizz\n34\nBuzz\nFizz\n37\n38\nFizz\nBuzz\n41\nFizz\n43\n44\nFizzBuzz\n46\n47\
+nFizz\n49\nBuzz\nFizz\n52\n53\nFizz\nBuzz\n56\nFizz\n58\n59\nFizzBuzz\n61\n62\nFizz\
+n64\nBuzz\nFizz\n67\n68\nFizz\nBuzz\n71\nFizz\n73\n74\nFizzBuzz\n76\n77\nFizz\n79\
+nBuzz\nFizz\n82\n83\nFizz\nBuzz\n86\nFizz\n88\n89\nFizzBuzz\n91\n92\nFizz\n94\nBuzz\
+nFizz\n97\n98\nFizz\nBuzz';
+  var _log = window.log;
+  var str = '';
+  window.log = function(a) {
+    return (str = str + a + '\n');
+  };
+  fizzBuzz();
+  it('выводит правильные данные', function() {
+    return assert.isTrue(str.trim() === result.trim());
+  });
+  it('не использует `if`', function() {
+    return assert.isTrue(('' + fizzBuzz).indexOf('if') < 0);
+  });
+  it('не использует `else`', function() {
+    return assert.isTrue(('' + fizzBuzz).indexOf('else') < 0);
+  });
+  it('не использует `switch`', function() {
+    return assert.isTrue(('' + fizzBuzz).indexOf('switch') < 0);
+  });
+  it('не использует `? :`', function() {
+    return assert.isTrue(('' + fizzBuzz).indexOf('?') < 0);
+  });
 });
 
 /*
