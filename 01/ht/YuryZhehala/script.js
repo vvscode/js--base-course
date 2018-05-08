@@ -8,23 +8,14 @@
 В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
 */
 
-let arr = [];
 function fizzBuzz() {
-    for (let i = 1; i <= 100; i++) {
-        arr[i] = i;
-    }
-    for (i = 3; i <= 100; i += 3) {
-        arr[i] = 'Fizz';
-    }
-    for (i = 5; i <= 100; i += 5) {
-        arr[i] = 'Buzz';
-    }
-    for (i = 15; i <= 100; i += 15) {
-        arr[i] = 'FizzBuzz';
-    }
-    return arr;
+  for (var i = 1; i <= 100; i++) {
+    i % 3 == 0 && i % 5 == 0 && log('FizzBuzz');
+    i % 3 == 0 && i % 5 != 0 && log('Fizz');
+    i % 5 == 0 && i % 3 != 0 && log('Buzz');
+    i % 5 != 0 && i % 3 != 0 && log(i);
+  }
 }
-console.log(fizzBuzz());
 
 /*
 Реализовать фукнцию  `isPalindrom`,
@@ -34,12 +25,11 @@ console.log(fizzBuzz());
 
 str = prompt ('Введите слово','');
 function isPalindrome(str) {
-    let strReverse = str.split('').reverse().join('');
-    if (strReverse.toLowerCase()=== str.toLowerCase()) {
-        return true;
-    } else {
-        return false;
-    }
+function isPalindrome(str) {
+  var arr = str.split('');
+  arr.reverse();
+  var str2 = arr.join('');
+  return str.toLowerCase() === str2.toLowerCase();
 }
 console.log(isPalindrome(str));
 
@@ -52,39 +42,40 @@ console.log(isPalindrome(str));
 y = prompt('Введите год', '');
 m = prompt('Введите месяц', '');
 function drawCalendar(year, month, id) {
-    var elem = document.getElementById(id);
-    var month = month - 1;
-    let d = new Date(year, month);
-    var table = '<table><tr>' +
-        '<th>пн</th>' +
-        '<th>вт</th>' +
-        '<th>ср</th>' +
-        '<th>чт</th>' +
-        '<th>пт</th>' +
-        '<th>сб</th>' +
-        '<th>вс</th></tr><tr>';
-    for (let i = 1; i < getDay(d); i++) {
-        table += '<td></td>';
+  var elem = document.getElementById(id);
+  var month = month - 1;
+  let d = new Date(year, month);
+  var table =
+    '<table><tr>' +
+    '<th>пн</th>' +
+    '<th>вт</th>' +
+    '<th>ср</th>' +
+    '<th>чт</th>' +
+    '<th>пт</th>' +
+    '<th>сб</th>' +
+    '<th>вс</th></tr><tr>';
+  for (let i = 1; i < getDay(d); i++) {
+    table += '<td></td>';
+  }
+  while (d.getMonth() === month) {
+    table += '<td>' + d.getDate() + '</td>';
+    if (getDay(d) === 7) {
+      table += '</tr><tr>';
     }
-    while (d.getMonth() === month) {
-        table += '<td>' + d.getDate() + '</td>';
-        if (getDay(d) === 7) {
-            table += '</tr><tr>';
-        }
-        d.setDate(d.getDate() + 1);
+    d.setDate(d.getDate() + 1);
+  }
+  if (getDay(d) !== 1) {
+    for (let i = getDay(d); i <= 7; i++) {
+      table += '<td></td>';
     }
-    if (getDay(d) !== 1) {
-        for (let i = getDay(d); i <= 7; i++) {
-            table += '<td></td>';
-        }
-    }
-    table += '</tr></table>';
-    elem.innerHTML = table;
+  }
+  table += '</tr></table>';
+  elem.innerHTML = table;
 }
 function getDay(date) {
-    let day = date.getDay();
-    if (day === 0) day = 7;
-    return day;
+  let day = date.getDay();
+  if (day === 0) day = 7;
+  return day;
 }
 drawCalendar(y, m, 'calendar');
 
@@ -95,29 +86,17 @@ drawCalendar(y, m, 'calendar');
 */
 
 function isDeepEqual(a, b) {
-    return isDeepEqualOne(a, b) && isDeepEqualOne(b, a);
+  if (typeof a !== typeof b) return false;
+  if (typeof a !== 'object') return a === b;
+  if (Array.isArray(a) != Array.isArray(b)) return false;
+  if (Object.keys(a).length !== Object.keys(b).length) return false;
+  for (var key in a) {
+    if (!isDeepEqual(a[key], b[key])) return false;
+  }
+  return true;
 }
-function isDeepEqualOne(a, b) {
-    if (['string' ,'number' , 'boolean' , 'undefined'].includes(typeof a)) {
-        if (typeof a==='number' && typeof b==='number' && isNaN(a) && isNaN(b)) {
-            return true;
-        }
-        return a === b;
-    }
-    if (typeof a === 'object') {
-        if (a === null) {
-            return a === b;
-        }
-        for (var key in a) {
-            if (!isDeepEqualOne(a[key], b[key])) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-var a = { prop1: 1, list: [1, 2, 3], o: { x: 2 } };
-var b = { list: [1, 2, 3], o: { x: 2 } };
+var objA = Symbol('123');
+var objB = Symbol('567');
 console.log(isDeepEqual(a, b));
 
 /*
@@ -127,35 +106,35 @@ console.log(isDeepEqual(a, b));
 */
 
 function spiral(array) {
-    var newArr = [];
-    var x = 0;
-    var y = 0;
-    var row = array[0];
-    var xMax = row.length - 1;
-    var yMax = array.length - 1;
-    while (x <= xMax && y <= yMax) {
-        for (let i = x; i < xMax; i++) {
-            newArr.push(array[y][i]);
-        }
-        for (let i = y; i < yMax; i++) {
-            newArr.push(array[i][xMax]);
-        }
-        for (let i = xMax; i > x; i--) {
-            newArr.push(array[yMax][i]);
-        }
-        for (let i = yMax; i > y; i--) {
-            newArr.push(array[i][x]);
-        }
-        x = x + 1;
-        y = y + 1;
-        xMax = xMax - 1;
-        yMax = yMax - 1;
+  var newArr = [];
+  var x = 0;
+  var y = 0;
+  var row = array[0];
+  var xMax = row.length - 1;
+  var yMax = array.length - 1;
+  while (x <= xMax && y <= yMax) {
+    for (let i = x; i < xMax; i++) {
+      newArr.push(array[y][i]);
     }
-    if ((row.length == array.length) && (array.length % 2) != 0) {
-        var central = Math.floor(array.length / 2);
-        newArr.push(array[central][central]);
+    for (let i = y; i < yMax; i++) {
+      newArr.push(array[i][xMax]);
     }
-    return (newArr);
+    for (let i = xMax; i > x; i--) {
+      newArr.push(array[yMax][i]);
+    }
+    for (let i = yMax; i > y; i--) {
+      newArr.push(array[i][x]);
+    }
+    x = x + 1;
+    y = y + 1;
+    xMax = xMax - 1;
+    yMax = yMax - 1;
+  }
+  if (row.length == array.length && array.length % 2 != 0) {
+    var central = Math.floor(array.length / 2);
+    newArr.push(array[central][central]);
+  }
+  return newArr;
 }
 console.log(spiral([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]]));
 
@@ -165,21 +144,21 @@ console.log(spiral([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]]));
 корнями этого уравнения (если они есть).
 */
 
-let a=prompt('Введите a','');
-let b=prompt('Введите b','');
-let c=prompt('Введите c','');
-function quadraticEquation(a,b,c) {
-    let result = [];
-    let d=(Math.pow(b, 2)-4*a*c);
-    if (d > 0){
-        result[0] = (-b + Math.sqrt(d)) / 2 * a;
-        result[1] = (-b - Math.sqrt(d)) / 2 * a;
-    } else if (d === 0){
-        result[0] = (-b + Math.sqrt(d)) / 2 * a;
-        result[1] = result[0];
-    } else if (d < 0){
-        result.push('Нет корней');
-    }
-    return result;
+let a = prompt('Введите a', '');
+let b = prompt('Введите b', '');
+let c = prompt('Введите c', '');
+function quadraticEquation(a, b, c) {
+  let result = [];
+  let d = Math.pow(b, 2) - 4 * a * c;
+  if (d > 0) {
+    result[0] = (-b + Math.sqrt(d)) / 2 * a;
+    result[1] = (-b - Math.sqrt(d)) / 2 * a;
+  } else if (d === 0) {
+    result[0] = (-b + Math.sqrt(d)) / 2 * a;
+    result[1] = result[0];
+  } else if (d < 0) {
+    result.push('Нет корней');
+  }
+  return result;
 }
-console.log(quadraticEquation(a,b,c));
+console.log(quadraticEquation(a, b, c));
