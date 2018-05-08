@@ -155,9 +155,8 @@ function quadraticEquation(a, b, c) {
     result[1] = (-b - Math.sqrt(d)) / 2 * a;
   } else if (d === 0) {
     result[0] = (-b + Math.sqrt(d)) / 2 * a;
-    result[1] = result[0];
   } else if (d < 0) {
-    result.push('Нет корней');
+    return result;
   }
   return result;
 }
