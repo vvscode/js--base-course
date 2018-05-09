@@ -11,6 +11,7 @@
  * @param  {Array} monthes
  * @param  {HTMLDivElement} wrapper
  * @param  {HTMLDivElement} preloader
+ * @param  {HTMLDivElement} modalWindow
  * 
  * @returns {getFieldset, getCode, getCalendarElement, getForm,  getAbout, getSelects, getMonthes}
  */
@@ -23,7 +24,10 @@ var base = (function (
   selects,
   monthes,
   wrapper,
-  preloader) {
+  preloader,
+  modalWindow,
+  body
+) {
     return {
       getFieldset: function () {
         return fieldset;
@@ -51,6 +55,12 @@ var base = (function (
       },
       getWrapper: function () {
         return wrapper;
+      },
+      getModalWindow: function () {
+        return modalWindow;
+      },
+      getBody: function () { 
+        return body;
       }
     };
 })(
@@ -73,4 +83,7 @@ var base = (function (
     "December"
   ],
   document.querySelector('.wrapper'),
-  document.querySelector('.preloader'));
+  document.querySelector('.preloader'),
+  document.querySelector('.modalWindow'),
+  document.body
+);
