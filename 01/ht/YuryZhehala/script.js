@@ -26,10 +26,9 @@ function fizzBuzz() {
 str = prompt ('Введите слово','');
 function isPalindrome(str) {
 function isPalindrome(str) {
-  var arr = str.split('');
-  arr.reverse();
-  var str2 = arr.join('');
-  return str.toLowerCase() === str2.toLowerCase();
+  str = str.toLowerCase();
+  var str2 = str.split('').reverse().join('');
+  return (str === str2);
 }
 console.log(isPalindrome(str));
 
@@ -155,9 +154,7 @@ function quadraticEquation(a, b, c) {
     result[1] = (-b - Math.sqrt(d)) / 2 * a;
   } else if (d === 0) {
     result[0] = (-b + Math.sqrt(d)) / 2 * a;
-  } else if (d < 0) {
-    return result;
-  }
+  } 
   return result;
 }
 console.log(quadraticEquation(a, b, c));
