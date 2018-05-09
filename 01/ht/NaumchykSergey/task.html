@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var c = getCounter(5);
+    c
+        .log() // 5
+        .add(4)
+        .log() // 9
+        .add(3)
+        .log() // 12
+        .reset()
+        .log() // 0
+        .add(8)
+        .log(); // 8
+
+
+    function getCounter(num) {
+        var count = num;
+        return {
+            log: function () {
+                console.log(count);
+                return this;
+            },
+            add: function (add) {
+                count += add;
+                return this;
+            },
+            reset: function () {
+                count = 0;
+                return this;
+            }
+        };
+    }
+</script>
+</body>
+</html>
