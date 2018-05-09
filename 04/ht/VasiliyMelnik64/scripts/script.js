@@ -23,5 +23,5 @@ function runEvent(elem, event, cb) {
 runEvent(document.body, "click", activateLink);
 runEvent(window, "hashchange", chooseCathegory);
 runEvent(window, "load", createCalendar);
-runEvent(base.getCalendarElement(), "click", addActivity);
+runEvent(base.getBody(), "click", addActivity);
 runEvent(base.getForm(), "change", activateInputs);

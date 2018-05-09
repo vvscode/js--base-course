@@ -27,24 +27,46 @@ function chooseCathegory() {
  * @param {Object} e - event object
  * determines the behavior of the page by clicked element
  */
-function addActivity(e) {
-  if (e.target.tagName === "BUTTON") {
-    actions.calendar.addListing(e.target);
+
+var addActivity = (function () {
+  var tempClosingElementLink;
+  return function (e) {
+    if (e.target.tagName === "BUTTON") {
+      if (e.target.id == '0' || e.target.id == '1') {
+        actions.showModalWindow();
+        if (e.target.id == '1') {
+          var cell = tempClosingElementLink.parentElement.parentElement;
+          var childrenArray = [].slice.call(cell.children);
+          var index = childrenArray.indexOf(tempClosingElementLink.parentElement);
+          var date = actions.calendar.date;
+          var td = cell.tagName === "TD" ? cell : cell.parentElement;
+
+          storage.removeItem(date, td, index);
+          tempClosingElementLink.parentNode.removeChild(tempClosingElementLink.previousSibling);
+          tempClosingElementLink.parentNode.removeChild(tempClosingElementLink);
+        }
+        return;
+      }
+      actions.calendar.addListing(e.target);
+      return;
+    }
+    if (e.target.tagName === "TD" && e.target.innerHTML) {
+      actions.calendar.addData(e.target);
+      return;
+    }
+    if (e.target.classList.contains("tableItem__close") && actions.calendar.allowRemove) {
+      actions.showModalWindow(e.target.previousSibling.textContent);
+      tempClosingElementLink = e.target;
+    }
     return;
   }
-  if (e.target.tagName === "TD" && e.target.innerHTML) {
-    actions.calendar.addData(e.target);
-    return;
-  }
-  if (
-    e.target.classList.contains("tableItem__close") &&
-    actions.calendar.allowRemove
-  ) {
-    var agree = confirm(
-      "Вы, действительно хотите удалить запись " +
-      e.target.previousSibling.textContent +
-      "?"
-    );
+})();
+
+
+
+/**
+ * 
+
     if (agree) {
       var childrenArray = [].slice.call(
         e.target.parentElement.parentElement.children
@@ -62,9 +84,8 @@ function addActivity(e) {
       e.target.parentNode.removeChild(e.target);
     }
     return;
-  }
-  return;
-}
+ */
+
 
 /**
  * @function
@@ -73,10 +94,11 @@ function addActivity(e) {
  * reset the form,
  * update localStorage base,
  */
-function hidePreloader() { 
+function hidePreloader() {
   base.getWrapper().style.display = 'block';
   base.getPreloader().style.display = 'none';
 }
+
 function createCalendar() {
   hidePreloader();
   location.hash = "#Calendar_1";

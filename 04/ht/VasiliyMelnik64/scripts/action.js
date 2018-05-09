@@ -25,6 +25,22 @@ var actions = {
 
   /**
    * @function
+   * shows deleting note in modal window
+   * @param {string} - note
+   */
+  showModalWindow: function (note) {
+    if (note == undefined) { 
+      base.getBody().classList.remove('g-overflow-hidden');
+      base.getModalWindow().style.display = 'none';
+      return;
+    }
+    base.getBody().classList.add('g-overflow-hidden');
+    base.getModalWindow().style.display = 'block';
+    base.getModalWindow().firstElementChild.firstElementChild.innerHTML = 'Вы, действительно хотите удалить запись "' + note + '"?';
+  },
+
+  /**
+   * @function
    * shows block with information about author
    * and hide othe blocks
    */
@@ -56,15 +72,6 @@ var actions = {
       el.classList.add("g-hide");
     });
   },
-  /**
-   * @function
-   * @param {elem} - element with calendar
-   * @param {currentMonth} - database name of the key with array of tasks in this month
-   * @var {allChildren} - array with rows of cells of the table (trs)
-   *
-   * renders tasks on Calendar
-   */
-
 
   /**
    * @function
