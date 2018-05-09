@@ -140,7 +140,7 @@
         act.click("[class='tableItem__close']");
     },
     "10.Assert": function () {
-        ok
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
     }
 
     /**
