@@ -117,7 +117,6 @@
     },
     "2.Assert": function () {
         ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowAdd : true;'));
-        localStorage.clear();
     },
     '3.Change the checkbox "Allow remove tasks"': function () {
         act.click("[data-change='_allowRemove']");
@@ -160,7 +159,7 @@
         act.click(document.querySelectorAll('.addingForm__item')[0]);
     },
     "16.Assert": function () {
-        ok(~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));
+        ok(~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));/**/
     },
     '17.Add multiply task': function () {
         act.click("[data-test='7']");
@@ -172,7 +171,7 @@
         act.click(document.querySelectorAll('.addingForm__item')[0]);
     },
     "20.Assert": function () {
-        ok(~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));
+        ok(~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));/**/
     },
     '21.Add multiply task': function () {
         act.click("[data-test='25']");
@@ -184,7 +183,7 @@
         act.click(document.querySelectorAll('.addingForm__item')[0]);
     },
     "24.Assert": function () {
-        ok(~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));
+        ok(~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));/**/
     },
     '25.Change the checkbox "Allow change month"': function () {
         act.click("[data-change='_allowChange']");
@@ -241,7 +240,7 @@
     },
     "40.Assert": function () {
         ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,5;'));
-        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));/**/
     },
     '41.Remove first task': function () {
         act.click(document.querySelectorAll('.tableItem__close')[0]);
@@ -254,7 +253,7 @@
     },
     "44.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
-        ok(!~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));
+        ok(!~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));/**/
     },
     '45.Remove second task': function () {
         act.click(document.querySelectorAll('.tableItem__close')[0]);
@@ -267,7 +266,7 @@
     },
     "48.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
-        ok(!~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));
+        ok(!~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));/**/
     },
     '49.Remove third task': function () {
         act.click(document.querySelectorAll('.tableItem__close')[0]);
@@ -280,10 +279,7 @@
     },
     "52.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
-        ok(!~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));
+        ok(!~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));/**/
         localStorage.clear();
     }
-    /**
-     * локальное хранилище (в тестах добавить параллельно)
-     */
 };
