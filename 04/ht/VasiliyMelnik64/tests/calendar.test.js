@@ -117,6 +117,7 @@
     },
     "2.Assert": function () {
         ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowAdd : true;'));
+        localStorage.clear();
     },
     '3.Change the checkbox "Allow remove tasks"': function () {
         act.click("[data-change='_allowRemove']");
@@ -128,35 +129,161 @@
         act.click("[data-test='1']");
     },
     "6.Assert": function () {
-        ok(document.querySelector("td[data-test='1']").lastElementChild.value = 'test');
+        ok(document.querySelector('.addingForm__input').value = 'test_1');
     },
-    '7.Add first task': function () {
-        act.click("[id='code']");
+    '7.Add first task in the table': function () {
+        act.click(document.querySelectorAll('.addingForm__item')[0]);
     },
     "8.Assert": function () {
-        ok(true == true);
+        ok(~document.querySelector('td[data-test="1"]').innerHTML.indexOf('test_1'));
     },
-    '9.Add first task': function () {
+    '9.Remove first task': function () {
         act.click("[class='tableItem__close']");
     },
     "10.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
     },
-    '11.Add first task': function () {
+    '11.Checking first task': function () {
         act.click("[id='1']");
     },
     "12.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
+        ok(!~document.querySelector('td[data-test="1"]').innerHTML.indexOf('test_1'));
+    },
+    '13.Add multiply task': function () {
+        act.click("[data-test='5']");
+    },
+    "14.Assert": function () {
+        ok(document.querySelector('.addingForm__input').value = 'test_5');
+    },
+    '15.Add first task in the table': function () {
+        act.click(document.querySelectorAll('.addingForm__item')[0]);
+    },
+    "16.Assert": function () {
+        ok(~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));
+    },
+    '17.Add multiply task': function () {
+        act.click("[data-test='7']");
+    },
+    "18.Assert": function () {
+        ok(document.querySelector('.addingForm__input').value = 'test_7');
+    },
+    '19.Add second task in the table': function () {
+        act.click(document.querySelectorAll('.addingForm__item')[0]);
+    },
+    "20.Assert": function () {
+        ok(~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));
+    },
+    '21.Add multiply task': function () {
+        act.click("[data-test='25']");
+    },
+    "22.Assert": function () {
+        ok(document.querySelector('.addingForm__input').value = 'test_25');
+    },
+    '23.Add third task in the table': function () {
+        act.click(document.querySelectorAll('.addingForm__item')[0]);
+    },
+    "24.Assert": function () {
+        ok(~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));
+    },
+    '25.Change the checkbox "Allow change month"': function () {
+        act.click("[data-change='_allowChange']");
+    },
+    "26.Assert": function () {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('allowChange : true;'));
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('button'));
+        ok(document.getElementsByClassName('table')[0].getElementsByTagName('BUTTON'.length === 2));
+    },
+    '27.Change the checkbox "Show month / year"': function () {
+        act.click("[data-change='_showMonth']");
+    },
+    "28.Assert": function () {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('showMonth : true;'));
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('May 2018'));
+    },
+    '29.Change monthes forward': function () {
+        act.click("button[id='rightButton']");
+    },
+    "30.Assert": function () {
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('June 2018'));
+        ok(!~document.querySelector('.table').innerHTML.indexOf('31'));
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,6;'));
+    },
+    '31.Change monthes back': function () {
+        act.click("button[id='leftButton']");
+    },
+    "32.Assert": function () {
+        ok(~document.querySelector('.table').firstElementChild.firstElementChild.firstElementChild.innerHTML.indexOf('May 2018'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,5;'));
+    },
+    '33.Change a select with monthes': function () {
+        act.click("select[name='month']");
+    },
+    "34.Assert": function () {
+        ok(~document.getElementsByTagName('select')[0].innerHTML.indexOf('January'));
+    },
+    '35.Change a select with year': function () {
+        act.click("option[value='January']");
+    },
+    "36.Assert": function () {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,1;'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+    },
+    '37.Assert': function () {
+        act.click("select[name='month']");
+    },
+    "38.Assert": function () {
+        ok(~document.getElementsByTagName('select')[0].innerHTML.indexOf('January'));
+    },
+    '39.Assert': function () {
+        act.click("option[value='May']");
+    },
+    "40.Assert": function () {
+        ok(~document.getElementsByTagName('pre')[0].innerHTML.indexOf('date : 2018,5;'));
+        ok(~document.querySelector('.table').innerHTML.indexOf('31'));
+    },
+    '41.Remove first task': function () {
+        act.click(document.querySelectorAll('.tableItem__close')[0]);
+    },
+    "42.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
+    },
+    '43.Checking first task': function () {
+        act.click("[id='1']");
+    },
+    "44.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
+        ok(!~document.querySelector('td[data-test="5"]').innerHTML.indexOf('test_5'));
+    },
+    '45.Remove second task': function () {
+        act.click(document.querySelectorAll('.tableItem__close')[0]);
+    },
+    "46.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
+    },
+    '47.Checking second task': function () {
+        act.click("[id='1']");
+    },
+    "48.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
+        ok(!~document.querySelector('td[data-test="7"]').innerHTML.indexOf('test_7'));
+    },
+    '49.Remove third task': function () {
+        act.click(document.querySelectorAll('.tableItem__close')[0]);
+    },
+    "50.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
+    },
+    '51.Checking third task': function () {
+        act.click("[id='1']");
+    },
+    "52.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
+        ok(!~document.querySelector('td[data-test="25"]').innerHTML.indexOf('test_25'));
+        localStorage.clear();
     }
-
     /**
-     * добавление
-     * тесты - что, куда, тэги, атрибуты, значения, стили
-     * листание
-     * тесты
-     * релоад
-     * тесты
-     * удаление
-     * тесты
+     * локальное хранилище (в тестах добавить параллельно)
      */
 };
