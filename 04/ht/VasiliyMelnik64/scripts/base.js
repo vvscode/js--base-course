@@ -26,43 +26,47 @@ var base = (function (
   wrapper,
   preloader,
   modalWindow,
-  body
+  body,
+  addingInput
 ) {
-    return {
-      getFieldset: function () {
-        return fieldset;
-      },
-      getCode: function () {
-        return code;
-      },
-      getCalendarElement: function () {
-        return calendarElement;
-      },
-      getForm: function () {
-        return form;
-      },
-      getAbout: function () {
-        return about;
-      },
-      getSelects: function () {
-        return selects;
-      },
-      getMonthes: function () {
-        return monthes;
-      },
-      getPreloader: function () {
-        return preloader;
-      },
-      getWrapper: function () {
-        return wrapper;
-      },
-      getModalWindow: function () {
-        return modalWindow;
-      },
-      getBody: function () { 
-        return body;
-      }
-    };
+  return {
+    getFieldset: function () {
+      return fieldset;
+    },
+    getCode: function () {
+      return code;
+    },
+    getCalendarElement: function () {
+      return calendarElement;
+    },
+    getForm: function () {
+      return form;
+    },
+    getAbout: function () {
+      return about;
+    },
+    getSelects: function () {
+      return selects;
+    },
+    getMonthes: function () {
+      return monthes;
+    },
+    getPreloader: function () {
+      return preloader;
+    },
+    getWrapper: function () {
+      return wrapper;
+    },
+    getModalWindow: function () {
+      return modalWindow;
+    },
+    getBody: function () {
+      return body;
+    },
+    getAddingInput: function () {
+      return addingInput;
+    }
+  } 
 })(
   document.getElementsByTagName("fieldset")[0],
   document.getElementById("code"),
@@ -85,5 +89,6 @@ var base = (function (
   document.querySelector('.wrapper'),
   document.querySelector('.preloader'),
   document.querySelector('.modalWindow'),
-  document.body
-);
+  document.body,
+  document.getElementsByClassName('addingForm__input')[0]
+)

@@ -32,6 +32,22 @@ var addActivity = (function () {
   var tempClosingElementLink;
   return function (e) {
     if (e.target.tagName === "BUTTON") {
+      if (e.target.innerHTML == 'Add' || e.target.innerHTML == 'Cancel') {
+        switch (e.target.innerHTML) { 
+          case 'Add': { 
+            var cell = document.querySelector('td[data-test="' + e.target.getAttribute('data-add') + '"]');
+            var val = e.target.parentElement.firstElementChild.firstElementChild.value;
+            actions.calendar.changeValue(cell, val);
+          };
+            break;
+          case 'Cancel': { 
+            e.target.parentElement.remove();
+            return;
+          };
+            break;  
+        }
+
+      }
       if (e.target.id == '0' || e.target.id == '1') {
         actions.showModalWindow();
         if (e.target.id == '1') {
@@ -61,31 +77,6 @@ var addActivity = (function () {
     return;
   }
 })();
-
-
-
-/**
- * 
-
-    if (agree) {
-      var childrenArray = [].slice.call(
-        e.target.parentElement.parentElement.children
-      );
-      var index = childrenArray.indexOf(e.target.parentElement);
-      var date = actions.calendar.date;
-
-      var td =
-        e.target.parentElement.parentElement.tagName === "TD" ?
-        e.target.parentElement.parentElement :
-        e.target.parentElement.parentElement.parentElement;
-
-      storage.removeItem(date, td, index);
-      e.target.parentNode.removeChild(e.target.previousSibling);
-      e.target.parentNode.removeChild(e.target);
-    }
-    return;
- */
-
 
 /**
  * @function

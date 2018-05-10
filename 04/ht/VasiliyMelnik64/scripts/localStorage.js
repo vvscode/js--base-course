@@ -12,7 +12,7 @@ var storage = {
    * push items (htmlElement in String format) in the property of localStorage ("base") named by predetermined date
    */
   pushItem: function (name, item, date) {
-    this.getItem("base").then(base => {
+    return this.getItem("base").then(base => {
       if (date) {
         var dataBase = base || {};
         dataBase[date] = dataBase[date] || {};

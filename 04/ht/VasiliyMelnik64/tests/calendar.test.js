@@ -141,6 +141,12 @@
     },
     "10.Assert": function () {
         ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'block');
+    },
+    '11.Add first task': function () {
+        act.click("[id='1']");
+    },
+    "12.Assert": function () {
+        ok(getComputedStyle(document.querySelector('.modalWindow')).display === 'none');
     }
 
     /**

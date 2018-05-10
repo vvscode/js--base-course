@@ -87,7 +87,13 @@ Calendar.prototype = {
    * update the viewing of the calendar and the block with js-code on the web-page, based on clicking on the buttons
    */
   addListing: function (elem) {
-    elem.id == "rightButton" ? this.date[1]++ : this.date[1]--;
+    switch (elem.id) { 
+      case "rightButton": this.date[1]++;
+        break;  
+      case "leftButton": this.date[1]--;
+        break;  
+    }
+
     if (this.date[1] > 12) {
       this.date[1] = 1;
       this.date[0]++;
@@ -109,34 +115,30 @@ Calendar.prototype = {
     if (!el.children[0].innerHTML || !this.allowAdd) {
       return;
     }
-    var input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.classList.add("g-textInput");
-    el.appendChild(input);
-    el.style.padding = 0;
-    runEvent(input, "blur", this.changeValue);
+    var div = '<div class="calendar__addingForm addingForm"><p>Add some note: <input type="text" class="addingForm__input"></p><button class="addingForm__item" data-add="'+ el.getAttribute('data-test') + '">Add</button><button class="addingForm__item" style="margin-left: 5%;">Cancel</button></div>';
+    base.getCalendarElement().innerHTML += div;
   },
 
   /**
    * @function
-   * @param {Object} e - object of the event
+   * @param {object} cell - active cell of the table
+   * @param {string} val - text note for adding to the calendar
    * update the viewing of the calendar and the block with js-code on the web-page, based on clicking on the buttons;
    * push data in the localStorage
    */
-  changeValue: function (e) {
+  changeValue: function (cell, val) {
     var date = actions.calendar.date;
-    var val = this.value;
     var span = document.createElement("span");
     span.innerHTML = "<br />" + val + '<span class="tableItem__close">&times</span><br />';
-    var cellContent = this.parentNode.getElementsByClassName("tableItem__cellContent")[0];
-    cellContent.appendChild(span);
-    this.parentNode.style.paddingBottom = "15px";
-    this.parentNode.style.paddingTop = "15px";
-    this.parentNode.removeChild(this);
+    cell.appendChild(span);
+    cell.parentNode.style.paddingBottom = "15px";
+    cell.parentNode.style.paddingTop = "15px";
     storage.pushItem(
-      cellContent.parentNode.firstElementChild.innerHTML,
-      cellContent.lastElementChild.innerHTML,
+      cell.firstElementChild.innerHTML,
+      cell.lastElementChild.innerHTML,
       actions.calendar.date
-    );
+    ).then(() => { 
+      this.drawCalendar(this.date[0], this.date[1], "#calendar");
+    });
   }
 };
