@@ -60,7 +60,7 @@ Calendar.prototype = {
     var testingValue = 1;
     while (date.getMonth() == month - 1) {
       table +=
-        '<td class="table__item  table__item--hover tableItem" data-test="'+ testingValue++ +'"><span class="tableItem__corner">' +
+        '<td class="table__item  table__item--hover tableItem" data-test="' + testingValue++ + '"><span class="tableItem__corner">' +
         date.getDate() +
         '</span><div class="tableItem__cellContent"></div></td>';
       if (this.defineDayOfTheWeek(date) % 7 == 6) {
@@ -87,11 +87,13 @@ Calendar.prototype = {
    * update the viewing of the calendar and the block with js-code on the web-page, based on clicking on the buttons
    */
   addListing: function (elem) {
-    switch (elem.id) { 
-      case "rightButton": this.date[1]++;
-        break;  
-      case "leftButton": this.date[1]--;
-        break;  
+    switch (elem.id) {
+      case "rightButton":
+        this.date[1]++;
+        break;
+      case "leftButton":
+        this.date[1]--;
+        break;
     }
 
     if (this.date[1] > 12) {
@@ -115,7 +117,7 @@ Calendar.prototype = {
     if (!el.children[0].innerHTML || !this.allowAdd) {
       return;
     }
-    var div = '<div class="calendar__addingForm addingForm"><p>Add some note: <input type="text" class="addingForm__input"></p><button class="addingForm__item" data-add="'+ el.getAttribute('data-test') + '">Add</button><button class="addingForm__item" style="margin-left: 5%;">Cancel</button></div>';
+    var div = '<div class="calendar__addingForm addingForm"><p>Add some note: <input type="text" class="addingForm__input"></p><button class="addingForm__item" data-add="' + el.getAttribute('data-test') + '">Add</button><button class="addingForm__item" style="margin-left: 5%;">Cancel</button></div>';
     base.getCalendarElement().innerHTML += div;
   },
 
@@ -137,7 +139,7 @@ Calendar.prototype = {
       cell.firstElementChild.innerHTML,
       cell.lastElementChild.innerHTML,
       actions.calendar.date
-    ).then(() => { 
+    ).then(() => {
       this.drawCalendar(this.date[0], this.date[1], "#calendar");
     });
   }

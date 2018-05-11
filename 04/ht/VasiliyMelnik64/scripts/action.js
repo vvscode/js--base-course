@@ -29,7 +29,7 @@ var actions = {
    * @param {string} - note
    */
   showModalWindow: function (note) {
-    if (note == undefined) { 
+    if (note == undefined) {
       base.getBody().classList.remove('g-overflow-hidden');
       base.getModalWindow().style.display = 'none';
       return;

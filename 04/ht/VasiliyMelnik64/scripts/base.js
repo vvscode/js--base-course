@@ -66,7 +66,7 @@ var base = (function (
     getAddingInput: function () {
       return addingInput;
     }
-  } 
+  }
 })(
   document.getElementsByTagName("fieldset")[0],
   document.getElementById("code"),

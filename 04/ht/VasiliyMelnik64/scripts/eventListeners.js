@@ -33,20 +33,21 @@ var addActivity = (function () {
   return function (e) {
     if (e.target.tagName === "BUTTON") {
       if (e.target.innerHTML == 'Add' || e.target.innerHTML == 'Cancel') {
-        switch (e.target.innerHTML) { 
-          case 'Add': { 
-            var cell = document.querySelector('td[data-test="' + e.target.getAttribute('data-add') + '"]');
-            var val = e.target.parentElement.firstElementChild.firstElementChild.value;
-            actions.calendar.changeValue(cell, val);
-          };
+        switch (e.target.innerHTML) {
+          case 'Add':
+            {
+              var cell = document.querySelector('td[data-test="' + e.target.getAttribute('data-add') + '"]');
+              var val = e.target.parentElement.firstElementChild.firstElementChild.value;
+              actions.calendar.changeValue(cell, val);
+            };
             break;
-          case 'Cancel': { 
-            e.target.parentElement.remove();
-            return;
-          };
-            break;  
+          case 'Cancel':
+            {
+              e.target.parentElement.remove();
+              return;
+            };
+            break;
         }
-
       }
       if (e.target.id == '0' || e.target.id == '1') {
         actions.showModalWindow();
