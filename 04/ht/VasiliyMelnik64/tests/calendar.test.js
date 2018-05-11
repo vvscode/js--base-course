@@ -241,7 +241,7 @@
   "16.Assert": function() {
     ok(
       ~document.querySelector('td[data-test="5"]').innerHTML.indexOf("test_5")
-    ); /**/
+    );
   },
   "17.Add multiply task": function() {
     act.click("[data-test='7']");
@@ -255,7 +255,7 @@
   "20.Assert": function() {
     ok(
       ~document.querySelector('td[data-test="7"]').innerHTML.indexOf("test_7")
-    ); /**/
+    );
   },
   "21.Add multiply task": function() {
     act.click("[data-test='25']");
@@ -269,7 +269,7 @@
   "24.Assert": function() {
     ok(
       ~document.querySelector('td[data-test="25"]').innerHTML.indexOf("test_25")
-    ); /**/
+    );
   },
   '25.Change the checkbox "Allow change month"': function() {
     act.click("[data-change='_allowChange']");
@@ -403,7 +403,7 @@
     );
     ok(
       !~document.querySelector('td[data-test="5"]').innerHTML.indexOf("test_5")
-    ); /**/
+    );
   },
   "45.Remove second task": function() {
     act.click(document.querySelectorAll(".tableItem__close")[0]);
@@ -424,7 +424,7 @@
     );
     ok(
       !~document.querySelector('td[data-test="7"]').innerHTML.indexOf("test_7")
-    ); /**/
+    );
   },
   "49.Remove third task": function() {
     act.click(document.querySelectorAll(".tableItem__close")[0]);
@@ -447,7 +447,7 @@
       !~document
         .querySelector('td[data-test="25"]')
         .innerHTML.indexOf("test_25")
-    ); /**/
+    );
     localStorage.clear();
   }
 };
