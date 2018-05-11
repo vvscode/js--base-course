@@ -8,11 +8,10 @@
  * @param {*} a
  */
 function log(a) {
-    console.log(a);
+  console.log(a);
 }
 
 /* Раместите ваш код ниже */
-
 
 /**
  * реализовать фукнцию `fizzBuzz`
@@ -24,23 +23,22 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    for (var i = 1; i <= 100; i++) {
-        log(getFizzBuzz(i));
-    }
+  for (var i = 1; i <= 100; i++) {
+    log(getFizzBuzz(i));
+  }
 }
 
 function getFizzBuzz(i) {
-    var arr3 = {0: ''};
-    var arr5 = {0: ''};
-    var arr0 = {'Fizz': '', 'Buzz': '', 'FizzBuzz': '', '': i};
-    arr3[i % 3] = 'Fizz';
-    arr5[i % 5] = 'Buzz';
+  var arr3 = { 0: "" };
+  var arr5 = { 0: "" };
+  var arr0 = { Fizz: "", Buzz: "", FizzBuzz: "", "": i };
+  arr3[i % 3] = "Fizz";
+  arr5[i % 5] = "Buzz";
 
-    var result = arr3[0] + arr5[0];
-    result += arr0[result];
-    return result;
+  var result = arr3[0] + arr5[0];
+  result += arr0[result];
+  return result;
 }
-
 
 /**
  * реализовать фукнцию  `isPolindrom`,
@@ -50,15 +48,14 @@ function getFizzBuzz(i) {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    var arr = textString.toString().split('');
-    while (arr.length <= 1 || arr.shift() === arr.pop()) {
-        while (arr.length <= 1) {
-            return true;
-        }
+  var arr = textString.toString().split("");
+  while (arr.length <= 1 || arr.shift() === arr.pop()) {
+    while (arr.length <= 1) {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
-
 
 /**
  * Реализовать фукнцию `drawCalendar` ,
@@ -69,29 +66,32 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl
  */
 function drawCalendar(year, month, htmlEl) {
-    month -= 1;
-    var table = '<tr><td>пн</td><td>вт</td><td>ср</td><td>чт</td><td>пт</td><td>сб</td><td>вс</td></tr>';
-    var i;
-    var d = new Date(year, month, 1);
+  month -= 1;
+  var table =
+    "<tr><td>пн</td><td>вт</td><td>ср</td><td>чт</td><td>пт</td><td>сб</td><td>вс</td></tr>";
+  var i;
+  var d = new Date(year, month, 1);
 
-
-    while (+d.getMonth() === +month) {
-        var start = +d.getDate() === 1 ? getRealDay(d) : 1;
-        table += '<tr>';
-        for (i = 1; i <= 7; i++) {
-            table += '<td>' + (+d.getMonth() === +month && i >= start ? d.getDate() : '') + '</td>';
-            if (+d.getMonth() === +month && i >= start) {
-                d.setDate(d.getDate() + 1);
-            }
-        }
-        table += '</tr>';
+  while (+d.getMonth() === +month) {
+    var start = +d.getDate() === 1 ? getRealDay(d) : 1;
+    table += "<tr>";
+    for (i = 1; i <= 7; i++) {
+      table +=
+        "<td>" +
+        (+d.getMonth() === +month && i >= start ? d.getDate() : "") +
+        "</td>";
+      if (+d.getMonth() === +month && i >= start) {
+        d.setDate(d.getDate() + 1);
+      }
     }
-    table = '<table>' + table + '</table>';
-    htmlEl.innerHTML = table;
+    table += "</tr>";
+  }
+  table = "<table>" + table + "</table>";
+  htmlEl.innerHTML = table;
 }
 
 function getRealDay(date) {
-    return +date.getDay() === 0 ? 7 : +date.getDay();
+  return +date.getDay() === 0 ? 7 : +date.getDay();
 }
 
 /**
@@ -103,75 +103,65 @@ function getRealDay(date) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    return isDeepEqualOne(objA, objB) && isDeepEqualOne(objB, objA);
+  return isDeepEqualOne(objA, objB) && isDeepEqualOne(objB, objA);
 }
 
-
 function isDeepEqualOne(a, b) {
-    switch (typeof(a)) {
-        case "undefined":
-            return typeof(b) === 'undefined';
-        case "boolean":
-            return a === b;
-        case "number":
-            return a === b;
-        case "string":
-            return a === b;
-        case "object":
-
-            if (a === null && b !== null)
-                return false;
-            for (var key in a)
-                if (!isDeepEqualOne(a[key], b[key]))
-                    return false;
-
-    }
-    return true;
+  switch (typeof a) {
+    case "undefined":
+      return typeof b === "undefined";
+    case "boolean":
+      return a === b;
+    case "number":
+      return a === b;
+    case "string":
+      return a === b;
+    case "object":
+      if (a === null && b !== null) return false;
+      for (var key in a) if (!isDeepEqualOne(a[key], b[key])) return false;
+  }
+  return true;
 }
 
 /**
  * проходится по спирали многомерного массива
  * и возвращает одномерный
- * @param arr
+ * @param inputArr
  * @returns {Array}
  */
-function spiral(arr) {
-    var result = [];
+function spiral(inputArr) {
+  var arr = Object.assign(inputArr);
+  var result = [];
 
-    while (arr.length >= 1) {
-        arr.shift().forEach(function (v) {
-            result.push(v);
-        });
-        arr.forEach(function (v) {
-            result.push(v.pop());
-        });
-        if (arr.length === 0)
-            return result;
-        while (arr[arr.length - 1].length > 0) {
-            result.push(arr[arr.length - 1].pop());
-        }
-        arr.pop();
-        for (var i = arr.length - 1; i >= 0; i--) {
-            result.push(arr[i].shift());
-        }
-
+  while (arr.length >= 1) {
+    arr.shift().forEach(function(v) {
+      result.push(v);
+    });
+    if (arr.length === 0) return result;
+    arr.forEach(function(v) {
+      result.push(v.pop());
+    });
+    if (arr.length === 0) return result;
+    while (arr[arr.length - 1].length > 0) {
+      result.push(arr[arr.length - 1].pop());
     }
+    arr.pop();
 
-    return result;
+    for (var i = arr.length - 1; i >= 0; i--) {
+      result.push(arr[i].shift());
+    }
+    if (arr[0] && arr[0].length === 0) return result;
+  }
+
+  return result;
 }
 
+function quadraticEquation(a, b, c) {
+  if (a === 0) return [-(c / b)];
 
-function quadraticEquation(a,b,c)
-{
-    if(a===0)
-        return [-(c/b)];
-
-    let D=Math.pow(b,2)-4*a*c;
-    if(D<0)
-        return [];
-    else if(D===0)
-        return [-b/(2*a)];
-else if(D>0)
-        return [-(b+Math.sqrt(D))/(2*a),-(b-Math.sqrt(D))/(2*a)];
-
+  let D = Math.pow(b, 2) - 4 * a * c;
+  if (D < 0) return [];
+  else if (D === 0) return [-b / (2 * a)];
+  else if (D > 0)
+    return [-(b + Math.sqrt(D)) / (2 * a), -(b - Math.sqrt(D)) / (2 * a)];
 }
