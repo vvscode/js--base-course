@@ -7,8 +7,7 @@ module.exports = {
   extends: ["starndard", "prettier"],
   parserOptions: {
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-      jsx: true
+      experimentalObjectRestSpread: true
     },
     sourceType: "module"
   },
