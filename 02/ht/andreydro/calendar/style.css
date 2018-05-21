@@ -1,0 +1,27 @@
+button {
+		height: 30px;
+	  width: 30px;
+}
+
+#calendar-block {
+	width: 200px;
+	background-color: gray;
+	position: relative;
+	text-align: center;
+}
+
+#leftButton {
+	float: left;
+	margin-bottom: 2px;
+}
+
+#rightButton {
+	float: right;
+	margin-bottom: 2px;
+}
+
+#clearStorage {
+	display: block;
+	position: relative;
+	width: 200px;
+}
