@@ -74,9 +74,9 @@ function bind(func, context) {
  */
 
 Function.prototype.myBind = function(someContext) {
-    var thisIsSomeContext = this;
+    var contextOfFunction = this;
     return function() {
-        return thisIsSomeContext.apply(someContext, arguments);
+        return contextOfFunction.apply(someContext, arguments);
     }
 }
 
