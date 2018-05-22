@@ -103,23 +103,25 @@ console.log(o.x);
  * u.askName().askAge().showAgeInConsole().showNameInAlert();
  */
 
-function UserBot() {
-    this.askName = function() {
+function UserBot() {}
+UserBot.prototype = {
+  constructor: UserBot,
+  askName: function() {
       this.name = prompt("Введите имя");
       return this;
-    };
-    this.askAge = function() {
+    },
+  askAge: function() {
       this.age = prompt("Введите возраст");
       return this;
-    };
-    this.showAgeInConsole = function() {
+    },
+  showAgeInConsole: function() {
       console.log("Ваш возраст: " + this.age);
       return this;
-    };
-    this.showNameInAlert = function() {
+    },
+  showNameInAlert: function() {
       alert("Вас зовут " + this.name);
       return this;
-    };
+    }
 }
 
 var us = new UserBot();
@@ -294,10 +296,17 @@ function NotContructor() {
 покрыть реализацию тестами
 */
 
-Function.prototype.myCall = function(context, arg) {
-  this.context = context;
-  return function() {};
+Function.prototype.myCall = function(context) {
+  this.context = (context === undefined ? window : context);
+  return this.caller();
 };
+
+Function.prototype = {
+  myCall: function(context) {
+    this.context = context;
+    return fu
+  }
+}
 
 /*
     Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) и [throttle]
