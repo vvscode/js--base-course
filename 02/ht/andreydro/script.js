@@ -123,6 +123,7 @@ ShowYourInfo.prototype.showAgeInConsole = function() {
 };
 ShowYourInfo.prototype.showNameInAlert = function() {
     alert(this.name);
+    return this;
 };
 var letsAsk = new ShowYourInfo();
 

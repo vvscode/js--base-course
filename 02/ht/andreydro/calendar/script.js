@@ -130,4 +130,9 @@ function drawInteractiveCalendar(el) {
   drawCalendar(year, month, el);
 }
 
-drawInteractiveCalendar(document.body.insertBefore(document.getElementById("calendar"), tasks.children[0]));
+drawInteractiveCalendar(
+  document.body.insertBefore(
+    document.getElementById("calendar"),
+    tasks.children[0]
+  )
+);
