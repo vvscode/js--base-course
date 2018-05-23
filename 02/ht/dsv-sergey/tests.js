@@ -53,7 +53,31 @@ describe(".myCall", function() {
   it(".myCall является методом", function() {
     assert.isOk("myCall" in testMyCall == true);
   });
+  it(".myCall вызывает функцию greet с заданным контекстом", function() {
+    var o = { name: 'Bob' };
+    var greet = function() { return this.name; };
+    var nameFn = greet.myCall(o);
+    assert.isOk(nameFn === "Bob");
+  });
+  it(".myCall вызывает функцию с аргументами", function() {
+    var sum = function (a, b) {
+      return a + b;
+    }
+    assert.isOk(sum.myCall(null, 1, 2) === 3);
+  });
+  it(".myCall вызывает функцию с аргументами и заданным контекстом", function() {
+    var user = {
+      firstName: "Василий",
+      surname: "Петров",
+      patronym: "Иванович"
+    };
+    function showFullName(firstPart, lastPart) {
+      return ( this[firstPart] + " " + this[lastPart] );
+    }
+    assert.isOk(showFullName.call(user, 'firstName', 'surname') === "Василий Петров");
+  });
 });
+
 describe("throttle", function() {
   var log = [];
 
@@ -82,7 +106,7 @@ describe("throttle", function() {
       assert.deepEqual(
         log,
         [1, 3],
-        "сработал второй вызов (после истечения таймера)"
+        "сработал трейтий вызов (после истечения таймера)"
       );
     }, 1000);
   });
@@ -145,6 +169,17 @@ describe("drawInteractiveCalendar", function() {
         assert.isOk(drawInteractiveCalendar instanceof Function, 'функция');
     });
   it("строит календарь", function() {
-    assert.isOk();
+    var show = document.getElementById('showCalendar');
+    show.click();
+    var calendar = document.getElementById('calendar');
+    assert.isOk(calendar.firstElementChild !== null);
+  });
+  it("правильно выводит месяц и год", function(){
+    var month = new Date().getMonth(),
+        year = new Date().getFullYear(),
+        monthes = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        date = document.getElementById('captionDate');
+    assert.isOk(  );
   });
 });
+d

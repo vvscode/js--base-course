@@ -297,16 +297,10 @@ function NotContructor() {
 */
 
 Function.prototype.myCall = function(context) {
-  this.context = (context === undefined ? window : context);
-  return this.caller();
+  var contextFn = (context === undefined ? window : context),
+    arg = Array.prototype.slice.apply(arguments, [1]);
+  return this.apply(contextFn, arg);
 };
-
-Function.prototype = {
-  myCall: function(context) {
-    this.context = context;
-    return fu
-  }
-}
 
 /*
     Написать реализацию функций [debounce](http://underscorejs.ru/#debounce) и [throttle]

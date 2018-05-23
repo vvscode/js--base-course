@@ -5,8 +5,8 @@ showCalendar.onclick = function() {
   drawInteractiveCalendar('calendar');
 };
 
-function drawInteractiveCalendar(el) {
-  var htmlEl = document.getElementById(el),
+function drawInteractiveCalendar(idEl) {
+  var htmlEl = document.getElementById(idEl),
     today = new Date(),
     year = today.getFullYear(),
     month = today.getMonth() + 1;
@@ -36,7 +36,7 @@ function addHtmlElements(year, month, htmlEl) {
 
   captionText =
     "<div style='display: flex; flex-direction: row; justify-content: space-between'>" +
-    "<button id='earlyMonth' style='width: auto; min-width: 50px; background: #adff2f'><</button><h3 style='width: auto'> --- " +
+    "<button id='earlyMonth' style='width: auto; min-width: 50px; background: #adff2f'><</button><h3 id='captionDate' style='width: auto'> --- " +
     monthRU[month - 1] +
     "  " +
     year +
