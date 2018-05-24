@@ -178,8 +178,16 @@ describe("drawInteractiveCalendar", function() {
     var month = new Date().getMonth(),
         year = new Date().getFullYear(),
         monthes = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-        date = document.getElementById('captionDate');
-    assert.isOk(  );
+        monthRu = monthes[month],
+        date = document.getElementById('captionDate').innerText;
+    assert.include(date, monthRu, 'месяц соответствует');
+    assert.include(date, year, 'год соответствует');
+  });
+  it("нажатием на стрелку листает месяц", function(){
+      var date = document.getElementById('captionDate'),
+          nextMonth = document.getElementById('nextMonth');
+      nextMonth.click();
+      var date1 = document.getElementById('captionDate');
+    assert.isOk(date !== date1, 'даты не равны');
   });
 });
-d
