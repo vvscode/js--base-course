@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Calendar SPA</title>
+</head>
+<body>
+    <div id="page">
+        <div id="links">
+            <a href="#calendar">Calendar</a>
+            |
+            <a href="#create">Create</a>
+            |
+            <a href="#author">About author</a>
+        </div>
+
+        <div id="content"></div>
+
+        <div id="createContent" class="hidden">
+            <div id="options">
+                <fieldset>
+                    <label><input type="checkbox" id="changeMonth" checked>Allow change month</label><br>
+                    <label><input type="checkbox" id="addTasks" checked>Allow add tasks</label><br>
+                    <label><input type="checkbox" id="removeTasks" checked>Allow remove tasks</label><br>
+                    <label><input type="checkbox" id="showMonth" checked>Show month / year</label>
+                </fieldset>
+            </div>
+            <div>
+                <div>
+                    <pre id="code">
+                    </pre>
+                </div>
+                <div id="calSettings"></div>
+            </div>
+        </div>
+
+        <div id="about" class="hidden">
+            <h1>About author</h1>
+            <img src="https://avatars0.githubusercontent.com/u/35148952" class="left">
+            <p class="left">
+                My name is Anna.<br>
+                My mail - anne.kiranova@gmail.com<br>
+                My github account - https://github.com/anna-kiranova<br>
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
