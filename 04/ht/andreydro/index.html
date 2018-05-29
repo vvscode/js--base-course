@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Calendar</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header id="page">
+            <ul id="links">
+                <li>
+                    <a href="#1">Calendar</a>
+                </li>
+                <li>
+                    <a href="#2">Create</a>
+                </li>
+                <li>
+                    <a href="#3">About</a>
+                </li>
+            </ul>
+        </header>
+        <div id="content"></div>
+        <div id="createCode" class="hidden">
+            <div id="options">
+                <fieldset>
+                    <label>
+                        <input type="checkbox" id="changeMonth" checked>Allow to change a month</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="addNotes" checked>Allow to add notes</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="removeNotes" checked>Allow to remove notes</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="showMonth" checked>Show month and year</label>
+                    <br>
+                </fieldset>
+            </div>
+            <div>
+                <div>
+                    <div id="code"></div>
+                </div>
+                <div id="calendarSettings"></div>
+            </div>
+        </div>
+        <div id="about" class="hidden">
+            <h1>
+        Author <br>
+        Andrey Drozdov <br>
+        andreydro14@gmail.com <br>
+        <a href="https://github.com/andreydro">https://github.com/andreydro</a>
+      </h1>
+        </div>
+        <script src="script.js"></script>
+    </div>
+</body>
+
+</html>
