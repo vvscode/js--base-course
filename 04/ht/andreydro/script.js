@@ -47,26 +47,26 @@ function displayCreate() {
     showMonth: true
   };
 
-  content.querySelector("#changeMonth").onchange = function(e) {
+  content.querySelector("#changeMonth").addEventListener("click",  function(e) {
     params.changeMonth = e.target.checked;
     new Calendar(params);
     displayCode();
-  };
-  content.querySelector("#addNotes").onchange = function(e) {
+  });
+  content.querySelector("#addNotes").addEventListener("click", function(e) {
     params.addNotes = e.target.checked;
     new Calendar(params);
     displayCode();
-  };
-  content.querySelector("#removeNotes").onchange = function(e) {
+  });
+  content.querySelector("#removeNotes").addEventListener("click", function(e) {
     params.removeNotes = e.target.checked;
     new Calendar(params);
     displayCode();
-  };
-  content.querySelector("#showMonth").onchange = function(e) {
+  });
+  content.querySelector("#showMonth").addEventListener("click", function(e) {
     params.showMonth = e.target.checked;
     new Calendar(params);
     displayCode();
-  };
+  });
 
   new Calendar(params);
   displayCode();

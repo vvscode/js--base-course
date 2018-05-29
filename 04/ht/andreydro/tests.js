@@ -4,6 +4,20 @@ describe("Calendar", function() {
     beforeEach(function() {
         new Calendar(params);
     });
+    var months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
 
     var params = {
         element: "#calendarSettings",
@@ -55,20 +69,7 @@ describe("Calendar", function() {
 
     it("Show the date correctly", function() {
         var date = document.getElementById("calendarSettings").innerHTML;
-        var months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ];
+        
         var monthIndex = +new Date().getMonth();
         var year = +new Date().getFullYear();
 
@@ -81,20 +82,7 @@ describe("Calendar", function() {
         leftButton.click();
 
         var date = document.getElementById("calendarSettings").innerHTML;
-        var months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ];
+        
         var monthIndex = +new Date().getMonth() - 1;
         var year = +new Date().getFullYear();
 
@@ -107,20 +95,7 @@ describe("Calendar", function() {
         rightButton.click();
 
         var date = document.getElementById("calendarSettings").innerHTML;
-        var months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ];
+        
         var monthIndex = +new Date().getMonth() + 1;
         var year = +new Date().getFullYear();
 
