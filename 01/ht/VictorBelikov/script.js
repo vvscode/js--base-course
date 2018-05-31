@@ -87,53 +87,51 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl
  */
 function drawCalendar(year, month, htmlEl) {
-    var tempDate = new Date(year, month + 1, 0),
-        lastDay = tempDate.getDate(),
+    let tempDate = new Date(year, month, 0), // узнаем последний день
+        lastDay = tempDate.getDate(),        // текущего месяца
         endMonth = false,
-        currDate = new Date(year, month, 1),
+        currDate = new Date(year, --month, 1),
         weekDay = currDate.getDay() - 1, // чтобы начинались с Пн.
-        daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+        th = '',
+        table = '';
 
-    for (var j = 0; j < daysOfWeek.length; j++) {
-        var th = document.createElement('th');
-        th.innerHTML = daysOfWeek[j];
-        htmlEl.appendChild(th);
+    for (let j = 0; j < daysOfWeek.length; j++) {
+        th += '<th>' + daysOfWeek[j] + '</th>';
     }
+    table = '<table>' + th;
 
-    if (weekDay < 0) weekDay = 6;
+    if (weekDay < 0) { weekDay = 6; }
 
     while (currDate.getMonth() === month) {
-        var tr = document.createElement('tr'),
+        let tr = '<tr>',
             i = 0;
 
         while (i < 7) {
-            var td = document.createElement('td');
+            let td = '<td>';
 
             if (i < weekDay) {
-                td.innerHTML = '';
+                td += '</td>';
             } else {
-
                 if (endMonth) {
-                    td.innerHTML = '';
+                    td += '</td>';
+                    break;
                 } else {
-                    td.innerHTML = currDate.getDate();
+                    td += currDate.getDate() + '</td>';
                 }
-
-                if (currDate.getDate() === lastDay) endMonth = true;
+                if (currDate.getDate() === lastDay) { endMonth = true; }
                 currDate.setDate(currDate.getDate() + 1);
             }
-            tr.appendChild(td);
+            tr += td;
             i++;
         }
-
         weekDay = 0;
-        htmlEl.appendChild(tr);
+        tr += '</tr>';
+        table += tr;
     }
-    document.getElementById('calendar-wrap').appendChild(htmlEl);
+    table += '</table>';
+    htmlEl.innerHTML = table;
 }
-
-drawCalendar(2018, 1, document.createElement('table'));
-
 
 /**
  * Написать функцию `isDeepEqual`
@@ -156,4 +154,65 @@ function isDeepEqual(objA, objB) {
         }
         return objA === objB;
     }
+}
+
+/**
+ * Написать тесты и саму функцию spiral, которая принимает на вход двумерный массив
+ * и возвращает одномерный массив с элементами расположенными по спирали. Матрица
+ * не обязательно имеет одинаковые размеры по обеим сторонам.
+ * @param {array} matrix произвольный двумерный массив
+ * @return {array} одноменый массив
+ */
+function spiral(matrix) {
+    let result = [],
+        temp;
+
+    while (matrix.length > 0) {
+        // 1: left --> right
+        result = result.concat(...matrix.splice(0, 1));
+        // 2: up --> down
+        for (let i = 0; i < matrix.length; i++) {
+            result = result.concat(...matrix[i].splice(-1, 1));
+        }
+        // 3: right --> left
+        temp = matrix.splice(-1, 1).reverse();
+        if (temp.length > 0) {
+            result = result.concat(temp[0].reverse());
+        }
+        // 4: down --> up
+        for (let i = matrix.length - 1; i >= 0; i--) {
+            result = result.concat(...matrix[i].splice(0, 1));
+        }
+    }
+    return result;
+}
+
+/**
+ * Написать тесты и саму функцию quadraticEquation, которая на вход принимает
+ * коэффициенты квадратного уравнения, а возвращает массив с вещественными
+ * корнями этого уравнения (если они есть).
+ * @param {number} a коэффициент
+ * @param {number} b коэффициент
+ * @param {number} c коэффициент
+ * @return {array} одномерный массив
+ */
+function quadraticEquation(a, b, c) {
+    let result = [],
+        D = b * b - 4 * a * c,
+        x1,
+        x2;
+
+    if (D < 0) {
+        return result;
+    } else if (D === 0) {
+        result.push(-b / (2 * a));
+        return result;
+    }
+
+    x1 = (-b + Math.sqrt(D)) / (2 * a);
+    x2 = (-b - Math.sqrt(D)) / (2 * a);
+    result.push(x1);
+    result.push(x2);
+
+    return result;
 }
