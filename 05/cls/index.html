@@ -29,7 +29,7 @@
         <h2>Шаблонизатор</h2>
         <section>Принимает описание представления данных и сами данные и возвращает представление</section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
 var data = {
   name: 'Bob',
   age: 33,
@@ -41,17 +41,17 @@ var data = {
           </code></pre>
         </section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
     var template = `
     <div>
       <h1>{{name}}: {{age}}</h1>
-      <a href="mailto:{{props.email}}" class="e-mail-link {{props.sex}}" style="font-size: smaller;"></a>
+      <a href="mailto:{{props.email}}" class="e-mail-link {{props.sex}}"></a>
     </div>
     `;
               </code></pre>
         </section>
         <section>
-          <pre><code data-trim class="html line-numbers">
+          <pre><code data-trim class="html line-numbers" style="font-size: medium;">
                 <div>
                     <h1>Bob: 33</h1>
                     <a href="mailto:bob@male.ru" class="e-mail-link male"></a>
@@ -76,7 +76,7 @@ var data = {
             alt="Observer - Диаграмма">
         </section>
         <section>
-          <p style="font-size: smaller; text-align: left">Данный шаблон часто применяют в ситуациях, в которых отправителя сообщений не интересует, что делают получатели
+          <p style="font-size: medium; text-align: left">Данный шаблон часто применяют в ситуациях, в которых отправителя сообщений не интересует, что делают получатели
             с предоставленной им информацией.</p>
         </section>
         <section>
@@ -103,34 +103,34 @@ EventTarget {
           />
         </section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
-              function ButtonsComponent(eventBus, element) {
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
+              function ButtonsComponent(eventTarget, element) {
                 document.querySelector(element).addEventListener('click', (ev) => {
                   if (!ev.target.matches('button')) {
                     return;
                   }
-                  eventBus.trigger('anyString', ev.target.innerHTML);
+                  eventTarget.trigger('anyString', ev.target.innerHTML);
                 });
               }
                           </code></pre>
         </section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
-              function InfoComponent(eventBus, element) {
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
+              function InfoComponent(eventTarget, element) {
                 var infoBlock = document.querySelector(element);
-                eventBus.on('anyString', (data) => infoBlock.innerHTML = data);
+                eventTarget.on('anyString', (data) => infoBlock.innerHTML = data);
               }
                             </code></pre>
         </section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
-              var eventBus = new EventBus();
-              var buttonsComponent = new ButtonsComponent(eventBus, '.buttons');
-              new InfoComponent(eventBus, '.info');
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
+              var eventTarget = new EventTarget();
+              var buttonsComponent = new ButtonsComponent(eventTarget, '.buttons');
+              new InfoComponent(eventTarget, '.info');
 
-              var eventBus2 = new EventBus();
-              var buttonsComponent2 = new ButtonsComponent(eventBus2, '.buttons2');
-              new InfoComponent(eventBus2, '.info2');
+              var eventTarget2 = new EventTarget();
+              var buttonsComponent2 = new ButtonsComponent(eventTarget2, '.buttons2');
+              new InfoComponent(eventTarget2, '.info2');
                               </code></pre>
         </section>
       </section>
@@ -140,26 +140,26 @@ EventTarget {
       <section>
         <h4>Посредник / Медиатор</h4>
         <section>
-          <p style="text-align: left; font-size: smaller;" class="fragment">
+          <p style="text-align: left; font-size: medium;" class="fragment">
             <strong>Посредник (англ. Mediator)</strong> — поведенческий шаблон проектирования, обеспечивающий взаимодействие множества
             объектов, формируя при этом слабую связанность и избавляя объекты от необходимости явно ссылаться друг на друга.</p>
         </section>
         <section>
-          <p style="text-align: left; font-size: smaller;" class="fragment">
+          <p style="text-align: left; font-size: medium;" class="fragment">
             <strong>Проблема</strong>
             <br /> Обеспечить взаимодействие множества объектов, сформировав при этом слабую связанность и избавив объекты от необходимости
             явно ссылаться друг на друга.</p>
-          <p style="text-align: left; font-size: smaller;" class="fragment">
+          <p style="text-align: left; font-size: medium;" class="fragment">
             <strong>Решение</strong>
             <br /> Создать объект, инкапсулирующий способ взаимодействия множества объектов.
           </p>
-          <p style="text-align: left; font-size: smaller;" class="fragment">
+          <p style="text-align: left; font-size: medium;" class="fragment">
             <strong>Преимущества</strong>
             <br /> Устраняется связанность между "Коллегами", централизуется управление.
           </p>
         </section>
         <section>
-          <p style="text-align: left; font-size: smaller;">"Посредник" определяет интерфейс для обмена информацией с объектами "Коллеги", "Конкретный посредник" координирует
+          <p style="text-align: left; font-size: medium;">"Посредник" определяет интерфейс для обмена информацией с объектами "Коллеги", "Конкретный посредник" координирует
             действия объектов "Коллеги". Каждый класс "Коллеги" знает о своем объекте "Посредник", все "Коллеги" обмениваются
             информацией только с посредником, при его отсутствии им пришлось бы обмениваться информацией напрямую. "Коллеги"
             посылают запросы посреднику и получают запросы от него. "Посредник" реализует кооперативное поведение, пересылая
@@ -202,7 +202,7 @@ eventBus
             </code></pre>
         </section>
         <section>
-          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+          <pre><code data-trim class="javascript line-numbers" style="font-size: medium;">
                 var eventBus = new EventBus();
                 var buttonsComponent = new ButtonsComponent(eventBus, '.buttons');
                 new InfoComponent(eventBus, '.info');
