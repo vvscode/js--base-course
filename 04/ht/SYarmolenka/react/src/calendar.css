@@ -1,0 +1,58 @@
+.bigCal {
+  padding: 1em;
+  font: 16pt sans-serif;
+}
+.bigCal table {
+  margin: 0 5%;
+  width: 90%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.bigCal td, .bigCal th {
+  height: 5rem;
+  border-radius: .2em;
+}
+.bigCal .pointer {
+  cursor: pointer;
+}
+.bigCal td {
+  vertical-align: top;
+  padding: 1%;
+  overflow: hidden;
+}
+.bigCal thead tr:nth-child(odd)  {
+  background: #EBE9FE;
+}
+.bigCal thead tr:nth-child(odd) th:nth-child(odd)  {
+  background: #DEDCF1;
+}
+.bigCal thead tr:nth-child(even)  {
+  background: #ccc;
+}
+.bigCal thead tr:nth-child(even) th:nth-child(6n), .bigCal thead tr:nth-child(even) th:nth-child(7n) {
+  background: #ffdcdc;
+}
+.bigCal tr:nth-child(even)>td:nth-child(2n+1), .bigCal tr:nth-child(odd)>td:nth-child(2n+2) {
+  background: #e5e3f8;
+}
+.bigCal tr:nth-child(odd)>td:nth-child(2n+1), .bigCal tr:nth-child(even)>td:nth-child(2n+2) {
+  background: #f5f5f5;
+}
+.bigCal tr:nth-child(even)>td:nth-child(6n), .bigCal tr:nth-child(odd)>td:nth-child(7n) {
+  background: #fff0f0;
+}
+.bigCal tr:nth-child(odd)>td:nth-child(6n), .bigCal tr:nth-child(even)>td:nth-child(7n) {
+  background: #fff5f5;
+}
+.delTask {
+  display: block;
+  position: absolute;
+  width: 12pt;
+  height: 12pt;
+  margin-right: .2em;
+}
+.task {
+  margin-left: 1em;
+  font: 12pt sans-serif;
+  overflow: hidden;
+}
