@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- for tests -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+    </script>
+
+    <title>Interactive Calendar</title>
+</head>
+
+<body>
+<div id="wrapcalendar" style="display: inline-block">
+    <p style="font-weight: bold;color: blue;font-size: 22px;margin-left: 15px; ">
+        <button id="previous" style="vertical-align: middle;">&#8656;</button>
+        <span id="month">5</span>
+        <span>/</span>
+        <span id="year">2018</span>
+        <button id="next" style="vertical-align: middle;">&#8658;</button>
+    </p>
+    <div id="calendar"></div>
+</div>
+
+<script>
+    function drawInteractiveCalendar(el) {
+        let currentDate = new Date(),
+            currMonth = currentDate.getMonth(),
+            currYear = currentDate.getFullYear(),
+            elemYear = document.getElementById('year'),
+            elemMonth = document.getElementById('month'),
+            buttonPrev = document.getElementById('previous'),
+            buttonNext = document.getElementById('next');
+
+        elemYear.innerText = currYear;
+        elemMonth.innerText = ++currMonth;
+        drawCalendar(currYear, currMonth, el);
+
+        buttonNext.addEventListener('click', () => {
+            currMonth++;
+            if (currMonth > 12) {
+                elemYear.innerText = ++currYear;
+                currMonth = 1;
+            }
+            elemMonth.innerText = currMonth;
+            drawCalendar(currYear, currMonth, el);
+        });
+
+        buttonPrev.addEventListener('click', () => {
+            currMonth--;
+            if (currMonth < 1) {
+                currMonth = 12;
+                elemYear.innerText = --currYear;
+            }
+            elemMonth.innerText = currMonth;
+            drawCalendar(currYear, currMonth, el);
+        });
+    }
+
+    function drawCalendar(year, month, htmlEl) {
+        let tempDate = new Date(year, month, 0), // узнаем последний день
+            lastDay = tempDate.getDate(), // текущего месяца
+            endMonth = false,
+            currDate = new Date(year, --month, 1),
+            weekDay = currDate.getDay() - 1, // чтобы начинались с Пн.
+            daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+            th = '',
+            table;
+
+        for (let j = 0; j < daysOfWeek.length; j++) {
+            th += '<th>' + daysOfWeek[j] + '</th>';
+        }
+        table = '<table>' + th;
+
+        if (weekDay < 0) {
+            weekDay = 6;
+        }
+
+        while (currDate.getMonth() === month) {
+            let tr = '<tr>',
+                i = 0;
+
+            while (i < 7) {
+                let td = '<td>';
+
+                if (i < weekDay) {
+                    td += '</td>';
+                } else {
+                    if (endMonth) {
+                        td += '</td>';
+                        break;
+                    } else {
+                        td += currDate.getDate() + '</td>';
+                    }
+                    if (currDate.getDate() === lastDay) {
+                        endMonth = true;
+                    }
+                    currDate.setDate(currDate.getDate() + 1);
+                }
+                tr += td;
+                i++;
+            }
+            weekDay = 0;
+            tr += '</tr>';
+            table += tr;
+        }
+        table += '</table>';
+        htmlEl.innerHTML = table;
+    }
+
+    div = document.getElementById('calendar');
+    drawInteractiveCalendar(div);
+
+</script>
+
+
+<!-- for tests -->
+<div id="mocha"></div>
+<script>
+    describe("drawInteractiveCalendar", () => {
+
+        let el;
+        beforeEach(function() {
+            return (el = document.createElement("div"));
+        });
+
+        it('является функцией', () => {
+            assert.isOk(typeof drawInteractiveCalendar === 'function');
+        });
+
+        it('принимает в качестве аргумента html-элемент', function() {
+            drawInteractiveCalendar(el);
+            assert.isOk(el.innerHTML.trim() !== '');
+        });
+
+        it("заполняет innerHTML у элемента (третий аргумент)", function() {
+            drawCalendar(2017, 9, el);
+            assert.isOk(el.innerHTML.trim() !== "");
+        });
+        it("генерирует разный html для разных месяцев", function() {
+            drawCalendar(2017, 9, el);
+            var html1 = el.innerHTML;
+            drawCalendar(2017, 10, el);
+            var html2 = el.innerHTML;
+            assert.isOk(html1 !== html2);
+        });
+        it("правильно определяет число дней в месяце", function() {
+            drawCalendar(2017, 9, el);
+            var html = el.innerHTML;
+            assert.isOk(html.indexOf("30") > 0);
+            assert.isOk(html.indexOf("31") < 0);
+
+            drawCalendar(2017, 2, el);
+            var html = el.innerHTML;
+            assert.isOk(html.indexOf("28") > 0);
+            assert.isOk(html.indexOf("29") < 0);
+            assert.isOk(html.indexOf("30") < 0);
+            assert.isOk(html.indexOf("31") < 0);
+        });
+    });
+</script>
+<script>mocha.run();</script>
+</body>
+
+</html>
