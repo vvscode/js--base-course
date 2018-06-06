@@ -3,13 +3,10 @@ describe("getCounter", function(){
     it("функция", function(){
         assert.isOk(typeof getCounter === "function");
     });
-    it ()
-});
 describe("sleep", function(){
     it("функция", function(){
         assert.isOk(typeof sleep === "function");
     });
-    it ()
 });
 describe("debounce", function(){
     it("функция", function(){

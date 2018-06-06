@@ -10,8 +10,8 @@
             margin:0 auto;
         }
         h1{
-            padding-top:81px;
-            padding-bottom:63px;
+            padding-top:20px;
+            padding-bottom:20px;
         }
         .form1 {
             width: 544px;
@@ -38,7 +38,7 @@
         }
         .form1 textarea{
             resize: none;
-            height:192px;
+            height:100px;
         }
         .form1 .btn{
             width: 100%;
@@ -64,13 +64,13 @@
         <table>
             <tr>
                 <td>
-                    <input type="text" name="name" placeholder="Представьтесь, пожалуйста">
+                    <input type="text" name="name" placeholder="Представьтесь, пожалуйста" required>
                 </td>
             </tr>
             <tr>
                 <td>
                     <p>Ваш возраст:</p>
-                    <select name="age">
+                    <select name="age" required>
                         <option value="18">18</option>
                         <option value="19">19</option>
                         <option value="20">20</option>
@@ -90,14 +90,14 @@
             <tr>
                 <td>
                     <p>Ваш пол:</p>
-                    <p><input type="radio" name="gender" value="male">male</p>
+                    <p><input type="radio" name="gender" value="male" checked >male</p>
                     <p><input type="radio" name="gender" value="female">female</p>
                 </td>
             </tr>
             <tr>
                 <td class="field ">
                     <p>Eсть ли водительские права:</p>
-                    <p><input type="checkbox" name="driver" value="driver">да</p>
+                    <p><input type="checkbox" id="driver" name="driver" value="driver">да</p>
                 </td>
             </tr>
             <tr>
@@ -114,36 +114,36 @@
         </table>
     </form>
     <div id="out">
+        <p id="outP"></p>
     </div>
 </div>
 <script>
-    function validate() {
-        var formName = document.getElementsByName('name');
-        var formAge = document.getElementsByName('age');
-        var formMessage = document.getElementsByName('message');
+    function validate(event) {
+        var formName = document.getElementsByName('name')[0];
+        var formAge = document.getElementsByName('age')[0];
+        var formMessage = document.getElementsByName('message')[0];
         var formGender = document.getElementsByName('gender');
         var formDriver = document.getElementsByName('driver');
-        var formNameValue, formAgeValue,formGenderValue, formMessageValue, formDriverValue;
-        formNameValue = formName.name.value;
-        formAgeValue = formAge.age.value;
-        formMessageValue = formMessage.message.value;
+        var formGenderValue, formDriverValue;
         for (var countRadio = 0; countRadio < formGender.length; countRadio++) {
             if (formGender[countRadio].type === "radio" && formGender[countRadio].checked) {
                 formGenderValue = formGender[countRadio].value;
             }
         }
-        for (var countCheckbox = 0; countCheckbox < formDriver.length; countCheckbox++) {
-            if (formDriver[countCheckbox].type === "radio" && formDriver[countCheckbox].checked) {
-                formDriverValue = "Driver";
-            } else if (formDriver[countCheckbox].type === "radio" && !formDriver[countCheckbox].checked) {
-                formDriverValue = "Not a driver";
-            }
+        if (formDriver[0].checked) {
+            formDriverValue = "driver";
+        } else if (!formDriver[0].checked) {
+            formDriverValue = "not a driver";
         }
-        document.getElementById('out').innerHTML = "Имя:" + formNameValue + ";" + " Возраст:" + formAgeValue + ";" +
-            " Пол:" + formGenderValue + ";" + " Сообщение:" + formMessageValue + ";" +
-            " Наличие водительских прав:" + formDriverValue;
+        if (formName.value !== "" && formMessage.value !== "" ){
+            document.getElementById('outP').innerHTML = "Имя: " + formName.value + ";" + " Возраст: " + formAge.value + ";" +
+                " Пол: " + formGenderValue + ";" + " Сообщение: " + formMessage.value + ";" +
+                " Наличие водительских прав: " + formDriverValue;
+        }
+        event.preventDefault();
     }
     document.getElementById('btn').addEventListener('click', validate);
+
 </script>
 </body>
 </html>
