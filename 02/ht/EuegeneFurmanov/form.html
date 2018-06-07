@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      min-width: 1040px;
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      line-height: 24px;
+      font-family: "Arial", sans-serif;
+      color: #404040;
+      background-color: white;
+    }
+    #btn {
+      display: inline-block;
+      width: 146px;
+      padding: 10px;
+      font: inherit;
+      vertical-align: top;
+      text-align: center;
+      color: #a38b70;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid #a38b70;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    #btn:hover {
+      color: #8d745a;
+      border-color: #8d745a;
+    }
+    #btn:active {
+      color: rgba(141, 116, 90, 0.3);
+      border-color: #8d745a;
+    }
+    .feedback-form-group {
+      width: 630px;
+      padding-right: 390px;
+    }
+    .feedback-form-group {
+      margin-bottom: 15px;
+    }
+    .feedback-form-group label {
+      display: inline-block;
+      padding: 5px 0;
+      padding-left: 17px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .feedback-form-group input[type="text"],
+    .feedback-form-group select,
+    .feedback-form-group textarea {
+      box-sizing: border-box;
+      width: 100%;
+      height: 54px;
+      padding: 9px 15px;
+      font: inherit;
+      color: inherit;
+      border: 2px solid #d5d5d5;
+    }
+    .feedback-form-group input[type="text"]:hover,
+    .feedback-form-group select:hover,
+    .feedback-form-group textarea:hover {
+      border-color: #bebebe;
+    }
+    .feedback-form-group input[type="text"]:focus,
+    .feedback-form-group select:focus,
+    .feedback-form-group textarea:focus {
+      border-color: #8d745a;
+    }
+    .feedback-form-group textarea {
+      display: block;
+      min-height: 120px;
+    }
+    .left-column {
+      float: left;
+      width: 700px;
+      margin-left: 50px;
+      margin-top: 50px;
+    }
+    .right-column {
+      float: right;
+      width: 700px;
+      margin-right: 50px;
+      margin-top: 50px;
+    }
+    ul.output {
+      list-style: none;
+    }
+    ul.output li {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="left-column">
+    <div class="feedback">
+      <form id="form">
+        <div class="feedback-form-group">
+          <label for="name">name</label>
+          <input type="text" name="name" id="name" required>
+        </div>
+        <div class="feedback-form-group">
+          <label for="hometown">hometown</label>
+          <select name="hometown" id="hometown">
+            <option value="sankt-petersburg">sankt-petersburg</option>
+            <option value="moscow">moscow</option>
+            <option value="minsk">minsk</option>
+          </select>
+        </div>
+        <div class="feedback-form-group">
+          <label for="comment">comment</label>
+          <textarea name="comment" id="comment" cols="30" rows="10" required></textarea>
+        </div>
+        <div class="feedback-form-group">
+          <label>
+            male
+            <input type="radio" name="sex" value="male" checked>
+          </label>
+          <label>
+            female
+            <input type="radio" name="sex" value="female">
+          </label>
+        </div>
+        <button id="btn">send</button>
+      </form>
+    </div>
+  </div>
+  <div class="right-column">
+    <ul class="output"></ul>
+  </div>
+  <script>
+    var form = document.querySelector("#form");
+	var list = document.querySelector(".output");
+
+	function showUserData() {
+	  var name = document.querySelector("#name").value;
+	  var hometown = document.querySelector("#hometown").value;
+	  var comment = document.querySelector("#comment").value;
+	  var sex = document.querySelector('input[type="radio"]').checked
+	    ? "male"
+	    : "female";
+
+	  addElement(name);
+	  addElement(hometown);
+	  addElement(comment);
+	  addElement(sex);
+	}
+
+	function addElement(text) {
+	  var listElement = document.createElement("li");
+	  listElement.innerText = text;
+	  list.appendChild(listElement);
+	}
+
+	form.addEventListener("submit", showUserData, false);
+	form.addEventListener("submit", function(el) {
+	  el.preventDefault();
+	});
+  </script>
+</body>
+</html>

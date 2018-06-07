@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>HT 02</title>
+</head>
+
+<body>
+    <div id="calendar-block">
+        <button id="leftButton" data-step="-1"><</button>
+        <div id="date"></div>
+        <button id="rightButton"  data-step="1">></button>
+        <div id="calendar"></div>
+        <div id="tasks"></div>
+        <button id='clearStorage'>Clear storage</button>
+    </div>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+    <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+    </script>
+    
+    <script src="tests.js"></script>
+    <script src="script.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Calendar</title>
+</head>
+
+<body class='g-colors g-font'>
+
+    <div class="preloader"></div>
+    <div class="wrapper">
+        <header class='wrapper__header header'>
+            <ul class='header__list list'>
+                <li class='list__item item'>
+                    <a href="#1" name='Calendar_0' class='item__link'>Calendar</a>
+                </li>
+                <li class='list__item item'>
+                    <a href="#2" name='Calendar_1' class='item__link'>Create</a>
+                </li>
+                <li class='list__item item'>
+                    <a href="#3" name='About' class='item__link'>About</a>
+                </li>
+            </ul>
+        </header>
+        <fieldset class='wrapper__settingForm settingsForm hide'>
+            <legend class='settingsForm__item legend'>Configure Calendar</legend>
+            <form id="form" class='settingsForm__item form'>
+                <p class='form__item'>
+                    <input type="checkbox" id='button' data-change="_allowChange" class="g-input">
+                    <label for="button">Allow change month</label>
+                </p>
+                <p class='form__item'>
+                    <input type="checkbox" id='td' data-change="_allowAdd" class="g-input">
+                    <label for="td">Allow add tasks</label>
+                </p>
+                <p class='form__item'>
+                    <input type="checkbox" id='td' data-change="_allowRemove" class="g-input">
+                    <label for="td">Allow remove tasks</label>
+                </p>
+                <p class='form__item'>
+                    <input type="checkbox" id='th' data-change="_showMonth" class="g-input">
+                    <label for="th">Show month / year</label>
+                </p>
+                <select name="month" id="selectMonth" class='form__item g-input'></select>
+                <select name="year" id="selectYear" class='form__item g-input'></select>
+                <p class='form__item'>
+                    <textarea class='g-input'>Add some note...</textarea>
+                </p>
+            </form>
+        </fieldset>
+
+        <div id="workingBlock" class="wrapper__workingBlock workingBlock">
+            <div class="modalWindow">
+                <div class="modalWindow__item item">
+                    <p class="item itemNote"></p>
+                    <button class="item itemButton" id='1'>Да</button>
+                    <button class="item itemButton" id='0'>Нет</button>
+                </div>
+            </div>
+            <div id='code' class='workingBlock__code hide'></div>
+            <div id="calendar" class="workingBlock__calendar calendar"></div>
+            <div id="about" class="about">
+                <div class="about__item aboutMePhoto">
+                    <img src="img/ava.png" class="about__img">
+                </div>
+                <p class="about__item aboutMeText">Hello! My name is Vasiliy Melnik. I am a beginning front end developer.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/localStorage.js"></script>
+    <script src="scripts/eventListeners.js"></script>
+    <script src="scripts/base.js"></script>
+    <script src="scripts/calendar.js"></script>
+    <script src="scripts/action.js"></script>
+    <script src="scripts/drawSelects.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>

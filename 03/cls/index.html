@@ -17,11 +17,12 @@
         <h1>Вопросы?</h1>
       </section>
       <section>
-        <h1><a href="https://rawgit.com/vvscode/js--base-course/master/questions/index.html" target="_blank">Вопросы!</a></h1>
+        <h1>
+          <a href="https://rawgit.com/vvscode/js--base-course/master/questions/index.html" target="_blank">Вопросы!</a>
+        </h1>
       </section>
       <section>
         <h1>Занятие 3</h1>
-        <p>http://bit.ly/vvsjs03</p>
       </section>
       <section>
         <h2>Асинхронность</h2>
@@ -38,7 +39,11 @@
         <a href="http://jsbin.com/gajoyis/edit?html,js,output" target="_blank">http://jsbin.com/gajoyis/edit?html,js,output</a>
       </section>
       <section>
-        <h5>Очередь задач в js <sup><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop" target="_blank">MDN + EventLoop</a></sup></h5>
+        <h5>Очередь задач в js
+          <sup>
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop" target="_blank">MDN + EventLoop</a>
+          </sup>
+        </h5>
         <ul style="font-size: smaller;">
           <li>Среда выполнения содержит очередь событий (список событий, подлежащих обработке)</li>
           <li>Каждое событие ассоциируется с некоторой функцией.</li>
@@ -59,31 +64,62 @@
           <li>setTimeout / setInterval / setImmediate </li>
           <li>Асинхронное API (XHR/fetch/getUserMedia/getBattery/getCurrentPosition)</li>
           <li>Event Listeners</li>
-          <li>Promise <sup>*</sup></li>
+          <li>Promise
+            <sup>*</sup>
+          </li>
         </ul>
+      </section>
+      <section>
+        <pre><code data-trim class="javascript line-numbers">
+// передача callback
+function check2(num, cb) {
+  if(num % 2 === 0) {
+    cb('Hola');
+  }
+}
+  </code></pre>
       </section>
       <section>
         <pre><code data-trim class="javascript line-numbers">
 function sleepCb1(cb, delay) {
   setTimeout(function() {
-    cb()
+   cb()
   }, delay);
 }
 
 function sleepCb2(cb, delay) {
   setTimeout(cb, delay);
 }
-        </code></pre>
+</code></pre>
+      </section>
+      <section>
+        <h3>Стрелочные функции / Arrow functions</h3>
+        <pre><code data-trim class="javascript line-numbers">
+var func = function(a, b) {
+  return a + b;
+}
+
+var func = (a, b) => {
+  return a + b;
+}
+
+var func = (a, b) => a + b;
+
+var x2 = x => x*2;
+</code></pre>
+        <pre><code data-trim class="javascript line-numbers">
+var double = a => a*2;
+</code></pre>
       </section>
       <section>
         <h3>Promise</h3>
         <section>
           <pre><code data-trim class="javascript line-numbers">
-                var p = new Promise((resolve, reject)
-                                     => setTimeout(() => resolve(1), 5000));
-                p.then; //
-                p.catch; //
-                          </code></pre>
+var p = new Promise((resolve, reject)
+                    => setTimeout(() => resolve(1), 5000));
+p.then; //
+p.catch; //
+        </code></pre>
         </section>
         <section>
           <a href="https://learn.javascript.ru/promise" target="_blank">https://learn.javascript.ru/promise</a>
@@ -93,6 +129,19 @@ function sleepCb2(cb, delay) {
             <li>then-able интерфейс (метод then / catch опционален )</li>
             <li>Асинхронный</li>
           </ul>
+        </section>
+        <section>
+          <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
+var promise = new Promise(function(resolve, reject) {
+  setTimeout(function() { resolve(1); }, 100);
+  setTimeout(function() { reject(2); }, 200);
+});
+promise
+  .then(function(data) { console.log('then', data); }); // ?
+promise
+  .catch(function(data) { console.log('catch', data); }); // ?
+</code>
+        </pre>
         </section>
       </section>
       <section>
@@ -110,31 +159,10 @@ httpRequest.onreadystatechange = function() {
 };
 httpRequest.open('GET', 'test.html', true); // false for sync request
 httpRequest.send();
-          </code></pre>
+</code></pre>
       </section>
       <section>
         <h2>Вопросы?</h2>
-      </section>
-      <section>
-        <h3>Стрелочные функции / Arrow functions</h3>
-        <pre><code data-trim class="javascript line-numbers">
-var func = function(a, b) {
-  return a + b;
-}
-
-var func = (a, b) => {
-  return a + b;
-}
-
-var func = (a, b) => {
-  return a + b;
-}
-
-var func = (a, b) => a + b;
-    </code></pre>
-        <pre><code data-trim class="javascript line-numbers">
-        var double = a => a*2;
-        </code></pre>
       </section>
       <section>
         <h5>Работа с асинхронным кодом</h5>
@@ -145,15 +173,15 @@ var func = (a, b) => a + b;
         </ul>
       </section>
       <section>
-        <pre><code data-trim class="javascript line-numbers">
+        <pre><code data-trim class="javascript line-numbers" style="font-size: smaller;">
 function getPostsInfo(done) {
   getPosts(function(posts) {
     getAuthors(posts, function(authors) {
-       getCompiledInfo(posts, authors, function(compiledData) {
-          done(compiledData);
-       });
-    });
+      getCompiledInfo(posts, authors, function(compiledData) {
+        done(compiledData);
+      });
   });
+});
 }</code></pre>
       </section>
       <section>
@@ -179,44 +207,60 @@ async function getPostsInfo() {
 fetch('test.html')
   .then((resp) => resp.text())
   .then((html) => console.log(html));
-  </code></pre >
-      </section>
-      <section>
-        <h2>Вопросы?</h2>
-      </section>
-      <section>
-          <h2>Обработка событий / делегирование</h2>
-        </section>
-      <section>
-                <pre><code data-trim class="javascript line-numbers">
+</code></pre >
+</section>
+<section>
+<h2>Вопросы?</h2>
+</section>
+<section>
+<h2>Обработка событий / делегирование</h2>
+</section>
+<section>
+<pre><code data-trim class="javascript line-numbers">
 var btn = document.querySelector('button');
-// через свойство
-btn.onclick = function() {
+  // через свойство
+  btn.onclick = function() {
   alert('onclick');
 }
 // через event-emitter интерфейс
 btn.addEventListener('click', function() {
   alert('eventListener for click');
 });
-  </code></pre >
-  <h5 class="fragment">А разница?</h5>
-      </section>
-      <section>
+</code></pre >
+<h5 class="fragment">А разница?</h5>
+</section>
+<section>
+<pre><code data-trim class="javascript line-numbers">
+var o = {
+  x: function(data) {
+    console.log('x', this, data);
+  }
+};
+var btn = document.querySelector('button');
+
+btn.addEventListener('click', o.x); // 1. ?
+btn.addEventListener('click', o.x()); // 2. ?
+btn.addEventListener('click', function() { // 3. ?
+  o.x();
+});
+</code></pre >    
+</section>
+<section>
 <img src="https://learn.javascript.ru/article/event-bubbling/eventflow.png" alt="фазы работы с событиями">
-      </section>
-      <section>
+</section>
+<section>
 <img src="https://www.dropbox.com/s/8t3ahxhwu4msh7c/%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%202017-05-26%2022.36.20.jpg?dl=1" alt="Объект события">
-      </section>
-      <section>
-        <a href="https://developer.mozilla.org/ru/docs/Web/API/MouseEvent" target="_blank">https://developer.mozilla.org/ru/docs/Web/API/MouseEvent</a><br />
-        <p style="font-size:0.7em; text-align: left;">Интерфейс MouseEvent представляет собой событие, которое происходит в результате взаимодествия пользователя с манипулятором
-        ( например, мышью). Наиболее частые из таких событий: click, dblclick, mouseup, mousedown. </p>
-        <p style="font-size:0.7em; text-align: left;">MouseEvent выводится из
-        метода UIEvent, который в свою очередь происходит из метода Event. Метод MouseEvent.initMouseEvent() допустимо использовать
-        для лучшей совместимости с предыдущими версиями, однако, для создания MouseEvent рекомендуется использовть конструктор
-        метода MouseEvent().</p>
-      </section>
-      <section>
+</section>
+<section>
+<a href="https://developer.mozilla.org/ru/docs/Web/API/MouseEvent" target="_blank">https://developer.mozilla.org/ru/docs/Web/API/MouseEvent</a><br />
+<p style="font-size:0.7em; text-align: left;">Интерфейс MouseEvent представляет собой событие, которое происходит в результате взаимодествия пользователя с манипулятором
+( например, мышью). Наиболее частые из таких событий: click, dblclick, mouseup, mousedown. </p>
+<p style="font-size:0.7em; text-align: left;">MouseEvent выводится из
+метода UIEvent, который в свою очередь происходит из метода Event. Метод MouseEvent.initMouseEvent() допустимо использовать
+для лучшей совместимости с предыдущими версиями, однако, для создания MouseEvent рекомендуется использовть конструктор
+метода MouseEvent().</p>
+</section>
+<section>
 <p style="font-size:0.7em; text-align: left; font-family: monospace;">AnimationEvent AudioProcessingEvent BeforeInputEvent BeforeUnloadEvent BlobEvent ClipboardEvent CloseEvent CompositionEvent
 CSSFontFaceLoadEvent CustomEvent DeviceLightEvent DeviceMotionEvent DeviceOrientationEvent DeviceProximityEvent DOMTransactionEvent
 DragEvent EditingBeforeInputEvent ErrorEvent FetchEvent FocusEvent GamepadEvent HashChangeEvent IDBVersionChangeEvent InputEvent
@@ -224,35 +268,35 @@ KeyboardEvent MediaStreamEvent MessageEvent MouseEvent MutationEvent OfflineAudi
 PopStateEvent ProgressEvent RelatedEvent RTCDataChannelEvent RTCIdentityErrorEvent RTCIdentityEvent RTCPeerConnectionIceEvent
 SensorEvent StorageEvent SVGEvent SVGZoomEvent TimeEvent TouchEvent TrackEvent TransitionEvent UIEvent UserProximityEvent
 WebGLContextEvent WheelEvent</p>
-      </section>
-      <section>
-        <a href="https://developer.mozilla.org/ru/docs/Web/API/Event" target="_blank">MDN -> Веб-технологии для разработчиков -> Интерфейсы веб API -> Event</a>
-        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.currentTarget</strong> Ссылка на текущий зарегистрированный объект, на котором обрабатывается событие.</p>
-        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.target</strong> Ссылка на целевой объект, на котором произошло событие.</p>
-        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.preventDefault()</strong> Отменяет событие (если его возможно отменить).</p>
-        <p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.stopPropagation()</strong> Остановка распространения события далее по DOM.</p>
-      </section>
-      <section>
-        <a href="http://jsbin.com/tipitev/edit?html,js,output" target="_blank">JSBIN</a>
-                        <pre><code data-trim class="javascript line-numbers">
+</section>
+<section>
+<a href="https://developer.mozilla.org/ru/docs/Web/API/Event" target="_blank">MDN -> Веб-технологии для разработчиков -> Интерфейсы веб API -> Event</a>
+<p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.currentTarget</strong> Ссылка на текущий зарегистрированный объект, на котором обрабатывается событие.</p>
+<p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.target</strong> Ссылка на целевой объект, на котором произошло событие.</p>
+<p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.preventDefault()</strong> Отменяет событие (если его возможно отменить).</p>
+<p style="font-size:0.7em; text-align: left; font-family: monospace;"><strong>Event.stopPropagation()</strong> Остановка распространения события далее по DOM.</p>
+</section>
+<section>
+<a href="http://jsbin.com/tipitev/edit?html,js,output" target="_blank">JSBIN</a>
+      <pre><code data-trim class="javascript line-numbers">
 document.querySelectorAll('button').forEach((el) => {
   el.addEventListener('click', (ev) => alert(ev.target.innerHTML))
 })
-  </code></pre >
-      </section>
-            <section>
-              <a href="http://jsbin.com/cocemuv/edit?html,js,output" target="_blank">JSBIN - делегирование</a>
-              <pre><code data-trim class="javascript line-numbers">
+</code></pre >
+</section>
+<section>
+<a href="http://jsbin.com/cocemuv/edit?html,js,output" target="_blank">JSBIN - делегирование</a>
+<pre><code data-trim class="javascript line-numbers">
 document.querySelector('body').addEventListener('click', (ev) => 
-    ev.target.tagName === 'BUTTON' && alert(ev.target.innerHTML));
+  ev.target.tagName === 'BUTTON' && alert(ev.target.innerHTML));
 
 document.body.addEventListener('click', ({target}) => target.tagName === 'BUTTON' && alert(target.innerHTML));
-  </code></pre >
-      </section>
-      <section>
-        <h2>Вопросы?</h2>
-      </section>
-      <section>
+</code></pre >
+</section>
+<section>
+<h2>Вопросы?</h2>
+</section>
+<section>
 <pre><code data-trim class="javascript line-numbers">
 // What is the output?
 console.log(1);
@@ -272,8 +316,8 @@ function say(a) {
   alert(a);
 }
 say(1);
-setTimeout(say(2), 5000);
-setTimeout(function() {
+  setTimeout(say(2), 5000);
+  setTimeout(function() {
   say(3);
 }, 1000);
 setTimeout(say, 2000, 4);
@@ -305,11 +349,11 @@ for(var i = 4; i>=0; i--) { b(i); }
 // How can you fix this and still retain the recursive pattern?
 var list = readHugeList();
 var nextListItem = function() {
-    var item = list.pop();
-    if (item) {
-        // process the list item...
-        nextListItem();
-    }
+var item = list.pop();
+if (item) {
+  // process the list item...
+  nextListItem();
+}
 };
 </code></pre>
       </section>

@@ -1,0 +1,88 @@
+body {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 18px;
+}
+
+.form {
+	margin: 30px auto;
+	width: 60%;
+}
+
+.form__fieldset {
+	margin: 0 0 20px;
+
+	background-color: #f7f7f7;
+}
+
+.form__legend {
+	padding: 10px;
+	margin: 0 auto;
+
+	color: crimson;
+	font-size: 20px;
+}
+
+.form__label {
+	padding: 10px 0;
+	display: block;
+}
+
+.form__select {
+	padding: 10px;
+
+	font-size: 18px;
+}
+
+.form__input,
+.form__textarea {
+	padding: 10px;
+	margin-left: 20px;
+
+	border: 1px solid grey;
+	font-size: 18px;
+	color: maroon;
+}
+
+.form__textarea {
+	width: 80%;
+	height: 100px;
+	margin: 0 auto 20px;
+	display: block;
+}
+
+.form__input:hover,
+.form__input:focus,
+.form__textarea:hover,
+.form__textarea:focus,
+.form__select:hover,
+.form__select:focus {
+	outline: none;
+}
+
+.btn {
+	padding: 10px;
+
+	cursor: pointer;
+}
+
+.form__button {
+	margin-left: 62%;
+
+	border-radius: 3px;
+	font-size: 18px;
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	border: 1px solid grey;
+}
+
+.form__button:hover,
+.form__button:active {
+	color: crimson;
+	border: 1px solid crimson;
+	background-color: #f8c5d6;
+	outline: none;
+}
+
+.result {
+	width: 60%;
+	margin: 0 auto;
+}

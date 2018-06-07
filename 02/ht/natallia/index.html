@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HT 02</title>
+	<style>
+		.btn {
+			cursor: pointer;
+		}
+
+		.calendar-header {
+			position: relative;
+
+			margin: 0 auto 30px;
+			width: 45%;
+		}
+
+		.calendar-header__btn {
+			position: absolute;
+			top: -10px;
+
+			border: none;
+			background-color: transparent;
+		}
+
+		.calendar-header__btn:hover,
+		.calendar-header__btn:focus {
+			border: none;
+			outline: none;
+		}
+
+		.calendar-header__btn--prev {
+			left: 0;
+		}
+
+		.calendar-header__btn--next {
+			right: 0;
+		}
+
+		.calendar-header__span {
+			display: block;
+
+			text-align: center;
+			vertical-align: middle;
+			font-size: 24px;
+			font-family: 'Arial', 'Verdana', sans-serif;
+			text-transform: uppercase;
+			color: #364609;
+		}
+
+		.calendar {
+			margin-bottom: 40px;
+		}
+
+		.calendar__table {
+			margin: 0 auto;
+			width: 45%;
+
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+
+		.calendar__row {
+			font-size: 18px;
+		}
+
+		.calendar__cell {
+			padding: 10px 20px;
+
+			border: 1px solid #505050;
+			text-align: center;
+			color: #364609;
+		}
+
+		.calendar__cell--header {
+			background-color: lightgreen;
+		}
+
+		.result {
+			margin: 0 auto;
+			width: 45%;
+
+			font-size: 20px;
+			font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+		<div id="calendar-header" class="calendar-header"></div>
+		<div id="calendar" class="calendar"></div>
+		<div id="result" class="result"></div>
+    <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+    </script>
+    <script src="script.js"></script>
+		<script src ="calendar.js"></script>
+    <script src="tests.js"></script>
+    <script src="https://rawgit.com/vvscode/js--base-course/master/.ht/02/script.tests.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</body>
+
+</html>

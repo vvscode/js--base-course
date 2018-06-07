@@ -1,0 +1,75 @@
+#calendar-block {
+    width: 545px;
+    margin: 25px auto;
+    text-align: center;
+    position: relative;
+}
+#calendar, #date {
+    width: 545px;
+    margin: 0 auto;
+}
+table {
+    width: 545px;
+    border: 1px solid black;
+    border-collapse:collapse;
+    box-shadow: 2px 2px 2px gray;
+}
+th, td {
+    border: 1px solid black;
+    padding: 15px;
+}
+td:hover, button:hover {
+    background-color: orangered;
+    color: white;
+    cursor: pointer;
+}
+td:active {
+    box-shadow: inset 3px 3px 3px black;
+}
+button {
+    width: 50px;
+    padding: 9px 19px;
+    position: absolute;
+    top: 0;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: white;
+}
+#leftButton {
+    left: 0;
+    box-shadow: 2px 2px 2px gray;
+}
+#rightButton {
+    right: 0;
+    box-shadow: -2px 2px 2px gray;
+}
+#leftButton:active, #rightButton:active {
+    box-shadow: none;
+}
+#date {
+    padding: 10px 0;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-bottom: none;
+}
+#clearStorage {
+    position: relative;
+    display: block;
+    width: 200px;
+    margin: 25px 0 25px 345px;
+    box-shadow: 2px 2px 2px gray;
+}
+#clearStorage:active {
+    box-shadow: none;
+}
+#tasks {
+    width: 545px;
+    padding: 0 3px;
+}
+#tasks p {
+    border-bottom: 2px solid black;
+    padding: 1px 5px;
+    text-align: left;
+}

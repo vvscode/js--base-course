@@ -32,9 +32,13 @@ function bind(func, context) {
  */
 
 /**
-* Создать объект o так, чтобы каждый раз когда в коде написано 
-* o.magicProperty = 3 // (любое значение) 
-* в консоль выводилось значение, которое присваивается и текущее время
+* создать объект с волшебным свойством, 
+* чтобы при присвоении ему значения, в консоль выводилась текущая дата и значение, которое присваиваем. 
+* А при чтении всегда выводилось число на 1 больше предыдущего
+* o.magicProperty = 5; // 'Sat Mar 24 2018 13:48:47 GMT+0300 (+03) -- 5'
+* console.log(o.magicProperty); // 6
+* console.log(o.magicProperty); // 7
+* console.log(o.magicProperty); // 8
 */
 
 /**
@@ -103,6 +107,7 @@ function log(x) {
  * 
  * Читать
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
+ * https://github.com/MostlyAdequate/mostly-adequate-guide-ru/blob/master/ch4-ru.md
  * @param {*} func 
  */
 function curry(func) {}
