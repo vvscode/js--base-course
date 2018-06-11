@@ -67,24 +67,6 @@ Function.prototype.myBind = function (context, ...args) {
 * console.log(o.magicProperty); // 7
 * console.log(o.magicProperty); // 8
 */
-// Решение 1.
-// function O() {
-//     let _value = 0; // инкапсулирована
-
-//     Object.defineProperty(this, 'magicProperty', {
-//         get: () => {
-//             return ++_value;
-//         },
-
-//         set: value => {
-//             _value = value;
-//             console.log(new Date());
-//         }
-//     });
-// }
-// let o = new O();
-
-// Решение 2.
 let o = {
     value: 0,
 
@@ -130,6 +112,7 @@ Metrics.prototype.showAgeInConsole = function () {
 
 Metrics.prototype.showNameInAlert = function () {
     alert(this.name);
+    return this;
 };
 
 let u = new Metrics();
@@ -185,15 +168,6 @@ const Singleton = (function () {
   * и сохраняет параметры в создаваемый объект с именами параметров
   */
 function ForceContructor(a, b, c) {
-    // Решение 1.
-    // let obj = {};
-    // obj.a = a;
-    // obj.b = b;
-    // obj.c = c;
-    // obj.__proto__ = ForceContructor.prototype;
-    // return obj;
-
-    // Решение 2.
     if (this instanceof ForceContructor) { // если через new
         this.a = a;
         this.b = b;
@@ -216,10 +190,6 @@ function sum(a) {
     let result = a || 0;
 
     function summator(b) {
-        // if (typeof b === 'undefined') { b = 0; }
-        // result += b;
-        // если возвр. сама себя, то сумматор зависимый, т.к. остается в одном контексте вызова
-        // return summator;
         return sum(result + (b || 0));
     }
 
@@ -249,18 +219,6 @@ function log(x) {
  * http://prgssr.ru/development/vvedenie-v-karrirovanie-v-javascript.html
  * @param {*} func
  */
-// Решение 1.
-// function curry(func, ...args) {
-//     return function (...restArgs) {
-//         const allArgs = args.concat(restArgs);
-//         if (func.length <= allArgs.length) {
-//             return func(...allArgs);
-//         }
-//         return curry(func, ...allArgs);
-//     };
-// }
-
-// Решение 2.
 function curry(func) {
     return function help(...args) {
         if (func.length > args.length) {

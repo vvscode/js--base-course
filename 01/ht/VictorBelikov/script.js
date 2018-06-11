@@ -21,23 +21,6 @@ function log(a) {
  * Для вывода использовать фукнцию `log` (аналогично заданию в классе).
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
-
-// Решение 1:
-// function fizzBuzz() {
-//     for (var i = 1; i <= 100; i++) {
-//         if (i % 3 === 0 && i % 5 === 0) {
-//             console.log("FizzBuzz");
-//         } else if (i % 5 === 0) {
-//             console.log("Buzz");
-//         } else if (i % 3 === 0) {
-//             console.log("Fizz");
-//         } else {
-//             log(i);
-//         }
-//     }
-// }
-
-// Решение 2:
 function fizzBuzz() {
     var a;
     for (var i = 1; i <= 100; i++) {
@@ -57,21 +40,6 @@ function fizzBuzz() {
  * @param {string} textString
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
-// Решение 1:
-// function isPolindrom(textString) {
-//     if (textString.length === 1) return true;
-//
-//     var end = textString.length - 1;
-//
-//     for (var i = 0; i <= (textString.length - 1); i++) {
-//         if (end === i) break;
-//         if (textString[end] === textString[i]) end--;
-//         else return false;
-//     }
-//     return true;
-// }
-
-// Решение 2:
 function isPolindrom(textString) {
     var strReverse = textString.split('').reverse().join('');
     return strReverse === textString;
