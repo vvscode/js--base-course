@@ -325,3 +325,57 @@ function getCounter(num) {
         }
     };
 }
+
+
+// Написать реализацию метода .myCall, который будет работать аналогично системному .call и покрыть реализацию тестами
+Function.prototype.myCall = function (context) {
+    let args = []; // помещаем сюда все аргументы, кроме 1го, который context
+    for (let i = 1; i < arguments.length; i++) {
+        args.push(arguments[i]);
+    }
+    return this.apply(context, args);
+};
+
+
+// Написать реализацию функций debounce и throttle и покрыть реализации тестами ( Если ваше имя начинается с гласной - debounce, иначе - throttle. А лучше - обе ). Функции должны с сигнатурой debounce(fun, delay) / throttle(fun, delay)
+function throttle(fn, delay) {
+    // Отнимает delay, чтобы 1-ый вызов был без ожидания.
+    let lastExecution = Date.now() - delay;
+
+    return function () {
+        if ((lastExecution + delay) <= Date.now()) {
+            lastExecution = Date.now();
+            fn.apply(this, arguments);
+        }
+    };
+}
+
+
+function debounce(fn, delay) {
+    let timeout;
+
+    return function () {
+        let that = this,
+            args = arguments;
+
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            fn.apply(that, args);
+        }, delay);
+    };
+}
+
+
+// К генератору листаемого календаря добавить функционал: под календарем добавить блок. При клике на ячейку даты ( но не на пустую ячейку календаря ) в блоке должна добавляться запись о том, по какой ячейке кликнули. Можно добавить запрос описания даты от пользователя ( с помощью функции prompt и выводить это описание там же). История дат и список, по которым пользоатель кликал, должны сохраняться между перезагрузками страницы. Для сохранения использовать LocalStorage. Интерфейс работы с данными (чтение/запись) лучше сделать асинхронным
+
+
+
+// Создать синхронную функцию sleep(seconds) так, чтобы работал код
+// console.log(new Date()); // Sun Oct 08 2017 10:44:34 GMT+0300 (+03)
+// sleep(9);
+// console.log(new Date()); // Sun Oct 08 2017 10:44:43 GMT+0300 (+03)
+function sleep(secs) {
+    const date = new Date();
+    // подвешиваем скрипт на треб. кол-во сек.
+    while (new Date() - date < secs * 1000) { }
+}
