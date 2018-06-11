@@ -19,6 +19,13 @@ describe("compileTemplate", function() {
         template(el, { name: "Bob", age: 33 });
         assert.equal(el.innerHTML, "Bob is 33 years old");
     });
+    it("inserts data into the template and outputs it to HTML", function() {
+        var tpl = "{{name}} is {{name}} years old";
+        var el = document.createElement("div");
+        var template = compileTemplate(tpl);
+        template(el, { name: "Bob" });
+        assert.equal(el.innerHTML, "Bob is Bob years old");
+    });
 });
 
 describe("EventBus", function() {
