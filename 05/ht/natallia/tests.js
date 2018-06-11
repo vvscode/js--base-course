@@ -33,35 +33,6 @@ describe('compileTemplate', () => {
 });
 
 describe('EventBus', () => {
-  var button = document.createElement('button');
-  var input = document.createElement('input');
-  var input2 = document.createElement('input');
-  var input3 = document.createElement('input');
-  button.id = 'button';
-  input.id = 'input';
-  input2.id = 'input2';
-  input3.id = 'input3';
-
-  function AddListenerForAdd(event, el) {
-    event.on('add', data => {
-      el.value = data;
-    });
-  }
-
-  function RemoveListenerForAdd(event, elButton, elInput) {
-    elButton.addEventListener('click', () => {
-      event.off('add', data => {
-        elInput.value = '';
-      });
-    });
-  }
-
-  function SetNum(event, elButton, elInput) {
-    elButton.addEventListener('click', e => {
-      event.trigger('add', elInput.value);
-    });
-  }
-
   it('функция', () => {
     assert.isOk(typeof EventBus === 'function');
   });
@@ -78,60 +49,61 @@ describe('EventBus', () => {
     assert.isOk(typeof EventBus.prototype.once === 'function');
   });
   it('EventBus.on добавляет слушателей события', () => {
-    let event = new EventBus();
+    var event = new EventBus();
+    var a = 2;
 
-    assert.isOk(event.listeners.add === undefined);
-    new AddListenerForAdd(event, input2);
-    new AddListenerForAdd(event, input3);
-    assert.isOk(event.listeners.add !== undefined);
-    assert.isOk(event.listeners.add.length === 2);
-  });
-  it('EventBus.trigger вызывает событие у добавленных слушателей', () => {
-    let event = new EventBus();
-    new AddListenerForAdd(event, input2);
-    new AddListenerForAdd(event, input3);
-    input.value = '3';
-    let num = new SetNum(event, button, input);
-    button.click();
-    assert.isOk(input2.value === '3');
-    assert.isOk(input3.value === '3');
-  });
-  it('EventBus.off удаляет слушателя события', () => {
-    let event = new EventBus();
-    new AddListenerForAdd(event, '#input3');
-    input.value = '3';
-    let length = event.listeners.add.length;
-    assert.isOk(length === 1);
-
-    var delEvent3 = document.createElement('button');
-    delEvent3.id = 'delEvent';
-    delEvent3.innerHTML = 'del';
-    let delListener = new RemoveListenerForAdd(event, delEvent3, input3);
-    delEvent3.click();
-    assert.isOk(length - 1 === 0);
-  });
-  it('EventBus.once срабатывает только 1 раз', () => {
-    let onceButton = document.createElement('button');
-    onceButton.id = 'onceButton';
-    onceButton.innerHTML = 'once';
-    input.value = 4;
-    function OnceListenerForAdd(event, elButton, elInput) {
-      elButton.addEventListener('click', e => {
-        event.once('add', data => {
-          elInput.value = data;
-        });
-      });
+    function addNum(n) {
+      return n + a;
     }
 
-    let event = new EventBus();
-    let once = new OnceListenerForAdd(event, onceButton, input2);
-    onceButton.click();
+    assert.isOk(event.listeners.add === undefined);
+    event.on('add', addNum);
     assert.isOk(event.listeners.add.length === 1);
-    event.trigger('add', input.value);
-    assert.isOk(input.value === input2.value);
-    input.value = 5;
-    event.trigger('add', input.value);
-    assert.isOk(input.value !== input2.value);
+  });
+
+  it('EventBus.trigger вызывает событие у добавленных слушателей', () => {
+    var event = new EventBus();
+    var a = 4;
+
+    function addNum(n) {
+      return (a = a + n);
+    }
+
+    event.on('add', addNum);
+    event.trigger('add', 5);
+    assert.isOk(a === 9);
+  });
+
+  it('EventBus.off удаляет слушателя события', () => {
+    let event = new EventBus();
+    var a = 4;
+
+    function addNum(n) {
+      return (a = a + n);
+    }
+
+    assert.isOk(event.listeners.add === undefined);
+    event.on('add', addNum);
+    assert.isOk(event.listeners.add.length === 1);
+    event.off('add', addNum);
+    assert.isOk(event.listeners.add.length === 0);
+  });
+
+  it('EventBus.once срабатывает только 1 раз', () => {
+    var event = new EventBus();
+    var a = 4;
+
+    function addNum(n) {
+      return (a = a + n);
+    }
+    assert.isOk(event.listeners.add === undefined);
+    event.once('add', addNum);
+    assert.isOk(event.listeners.add.length === 1);
+    event.trigger('add', 6);
+    assert.isOk(a === 10);
+    event.trigger('add', 5);
+    assert.isNotOk(a === 15);
+    assert.isOk(a === 10);
   });
 });
 

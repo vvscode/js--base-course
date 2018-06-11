@@ -1,16 +1,11 @@
 var compileTemplate = tpl => {
-  const regExp = /{{\w+}}/g,
-    matches = tpl.match(regExp);
-
   return function(el, data) {
-    var str = tpl;
-    matches.forEach(elem => {
-      let val = elem.replace(/{{|}}/g, '');
-      if (typeof data[val] !== 'undefined') {
-        str = str.replace(elem, data[val]);
+    let text = tpl.replace(/{{(\w+)}}/g, function(match, group) {
+      if (data[group]) {
+        return data[group];
       }
     });
-    el.innerHTML = str;
+    el.innerHTML = text;
   };
 };
 
@@ -28,13 +23,20 @@ EventBus.prototype = {
   },
 
   off: function(eventName, cb) {
-    this.listeners[eventName].splice(this.listeners[eventName].indexOf(cb), 1);
+    if (this.listeners[eventName] || []) {
+      this.listeners[eventName].splice(
+        this.listeners[eventName].indexOf(cb),
+        1
+      );
+    }
   },
 
   trigger: function(eventName, data) {
-    this.listeners[eventName].forEach(cb => {
-      cb(data);
-    });
+    if (this.listeners[eventName] || []) {
+      this.listeners[eventName].forEach(cb => {
+        cb(data);
+      });
+    }
   },
 
   once: function(eventName, cb) {
