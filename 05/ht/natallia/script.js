@@ -1,10 +1,6 @@
 var compileTemplate = tpl => {
   return function(el, data) {
-    let text = tpl.replace(/{{(\w+)}}/g, function(match, group) {
-      if (data[group]) {
-        return data[group];
-      }
-    });
+    let text = tpl.replace(/{{(\w+)}}/g, (match, group) => data[group]);
     el.innerHTML = text;
   };
 };
