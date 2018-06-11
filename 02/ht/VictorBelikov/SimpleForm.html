@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<form action="#" method="post" id="sForm" onsubmit="return valid(this)">
+<form id="sForm">
     <p>
         <label for="username">Имя: </label>
         <input type="text" name="username" id="username" placeholder="Ваше имя..." required>
@@ -37,7 +37,7 @@
         <textarea id="about" name="about" rows="10" cols="40" placeholder="Немного информации о себе..."
                   required></textarea>
     </p>
-    <p><input type="submit" name="submit"></p>
+    <p><input type="submit" name="submit" id="subBut"></p>
 </form>
 
 <script>
@@ -53,23 +53,25 @@
         document.body.appendChild(div);
     }
 
-    function valid(form) {
-        const username = form.username.value,
-            about = form.about.value,
-            driverLic = form.drivelic.checked,
-            gender = form.gender.value,
-            age = form.userage.value;
+    function valid() {
+        const username = this.username.value,
+            about = this.about.value,
+            driverLic = this.drivelic.checked,
+            gender = this.gender.value,
+            age = this.userage.value;
 
         if (+username === 0 || +about === 0) {
             alert('Поля не могут быть заполнены только пробелами!');
             return false;
         }
         addUserMetrics(username, age, gender, driverLic, about);
-
-        return false;
-        // return true; // позволить отправку формы
     }
 
+    let simpleForm = document.getElementById('sForm');
+    simpleForm.addEventListener('submit', valid);
+    simpleForm.addEventListener("submit", el => {
+        el.preventDefault();
+    });
 </script>
 </body>
 
