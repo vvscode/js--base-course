@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      min-width: 800px;
+      margin: 10;
+      padding: 10;
+      font-size: 18px;
+      line-height: 24px;
+      font-family: 'Courier New', serif;
+      color: #404040;
+      background-color: white;
+    }
+
+    #btn {
+      min-width: 200px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      background: none;
+      -moz-user-select: none;
+      background-image: none;
+      border: 1px solid transparent;
+      border-radius: 0;
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 0;
+      vertical-align: middle;
+      white-space: nowrap;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 3px solid;
+      padding: 8px 20px;
+    }
+
+    #btn:hover,
+    #btn:active {
+      color: rgb(255, 255, 255);
+      background: dimgray;
+      border-color: dimgray;
+    }
+
+    .form-group {
+      width: 630px;
+      padding-right: 390px;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: inline-block;
+      padding: 5px 0;
+    }
+
+    .form-group input[type="text"],
+    .form-group select,
+    .form-group textarea {
+      box-sizing: border-box;
+      width: 100%;
+      height: 54px;
+      padding: 9px 15px;
+      font: inherit;
+      color: inherit;
+      border: 2px solid #d5d5d5;
+    }
+
+    .form-group input[type="text"]:hover,
+    .form-group select:hover,
+    .form-group textarea:hover {
+      border-color: #e03333;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: lightslategray;
+    }
+
+    .form-group textarea {
+      display: block;
+      min-height: 120px;
+    }
+
+    ul.output {
+      list-style: none;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      line-height: 1px;
+    }
+
+    ul.output li {
+      list-style: none;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="form">
+    <div class="form-group">
+      <label for="name">Имя</label>
+      <input type="text" name="name" id="name" required>
+    </div>
+    <label for="hometown">Родной город</label>
+    <select name="hometown" id="hometown">
+      <option selected>Выберите город</option>
+      <option value="Брест">Брест</option>
+      <option value="Витебск">Витебск</option>
+      <option value="Гомель">Гомель</option>
+      <option value="Гродно">Гродно</option>
+      <option value="Минск">Минск</option>
+      <option value="Могилев">Могилев</option>
+    </select>
+    <div class="form-group">
+      <label for="comment">Комментарий</label>
+      <textarea name="comment" id="comment" cols="40" rows="20" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>
+        Мужской
+        <input type="radio" name="sex" value="Мужской" checked>
+      </label>
+      <label>
+        Женский
+        <input type="radio" name="sex" value="Женский">
+      </label>
+    </div>
+    <button type="submit" id="btn">Отправить</button>
+  </form>
+  <div>
+    <ul class="output"></ul>
+  </div>
+  <script>
+    var form = document.querySelector("#form");
+    var list = document.querySelector(".output");
+    function params() {
+      var name = document.querySelector("#name").value;
+      var hometown = document.querySelector("#hometown").value;
+      var comment = document.querySelector("#comment").value;
+      var gender = document.querySelector('input[type="radio"]').checked
+        ? "Мужской"
+        : "Женский";
+      addElement(name);
+      addElement(hometown);
+      addElement(comment);
+      addElement(gender);
+    }
+    function addElement(text) {
+      var listElement = document.createElement("li");
+      listElement.innerText = text;
+      list.appendChild(listElement);
+    }
+    form.addEventListener("submit", params, false);
+    form.addEventListener("submit", function (elem) {
+      elem.preventDefault();
+    });
+  </script>
+</body>
+
+</html>
