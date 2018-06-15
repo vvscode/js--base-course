@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        * {
+            font-family: 'Courier New', serif;
+            font-size: 20px;
+        }
+
+        #calendar-block {
+            position: absolute;
+            width: 500px;
+            margin: 25px 100px 25px 25px;
+            text-align: center;
+            left: 0;
+            top: 0;
+        }
+
+        #calendar {
+            margin: 60px 0px 0px 0px;
+        }
+
+        table {
+            width: 500px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            box-shadow: 2px 2px 2px gray;
+        }
+
+        th {
+            background-color: silver;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 15px;
+            font-family: 'Courier New', serif;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        td:hover {
+            background-color: Navy;
+            color: white;
+            cursor: pointer;
+        }
+
+        td:active {
+            box-shadow: inset 2px 2px 2px black;
+            background-color: rgb(0, 0, 247);
+        }
+
+        button {
+            width: 120px;
+            padding: 5px 20px;
+            position: absolute;
+            top: 0;
+            text-align: center;
+        }
+
+        #leftButton {
+            left: 0;
+            font-weight: bolder;
+        }
+
+        #rightButton {
+            right: 0;
+            font-weight: bolder;
+        }
+
+        #date {
+            padding: 10px 0;
+            box-sizing: border-box;
+            border-bottom: none;
+            font-weight: bolder;
+        }
+
+        #clearStorage {
+            position: absolute;
+            display: block;
+            width: 500px;
+            margin: 50px 0 25px 0px;
+            box-shadow: 2px 2px 2px gray;
+            font-weight: bold;
+        }
+
+        #notes {
+            position: absolute;
+            width: 545px;
+            padding: 0 3px;
+            margin: 0px 0px 25px 600px;
+            top: 0;
+        }
+
+        #notes p {
+            border-bottom: 2px solid black;
+            padding: 1px 5px;
+            text-align: left;
+        }
+
+        .btn {
+            letter-spacing: 2px;
+            background: none;
+            border: 1px solid transparent;
+            border-radius: 0;
+            cursor: pointer;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            border: 3px solid;
+            padding: 8px 20px;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            color: #fff;
+            background: Navy;
+            border-color: Navy;
+            border-radius: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+    <script>
+        var assert = chai.assert;
+    </script>
+</head>
+
+<body>
+    <div id="calendar-block">
+        <button class="btn" id="leftButton" action="-1">&#9668;</button>
+        <div id="date"></div>
+        <button class="btn" id="rightButton" action="1">&#9658;</button>
+        <button class="btn" id='clearStorage'>Очистить</button>
+        <div id="calendar"></div>
+        <div id="notes">Заметки</div>
+    </div>
+
+    <script>
+
+        function drawCalendar(year, month, el) {
+            var month = month - 1;
+            let date = new Date(year, month);
+            function getDay(date) {
+                let day = date.getDay();
+                if (day === 0) day = 7;
+                return day;
+            }
+            var table = '<table><tr>' +
+                '<th>пн</th>' +
+                '<th>вт</th>' +
+                '<th>ср</th>' +
+                '<th>чт</th>' +
+                '<th>пт</th>' +
+                '<th>сб</th>' +
+                '<th>вс</th></tr><tr>';
+            for (let i = 1; i < getDay(date); i++) {
+                table += '<td></td>';
+            }
+            while (date.getMonth() === month) {
+                table += '<td>' + date.getDate() + '</td>';
+                if (getDay(date) === 7) {
+                    table += '</tr><tr>';
+                }
+                date.setDate(date.getDate() + 1);
+            }
+            if (getDay(date) !== 1) {
+                for (let i = getDay(date); i <= 7; i++) {
+                    table += '<td></td>';
+                }
+            }
+            table += '</tr></table>';
+            el.innerHTML = table;
+            console.log(el);
+        }
+
+        function drawInteractiveCalendar(el) {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var calendarBlock = document.getElementById("calendar-block");
+            var notes = document.getElementById("notes");
+            var clear = document.getElementById("clearStorage");
+            calendarBlock.addEventListener("click", addActivity, false);
+            calendarBlock.addEventListener("click", addActivity, false);
+            clear.addEventListener("click", clearStorage);
+            window.addEventListener("load", loadNotes);
+            writeDate(month, year);
+            function addActivity(e) {
+                if (e.target.tagName == "BUTTON") {
+                    addListing(e.target);
+                }
+                if (e.target.tagName == "TD" && +e.target.innerHTML > 0) {
+                    addData(e.target);
+                }
+                writeDate(month, year);
+
+            }
+            function addListing(button) {
+                var step = +button.getAttribute("action");
+                writeDate(month, year);
+                month += step;
+                if (month > 12) {
+                    month = 1;
+                    year++;
+                }
+                if (month < 1) {
+                    month = 12;
+                    year--;
+                }
+                drawCalendar(year, month, el);
+            }
+            function addData(elem) {
+                let notes = document.getElementById("notes");
+                let day = elem.innerHTML;
+                let selectedDay =
+                    (day < 10 ? "0" + day : day) +
+                    "." +
+                    (month < 10 ? "0" + month : month) +
+                    "." +
+                    year;
+                let newLi = document.createElement('p');
+                let event = prompt("Введите событие", '');
+                if (event === null || event === "") {
+                    return;
+                }
+                localStorage.setItem(selectedDay, selectedDay + ": " + event);
+                newLi.innerHTML = localStorage.getItem(selectedDay);
+                notes.appendChild(newLi);
+            }
+            function loadNotes() {
+                let keys = Object.keys(localStorage);
+                keys.forEach(function (elem, i, keys) {
+                    let newLi = document.createElement('p');
+                    newLi.innerHTML = localStorage.getItem(elem);
+                    notes.appendChild(newLi);
+                });
+            }
+            function clearStorage() {
+                for (var prop in localStorage) {
+                    localStorage.removeItem(prop);
+                }
+                location.reload();
+            }
+            function writeDate(month, year) {
+                let elementWithDate = document.getElementById("date");
+                let monthes = [
+                    "Январь",
+                    "Февраль",
+                    "Март",
+                    "Апрель",
+                    "Май",
+                    "Июнь",
+                    "Июль",
+                    "Август",
+                    "Сентябрь",
+                    "Октябрь",
+                    "Ноябрь",
+                    "Декабрь"
+                ];
+                elementWithDate.innerHTML = monthes[month - 1] + " " + year;
+            }
+            drawCalendar(year, month, el);
+        }
+
+
+        drawInteractiveCalendar(document.getElementById("calendar"));
+        console.log(document.body.children[0].children[4]);
+
+
+    </script>
+    </script>
+    <script src="D:\JavaScript\01 drawCalendarTest.js">
+    </script>
+    <div id="mocha">
+    </div>
+    <script>
+        mocha.run();
+    </script>
+</body>
+
+</html>
