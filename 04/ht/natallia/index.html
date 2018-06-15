@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="style/header.css">
+	<link rel="stylesheet" href="style/total.css">
+	<link rel="stylesheet" href="style/btn-auth-page.css">
+	<link rel="preload" href="style/auth.css"
+				as="style" onload="rel='stylesheet'">
+	<link rel="preload" href="style/btn-close.css"
+				as="style" onload="rel='stylesheet'">
+	<link rel="stylesheet" href="style/calendar.css">
+	<link rel="stylesheet" href="style/task.css">
+	<link rel="preload" href="style/create-calendar.css"
+				as="style" onload="rel='stylesheet'">
+	<link rel="preload" href="style/output.css"
+				as="style" onload="rel='stylesheet'">
+	<link rel="preload" href="style/about.css"
+				as="style" onload="rel='stylesheet'">
+	<title>Календарь</title>
+</head>
+<body>
+<header class="header">
+	<div class="header__link-wrap">
+		<a href="#calendar" class="header__link">Календарь</a>
+		<a href="#createCalendar" class="header__link">Создать календарь</a>
+		<a href="#about" class="header__link">Обо мне</a>
+	</div>
+</header>
+<main class="main">
+	<div id="calendar" class="calendar"></div>
+	<div id="createCalendar" class="create-calendar"></div>
+	<div id="about"></div>
+</main>
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-database.js"></script>
+<script src="js/drawBtnForm.js"></script>
+<script src="js/drawAuthForm.js"></script>
+<script src="js/firebaseInit.js"></script>
+<script src="js/database.js"></script>
+<script src ="js/calendar.js"></script>
+<script src="js/createCalendar.js"></script>
+<script src="js/selectedData.js"></script>
+<script src="js/settingsCalendar.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/about.js"></script>
+<script src="js/routes.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+.task {
+	position: absolute;
+	bottom: 50%;
+	transform: translate(50%, 50%);
+
+	margin: auto;
+	padding: 30px;
+	width: 40%;
+	max-width: 500px;
+
+	background-color: #baff57;
+	border: 1px solid green;
+	border-radius: 5px;
+	box-shadow: 0 0 3px grey;
+}
+
+.task__p {
+	margin-bottom: 20px;
+
+	font-family: "Ubuntu-BoldItalic", cursive;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: darkgoldenrod;
+}
+
+.task__input {
+	padding: 10px 10%;
+	margin-bottom: 20px;
+	width: 80%;
+
+	display: block;
+
+	outline: none;
+	border: 1px solid dimgrey;
+
+	font-family: "Philosopher-Italic", cursive;
+	font-size: 16px;
+	color: darkolivegreen;
+}
+
+.task__btn {
+	padding: 10px;
+
+	outline: none;
+	border: 1px solid #c6c16f;
+	border-radius: 3px;
+	background-color: palegoldenrod;
+	font-family: "Ubuntu-BoldItalic", cursive;
+	color: #9c720a;
+}
+
+.task__btn:first-of-type {
+	margin-right: 20px;
+}
+
+.user-tasks-wrap {
+	max-height: 70px;
+
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+}
+
+.user-task {
+	position: relative;
+
+	width: 95%;
+	margin: auto;
+	border-top: 1px solid gray;
+	border-collapse: collapse;
+}
+
+.user-task__p {
+	padding: 5px 10px 5px 5px;
+	margin: 0;
+
+	font-size: 11px;
+	font-family: "Philosopher-Italic", cursive;
+}
+
+.user-task__btn {
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	padding: 0;
+
+	border: none;
+	background-color: transparent;
+}
+
+.user-task__btn > img {
+	width: 10px;
+}
