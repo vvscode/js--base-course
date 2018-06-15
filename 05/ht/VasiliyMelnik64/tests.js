@@ -98,18 +98,16 @@ describe('EventBus', function () {
   });
 
   it('вызывает событие лишь 1 раз', function () {
-    var count = 0;
     evBus.once('count', function () {
-      count++;
+      return null;
     });
+    assert.isOk(evBus.handlers.count);
+    assert.isOk(evBus.handlers.count.length);
     evBus.trigger('count');
-    evBus.trigger('count');
-    evBus.trigger('count');
-    evBus.trigger('count');
-    evBus.trigger('count');
+    assert.isOk(evBus.handlers.count.length == 0);
 
-    assert.isOk(count == 1);
   });
+  
 });
 
 
