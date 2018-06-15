@@ -22,10 +22,7 @@ var compileTemplate = (tpl) => {
     return (el, data) => {
         var arrayWithTemplates = tpl.match(regExp) || [];
         var arrayWithNames = arrayWithTemplates.map(item => item.slice(2, -2));
-
-        arrayWithTemplates.forEach((item, i) => {
-            tpl = tpl.includes(item) ? tpl.replace(item, data[arrayWithNames[i]]) : null;
-        });
+        tpl.replace(regExp, (item, i, str) => tpl = data[arrayWithNames[i]]);
         return el.innerHTML = tpl;
     }
 }
@@ -45,9 +42,7 @@ function EventBus() {
 EventBus.prototype = {
     on(eventName, cb) {
         this.handlers[eventName] = this.handlers[eventName] || [];
-        if (!this.handlers[eventName].includes(cb)) {
-            this.handlers[eventName].push(cb);
-        }
+        this.handlers[eventName].push(cb);
     },
     off(eventName) {
         var data = [].slice.call(arguments, 1);
@@ -56,11 +51,9 @@ EventBus.prototype = {
         });
     },
     trigger: function (eventName) {
-        for (var prop in this.handlers) {
-            if (eventName === prop) {
-                var data = [].slice.call(arguments, 1);
-                this.handlers[prop].forEach(elem => elem.apply(null, data));
-            }
+        var data = [].slice.call(arguments, 1);
+        if (this.handlers[eventName]) {
+            this.handlers[eventName].forEach(elem => elem.apply(null, data));
         }
     },
     once: function (eventName, cb) {
@@ -84,40 +77,61 @@ EventBus.prototype = {
  *  }
  * 
  * @constructor Router
- * @param  {array} params
+ * @param  {object} params
  */
-
-function Router(params) {
-    this.routes = params || [];
-    this.leavingBuffer;
-    this.enteringBuffer;
+function Router(options) {
+    options = options || {};
+    this.routes = options.routes || [];
     this.init();
 }
+
 Router.prototype = {
-    init: function () {
-        var self = this;
-        window.addEventListener('hashchange', function () {
-            self.handleUrl(location.hash.slice(1));
-        });
-        this.handleUrl(location.hash.slice(1));
-    },
-    handleUrl: function (hash) {
-        this.routes.forEach(elem => {
-            var template = elem.match;
-            if ((typeof template == 'string' && hash == template) ||
-                (template instanceof RegExp && template.test(hash)) ||
-                (typeof (template) == "function" && template(hash))) {
-                this.runHandlers(this, elem);
-            }
+    init() {
+        this.handleUrl(this.getHash());
+        window.addEventListener('hashchange', () => {
+            this.handleUrl(this.getHash());
         });
     },
-    runHandlers: function (context, elem) {
-        if (context.leavingBuffer) {
-            Promise.resolve().then(context.leavingBuffer());
-        }
+    handleUrl(url) {
+        var result = Router.findRoute(this.routes, url);
+        var route = result[0];
+        var params = result[1];
+
         Promise.resolve()
-            .then(elem.onBeforeEnter())
-            .then(elem.onEnter())
-            .then(_ => context.leavingBuffer = elem.onLeave);
+            .then(() => {
+                if (this.prevRoute && this.prevRoute.onLeave) {
+                    return this.prevRoute.onLeave.call(this.prevRoute, this.prevParams);
+                }
+            })
+            .then(() => {
+                if (route.onBeforeEnter) {
+                    return route.onBeforeEnter.call(route, params);
+                }
+            })
+            .then(() => {
+                this.prevRoute = route;
+                this.prevParams = params;
+                if (route.onEnter) {
+                    return route.onEnter.call(route, params);
+                }
+            });
+
+    },
+    getHash() {
+        return decodeURI(window.location.hash).slice(1);
     }
-};
+}
+
+Router.findRoute = (routeList, url) => {
+    var result = [null, null];
+    routeList.forEach(function (route) {
+        if (route.match === url) {
+            result = [route, url];
+        } else if (route.match instanceof RegExp && route.match.test(url)) {
+            result = [route, url.match(route.match)];
+        } else if (typeof route.match === 'function' && route.match(url)) {
+            result = [route, route.match(url)];
+        }
+    });
+    return result;
+}
