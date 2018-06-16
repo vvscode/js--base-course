@@ -18,11 +18,8 @@ EventBus.prototype.on = function(event, hendler) {
 };
 EventBus.prototype.off = function(event, hendler) {
     if (this.listeners[event].includes(hendler)) {
-        var habArr = [];
-        this.listeners[event].forEach(function(el, i, arr) {
-            if (el != hendler) {
-                habArr.push(el);
-            }
+        var habArr = this.listeners[event].filter(function(el, i, arr) {
+            return el != hendler;
         });
         this.listeners[event] = habArr;
     }
