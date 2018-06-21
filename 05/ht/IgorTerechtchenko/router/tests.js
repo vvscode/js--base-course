@@ -146,7 +146,6 @@ describe("HashRouter", () => {
         HashRouter.prototype.handleUrl.call(o, secondRoute.match);
         await sleep(100);
         assert.equal(o.prevRoute, secondRoute);
-         // done();
       } catch (e) {
         return Promise.reject(e);
       }
