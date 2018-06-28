@@ -1,4 +1,4 @@
-import { monthRU } from "./scrypt";
+import { monthRU } from "./script";
 
 /**
  * @function
