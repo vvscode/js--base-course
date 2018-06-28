@@ -1,3 +1,18 @@
+var monthRU = [
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь"
+    ];
+
 window.onload = initCalendar;
 /**
  * @function
@@ -166,20 +181,7 @@ function addHtmlElements(year, month, htmlEl, setting) {
         table = document.getElementById("myCalendar"),
         selectItem = document.querySelectorAll(".day"),
         setting = setting;
-    monthRU = [
-        "Январь",
-        "Февраль",
-        "Март",
-        "Апрель",
-        "Май",
-        "Июнь",
-        "Июль",
-        "Август",
-        "Сентябрь",
-        "Октябрь",
-        "Ноябрь",
-        "Декабрь"
-    ];
+    
     if (setting.allowChange && setting.showMonth) {
         captionText =
             "<div style='display: flex; flex-direction: row; justify-content: space-between'>" +
@@ -438,3 +440,5 @@ function initNote(month, year) {
         }
     });
 }
+
+export default monthRU;
