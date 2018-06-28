@@ -269,13 +269,6 @@ function addHtmlElements(year, month, htmlEl, setting) {
  */
 function drawInteractiveCalendar(idEl, year, month, setting) {
     var htmlEl = document.getElementById(idEl),
-        // var arrMonth = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-        // allowChange = document.getElementById("changeMonth").checked,
-        // allowAdd = document.getElementById("addTasks").checked,
-        // allowRemove = document.getElementById("removeTasks").checked,
-        // showMonth = document.getElementById("showDate").checked,
-        // date = [arrMonth.indexOf(document.getElementById("monthSel").value) + 1, document.getElementById("yearSel").value],
-        // el = document.querySelector("input#tagId").value || "calendar";
         setting = setting;
     drawCalendar(year, month, htmlEl, setting);
     addHtmlElements(year, month, htmlEl, setting);
@@ -291,9 +284,6 @@ function drawCalendar(year, month, htmlEl, setting) {
     var date = new Date(year, month - 1),
         today = date.getDate(),
         storage = JSON.parse(localStorage.getItem("name")),
-        // noteYear = [].forEach.call(storage, function(el) {
-        //     el.parse;
-        // }),
         noteMonth = storage,
         noteDay = storage,
         firstDayMonth = new Date(
@@ -393,8 +383,6 @@ function addNote(event) {
     clickOutput.innerHTML = "\u2611";
     target.innerHTML += clickOutput.outerHTML;
     setEvent(".message", "click", showMessages);
-    // var block = document.getElementsByClassName("messages");
-    // block[0].appendChild(clickOutput);
 }
 /**
  * @function
