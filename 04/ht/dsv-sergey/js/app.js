@@ -1,26 +1,14 @@
+import { monthRU } from "./scrypt";
+
 /**
  * @function
  */
 (function createSetting() {
-    var monthList = [
-            "Январь",
-            "Февраль",
-            "Март",
-            "Апрель",
-            "Май",
-            "Июнь",
-            "Июль",
-            "Август",
-            "Сентябрь",
-            "Октябрь",
-            "Ноябрь",
-            "Декабрь"
-        ],
-        periodYear = [1900, 2150],
+    var periodYear = [1900, 2150],
         step = 1,
         setMonth = "monthSel",
         setYear = "yearSel";
-    addSelectedElement(monthList, null, null, setMonth);
+    addSelectedElement(monthRU, null, null, setMonth);
     addSelectedElement(null, periodYear, step, setYear);
 })();
 /**
