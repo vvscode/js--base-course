@@ -45,7 +45,7 @@ function authorization() {
  * unmount preloader
  */
 function hiddenPreloader(id) {
-    document.getElementById(id).setAttribute("class", "hidden");
+    document.getElementById(id).classList.add("hidden");
 }
 /**
  * @function
@@ -96,13 +96,13 @@ function showCalendar(setting) {
         elAbout = document.getElementById("about");
     elCreate.removeAttribute("class", "createWrap");
     if (!elCreate.hasAttribute("class")) {
-        elCreate.setAttribute("class", "hidden");
+        elCreate.classList.add("hidden");
         preShowCalendar.innerHTML = "";
     }
     if (!elAbout.hasAttribute("class")) {
-        elAbout.setAttribute("class", "hidden");
+        elAbout.classList.add("hidden");
     }
-    htmlEl.removeAttribute("class", "hidden");
+    htmlEl.classList.remove("hidden");
     year =
         localStorage.date != null
             ? JSON.parse(localStorage.getItem("date"))[1]
@@ -139,8 +139,8 @@ function showMessages(ev) {
     });
     notes += "</ul>";
     htmlEl.innerHTML = notes;
-    htmlEl.removeAttribute("class", "hidden");
-    htmlEl.setAttribute("class", "modalWindowShow");
+    htmlEl.classList.remove("hidden");
+    htmlEl.classList.add("modalWindowShow");
     setEvent(".closeModalWindow", "click", closeMessages);
     setEvent(".remove", "click", removeNote);
 }
@@ -152,7 +152,7 @@ function showMessages(ev) {
 function closeMessages(ev) {
     var target = ev.target;
     html = document.getElementsByClassName("modalWindowShow");
-    html[0].setAttribute("class", "hidden");
+    html[0].classList.add("hidden");
 }
 /**
  * @function
