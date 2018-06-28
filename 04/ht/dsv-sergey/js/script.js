@@ -55,8 +55,7 @@ function hiddenPreloader(id) {
  * add listener
  */
 function setEvent(classEl, event, fn) {
-    var elements = document.querySelectorAll(classEl);
-    [].forEach.call(elements, function(el) {
+    document.querySelectorAll(classEl).forEach.call(elements, function(el) {
         el.addEventListener(event, fn);
     });
 }
