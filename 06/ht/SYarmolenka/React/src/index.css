@@ -1,0 +1,75 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+  background: url('./map-background-parchment-seamless-574792 (1).jpg')
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#map{
+  width: 96%;
+  position: relative;
+  top: -2em;
+  box-sizing: border-box;
+  height: 25em;
+  border: 1px solid #757575;
+  border-radius: .2em;
+  overflow: hidden;
+}
+#star {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  width: 2em;
+  height: 2em;
+  top: 1em;
+  left: 42%;
+  transition-duration: 0.3s;
+}
+#star:active {
+  transform: scale(1.2, 1.2);
+}
+.author>img {
+  display: block;
+  width: 20%;
+  margin: auto;
+  border-radius: .2em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.author a {
+  display: block;
+  width: 20%;
+  height: 3em;
+  margin: 1em auto;
+  border: 1px solid #ccc;
+  background: #DEDCF1;
+  border-radius: .2em;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.author a img {
+  height: 100%;
+}
+.about {
+  margin: 2em;
+}
+.about h1 {
+  text-align: center;
+}
+.about ul, .about p {
+  padding-left: 1em;
+}
+.about li {
+  list-style: none;
+  line-height: 1.5em;
+}
