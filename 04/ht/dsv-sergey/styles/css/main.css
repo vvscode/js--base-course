@@ -1,0 +1,232 @@
+
+.grid {
+    display: grid;
+}
+body {
+    background-color: #7c7c80;
+    font-family: "Neucha", cursive;
+}
+header {
+    height: auto;
+}
+.headerMenu {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    background-color: #7c7c80;
+    text-align: center;
+    margin-top: 2rem;
+}
+.menu li {
+    display: inline;
+    font-size: 3rem;
+    padding: 2rem;
+}
+.menu a {
+    text-decoration-line: none;
+    color: black;
+}
+.menu a:hover {
+    color: #fff;
+}
+.wrapperPages {
+    margin-top: 7rem;
+}
+#calendar {
+    align-content: center;
+
+}
+#calendar #myCalendar {
+    margin: auto;
+    width: 70vh;
+    height: 70vh;
+    border: 1px solid #7c7c80;
+    border-spacing: 1px 1px;
+    border-collapse: separate;
+    font-size: 2rem;
+}
+th, td {
+    border: 1px solid black;
+    border-spacing: 1px 1px;
+    border-radius: 8px;
+    position: relative;
+}
+.day {
+    padding-top: 10px;
+    padding-left: 10px;
+    background-color: #19A68C;
+}
+.day:hover {
+    background-color: rgb(187, 252, 135);
+}
+.message {
+    position: absolute;
+    right: 10px;
+    color: rgb(112, 43, 10);
+}
+.modalWindowShow {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: darkslategrey;
+    color: floralwhite;
+    opacity: 0.9;
+    font-size: 2rem;
+    padding: 1rem;
+}
+.modalWindowShow li {
+    padding-top: 0.5rem;
+}
+.modalWindowShow span {
+    cursor: pointer;
+}
+#create {
+    font-size: 1.5rem;
+    margin: auto;
+    width: 92%;
+}
+.createWrap {
+    display: flex;
+    flex-direction: column;
+   
+}
+#create select {
+    height: 2rem;
+}
+#create fieldset {
+    border: black solid 2px;
+    padding: 5px;
+}
+.formCalendarConfig {
+    width: 90%;
+    height: 35%;
+}
+#outputForm {
+    display: inline-flex;
+    flex-direction: row;
+}
+#code {
+    height: 200px;
+    min-width: 300px;
+}
+#preShowCalendar {
+    height: 50%;
+}
+#about {
+    text-align: center;
+}
+#about a {
+    font-size: 3rem;
+    text-decoration-line: none;
+    color: black;
+}
+#about a:hover {
+    color: #fff;
+}
+footer {
+    position: fixed; /* Фиксированное положение */
+    left: 0; 
+    bottom: 0;
+    height: auto;
+    width: 100%;
+}
+.footerCaption {
+    position: relative;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+#earlyMonth {
+    width: auto;
+    min-width: 50px;
+    background: #19A68C;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+#nextMonth {
+    width: auto;
+    min-width: 50px;
+    background: #19A68C;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+.hidden {
+    display: none;
+}
+.empty {
+    background-color: #7c7c80;
+    visibility: collapse;
+}
+#preloader {
+    background:#ECF0F1;
+    overflow: hidden;
+    position: fixed;
+    height: inherit;
+    width: inherit;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom:0;
+    z-index: 100000;
+}
+.load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+    width:100px;
+    height:100px;
+  }
+  .load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+  
+  .load :first-child{background:#19A68C;animation-delay:-1.5s}
+  .load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+  .load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+  .load :last-child{background:#193B48}
+  
+  @keyframes spin{
+    0%,100%{transform:translate(0)}
+    25%{transform:translate(160%)}
+    50%{transform:translate(160%, 160%)}
+    75%{transform:translate(0, 160%)}
+  }
+/*-------Media Queries----------*/
+
+@media screen and (max-width:800px) {
+    .headerMenu {
+        min-height: auto;
+    }
+    .menu li {
+        font-size: 2rem;
+        padding: 1rem;
+    }
+    .footerCaption {
+        font-size: 1rem;
+    }
+    #about {
+        text-align: center;
+    }
+    #about a {
+        font-size: 2rem;
+        text-decoration-line: none;
+    }
+    #about a:hover {
+        color: azure;
+    }
+    #myCalendar {
+        font-size: 1.5rem;
+    }
+    #calendar #myCalendar {
+        width: 50vh;
+    }
+    .message {
+        bottom: 10px;
+    }
+    #outputForm {
+        display: flex;
+        flex-direction: column;
+    }
+}    
