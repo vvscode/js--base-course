@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import ymaps from 'ymaps';
 import {connect} from 'react-redux';
+import ymaps from 'ymaps';
 import {getOwnLocation, getLocationByCity} from '../../helpers/request';
 
 class Map extends Component {
+  state = {
+    mapReady: false
+  };
   constructor (props) {
     super(props);
     if ('data' in props.hash) {
@@ -19,6 +22,7 @@ class Map extends Component {
             zoom: zoom,
             controls: ['zoomControl']
           });
+          this.setState({mapReady: true});
         })
         .then(_ => {
           this.map.events.add('boundschange', _ => {
@@ -42,16 +46,20 @@ class Map extends Component {
     };
   };
   changeHash (position, zoom) {
-    window.location.hash = position ? `params&lat${+position[0]}&long${+position[1]}&zoom${zoom}` : ``;
+    if (position) {
+      this.props.hashPush(`params&lat${+position[0]}&long${+position[1]}&zoom${zoom}`);
+    } else {
+      this.props.hashPush(``);
+    };
   };
   shouldComponentUpdate (nextProps) {
     return nextProps.method === this.props.method;
   };
-  componentDidUpdate (prev) {
-    if (this.map && (prev.position !== this.props.position || prev.zoom !== this.props.zoom)) {
+  componentDidUpdate () {
+    if (this.state.mapReady && this.map.getCenter().toLocaleString() !== this.props.position.toLocaleString()) {
       this.map.setCenter(this.props.position, this.props.zoom);
-      this.changeHash(this.props.position, this.props.zoom);
     };
+    window.location.hash = `/params&lat${+this.props.position[0]}&long${+this.props.position[1]}&zoom${this.props.zoom}`;
   };
   render () {
     return (
@@ -64,10 +72,11 @@ export default connect(
   state => ({
     position: state.get('position'),
     zoom: state.get('zoom'),
-    method: state.get('method')
+    method: state.get('method'),
+    hashPush: state.get('hashHistoryPush')
   }),
   dispatch => ({
     savePosition (pos) { dispatch({type: 'SAVE_POSITION', payload: pos}); },
-    saveZoom (zoom) { dispatch({type: 'SAVE_ZOOM', payload: zoom}); },
+    saveZoom (zoom) { dispatch({type: 'SAVE_ZOOM', payload: zoom}); }
   })
 )(Map);

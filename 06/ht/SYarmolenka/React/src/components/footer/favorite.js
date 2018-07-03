@@ -1,30 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {saveFavoriteListInLocal} from '../../helpers/local';
 
-const Favorite = (props) => {
-  const deleteElement = (element) => {
+class Favorite extends Component {
+  clickElement = (element) => {
     if (element.matches('.delete')) {
       document.querySelector('.favorite').querySelectorAll('.city').forEach((elem, i) => {
-        if (element.closest('.city') === elem) props.deleteCity(i);
+        if (element.closest('.city') === elem) this.props.deleteCity(i);
       });
       return;
     };
-    props.addCityInFavorite(element.closest('.city').title);
-    window.location.hash = `/city&${element.closest('.city').title}`;
+    this.props.addCityInFavorite(element.closest('.city').title);
+    this.props.hashPush(`/city&${element.closest('.city').title}`);
   };
-  const favorite = props.favorite.map(city => (
-    <div key={Math.random()} title={city} className='city' onClick={e => deleteElement(e.target)}>
-      <label>{city}</label>
-      <button className='delete'></button>
-    </div>));
-  saveFavoriteListInLocal(props.favorite.toArray());
-  return <div className='favorite'>{favorite}</div>;
+  getFavoriteList () {
+    saveFavoriteListInLocal(this.props.favorite);
+    return this.props.favorite.map(city => (
+      <div key={city} title={city} className='city' onClick={e => this.clickElement(e.target)}>
+        <label>{city}</label>
+        <button className='delete'></button>
+      </div>));
+  };
+  render () {
+    return <div className='favorite'>{this.getFavoriteList()}</div>;
+  };
 };
 
 export default connect(
   state => ({
-    favorite: state.get('favorite')
+    favorite: state.get('favorite'),
+    hashPush: state.get('hashHistoryPush')
   }),
   dispatch => ({
     deleteCity (index) { dispatch({type: 'DELETE_CITY_FROM_FAVORITE', payload: index}); },

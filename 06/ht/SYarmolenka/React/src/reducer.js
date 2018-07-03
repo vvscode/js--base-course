@@ -10,7 +10,8 @@ const initState = Map({
   search: '',
   history: getCityListFromLocal() ? List(getCityListFromLocal()) : List(),
   favorite: getFavoriteListFromLocal() ? List(getFavoriteListFromLocal()) : List(),
-  mainPage: false
+  mainPage: false,
+  hashHistoryPush: null
 });
 
 const reducer = (state = initState, action) => {
@@ -34,15 +35,15 @@ const reducer = (state = initState, action) => {
       } else {
         return state.update('history', _ => cities.unshift(action.payload));
       }
-    case 'DELETE_CITY_FROM_HISTORY':
-      return state.update('history', list => list.delete(action.payload));
     case 'ADD_TO_FAVORITE':
       const favorites = state.get('favorite').filter(item => item !== action.payload);
       return state.update('favorite', _ => favorites.unshift(action.payload));
     case 'DELETE_CITY_FROM_FAVORITE':
       return state.update('favorite', list => list.delete(action.payload));
     case 'SET_MAIN_PAGE':
-      return state.update('mainPage', _ => action.payload)
+      return state.update('mainPage', _ => action.payload);
+    case 'SAVE_HASH_HISTORY':
+      return state.update('hashHistoryPush', _ => action.payload);
     default:
       return state;
   }

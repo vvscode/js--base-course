@@ -4,10 +4,9 @@ import {getLocationByCity, getCityByLocation} from '../../helpers/request';
 import './header.css';
 
 class Header extends Component {
-  constructor (props) {
-    super(props);
+  componentDidMount () {
     this.defineHash();
-  };
+  }
   defineHash () {
     const hash = window.location.hash.match(/#\/(\w+)/);
     if (hash) this.props.setMainPage(hash[1]);

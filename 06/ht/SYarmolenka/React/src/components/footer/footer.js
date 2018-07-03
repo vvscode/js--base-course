@@ -4,7 +4,7 @@ import Weather from './weather';
 import Favorite from './favorite';
 import './footer.css';
 
-const Footer = () => {
+const Footer = (props) => {
   return (
     <div id='footer'>
       <History />

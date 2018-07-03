@@ -1,9 +1,11 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import Footer from '../footer/footer';
 import Map from './map';
 import Star from './star';
 
 const Main = (props) => {
+  props.saveHashHistoryPush(props.history.push);
   return (
     <div className='wrapper'>
       <Star />
@@ -13,4 +15,6 @@ const Main = (props) => {
   );
 };
 
-export default Main;
+export default connect(_ => ({}), dispatch => ({
+  saveHashHistoryPush (history) { dispatch({type: 'SAVE_HASH_HISTORY', payload: history}); }
+}))(Main);

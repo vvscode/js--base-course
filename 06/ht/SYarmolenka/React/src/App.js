@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
-import Main from './components/main/main';
 import Header from './components/header/header';
-import Author from './components/main/author';
+import Main from './components/main/main';
 import About from './components/main/about';
+import Author from './components/main/author';
 
 class App extends Component {
   render () {
