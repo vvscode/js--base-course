@@ -1,0 +1,16 @@
+.main-nav {
+	display: flex;
+	justify-content: space-around;
+
+	list-style: none;
+}
+
+.main-nav__item {
+	display: inline-block;
+}
+
+.main-nav__link {
+	text-decoration: none;
+	font-family: $marck;
+	color: $medium-green;
+}

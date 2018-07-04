@@ -1,0 +1,12 @@
+.settings {
+	justify-self: center;
+
+	font-family: $pang;
+	color: $black;
+}
+
+.settings__label {
+	&:last-of-type {
+		margin-left: 20px;
+	}
+}
