@@ -54,5 +54,3 @@ function findRoute(routeList, url) {
   });
   return result;
 }
-console.log();
-console.log();

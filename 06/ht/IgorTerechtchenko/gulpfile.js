@@ -1,29 +1,55 @@
 var gulp = require('gulp');
-var browserSync = require('browser-sync'); 
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
+var babelify = require('babelify');
+var browserify = require('browserify');
+var connect = require('gulp-connect');
+var source = require('vinyl-source-stream');
+var mocha = require('gulp-mocha');
 
-gulp.task('browser-sync', function() {
-  browserSync({ 
-        server: {
-          baseDir: 'app'
-        },
-      notify: false 
-  });
+gulp.task('default',['copyStaticFiles', 'build', 'startServer', 'runTests']);
+
+gulp.task('copyStaticFiles', function() {
+    return gulp.src(['./app/*.html', './app/css/*', './app/img/*'])
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('js', function() {
-  gulp.src('app/**/*.js')
-      .pipe(babel({
-          presets: ['env']
-      }))
-      .pipe(concat('index.js'))
-      .pipe(gulp.dest('dist'))
+gulp.task('build', function() {
+    return browserify({
+        entries: ['./app/js/index.js']
+    })
+    .transform(babelify.configure({
+        presets : ['es2015']
+    }))
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('watch', ['js', 'browser-sync'], function() {
-  console.log(new Date());
-  gulp.watch('app/js/*.js', browserSync.reload); 
-  gulp.watch('app/*.js', browserSync.reload); 
-  gulp.watch('app/index.html', browserSync.reload);
+//gulp.task('copyTestFiles', function() {
+  //gulp.src('./app/tests/*.html')
+  //.pipe(gulp.dest('./dist/tests'));
+//});
+
+gulp.task('buildTests', function() {
+    return browserify({
+        entries: ['./app/tests/tests.js']
+    })
+    .transform(babelify.configure({
+        presets : ['es2015']
+    }))
+    .bundle()
+    .pipe(source('tests.js'))
+    .pipe(gulp.dest('./dist/tests'));
+});
+
+gulp.task('runTests', ['copyTestFiles', 'buildTests'], function() {
+    gulp.src('./dist/tests/tests.js', {read: false})
+    .pipe(mocha({reporter: 'nyan'}))
+});
+
+gulp.task('startServer', function() {
+    connect.server({
+        root : './dist',
+        livereload : true,
+        port : 9001
+    });
 });
