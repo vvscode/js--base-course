@@ -1,5 +1,6 @@
 import Menu from '../js/menu.js';
 import LifeGame from '../js/life_game';
+import DisplayComponent from '../js/display_component.js'; 
 
 mocha.setup({
   ui: "bdd",
@@ -10,8 +11,7 @@ const assert = chai.assert;
 const $$ = document.querySelector.bind(document);
 
 describe('Menu', function() {
-  var el;
-  var menu;
+  var el; var menu;
   var bus;
   beforeEach(function() {
     el = document.createElement('div');
@@ -128,6 +128,37 @@ describe('LifeGame', function() {
       assert.isOk(game.currentState[0][0] === '*');
       game.switchCell(2, 2);
       assert.isOk(game.currentState[2][2] === '_');
+    });
+  });
+});
+
+describe('DisplayComponent', function() {
+  it('is a constructor', function() {
+    assert.isOk(new DisplayComponent() instanceof DisplayComponent);
+  });
+  it('takes 2 arguments', function() {
+    assert.isOk(DisplayComponent.length === 2);
+  });
+  describe('DisplayComponent.render()', function() {
+    var testEl;
+    var testField;
+    var display;
+    beforeEach(function() {
+      testField = [['_', '_'], ['_', '_']] 
+      testEl = document.createElement('div');
+      display = new DisplayComponent(testEl, undefined);
+    });
+    it('is DisplayComponent method', function() {
+      assert.isOk(typeof display.render === 'function');
+    });
+    it('takes 1 arg', function() {
+      assert.isOk(display.render.length === 1);
+    });
+    it('alters display.el innerHTML', function() {
+      testEl.innerHTML = 'test';
+      assert.isOk(display);
+      display.render(testField);
+      assert.isOk(testEl.innerHTML !== 'test');
     });
   });
 });
