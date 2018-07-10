@@ -1,17 +1,33 @@
 import EventBus from './event_bus.js';
 import HashRouter from './router.js';
 import Menu from './menu.js';  
+import DisplayComponent from './display_component.js';
+import LifeGame from './life_game.js';
 
 var body = document.querySelector('body');
+var contentEl = document.querySelector('#content');
 var menuWrapper = document.querySelector('#menuWrapper');
-
 var eventBus = new EventBus();
+var display = new DisplayComponent(contentEl, eventBus, 'text');
+var game = new LifeGame([['_', '_', '_'],
+                         ['_', '_', '_'],
+                         ['_', '_', '_']]); 
+
+eventBus.on('cellClick', (coords) => {
+  game.switchCell(coords[0], coords[1]);
+  display.render(game.currentState);
+});
+
 var router = new HashRouter({
   routes: [{
     name: 'text',
     match: 'text',
     onBeforeEnter: () => console.log('onBeforeEnter text'),
-    onEnter: () => console.log('onEnter text'),
+    onEnter: () => {
+      console.log('onEnter text');
+      display.render(game.currentState);
+      display.addCellListeners();
+    },
     onLeave: () => console.log('onLeave text')
   }, {
     name: 'canvas',
@@ -27,7 +43,7 @@ var router = new HashRouter({
     onLeave: () => console.log('onLeave svg')
   }, {
     name: 'about',
-      match: '',
+      match: 'about',
       onBeforeEnter: () => console.log('onBeforeEnter about'),
       onEnter: () => console.log('onEnter about'),
       onLeave: () => console.log('onLeave about')

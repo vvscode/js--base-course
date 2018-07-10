@@ -1,6 +1,7 @@
 import Menu from '../js/menu.js';
 import LifeGame from '../js/life_game';
 import DisplayComponent from '../js/display_component.js'; 
+import EventBus from '../js/event_bus.js';
 
 mocha.setup({
   ui: "bdd",
@@ -136,8 +137,8 @@ describe('DisplayComponent', function() {
   it('is a constructor', function() {
     assert.isOk(new DisplayComponent() instanceof DisplayComponent);
   });
-  it('takes 2 arguments', function() {
-    assert.isOk(DisplayComponent.length === 2);
+  it('takes 3 arguments', function() {
+    assert.isOk(DisplayComponent.length === 3);
   });
   describe('DisplayComponent.render()', function() {
     var testEl;
@@ -146,7 +147,7 @@ describe('DisplayComponent', function() {
     beforeEach(function() {
       testField = [['_', '_'], ['_', '_']] 
       testEl = document.createElement('div');
-      display = new DisplayComponent(testEl, undefined);
+      display = new DisplayComponent(testEl, undefined, 'text');
     });
     it('is DisplayComponent method', function() {
       assert.isOk(typeof display.render === 'function');
@@ -154,11 +155,43 @@ describe('DisplayComponent', function() {
     it('takes 1 arg', function() {
       assert.isOk(display.render.length === 1);
     });
-    it('alters display.el innerHTML', function() {
+    it('alters display el innerHTML', function() {
       testEl.innerHTML = 'test';
       assert.isOk(display);
       display.render(testField);
       assert.isOk(testEl.innerHTML !== 'test');
+    });
+    it('displays game field correctly', function() {
+      display.render(testField);
+      assert.isOk(testEl.innerHTML === '<table><tbody><tr><td class="0;0">_</td><td class="0;1">_</td></tr><tr><td class="1;0">_</td><td class="1;1">_</td></tr></tbody></table>');
+    });
+  });
+  describe('addCellListeners', function() {
+    describe('text', function() {
+      var testEl;
+      var testField;
+      var display;
+      var bus; 
+      beforeEach(function() {
+        bus = new EventBus();
+        testField = [['_', '_', '_'], ['_', '*', '_'], ['_','_','_']]; 
+        testEl = document.createElement('div');
+        display = new DisplayComponent(testEl, bus, 'text');
+        display.render(testField);
+      });
+      it('is DisplayComponent method', function() {
+        assert.isOk(typeof display.addCellListeners === 'function'); 
+      });
+      it('adds click event listener to el table', function() {
+        var log = [];
+        bus.on('cellClick', function(coords) {
+          log.push(coords);
+        });
+        display.addCellListeners();
+        testEl.querySelector('td').click();
+        assert.isOk(+log[0][0] === 0);
+        assert.isOk(+log[0][1] === 0);
+      });
     });
   });
 });
