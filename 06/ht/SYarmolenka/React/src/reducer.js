@@ -1,5 +1,4 @@
-import {Map, List} from 'immutable';
-import {getCityListFromLocal, getFavoriteListFromLocal} from './helpers/local';
+import {Map} from 'immutable';
 
 const initState = Map({
   method: 'xhr',
@@ -8,8 +7,6 @@ const initState = Map({
   city: null,
   weather: null,
   search: '',
-  history: getCityListFromLocal() ? List(getCityListFromLocal()) : List(),
-  favorite: getFavoriteListFromLocal() ? List(getFavoriteListFromLocal()) : List(),
   mainPage: false,
   hashHistoryPush: null
 });
@@ -38,6 +35,10 @@ const reducer = (state = initState, action) => {
     case 'ADD_TO_FAVORITE':
       const favorites = state.get('favorite').filter(item => item !== action.payload);
       return state.update('favorite', _ => favorites.unshift(action.payload));
+    case 'CREATE_HISTORY_LIST':
+      return state.set('history', action.payload);
+    case 'CREATE_FAVORITE_LIST':
+      return state.set('favorite', action.payload);
     case 'DELETE_CITY_FROM_FAVORITE':
       return state.update('favorite', list => list.delete(action.payload));
     case 'SET_MAIN_PAGE':

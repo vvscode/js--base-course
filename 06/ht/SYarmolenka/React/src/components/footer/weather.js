@@ -46,7 +46,7 @@ class Weather extends Component {
     let {city, weather} = this.props;
     return (
       <div className='weather'>
-        {(weather) ? (<div><h4>{city || ''}</h4><p>{weather}</p></div>) : (<div className='spinner'><img src={spinner} alt='Spinner_gif' /></div>)}
+        {(weather) ? (<div><h3>{city || '...mmm'}</h3><hr/><p>{weather}</p></div>) : (<div className='spinner'><img src={spinner} alt='Spinner_gif' /></div>)}
       </div>
     );
   };

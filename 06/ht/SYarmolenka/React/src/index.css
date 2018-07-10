@@ -1,12 +1,12 @@
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 90%;
 }
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 90%;
   font-family: sans-serif;
   background: url('./map-background-parchment-seamless-574792 (1).jpg')
 }
@@ -21,9 +21,10 @@ body {
   position: relative;
   top: -2em;
   box-sizing: border-box;
-  height: 25em;
+  height: 60vh;
   border: 1px solid #757575;
   border-radius: .2em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
   overflow: hidden;
 }
 #star {

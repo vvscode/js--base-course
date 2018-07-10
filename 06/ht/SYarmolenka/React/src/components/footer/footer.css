@@ -15,14 +15,23 @@
   border-radius: .2em;
   overflow: hidden;
   background: #f0f0f0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .weather {
   background: #fff !important;
 }
-.weather h4 {
+.weather h3 {
   text-align: center;
   margin: auto;
   padding-top: 1em;
+}
+.weather hr {
+  border: .5px solid;
+  margin: 1em;
+}
+.weather p {
+  text-align: justify;
+  padding: 0 1em;
 }
 .spinner {
   display: flex;
@@ -42,7 +51,7 @@
   background: #fff;
 }
 .favorite {
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
 }
 .favorite .city {
   display: flex;

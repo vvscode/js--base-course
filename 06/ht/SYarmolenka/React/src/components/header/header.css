@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   width: 96%;
+  height: 2em;
   margin: auto;
   margin-top: .5em;
   font: 1.5em Arial sans-serif;
@@ -49,6 +50,7 @@
   border: 1px solid #757575;
   border-radius: .15em;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .field, .submit {
   font: 1.5em Arial sans-serif;
