@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.5.3/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.2/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/1.15.4/sinon.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Calendar tests</title>
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <pre id="log"></pre>
+    <div class="container hidden">
+        <header id="page">
+            <ul id="links">
+                <li>
+                    <a href="#1">Calendar</a>
+                </li>
+                <li>
+                    <a href="#2">Create</a>
+                </li>
+                <li>
+                    <a href="#3">About</a>
+                </li>
+            </ul>
+        </header>
+        <div id="content"></div>
+        <div id="createCode" class="hidden">
+            <div id="options">
+                <fieldset>
+                    <label>
+                        <input type="checkbox" id="changeMonth" checked>Allow to change a month</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="addNotes" checked>Allow to add notes</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="removeNotes" checked>Allow to remove notes</label>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="showMonth" checked>Show month and year</label>
+                    <br>
+                </fieldset>
+            </div>
+            <div>
+                <div>
+                    <div id="code"></div>
+                </div>
+                <div id="calendarSettings"></div>
+            </div>
+        </div>
+        <div id="about" class="hidden">
+            <h1>
+        Author <br>
+        Andrey Drozdov <br>
+        andreydro14@gmail.com <br>
+        <a href="https://github.com/andreydro">https://github.com/andreydro</a>
+      </h1>
+        </div>
+        <script>
+        mocha.setup('bdd');
+        var assert = chai.assert;
+        </script>
+        <script src="script.js"></script>
+        <script src="tests.js"></script>
+        <script>
+        mocha.run();
+        </script>
+</body>
+
+</html>

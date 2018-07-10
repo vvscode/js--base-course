@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>00_HomeTask_NameAge</title>
+</head>
+<body>
+<script>
+    var userName = prompt("Как тебя зовут?");
+    var userAge = prompt("Сколько тебе лет?");
+    while(userName == null || userName == '') {
+        userName = prompt("Как тебя зовут?");
+    }
+    while(userAge == null || userAge == '') {
+        userAge = prompt("Сколько тебе лет?");
+    }
+    var message = (userAge < 18) ? 'Здарова, '+userName+'. Как твои '+userAge+'?': 'Привествую, '+userName+'. Уж '+userAge+' лет прошло';
+    
+    alert( message );
+</script>
+</body>
+</html>

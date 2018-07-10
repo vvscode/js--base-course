@@ -1,0 +1,112 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: -webkit-linear-gradient(-45deg, white 0%, #f1f1f1 100%) !important;
+}
+.formMenu {
+  padding: 1em;
+}
+.confLabel {
+  margin-bottom: 1em !important;
+}
+.blackBorder {
+  border: 1px solid #000;
+  border-radius: 0.2em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.calWrap {
+  display: grid;
+  padding: 0 1em;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(2, 50%);
+  grid-gap: 1em;
+}
+.formMenu {
+  grid-column-start: 4;
+  grid-column-end: 10;
+  grid-row-start: 1;
+}
+.code {
+  resize: none;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 2;
+}
+.smallCal {
+  width: 100%;
+  grid-column-start: 7;
+  grid-column-end: 13;
+  grid-row-start: 2;
+}
+.smallCal td>* {
+  display: none;
+}
+.smallCal table {
+  margin: 0;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.smallCal td {
+  vertical-align: top;
+  padding: 1%;
+  overflow: hidden;
+}
+.smallCal thead tr:nth-child(odd)  {
+  background: #EBE9FE;
+}
+.smallCal thead tr:nth-child(odd) th:nth-child(odd)  {
+  background: #DEDCF1;
+}
+.smallCal thead tr:nth-child(even)  {
+  background: #ccc;
+}
+.smallCal thead tr:nth-child(even) th:nth-child(6n), .smallCal thead tr:nth-child(even) th:nth-child(7n) {
+  background: #ffdcdc;
+}
+.smallCal tr:nth-child(even)>td:nth-child(2n+1), .smallCal tr:nth-child(odd)>td:nth-child(2n+2) {
+  background: #e5e3f8;
+}
+.smallCal tr:nth-child(odd)>td:nth-child(2n+1), .smallCal tr:nth-child(even)>td:nth-child(2n+2) {
+  background: #f5f5f5;
+}
+.smallCal tr:nth-child(even)>td:nth-child(6n), .smallCal tr:nth-child(odd)>td:nth-child(7n) {
+  background: #fff0f0;
+}
+.smallCal tr:nth-child(odd)>td:nth-child(6n), .smallCal tr:nth-child(even)>td:nth-child(7n) {
+  background: #fff5f5;
+}
+#cal {
+  z-index: 1;
+}
+.about {
+
+}
+.about>img {
+  display: block;
+  width: 20%;
+  margin: auto;
+  border-radius: .2em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.about a {
+  display: block;
+  width: 20%;
+  height: 3em;
+  margin: 1em auto;
+  border: 1px solid #ccc;
+  background: #DEDCF1;
+  border-radius: .2em;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.about a img {
+  height: 100%;
+}

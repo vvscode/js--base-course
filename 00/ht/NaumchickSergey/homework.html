@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Введение домашка</title>
+</head>
+<body>
+<h1>Домашнее задание к введению</h1>
+
+
+<script>
+    var name = '';
+    var age = 0;
+
+    function getName() {
+
+        name = prompt('Введите ваше имя');
+        if (name.length < 2)
+            getName();
+    }
+
+    function getAge() {
+
+        age = parseInt(prompt('Введите ваш возраст'));
+        if (age === 0 || isNaN(age))
+            getAge();
+    }
+
+
+    getName();
+    getAge();
+    if (age < 18)
+        alert('Здарова, ' + name + '. Как твои ' + age + '?');
+    else
+        alert('Привествую, ' + name + '. Уж ' + age + ' лет прошло');
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Form</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <form action="" id="form">
+            <div>
+                <input type="text" placeholder="Имя">
+            </div>
+            <div>
+                <select>
+                    <option>до 18 лет</option>
+                    <option>от 18 до 32 лет</option>
+                    <option>от 32 лет до 45 лет</option>
+                    <option>от 45 лет до 60 лет</option>
+                    <option>старше 60 лет</option>
+                </select>             
+            </div>
+            <div>
+                Пол: 
+                <label for="radioMale">М</label><input type="radio"> 
+                <label for="radioFemale">Ж</label><input type="radio">
+            </div>
+            <div>
+                Водительские права: <input type="checkbox">
+            </div>
+            <div>
+                <input type="textarea" placeholder="О себе">
+            </div>
+            <button id="button">Отправить</button>
+        </form>
+        <div id="userBlock"></div>
+        <script src='formScript.js'></script>
+    </body>
+</html>
