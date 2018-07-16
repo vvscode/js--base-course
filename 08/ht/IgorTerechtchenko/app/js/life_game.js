@@ -1,6 +1,11 @@
-export default function LifeGame(startingField) {
+export default function LifeGame(startingField, bus) {
   this.currentState = startingField;
   this.history = [];
+  this.paused = true;
+  this.speed = 500;
+  this.bus = bus;
+  this.currentHistory = 0;
+  this.bus.maxHistory;
 }
 
 LifeGame.prototype = {
@@ -10,6 +15,8 @@ LifeGame.prototype = {
   nextGen: function() {
     var field = Array.from(this.currentState);
     this.history.push(this.currentState);
+    this.bus.maxHistory = this.history.length;
+    this.currentHistory += 1;
     var livingNeighbours = 0;
     var neighbourArray;
     for(var i = 0; i < field.length; i++) {
@@ -45,5 +52,36 @@ LifeGame.prototype = {
     } else if(this.currentState[i][j] === '*') {
       this.currentState[i][j] = '_';
     }
+    this.bus.trigger('rerenderRequest');
+  },
+  switchGameState: function() {
+    if(this.paused) {
+      this.intervalId = setInterval(() => {
+        this.nextGen();
+        this.bus.trigger('rerenderRequest');
+      }, this.speed);
+      this.paused = false;
+    } else {
+      this.paused = true;
+      clearInterval(this.intervalId); 
+    }
+  },
+  changeSpeed: function(value) {
+    if(value === '+') {
+      if(this.speed > 100) {
+        this.speed -= 100;
+      }
+    }
+    if(value === '-') {
+      if(this.speed <= 1000) {
+        this.speed += 100;
+      }
+    }
+  },
+  traverseHistory: function(position) {
+    this.bus.traversingHistory = true; 
+    this.currentHistory = position;
+    this.currentState = this.history[position];
+    this.switchGameState(); 
   },
 }

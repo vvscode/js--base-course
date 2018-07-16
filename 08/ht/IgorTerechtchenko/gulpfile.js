@@ -4,7 +4,7 @@ var browserify = require('browserify');
 var connect = require('gulp-connect');
 var source = require('vinyl-source-stream');
 
-gulp.task('default',['copyStaticFiles', 'build', 'startServer', 'runTests']);
+gulp.task('default',['copyStaticFiles', 'build', 'startServer', 'runTests', 'watch']);
 
 gulp.task('copyStaticFiles', function() {
     return gulp.src(['./app/*.html', './app/css/*', './app/img/*'])
@@ -20,7 +20,8 @@ gulp.task('build', function() {
     }))
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./dist'))
+    .pipe(connect.reload());
 });
 
 gulp.task('copyTestFiles', function() {
@@ -37,10 +38,19 @@ gulp.task('buildTests', function() {
     }))
     .bundle()
     .pipe(source('tests.js'))
-    .pipe(gulp.dest('./dist/tests'));
+    .pipe(gulp.dest('./dist/tests'))
+    .pipe(connect.reload());
 });
 
 gulp.task('runTests', ['copyTestFiles', 'buildTests']);
+
+gulp.task('watch', function () {
+  gulp.watch(['./app/tests/tests.*'], ['runTests']);
+  gulp.watch(['./app/js/*'], ['build', 'runTests']);
+  gulp.watch(['./app/*.html'], ['copyStaticFiles']);
+  gulp.watch(['./app/img/*'], ['copyStaticFiles']);
+  gulp.watch(['./app/css/*.css'], ['copyStaticFiles']);
+});
 
 gulp.task('startServer', function() {
     connect.server({

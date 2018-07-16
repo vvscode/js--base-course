@@ -9,13 +9,56 @@ var contentEl = document.querySelector('#content');
 var menuWrapper = document.querySelector('#menuWrapper');
 var eventBus = new EventBus();
 var display = new DisplayComponent(contentEl, eventBus, 'text');
-var game = new LifeGame([['_', '_', '_'],
-                         ['_', '_', '_'],
-                         ['_', '_', '_']]); 
+var field = [];
+for(var i = 0; i < 10; i++) {
+  field[i] = ['_', '*', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+}
+var game = new LifeGame(field, eventBus); 
 
 eventBus.on('cellClick', (coords) => {
+  console.log('bus cell click');
   game.switchCell(coords[0], coords[1]);
+});
+
+eventBus.on('switchClick', () => {
+  game.switchGameState();
+});
+
+eventBus.on('rerenderRequest', () => {
   display.render(game.currentState);
+  display.addHistory();
+});
+
+eventBus.on('fasterClick', () => {
+  game.changeSpeed('+');
+  game.switchGameState(); //redrawing
+  game.switchGameState();
+  console.log(game.speed);
+});
+
+eventBus.on('slowerClick', () => {
+  game.changeSpeed('-');
+  game.switchGameState();
+  game.switchGameState();
+  console.log(game.speed);
+});
+
+eventBus.on('fieldSizeChange', (sizeArray) => {
+  field = [];
+  for(var i=0; i<=sizeArray[0]; i++) {
+    var line = [];
+    for(var j=0; j<=sizeArray[0]; j++) {
+      line.push('_'); 
+    }
+    field.push(line);
+  }
+  game = new LifeGame(field, eventBus);
+  eventBus.trigger('rerenderRequest');
+});
+
+eventBus.on('historyChange', (position) => {
+  game.traverseHistory(position);
+  console.log(position);
 });
 
 var router = new HashRouter({
@@ -25,14 +68,22 @@ var router = new HashRouter({
     onBeforeEnter: () => console.log('onBeforeEnter text'),
     onEnter: () => {
       console.log('onEnter text');
+      display.type = 'text';
       display.render(game.currentState);
-      display.addCellListeners();
+      display.addControls();
+      display.addHistory();
+      display.addFieldSize();
     },
     onLeave: () => console.log('onLeave text')
   }, {
     name: 'canvas',
     match: 'canvas',
-    onBeforeEnter: () => console.log('onBeforeEnter canvas'),
+    onBeforeEnter: () => {
+      display.type = 'canvas';
+      display.render(game.currentState);
+      display.addControls();
+      display.addHistory();
+    },
     onEnter: () => console.log('onEnter canvas'),
     onLeave: () => console.log('onLeave canvas')
   }, {

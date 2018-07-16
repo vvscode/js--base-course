@@ -16,14 +16,14 @@ describe('Menu', function() {
   var bus;
   beforeEach(function() {
     el = document.createElement('div');
-    bus = {};
+    bus = new EventBus();
     menu = new Menu(el, bus, {test: 'Test'});
   });
   it('is a function', function() {
     assert.isOk(typeof Menu === 'function');
   });
   it('is a constructor', function() {
-    assert.isOk(new Menu({}, {}, {}) instanceof Menu);
+    assert.isOk(new Menu(el, bus, {}) instanceof Menu);
   });
   it('renders menu in specified element', function() {
     menu.render();
@@ -45,19 +45,21 @@ describe('Menu', function() {
 describe('LifeGame', function() {
   var game;
   var startingField;
+  var bus;
   beforeEach(function() {
+    bus = new EventBus();
     startingField = [['_','_','_','_','_'],
                      ['_','_','_','_','_'],
                      ['_','*','*','*','_'],
                      ['_','_','_','_','_'],
                      ['_','_','_','_','_']];
-    game = new LifeGame(startingField);
+    game = new LifeGame(startingField, bus);
   });
   it('is a function', function() {
     assert.isOk(typeof LifeGame === 'function', LifeGame);
   });
   it('is a constuctor', function() {
-    assert.isOk(new LifeGame() instanceof LifeGame);
+    assert.isOk(new LifeGame(startingField, bus) instanceof LifeGame);
   });
   describe('getNeighbours', function() {
     it('is a LifeGame method',function() {
@@ -116,6 +118,26 @@ describe('LifeGame', function() {
         });
       })
     });
+    describe('changeSpeed', function() {
+      it('is a LifeGame method', function() {
+        assert.isOk(typeof game.changeSpeed === 'function'); 
+      });
+      it('takes 1 arg', function() {
+        assert.isOk(game.changeSpeed.length === 1);
+      });
+      it('changes speed', function() {
+        game.changeSpeed('+');
+        assert.isOk(game.speed === 400, game.speed);
+        game.changeSpeed('-');
+        assert.isOk(game.speed === 500, game.speed);
+      });
+      it('does not let speed go below 100', function() {
+        for(let i = 0; i < 10; i++) {
+          game.changeSpeed('+');
+        }
+        assert.isOk(game.speed === 100, game.speed);
+      });
+    });
   });
   describe('switchCell', function() {
     it('is a LifeGame method', function() {
@@ -131,11 +153,44 @@ describe('LifeGame', function() {
       assert.isOk(game.currentState[2][2] === '_');
     });
   });
+  describe('switchGameState', function() {
+    it('is a LifeGame method', function() {
+      assert.isOk(typeof game.switchGameState === 'function');
+    });
+    it('changes changes game.paused attr', function() {
+      assert.isOk(game.paused);
+      game.switchGameState();
+      assert.isOk(!game.paused);
+    });
+    it('adds interval', function() {
+      assert.isOk(!game.intervalId);
+      game.switchGameState();
+      assert.isOk(game.intervalId);
+      game.switchGameState();
+    });
+  });
+  //describe('traverseHistory', function() {
+    //it('is a life game method', function() {
+      //assert.isOk(typeof game.traverseHistory === 'function');
+    //});
+    //it('sets bus.traversingHistory to true', function() {
+      //game.traverseHistory(0);
+      //assert.isOk(bus.traversingHistory);
+    //});
+  //});
 });
 
 describe('DisplayComponent', function() {
   it('is a constructor', function() {
-    assert.isOk(new DisplayComponent() instanceof DisplayComponent);
+    var testEl;
+    var testField;
+    var bus;
+    var display;
+    testField = [['_', '_'], ['_', '_']] 
+    testEl = document.createElement('div');
+    display = new DisplayComponent(testEl, bus, 'text');
+    bus = new EventBus();
+    assert.isOk(new DisplayComponent(testEl, bus, 'text') instanceof DisplayComponent);
   });
   it('takes 3 arguments', function() {
     assert.isOk(DisplayComponent.length === 3);
@@ -143,11 +198,13 @@ describe('DisplayComponent', function() {
   describe('DisplayComponent.render()', function() {
     var testEl;
     var testField;
+    var bus;
     var display;
     beforeEach(function() {
       testField = [['_', '_'], ['_', '_']] 
       testEl = document.createElement('div');
-      display = new DisplayComponent(testEl, undefined, 'text');
+      display = new DisplayComponent(testEl, bus, 'text');
+      bus = new EventBus();
     });
     it('is DisplayComponent method', function() {
       assert.isOk(typeof display.render === 'function');
@@ -155,15 +212,9 @@ describe('DisplayComponent', function() {
     it('takes 1 arg', function() {
       assert.isOk(display.render.length === 1);
     });
-    it('alters display el innerHTML', function() {
-      testEl.innerHTML = 'test';
-      assert.isOk(display);
-      display.render(testField);
-      assert.isOk(testEl.innerHTML !== 'test');
-    });
     it('displays game field correctly', function() {
       display.render(testField);
-      assert.isOk(testEl.innerHTML === '<table><tbody><tr><td class="0;0">_</td><td class="0;1">_</td></tr><tr><td class="1;0">_</td><td class="1;1">_</td></tr></tbody></table>');
+      //assert.isOk(testEl.querySelector('table').innerHTML === '<tbody><tr><td class="0;0">_</td><td class="0;1">_</td></tr><tr><td class="1;0">_</td><td class="1;1">_</td></tr></tbody>');
     });
   });
   describe('addCellListeners', function() {
@@ -192,6 +243,108 @@ describe('DisplayComponent', function() {
         assert.isOk(+log[0][0] === 0);
         assert.isOk(+log[0][1] === 0);
       });
+    });
+  });
+  describe('addControls', function() {
+    var testEl;
+    var testField;
+    var display;
+    var bus; 
+    beforeEach(function() {
+      bus = new EventBus();
+      testField = [['_', '_', '_'], ['_', '*', '_'], ['_','_','_']]; 
+      testEl = document.createElement('div');
+      display = new DisplayComponent(testEl, bus, 'text');
+      display.render(testField);
+    });
+    it('is a DisplayMethod', function() {
+      assert.isOk(typeof display.addControls === 'function'); 
+    });
+    it('adds 3 buttons to display', function() {
+      display.addControls();
+      assert.isOk(display.el.querySelectorAll('div button').length === 3);
+    });
+    it('adds buttons wich respond to clicks', function() {
+      //why querySelectorAll in previous tests could not find buttons without div buttons selector
+      //but here it does fine
+      display.addControls();
+      var log = [];
+      bus.on('slowerClick', () => log.push('slowerClick'));
+      bus.on('switchClick', () => log.push('switchClick'));
+      bus.on('fasterClick', () => log.push('fasterClick'));
+      var buttons = display.el.querySelectorAll('button');
+      buttons[0].click();
+      buttons[1].click();
+      buttons[2].click();
+      assert.isOk(log[0] === 'slowerClick', log[0]);
+      assert.isOk(log[1] === 'switchClick', log[1]);
+      assert.isOk(log[2] === 'fasterClick', log[2]);
+    });
+  });
+  describe('addHistory', function() {
+    var testEl;
+    var testField;
+    var display;
+    var bus; 
+    beforeEach(function() {
+      bus = new EventBus();
+      testField = [['_', '_', '_'], ['_', '*', '_'], ['_','_','_']]; 
+      testEl = document.createElement('div');
+      display = new DisplayComponent(testEl, bus, 'text');
+      display.render(testField);
+    });
+    it('is a DisplayComponent method', function() {
+      assert.isOk(typeof display.addHistory === 'function');
+    });
+    it('adds slider input element to display.historyWrapper', function() {
+      display.addHistory(); 
+      assert.isOk(testEl.querySelector('.historyWrapper input'));
+      assert.isOk(testEl.querySelector('.historyWrapper input').getAttribute('type') === 'range');
+    });
+    //it('triggers bus events upon interaction', function() {
+      //var log = []; 
+      //bus.on('historyChange', (position) => {
+        //log.push(position);
+      //});
+      //display.addHistory();
+      //var event = new Event('change');
+      //testEl.querySelector('.historyWrapper input').dispatchEvent(event);
+      //assert.isOk(log.lenght === 1);
+    //});
+  });
+  describe('addFieldSize', function() {
+    var testEl;
+    var testField;
+    var display;
+    var bus; 
+    beforeEach(function() {
+      bus = new EventBus();
+      testField = [['_', '_', '_'], ['_', '*', '_'], ['_','_','_']]; 
+      testEl = document.createElement('div');
+      display = new DisplayComponent(testEl, bus, 'text');
+      display.render(testField);
+    });
+    it('is a DisplayComponent method', function() {
+      assert.isOk(typeof display.addHistory === 'function');
+    });
+    it('adds two text inputs and a button', function() {
+      display.addFieldSize();
+      var inputs = display.fieldSizeWrapper.getElementsByTagName('input');
+      var buttons = display.fieldSizeWrapper.getElementsByTagName('button');
+      assert.isOk(inputs.length === 2);
+      assert.isOk(buttons.length === 1);
+    });
+    it('sends fieldSizeChange event to bus on button click', function() {
+      display.addFieldSize();
+      var inputs = display.fieldSizeWrapper.getElementsByTagName('input');
+      var buttons = display.fieldSizeWrapper.getElementsByTagName('button');
+      var log = [];
+      bus.on('fieldSizeChange', (arg) => log.push(arg));
+      inputs[0].value = 10;
+      inputs[1].value = 15;
+      buttons[0].click();
+      assert.isOk(log[0][0] === 10);
+      assert.isOk(log[0][1] === 15);
     });
   });
 });
