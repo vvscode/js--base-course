@@ -1,0 +1,98 @@
+.modal {
+	position: absolute;
+	z-index: 5;
+	transform: translate(50%, 50%);
+
+	margin: auto;
+	padding: 10px;
+	width: 40%;
+	max-width: 500px;
+
+	background-color: $border-green;
+	border: 1px solid green;
+	border-radius: 5px;
+	box-shadow: 0 0 3px grey;
+}
+
+.modal__text {
+	margin-bottom: 20px;
+
+	font-family: $jura;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: $white;
+}
+
+.modal__input {
+	padding: 5px 10%;
+	margin-bottom: 20px;
+	width: 90%;
+
+	display: block;
+
+	outline: none;
+	border: 1px solid dimgrey;
+
+	font-family: "Philosopher-Italic", cursive;
+	font-size: 16px;
+	color: darkolivegreen;
+}
+
+.modal__btn-wrap {
+	display: flex;
+	justify-content: space-around;
+}
+
+.modal__btn {
+	padding: 5px;
+
+	outline: none;
+	border: 1px solid #c6c16f;
+	border-radius: 3px;
+	background-color: palegoldenrod;
+	font-family: $marck;
+	color: #9c720a;
+}
+
+.modal__btn:first-of-type {
+	margin-right: 20px;
+}
+
+//.user-tasks-wrap {
+//	max-height: 70px;
+//
+//	overflow-y: scroll;
+//	scroll-behavior: smooth;
+//}
+//
+//.user-task {
+//	position: relative;
+//
+//	width: 95%;
+//	margin: auto;
+//	border-top: 1px solid gray;
+//	border-collapse: collapse;
+//}
+//
+//.user-task__text {
+//	padding: 5px 10px 5px 5px;
+//	margin: 0;
+//
+//	font-size: 11px;
+//	font-family: "Philosopher-Italic", cursive;
+//}
+//
+//.user-task__btn {
+//	position: absolute;
+//	top: 0;
+//	right: 0;
+//
+//	padding: 0;
+//
+//	border: none;
+//	background-color: transparent;
+//}
+//
+//.user-task__btn > img {
+//	width: 10px;
+//}

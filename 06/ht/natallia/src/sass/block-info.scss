@@ -1,0 +1,93 @@
+.block-info {
+	flex: 1 1 30%;
+	padding: 5px 20px;
+
+	border: 1px dashed $border-green;
+	border-radius: 3px 25px;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.block-info__title {
+	font-family: $pang;
+	color: $black;
+}
+
+.block-info__wrap {
+	overflow: auto;
+
+	font-family: $marck;
+	color: $medium-green;
+
+	&--current-weather {
+		font-size: 0.8em;
+	}
+}
+
+.block-info__time {
+	font-size: 16px;
+	color: $dark-green;
+}
+
+.block-info__img-show-weather {
+	margin-right: 7px;
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+
+	vertical-align: middle;
+
+	background: url("../img/weather-icons@1x.png") no-repeat;
+	background-size: 224px 123px;
+
+	@media (min-resolution: 144dpi),
+	(min-resolution: 1.5dppx) {
+			background: url("../img/weather-icons@2x.png") no-repeat;
+			background-size: 224px 123px;
+		}
+
+
+		&--partly-cloudy-day {
+		background-position: 52.35% 0;
+	}
+
+	&--partly-cloudy-night {
+		background-position: 76% 0;
+	}
+
+	&--clear-day {
+		background-position: 0 0;
+	}
+
+	&--clear-night {
+		background-position: 28% 0;
+	}
+
+	&--cloudy {
+		background-position: 100% 0;
+	}
+
+	&--rain {
+		background-position: 0 80%;
+	}
+
+	&--sleet {
+		background-position: 28% 80%;
+	}
+
+	&--snow {
+		background-position: 52.35% 80%;
+	}
+
+	&--wind {
+		background-position: 76% 80%;
+	}
+
+	&--fog {
+		background-position: 100% 80%;
+	}
+}
+
+.block-info__item {
+	display: flex;
+	justify-content: space-between;
+}
