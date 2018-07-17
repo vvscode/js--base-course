@@ -1,9 +1,8 @@
-import { eventBus } from './../index.js';
+import { eventBus } from '../index.js';
 
 export default function loadMap(id, position) {
-  let lat = position.lat;
-  let lng = position.lng;
-  var myMap;
+  let {lat, lng} = position;
+  var map;
 
   if (document.querySelector('#map') && window.location.hash.match(/city/)) {
     document.querySelector('#map').innerHTML = '';
@@ -14,16 +13,16 @@ export default function loadMap(id, position) {
   }
 
   function init() {
-    myMap = new ymaps.Map(id, {
+    map = new ymaps.Map(id, {
       center: [lat, lng],
       zoom: 7,
       controls: ['zoomControl']
     });
 
-    myMap.events.add('actionend', getNewCenter);
+    map.events.add('actionend', getNewCenter);
 
     function getNewCenter() {
-      let newCenter = myMap.getCenter();
+      let newCenter = map.getCenter();
       var url = `center=${newCenter[0]},${newCenter[1]}`;
       eventBus.trigger('changeUrl', url);
     }

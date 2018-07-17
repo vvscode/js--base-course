@@ -1,39 +1,48 @@
-import setStorage from './setLocalStorage.js';
-import getStorage from './getLocalStorage.js';
+import {setStorage} from './storage';
+import {getStorage} from './storage';
+import askNameCity from './askNameCity';
+import writeFavoriteCityFromStorage from './writeFavoriteCityFromStorage';
+import {router} from '../index';
 
-export default function addFavorite() {
-  document.querySelector('#star').addEventListener('click', function(e) {
-    if (window.location.hash.search(/city/) === -1) {
-      return;
-    }
+export default function addFavorite(e) {
+	if (router.url.match(/city/)) {
+		var city = router.url.replace(/city\//, '');
+		var addr = router.url;
+		addCityByStorage(city, addr);
+	} else if (router.url.match(/center/)) {
+		let parEl = e.target.parentNode.parentNode;
+		askNameCity(parEl);
 
-    let city = decodeURI(window.location.hash.replace(/#city\//, ''));
-    let blockInfo = document.querySelector('#favorites-wrap');
+		parEl.querySelector('#cancelName').addEventListener('click', _ => {
+			parEl.querySelector('#modal').remove();
+			return;
+		});
 
-    e.preventDefault();
-    var value = false;
-    if (!blockInfo.querySelector('ul')) {
-      var ul = document.createElement('ul');
-      blockInfo.appendChild(ul);
-    } else {
-      ul = blockInfo.querySelector('ul');
-      ul.classList.add('block-info__list');
-      let favCities = blockInfo.querySelectorAll('a');
-      favCities.forEach(el => {
-        if (el.innerText === `${city}`) {
-          value = true;
-        }
-      });
-    }
+		parEl.querySelector('#addName').addEventListener('click', e => {
+			e.preventDefault();
+			city = parEl.querySelector('#modal-input').value;
+			parEl.querySelector('#modal').remove();
+			addr = router.url;
+			addCityByStorage(city, addr);
+		});
+	}
+}
 
-    if (!value) {
-      let keyName = city;
-      let valueFavorite = `<li class="block-info__item"><a href="#city/${city}">${city}</a><button data-close="${city}" class="close btn"><img data-close="${city}" src="img/close.svg"></button></li>`;
-      setStorage(keyName, valueFavorite).then(_ => {
-        getStorage(keyName).then(data => {
-          ul.insertAdjacentHTML('afterbegin', data);
-        });
-      });
-    }
-  });
+function addCityByStorage(city, addr) {
+	getStorage(`city - ${city}`)
+		.then(val => {
+		if (!val) {
+			let favCityEl = `<li class="block-info__item"><a href="#${addr}">${city}</a><button data-close="${city}" class="close btn"><img data-close="${city}" src="img/close.svg"></button></li>`;
+			return favCityEl;
+		}
+	})
+		.then(el => {
+			setStorage(`city - ${city}`, el)
+				.then( _ => {
+					getStorage(`city - ${city}`)
+						.then(el => {
+							writeFavoriteCityFromStorage(el);
+						})
+				});
+		});
 }

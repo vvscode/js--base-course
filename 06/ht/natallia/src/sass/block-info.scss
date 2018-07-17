@@ -36,12 +36,12 @@
 
 	vertical-align: middle;
 
-	background: url("./../img/weather-icons@1x.png") no-repeat;
+	background: url("../img/weather-icons@1x.png") no-repeat;
 	background-size: 224px 123px;
 
 	@media (min-resolution: 144dpi),
 	(min-resolution: 1.5dppx) {
-			background: url("./../img/weather-icons@2x.png") no-repeat;
+			background: url("../img/weather-icons@2x.png") no-repeat;
 			background-size: 224px 123px;
 		}
 

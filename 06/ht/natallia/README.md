@@ -1,1 +1,1 @@
-Сайт погоды доступен по адресу https://natalliak.github.io
+Сайт погоды доступен по адресу https://natalliak.github.io/weatherSite/index.html

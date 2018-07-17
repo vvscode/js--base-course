@@ -12,20 +12,19 @@ export default class EventBus {
   }
 
   off(eventName, cb) {
-    if (this.listeners[eventName] || []) {
-      this.listeners[eventName].splice(
-        this.listeners[eventName].indexOf(cb),
-        1
-      );
-    }
+		this.listeners[eventName] = this.listeners[eventName] || [];
+		this.listeners[eventName].splice(
+			this.listeners[eventName].indexOf(cb),
+			1
+		);
+
   }
 
   trigger(eventName, data) {
-    if (this.listeners[eventName] || []) {
-      this.listeners[eventName].forEach(cb => {
-        cb(data);
-      });
-    }
+		this.listeners[eventName] = this.listeners[eventName] || [];
+		this.listeners[eventName].forEach(cb => {
+			cb(data);
+		});
   }
 
   once(eventName, cb) {

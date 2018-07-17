@@ -1,3 +1,5 @@
+import {removeFromStorage} from "./storage";
+
 export default function removeFavorite() {
   document.querySelector('#favorites').addEventListener('click', e => {
     let blockFav = document.querySelector('#favorites');
@@ -6,7 +8,7 @@ export default function removeFavorite() {
         let li = e.target.parentNode.parentNode;
         let ul = li.parentNode;
         let city = li.querySelector('a').innerText;
-        removeLocalStorage(city).then(_ => {
+        removeFromStorage(`city - ${city}`).then( _ => {
           li.remove();
 
           if (!ul.childNodes.length) {
@@ -16,15 +18,4 @@ export default function removeFavorite() {
       }
     }
   });
-
-  function removeLocalStorage(key) {
-    return new Promise(function(resolve) {
-      setTimeout(function() {
-        localStorage.removeItem(key);
-        if (!localStorage.getItem(key)) {
-          resolve();
-        }
-      }, 10);
-    });
-  }
 }
