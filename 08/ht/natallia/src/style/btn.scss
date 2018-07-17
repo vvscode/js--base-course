@@ -1,0 +1,10 @@
+.btn {
+	cursor: pointer;
+
+	&:hover,
+	&:focus,
+	&:active {
+		border: none;
+		outline: none;
+	}
+}

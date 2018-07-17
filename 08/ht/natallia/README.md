@@ -1,0 +1,1 @@
+Игра доступна по ссылке https://natalliak.github.io/gameOfLife/index.html

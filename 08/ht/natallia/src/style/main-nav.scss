@@ -1,0 +1,12 @@
+.main-nav__list {
+	display: flex;
+	justify-content: center;
+
+	font-family: $marmelad;
+	font-size: 1.2em;
+	color: $grey;
+}
+
+.main-nav__item {
+	margin: 10px 20px 0;
+}
