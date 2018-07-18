@@ -4,8 +4,12 @@ export default function LifeGame(startingField, bus) {
   this.paused = true;
   this.speed = 500;
   this.bus = bus;
-  this.currentHistory = 0;
-  this.bus.maxHistory;
+  this.bus.maxHistory = 0;
+  var tmp = [];
+  startingField.forEach((line, index) => {
+    tmp[index] = line.slice();      
+  });
+  this.history.push(tmp);
 }
 
 LifeGame.prototype = {
@@ -13,17 +17,10 @@ LifeGame.prototype = {
     return [[i-1, j-1], [i-1, j], [i-1, j+1],[i, j-1], [i, j+1] ,[i+1, j-1], [i+1,j], [i+1, j+1]];
   },
   nextGen: function() {
-    var newArray = [];
-    this.currentState.forEach((line, index) => {
-      newArray[index] = line.slice();      
-    });
     var field = [];
     this.currentState.forEach((line, index) => {
       field[index] = line.slice();      
     });
-    this.history.push(newArray);
-    this.bus.maxHistory = this.history.length;
-    this.currentHistory += 1;
     var livingNeighbours = 0;
     var neighbourArray;
     for(var i = 0; i < field.length; i++) {
@@ -52,6 +49,12 @@ LifeGame.prototype = {
       }
     }
     this.currentState = field;
+    var newArray = [];
+    this.currentState.forEach((line, index) => {
+      newArray[index] = line.slice();      
+    });
+    this.history.push(newArray);
+    this.bus.maxHistory += 1;
   },
   switchCell: function(i, j) {
     if(this.currentState[i][j] === '_') {

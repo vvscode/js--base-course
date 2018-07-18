@@ -203,10 +203,6 @@ describe('DisplayComponent', function() {
     it('takes 1 arg', function() {
       assert.isOk(display.render.length === 1);
     });
-    it('displays game field correctly', function() {
-      display.render(testField);
-      //assert.isOk(testEl.querySelector('table').innerHTML === '<tbody><tr><td class="0;0">_</td><td class="0;1">_</td></tr><tr><td class="1;0">_</td><td class="1;1">_</td></tr></tbody>');
-    });
   });
   describe('addCellListeners', function() {
     describe('text', function() {
@@ -292,16 +288,6 @@ describe('DisplayComponent', function() {
       assert.isOk(testEl.querySelector('.historyWrapper input'));
       assert.isOk(testEl.querySelector('.historyWrapper input').getAttribute('type') === 'range');
     });
-    //it('triggers bus events upon interaction', function() {
-      //var log = []; 
-      //bus.on('historyChange', (position) => {
-        //log.push(position);
-      //});
-      //display.addHistory();
-      //var event = new Event('change');
-      //testEl.querySelector('.historyWrapper input').dispatchEvent(event);
-      //assert.isOk(log.lenght === 1);
-    //});
   });
   describe('addFieldSize', function() {
     var testEl;
@@ -318,21 +304,22 @@ describe('DisplayComponent', function() {
     it('is a DisplayComponent method', function() {
       assert.isOk(typeof display.addHistory === 'function');
     });
-    it('adds two text inputs and a button', function() {
+    it('adds 2 select elements and a button', function() {
       display.addFieldSize();
-      var inputs = display.fieldSizeWrapper.getElementsByTagName('input');
+      var selects = display.fieldSizeWrapper.getElementsByTagName('select');
       var buttons = display.fieldSizeWrapper.getElementsByTagName('button');
-      assert.isOk(inputs.length === 2);
+
+      assert.isOk(selects.length === 2);
       assert.isOk(buttons.length === 1);
     });
-    it('sends fieldSizeChange event to bus on button click', function() {
+    it('sends fieldSizeChange event to bus on interaction', function() {
       display.addFieldSize();
-      var inputs = display.fieldSizeWrapper.getElementsByTagName('input');
+      var selects = display.fieldSizeWrapper.getElementsByTagName('select');
       var buttons = display.fieldSizeWrapper.getElementsByTagName('button');
       var log = [];
       bus.on('fieldSizeChange', (arg) => log.push(arg));
-      inputs[0].value = 10;
-      inputs[1].value = 15;
+      selects[0].value = 10;
+      selects[1].value = 15;
       buttons[0].click();
       assert.isOk(log[0][0] === 10);
       assert.isOk(log[0][1] === 15);

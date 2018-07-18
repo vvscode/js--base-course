@@ -18,7 +18,6 @@ export default function DisplayComponent(el, bus, type) {
 }
 
 DisplayComponent.prototype.render = function(field) {
-  console.log(field);
   this.displayWrapper.innerHTML = '';
   if(this.type === 'text') {
     var table = document.createElement('table');
@@ -119,18 +118,20 @@ DisplayComponent.prototype.addHistory = function() {
 
 DisplayComponent.prototype.addFieldSize = function() {
   this.fieldSizeWrapper.innerHTML = '';
-  var inputX = document.createElement('input');
-  var inputY = document.createElement('input');
+  var selectX = document.createElement('select');
+  selectX.innerHTML = `<option value="5"> 5 </option>
+                       <option value="10"> 10 </option>
+                       <option value="15"> 15 </option>`
+  var selectY = document.createElement('select');
+  selectY.innerHTML = `<option value="5"> 5 </option>
+                       <option value="10"> 10 </option>
+                       <option value="15"> 15 </option>`
   var button = document.createElement('button');
-  button.innerHTML = 'Create field';
-  inputX.className = 'fieldSizeInput';
-  inputY.className = 'fieldSizeInput';
-  inputX.setAttribute('type', 'text');
-  inputY.setAttribute('type', 'text');
-  this.fieldSizeWrapper.appendChild(inputX);
-  this.fieldSizeWrapper.appendChild(inputY);
+  button.innerHTML = 'create new field';
+  this.fieldSizeWrapper.appendChild(selectX);
+  this.fieldSizeWrapper.appendChild(selectY);
   this.fieldSizeWrapper.appendChild(button);
   button.addEventListener('click', () => {
-    this.bus.trigger('fieldSizeChange', [Number(inputX.value), Number(inputY.value)]);
-  })
+    this.bus.trigger('fieldSizeChange', [+selectX.value, +selectY.value]);
+  });
 }

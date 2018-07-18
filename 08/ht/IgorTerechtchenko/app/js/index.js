@@ -16,7 +16,6 @@ for(var i = 0; i < 10; i++) {
 var game = new LifeGame(field, eventBus); 
 
 eventBus.on('cellClick', (coords) => {
-  console.log('bus cell click');
   game.switchCell(coords[0], coords[1]);
 });
 
@@ -33,21 +32,19 @@ eventBus.on('fasterClick', () => {
   game.changeSpeed('+');
   game.switchGameState(); //redrawing
   game.switchGameState();
-  console.log(game.speed);
 });
 
 eventBus.on('slowerClick', () => {
   game.changeSpeed('-');
   game.switchGameState();
   game.switchGameState();
-  console.log(game.speed);
 });
 
 eventBus.on('fieldSizeChange', (sizeArray) => {
   field = [];
   for(var i=0; i<=sizeArray[0]; i++) {
     var line = [];
-    for(var j=0; j<=sizeArray[0]; j++) {
+    for(var j=0; j<=sizeArray[1]; j++) {
       line.push('_'); 
     }
     field.push(line);
@@ -59,16 +56,12 @@ eventBus.on('fieldSizeChange', (sizeArray) => {
 eventBus.on('historyChange', (position) => {
   game.pauseGame();
   //position is string so not strict comparison used
-  if(position == eventBus.maxHistory) {
-    display.render(game.currentState);
-  } else {
-    var newArray = []; 
-    game.history[position].forEach((line, index) => {
-      newArray[index] = line.slice();
-    });
-    game.currentState = newArray; 
-    display.render(game.currentState);
-  }
+  var newArray = []; 
+  game.history[position].forEach((line, index) => {
+    newArray[index] = line.slice();
+  });
+  game.currentState = newArray; 
+  display.render(game.currentState);
 });
 
 var router = new HashRouter({
