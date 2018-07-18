@@ -116,7 +116,7 @@ describe('LifeGame', function() {
         line.forEach(function(el, elIndex) {
           assert.isOk(el === startingField[lineIndex][elIndex]);
         });
-      })
+      });
     });
     describe('changeSpeed', function() {
       it('is a LifeGame method', function() {
@@ -169,15 +169,6 @@ describe('LifeGame', function() {
       game.switchGameState();
     });
   });
-  //describe('traverseHistory', function() {
-    //it('is a life game method', function() {
-      //assert.isOk(typeof game.traverseHistory === 'function');
-    //});
-    //it('sets bus.traversingHistory to true', function() {
-      //game.traverseHistory(0);
-      //assert.isOk(bus.traversingHistory);
-    //});
-  //});
 });
 
 describe('DisplayComponent', function() {

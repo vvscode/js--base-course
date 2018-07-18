@@ -18,6 +18,7 @@ export default function DisplayComponent(el, bus, type) {
 }
 
 DisplayComponent.prototype.render = function(field) {
+  console.log(field);
   this.displayWrapper.innerHTML = '';
   if(this.type === 'text') {
     var table = document.createElement('table');

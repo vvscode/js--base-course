@@ -57,8 +57,18 @@ eventBus.on('fieldSizeChange', (sizeArray) => {
 });
 
 eventBus.on('historyChange', (position) => {
-  game.traverseHistory(position);
-  console.log(position);
+  game.pauseGame();
+  //position is string so not strict comparison used
+  if(position == eventBus.maxHistory) {
+    display.render(game.currentState);
+  } else {
+    var newArray = []; 
+    game.history[position].forEach((line, index) => {
+      newArray[index] = line.slice();
+    });
+    game.currentState = newArray; 
+    display.render(game.currentState);
+  }
 });
 
 var router = new HashRouter({
