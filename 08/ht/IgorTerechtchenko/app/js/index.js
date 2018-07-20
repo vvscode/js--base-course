@@ -86,6 +86,7 @@ var router = new HashRouter({
       display.render(game.currentState);
       display.addControls();
       display.addHistory();
+      display.addFieldSize();
     },
     onEnter: () => console.log('onEnter canvas'),
     onLeave: () => console.log('onLeave canvas')

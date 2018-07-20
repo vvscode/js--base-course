@@ -15,6 +15,7 @@ export default function DisplayComponent(el, bus, type) {
   this.el.appendChild(this.controlsWrapper);
   this.el.appendChild(this.historyWrapper);
   this.el.appendChild(this.fieldSizeWrapper);
+  this.cellSide = 30;
 }
 
 DisplayComponent.prototype.render = function(field) {
@@ -35,25 +36,74 @@ DisplayComponent.prototype.render = function(field) {
     }
     table.innerHTML = tb;
     this.displayWrapper.appendChild(table);
-    this.addCellListeners();
   } 
   else if(this.type === 'canvas') {
-    var canvas = document.createElement('canvas'); 
-    canvas.width = 300;
-    canvas.height = 300;
+    this.cellSide = 30;
+    this.displayWrapper.innerHTML = '';
+    var canvas = document.createElement('canvas');  
+    canvas.width = field[0].length * this.cellSide;
+    canvas.height = field.length * this.cellSide;
+    var context = canvas.getContext('2d');
+    context.fillStyle = 'rgb(200, 0, 0)';
+    var currentX = 0;
+    var currentY = 0;
+    for(var i = 0; i < field.length; i++) {
+      currentX = 0;
+      for(var j = 0; j < field[0].length; j++) {
+        if(field[i][j] == '*') {
+          context.fillRect(currentX, currentY, this.cellSide, this.cellSide);
+        }
+        currentX += this.cellSide;
+      }
+      currentY += this.cellSide;
+    }
+    this.displayWrapper.appendChild(canvas);
   }
   else if(this.type === 'svg') {
-    console.log('svg');
+    var SVG_NS  = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('width', field[0].length * this.cellSide);
+    svg.setAttribute('height', field.length * this.cellSide);
+    var wrapper = document.createElementNS(SVG_NS, 'rect');
+    wrapper.setAttribute('class', 'wrapper');
+    svg.appendChild(wrapper);
+
+    document.body.appendChild(svg);
+
+    svg.addEventListener('click', (ev) => {
+      // var x = ev.offsetX; var y = ev.offsetY;
+      var { offsetX:x , offsetY: y } = ev;
+      var rect = `
+        <rect 
+          x="${x - SQUARE_SIZE/2}"
+          y="${y - SQUARE_SIZE/2}"
+          rx="${Math.floor(Math.random()*10)}"
+          ry="${Math.floor(Math.random()*10)}" 
+          width="${SQUARE_SIZE}"
+          class="inner-square"
+        />`;
+      svg.innerHTML += rect;
+    })
   }
+  this.addCellListeners();
 }
 
 DisplayComponent.prototype.addCellListeners = function() {
-  var table = this.displayWrapper.querySelector('table');
   if (this.type === 'text') {
+    var table = this.displayWrapper.querySelector('table');
     table.addEventListener('click', (event) => {
       if(event.target.tagName.toLowerCase() === 'td') {
         this.bus.trigger('cellClick', event.target.className.split(';'));
       }
+    });
+  }
+  if (this.type === 'canvas') {
+    var canvas = this.displayWrapper.querySelector('canvas');
+    canvas.addEventListener('click', (event) => {
+      var rect = canvas.getBoundingClientRect();
+      var i = event.clientY - rect.top; 
+      var j = event.clientX - rect.left;
+      this.bus.trigger('cellClick', [Math.floor(i / this.cellSide), Math.floor(j / this.cellSide)]);
     });
   }
 };

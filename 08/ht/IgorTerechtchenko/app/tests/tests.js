@@ -111,7 +111,7 @@ describe('LifeGame', function() {
     });
     it('places previous state in history', function() {
       game.nextGen();
-      assert.isOk(game.history.length === 1);
+      assert.isOk(game.history.length === 2);
       game.history[0].forEach(function(line, lineIndex) {
         line.forEach(function(el, elIndex) {
           assert.isOk(el === startingField[lineIndex][elIndex]);
