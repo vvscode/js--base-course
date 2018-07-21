@@ -29,11 +29,13 @@ export default class TextField {
     } else {
       pre = document.querySelector('pre');
     }
-    pre.style.fontSize = this.SIZE_CELL / 4.2 + 'vh';
+    pre.style.fontSize = this.SIZE_CELL + 'px';
+    pre.style.lineHeight = this.SIZE_CELL + 'px';
+    pre.style.letterSpacing = this.SIZE_CELL / 6.5 + 'px';
 
     for (let i = 0; i < this.arr.length; i++) {
       for (let j = 0; j < this.arr[i].length; j++) {
-        this.field += this.arr[i][j] ? 'x' : ' ';
+        this.field += this.arr[i][j] ? 'X' : ' ';
       }
       this.field += '\n';
     }

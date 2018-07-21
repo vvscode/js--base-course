@@ -46,13 +46,16 @@ let router = new Router({
       onLeave: () => {
         about.innerHTML = '';
         controls.classList.remove('hide');
-        about.classList.add('hide');
       }
     },
 
     {
       name: 'text',
       match: 'text',
+			onBeforeEnter: () => {
+				about.classList.add('hide');
+			},
+
       onEnter: () => {
         new TextField(state, fieldCont);
       },
@@ -66,6 +69,10 @@ let router = new Router({
     {
       name: 'canvas',
       match: 'canvas',
+			onBeforeEnter: () => {
+				about.classList.add('hide');
+			},
+
       onEnter: () => {
         new CanvasField(state, fieldCont);
       },
@@ -79,6 +86,10 @@ let router = new Router({
     {
       name: 'SVG',
       match: 'svg',
+			onBeforeEnter: () => {
+				about.classList.add('hide');
+			},
+
       onEnter: () => {
         new SvgField(state, fieldCont);
       },
