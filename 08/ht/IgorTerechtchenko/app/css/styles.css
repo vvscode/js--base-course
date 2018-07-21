@@ -1,0 +1,39 @@
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+td {
+  border: 0px;
+  cursor: default;
+  width:2em;
+  height:2em;
+  text-align:center;
+}
+
+.content {
+    position: absolute;
+}
+
+table {
+  border: 1px solid blue;
+}
+
+canvas {
+  border: 1px solid blue;
+}
+button.link:* {
+    border: 0;
+
+}
+
+.inner-square {
+  height: 30px;
+  fill: yellow;
+  stroke: black;
+}

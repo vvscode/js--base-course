@@ -38,8 +38,6 @@ DisplayComponent.prototype.render = function(field) {
     this.displayWrapper.appendChild(table);
   } 
   else if(this.type === 'canvas') {
-    this.cellSide = 30;
-    this.displayWrapper.innerHTML = '';
     var canvas = document.createElement('canvas');  
     canvas.width = field[0].length * this.cellSide;
     canvas.height = field.length * this.cellSide;
@@ -64,26 +62,29 @@ DisplayComponent.prototype.render = function(field) {
     var svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('width', field[0].length * this.cellSide);
     svg.setAttribute('height', field.length * this.cellSide);
-    var wrapper = document.createElementNS(SVG_NS, 'rect');
-    wrapper.setAttribute('class', 'wrapper');
-    svg.appendChild(wrapper);
-
-    document.body.appendChild(svg);
-
-    svg.addEventListener('click', (ev) => {
-      // var x = ev.offsetX; var y = ev.offsetY;
-      var { offsetX:x , offsetY: y } = ev;
-      var rect = `
-        <rect 
-          x="${x - SQUARE_SIZE/2}"
-          y="${y - SQUARE_SIZE/2}"
-          rx="${Math.floor(Math.random()*10)}"
-          ry="${Math.floor(Math.random()*10)}" 
-          width="${SQUARE_SIZE}"
-          class="inner-square"
-        />`;
-      svg.innerHTML += rect;
-    })
+    //var field = document.createElementNS(SVG_NS, 'rect');
+    //field.setAttribute('class', 'field');
+    //svg.appendChild(field);
+    var currentX = 0;
+    var currentY = 0;
+    for(var i = 0; i < field.length; i++) {
+      currentX = 0;
+      for(var j = 0; j < field[0].length; j++) {
+        if(field[i][j] == '*') {
+          var rect = `
+            <rect 
+              x="${currentX}"
+              y="${currentY}"
+              width="${this.cellSide}"
+              class="inner-square"
+            />`;
+          svg.innerHTML += rect;
+        }
+        currentX += this.cellSide;
+      }
+      currentY += this.cellSide;
+    }
+    this.displayWrapper.appendChild(svg);
   }
   this.addCellListeners();
 }
@@ -103,6 +104,14 @@ DisplayComponent.prototype.addCellListeners = function() {
       var rect = canvas.getBoundingClientRect();
       var i = event.clientY - rect.top; 
       var j = event.clientX - rect.left;
+      this.bus.trigger('cellClick', [Math.floor(i / this.cellSide), Math.floor(j / this.cellSide)]);
+    });
+  }
+  if (this.type === 'svg') {
+    var svg = this.displayWrapper.querySelector('svg');
+    svg.addEventListener('click', (event) => {
+      var i = event.offsetY; 
+      var j = event.offsetX;
       this.bus.trigger('cellClick', [Math.floor(i / this.cellSide), Math.floor(j / this.cellSide)]);
     });
   }

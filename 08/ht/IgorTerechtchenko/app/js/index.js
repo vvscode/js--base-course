@@ -81,20 +81,26 @@ var router = new HashRouter({
   }, {
     name: 'canvas',
     match: 'canvas',
-    onBeforeEnter: () => {
+    onBeforeEnter: () => console.log('onEnter canvas'),
+    onEnter: () => {
       display.type = 'canvas';
       display.render(game.currentState);
       display.addControls();
       display.addHistory();
       display.addFieldSize();
     },
-    onEnter: () => console.log('onEnter canvas'),
     onLeave: () => console.log('onLeave canvas')
   }, {
     name: 'svg',
     match: 'svg',
     onBeforeEnter: () => console.log('onBeforeEnter svg'),
-    onEnter: () => console.log('onEnter svg'),
+    onEnter: () => {
+      display.type = 'svg';
+      display.render(game.currentState);
+      display.addControls();
+      display.addHistory();
+      display.addFieldSize();
+    },
     onLeave: () => console.log('onLeave svg')
   }, {
     name: 'about',
