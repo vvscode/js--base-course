@@ -40,6 +40,8 @@ function showCalendarPage() {
         addTasks: true,
         removeTasks: true,
         showMonth: true,
+        getter: localStorageGetter,
+        setter: localStorageSetter,
     });
 }
 
@@ -93,6 +95,8 @@ function showCreatePage() {
             '    addTasks: ' + params.addTasks + ',\n' +
             '    removeTasks: ' + params.removeTasks + ',\n' +
             '    showMonth: ' + params.showMonth + ',\n' + 
+            '    getter: localStorageGetter,\n' + 
+            '    setter: localStorageSetter,\n' + 
             '});'
     }
 }
@@ -132,168 +136,195 @@ function Calendar(opts) {
     var year = htmlEl.querySelector('td.year');
     // массив отображаемых названий месяцев
     var mnames = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
-    
-    // загрузка созданных ранее заметок из localStorage
-    var storage;
-    var storageJSON = localStorage.getItem('calendar' + opts.el);
-    if (storageJSON) {
-        storage = JSON.parse(storageJSON);
-    } else {
-        storage = {};
-    }
 
-    // отображаем дни текущего выбранного месяца
-    drawDays();
-    
-    
-    function drawDays() {
-        // скопируем текущую отображаемую дату (обозначает месяц)
-        var d = new Date(cal);
-        // сбрасываем дату на первое число месяца
-        d.setDate(1);
-        if (opts.showMonth) {
-            // отображаем текущий месяц и год
-            month.innerText = mnames[d.getMonth()];
-            year.innerText = d.getFullYear();
+    // геттер
+    opts.getter(opts).then(function(storage) {
+
+        // отображаем дни текущего выбранного месяца
+        drawDays();
+        
+        if (opts.changeMonth) {
+            // по клику на левую кнопку
+            htmlEl.querySelector('button.left').onclick = function() {
+                // переключаемся на предыдущий месяц
+                cal.setMonth(cal.getMonth() - 1);
+                // отображаем календарь для измененного месяца 
+                drawDays();
+            };
+            // по клику на правую кнопку
+            htmlEl.querySelector('button.right').onclick = function() {
+                cal.setMonth(cal.getMonth() + 1);
+                drawDays();
+            }; 
+        } else {
+            // иначе спрячем кнопки
+            htmlEl.querySelector('button.left').style.display = 'none';
+            htmlEl.querySelector('button.right').style.display = 'none';
         }
 
-        // содержимое таблицы
-        var table = '';
-
-        // до первого дня, если не понедельник
-        if (d.getDay() != 1) {
-            table += '<tr>';
-            var last = d.getDay() || 7;
-            for (var i = 1; i < last; i++) {
-                table += '<td></td>';
-            }
-        }
-        // пока не вышли из текущего месяца
-        while (d.getMonth() == cal.getMonth()) {
-            if (d.getDay() == 1) {
-                table += '<tr>'; // открываем строку до понедельника
-            }
-            table += '<td day="' + d.getDate() + '">' + d.getDate() + '</td>';
-            if (d.getDay() == 0) {
-                table += '</tr>'; // закрываем строку после воскресенья
-            }
-            d.setDate(d.getDate() + 1);
-        }
-
-        if (d.getDay() != 1) {
-            while(d.getDay() != 1) {
-                table += '<td class = "nmonth">' + d.getDate() + '</td>';
-                d.setDate(d.getDate() + 1);
-            }
-        }
-
-        // если понедельник, значит после воскресенья строка закрыта
-        if (d.getDay() != 1) {
-            table += '</tr>';
-        }
-        // отобразим таблицу дней
-        tbody.innerHTML = table;
-        // отображение сохраненных ранее заметок в таблице
-        for (var time in storage) {
-            // создание даты (день) по миллисекундам
-            var today  = new Date(+time);
-            // если день в нашем отображаемом месяце
-            if (today.getFullYear() == cal.getFullYear() && today.getMonth() == cal.getMonth()) {
-                // заметки дня надо отобразить в нужный td
-                var td = tbody.querySelector('td[day="' + today.getDate() +'"]');
-                var notes = td.querySelector('div');
-                if (!notes) {
-                    notes = document.createElement('div');
-                    td.appendChild(notes);
-                }
-                // получим список заметок текущего дня
-                var notesList = storage[time];
-                for (var i = 0; i < notesList.length; i++) {
-                    var p = createNote(notesList[i], time, i);
-                    notes.appendChild(p);
-                }
-            }
-        }
-    }
-
-    if (opts.changeMonth) {
-        // по клику на левую кнопку
-        htmlEl.querySelector('button.left').onclick = function() {
-            // переключаемся на предыдущий месяц
-            cal.setMonth(cal.getMonth() - 1);
-            // отображаем календарь для измененного месяца 
-            drawDays();
-        };
-        // по клику на правую кнопку
-        htmlEl.querySelector('button.right').onclick = function() {
-            cal.setMonth(cal.getMonth() + 1);
-            drawDays();
-        }; 
-    } else {
-        // иначе спрячем кнопки
-        htmlEl.querySelector('button.left').style.display = 'none';
-        htmlEl.querySelector('button.right').style.display = 'none';
-    }
-
-    // обрабатываем двойное нажатие мышью по всему календарю
-    tbody.addEventListener('dblclick', function(e) {
-        if (!opts.addTasks) {
-            return;
-        }
-        // получаем текст значения из ячейки
-        var day = +e.target.getAttribute("day");
-        // проверяем, что ячейка содержит числовое значение
-        if (day) {
-            var notes = e.target.querySelector('div');
-            if (!notes) {
-                notes = document.createElement('div');
-                e.target.appendChild(notes);
-            }
-            
-            var noteUser = prompt('Что запланировано на этот день?');
-            if (!noteUser) {
+        // обрабатываем двойное нажатие мышью по всему календарю
+        tbody.addEventListener('dblclick', function(e) {
+            if (!opts.addTasks) {
                 return;
             }
-            // составим дату текущего дня
-            var today = new Date(cal.getFullYear(), cal.getMonth(), day);
+            // получаем текст значения из ячейки
+            var day = +e.target.getAttribute("day");
+            // проверяем, что ячейка содержит числовое значение
+            if (day) {
+                var notes = e.target.querySelector('div');
+                if (!notes) {
+                    notes = document.createElement('div');
+                    e.target.appendChild(notes);
+                }
+                
+                var noteUser = prompt('Что запланировано на этот день?');
+                if (!noteUser) {
+                    return;
+                }
+                // составим дату текущего дня
+                var today = new Date(cal.getFullYear(), cal.getMonth(), day);
 
-            // находим или создаем список заметок в этот день
-            var notesList = storage[today.getTime()];
-            if (!notesList) {
-                notesList = [];
-                storage[today.getTime()] = notesList;
+                // находим или создаем список заметок в этот день
+                var notesList = storage[today.getTime()];
+                if (!notesList) {
+                    notesList = [];
+                    storage[today.getTime()] = notesList;
+                }
+                // добавляем заметку в конец списка
+                notesList.push(noteUser);
+                var p = createNote(noteUser, today.getTime(), notesList.length - 1);
+                notes.appendChild(p);
+
+                opts.setter(opts, storage);
             }
-            // добавляем заметку в конец списка
-            notesList.push(noteUser);
-            var p = createNote(noteUser, today.getTime(), notesList.length - 1);
-            notes.appendChild(p);
+        });
 
-            localStorage.setItem('calendar' + opts.el, JSON.stringify(storage));
+        function drawDays() {
+            // скопируем текущую отображаемую дату (обозначает месяц)
+            var d = new Date(cal);
+            // сбрасываем дату на первое число месяца
+            d.setDate(1);
+            if (opts.showMonth) {
+                // отображаем текущий месяц и год
+                month.innerText = mnames[d.getMonth()];
+                year.innerText = d.getFullYear();
+            }
+
+            // содержимое таблицы
+            var table = '';
+
+            // до первого дня, если не понедельник
+            if (d.getDay() != 1) {
+                table += '<tr>';
+                var last = d.getDay() || 7;
+                for (var i = 1; i < last; i++) {
+                    table += '<td></td>';
+                }
+            }
+            // пока не вышли из текущего месяца
+            while (d.getMonth() == cal.getMonth()) {
+                if (d.getDay() == 1) {
+                    table += '<tr>'; // открываем строку до понедельника
+                }
+                table += '<td day="' + d.getDate() + '">' + d.getDate() + '</td>';
+                if (d.getDay() == 0) {
+                    table += '</tr>'; // закрываем строку после воскресенья
+                }
+                d.setDate(d.getDate() + 1);
+            }
+
+            if (d.getDay() != 1) {
+                while(d.getDay() != 1) {
+                    table += '<td class = "nmonth">' + d.getDate() + '</td>';
+                    d.setDate(d.getDate() + 1);
+                }
+            }
+
+            // если понедельник, значит после воскресенья строка закрыта
+            if (d.getDay() != 1) {
+                table += '</tr>';
+            }
+            // отобразим таблицу дней
+            tbody.innerHTML = table;
+            // отображение сохраненных ранее заметок в таблице
+            for (var time in storage) {
+                // создание даты (день) по миллисекундам
+                var today  = new Date(+time);
+                // если день в нашем отображаемом месяце
+                if (today.getFullYear() == cal.getFullYear() && today.getMonth() == cal.getMonth()) {
+                    // заметки дня надо отобразить в нужный td
+                    var td = tbody.querySelector('td[day="' + today.getDate() +'"]');
+                    var notes = td.querySelector('div');
+                    if (!notes) {
+                        notes = document.createElement('div');
+                        td.appendChild(notes);
+                    }
+                    // получим список заметок текущего дня
+                    var notesList = storage[time];
+                    for (var i = 0; i < notesList.length; i++) {
+                        var p = createNote(notesList[i], time, i);
+                        notes.appendChild(p);
+                    }
+                }
+            }
+        }
+
+        function createNote(text, time, index) {
+            var p = document.createElement('p');
+            p.innerText = text;
+            if (opts.removeTasks) {
+                var a = document.createElement('a');
+                a.innerText = 'x';
+                a.href = '#';
+                a.className = 'del';
+                a.onclick = function() {
+                    if (confirm('Удалить заметку?')) {
+                        p.parentNode.removeChild(p);
+                        // нашли все заметки за нужный день
+                        var notesListDel = storage[time];
+                        // удаляем нужную заметку
+                        notesListDel.splice(index, 1);
+                        // обновили localStorage
+                        opts.setter(opts, storage);
+                    }
+                    return false;
+                };
+                p.appendChild(a);
+            }
+            return p;
         }
     });
 
-    function createNote(text, time, index) {
-        var p = document.createElement('p');
-        p.innerText = text;
-        if (opts.removeTasks) {
-            var a = document.createElement('a');
-            a.innerText = 'x';
-            a.href = '#';
-            a.className = 'del';
-            a.onclick = function() {
-                if (confirm('Удалить заметку?')) {
-                    p.parentNode.removeChild(p);
-                    // нашли все заметки за нужный день
-                    var notesListDel = storage[time];
-                    // удаляем нужную заметку
-                    notesListDel.splice(index, 1);
-                    // обновили localStorage
-                    localStorage.setItem('calendar' + opts.el, JSON.stringify(storage));
-                }
-                return false;
-            };
-            p.appendChild(a);
+    
+}
+
+/**
+ * Стандартный геттер хранилища заметок календаря из localStorage
+ * @param {object} opts объект настроек календаря
+ * @returns {Promise} Возвращает Promise, который вернет объект хранилища заметок календаря
+ */
+function localStorageGetter(opts) {
+    return new Promise(function(resolve, reject) {
+        var storage;
+        var storageJSON = localStorage.getItem('calendar' + opts.el);
+        if (storageJSON) {
+            storage = JSON.parse(storageJSON);
+        } else {
+            storage = {};
         }
-        return p;
-    }
+        return resolve(storage);
+    });
+}
+
+/**
+ * Стандартный сеттер хранилища календаря в localStorage
+ * @param {object} opts объект настроек календаря
+ * @param {object} storage хранилище заметок календаря на сохранение
+ * @returns {Promise} Возвращает Promise, который сохранит указанное хранилище календаря
+ */
+function localStorageSetter(opts, storage) {
+    return new Promise(function(resolve, reject) {
+        localStorage.setItem('calendar' + opts.el, JSON.stringify(storage));
+        return resolve();
+    });
 }
