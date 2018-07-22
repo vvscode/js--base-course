@@ -3,6 +3,7 @@ import HashRouter from './router.js';
 import Menu from './menu.js';  
 import DisplayComponent from './display_component.js';
 import LifeGame from './life_game.js';
+import renderAbout from './render_about.js';
 
 var body = document.querySelector('body');
 var contentEl = document.querySelector('#content');
@@ -21,6 +22,11 @@ eventBus.on('cellClick', (coords) => {
 
 eventBus.on('switchClick', () => {
   game.switchGameState();
+  if(game.paused) {
+    display.changePPButton('>');
+  } else {
+    display.changePPButton('||');
+  }
 });
 
 eventBus.on('rerenderRequest', () => {
@@ -41,6 +47,8 @@ eventBus.on('slowerClick', () => {
 });
 
 eventBus.on('fieldSizeChange', (sizeArray) => {
+  game.pauseGame();
+  display.changePPButton('>');
   field = [];
   for(var i=0; i<=sizeArray[0]; i++) {
     var line = [];
@@ -55,6 +63,7 @@ eventBus.on('fieldSizeChange', (sizeArray) => {
 
 eventBus.on('historyChange', (position) => {
   game.pauseGame();
+  display.changePPButton('>');
   //position is string so not strict comparison used
   var newArray = []; 
   game.history[position].forEach((line, index) => {
@@ -77,11 +86,9 @@ var router = new HashRouter({
       display.addHistory();
       display.addFieldSize();
     },
-    onLeave: () => console.log('onLeave text')
   }, {
     name: 'canvas',
     match: 'canvas',
-    onBeforeEnter: () => console.log('onEnter canvas'),
     onEnter: () => {
       display.type = 'canvas';
       display.render(game.currentState);
@@ -89,11 +96,9 @@ var router = new HashRouter({
       display.addHistory();
       display.addFieldSize();
     },
-    onLeave: () => console.log('onLeave canvas')
   }, {
     name: 'svg',
     match: 'svg',
-    onBeforeEnter: () => console.log('onBeforeEnter svg'),
     onEnter: () => {
       display.type = 'svg';
       display.render(game.currentState);
@@ -101,13 +106,15 @@ var router = new HashRouter({
       display.addHistory();
       display.addFieldSize();
     },
-    onLeave: () => console.log('onLeave svg')
   }, {
     name: 'about',
       match: 'about',
-      onBeforeEnter: () => console.log('onBeforeEnter about'),
-      onEnter: () => console.log('onEnter about'),
-      onLeave: () => console.log('onLeave about')
+      onEnter: () => {
+        renderAbout(contentEl);
+      },
+      onLeave: () => {
+        contentEl.querySelector('.aboutWrapper').innerHTML = '';
+      },
   }]
 });
 

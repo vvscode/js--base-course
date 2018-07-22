@@ -62,9 +62,9 @@ DisplayComponent.prototype.render = function(field) {
     var svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('width', field[0].length * this.cellSide);
     svg.setAttribute('height', field.length * this.cellSide);
-    //var field = document.createElementNS(SVG_NS, 'rect');
-    //field.setAttribute('class', 'field');
-    //svg.appendChild(field);
+    var wrapper = document.createElementNS(SVG_NS, 'rect');
+    wrapper.setAttribute('class', 'svgWrapper');
+    svg.appendChild(wrapper);
     var currentX = 0;
     var currentY = 0;
     for(var i = 0; i < field.length; i++) {
@@ -161,6 +161,11 @@ DisplayComponent.prototype.addControls = function() {
     }
     this.bus.trigger('rerenderRequest');
   });
+};
+
+DisplayComponent.prototype.changePPButton = function(text) {
+  var PPButton = this.controlsWrapper.querySelector('.PPButton');
+  PPButton.innerHTML = text;
 };
 
 DisplayComponent.prototype.addHistory = function() {

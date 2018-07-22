@@ -268,6 +268,31 @@ describe('DisplayComponent', function() {
       assert.isOk(log[2] === 'fasterClick', log[2]);
     });
   });
+  describe('changePPButton innerHTML', function() {
+    var testEl;
+    var testField;
+    var display;
+    var bus; 
+    beforeEach(function() {
+      bus = new EventBus();
+      testField = [['_', '_', '_'], ['_', '*', '_'], ['_','_','_']]; 
+      testEl = document.createElement('div');
+      display = new DisplayComponent(testEl, bus, 'text');
+      display.render(testField);
+      display.addControls();
+    });
+    it('is a DisplayComponent method', function() {
+      assert.isOk(typeof display.changePPButton === 'function'); 
+    });
+    it('is takes 1 arg', function() {
+      assert.isOk(display.changePPButton.length === 1); 
+    });
+    it('changes PPButton according to provided argument', function() {
+      display.changePPButton('test'); 
+      var targetButton = display.controlsWrapper.querySelector('.PPButton');
+      assert.isOk(targetButton.innerHTML === 'test');
+    });
+  });
   describe('addHistory', function() {
     var testEl;
     var testField;
