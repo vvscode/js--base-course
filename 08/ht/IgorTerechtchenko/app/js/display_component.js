@@ -136,31 +136,26 @@ DisplayComponent.prototype.addControls = function() {
   this.controlsWrapper.appendChild(slowerButton);
   this.controlsWrapper.appendChild(PPButton);
   this.controlsWrapper.appendChild(fasterButton);
-  this.controlsWrapper.addEventListener('click', (event) => {
-    if(event.target.tagName.toLowerCase() === 'button') {
-      if(event.target.className === 'slowerButton') {
-        this.bus.trigger('slowerClick');
-        return;
-      }
-      if(event.target.className === 'PPButton') {
-        if(this.paused) {
-          event.target.innerHTML = '||';
-          this.paused = false;
-          this.bus.trigger('switchClick');
-        } else if(!this.paused) {
-          event.target.innerHTML = '>';
-          this.paused = true;
-          this.bus.trigger('switchClick');
+  if(!this.listenerAdded) {
+    this.controlsWrapper.addEventListener('click', (event) => {
+      if(event.target.tagName.toLowerCase() === 'button') {
+        if(event.target.className === 'slowerButton') {
+          this.bus.trigger('slowerClick');
+          return;
         }
-        return;
+        if(event.target.className === 'PPButton') {
+          this.bus.trigger('switchClick');
+          return;
+        }
+        if(event.target.className === 'fasterButton') {
+          this.bus.trigger('fasterClick');
+          return;
+        }
       }
-      if(event.target.className === 'fasterButton') {
-        this.bus.trigger('fasterClick');
-        return;
-      }
-    }
-    this.bus.trigger('rerenderRequest');
-  });
+      this.bus.trigger('rerenderRequest');
+    });
+    this.listenerAdded = true;
+  }
 };
 
 DisplayComponent.prototype.changePPButton = function(text) {

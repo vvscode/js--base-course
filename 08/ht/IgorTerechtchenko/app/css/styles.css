@@ -1,6 +1,7 @@
 body {
   font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
   margin: 2em;
+  background: #FEFCD7; 
 }
 
 h1 {
@@ -16,24 +17,77 @@ td {
   text-align:center;
 }
 
-.content {
-    position: absolute;
-}
-
 table {
-  border: 1px solid blue;
+  text-align: center;
+  border: 1px solid green;
 }
 
 canvas {
-  border: 1px solid blue;
-}
-button.link:* {
-    border: 0;
-
+  border: 1px solid green;
 }
 
 .inner-square {
   height: 30px;
-  fill: yellow;
-  stroke: black;
+  fill: #FFD300;
+}
+
+.svgWrapper {
+  fill:#FEFCD7;
+  stroke: green;
+  stroke-width:1;
+  stroke-opacity: 1;
+  fill-opacity:0.1;
+  width: 100%;
+  height: 100%;
+}
+
+#menuWrapper {
+    background: #6A8347;
+    width: 100%;
+    text-align: center;
+    flex: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button {
+    background: #A6CB45;
+    border: none;
+    height: 50px;
+    width: 100px;
+}
+
+#menuWrapper button {
+    position: relative;
+    bottom: 0px;
+}
+
+select {
+    background: #A6CB45;
+    border: none;
+}
+
+slider {
+    background: #A6CB45;
+    border: none;
+}
+
+button:hover {
+    background: #71B238;
+}
+
+#content {
+    padding: 100px;
+}
+
+#content div {
+    text-align: center;
+}
+
+.displayWrapper {
+    text-align: center;
 }

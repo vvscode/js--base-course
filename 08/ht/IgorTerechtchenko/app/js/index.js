@@ -77,7 +77,6 @@ var router = new HashRouter({
   routes: [{
     name: 'text',
     match: 'text',
-    onBeforeEnter: () => console.log('onBeforeEnter text'),
     onEnter: () => {
       console.log('onEnter text');
       display.type = 'text';
