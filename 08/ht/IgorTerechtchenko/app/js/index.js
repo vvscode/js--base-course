@@ -109,6 +109,7 @@ var router = new HashRouter({
     name: 'about',
       match: 'about',
       onEnter: () => {
+        game.pauseGame();
         renderAbout(contentEl);
       },
       onLeave: () => {
