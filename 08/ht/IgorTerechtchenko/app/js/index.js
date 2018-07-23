@@ -3,13 +3,15 @@ import HashRouter from './router.js';
 import Menu from './menu.js';  
 import DisplayComponent from './display_component.js';
 import LifeGame from './life_game.js';
-import renderAbout from './render_about.js';
+import AboutRenderer from './render_about.js';
 
 var body = document.querySelector('body');
 var contentEl = document.querySelector('#content');
 var menuWrapper = document.querySelector('#menuWrapper');
 var eventBus = new EventBus();
 var display = new DisplayComponent(contentEl, eventBus, 'text');
+var about = new AboutRenderer(contentEl);
+window.location.hash = 'about';
 var field = [];
 for(var i = 0; i < 10; i++) {
   field[i] = ['_', '*', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
@@ -78,7 +80,6 @@ var router = new HashRouter({
     name: 'text',
     match: 'text',
     onEnter: () => {
-      console.log('onEnter text');
       display.type = 'text';
       display.render(game.currentState);
       display.addControls();
@@ -110,10 +111,11 @@ var router = new HashRouter({
       match: 'about',
       onEnter: () => {
         game.pauseGame();
-        renderAbout(contentEl);
+        about.render();
       },
       onLeave: () => {
-        contentEl.querySelector('.aboutWrapper').innerHTML = '';
+        document.querySelector('.aboutWrapper').innerHTML = '';
+        console.log('leave');
       },
   }]
 });

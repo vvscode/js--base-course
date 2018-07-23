@@ -55,15 +55,32 @@ canvas {
 }
 
 button {
-    background: #A6CB45;
+    background: #6A8347;
     border: none;
     height: 50px;
     width: 100px;
 }
 
+button:hover {
+    background: #A6CB45;
+}
+
+
+button.current {
+    background: #A6CB45;
+}
+
 #menuWrapper button {
     position: relative;
     bottom: 0px;
+}
+
+#content button {
+    background: #A6CB45;
+}
+
+#content button:hover {
+    background: #6A8347;
 }
 
 select {
@@ -76,10 +93,6 @@ slider {
     border: none;
 }
 
-button:hover {
-    background: #71B238;
-}
-
 #content {
     padding: 100px;
 }
@@ -90,4 +103,8 @@ button:hover {
 
 .displayWrapper {
     text-align: center;
+}
+
+.aboutWrapper ul li {
+  text-align: left;
 }

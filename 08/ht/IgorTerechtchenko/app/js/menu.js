@@ -17,9 +17,11 @@ Menu.prototype = {
     this.element.appendChild(this.menuEl);
   },
   addListener: function() {
-    this.menuEl.addEventListener('click', function(e) {
+    this.menuEl.addEventListener('click', (e) => {
       if(e.target.tagName.toLowerCase() === 'button') {
-        var newHash = e.target.getAttribute('class').split(':')[1];
+        this.menuEl.querySelectorAll('button').forEach((button) => button.classList.remove('current'));
+        e.target.classList.add('current');
+        var newHash = e.target.getAttribute('class').split(':')[1].split(' ')[0];
         window.location.hash = newHash;
       }
     });
