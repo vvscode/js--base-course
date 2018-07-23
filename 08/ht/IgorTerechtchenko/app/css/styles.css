@@ -55,6 +55,7 @@ canvas {
 }
 
 button {
+    cursor: pointer;
     background: #6A8347;
     border: none;
     height: 50px;
@@ -86,11 +87,11 @@ button.current {
 select {
     background: #A6CB45;
     border: none;
+    cursor: pointer;
 }
 
-slider {
-    background: #A6CB45;
-    border: none;
+select:hover {
+    background: #6A8347;
 }
 
 #content {
@@ -107,4 +108,19 @@ slider {
 
 .aboutWrapper ul li {
   text-align: left;
+}
+
+.range {
+    -webkit-appearance: none;
+    height: 25px;
+    background: #6A8347;
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #A6CB45;
+    cursor: pointer;
 }
