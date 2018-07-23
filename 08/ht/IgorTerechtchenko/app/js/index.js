@@ -111,6 +111,7 @@ var router = new HashRouter({
       match: 'about',
       onEnter: () => {
         game.pauseGame();
+        display.changePPButton('||');
         about.render();
       },
       onLeave: () => {
