@@ -11,7 +11,6 @@ var menuWrapper = document.querySelector('#menuWrapper');
 var eventBus = new EventBus();
 var display = new DisplayComponent(contentEl, eventBus, 'text');
 var about = new AboutRenderer(contentEl);
-window.location.hash = 'about';
 var field = [];
 for(var i = 0; i < 10; i++) {
   field[i] = ['_', '*', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
@@ -113,10 +112,10 @@ var router = new HashRouter({
         game.pauseGame();
         display.changePPButton('||');
         about.render();
+        console.log('about');
       },
       onLeave: () => {
         document.querySelector('.aboutWrapper').innerHTML = '';
-        console.log('leave');
       },
   }]
 });
@@ -124,3 +123,4 @@ var router = new HashRouter({
 var menu = new Menu(menuWrapper, eventBus, {text: 'Text', canvas: 'Canvas', svg: 'SVG', about: 'about'});
 menu.render();
 menu.addListener();
+window.location.hash = 'about';
