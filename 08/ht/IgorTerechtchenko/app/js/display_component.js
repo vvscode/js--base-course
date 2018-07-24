@@ -160,7 +160,9 @@ DisplayComponent.prototype.addControls = function() {
 
 DisplayComponent.prototype.changePPButton = function(text) {
   var PPButton = this.controlsWrapper.querySelector('.PPButton');
-  PPButton.innerHTML = text;
+  if(PPButton) {
+    PPButton.innerHTML = text;
+  }
 };
 
 DisplayComponent.prototype.addHistory = function() {
