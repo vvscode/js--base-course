@@ -8,7 +8,7 @@ export default function AboutPage(el) {
 AboutPage.prototype.render = function() {
   this.clearElements();
   this.aboutWrapper.innerHTML =  `<ul>
-                                  <li>Conwayi's  Game of Life SPA by Igor Terechtchenko, 2018</li>
+                                  <li>Conway's  Game of Life SPA by Igor Terechtchenko, 2018</li>
                                   <li> <a href=https://en.wikipedia.org/wiki/Conway's_Game_of_Life>Background and rules</a></li>
                                   <li> <a href=https://github.com/IgorTerechtchenko/js--base-course/tree/08/08/ht/IgorTerechtchenko> App's github page </li>
                                   </ul>`;
