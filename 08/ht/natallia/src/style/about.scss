@@ -1,0 +1,41 @@
+.about {
+	width: 70vw;
+	padding: 20px;
+	margin: 10px auto;
+
+	background-color: rgba(255, 255, 255, 0.7);
+	border-radius: 5%;
+	box-shadow: 0 0 10px $grey;
+	color: $grey;
+}
+
+.about__title {
+	margin: 10px;
+
+	font-size: 1.6em;
+	font-family: $kelly;
+
+	&--small {
+		font-size: 1.3em;
+	}
+}
+
+.about__text {
+	font-family: $pt;
+}
+
+.about__list {
+	margin: 10px;
+
+	list-style-type: square;
+
+	font-family: $pt;
+
+	&--inner {
+		list-style-type: circle;
+	}
+}
+
+about__item {
+	margin-left: 10px;
+}

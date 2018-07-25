@@ -1,0 +1,12 @@
+.text-field {
+	display: inline-block;
+	width: inherit;
+	height: 100%;
+
+	vertical-align: middle;
+	font-family: $rubic;
+
+	color: $dark-green;
+	box-shadow: 0 0 10px $grey;
+	background-color: rgba(255, 255, 255, 0.7);
+}
