@@ -1,0 +1,126 @@
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+  background: #FEFCD7; 
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+td {
+  border: 0px;
+  cursor: default;
+  width:2em;
+  height:2em;
+  text-align:center;
+}
+
+table {
+  text-align: center;
+  border: 1px solid green;
+}
+
+canvas {
+  border: 1px solid green;
+}
+
+.inner-square {
+  height: 30px;
+  fill: #FFD300;
+}
+
+.svgWrapper {
+  fill:#FEFCD7;
+  stroke: green;
+  stroke-width:1;
+  stroke-opacity: 1;
+  fill-opacity:0.1;
+  width: 100%;
+  height: 100%;
+}
+
+#menuWrapper {
+    background: #6A8347;
+    width: 100%;
+    text-align: center;
+    flex: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button {
+    cursor: pointer;
+    background: #6A8347;
+    border: none;
+    height: 50px;
+    width: 100px;
+}
+
+button:hover {
+    background: #A6CB45;
+}
+
+
+button.current {
+    background: #A6CB45;
+}
+
+#menuWrapper button {
+    position: relative;
+    bottom: 0px;
+}
+
+#content button {
+    background: #A6CB45;
+}
+
+#content button:hover {
+    background: #6A8347;
+}
+
+select {
+    background: #A6CB45;
+    border: none;
+    cursor: pointer;
+}
+
+select:hover {
+    background: #6A8347;
+}
+
+#content {
+    padding: 100px;
+}
+
+#content div {
+    text-align: center;
+}
+
+.displayWrapper {
+    text-align: center;
+}
+
+.aboutWrapper ul li {
+  text-align: left;
+}
+
+.range {
+    -webkit-appearance: none;
+    height: 25px;
+    background: #6A8347;
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #A6CB45;
+    cursor: pointer;
+}
