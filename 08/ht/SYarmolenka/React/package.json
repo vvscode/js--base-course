@@ -1,0 +1,31 @@
+{
+  "name": "life",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://syarmolenka.github.io/life",
+  "dependencies": {
+    "history": "^4.7.2",
+    "konva": "^2.1.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-konva": "^1.7.11",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "styled-components": "^3.3.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
+    "stylelint-config-styled-components": "^0.1.1"
+  }
+}
