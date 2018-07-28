@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {AppContext} from '../../index';
-import Menu from './menu/menu';
+import {Switch, Route} from 'react-router';
 import Text from './text';
 import Canvas from './canvas/canvas';
 import Svg from './svg/svg';
+import About from '../about';
 import styled from 'styled-components';
 
 const MainDiv = styled.main`
@@ -30,41 +31,28 @@ const GameField = styled.div`
   }
 `
 
-class Main extends Component {
-  state = {
-    hash: this.props.match.path,
-  };
-  static getDerivedStateFromProps(props, state) {
-    return (state.hash !== props.match.path) ? ({hash: props.match.path}) : null;
-  };
-  shouldComponentUpdate(props, state) {
-    return state !== this.state; 
-  };
-  render () {
-    return (
-      <MainDiv className='main'>
-        <Menu />
-        <GameField>
-          <AppContext.Consumer>
-            {({arr, changeArrItem, cell}) => {
-              if (!arr || !cell) return <div children='Spinner...'/>
-              const props = {arr, changeArrItem, cell};
-              switch (this.state.hash) {
-                case '/text':
-                  return <Text {...props} />
-                case '/canvas':
-                  return <Canvas {...props} />
-                case '/svg':
-                  return <Svg {...props} />
-                default:
-                  return <Text {...props} />
-              }
-            }}
-          </AppContext.Consumer>
-        </GameField>
-      </MainDiv>
-    );
-  };
+const Main = (props) => {
+  return (
+    <MainDiv className='main'>
+      <GameField>
+        <AppContext.Consumer>
+          {({arr, changeArrItem, cell}) => {
+            const cont = {arr, changeArrItem, cell};
+            if (!arr || !cell) return <div children='Spinner...'/>
+            return (  
+              <Switch>
+                <Route exact path='/' render={props => <Text {...cont} />} />
+                <Route path='/text' render={props => <Text {...cont} />} />
+                <Route path='/canvas' render={props => <Canvas {...cont} />} />
+                <Route path='/svg' render={props => <Svg {...cont} />} />
+                <Route path='/about' component={About} />
+              </Switch>
+            )
+          }}
+        </AppContext.Consumer>
+      </GameField>
+    </MainDiv>
+  );
 };
 
 export default Main;

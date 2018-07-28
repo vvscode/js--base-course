@@ -24,6 +24,7 @@ class Svg extends Component {
       return elem.map((item, j) => {
           if (item === 1) return <Smile key={`${i}-${j}`} x={j * this.props.cell} y={i * this.props.cell} size={this.props.cell} behavior={0}/>
           if (item === 2) return <Smile key={`${i}-${j}`} x={j * this.props.cell} y={i * this.props.cell} size={this.props.cell} behavior={1}/>
+          return null;
       })
     });
   };

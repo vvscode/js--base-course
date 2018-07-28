@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import styled from 'styled-components';
+import Menu from './menu/menu';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,8 +33,14 @@ const A = styled.a`
   display: block;
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: ${props => {
+    return (props.hash === props.href) ? 'yellow' : '#fff';
+    }
+  };
   text-decoration-line: none;
+  &:active {
+    color: red;
+  }
 `
 
 class Header extends PureComponent {
@@ -43,39 +50,26 @@ class Header extends PureComponent {
   static getDerivedStateFromProps(props, state) {
     return (state.hash !== window.location.hash) ? ({hash: window.location.hash}) : null;
   };
-  showHideMenu = () => {
-    const elem = document.querySelector('.menu');
-    if (!elem) return;
-    if (elem.open) {
-      elem.style.top = `-${elem.getBoundingClientRect().height}px`;
-      elem.open = 0;
-    } else {
-      elem.style.top = `${document.querySelector('.header').getBoundingClientRect().height}px`;
-      elem.open = 1;
-    };
-  };
-  decorateLink () {
-    document.querySelectorAll('a').forEach(a => {
-      a.style.color = (a.closest('.header') && a.href.match(/.+(#.+)/)[1] === this.state.hash) ? 'yellow' : '';
-    });
-  };
-  componentDidMount () {
-    this.decorateLink();
-  };
-  componentDidUpdate () {
-    this.decorateLink();
+  showMenu = e => {
+    const height = e.target.clientHeight;
+    this.setState(state => ({
+      heightMenu: (state.heightMenu) ? 0 : height
+      })
+    );
   };
   render () {
+    const hash = this.state.hash;
     return (
-      <Wrapper className='header'>
+      [<Menu key={1} heightMenu={this.state.heightMenu} />,
+      <Wrapper key={2} className='header'>
         <Ul onClick={this.clickHandler}>
-          <Li onClick={this.showHideMenu}>Menu</Li>
-          <Li><A href='#text'>Text</A></Li>
-          <Li><A href='#canvas'>Canvas</A></Li>
-          <Li><A href='#svg'>SVG</A></Li>
-          <Li><A href='#about'>About</A></Li>
+          <Li onClick={this.showMenu}>Menu</Li>
+          <Li><A hash={hash} href='#text'>Text</A></Li>
+          <Li><A hash={hash} href='#canvas'>Canvas</A></Li>
+          <Li><A hash={hash} href='#svg'>SVG</A></Li>
+          <Li><A hash={hash} href='#about'>About</A></Li>
         </Ul>
-      </Wrapper>
+      </Wrapper>]
     );
   };
 };
