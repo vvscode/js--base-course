@@ -1,0 +1,16 @@
+html, body, #root, .application{
+  min-height: 100vh;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-image: url(./art-background-blank-951240.jpg);
+}
+.application {
+  display: flex;
+  font: 1.5em Helvetica sans-serif;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
