@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import injectSheet from 'react-jss';
 import {connect} from 'react-redux';
 import {getDateFromNumber} from '../../helpers';
-import {receiveDataFromStorage, sentDataToStorage} from '../../storage';
+import {sentDataToStorage} from '../../storage';
 import {
   changeDone,
   setList,
   showMessage,
   hideMessage
 } from '../../actions/table';
+import spinner from './loader.gif';
 
 const styled = {
   item: {
@@ -25,13 +26,17 @@ const styled = {
         width: '7em'
       },
     }
+  },
+  spinner: {
+    width: '4em',
+    marginTop: '1em'
   }
 };
 
 class Tbody extends Component {
   constructor(props) {
     super(props);
-    receiveDataFromStorage().then(list => this.props.setList(list));
+    this.props.setList();
   };
   showMessage = (id) => {
     this.props.list.forEach(item => {
@@ -103,7 +108,7 @@ class Tbody extends Component {
   render () {
     return (
       <tbody>
-        {(this.props.list) ? this.buildList() : null}
+        {(this.props.list) ? this.buildList() : <tr><th colSpan={4}><img className={this.props.classes.spinner} src={spinner} alt="Spinner..."/></th></tr>}
       </tbody>
     )
   };

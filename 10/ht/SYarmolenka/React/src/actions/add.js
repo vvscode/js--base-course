@@ -8,10 +8,14 @@ const changeTitle = payload => ({
   payload
 });
 
-const changePriority = payload => ({
-  type: CHANGE_PRIORITY,
-  payload: +payload
-});
+const changePriority = payload => (dispatch, getState) => {
+  setTimeout(_ => {
+    dispatch({
+      type: CHANGE_PRIORITY,
+      payload: +payload
+    });
+  }, 2000);
+};
 
 const changeDate = payload => ({
   type: CHANGE_DATE,

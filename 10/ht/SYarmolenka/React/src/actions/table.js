@@ -1,3 +1,5 @@
+import {receiveDataFromStorage} from '../storage';
+
 const CHANGE_DONE = 'CHANGE_DONE',
   ADD_TASK = 'ADD_TASK',
   SORT_LIST = 'SORT_LIST',
@@ -20,10 +22,12 @@ const sortList = payload => ({
   payload
 });
 
-const setList = payload => ({
-  type: SET_LIST,
-  payload
-});
+const setList = _ => dispatch => {
+  receiveDataFromStorage().then(list => dispatch({
+    type: SET_LIST,
+    payload: list
+  }));
+};
 
 const showMessage = (id, message) => ({
   type: SHOW_MESSAGE,

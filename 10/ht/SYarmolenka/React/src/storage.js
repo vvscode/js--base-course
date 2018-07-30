@@ -5,7 +5,7 @@ const sentDataToStorage = list => {
 const receiveDataFromStorage = _ => {
   return new Promise((resolve, reject) => {
     const localData = window.localStorage.getItem('todoListYarmolenka');
-    localData ? resolve(localData) : reject('no data');
+    setTimeout(_ => {localData ? resolve(localData) : reject('no data')}, 1200);
   }).then(result => {
     return JSON.parse(result);
   }).catch(_ => {
