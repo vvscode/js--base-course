@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import injectSheet from 'react-jss';
 import {connect} from 'react-redux';
+import {sortList} from '../../actions/table';
 
 const styled = {
   item: {
@@ -46,9 +47,4 @@ class Thead extends Component {
   };
 };
 
-export default injectSheet(styled)(connect(
-  state => ({}),
-  dispatch => ({
-    sortList(arr) {dispatch({type: 'SORT_LIST', payload: arr})}
-  })
-)(Thead));
+export default injectSheet(styled)(connect(null, {sortList})(Thead));

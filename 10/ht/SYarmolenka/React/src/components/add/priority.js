@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {handlerSelectComponent} from '../../helpers';
+import {changePriority} from '../../actions/add.js';
 
 class Priority extends Component {
   constructor (props) {
@@ -26,7 +27,5 @@ export default connect(
   state => ({
     priority: state.add.get('priority')
   }),
-  dispatch => ({
-    changePriority (priority) {dispatch({type: 'CHANGE_PRIORITY', payload: priority})}
-  })
+  {changePriority}
 )(Priority);

@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {changeTask} from '../../actions/add.js';
 
 const Description = (props) => {
   return (
@@ -15,7 +16,5 @@ export default connect(
   state => ({
     task: state.add.get('task')
   }),
-  dispatch => ({
-    changeTask (task) {dispatch({type: 'CHANGE_TASK', payload: task})}
-  })
+  {changeTask}
 )(Description);

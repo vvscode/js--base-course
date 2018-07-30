@@ -5,6 +5,13 @@ import DateComponent from './dateComponent';
 import Priority from './priority';
 import Title from './title';
 import Description from './description';
+import {
+  changeTitle,
+  changePriority,
+  changeTask
+} from '../../actions/add.js';
+import {addTask} from '../../actions/table';
+
 
 const styled = {
   form: {
@@ -43,8 +50,8 @@ class Add extends Component {
     const {title, priority, date, task} = this.props;
     if (title && task) {
       this.props.addTask({id, done, title, priority, date, task});
-      this.props.changeTitle();
-      this.props.changeTask();
+      this.props.changeTitle('');
+      this.props.changeTask('');
     };
   };
   render () {
@@ -73,9 +80,5 @@ export default injectSheet(styled)(connect(
     date: state.add.get('date'),
     task: state.add.get('task')
   }),
-  dispatch => ({
-    addTask(task) {dispatch({type: 'ADD_TASK', payload: task})},
-    changeTitle () {dispatch({type: 'CHANGE_TITLE', payload: ''})},
-    changeTask () {dispatch({type: 'CHANGE_TASK', payload: ''})}
-  })
+  {changeTitle, changePriority, changeTask, addTask}
 )(Add));

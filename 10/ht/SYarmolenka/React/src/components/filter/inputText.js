@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {changeText} from '../../actions/filter';
 
 const InputText = (props) => {
   return <input
@@ -14,7 +15,5 @@ export default connect(
   state => ({
     text: state.filter.get('text')
   }),
-  dispatch => ({
-    changeText (text) {dispatch({type: 'CHANGE_SEARCH', payload: text})}
-  })
+  {changeText}
 )(InputText);

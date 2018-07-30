@@ -3,6 +3,12 @@ import injectSheet from 'react-jss';
 import {connect} from 'react-redux';
 import {getDateFromNumber} from '../../helpers';
 import {receiveDataFromStorage, sentDataToStorage} from '../../storage';
+import {
+  changeDone,
+  setList,
+  showMessage,
+  hideMessage
+} from '../../actions/table';
 
 const styled = {
   item: {
@@ -25,7 +31,7 @@ const styled = {
 class Tbody extends Component {
   constructor(props) {
     super(props);
-    receiveDataFromStorage().then(list => this.props.setList(list))
+    receiveDataFromStorage().then(list => this.props.setList(list));
   };
   showMessage = (id) => {
     this.props.list.forEach(item => {
@@ -109,10 +115,5 @@ export default injectSheet(styled)(connect(
     filters: state.filter,
     sort: state.table.get('sort')
   }),
-  dispatch => ({
-    changeDone(id) {dispatch({type: 'CHANGE_DONE', payload: id})},
-    setList(list) {dispatch({type: 'SET_LIST', payload: list})},
-    showMessage(id, message) {dispatch({type: 'SHOW_MESSAGE', payload: [id, message]})},
-    hideMessage(id) {dispatch({type: 'HIDE_MESSAGE', payload: id})}
-  })
+  {changeDone, setList, showMessage, hideMessage}
 )(Tbody));

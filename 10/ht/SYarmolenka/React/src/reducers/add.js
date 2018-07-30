@@ -1,4 +1,10 @@
 import {Map} from 'immutable';
+import {
+  CHANGE_TITLE,
+  CHANGE_PRIORITY,
+  CHANGE_DATE,
+  CHANGE_TASK
+} from '../actions/add';
 
 const initState = Map({
   title: '',
@@ -9,13 +15,13 @@ const initState = Map({
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case 'CHANGE_TITLE':
+    case CHANGE_TITLE:
       return state.set('title', action.payload);
-    case 'CHANGE_PRIORITY':
-      return state.set('priority', +action.payload);
-    case 'CHANGE_DATE':
-      return state.set('date', +action.payload);
-    case 'CHANGE_TASK':
+    case CHANGE_PRIORITY:
+      return state.set('priority', action.payload);
+    case CHANGE_DATE:
+      return state.set('date', action.payload);
+    case CHANGE_TASK:
       return state.set('task', action.payload);
     default:
       return state;

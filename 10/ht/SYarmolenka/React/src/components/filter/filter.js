@@ -5,6 +5,7 @@ import Checkbox from './checkbox';
 import DateFrom from './dateFrom';
 import DateTo from './dateTo';
 import InputText from './inputText';
+import {changeToday, changeCompleted} from '../../actions/filter';
 
 const styled = {
   form: {
@@ -55,8 +56,5 @@ export default injectSheet(styled)(connect(
     today: state.filter.get('today'),
     completed: state.filter.get('completed')
   }),
-  dispatch => ({
-    changeToday () {dispatch({type: 'CHANGE_TODAY'})},
-    changeCompleted () {dispatch({type: 'CHANGE_COMPLETED'})}
-  })
+  {changeToday, changeCompleted}
 )(Filter));

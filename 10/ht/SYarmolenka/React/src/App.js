@@ -36,7 +36,7 @@ const styled = {
   },
   message: {
     animation: 'jump 1s alternate',
-    position: 'absolute',
+    position: 'fixed',
     background: '#fff',
     border: '1px solid',
     borderTop: 'none',
@@ -60,7 +60,7 @@ class App extends Component {
       <div>
         <Add classes={classes}/>
         <Filter classes={classes}/>
-        <Message classes={classes} top={0} left={0}/>
+        <Message classes={classes}/>
         <Table classes={classes}/>
       </div>
     );

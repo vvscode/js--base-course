@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {changeTitle} from '../../actions/add.js';
 
 const Title = (props) => {
   return <input type="text"
@@ -12,7 +13,5 @@ export default connect(
   state => ({
     title: state.add.get('title')
   }),
-  dispatch => ({
-    changeTitle (title) {dispatch({type: 'CHANGE_TITLE', payload: title})}
-  })
+  {changeTitle}
 )(Title);

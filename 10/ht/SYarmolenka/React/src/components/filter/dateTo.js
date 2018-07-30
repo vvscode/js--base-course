@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getDateFromNumber, handlerSelectComponent} from '../../helpers';
+import {changeDateTo} from '../../actions/filter';
 
 class DateTo extends Component {
   state = {};
@@ -36,7 +37,5 @@ export default connect(
     dateFrom: state.filter.get('dateFrom'),
     dateTo: state.filter.get('dateTo')
   }),
-  dispatch => ({
-    changeDateTo (date) {dispatch({type: 'CHANGE_DATE_TO', payload: date})}
-  })
+  {changeDateTo}
 )(DateTo)
