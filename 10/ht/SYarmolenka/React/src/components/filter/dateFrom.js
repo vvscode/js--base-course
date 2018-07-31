@@ -21,7 +21,7 @@ class DateFrom extends Component {
     return result;
   }
   render () {
-    return <select onChange={e => handlerSelectComponent(e.target, this.props.changeDateFrom.bind(this))}>{this.buildDateList()}</select>
+    return <select onChange={e => handlerSelectComponent(e.target, this.props.changeDateFrom)}>{this.buildDateList()}</select>
   }
 }
 
