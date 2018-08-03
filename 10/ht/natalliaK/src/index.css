@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.app-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.form {
+	margin: 10px;
+	max-width: 400px;
+}
+
+.form__field {
+	border: 1px solid lightblue;
+	border-radius: 5px;
+}
+
+.form__legend {
+	padding: 10px;
+
+	font-size: 1.5em;
+	text-align: center;
+	color: dodgerblue;
+}
+
+.form__label {
+	margin: 10px 0 10px 30px;
+	display: block;
+	width: 60%;
+	max-width: 250px;
+}
+
+.form__text {
+	margin-right: 10px;
+	color: #406099;
+}
+
+.form__input {
+	height: 30px;
+	width: 100%;
+	border-color: cornflowerblue;
+	background-color: #d9e4ff;
+}
+
+.form__select {
+	height: 30px;
+	width: 100%;
+	border: 2px solid cornflowerblue;
+	background-color: #d9e4ff;
+}
+
+.form__textarea {
+	border-color: cornflowerblue;
+	background-color: #d9e4ff;
+}
+
+.form__btn {
+	width: 70px;
+	height: 40px;
+	margin-left: 30px;
+
+	font-size: 1.5em;
+	color: dodgerblue;
+	background-color: #d9e4ff;
+	border: none;
+}
+
+.form__check {
+	vertical-align: middle;
+}
+
+.form__search-wrap {
+	position: relative;
+}
+
+.form__img {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+
+	cursor: pointer;
+}
+
+.table {
+	width: 60%;
+	min-width: 472px;
+
+	border: 1px solid lightblue;
+	border-collapse: collapse;
+}
+
+.table__cell {
+	width: 50px;
+	height: 40px;
+	padding: 10px;
+
+	border: 1px solid lightblue;
+}
+
+.table__header-cell {
+	background-color: #d9e4ff;
+}
+
+
