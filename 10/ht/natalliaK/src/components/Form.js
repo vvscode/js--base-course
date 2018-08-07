@@ -3,20 +3,16 @@ import React, { Component } from 'react';
 export default class Form extends Component {
   onSubmit = e => {
     e.preventDefault();
-    if (e.target.querySelector('[name]').value) {
-      let title = e.target.querySelector('[name]').value;
-      let date = e.target.querySelector('#date').value || this.addCurrentDate();
-      let priority = e.target.querySelector('#priority').options[
-        e.target.querySelector('#priority').selectedIndex
-      ].value;
-      let description =
-        e.target.querySelector('#description').value || 'No description';
-      let task = { title, description, priority, date };
-      this.props.addTaskByTable(task);
-      e.target.reset();
-    } else {
-      alert('Add task title');
-    }
+    let title = e.target.querySelector('[name]').value;
+    let date = e.target.querySelector('#date').value || this.addCurrentDate();
+    let priority = e.target.querySelector('#priority').options[
+      e.target.querySelector('#priority').selectedIndex
+    ].value;
+    let description =
+      e.target.querySelector('#description').value || 'No description';
+    let task = { title, description, priority, date };
+    this.props.addTaskByTable(task);
+    e.target.reset();
   };
 
   addCurrentDate = () => {
@@ -45,6 +41,7 @@ export default class Form extends Component {
               type="text"
               name="title"
               placeholder="Title"
+              required
             />
           </label>
           <label className="form__label">

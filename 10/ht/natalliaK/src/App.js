@@ -23,30 +23,26 @@ export default class App extends Component {
     );
   };
 
-  addTaskByTable = tasks => {
-    addTask({ tasks }).then(task => {
+  addTaskByTable = task => {
+    addTask({ task }).then(newTask => {
       this.setState({
-        tasks: [...this.state.tasks, task]
+        tasks: [...this.state.tasks, newTask]
       });
     });
   };
 
-  toggleDone = key => {
+  toggleDone = key =>
     this.setState({
-      tasks: this.state.tasks.map(el => {
-        return {
-          ...el,
-          done: el.id === key ? !el.done : el.done
-        };
-      })
+      tasks: this.state.tasks.map(el => ({
+        ...el,
+        done: el.id === key ? !el.done : el.done
+      }))
     });
-  };
 
-  toggleShowDone = () => {
+  toggleShowDone = () =>
     this.setState(state => ({
       showDoneTasks: !state.showDoneTasks
     }));
-  };
 
   changeDate = e => {
     let name = e.target.getAttribute('name');
@@ -80,8 +76,8 @@ export default class App extends Component {
     list.filter(el => {
       return (el.taskByDate =
         dateTo.length > 1
-          ? dateTo >= el.tasks.date && el.tasks.date >= dateFrom
-          : el.tasks.date >= dateFrom);
+          ? dateTo >= el.task.date && el.task.date >= dateFrom
+          : el.task.date >= dateFrom);
     });
   };
 
@@ -112,52 +108,53 @@ export default class App extends Component {
             ? 1
             : String(a[name]) > String(b[name]) ? -1 : 0;
         changeList = num !== 0 ? true : changeList;
+        console.log(num);
         return num;
       } else if (name === 'priority') {
-        if (a.tasks[name] === b.tasks[name]) {
+        if (a.task[name] === b.task[name]) {
           return 0;
         } else {
           changeList = true;
-          return (a.tasks[name] === 'high' && b.tasks[name] === 'medium') ||
-            (a.tasks[name] === 'medium' && b.tasks[name] === 'low')
+          return (a.task[name] === 'high' && b.task[name] === 'medium') ||
+            (a.task[name] === 'medium' && b.task[name] === 'low')
             ? -1
             : 1;
         }
       } else {
         let num =
-          a.tasks[name] < b.tasks[name]
+          a.task[name] < b.task[name]
             ? 1
-            : a.tasks[name] > b.tasks[name] ? -1 : 0;
+            : a.task[name] > b.task[name] ? -1 : 0;
         changeList = num !== 0 ? true : changeList;
         return num;
       }
     });
+    //console.log(changeList);
     return [list, changeList];
   };
 
-  showSortTasks = (list, dir) => {
+  showSortTasks = (list, dir) =>
     this.setState({
       tasks: list,
       dirSort: dir
     });
-  };
 
   searchTask = task => {
     let searchText = document.querySelector('input[type="search"]').value;
 
     if (searchText.length > 0) {
-      task.filter(el => {
-        return (el.search =
-          el.tasks.title === searchText || el.tasks.description === searchText);
-      });
+      task.filter(
+        el =>
+          (el.search =
+            el.task.title === searchText || el.task.description === searchText)
+      );
     }
   };
 
-  search = () => {
+  search = () =>
     this.setState({
       search: true
     });
-  };
 
   render() {
     return (

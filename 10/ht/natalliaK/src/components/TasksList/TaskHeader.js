@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonSort } from './ButtonsSort';
 
 export default class TaskHeader extends Component {
@@ -18,3 +19,7 @@ export default class TaskHeader extends Component {
     );
   }
 }
+
+TaskHeader.propTypes = {
+  sortTasks: PropTypes.func
+};

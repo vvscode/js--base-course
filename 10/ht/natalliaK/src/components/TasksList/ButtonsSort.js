@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const ButtonSort = props => (
   <span>
@@ -18,3 +19,7 @@ export const ButtonSort = props => (
     </button>
   </span>
 );
+
+ButtonSort.propTypes = {
+  colName: PropTypes.string.isRequired
+};

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import search from '../img/search.png';
 
 export default class FilterTasks extends Component {
-  static defaultProps = {
-    checked: false
-  };
-
   dateFrom = dir => {
     var list = this.props.sortTasks('Date');
     let tasks = list[0];
@@ -17,8 +14,8 @@ export default class FilterTasks extends Component {
 
     var date = [];
     tasks.forEach(elem => {
-      if (!date.includes(elem.tasks.date)) {
-        date = [...date, elem.tasks.date];
+      if (!date.includes(elem.task.date)) {
+        date = [...date, elem.task.date];
       }
     });
 
@@ -92,3 +89,10 @@ export default class FilterTasks extends Component {
     );
   }
 }
+
+FilterTasks.propTasks = {
+  toggleShowDone: PropTypes.func,
+  sortTasks: PropTypes.func,
+  selectDate: PropTypes.func,
+  search: PropTypes.func
+};
