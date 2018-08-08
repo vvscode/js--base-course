@@ -1,0 +1,16 @@
+#root {
+    margin: 0 auto;
+    width: 500px;
+    height: 600px;
+}
+
+.component-h2 {
+    text-align: center;
+    color: #ea4f5f;
+}
+
+h1 {
+    text-align: center;
+    background-color: #fbfbfb; 
+    color: #da1914;
+}
