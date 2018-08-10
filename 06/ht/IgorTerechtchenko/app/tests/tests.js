@@ -1,7 +1,8 @@
+import SearchBar from '../js/search_bar.js';
 import EventBus from '../js/event_bus.js';
-var Mocha = require('mocha');
-var mocha = new Mocha();
-var chai = require('chai');
+import Menu from '../js/menu.js';
+import RadioMenu from '../js/radio_menu.js';
+import StorageInterfaceAsync from '../js/storage.js';
 
 mocha.setup({
   ui: "bdd",
@@ -11,108 +12,163 @@ mocha.setup({
 const assert = chai.assert;
 const $$ = document.querySelector.bind(document);
 
-describe('EventBus', function() {
-  it('is a function', function() {
-    assert.isOk(typeof EventBus === 'function');
+describe('Components', () => {
+  var el;
+  var bus;
+  beforeEach(() => {
+    el = document.createElement('div');
+    bus = new EventBus();
   });
-  it('is a constructor', function() {
-    assert.isOk(new EventBus() instanceof EventBus);
+  describe('SearchBar', () => {
+    it('is a function', () => {
+      assert.isOk(typeof SearchBar === 'function');
+    });
+    it('is a constructor', () => {
+      assert.isOk(typeof(new SearchBar(el, bus)) === 'object');
+    });
+    it('takes 2 args', () => {
+      assert.isOk(SearchBar.length === 2);
+    });
   });
-  describe('methods', () => {
-    var eb;
-    beforeEach(() => eb = new EventBus());
-    
-    describe('.on', function() {
-       it('a method', () => assert.equal(typeof eb.on, 'function'));
+  describe('SearchBar.render', () => {
+    var bar;
+    beforeEach(() => {
+      bar = new SearchBar(el, bus);
     });
-    describe('.off', function() {
-      it('a method', () => assert.equal(typeof eb.off, 'function'))
+    it('is a function', () => {
+      assert.isOk(typeof bar.render === 'function'); 
     });
-    describe('.trigger', function() {
-      it('a method', () => assert.equal(typeof eb.trigger, 'function'))
+    it('adds a text input field to el', () => {
+      bar.render();
+      var length = el.querySelectorAll('input').length;
+      assert.isOk(length === 1, length);
+      assert.isOk(el.querySelector('input').type === 'text', 'type');
     });
-    describe('.once', function() {
-      it('a method', () => assert.equal(typeof eb.once, 'function'))
+    describe('input field functionality', () => {
+      it('triggers searchBarEnter event and sends entered text to event bus on pressing enter', () => {
+        bar.render();
+        var field = el.querySelector('input');
+        field.value = 'test';
+        var e = new KeyboardEvent('keypress', {key: 'Enter'});
+        var log = [];
+        bus.on('searchBarEnter', (arg) => {
+          log.push(arg);
+        });
+        field.dispatchEvent(e);
+        assert.isOk(log.length === 1, log.length);
+        assert.isOk(log[0] === 'test', log[0]);
+      });
     });
-    
-    describe('logic', () => {
-      it('calls .on handler by .trigger', () => {
-        var a = 0;
-        eb.on('some:event', () => a = 1);
-        assert.equal(a, 0);
-        eb.trigger('some:event');
-        assert.equal(a, 1);
+  });
+  describe('Menu', () => {
+    var el;
+    var bus;
+    beforeEach(() => {
+      el = document.createElement('div');
+      bus = new EventBus();
+    });
+    it('is a function', () => {
+      assert.isOk(typeof Menu === 'function'); 
+    });
+    it('takes 2 arguments', () => {
+      assert.isOk(Menu.length === 2);
+    });
+    it('is a constructor', () => {
+      assert.isOk(new Menu() instanceof Menu);
+    });
+    describe('Menu.render', () => {
+      it('is a function', () => {
+        var menu = new Menu(el, bus);
+        assert.isOk(typeof menu.render === 'function');
       });
-      it('works fine for no-handled events', () => {
-         eb.trigger('some:event');
+      it('creates 3 buttons', () => {
+        var menu = new Menu(el, bus);
+        menu.render();
+        var buttons = el.querySelectorAll('button'); 
+        assert.isOk(buttons.length === 3);
       });
-      it('hanldes multiple events', () => {
-        var x = 0; var y = 0;
-        eb.on('x', () => x = 1);
-        eb.on('y', () => y = 2);
-        eb.trigger('x');
-        eb.trigger('y');
-        assert.equal(x, 1);
-        assert.equal(y, 2);
+      it('creates buttons which change hash', () => {
+        var menu = new Menu(el, bus);
+        menu.render();
+        var buttons = el.querySelectorAll('button'); 
+        buttons[0].click();
+        assert.isOk(window.location.hash === '#about');
+        window.location.hash = '';
       });
-      it('manages multiple hanlder per one event', () => {
-        var x = 0;
-        var y = 0;
-        eb.on('x', () => x = 1);
-        eb.on('x', () => y = 2);
-        eb.trigger('x');
-        assert.equal(x, 1);
-        assert.equal(y, 2);
+    });
+  });
+  describe('RadioMenu', () => {
+    var bus;
+    var el;
+    beforeEach(() => {
+      bus = new EventBus();
+      el = document.createElement('div');
+    });
+    it('is a function', () => {
+      assert.isOk(typeof RadioMenu === 'function');
+    });
+    it('takes 2 args', () => {
+      assert.isOk(RadioMenu.length === 2);
+    });
+    it('is a constructor', () => {
+      assert.isOk(new RadioMenu(el, bus) instanceof RadioMenu);
+    });
+    describe('raioMenu.render', () => {
+      var radioMenu;
+      beforeEach( () => {
+        radioMenu = new RadioMenu(el, bus);
       });
-      it('passes params from .trigger into hanlders', () => {
-        var x = [0];
-        eb.on('x', (a) => x.push(a));
-        eb.trigger('x', 2);
-        assert.deepEqual(x, [0, 2]);
+      it('is a function', () => {
+        assert.isOk(typeof radioMenu.render === 'function');
       });
-      it('unsubscribes by .off call', () => {
-        var x = 0;
-        var _ = () => x = 1;
-        eb.on('x', _);
-        eb.off('x', _);
-        eb.trigger('x');
-        assert.equal(x, 0);
+      it('creates two radio buttons', () => {
+        radioMenu.render();
+        var buttons = el.querySelectorAll('input');
+        assert.isOk(buttons.length === 2);
+        buttons.forEach((button) => {
+          assert.isOk(button.type === 'radio');
+        });
       });
-      it('unsubscribe multiple subscriptions', () => {
-        var x = 0;
-        var _ = () => x = 1;
-        eb.on('x', _);
-        eb.on('x', _);
-        eb.off('x', _);
-        eb.trigger('x');
-        assert.equal(x, 0);
+    });
+    describe('radioMenu buttons functionality', () => {
+      it('sends message with current selected option to event bus', () => {
+        var radioMenu = new RadioMenu(el, bus);
+        radioMenu.render();
+        var log = [];
+        var buttons = el.querySelectorAll('input');
+        bus.on('radioOptionSwitch', (currentMode) => {
+          log.push(currentMode);
+        });
+        buttons[0].click();
+        assert.isOk(log.length === 1);
+        assert.isOk(log[0] === 'XHR');
+        buttons[0].click();
+        assert.isOk(log.length === 1); //not sending message if option does not change
+        buttons[1].click();
+        assert.isOk(log.length === 2);
+        assert.isOk(log[1] === 'fetch');
+        buttons[0].click();
+        assert.isOk(log.length === 3);
+        assert.isOk(log[2] === 'XHR');
       });
-      it('once handles call only once', () => {
-        var x = 0;
-        var _ = () => x++;
-        eb.once('x', _);
-        eb.trigger('x');
-        assert.equal(x, 1);
-        eb.trigger('x');
-        assert.equal(x, 1);
-      });
-      it('passes params into .once hanlder', () => {
-         var x = [0];
-         var _ = y => x.push(y);
-         eb.once('x', _);
-         eb.trigger('x', 4);
-         assert.deepEqual(x, [0, 4]);
-      });
-      it('.off handles correctly', () => {
-        var x = 0;
-        var y = 0;
-        var _ = () => x++;
-        eb.on('x', _);
-        eb.on('x', () => y++);
-        eb.off('x', _);
-        eb.trigger('x');
-        assert.equal(y, 1);
-      });
+    });
+  });
+});
+
+describe('Services', () => {
+  var bus;
+  beforeEach(() => {
+    bus = new EventBus();
+  });
+  describe('StorageInterfaceAsync', () => {
+    it('is a function', () => {
+      assert.isOk(typeof StorageInterfaceAsync === 'function');
+    });
+    it('takes 2 args', () => {
+      assert.isOk(StorageInterfaceAsync.length === 2);
+    });
+    it('is a constructor', () => {
+      assert.isOk(new StorageInterfaceAsync() instanceof StorageInterfaceAsync);
     });
   });
 });
