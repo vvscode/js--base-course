@@ -161,14 +161,146 @@ describe('Services', () => {
     bus = new EventBus();
   });
   describe('StorageInterfaceAsync', () => {
+    afterEach(() => {
+      window.localStorage.clear();
+    });
     it('is a function', () => {
       assert.isOk(typeof StorageInterfaceAsync === 'function');
     });
-    it('takes 2 args', () => {
-      assert.isOk(StorageInterfaceAsync.length === 2);
+    describe('StorageInterfaceAsync takes 2 args', () => {
+      it('takes 1 required arg', () => {
+        assert.isOk(StorageInterfaceAsync.length === 1);
+      });
+      it('has 1 optional parameter in addition to required 1', () => {
+        //function.length does not return default params
+        var length = assert.toString().match(/\(.*?\)/)[0].split(',').length;
+        assert.isOk(length === 2);
+      });
+    });
+    it('creates unique-ish userID', () => {
+      var storage = new StorageInterfaceAsync(bus);
+      assert.isOk(window.localStorage.getItem('userID'));
+    });
+    it('creates userID only once', () => {
+      var storage = new StorageInterfaceAsync(bus);
+      assert.isOk(window.localStorage.getItem('userID'));
+      var id = window.localStorage.getItem('userID');
+      storage = new StorageInterfaceAsync(bus);
+      assert.isOk(id === window.localStorage.getItem('userID')); 
     });
     it('is a constructor', () => {
       assert.isOk(new StorageInterfaceAsync() instanceof StorageInterfaceAsync);
+    });
+    it('defaults to localStorage', () => {
+      var storage = new StorageInterfaceAsync(bus);
+      assert.isOk(storage.options.local);
+    });
+    var storage;
+    beforeEach(() => {
+      storage = new StorageInterfaceAsync(bus); 
+    });
+    describe('storageInterface.addToHistory', () => {
+      it('is a StorageInterfaceAsync object mehtod', () => {
+        assert.isOk(typeof storage.addToHistory === 'function');
+      });
+      it('takes 1 arg', () => {
+        assert.isOk(storage.addToHistory.length === 1);
+      });
+      it('returns promise', () => {
+        assert.isOk(storage.addToHistory('test', 'test') instanceof Promise);
+      });
+      it('writes data to storage according to userID and history', () => {
+        storage.addToHistory('testValue');
+        var o = window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1));
+        o = JSON.parse(o);
+        assert.isOk(o.type === 'history');
+        assert.isOk(o.value === 'testValue');
+      });
+    });
+    describe('StorageInterfaceAsync.getHistory', () => {
+      it('is a StorageInterfaceAsync object method', () => {
+        assert.isOk(typeof storage.getHistory === 'function');
+      });
+      it('return promise', () => {
+        assert.isOk(storage.getHistory() instanceof Promise);
+      });
+      it('returns history array', async () => {
+        var favItem = {
+          type: 'favourites',
+          value: 'mock',
+        }
+        window.localStorage.setItem(storage.userID + ':' + storage.entryCounter,
+                                    JSON.stringify(favItem));
+        storage.entryCounter += 1;
+        storage.addToHistory('a');
+        storage.addToHistory('b');
+        var history = await storage.getHistory()
+        assert.isOk(history.length === 2);
+        assert.isOk(history[0].value === 'a');
+        assert.isOk(history[1].value === 'b');
+      });
+    });
+    describe('StorageInterfaceAsync.addToFavourites', () => {
+      it('is a StorageInterfaceAsync object method', () => {
+        assert.isOk(typeof storage.addToFavourites === 'function');
+      });
+      it('takes 1 arg', () => {
+        assert.isOk(storage.addToFavourites.length === 1);
+      });
+      it('returns a promise', () => {
+        assert.isOk(storage.addToFavourites('test') instanceof Promise);
+      });
+      it('writes to localStorage', () => {
+        storage.addToFavourites('dudinka');
+        var fav = JSON.parse(window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1)));
+        assert.isOk(fav.value === 'dudinka');
+        assert.isOk(fav.type === 'favourites');
+      });
+    });
+    describe('removeFromFavourites', () => {
+      it('is a StorageInterfaceAsync object method', () => {
+        assert.isOk(typeof storage.removeFromFavourites === 'function');
+      });
+      it('takes 1 arg', () => {
+        assert.isOk(storage.removeFromFavourites.length === 1);
+      });
+      it('returns a promise', () => {
+        assert.isOk(storage.removeFromFavourites() instanceof Promise);        
+      });
+      it('removes specified item from storage', () => {
+        storage.addToFavourites('kebab');
+        var item = JSON.parse(window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1)));        
+        storage.removeFromFavourites(item.entryID);
+        item = window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1));        
+        assert.isOk(item === null);
+      });
+    });
+    describe('getFavourites', () => {
+      it('is a StorageInterfaceAsync object method', () => {
+        assert.isOk(typeof storage.getFavourites === 'function');
+      });
+      it('takes no args', () => {
+        assert.isOk(storage.getFavourites.length === 0);
+      });
+      it('returns a promise', () => {
+        assert.isOk(storage.getFavourites() instanceof Promise);        
+      });
+      it('returns favourites array', async () => {
+        var favItem = {
+          type: 'history',
+          value: 'mock',
+        }
+        window.localStorage.setItem(storage.userID + ':' + storage.entryCounter,
+                                    JSON.stringify(favItem));
+        storage.entryCounter += 1;
+        storage.addToFavourites('a');
+        storage.addToFavourites('b');
+        var favs = await storage.getFavourites();
+        assert.isOk(favs instanceof Array);
+        assert.isOk(favs.length === 2); 
+        assert.isOk(favs[0].value === 'a');
+        assert.isOk(favs[1].value === 'b');
+      });
     });
   });
 });
