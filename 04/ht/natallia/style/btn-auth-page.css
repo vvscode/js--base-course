@@ -1,0 +1,24 @@
+.btn-auth-page {
+	display: flex;
+	justify-content: space-around;
+	padding: 10% 0 0;
+	align-items: center;
+	width: 70%;
+	margin: auto;
+}
+
+.btn-auth-page__p {
+	color: #a6d83c;
+	font-family: "Philosopher-Italic", cursive;
+	line-height: 2.2em;
+}
+
+.btn-auth-page__btn-wrap {
+	margin-left: auto;
+	flex-basis: 30px;
+}
+
+.btn-auth-page__btn > img{
+	width: 25px;
+	height: 25px;
+}

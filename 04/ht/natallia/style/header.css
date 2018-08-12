@@ -1,0 +1,42 @@
+body {
+	position: relative;
+	min-width: 800px;
+}
+
+.btn {
+	cursor: pointer;
+}
+
+.header {
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	z-index: 3;
+
+	min-width: 60%;
+
+	transform: translateX(-50%);
+}
+
+.header__link-wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	text-align: center;
+}
+
+.header__link {
+	padding: 0 20px;
+
+	text-decoration: none;
+	font-size: 16px;
+	font-family: "Philosopher-Italic", cursive;
+	color: darkgreen;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.header__link:not(:last-of-type) {
+	border-right: 1px dashed green;
+}

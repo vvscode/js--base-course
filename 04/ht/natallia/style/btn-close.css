@@ -1,0 +1,16 @@
+.btn__close {
+	position: absolute;
+	top: 2%;
+	right: 2%;
+
+	border: none;
+	background-color: transparent;
+}
+
+.btn__close-img {
+	width: 30px;
+	height: 30px;
+
+	vertical-align: middle;
+	cursor: pointer;
+}

@@ -1,0 +1,8 @@
+.output {
+	padding: 15px;
+
+	border: 1px dashed darkolivegreen;
+	background-color: #dfffc3;
+	font-family: "Philosopher-Italic", cursive;
+	overflow: auto;
+}

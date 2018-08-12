@@ -1,0 +1,25 @@
+.about {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+
+  background-color: #dfffc3;
+}
+
+.about__img {
+  margin: 0 auto;
+}
+
+.about__p {
+  flex-basis: 100%;
+  padding: 30px 0 20px;
+
+  text-align: center;
+  font-family: 'Ubuntu-BoldItalic', cursive;
+  font-size: 16px;
+  color: #364609;
+}

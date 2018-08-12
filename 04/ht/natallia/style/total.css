@@ -1,0 +1,12 @@
+.btn {
+	cursor: pointer;
+}
+
+.btn:focus {
+	border: none;
+	outline: none;
+}
+
+.hide {
+	display: none;
+}

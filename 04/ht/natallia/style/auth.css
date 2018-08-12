@@ -1,0 +1,126 @@
+.auth {
+	position: relative;
+	padding: 20px;
+
+	background-color: #eafbe7;
+	border-radius: 5px;
+	border: 1px solid darkgrey;
+	box-shadow: 0 0 5px grey;
+
+	font-family: "Philosopher-Italic", cursive;
+}
+
+.auth__wrap-out {
+	position: absolute;
+	top: 130px;
+	left: 50%;
+	z-index: 3;
+
+	width: 80%;
+	max-width: 600px;
+	margin-top: 50px;
+	transform: translateX(-50%);
+}
+
+.auth__p {
+	margin: 0 7% 0 7%;
+
+	color: #697573;
+}
+
+.auth__input {
+	display: block;
+	width: 80%;
+	height: 10px;
+	margin: 20px;
+	padding: 10px;
+
+	color: #3f5865;
+
+	border-radius: 8px;
+	border: 1px solid #91b0bf;
+
+	background-color: #fff;
+}
+
+.auth__input:hover {
+	 border-radius: 8px;
+
+	 color: #173750;
+
+	 background-color: #bad8cb;
+	 border-color: #47affa;
+}
+
+.auth__input:focus {
+	outline: none;
+}
+
+.auth__btn-wrap {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	width: 90%;
+}
+
+.auth__btn {
+	position: relative;
+
+	flex-basis: 130px;
+	height: 30px;
+	margin-top: 20px;
+
+	border-radius: 3px;
+	border: 1px solid #398ac5;
+	overflow: hidden;
+	color: #15354b;
+	background-color: #c3e6d7;
+	vertical-align: top;
+
+	transition: 1s ease-out;
+}
+
+.auth__btn:before,
+.auth__btn:after {
+	 position: absolute;
+	 content: '';
+
+	 display: block;
+	 width: 100%;
+	 height: 1px;
+	 background-color: #e0f5fa;
+
+	 transition: 0.5s ease-in-out;
+}
+
+.auth__btn:before {
+	 top: 0;
+	 left: 0;
+	 transform: translateX(100%);
+}
+
+.auth__btn:after {
+	 bottom: 0;
+	 left: 0;
+	 transform: translateX(-100%);
+}
+
+.auth__btn:hover {
+	 letter-spacing: 2px;
+	 color: white;
+
+	 background-color: #194360;
+}
+
+.auth__btn:hover:before,
+.auth__btn:hover:after {
+	 transform:translateX(0%);
+}
+
+.auth__reset {
+	margin: 30px 20px 10px 30px;
+
+	border: none;
+	border-bottom: 1px dashed black;
+	background-color: transparent;
+}

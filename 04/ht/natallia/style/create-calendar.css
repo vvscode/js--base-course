@@ -1,0 +1,93 @@
+.create-calendar {
+	margin: 0 auto;
+	max-width: 600px;
+	width: 80%;
+}
+
+.create-calendar__form {
+	margin-bottom: 50px;
+}
+
+.create-calendar__fieldset {
+	border: 1px dashed darkolivegreen;
+	background-color: #dfffc3;
+}
+
+.create-calendar__legend {
+	margin: 0 auto;
+	padding: 10px;
+
+	font-family: "Ubuntu-BoldItalic", cursive;
+	text-transform: uppercase;
+	color: darkolivegreen;
+}
+
+.create-calendar__label {
+	display: flex;
+	align-items: center;
+	padding: 5px 0;
+}
+
+.create-calendar__span {
+	padding-left: 10px;
+	padding-right: 10px;
+
+	font-family: "Philosopher-Italic", cursive;
+	color: darkgreen;
+}
+
+ .create-calendar__select {
+	font-family: "Ubuntu-BoldItalic", cursive;
+	color: green;
+}
+
+ .create-calendar__p {
+	 font-family: "Ubuntu-BoldItalic", cursive;
+	 color: darkgreen;
+ }
+
+ .create-calendar__div {
+	 width: 60%;
+	 height: 30px;
+	 padding-left: 10px;
+
+	 line-height: 30px;
+	 background-color: white;
+	 border: 1px solid darkolivegreen;
+	 border-radius: 3px;
+	 font-family: "Philosopher-Italic", cursive;
+	 color: #364609;
+ }
+
+ .create-calendar__wrap-radio {
+	 margin: 10px 0 10px 20px;
+	 border-top: 1px dotted grey;
+	 border-bottom: 1px dotted grey;
+ }
+
+.preview-calendar {
+	position: relative;
+
+	margin: 0 auto 40px;
+}
+
+.disabled {
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.5;
+}
+
+@font-face {
+	font-family: "ElMessiri-SemiBold";
+	src: url("../fonts/ElMessiri-SemiBold.ttf");
+}
+
+@font-face {
+	font-family: "Philosopher-Italic";
+	src: url("../fonts/Philosopher-Italic.ttf");
+}
+
+@font-face {
+	font-family: "Ubuntu-BoldItalic";
+	src: url("../fonts/Ubuntu-BoldItalic.ttf");
+}
