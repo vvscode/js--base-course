@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <title>Форма</title>
+    <style>
+        .container{
+            width: 944px;
+            margin:0 auto;
+        }
+        h1{
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .form1 {
+            width: 544px;
+        }
+        .form1 td {
+            padding-bottom: 24px;
+        }
+        .form1 input[type="text"],
+        .form1 textarea,
+        .form1 input[type="email"] {
+            box-sizing: border-box;
+            width: 544px;
+            padding: 11px 0 13px 16px;
+            font-size: 16px;
+            color: #000000;
+            line-height: 24px;
+            background: #FFFFFF;
+            border: 1px solid rgba(0,0,0,0.10);
+            border-radius: 4px;
+        }
+        .form1 input[type="text"]:hover,
+        .form1 textarea:hover {
+            border: 1px solid #404040;
+        }
+        .form1 textarea{
+            resize: none;
+            height:100px;
+        }
+        .form1 .btn{
+            width: 100%;
+            border-radius: 4px;
+            font-weight: normal;
+            margin-bottom: 0;
+            text-align: center;
+            padding-top: 13px;
+            padding-bottom: 12px;
+            background: #DD3E18;
+            font-size: 16px;
+            color: #FFFFFF;
+            line-height: 24px;
+            cursor:pointer;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container">
+    <h1>Введите информацию</h1>
+    <form class="form1" action="" method="post">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" name="name" placeholder="Представьтесь, пожалуйста" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Ваш возраст:</p>
+                    <select name="age" required>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Ваш пол:</p>
+                    <p><input type="radio" name="gender" value="male" checked >male</p>
+                    <p><input type="radio" name="gender" value="female">female</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="field ">
+                    <p>Eсть ли водительские права:</p>
+                    <p><input type="checkbox" id="driver" name="driver" value="driver">да</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea name="message" placeholder="Сообщение"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" class="btn" id="btn" value="Отправить">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div id="out">
+        <p id="outP"></p>
+    </div>
+</div>
+<script>
+    function validate(event) {
+        var formName = document.getElementsByName('name')[0];
+        var formAge = document.getElementsByName('age')[0];
+        var formMessage = document.getElementsByName('message')[0];
+        var formGender = document.getElementsByName('gender');
+        var formDriver = document.getElementsByName('driver');
+        var formGenderValue, formDriverValue;
+        for (var countRadio = 0; countRadio < formGender.length; countRadio++) {
+            if (formGender[countRadio].type === "radio" && formGender[countRadio].checked) {
+                formGenderValue = formGender[countRadio].value;
+            }
+        }
+        if (formDriver[0].checked) {
+            formDriverValue = "driver";
+        } else if (!formDriver[0].checked) {
+            formDriverValue = "not a driver";
+        }
+        if (formName.value !== "" && formMessage.value !== "" ){
+            document.getElementById('outP').innerHTML = "Имя: " + formName.value + ";" + " Возраст: " + formAge.value + ";" +
+                " Пол: " + formGenderValue + ";" + " Сообщение: " + formMessage.value + ";" +
+                " Наличие водительских прав: " + formDriverValue;
+        }
+        event.preventDefault();
+    }
+    document.getElementById('btn').addEventListener('click', validate);
+
+</script>
+</body>
+</html>
