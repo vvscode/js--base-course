@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <!-- подключаем стили Mocha, для отображения результатов -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+  <!-- подключаем библиотеку Mocha -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+  <!-- настраиваем Mocha: предстоит BDD-тестирование -->
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <!-- подключаем chai -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+  <!-- в chai есть много всего, выносим assert в глобальную область -->
+  <script>
+    var assert = chai.assert;
+  </script>
+</head>
+
+<body>
+	<script>
+		function quadraticEquation(a, b, c) {
+    var D = Math.pow(b, 2) - 4 * a * c;
+
+    if (D < 0) {
+        return [];
+    }
+    if (D == 0) {
+
+        return [(-b / (2 * a))];
+    }
+    if (D > 0) {
+
+        return [(-b + Math.sqrt(D)) / (2 * a), (-b - Math.sqrt(D)) / (2 * a)];
+    }
+
+}
+
+
+function getRandomInt(min, max) {
+    var a1 = Math.floor(Math.random() * (max - min + 1)) + min;
+    var b1 = Math.floor(Math.random() * (max - min + 1)) + min;
+    var c1 = Math.floor(Math.random() * (max - min + 1)) + min;
+    var result = quadraticEquation(a1, b1, c1);
+
+    function quadraticEquationCheck(x) {
+        return (a1 * x * x + b1 * x + c1);
+    }
+    if (result != []) {
+
+        for (var key in result) {
+           describe("quadraticEquation", function() {
+                it("при значениии а = " + a1 + ", b = " + b1 + ", c = " + c1 + "квадратное уравнение выполняется", function() {
+                    assert.equal(quadraticEquationCheck(result[key]), 0);
+                });
+            });
+        }
+    }
+}
+for (y = 0; y < 100; y++) {
+    getRandomInt(-100, 100);
+}
+  </script>
+
+  <!-- в этом скрипте находятся спеки -->
+  <script src="test.js"></script>
+
+  <!-- в элементе с id="mocha" будут результаты тестов -->
+  <div id="mocha"></div>
+
+  <!-- запустить тесты! -->
+  <script>
+    mocha.run();
+
+	</script>
+	</body>
+
+<html>
