@@ -4,11 +4,35 @@ import { addTask } from '../actions/task';
 
 import { Form, Input, Select, TextArea, Button, Header } from 'semantic-ui-react'
 
-const AddTaskForm = ({
-    addTaskFunc
-}) => <div>
+let lastId = 1;
+
+class AddTaskForm extends React.Component {
+    onSubmit = (event) => {
+        event.preventDefault();
+        let task = {
+            id: lastId++,
+            done: false
+        };
+        event.target.querySelectorAll('[name]').forEach(el => {
+            if (el.getAttribute('name') === 'priority') {
+                task[el.getAttribute('name')] = this.priority || '';
+            } else {
+                task[el.getAttribute('name')] = el.value;
+            }
+        });
+        event.target.reset();
+    
+        this.props.addTask(task);
+    }
+
+    priorityChange = (event, el) => {
+        this.priority = el.value;
+    }
+    
+    render() {
+        return <div>
         <Header as='h2' image='/images/add.jpeg' content='Add task' className='component-h2'/>
-        <Form onSubmit={addTaskFunc}>
+        <Form onSubmit={this.onSubmit}>
                 <Form.Field
                     id='form-input-title'
                     control={Input}
@@ -24,8 +48,8 @@ const AddTaskForm = ({
                         label='Priority'
                         placeholder='Select priority'
                         name='priority'
-                        value='M'
-                        options={[{value: 'L', text: 'Low'}, {value: 'M', text: 'Medium'}, {value: 'H', text: 'High'}]} 
+                        options={[{value: '1', text: 'Low'}, {value: '2', text: 'Medium'}, {value: '3', text: 'High'}]} 
+                        onChange={this.priorityChange}
                     />
                     <Form.Field
                         control={Input}
@@ -50,12 +74,14 @@ const AddTaskForm = ({
         </Form>
         </div>
 
+    }
+}
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
 });
-  
-const mapDispatchToProps = (dispatch) => ({
-    addTaskFunc: (event) => dispatch(addTask(event)),
-})
+
+const mapDispatchToProps = {
+    addTask
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTaskForm);

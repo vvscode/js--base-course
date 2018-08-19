@@ -14,3 +14,9 @@ h1 {
     background-color: #fbfbfb; 
     color: #da1914;
 }
+
+.sort-img {
+    max-height: 19px;
+    padding-left: 20px;
+    cursor: pointer;
+}

@@ -12,7 +12,7 @@ export default (state = DEFAULT_STATE, action) => {
         case FILTER_UPDATE:
             return {
                 ...state,
-                [action.name]: action.value
+                [action.payload.name]: action.payload.value
             };
     
         default:

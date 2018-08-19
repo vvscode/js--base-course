@@ -3,10 +3,10 @@ import AddTaskForm from './AddTaskForm'
 import FilterTasksForm from './FilterTasksForm'
 import TasksList from './TasksList'
 
-const App = () => <div>
+const App = () => <React.Fragment>
           <AddTaskForm />
           <FilterTasksForm  />
           <TasksList />
-      </div>
+      </React.Fragment>
 
 export default App;
