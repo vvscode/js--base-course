@@ -1,8 +1,14 @@
+//components
 import SearchBar from '../js/search_bar.js';
 import EventBus from '../js/event_bus.js';
 import Menu from '../js/menu.js';
 import RadioMenu from '../js/radio_menu.js';
-import StorageInterfaceAsync from '../js/storage.js';
+import WeatherDisplay from '../js/weather_display.js';
+import DataListDisplay from '../js/data_list_display.js';
+//services
+import StorageInterfaceAsync from '../js/storage_interface_async.js';
+import CoordsFetcher from '../js/coords_fetcher.js';
+import WeatherFetcher from '../js/weather_fetcher.js';
 
 mocha.setup({
   ui: "bdd",
@@ -30,7 +36,7 @@ describe('Components', () => {
       assert.isOk(SearchBar.length === 2);
     });
   });
-  describe('SearchBar.render', () => {
+  describe('SearchBar.prototype.render', () => {
     var bar;
     beforeEach(() => {
       bar = new SearchBar(el, bus);
@@ -76,7 +82,7 @@ describe('Components', () => {
     it('is a constructor', () => {
       assert.isOk(new Menu() instanceof Menu);
     });
-    describe('Menu.render', () => {
+    describe('Menu.prototype.render', () => {
       it('is a function', () => {
         var menu = new Menu(el, bus);
         assert.isOk(typeof menu.render === 'function');
@@ -113,7 +119,7 @@ describe('Components', () => {
     it('is a constructor', () => {
       assert.isOk(new RadioMenu(el, bus) instanceof RadioMenu);
     });
-    describe('raioMenu.render', () => {
+    describe('RaioMenu.prototype.render', () => {
       var radioMenu;
       beforeEach( () => {
         radioMenu = new RadioMenu(el, bus);
@@ -153,6 +159,110 @@ describe('Components', () => {
       });
     });
   });
+  describe('DataListDisplay', function() {
+    var el;
+    var bus;
+    var name;
+    beforeEach(() => {
+      el = document.createElement('div');
+      bus = new EventBus();
+      name = 'test';
+    });
+    it('is a function', () => {
+      assert.isOk(typeof DataListDisplay === 'function');
+    });
+    it('is a constructor', () => {
+      assert.isOk(new DataListDisplay() instanceof DataListDisplay);
+    }); 
+    describe('DataListDisplay methods', () => {
+      var display;
+      beforeEach(() => {
+        display = new DataListDisplay(el, bus, name);
+      });
+      describe('DataListDisplay.prototype.render', function() {
+        it('is a DataListDisplay object mehtod', () => {
+          assert.isOk(typeof display.render === 'function');
+        });
+        it('adds a div to specified element', () => {
+          display.render();
+          var divs = el.querySelectorAll('div');
+          assert.isOk(divs.length === 1);
+        });
+        it('adds div containing ul to specified element', () => {
+          display.render();
+          var ul = el.querySelector('div').querySelector('ul');
+          assert.isOk(ul);
+        });
+      });
+      describe('DataListDisplay.prototype.addItem', () => {
+        it('is a DataListDisplay object method', () => {
+          assert.isOk(typeof display.addItem === 'function');
+        });
+        it('adds an item to the list element', () => {
+          display.render();
+          display.addItem('name', 'value');
+          var listItems = el.querySelector('div > ul').querySelectorAll('li');
+          assert.isOk(listItems.length === 1); 
+          assert.isOk(listItems[0].dataset.value === 'value');
+        });
+      });
+      describe('addEventListeners', () => {
+        it('is a DataListDisplay object method', () => {
+          assert.isOk(typeof display.addEventListeners === 'function');
+        });
+        it('triggers removeStorageItem event on EventBus', () => {
+          display.render();
+          display.allowRemoval = true;
+          display.addItem('testName', 'testValue');
+          var log = [];
+          bus.on('removeStorageItem', (data) => log.push(data));
+          var button = el.querySelector('.removeListItem');
+          button.click();
+          assert.isOk(log[0] === 'testValue'); 
+        });
+        it('triggers clickStorageItem event on EventBus', () => {
+          display.render();
+          display.allowRemoval = true;
+          display.addItem('testName', 'testValue');
+          var log = [];
+          bus.on('clickStorageItem', (data) => log.push(data));
+          var li = el.querySelector('.testListItem');
+          li.click();
+          assert.isOk(log[0] === 'testValue'); 
+        });
+      });
+    });
+  });
+  describe('WeatherDisplay', () => {
+    var el;
+    beforeEach(() => {
+      el = document.createElement('div');  
+    });
+    it('is a function', () => {
+      assert.isOk(typeof WeatherDisplay === 'function');
+    });
+    it('is a constructor', () => {
+      assert.isOk(new WeatherDisplay() instanceof WeatherDisplay);
+    });
+    describe('WeatherDisplay.prototype.render', () => {
+      it('is a WeatherDisplay instance method', () => {
+        assert.isOk(typeof new WeatherDisplay().render === 'function');
+      });
+      it('adds wrapper div to specified el innerhtml', () => {
+        var display = new WeatherDisplay(el);
+        display.render();
+        assert.isOk(el.querySelector('div'));
+      });
+    });
+    describe('WeatherDisplay.prototype.updateWeather', () => {
+      it('is a WeatherDisplay instance method', () => {
+        assert.isOk(typeof new WeatherDisplay().updateWeather === 'function');
+      });
+      it('changes el innerHTML', () => {
+        assert.isOk(false);
+      });
+    });
+  });
 });
 
 describe('Services', () => {
@@ -167,15 +277,8 @@ describe('Services', () => {
     it('is a function', () => {
       assert.isOk(typeof StorageInterfaceAsync === 'function');
     });
-    describe('StorageInterfaceAsync takes 2 args', () => {
-      it('takes 1 required arg', () => {
-        assert.isOk(StorageInterfaceAsync.length === 1);
-      });
-      it('has 1 optional parameter in addition to required 1', () => {
-        //function.length does not return default params
-        var length = assert.toString().match(/\(.*?\)/)[0].split(',').length;
-        assert.isOk(length === 2);
-      });
+    it('is a constructor', () => {
+      assert.isOk(new StorageInterfaceAsync() instanceof StorageInterfaceAsync);
     });
     it('creates unique-ish userID', () => {
       var storage = new StorageInterfaceAsync(bus);
@@ -199,7 +302,7 @@ describe('Services', () => {
     beforeEach(() => {
       storage = new StorageInterfaceAsync(bus); 
     });
-    describe('storageInterface.addToHistory', () => {
+    describe('StorageInterfaceAsync.prototype.addToHistory', () => {
       it('is a StorageInterfaceAsync object mehtod', () => {
         assert.isOk(typeof storage.addToHistory === 'function');
       });
@@ -216,8 +319,11 @@ describe('Services', () => {
         assert.isOk(o.type === 'history');
         assert.isOk(o.value === 'testValue');
       });
+      it('takes 1 optional arg', () => {
+
+      });
     });
-    describe('StorageInterfaceAsync.getHistory', () => {
+    describe('StorageInterfaceAsync.prototype.getHistory', () => {
       it('is a StorageInterfaceAsync object method', () => {
         assert.isOk(typeof storage.getHistory === 'function');
       });
@@ -240,7 +346,7 @@ describe('Services', () => {
         assert.isOk(history[1].value === 'b');
       });
     });
-    describe('StorageInterfaceAsync.addToFavourites', () => {
+    describe('StorageInterfaceAsync.prototype.addToFavourites', () => {
       it('is a StorageInterfaceAsync object method', () => {
         assert.isOk(typeof storage.addToFavourites === 'function');
       });
@@ -257,7 +363,7 @@ describe('Services', () => {
         assert.isOk(fav.type === 'favourites');
       });
     });
-    describe('removeFromFavourites', () => {
+    describe('StorageInterfaceAsync.prototype.removeFromFavourites', () => {
       it('is a StorageInterfaceAsync object method', () => {
         assert.isOk(typeof storage.removeFromFavourites === 'function');
       });
@@ -275,7 +381,7 @@ describe('Services', () => {
         assert.isOk(item === null);
       });
     });
-    describe('getFavourites', () => {
+    describe('StorageInterfaceAsync.prototype.getFavourites', () => {
       it('is a StorageInterfaceAsync object method', () => {
         assert.isOk(typeof storage.getFavourites === 'function');
       });
@@ -300,6 +406,62 @@ describe('Services', () => {
         assert.isOk(favs.length === 2); 
         assert.isOk(favs[0].value === 'a');
         assert.isOk(favs[1].value === 'b');
+      });
+    });
+  });
+  describe('CoordsFetcher', () => {
+    var bus;
+    beforeEach(() => {
+      bus = new EventBus();
+    });
+    it('is a function', () => {
+      assert.isOk(typeof CoordsFetcher === 'function');
+    });
+    it('is a constructor', () => {
+      assert.isOk(new CoordsFetcher() instanceof CoordsFetcher);
+    });
+    describe('CoordsFetcher.prototype.getCoords', () => {
+      var fetcher;
+      var key = '' 
+      beforeEach(() => {
+        key = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
+        fetcher = new CoordsFetcher(bus, key);
+      });
+      it('is CoordsFetcher object method', () => {
+        assert.isOk(typeof fetcher.getCoords === 'function');
+      });
+      it('returns a promise', async () => {
+        var res = await fetcher.getCoords();
+        assert.isOk(fetcher.getCoords() instanceof Promise);
+      });
+      it('returns fetched coords', async () => {
+        var result = await fetcher.getCoords('Minsk');
+        assert.isOk(result instanceof Object);
+        assert.isOk(result.lat == '53.90453979999999');
+        assert.isOk(result.lng == '27.5615244');
+      });
+    });
+  });
+  describe('WeatherFetcher', () => {
+    var bus; 
+    beforeEach(() => {
+      bus = new EventBus();
+    });
+    it('it is a function', () => {
+      assert.isOk(typeof WeatherFetcher === 'function');
+    });
+    it('is a constructor', () => {
+      assert.isOk(new WeatherFetcher() instanceof WeatherFetcher);
+    });
+    describe('WeatherFetcher.prototype.fetchWeather', () => {
+      var fetcher;
+      var key;
+      beforeEach(() => {
+        key = 'd113af5f82393ef553f48314ae9f42e8';
+        fetcher = new WeatherFetcher(bus, key); 
+      });
+      it('is a WeatherFetcher instance method', () => {
+        assert.isOk(typeof fetcher.fetchWeather === 'function');
       });
     });
   });

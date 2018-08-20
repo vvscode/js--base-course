@@ -1,3 +1,29 @@
 .font {
-    background-color: green;
+    background-color: #F7F9FB;
+}
+
+.content {
+  text-align: center;
+}
+
+#map {
+  width: 90%; 
+  height: 300px;
+}
+
+.header * {
+  display: inline-block;
+}
+
+.footer {
+  text-align: center;
+}
+
+.dataListDisplayWrapper {
+  display: inline-block;
+}
+
+.weatherDisplayWrapper {
+  display: inline-block;
+  text-align: left;
 }
