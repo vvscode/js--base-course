@@ -1,54 +1,33 @@
-import React, { Components } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input } from 'semantic-ui-react';
+import { Table, Input, Popup } from 'semantic-ui-react';
 
+import { toggleDone } from '../../actions/TasksActions';
 
+class TaskItem extends Component {
 
-class PopupExampleHtml extends Components {
-
-    toggleDone = key => {
-        this.setState({
-            tasks: this.props.tasks.map(el => ({
-                ...el,
-                done: el.id === key ? !el.done : el.done
-            }))
-        });
-    };
-
-    // const TaskItem = (props) => (
-    //     <Table.Row>
-    //         <Table.Cell>
-    //             <Input type="checkbox" checked={props.done} onClick={() => {
-    //                 toggleDone(props.id)
-    //             }} />
-    //         </Table.Cell>
-    //         <Table.Cell>
-    //             {props.title}
-    //         </Table.Cell>
-    //         <Table.Cell>
-    //             {props.priority}
-    //         </Table.Cell>
-    //         <Table.Cell>
-    //             {props.date}
-    //         </Table.Cell>
-    //     </Table.Row>
-    // )
     render() {
+
+    const { tasks } = this.props;
+    const { toggleDone } = this.props;
+
         return (
-            <Table.Row>
+            <Table.Row size='mini'>
                 <Table.Cell>
-                    <Input type="checkbox" checked={this.props.tasks.done} onClick={() => {
-                        this.toggleDone(this.props.tasks.id)
-                    }} />
+                    <Input type="checkbox" checked={tasks.done} onChange={() => toggleDone(tasks)} />
                 </Table.Cell>
                 <Table.Cell>
-                    {this.props.tasks.title}
+                    <Popup
+                        trigger={<p>{tasks.title}</p> }
+                        content={tasks.description}
+                        position='top left'
+                    />
                 </Table.Cell>
                 <Table.Cell>
-                    {this.props.tasks.priority}
+                    {tasks.priority}
                 </Table.Cell>
                 <Table.Cell>
-                    {this.props.date}
+                    {tasks.date}
                 </Table.Cell>
             </Table.Row>
 
@@ -56,12 +35,8 @@ class PopupExampleHtml extends Components {
     }
 };
 
-const mapStateToProps = state => ({
-    tasks: state.todoReduser.tasks
-});
-
 const mapDispatchToProps = (dispatch) => ({
-
+    toggleDone: done => dispatch(toggleDone(done))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PopupExampleHtml);
+export default connect(undefined, mapDispatchToProps)(TaskItem);

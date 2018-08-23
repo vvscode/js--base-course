@@ -14,13 +14,13 @@ export const loadItems = payload => ({
     payload,
 });
 
-export function toggleDone(tasks) {
-const doneItem = !tasks.done
+export function toggleDone(task) {
+const doneItem = !task.done
 
     return {
         type: TOGGLE_CHECK,
         payload: {
-            ...tasks, done: doneItem 
+            ...task, done: doneItem 
         }
     }
 };

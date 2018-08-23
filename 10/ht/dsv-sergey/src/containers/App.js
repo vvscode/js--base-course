@@ -16,7 +16,6 @@ class App extends Component {
 
         const { showDone } = this.props;
         const { toggleShowDone } = this.props.showDoneActions;
-        // const { toggleDone } = this.props.tasksActions;
 
         return (
             <div>

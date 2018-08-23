@@ -3,13 +3,26 @@ import React, { Component } from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import PopupExampleHtml from './TaskItem';
+import TaskItem from './TaskItem';
+
+// import sortBy from '../../utils/sortBy'
 
 class TasksList extends Component {
+    state = {
+        sortBy: "id"
+      };
+      handleSort = sortBy => {
+        this.setState({ sortBy });
+      };
+
     render() {
+        // let sortedItems = sortBy(this.props.items, this.state.sortBy);
+
+        const { tasks } = this.props.tasks;
+
         return (
-            <Table className="TasksList" inverted>
-                <Table.Header>
+            <Table size='small' className="TasksList" inverted>
+                <Table.Header size='mini'>
                     <Table.Row>
                         <Table.HeaderCell>Done</Table.HeaderCell>
                         <Table.HeaderCell>
@@ -27,7 +40,10 @@ class TasksList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    <PopupExampleHtml />
+                {/* {sortedItems.map(item => <TaskItem key={item.id} {...item} />)} */}
+                    {
+                        tasks.map((el) => ((!el.done) ? <TaskItem key={el.id} tasks={el} visible='false'/> : null ))
+                    }
                 </Table.Body>
             </Table>
         );
@@ -35,11 +51,8 @@ class TasksList extends Component {
 };
 
 const mapStateToProps = state => ({
-    tasks: state.todoReduser.tasks
+    tasks: state.tasks
 });
 
-const mapDispatchToProps = (dispatch) => ({
 
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TasksList);
+export default connect( mapStateToProps )(TasksList);
