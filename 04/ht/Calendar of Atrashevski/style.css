@@ -1,0 +1,65 @@
+
+#calendar {
+  position: fixed;
+        top: 50%;
+        left: 40%
+}
+th {
+  font-weight: normal;
+  color: rgb(250, 11, 23);
+ 
+}
+td {
+  color: rgb(12, 12, 87);
+ 
+  transition: .3s linear;
+}
+
+#clearMemory{
+  position: fixed;
+        top: 2%;
+        left: 95%;
+}
+#check {
+  position: fixed;
+        top: 2%;
+        left: 10%;
+    display : block;
+    margin-left : 5px;
+    margin-right : 5px;
+    padding-top : 1em;
+    padding-bottom : 3em;
+    padding-left : 1em;
+    padding-right : 40em;
+ } 
+ #result1 {
+  position: fixed;
+  top: 5%;
+  left: 40%;
+  font-size: 50px;
+ } 
+#conclusion {
+  position: fixed;
+  top: 55%;
+  left: 10%;
+display : block;
+margin-left : 5px;
+margin-right : 5px;
+padding-top : 1em;
+padding-bottom : 3em;
+padding-left : 1em;
+padding-right : 6em;
+}
+#stateconclusion {
+ font-size: 22px;
+ }
+ #link1 {
+  position: fixed;
+  top: 20%;
+  left: 4%;
+ } 
+ #link2 {
+  position: fixed;
+  top: 20%;
+  left: 4%;
+ } 
