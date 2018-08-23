@@ -2,8 +2,7 @@
 
 # dependencies
 /node_modules
-/semantic
-/src/semantic
+
 # testing
 /coverage
 
