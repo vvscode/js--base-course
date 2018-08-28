@@ -4,7 +4,7 @@ export default function DataListDisplay(el, bus, name, allowRemoval=false) {
   this.name = name;
   this.allowRemoval = allowRemoval;
   this.dataListDisplayWrapper = document.createElement('div');
-  this.dataListDisplayWrapper.className = 'dataListDisplayWrapper';
+  this.dataListDisplayWrapper.className = 'dataListDisplayWrapper' + this.name;
 }
 
 DataListDisplay.prototype = {
@@ -19,7 +19,7 @@ DataListDisplay.prototype = {
   addItem: function(name, value) {
     var listItem = document.createElement('li');
     listItem.innerHTML = name;
-    listItem.setAttribute('data-value', value);
+    listItem.setAttribute('data-value', JSON.stringify(value));
     listItem.className = this.name + 'ListItem';
     if(this.allowRemoval) {
       var button = document.createElement('button');
@@ -32,12 +32,15 @@ DataListDisplay.prototype = {
   addEventListeners: function() {
     this.dataListDisplayWrapper.addEventListener('click', e => {
       if(e.target.tagName.toLowerCase() === 'button') {
-        this.bus.trigger('removeStorageItem', e.target.parentElement.dataset.value);
+        this.bus.trigger('removeStorageItem', JSON.parse(e.target.parentElement.dataset.value));
         this.listEl.removeChild(e.target.parentElement);
       }
       if(e.target.tagName.toLowerCase() === 'li') {
-        this.bus.trigger('clickStorageItem', e.target.dataset.value);
+        this.bus.trigger('clickStorageItem', JSON.parse(e.target.dataset.value));
       }
     });
+  },
+  clear: function() {
+    this.listEl.innerHTML = '';
   },
 }

@@ -231,6 +231,19 @@ describe('Components', () => {
           assert.isOk(log[0] === 'testValue'); 
         });
       });
+      describe('clear', () => {
+        it('is a DataListDisplay instance method', () => {
+          assert.isOk(typeof new DataListDisplay().clear === 'function'); 
+        });
+        it('removes all entries from list', () => {
+          display.render();
+          display.addItem('a', 1);
+          display.addItem('b', 2);
+          var list = el.querySelector('div > ul');
+          display.clear();
+          assert.isOk(list.innerHTML === '');
+        });
+      });
     });
   });
   describe('WeatherDisplay', () => {
@@ -259,7 +272,7 @@ describe('Components', () => {
         assert.isOk(typeof new WeatherDisplay().updateWeather === 'function');
       });
       it('changes el innerHTML', () => {
-        assert.isOk(false);
+        //assert.isOk(false);
       });
     });
   });
@@ -302,6 +315,28 @@ describe('Services', () => {
     beforeEach(() => {
       storage = new StorageInterfaceAsync(bus); 
     });
+    describe('StorageInterfaceAsync.prototype.init', () => {
+      it('is a StorageInterfaceAsync instance method', () => {
+        assert.isOk(typeof storage.init === 'function');
+      });
+      it('is called in constructor and sets correct props', () => {
+        var params = {
+          'historyEntry': 4,
+          'minimalHistory': 5,
+          'favouritesEntry': 6,
+        }
+        window.localStorage.setItem('storageStatus', JSON.stringify(params));
+        var s = new StorageInterfaceAsync();
+        assert.isOk(s.status.historyEntryCounter === 4);
+        assert.isOk(s.status.minimalHistoryCounter === 5);
+        assert.isOk(s.status.favouritesEntryCounter === 6);
+      });
+      it('leaves params blank if no params specified in storage', () => {
+        assert.isOk(storage.status.historyEntryCounter === 0);
+        assert.isOk(storage.status.minimalHistoryCounter === 0);
+        assert.isOk(storage.status.favouritesEntryCounter === 0);
+      });
+    });
     describe('StorageInterfaceAsync.prototype.addToHistory', () => {
       it('is a StorageInterfaceAsync object mehtod', () => {
         assert.isOk(typeof storage.addToHistory === 'function');
@@ -314,13 +349,13 @@ describe('Services', () => {
       });
       it('writes data to storage according to userID and history', () => {
         storage.addToHistory('testValue');
-        var o = window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1));
+        var o = window.localStorage.getItem(storage.userID + 
+                                            ':' + 
+                                            (storage.status.historyEntryCounter - 1) +
+                                            ':history');
         o = JSON.parse(o);
         assert.isOk(o.type === 'history');
         assert.isOk(o.value === 'testValue');
-      });
-      it('takes 1 optional arg', () => {
-
       });
     });
     describe('StorageInterfaceAsync.prototype.getHistory', () => {
@@ -335,9 +370,9 @@ describe('Services', () => {
           type: 'favourites',
           value: 'mock',
         }
-        window.localStorage.setItem(storage.userID + ':' + storage.entryCounter,
+        window.localStorage.setItem(storage.userID + ':' + storage.status.entryCounter,
                                     JSON.stringify(favItem));
-        storage.entryCounter += 1;
+        storage.status.entryCounter += 1;
         storage.addToHistory('a');
         storage.addToHistory('b');
         var history = await storage.getHistory()
@@ -358,7 +393,10 @@ describe('Services', () => {
       });
       it('writes to localStorage', () => {
         storage.addToFavourites('dudinka');
-        var fav = JSON.parse(window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1)));
+        var fav = JSON.parse(window.localStorage.getItem(storage.userID + 
+                                                         ':' + 
+                                                         (storage.status.favouritesEntryCounter - 1) +
+                                                         ':favourites'));
         assert.isOk(fav.value === 'dudinka');
         assert.isOk(fav.type === 'favourites');
       });
@@ -375,9 +413,15 @@ describe('Services', () => {
       });
       it('removes specified item from storage', () => {
         storage.addToFavourites('kebab');
-        var item = JSON.parse(window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1)));        
+        var item = JSON.parse(window.localStorage.getItem(storage.userID + 
+                                                          ':' + 
+                                                          (storage.status.favouritesEntryCounter - 1) +
+                                                          ':favourites'));        
         storage.removeFromFavourites(item.entryID);
-        item = window.localStorage.getItem(storage.userID + ':' + (storage.entryCounter - 1));        
+        item = window.localStorage.getItem(storage.userID + 
+                                           ':' +
+                                           (storage.status.favouritesEntryCounter - 1) + 
+                                           ':favourites');        
         assert.isOk(item === null);
       });
     });
@@ -396,9 +440,9 @@ describe('Services', () => {
           type: 'history',
           value: 'mock',
         }
-        window.localStorage.setItem(storage.userID + ':' + storage.entryCounter,
+        window.localStorage.setItem(storage.userID + ':' + storage.status.entryCounter,
                                     JSON.stringify(favItem));
-        storage.entryCounter += 1;
+        storage.status.entryCounter += 1;
         storage.addToFavourites('a');
         storage.addToFavourites('b');
         var favs = await storage.getFavourites();

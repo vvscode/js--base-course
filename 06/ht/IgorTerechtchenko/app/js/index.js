@@ -55,10 +55,17 @@ eventBus.on('searchBarEnter', (arg) => {
   then(newCoords => {
     window.location.hash = 'coordinates=' + newCoords.lat + ',' + newCoords.lng; 
     eventBus.trigger('centerChange');
-    map.center = [newCoords.lat, newCoords.lng]; 
     map.setCenter([newCoords.lat, newCoords.lng], 7, {checkZoomRange: true});
+    storageInterface.addToHistory({name: arg, value: newCoords});
+    historyDisplay.clear();
+    storageInterface.getHistory().then((history) => {
+        history.forEach((item) => {
+        historyDisplay.addItem(item.value.name, item.value.value);
+      });
+    });
   });
 });
+
 eventBus.on('centerChange', () => {
   weatherFetcher.fetchWeather(currentPosition).then(result => {
     let response = {};
@@ -69,6 +76,13 @@ eventBus.on('centerChange', () => {
     response.windSpeed = result.windSpeed;
     weatherDisplay.updateWeather(response);
   });
+});
+
+eventBus.on('clickStorageItem', (val) => {
+  window.location.hash = ('coordinates=' + val.lat + ',' + val.lng);
+  currentPosition = val;
+  eventBus.trigger('centerChange');
+  map.setCenter([val.lat, val.lng], 5, {checkZoomRange: true});
 });
 
 //components init
@@ -83,6 +97,7 @@ var map;
 //services init
 var weatherFetcher = new WeatherFetcher(eventBus, darkSkyKey, 'fetch'); 
 var coordsFetcher = new CoordsFetcher(eventBus, geocodeKey, 'fetch'); 
+var storageInterface = new StorageInterfaceAsync(eventBus);
 
 function init() { 
   map = new ymaps.Map('map', {
@@ -99,9 +114,13 @@ function init() {
   }
 }
 
+function setCurrentLocation() {
+
+}
+
 ymaps.ready(init); //called on DOM load
-searchBar.render();
 menu.render();
+searchBar.render();
 radioMenu.render();
 historyDisplay.render();
 weatherDisplay.render();
