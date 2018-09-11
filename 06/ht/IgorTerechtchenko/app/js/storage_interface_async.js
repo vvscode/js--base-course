@@ -1,5 +1,5 @@
-export default function StorageInterfaceAsync(bus, options={local: true}) {
-  this.options = options;
+export default function StorageInterfaceAsync(bus) {
+  this.storage = window.localStorage;
   this.historyLimit = 5;
   this.status = {
     historyEntryCounter: 0,
@@ -11,20 +11,8 @@ export default function StorageInterfaceAsync(bus, options={local: true}) {
 
 StorageInterfaceAsync.prototype = {
   init: function() {
-    if(this.options.local === true) {
-      this.storage = window.localStorage;
-    } 
-    if(this.storage.getItem('userID')) {
-      this.userID = this.storage.getItem('userID');
-    } else {
-      this.userID = +(new Date());
-      this.storage.setItem('userID', this.userID);
-    }
     if(this.storage.getItem('storageStatus')) {
       this.status = JSON.parse(this.storage.getItem('storageStatus'));
-      //this.status.historyEntryCounter = status.historyEntry;
-      //this.status.favouritesEntryCounter = status.favouritesEntry;
-      //this.status.minimalHistoryCounter = status.minimalHistory;
     } else {
       this.storage.setItem('storageStatus', JSON.stringify(this.status));
     }
@@ -32,13 +20,13 @@ StorageInterfaceAsync.prototype = {
   addToHistory: function(value) {
     return new Promise((resolve) => {
       if(this.status.historyEntryCounter >= this.historyLimit) {
-        this.storage.removeItem(this.userID + ':' + this.status.minimalHistoryCounter + ':history');
+        this.storage.removeItem(this.status.minimalHistoryCounter + ':history');
         this.status.minimalHistoryCounter += 1;
       }
-      this.storage.setItem(this.userID + ':' + this.status.historyEntryCounter + ':history', 
-                           JSON.stringify({'type':'history', 
+      this.storage.setItem(this.status.historyEntryCounter + ':history', 
+                           JSON.stringify({'type': 'history', 
                                            'value': value, 
-                                           'entry': this.status.historyEntryCounter}));
+                                          }));
       this.status.historyEntryCounter += 1;
       this.storage.setItem('storageStatus', JSON.stringify(this.status));
     });
@@ -46,21 +34,18 @@ StorageInterfaceAsync.prototype = {
   getHistory: function() {
     return this._getItemsByType('history');
   },
-  addToFavourites: function(value) {
+  addToFavourites: function(name, value) {
     return new Promise((resolve) => {
-      this.storage.setItem(this.userID + ':' + this.status.favouritesEntryCounter + ':favourites', 
-                           JSON.stringify({'type':'favourites', 
-                                           'value': value, 
-                                           'entry': this.status.favouritesEntryCounter}));
-      this.status.favouritesEntryCounter += 1;
-      this.storage.setItem('storageStatus', JSON.stringify(this.status));
+      this.storage.setItem(name + ':favourites', 
+                           JSON.stringify({'type': 'favourites', 
+                                           'name': name,
+                                           'value': value,
+                                          }));
     });
   },
   removeFromFavourites: function(entryID) {
     return new Promise((resolve) => {
-      this.storage.removeItem(this.userID + ':' + entryID);   
-      this.status.favouritesEntryCounter -= 1;
-      this.storage.setItem('storageStatus', JSON.stringify(this.status));
+      this.storage.removeItem(entryID);   
     });
   },
   getFavourites: function() {
@@ -73,11 +58,9 @@ StorageInterfaceAsync.prototype = {
       var value;
       for(var i = 0; i < this.storage.length; i++) {
         key = this.storage.key(i);
-        if(key !== 'userID') {
-          value = JSON.parse(this.storage.getItem(key));
-          if(value.type === typeName) {
-            output.push(value);
-          }
+        value = JSON.parse(this.storage.getItem(key));
+        if(value.type === typeName) {
+          output.push(value);
         }
       }
       resolve(output);

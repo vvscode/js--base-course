@@ -32,10 +32,11 @@ DataListDisplay.prototype = {
   addEventListeners: function() {
     this.dataListDisplayWrapper.addEventListener('click', e => {
       if(e.target.tagName.toLowerCase() === 'button') {
-        this.bus.trigger('removeStorageItem', JSON.parse(e.target.parentElement.dataset.value));
+        this.bus.trigger('removeStorageItem', e.target.parentElement.innerHTML.split('<')[0]);
         this.listEl.removeChild(e.target.parentElement);
       }
       if(e.target.tagName.toLowerCase() === 'li') {
+        console.log(JSON.parse(e.target.dataset.value));
         this.bus.trigger('clickStorageItem', JSON.parse(e.target.dataset.value));
       }
     });

@@ -200,10 +200,10 @@ describe('Components', () => {
         });
         it('adds an item to the list element', () => {
           display.render();
-          display.addItem('name', 'value');
+          display.addItem('name', 10);
           var listItems = el.querySelector('div > ul').querySelectorAll('li');
           assert.isOk(listItems.length === 1); 
-          assert.isOk(listItems[0].dataset.value === 'value');
+          assert.isOk(listItems[0].dataset.value === '10');
         });
       });
       describe('addEventListeners', () => {
@@ -218,7 +218,7 @@ describe('Components', () => {
           bus.on('removeStorageItem', (data) => log.push(data));
           var button = el.querySelector('.removeListItem');
           button.click();
-          assert.isOk(log[0] === 'testValue'); 
+          assert.isOk(log[0] === 'testName'); 
         });
         it('triggers clickStorageItem event on EventBus', () => {
           display.render();
@@ -293,23 +293,8 @@ describe('Services', () => {
     it('is a constructor', () => {
       assert.isOk(new StorageInterfaceAsync() instanceof StorageInterfaceAsync);
     });
-    it('creates unique-ish userID', () => {
-      var storage = new StorageInterfaceAsync(bus);
-      assert.isOk(window.localStorage.getItem('userID'));
-    });
-    it('creates userID only once', () => {
-      var storage = new StorageInterfaceAsync(bus);
-      assert.isOk(window.localStorage.getItem('userID'));
-      var id = window.localStorage.getItem('userID');
-      storage = new StorageInterfaceAsync(bus);
-      assert.isOk(id === window.localStorage.getItem('userID')); 
-    });
     it('is a constructor', () => {
       assert.isOk(new StorageInterfaceAsync() instanceof StorageInterfaceAsync);
-    });
-    it('defaults to localStorage', () => {
-      var storage = new StorageInterfaceAsync(bus);
-      assert.isOk(storage.options.local);
     });
     var storage;
     beforeEach(() => {
@@ -318,18 +303,6 @@ describe('Services', () => {
     describe('StorageInterfaceAsync.prototype.init', () => {
       it('is a StorageInterfaceAsync instance method', () => {
         assert.isOk(typeof storage.init === 'function');
-      });
-      it('is called in constructor and sets correct props', () => {
-        var params = {
-          'historyEntry': 4,
-          'minimalHistory': 5,
-          'favouritesEntry': 6,
-        }
-        window.localStorage.setItem('storageStatus', JSON.stringify(params));
-        var s = new StorageInterfaceAsync();
-        assert.isOk(s.status.historyEntryCounter === 4);
-        assert.isOk(s.status.minimalHistoryCounter === 5);
-        assert.isOk(s.status.favouritesEntryCounter === 6);
       });
       it('leaves params blank if no params specified in storage', () => {
         assert.isOk(storage.status.historyEntryCounter === 0);
@@ -349,10 +322,7 @@ describe('Services', () => {
       });
       it('writes data to storage according to userID and history', () => {
         storage.addToHistory('testValue');
-        var o = window.localStorage.getItem(storage.userID + 
-                                            ':' + 
-                                            (storage.status.historyEntryCounter - 1) +
-                                            ':history');
+        var o = window.localStorage.getItem((storage.status.historyEntryCounter - 1) + ':history');
         o = JSON.parse(o);
         assert.isOk(o.type === 'history');
         assert.isOk(o.value === 'testValue');
@@ -385,19 +355,13 @@ describe('Services', () => {
       it('is a StorageInterfaceAsync object method', () => {
         assert.isOk(typeof storage.addToFavourites === 'function');
       });
-      it('takes 1 arg', () => {
-        assert.isOk(storage.addToFavourites.length === 1);
-      });
       it('returns a promise', () => {
         assert.isOk(storage.addToFavourites('test') instanceof Promise);
       });
       it('writes to localStorage', () => {
-        storage.addToFavourites('dudinka');
-        var fav = JSON.parse(window.localStorage.getItem(storage.userID + 
-                                                         ':' + 
-                                                         (storage.status.favouritesEntryCounter - 1) +
-                                                         ':favourites'));
-        assert.isOk(fav.value === 'dudinka');
+        storage.addToFavourites('dudinka', 10);
+        var fav = JSON.parse(window.localStorage.getItem('dudinka:favourites'));
+        assert.isOk(fav.value === 10);
         assert.isOk(fav.type === 'favourites');
       });
     });
@@ -413,15 +377,9 @@ describe('Services', () => {
       });
       it('removes specified item from storage', () => {
         storage.addToFavourites('kebab');
-        var item = JSON.parse(window.localStorage.getItem(storage.userID + 
-                                                          ':' + 
-                                                          (storage.status.favouritesEntryCounter - 1) +
-                                                          ':favourites'));        
-        storage.removeFromFavourites(item.entryID);
-        item = window.localStorage.getItem(storage.userID + 
-                                           ':' +
-                                           (storage.status.favouritesEntryCounter - 1) + 
-                                           ':favourites');        
+        var item = JSON.parse(window.localStorage.getItem('kebab:favourites'));        
+        storage.removeFromFavourites('kebab:favourites');
+        item = window.localStorage.getItem('kebab:favourites');        
         assert.isOk(item === null);
       });
     });
@@ -436,20 +394,16 @@ describe('Services', () => {
         assert.isOk(storage.getFavourites() instanceof Promise);        
       });
       it('returns favourites array', async () => {
-        var favItem = {
-          type: 'history',
-          value: 'mock',
-        }
-        window.localStorage.setItem(storage.userID + ':' + storage.status.entryCounter,
-                                    JSON.stringify(favItem));
         storage.status.entryCounter += 1;
-        storage.addToFavourites('a');
-        storage.addToFavourites('b');
+        storage.addToFavourites('a', 1);
+        storage.addToFavourites('b', 2);
         var favs = await storage.getFavourites();
         assert.isOk(favs instanceof Array);
         assert.isOk(favs.length === 2); 
-        assert.isOk(favs[0].value === 'a');
-        assert.isOk(favs[1].value === 'b');
+        assert.isOk(favs[0].value === 1);
+        assert.isOk(favs[1].value === 2);
+        assert.isOk(favs[0].name === 'a');
+        assert.isOk(favs[1].name === 'b');
       });
     });
   });
