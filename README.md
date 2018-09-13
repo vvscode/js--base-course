@@ -19,3 +19,7 @@
 ---
 
 [Список вопросов](https://rawgit.com/vvscode/js--base-course/master/questions/index.html)
+
+--- 
+
+[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/0)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/0)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/1)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/1)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/2)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/2)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/3)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/3)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/4)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/4)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/5)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/5)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/6)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/6)[![](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/images/7)](https://sourcerer.io/fame/vvscode/vvscode/js--base-course/links/7)
