@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { toggleDone } from '../actions/task';
 import { sortTasks } from '../actions/sort';
 
-import { Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react';
 
 const TasksList = ({
     tasks,

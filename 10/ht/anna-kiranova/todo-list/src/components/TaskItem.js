@@ -12,7 +12,7 @@ let labels = {
 export default ({ task, toggleDone }) => (
   <Table.Row>
     <Table.Cell>
-      <input type="checkbox" checked={task.done} onChange={() => { toggleDone(task.id) }} />
+      <input type="checkbox" checked={task.done} onChange={() => toggleDone(task.id) } />
     </Table.Cell>
     <Table.Cell title={task.descr} >
         {task.title}

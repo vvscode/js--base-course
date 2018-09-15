@@ -7,26 +7,34 @@ import { Form, Input, Select, TextArea, Button, Header } from 'semantic-ui-react
 let lastId = 1;
 
 class AddTaskForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = this.emptyState();
+    }
+
+    emptyState = () => ({
+        title: '',
+        priority: '1',
+        date: new Date().toISOString().substring(0, 10),
+        descr: '',
+    })
+
     onSubmit = (event) => {
         event.preventDefault();
         let task = {
             id: lastId++,
-            done: false
+            done: false,
+            ...this.state
         };
-        event.target.querySelectorAll('[name]').forEach(el => {
-            if (el.getAttribute('name') === 'priority') {
-                task[el.getAttribute('name')] = this.priority || '';
-            } else {
-                task[el.getAttribute('name')] = el.value;
-            }
-        });
-        event.target.reset();
+        this.setState(this.emptyState())
     
         this.props.addTask(task);
     }
 
-    priorityChange = (event, el) => {
-        this.priority = el.value;
+    fieldChange = (event, el) => {
+        this.setState({
+            ...this.state, [el.name]: el.value
+        })
     }
     
     render() {
@@ -40,6 +48,8 @@ class AddTaskForm extends React.Component {
                     placeholder='Title'
                     name='title'
                     required
+                    value={this.state.title}
+                    onChange={this.fieldChange}
                 />
                 <Form.Group widths='equal'>
                     <Form.Field 
@@ -49,13 +59,16 @@ class AddTaskForm extends React.Component {
                         placeholder='Select priority'
                         name='priority'
                         options={[{value: '1', text: 'Low'}, {value: '2', text: 'Medium'}, {value: '3', text: 'High'}]} 
-                        onChange={this.priorityChange}
+                        onChange={this.fieldChange}
+                        value={this.state.priority}
                     />
                     <Form.Field
                         control={Input}
                         type='date' 
                         name='date'
                         label='Date'
+                        value={this.state.date}
+                        onChange={this.fieldChange}
                     />
                 </Form.Group>
                 <Form.Field
@@ -64,6 +77,8 @@ class AddTaskForm extends React.Component {
                         label='Description'
                         placeholder='Description'
                         name="descr"
+                        value={this.state.descr}
+                        onChange={this.fieldChange}
                 />
                 <Form.Field
                         id='form-button-add'
