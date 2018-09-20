@@ -9,8 +9,8 @@ export default function renderAuthor(content) {
   }
   var authorWrapper = document.createElement('div');
   authorWrapper.innerHTML = `
-    <div> Igor Terechtchenko, 2018 </div>
-    <a href="https://github.com/IgorTerechtchenko">GitHub</a>
+    <h1> Igor Terechtchenko, 2018 </h1>
+    <h1><a href="https://github.com/IgorTerechtchenko">GitHub</a></h1>
   `;
   authorWrapper.className = 'authorWrapper';
   content.appendChild(authorWrapper);

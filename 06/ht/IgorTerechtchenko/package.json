@@ -1,5 +1,5 @@
 {
-  "name": "weather",
+  "name": "life-game",
   "version": "1.0.0",
   "description": "weather spa website",
   "main": "index.js",
@@ -10,10 +10,21 @@
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
     "browser-sync": "^2.24.5",
+    "browserify": "^16.2.2",
+    "chai": "^4.1.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
-    "gulp-concat": "^2.6.1"
-  }
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-mocha": "^6.0.0",
+    "mocha": "^5.2.0",
+    "vinyl-source-stream": "^2.0.0",
+    "webpack-stream": "^4.0.3"
+  },
+  "dependencies": {}
 }

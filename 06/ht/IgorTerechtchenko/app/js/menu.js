@@ -2,6 +2,7 @@ export default function Menu(el, bus) {
   this.bus = bus;
   this.el = el;
   this.menuWrapper = document.createElement('div');
+  this.menuWrapper.className = 'menuWrapper';
 }
 
 Menu.prototype = {

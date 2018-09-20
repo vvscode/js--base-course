@@ -9,7 +9,7 @@ export default function DataListDisplay(el, bus, name, allowRemoval=false) {
 
 DataListDisplay.prototype = {
   render: function() {
-    this.dataListDisplayWrapper.innerHTML += '<h2>' + this.name + '</h2><br>';
+    this.dataListDisplayWrapper.innerHTML += '<h2>' + this.name + '</h2>';
     this.listEl = document.createElement('ul');
     this.listEl.className = 'listEl';
     this.dataListDisplayWrapper.appendChild(this.listEl);

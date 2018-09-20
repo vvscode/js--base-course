@@ -125,7 +125,7 @@ eventBus.on('centerChange', () => {
   weatherFetcher.fetchWeather(currentPosition).then(result => {
     let response = {};
     response.summary = result.summary;
-    response.temperature = result.temperature;
+    response.temperature = Math.round((result.temperature-32)/1.8*100)/100; //converting to celsius and trunking to 2 digits
     response.icon = result.icon;
     response.humidity = result.humidity;
     response.windSpeed = result.windSpeed;
@@ -141,7 +141,6 @@ eventBus.on('clickStorageItem', (val) => {
 });
 
 eventBus.on('removeStorageItem', (name) => {
-  console.log(name);
   storageInterface.removeFromFavourites(name + ':favourites'); 
 });
 
@@ -178,7 +177,9 @@ function init() {
   map.controls.add(favsButton, {float: 'right'});
 
   function getNewCenter() {
-    let newCenter = map.getCenter();
+    let center = map.getCenter();
+    currentPosition.lat = center[0];
+    currentPosition.lng = center[1];
     eventBus.trigger('centerChange');
   }
   eventBus.trigger('centerChange');
