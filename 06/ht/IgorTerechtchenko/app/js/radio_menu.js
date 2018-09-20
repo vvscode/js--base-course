@@ -14,7 +14,7 @@ RadioMenu.prototype = {
           <fieldset>
               <legend>select request method</legend>
               <div>
-                  <input type="radio" class="XHRButton" value="XHR" name="queryMethod" />
+                  <input type="radio" class="XHRButton" value="xhr" name="queryMethod" />
                   <label for="XHR">XHR</label>
               </div>
               <div>

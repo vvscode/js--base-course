@@ -3,14 +3,23 @@
 }
 
 .content {
-  text-align: center;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align:center;
+  margin: auto;
 }
 
 #map {
   width: 90%; 
-  height: 300px;
+  height: 400px;
+  text-align: center;
 }
 
+.header {
+  text-align: center;
+}
 .header * {
   display: inline-block;
 }
@@ -19,11 +28,26 @@
   text-align: center;
 }
 
-.dataListDisplayWrapper {
+.dataListDisplayWrapperHistory {
   display: inline-block;
+  text-align: left;
+  float: left;
 }
 
+.dataListDisplayWrapperFavourites {
+  display: inline-block;
+  text-align: left;
+  float: right;
+}
 .weatherDisplayWrapper {
   display: inline-block;
+  text-align: left;
+}
+
+.aboutWrapper {
+  text-align: left;
+}
+
+.authorWrapper {
   text-align: left;
 }

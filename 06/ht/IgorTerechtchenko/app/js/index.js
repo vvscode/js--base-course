@@ -11,6 +11,8 @@ import Router from './router.js';
 import CoordsFetcher from './coords_fetcher.js';
 import WeatherFetcher from './weather_fetcher.js';
 import StorageInterfaceAsync from './storage_interface_async.js';
+import renderAuthor from './render_author.js';
+import renderAbout from './render_about.js';
 
 var header = document.querySelector('.header');
 var content = document.querySelector('.content'); 
@@ -19,25 +21,42 @@ var currentPosition = {lat: 55.7558, lng: 37.6173};
 var darkSkyKey = 'd113af5f82393ef553f48314ae9f42e8';
 var geocodeKey = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
-
 var eventBus = new EventBus();
 
 var router = new Router({
-  routes: [{
+  routes: [
+  {
+    name: 'main',
+    match: 'main',
+    onEnter: () => {
+      eventBus.trigger('mainInit');
+    },
+  },
+  {
     name: 'about',
     match: 'about',
     onEnter: () => {
-      console.log('about');
+      document.querySelectorAll('.content > *').forEach((el) => {
+        el.style.display = 'none';
+      });
+      footer.style.display = 'none';
+      renderAbout(content);
     },
   }, {
     name: 'author',
     match: 'author',
     onEnter: () => {
+      document.querySelectorAll('.content > *').forEach((el) => {
+        el.style.display = 'none';
+      });
+      footer.style.display = 'none';
+      renderAuthor(content);
     },
   }, {
     name: 'cityName',
     match: /city=[a-zA-z]+/,
     onEnter: () => {
+      eventBus.trigger('mainInit');
       let city = window.location.hash.split('=')[1].split(',');
       coordsFetcher.getCoords(city).
       then(newCoords => {
@@ -56,6 +75,7 @@ var router = new Router({
     name: 'cityCoords',
     match: /coordinates=(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)/,
     onEnter: () => {
+      eventBus.trigger('mainInit');
       let coords = window.location.hash.split('=')[1].split(',');
       currentPosition.lat = coords[0];
       currentPosition.lng = coords[1];
@@ -64,7 +84,23 @@ var router = new Router({
   }]
 });
 
+eventBus.on('mainInit', () => {
+  document.querySelectorAll('.content > *').forEach((el) => {
+    el.style.display = 'block';
+  });
+  footer.style.display = 'block';
+  let author = document.querySelector('.content > .authorWrapper');
+  let about = document.querySelector('.content > .aboutWrapper');
+  if(author) {
+    content.removeChild(author);
+  }
+  if(about) {
+    content.removeChild(about);
+  }
+});
+
 eventBus.on('searchBarEnter', (arg) => {
+  eventBus.trigger('mainInit');
   coordsFetcher.getCoords(arg).
   then(newCoords => {
     window.location.hash = 'coordinates=' + newCoords.lat + ',' + newCoords.lng; 
@@ -107,6 +143,11 @@ eventBus.on('clickStorageItem', (val) => {
 eventBus.on('removeStorageItem', (name) => {
   console.log(name);
   storageInterface.removeFromFavourites(name + ':favourites'); 
+});
+
+eventBus.on('radioOptionSwitch', (value) => {
+  coordsFetcher.method = value;
+  weatherFetcher.method = value;
 });
 
 //components init
