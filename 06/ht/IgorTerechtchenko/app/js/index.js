@@ -18,7 +18,7 @@ var header = document.querySelector('.header');
 var content = document.querySelector('.content'); 
 var footer = document.querySelector('.footer');
 var currentPosition = {lat: 55.7558, lng: 37.6173};
-var darkSkyKey = 'd113af5f82393ef553f48314ae9f42e8';
+var darkSkyKey = '9b4e68104fff62ae77dc24bc50f6706a';
 var geocodeKey = 'AIzaSyDa7DCL2NO9KMPd9DYVk_u3u0wCbm0XXFY';
 
 var eventBus = new EventBus();
@@ -125,7 +125,7 @@ eventBus.on('centerChange', () => {
   weatherFetcher.fetchWeather(currentPosition).then(result => {
     let response = {};
     response.summary = result.summary;
-    response.temperature = Math.round((result.temperature-32)/1.8*100)/100; //converting to celsius and trunking to 2 digits
+    response.temperature = Math.round(result.temperature) + '°C';
     response.icon = result.icon;
     response.humidity = result.humidity;
     response.windSpeed = result.windSpeed;
