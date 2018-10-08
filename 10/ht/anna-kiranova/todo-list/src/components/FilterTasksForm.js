@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { filterUpdate } from '../actions/filter'
+import { filterUpdate } from '../actions/filter';
+import filter from '../images/filter.png';
 
 import { Form, Input, Header } from 'semantic-ui-react'
 
@@ -20,7 +21,7 @@ class FilterTasksForm extends React.Component {
     
     render () {
         return <div className="block">
-        <Header as='h2' image='/images/filter.png' content='Filter' className='component-h2'/>
+        <Header as='h2' image={filter} content='Filter' className='component-h2'/>
         <Form>
             <Form.Group widths='equal'>
                 <Form.Field

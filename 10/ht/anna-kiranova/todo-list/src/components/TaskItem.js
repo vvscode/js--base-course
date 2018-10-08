@@ -9,7 +9,7 @@ let labels = {
   '3': 'High'
 }
 
-export default ({ task, toggleDone }) => (
+export const TaskItem = ({ task, toggleDone }) => (
   <Table.Row>
     <Table.Cell>
       <input type="checkbox" checked={task.done} onChange={() => toggleDone(task.id) } />

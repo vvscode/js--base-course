@@ -1,14 +1,23 @@
 import React from 'react';
-import TaskItem from './TaskItem';
+import { TaskItem } from './TaskItem';
 import { connect } from 'react-redux';
 import { toggleDone } from '../actions/task';
 import { sortTasks } from '../actions/sort';
-
+import az_sort from '../images/az-sort.png';
+import za_sort from '../images/za-sort.png';
+import no_sort from '../images/no-sort.png';
 import { Table } from 'semantic-ui-react';
+
+const imgs = {
+    no: no_sort,
+    az: az_sort,
+    za: za_sort
+}
 
 const TasksList = ({
     tasks,
-    sorts,
+    sort_field,
+    sort_dir,
     toggleDoneFunc,
     sortTasksFunc
 }) => <Table striped>
@@ -16,19 +25,20 @@ const TasksList = ({
             <Table.Row>
                 <Table.HeaderCell >
                     Done
-                    <img alt='' className='sort-img' sortdirection={sorts.done} sortfield='done' src={'/images/' + sorts.done + '-sort.png'} onClick={sortTasksFunc} />
+                    <img alt='' className='sort-img' sortdirection={sort_field === 'done' ? sort_dir : 'no'} sortfield='done' src={sort_field === 'done' ? imgs[sort_dir] : imgs['no']} onClick={sortTasksFunc} />
+                {/* warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text */}
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                     Title
-                    <img alt='' className='sort-img' sortdirection={sorts.title} sortfield='title' src={'/images/' + sorts.title + '-sort.png'} onClick={sortTasksFunc} />
+                    <img alt='' className='sort-img' sortdirection={sort_field === 'title' ? sort_dir : 'no'} sortfield='title' src={sort_field === 'title' ? imgs[sort_dir] : imgs['no']} onClick={sortTasksFunc} />
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                     Priority
-                    <img alt='' className='sort-img' sortdirection={sorts.priority} sortfield='priority' src={'/images/' + sorts.priority + '-sort.png'} onClick={sortTasksFunc} />
+                    <img alt='' className='sort-img' sortdirection={sort_field === 'priority' ? sort_dir : 'no'} sortfield='priority' src={sort_field === 'priority' ? imgs[sort_dir] : imgs['no']} onClick={sortTasksFunc} />
                     </Table.HeaderCell>
                 <Table.HeaderCell>
                     Date
-                    <img alt='' className='sort-img' sortdirection={sorts.date} sortfield='date' src={'/images/' + sorts.date + '-sort.png'} onClick={sortTasksFunc} />
+                    <img alt='' className='sort-img' sortdirection={sort_field === 'date' ? sort_dir : 'no'} sortfield='date' src={sort_field === 'date' ? imgs[sort_dir] : imgs['no']} onClick={sortTasksFunc} />
                     </Table.HeaderCell>
             </Table.Row>
         </Table.Header>
@@ -78,21 +88,13 @@ function sortTasksFromState(tasks, state) {
 }
 
 const mapStateToProps = (state) => {
-    let sorts = {
-        done: 'no',
-        title: 'no',
-        priority: 'no',
-        date: 'no',
-    };
-
-    sorts[state.sort.field] = state.sort.direction;
-
     let tasks = applyFilter(state)
     tasks = sortTasksFromState(tasks, state)
 
     return {
         tasks,
-        sorts,
+        sort_field: state.sort.field,
+        sort_dir: state.sort.direction,
     }
 };
 

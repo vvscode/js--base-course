@@ -1,32 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addTask } from '../actions/task';
+import add from '../images/add.jpeg';
 
-import { Form, Input, Select, TextArea, Button, Header } from 'semantic-ui-react'
+import { Form, Input, Select, TextArea, Button, Header } from 'semantic-ui-react';
 
-let lastId = 1;
+let emptyState = () => ({
+    title: '',
+    priority: '1',
+    date: new Date().toISOString().substring(0, 10),
+    descr: '',
+})
 
 class AddTaskForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = this.emptyState();
-    }
-
-    emptyState = () => ({
-        title: '',
-        priority: '1',
-        date: new Date().toISOString().substring(0, 10),
-        descr: '',
-    })
+    state = emptyState()
 
     onSubmit = (event) => {
         event.preventDefault();
         let task = {
-            id: lastId++,
+            id: +(new Date()),
             done: false,
             ...this.state
         };
-        this.setState(this.emptyState())
+        this.setState(emptyState())
     
         this.props.addTask(task);
     }
@@ -39,7 +35,7 @@ class AddTaskForm extends React.Component {
     
     render() {
         return <div>
-        <Header as='h2' image='/images/add.jpeg' content='Add task' className='component-h2'/>
+        <Header as='h2' image={add} content='Add task' className='component-h2'/>
         <Form onSubmit={this.onSubmit}>
                 <Form.Field
                     id='form-input-title'
