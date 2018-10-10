@@ -45,7 +45,7 @@ function drawCalendar(year, month, htmlEl) {
  */
 function drawInteractiveCalendar(el) {
     // создаем 2 div элемента: 1 - div c кнопочками, отображением названия месяца/года, 2 - div отображает сам календарь
-    el.innerHTML = '<div><button class="left">&lt;</button><span class="month">&nbsp;</span>&nbsp;/&nbsp;<span class="year"></span><button class="rigth">&gt;</button></div>' +
+    el.innerHTML = '<div><button class="left">&lt;</button><span class="month">&nbsp;</span>&nbsp;/&nbsp;<span class="year"></span><button class="right">&gt;</button></div>' +
     '<div class="cal"></div>' +
     '<div class="note"></div>';
     var d = new Date();
@@ -81,7 +81,7 @@ function drawInteractiveCalendar(el) {
         drawCalendar(d.getFullYear(), d.getMonth() + 1, cal);
     };
     // по клику на правую кнопку
-    el.querySelector('button.rigth').onclick = function() {
+    el.querySelector('button.right').onclick = function() {
         d.setMonth(d.getMonth() + 1);
         month.innerText = mnames[d.getMonth()];
         year.innerText = d.getFullYear();
