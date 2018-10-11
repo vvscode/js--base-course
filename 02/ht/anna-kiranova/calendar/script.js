@@ -102,10 +102,7 @@ function drawInteractiveCalendar(el) {
                 p.innerText = 'выбран день ' + day + ', месяц ' + mnames[d.getMonth()] + ' : ' + noteUser;
                 note.appendChild(p);
                 localStorage.setItem('calendar', note.innerHTML);
-                //console.log(localStorage.getItem('calendar') || '');
-                //note.innerHTML = localStorage.getItem('calendar') || '';
             }
         }
-       // console.log(e.target, e.target instanceof HTMLTableCellElement, e.target.innerText);})
     });
 }

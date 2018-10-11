@@ -166,17 +166,16 @@ function calculate(s) {
  * Создайте конструктор-синглтон? Что такое синглтон?
  * new Singleton() === new Singleton
  */
-var instance;
-function Singleton() {
-    if (instance) {
-        return instance;
-    } else {
-        instance = this;
+
+var Singleton = (function() {
+    var instance;
+    return function() {
+        if (!instance) {
+            instance = this;
+        }
         return instance;
     }
-}
-
-Singleton.prototype = {};
+})();
 
 /** 
  * Создайте функцию ForceConstructor
@@ -196,8 +195,6 @@ function ForceContructor(a, b, c) {
 
 var abc = new ForceContructor(1, 2, 3);
 var cba = ForceContructor(1, 2, 3);
-console.log(abc);
-console.log(cba);
 
 /**
  * Написать фукнцию сумматор, которая будет работать 
@@ -210,8 +207,8 @@ console.log(cba);
    */
   function sum(val) {
     var initial = val || 0;
-    var func = function(val) {
-        return sum(initial + (val || 0));
+    var func = function(newval) {
+        return sum(initial + (newval || 0));
     };
     func.valueOf = function() {
         return initial;
@@ -219,12 +216,7 @@ console.log(cba);
     return func;
 }
 
-function log(x) {
-    console.log(+x);
-}
-
 var s = sum();
-log("s: " + s);
 
 /**
  * Написать каррирующую функцию и покрыть ее тестами
@@ -267,13 +259,16 @@ function curry(func) {
 // u instanceof User; // true
 // u instanceof Array; // true
 // u instanceof PreUser; // true
-class PreUser extends Array {}
-class User extends PreUser {}
+
+function PreUser() {}
+PreUser.prototype = Object.create(Array.prototype);
+PreUser.prototype.constructor = PreUser;
+
+function User() {}
+User.prototype = Object.create(PreUser.prototype);
+User.prototype.constructor = User;
 
 var u = new User();
-console.log(u instanceof User);
-console.log(u instanceof Array);
-console.log(u instanceof PreUser);
 
 /*
 Создать веб страницу. Добавить на нее форму с полями 
@@ -367,20 +362,21 @@ function sleep(sec) {
  */
 
 function getCounter(num) {
-    var o = {};
-    o.log = function() {
-        return console.log(num);
-    };
-    o.add = function(num2) {
-        return console.log(num += num2);
-    };
-    o.reset = function() {
-        return console.log(num = 0);
+    return {
+        log: function() {
+            return console.log(num);
+        },
+        add: function(num2) {
+            return console.log(num += num2);
+        },
+        reset: function() {
+            return console.log(num = 0);
+        }
     }
-    return o;
 }
  
  var c = getCounter(5);
  c.log();
  c.add(4);
  c.reset();
+ 
