@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Weather</title>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="page">
+        <div id="header">
+            <span id="requestType">
+                <label><input type="radio" name="request" id="xhr">XHR</label>
+                <label><input type="radio" name="request" id="fetch" checked>fetch</label>
+            </span>
+            <span id="links">
+                <a href="#about">About</a>
+                <a href="#weather">Weather</a>
+                <a href="#author">Author</a>
+            </span>
+            <span id="search">
+                <input type="text" id="city" placeholder="City" size="25">
+                <button id="citySearch" onclick="citySearch()">Search</button>
+            </span>
+        </div>
+        <div id="content">
+            <div id="aboutPageContent" style="display: none">
+                <h1>Сайт "Прогноз погоды"</h1>
+
+                <p>Сайт состоит из трех блоков:
+                    <ul>
+                        <li>
+                            В шапке сайта находится форма с полем ввода и кнопкой "Искать" и переключатель механизма
+                            запроса (два радиобаттона fetch/XHR) и меню, ведущее на другие страницы
+                        </li>
+                        <li>
+                            Центральная часть содержит информационное описание для главной страницы. И прогноз погоды
+                            для страницы конкретного города. В случае ошибки при запросе она отображает сообщение об
+                            ошибке
+                        </li>
+                        <li>
+                            В подвале сайта отображаются 5 последних городов, погоду в которых искал пользователь. При
+                            ошибке запрос не добавляется в список.
+                        </li>
+                    </ul>
+                </p>
+                <h3>Детали</h3>
+                <p>
+                    <ul>
+                        <li>
+                            При вводе текста в поле ввода и нажатие кнопки "Ввод" ( или по клику на кнопке "Искать" )
+                            пользователь попадает на страницу с прогнозом погоды в заданном городе. При этом страницу
+                            можно добавить в закладки или отправить сообщением - при открытии ссылки должен показаться
+                            тот же город.
+                        </li>
+                        <li>
+                            При изменении центра карты ( перетаскивание / зум ) должны отображаться данные по погоде
+                            для центра карты
+                        </li>
+                        <li>
+                            При поиске города он появляется верхним пунктов в списке последних запросов ( нижний блок
+                            ), остальные пункты опускаются на 1 вниз. Пункты с номером больше 5 исчезают.
+                        </li>
+                        <li>
+                            В любой точке на карте можно нажать 'Add to Favorites' - это добавить точку с описанием в
+                            список "Избранное". Из списка сущность можно удалить с помощью x возле записи. При клике на
+                            запись в списке "Избранное" происходит переход на сохраненные координаты
+                        </li>
+                        <li>
+                            Функция загрузки прогноза должна быть реализована в двух вариантах - с использованием fetch
+                            и с использованием XHR. Блок с options для выбора (два пункта из которых всегда выбран
+                            только один) какую из реализаций использовать для получения следующего прогноза.
+                        </li>
+                        <li>
+                            Для загрузки прогноза погоды использовать сайт https://darksky.net/
+                        </li>
+                        <li>
+                            Для получения координат по введенным данным использовать API Google Maps
+                        </li>
+                        <li>
+                            В шапку страницы добавить меню с двумя пунктами Главная / О сайте Каждый пункт меню должен
+                            открывать соответствующую страницу. "O сайте" - Отображает статическую информацию - ваше
+                            имя, фото, ссылки на соцсети и свободный текст "Главная" - при входе на страницу сайт
+                            определяет местоположение пользователя ( запросом на https://api.userinfo.io/userinfos ) и
+                            перенаправляет на страницу с соответсвующими координатами
+                        </li>
+                        <li>
+                            Должны поддерживаться ссылки с указанием города ( например /city/Minsk )
+                        </li>
+                    </ul>
+                </p>
+            </div>
+            <div id="weatherPageContent" style="display: none">
+                <div id="mapContent"></div>
+            </div>
+            <div id="authorPageContent" style="display: none">
+                <h1>Anna Kiranova</h1>
+                <img id="author" src="https://avatars0.githubusercontent.com/u/35148952?s=400&u=c5a0d9bc1421c1739322d3e3c57a0b08c51bfda5&v=4"></img>
+                <div id="contactInfo">
+                    <h3>Contact information:</h3>
+                    <p class="contact">E-mail: <a href="anne.kiranova@gmail.com">anne.kiranova@gmail.com</a></p>
+                    <p class="contact">GitHub: <a href="https://github.com/anna-kiranova">https://github.com/anna-kiranova</a></p>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="history">
+                <h3>History</h3>
+                <div id="history-target"></div>
+            </div>
+            <div id="favorites">
+                <h3>Favorites</h3>
+                <div id="favorites-target"></div>
+            </div>
+            <div id="weatherInfo">
+                <h3>Current weather</h3>
+                <div id="weather-target">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="router.js"></script>
+        <script src="eventBus.js"></script>
+        <script src="index.js"></script>
+        <script src="aboutPage.js"></script>
+        <script src="weatherForecastPage.js"></script>
+        <script src="authorPage.js"></script>
+</body>
+
+</html>
