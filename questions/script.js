@@ -158,8 +158,8 @@ this в стрелочной функции?
 
 const shuffleList = (list) => {
   for (let i = 0; i < list.length; i++) {
-    let rand = Math.floor(Math.random() * list.length);
-    let tmp = list[rand];
+    const rand = Math.floor(Math.random() * list.length);
+    const tmp = list[rand];
     list[rand] = list[list.length - 1];
     list[list.length - 1] = tmp;
   }
@@ -167,13 +167,13 @@ const shuffleList = (list) => {
 };
 
 const $$ = document.querySelector.bind(document);
-let questionsStrings = [questions0, questions1, questions2, questions3, questions4, questions5];
+const questionsStrings = [questions0, questions1, questions2, questions3, questions4, questions5];
 let roundQuestionsNumber = 0;
 let i = 0;
 
-let getQuestions = (() => {
+const getQuestions = (() => {
   let questions = [];
-  let generateQuestions = () => {
+  const generateQuestions = () => {
     [...document.querySelectorAll('fieldset input[type=checkbox]')].forEach((el, index) => {
       if (el.checked) {
         questions = [...questions, ...(questionsStrings[index] || '').trim().split('\n')];
@@ -197,15 +197,15 @@ let getQuestions = (() => {
 })();
 
 const drawNextQuestion = () => {
-  let questions = getQuestions();
+  const questions = getQuestions();
   i++;
-  let question = questions.pop();
+  const question = questions.pop();
   $$('.question').innerHTML = `<sup>${i}</sup>/<sub>${roundQuestionsNumber}</sub> > ${question}`;
 };
 
 $$('.question').addEventListener('click', drawNextQuestion);
 document.body.addEventListener('keyup', (ev) => {
-  let SPACE_KEY_CODE = 32;
+  const SPACE_KEY_CODE = 32;
   if (ev.key === ' ' || ev.keyCode === SPACE_KEY_CODE) {
     drawNextQuestion();
   }

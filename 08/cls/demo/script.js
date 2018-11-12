@@ -7,7 +7,7 @@ const dummyDebounc = (func, delay) => {
   return () => {
     clearTimeout(timer);
     timer = setTimeout(func, delay);
-  }
+  };
 };
 
 // TESTS below
@@ -22,18 +22,18 @@ describe('dummyDebounce', () => {
   it('dummyDebounc returns function', () => assert.isFunction(dummyDebounc(() => null, 0)));
   it('call function with delay', (done) => {
     let counter = 0;
-    let debouncedFunc = dummyDebounc(() => counter++, 0);
+    const debouncedFunc = dummyDebounc(() => counter++, 0);
     debouncedFunc();
     assert.equal(counter, 0, 'should not incremenet counter');
     setTimeout(() => {
       assert.equal(counter, 1, 'should incremenet counter');
       done();
-    }, 100)
+    }, 100);
   });
   it('call function twice cancel previous call', (done) => {
     // http://sinonjs.org/releases/v2.3.6/spies/
-    let spy = sinon.spy();
-    let debouncedFunc = dummyDebounc(spy, 0);
+    const spy = sinon.spy();
+    const debouncedFunc = dummyDebounc(spy, 0);
     debouncedFunc();
     // http://chaijs.com/api/assert/#method_isnotok
     assert.notOk(spy.called, 'should not be called');
@@ -44,7 +44,7 @@ describe('dummyDebounce', () => {
       // assert.isOk(spy.called, 'should be called');
       assert.equal(spy.callCount, 1, 'should be called once');
       done();
-    }, 100)
+    }, 100);
   });
 });
 
@@ -61,7 +61,7 @@ describe('Simple mock usage', () => {
 
   it('should trigger event on click', () => {
     // http://sinonjs.org/releases/v2.0.0/spies/
-    let spy = sinon.spy(eventBus, 'trigger');
+    const spy = sinon.spy(eventBus, 'trigger');
 
     clicker = new Clicker(element, 0, eventBus);
     element.querySelector('button').click();

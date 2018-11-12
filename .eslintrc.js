@@ -1,7 +1,7 @@
 module.exports = {
   extends: 'google',
   parserOptions: {
-    ecmaVersion: 6
+    ecmaVersion: 6,
   },
   rules: {
     'no-tabs': 'off',
@@ -10,8 +10,8 @@ module.exports = {
       {
         ignoreStrings: true,
         code: 120,
-        tabWidth: 4
-      }
-    ]
-  }
+        tabWidth: 4,
+      },
+    ],
+  },
 };
