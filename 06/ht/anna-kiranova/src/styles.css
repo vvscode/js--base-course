@@ -35,8 +35,7 @@ a:hover {
     background-size: 4px 50px;
 }
 
-#content,
-#mapContent {
+.content-style {
     margin: 20px 0px;
     width: 1000px;
     height: 480px;
@@ -71,13 +70,11 @@ h3 {
     padding: 10px 0px;
 }
 
-#aboutPageContent, 
-#authorPageContent {
+.additional-pages {
     height: 590px;
     overflow: auto;
     text-align: left;
 }
-
 
 #author {
     float: left;
