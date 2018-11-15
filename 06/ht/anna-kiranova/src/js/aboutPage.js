@@ -1,9 +1,9 @@
 'use strict';
 
-import hideAll from './hidePage';
-
 import about from '../pages/aboutPage.html';
 document.getElementById('content').innerHTML += about;
+
+import hideAll from './hidePage';
 
 export default function showAboutPage() {
     hideAll();
