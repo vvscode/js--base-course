@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Weather</title>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="page">
+        <div id="header">
+            <span id="requestType">
+                <label><input type="radio" name="request" id="xhr">XHR</label>
+                <label><input type="radio" name="request" id="fetch" checked>fetch</label>
+            </span>
+            <span id="links">
+                <a href="#about">About</a>
+                <a href="#weather">Weather</a>
+                <a href="#author">Author</a>
+            </span>
+            <span id="search">
+                <input type="text" id="city" placeholder="City" size="25">
+                <button id="citySearch" onclick="citySearch()">Search</button>
+            </span>
+        </div>
+        <div id="content" class="content-style"></div>
+        <div id="footer">
+            <div id="history">
+                <h3>History</h3>
+                <div id="history-target"></div>
+            </div>
+            <div id="favorites">
+                <h3>Favorites</h3>
+                <div id="favorites-target"></div>
+            </div>
+            <div id="weatherInfo">
+                <h3>Current weather</h3>
+                <div id="weather-target">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script>
+            // citySearch on enter
+            document.getElementById('city').addEventListener('keyup', function (event) {
+                event.preventDefault();
+                if (event.key === 'Enter') {
+                    document.getElementById('citySearch').click();
+                }
+            });
+
+            // citySearch on button click
+            function citySearch() {
+                let city = document.getElementById('city').value.trim();
+                document.getElementById('city').value = '';
+                if (!city) {
+                    return false;
+                }
+                window.location.hash = '#weather/' + city;
+                return false;
+            }
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+#page {
+    width: 1000px;
+    margin: 0 auto 20px auto;
+    text-align: center;
+}
+
+#requestType {
+    float: left;
+}
+
+#search {
+    float: right;
+}
+
+html {
+    --mainColor: #ff9800;
+}
+
+a {
+    padding: 10px 20px;
+    background:
+       linear-gradient(
+         to bottom, var(--mainColor) 0%,
+         var(--mainColor) 100%
+       );
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+      background-size: 4px 4px;
+    color: #000;
+    text-decoration: none;
+    transition: background-size .2s;
+}
+  
+a:hover {
+    background-size: 4px 50px;
+}
+
+.content-style {
+    margin: 20px 0px;
+    width: 1000px;
+    height: 480px;
+}
+
+#history {
+    float: left;
+    width: 30%;
+}
+
+#favorites {
+    float: right;
+    width: 30%;
+    
+}
+
+#favorites-target {
+    height: 200px;
+    overflow: auto;
+}
+
+#weatherInfo {
+    margin: 0 35% 0 35%;
+}
+
+h3 {
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+.aItems {
+    padding: 10px 0px;
+}
+
+.additional-pages {
+    height: 590px;
+    overflow: auto;
+    text-align: left;
+}
+
+#author {
+    float: left;
+    margin-right: 20px;
+}
+
+.contact {
+    padding-bottom: 10px;
+}
+
+#footer {
+    height: 242px;
+}
