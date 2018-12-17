@@ -42,3 +42,7 @@
 * https://codelabs.developers.google.com/codelabs/firebase-web-ru/index.html?index=..%2F..%2Flang-ru#0
 * http://progcoder.blogspot.com.by/2016/03/firebase-firebase.html
 * Пройти курс (после создания игры) http://www.w3ii.com/ru/firebase/default.html
+
+## Может пригодиться
+
+* http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
