@@ -27,6 +27,7 @@
  
  ---
  - [Git. Просто Git](http://zzet.org/git/learning/undev/coursify/2014/02/09/lection-1-git-course-undev.html)
+ - [Скринкаст по Git](https://www.youtube.com/playlist?list=PLDyvV36pndZHkDRik6kKF6gSb0N0W995h)
 
 
 ## Перед первым занятием нужно сделать
