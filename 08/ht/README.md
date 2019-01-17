@@ -9,7 +9,7 @@
  - игра на SVG
  - About - с информацией о проекте
 
-![https://cdn.rawgit.com/vvscode/js--base-course/f9e67820/08/ht/V-Game-of-Life.png](https://cdn.rawgit.com/vvscode/js--base-course/f9e67820/08/ht/V-Game-of-Life.png)
+![https://cdn.raw.githack.com/vvscode/js--base-course/f9e67820/08/ht/V-Game-of-Life.png](https://cdn.raw.githack.com/vvscode/js--base-course/f9e67820/08/ht/V-Game-of-Life.png)
 
 На страницах с игрой ( кроме страницы *About* ) в центре страницы находится поле, реализованное на соответствующей технологии. Внизу страницы находится блок с контролами состояния игры.
 

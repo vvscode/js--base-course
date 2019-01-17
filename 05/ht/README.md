@@ -52,7 +52,7 @@ once(eventName, cb)
 	 }
 ```
  
-При этом он должен работать [как обсуждалось](https://rawgit.com/vvscode/js--base-course/master/05/cls/index.html#/10/1) с роутами структуры
+При этом он должен работать [как обсуждалось](https://raw.githack.com/vvscode/js--base-course/master/05/cls/index.html#/10/1) с роутами структуры
 
 ```
   routes: [
