@@ -95,12 +95,6 @@ function drawCalendar(year, month, htmlEl) {
  */
 function isDeepEqual(objA, objB) {
 
-    function AreTypesSame(objA, objB) {
-        var typeA = typeof (objA);
-        var typeB = typeof (objB);
-        return typeA == typeB;
-    }
-
     function AreObjects(objA, objB) {
         return typeof (objA) == 'object' && typeof (objB) == 'object' && !Array.isArray(objA) && !Array.isArray(objB);
     }
@@ -110,6 +104,8 @@ function isDeepEqual(objA, objB) {
     }
 
     function AreObjectsEqual(objA, objB) {
+        if (Object.keys(objA).length !== Object.keys(objB).length)
+            return false;
         for (var key in objA) {
             if (key in objB) {
                 if (AreObjects(objA[key], objB[key]) || AreArrays(objA[key], objB[key])) {
@@ -128,22 +124,5 @@ function isDeepEqual(objA, objB) {
         return true;
     }
 
-    if (!AreTypesSame(objA, objB)) {
-        return false;
-    }
-    else if (!AreArrays(objA, objB) && !AreObjects(objA, objB)) {
-        return objA == objB;
-    }
-    else {
-        if (AreArrays(objA, objB)) {
-            return JSON.stringify(objA) == JSON.stringify(objB);
-        }
-        else {
-            if (Object.keys(objA).length !== Object.keys(objB).length)
-                return false;
-            else {
-                return AreObjectsEqual(objA, objB)
-            }
-        }
-    }
+    return (!AreArrays(objA, objB) && !AreObjects(objA, objB)) ? objA == objB : AreObjectsEqual(objA, objB);
 }
