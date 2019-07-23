@@ -22,17 +22,17 @@ function log(a) {
  * В теле функции нельзя использовать  `if`, `switch`, тернарный оператор `? :`
  */
 function fizzBuzz() {
-    function GetObjectOfDividersAndIsItDivided(dividend, ...dividers) {
-        var dividersAndBool = {};
+    function GetDividersAndIsItDivided(dividend, ...dividers) {
+        var dividersAndIsItDivided = {};
         for (let i of dividers) {
-            dividersAndBool[i] = dividend % i == 0;
+            dividersAndIsItDivided[i] = dividend % i == 0;
         }
 
-        var allDividersString = dividers.join('');
-        var IsDividedByAllDividers = Object.values(dividersAndBool).indexOf(false) === -1;
-        dividersAndBool[allDividersString] = IsDividedByAllDividers;
+        var allDividers = dividers.join('');
+        var isDividedByAllDividers = Object.values(dividersAndIsItDivided).indexOf(false) === -1;
+        dividersAndIsItDivided[allDividers] = isDividedByAllDividers;
 
-        return dividersAndBool;
+        return dividersAndIsItDivided;
     }
 
     var printer = {
@@ -51,9 +51,9 @@ function fizzBuzz() {
     }
 
     for (var i = 1; i <= 100; i++) {
-        var obj = GetObjectOfDividersAndIsItDivided(i, 3, 5);
-        var indexOfDivider = Object.values(obj).lastIndexOf(true);
-        var divider = Object.keys(obj)[indexOfDivider];
+        var dividers = GetDividersAndIsItDivided(i, 3, 5);
+        var indexOfDivider = Object.values(dividers).lastIndexOf(true);
+        var divider = Object.keys(dividers)[indexOfDivider];
         printer[divider](i);
     }
 }
@@ -65,8 +65,10 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-    /* Ваше решение */
-    return undefined;
+    var strArray = Array.from(textString.toLowerCase());
+    var reversedArray = strArray.reverse();
+    var reversedString = reversedArray.join('');
+    return textString == reversedString;
 }
 
 
@@ -79,7 +81,7 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    /* Ваше решение */
+    return '<input type="month" value=' + year + '-' + month + '">'
 }
 
 
@@ -92,6 +94,56 @@ function drawCalendar(year, month, htmlEl) {
  * @return {boolean} идентичны ли параметры по содержимому
  */
 function isDeepEqual(objA, objB) {
-    /* Ваше решение */
-    return undefined;
+
+    function AreTypesSame(objA, objB) {
+        var typeA = typeof (objA);
+        var typeB = typeof (objB);
+        return typeA == typeB;
+    }
+
+    function AreObjects(objA, objB) {
+        return typeof (objA) == 'object' && typeof (objB) == 'object' && !Array.isArray(objA) && !Array.isArray(objB);
+    }
+
+    function AreArrays(objA, objB) {
+        return Array.isArray(objA) && Array.isArray(objB);
+    }
+
+    function AreObjectsEqual(objA, objB) {
+        for (var key in objA) {
+            if (key in objB) {
+                if (AreObjects(objA[key], objB[key]) || AreArrays(objA[key], objB[key])) {
+                    AreObjectsEqual(objA[key], objB[key]);
+                }
+                else {
+                    if (objA[key] == objB[key])
+                        continue;
+                    else return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    if (!AreTypesSame(objA, objB)) {
+        return false;
+    }
+    else if (!AreArrays(objA, objB) && !AreObjects(objA, objB)) {
+        return objA == objB;
+    }
+    else {
+        if (AreArrays(objA, objB)) {
+            return JSON.stringify(objA) == JSON.stringify(objB);
+        }
+        else {
+            if (Object.keys(objA).length !== Object.keys(objB).length)
+                return false;
+            else {
+                return AreObjectsEqual(objA, objB)
+            }
+        }
+    }
 }
