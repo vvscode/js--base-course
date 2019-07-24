@@ -81,7 +81,74 @@ function isPolindrom(textString) {
  * @param {external:HTMLElement} htmlEl 
  */
 function drawCalendar(year, month, htmlEl) {
-    return '<input type="month" value=' + year + '-' + month + '">'
+
+    function GetLastDayOfMonth(year, month) {
+        for (var i = 28; i <= 31; i++) {
+            if (new Date(year, month, i).getMonth() > month)
+                return i - 1;
+        }
+    }
+
+    function GetCalendarTable(year, jsMonth, lastDateNumber) {
+        var table = document.createElement('table');
+        table.setAttribute("border", 1)
+        var header = table.appendChild(document.createElement('tr'));
+        for (var key in daysOfWeek) {
+            var th = document.createElement('th');
+            th.textContent = daysOfWeek[key];
+            header.appendChild(th);
+        }
+        var rowsNumber = GetNumberOfRows(year, jsMonth, lastDateNumber)
+        for (var i = 0; i < rowsNumber; i++) {
+            table.appendChild(document.createElement('tr'));
+        }
+        return table;
+    }
+
+    function GetNumberOfRows(year, jsMonth, lastDateNumber) {
+        var firstDayOfWeek = new Date(year, jsMonth, 1)
+        var positionInWeek = firstDayOfWeek.getDay();
+        var allCells = lastDateNumber + positionInWeek;
+        var allRows = allCells / 7;
+        return (allCells % 7 > 0) ? allRows + 1 : allRows;
+    }
+
+    function AddTd(row, text) {
+        var td = document.createElement('td');
+        td.innerHTML = text;
+        row.appendChild(td);
+    }
+
+    var daysOfWeek = {
+        0: "ВС",
+        1: "ПН",
+        2: "ВТ",
+        3: "СР",
+        4: "ЧТ",
+        5: "ПТ",
+        6: "СБ"
+    }
+    var jsMonth = month - 1;
+    var lastDayNumber = GetLastDayOfMonth(year, jsMonth);
+    var table = GetCalendarTable(year, jsMonth, lastDayNumber);
+    var rowsNumber = table.getElementsByTagName('tr').length;
+    var firstDayOfWeek = new Date(year, jsMonth, 1).getDay();
+
+    for (var i = 1, day = 1; i < rowsNumber; i++) {
+        var row = table.children[i];
+
+        for (var cell = 0; cell < Object.keys(daysOfWeek).length; cell++) {
+            if (day > lastDayNumber) break;
+            if (cell < firstDayOfWeek && day == 1) {
+                AddTd(row, "");
+            }
+            else {
+                AddTd(row, day);
+                day++;
+            }
+        }
+    }
+    htmlEl.innerHTML = table;
 }
 
 
