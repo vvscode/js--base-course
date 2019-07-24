@@ -87,6 +87,7 @@ function drawCalendar(year, month, htmlEl) {
             if (new Date(year, month, i).getMonth() > month)
                 return i - 1;
         }
+        return i - 1;
     }
 
     function GetCalendarTable(year, jsMonth, lastDateNumber) {
