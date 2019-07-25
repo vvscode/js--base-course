@@ -20,16 +20,16 @@ function log(a) {
  */
 function fizzBuzz() {
   var printer = {
-    "3": function() {
+    "3": () => {
       log(`Fizz`);
     },
-    "5": function() {
+    "5": () => {
       log(`Buzz`);
     },
-    "35": function() {
+    "35": () => {
       log(`FizzBuzz`);
     },
-    undefined: function(number) {
+    undefined: number => {
       log(number);
     }
   };
@@ -49,8 +49,9 @@ function fizzBuzz() {
     }
 
     var allDividers = dividers.join("");
-    var isDividedByAllDividers =
-      Object.values(dividersAndIsItDivided).indexOf(false) === -1;
+    var isDividedByAllDividers = !Object.values(
+      dividersAndIsItDivided
+    ).includes(false);
     dividersAndIsItDivided[allDividers] = isDividedByAllDividers;
 
     return dividersAndIsItDivided;
@@ -119,7 +120,7 @@ function drawCalendar(year, month, htmlEl) {
 
   function getCalendarTable(year, jsMonth, lastDateNumber) {
     var table = document.createElement("table");
-    table.setAttribute("border", 1);
+    table.style.border = 1;
     var header = table.appendChild(document.createElement("tr"));
     var rowsNumber = getNumberOfRows(year, jsMonth, lastDateNumber);
 
