@@ -112,7 +112,7 @@ function drawCalendar(year, month, htmlEl) {
     }
   }
 
-  htmlEl.innerHTML = table;
+  htmlEl.innerHTML = table.outerHTML;
 
   function getLastDayOfMonth(year, month) {
     for (var i = 28; i <= 31; i++) {
