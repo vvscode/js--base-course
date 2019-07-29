@@ -65,14 +65,12 @@ function fizzBuzz() {
  * @return {boolean} Является строка полндромом (одинакого читается с лева на право и с права на лево ) или нет
  */
 function isPolindrom(textString) {
-  var reversed = "";
+  var elNumber = textString.length - 1;
 
-  for (var i = textString.length - 1; i >= 0; i--) {
-    reversed += textString[i];
-
-    if (reversed != textString.substring(0, reversed.length)) return false;
+  for (var i = elNumber; i >= 0; i--) {
+    if (textString[i] !== textString[elNumber - i]) return false;
   }
-  return textString == reversed;
+  return true;
 }
 /**
  * Реализовать фукнцию `drawCalendar` ,
