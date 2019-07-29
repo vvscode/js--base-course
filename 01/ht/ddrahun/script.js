@@ -69,6 +69,8 @@ function isPolindrom(textString) {
 
   for (var i = textString.length - 1; i >= 0; i--) {
     reversed += textString[i];
+
+    if (reversed != textString.substring(0, reversed.length)) return false;
   }
   return textString == reversed;
 }
