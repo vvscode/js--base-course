@@ -67,7 +67,7 @@ function fizzBuzz() {
 function isPolindrom(textString) {
   var elNumber = textString.length - 1;
 
-  for (var i = elNumber; i >= elNumber / 2; i--) {
+  for (var i = elNumber; i > elNumber / 2; i--) {
     if (textString[i] !== textString[elNumber - i]) return false;
   }
   return true;
