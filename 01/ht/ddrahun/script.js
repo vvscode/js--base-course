@@ -199,3 +199,25 @@ function isDeepEqual(objA, objB) {
     return true;
   }
 }
+/**
+ * Написать функцию `quadraticEquation`
+ * которая на вход принимает коэффициенты квадратного уравнения,
+ * а возвращает массив с вещественными корнями этого уравнения (если они есть)
+ * @param {number}
+ * @param {number}
+ * @param {number}
+ * @return {array}
+ */
+function quadraticEquation(a, b, c) {
+  var array = [];
+  var discriminant = Math.pow(b, 2) - 4 * a * c;
+
+  if (discriminant > 0) {
+    array.push((-b + Math.sqrt(discriminant)) / (2 * a));
+    array.push((-b - Math.sqrt(discriminant)) / (2 * a));
+  } else if (discriminant === 0) {
+    array.push(-b / (2 * a));
+  }
+
+  return array;
+}
