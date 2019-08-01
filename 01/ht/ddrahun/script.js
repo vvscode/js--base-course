@@ -221,3 +221,49 @@ function quadraticEquation(a, b, c) {
 
   return array;
 }
+/**
+ * Написать функцию `spiral`
+ * которая принимает на вход двумерный массив и возвращает
+ * одномерный массив с элементами расположенными по спирали.
+ * Матрица не обязательно имеет одинаковые размеры по обеим сторонам.
+ * @param {multiDimensionalArray}
+ * @return {oneDimensionalArray}
+ */
+
+function spiral(arr) {
+  var res = [];
+
+  while (arr.length > 0) {
+    PuOneDimArray(arr, true);
+    if (arr.length == 0) break;
+    PutLastElements(arr);
+    if (arr.length == 0) break;
+    PuOneDimArray(arr, false);
+    if (arr.length == 0) break;
+    PutFirstElements(arr);
+  }
+
+  return res;
+
+  function PuOneDimArray(multiDimArr, isFirst) {
+    var array = isFirst ? multiDimArr.shift() : multiDimArr.pop().reverse();
+
+    for (let i = 0; i < array.length; i++) {
+      res.push(array[i]);
+    }
+  }
+
+  function PutLastElements(multiDimArr) {
+    for (let i = 0; i < multiDimArr.length; i++) {
+      var lastElement = multiDimArr[i].pop();
+      res.push(lastElement);
+    }
+  }
+
+  function PutFirstElements(multiDimArr) {
+    for (let i = multiDimArr.length - 1; i >= 0; i--) {
+      var firstElement = multiDimArr[i].shift();
+      res.push(firstElement);
+    }
+  }
+}
