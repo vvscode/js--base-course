@@ -22,7 +22,7 @@
  - [Основы JavaScript](https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/JavaScript_basics) - После прочтения найти соответствия из конструкций языка к элементам блок-схем
 
 ---
- - [Преимущества метода интервального запоминания](https://habrahabr.ru/company/everydaytools/blog/322286/)
+ - [Преимущества метода интервального запоминания](http://web.archive.org/web/20170315102949/https://habrahabr.ru/company/everydaytools/blog/322286/)
  - [Дерек Сиверс: «Метод интервального повторения — лучший способ изучения языков программирования»](https://habrahabr.ru/post/196448/) 
  
  ---
