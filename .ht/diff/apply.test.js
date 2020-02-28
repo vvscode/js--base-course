@@ -10,15 +10,15 @@ describe("Реализовать фукнцию `apply` тремя способ�
     { title: 'Выражение функции', name: 'applyFE' },
     { title: 'Конструирование функции', name: 'applyFС' },
   ].forEach((testItem) => {
-     describe(`${itemTitle} (${item.name})`, () => {
-         it(`функция ${item.name} определена`, () => {
-             assert.equal(typeof window[item.name], 'function');
+     describe(`${itemTitle} (${testItem.name})`, () => {
+         it(`функция ${testItem.name} определена`, () => {
+             assert.equal(typeof window[testItem.name], 'function');
          });
          
          it(`вызывает функцию с аргументами`, () => {
             let a;
             let fun = (a, b) => a = [a, b];
-            window[item.name](fun, 1, 2);
+            window[testItem.name](fun, 1, 2);
             assert.equal(Array.isArray(a), true);
             assert.equal(a[0], 1);
             assert.equal(a[1], 2);
@@ -27,7 +27,7 @@ describe("Реализовать фукнцию `apply` тремя способ�
         it(`возвращает результат работы функции`, () => {
             let ret = Math.random();
             let fun = (a, b) => ret;
-            assert.equal(window[item.name](fun, 1, 2), ret);
+            assert.equal(window[testItem.name](fun, 1, 2), ret);
          });
      });
   });
