@@ -10,7 +10,7 @@ describe("Реализовать фукнцию `apply` тремя способ�
     { title: 'Выражение функции', name: 'applyFE' },
     { title: 'Конструирование функции', name: 'applyFС' },
   ].forEach((testItem) => {
-     describe(`${itemTitle} (${testItem.name})`, () => {
+     describe(`${testItem.title} (${testItem.name})`, () => {
          it(`функция ${testItem.name} определена`, () => {
              assert.equal(typeof window[testItem.name], 'function');
          });
